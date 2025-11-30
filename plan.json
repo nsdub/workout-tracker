@@ -1,414 +1,83 @@
 {
   "version": "2.0",
-  "name": "52-Week Competition Prep",
-  "competitionDate": "2026-11-30",
-  "lastUpdated": "2025-11-30",
-  "phases": [
-    {"name": "Hypertrophy", "weeksOut": "52-40", "focus": "Volume accumulation, 10-20 sets/muscle/week"},
-    {"name": "Strength", "weeksOut": "39-28", "focus": "Progressive overload, intensity increase"},
-    {"name": "Contest Prep", "weeksOut": "27-0", "focus": "Refinement, peak week protocols"}
-  ],
-  "equipment": {
-    "smithMachine": {
-      "type": "angled",
-      "notes": "Face AWAY from angle direction. Bar should move UP and BACK on squat, TOWARD HEAD on press."
-    },
-    "dumbbells": {"maxWeight": 80, "unit": "lbs"},
-    "cables": {"available": true, "attachments": ["rope", "straight bar", "v-bar", "single handle", "angled grip"]},
-    "legPress": true,
-    "legMachines": ["leg extension", "leg curl", "hip adductor", "hip abductor"]
-  },
-  "weeklyVolumeTargets": {
-    "chest": {"min": 10, "max": 16, "notes": "Machine pressing only due to pec injury history"},
-    "back": {"min": 14, "max": 20, "notes": "Include width (vertical) and thickness (horizontal) work"},
-    "shoulders": {"min": 10, "max": 14, "notes": "Lateral/rear focus; front delts hit by pressing"},
-    "quads": {"min": 12, "max": 16, "notes": "Leg press foot position matters"},
-    "hamstrings": {"min": 10, "max": 14, "notes": "RDLs + leg curls"},
-    "biceps": {"min": 10, "max": 16, "notes": "Direct sets; pulling adds partial volume"},
-    "triceps": {"min": 10, "max": 16, "notes": "Direct sets; pressing adds partial volume"},
-    "calves": {"min": 6, "max": 10, "notes": "Standing (gastrocnemius) and seated (soleus) variations"}
-  },
-  "recoveryRules": {
-    "posteriorChain": {
-      "exerciseTriggers": ["deadlift", "rdl", "romanian", "good morning"],
-      "recoveryHours": 48,
-      "conflictsWith": ["Legs B"],
-      "safeAfter": ["Legs A"],
-      "note": "Legs A is quad-dominant, safe 24hr after deadlifts. Legs B requires 48-72hr."
-    }
-  },
   "workouts": {
     "Push A": {
       "focus": "Chest Emphasis",
-      "muscles": ["chest", "shoulders", "triceps"],
       "exercises": [
-        {
-          "name": "Smith Machine Incline Press",
-          "sets": 4,
-          "repRange": "8-12",
-          "notes": "Angled Smith: face away from angle. Stop at 90° elbow. Never to failure.",
-          "muscleGroup": "chest"
-        },
-        {
-          "name": "Machine Chest Press",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Control eccentric. Safe for pec history.",
-          "muscleGroup": "chest"
-        },
-        {
-          "name": "Cable Crossover (Low to High)",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Targets upper chest fibers. Squeeze at top.",
-          "muscleGroup": "chest"
-        },
-        {
-          "name": "Dumbbell Shoulder Press",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Seated or standing. Full ROM.",
-          "muscleGroup": "shoulders"
-        },
-        {
-          "name": "Cable Lateral Raise",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Constant tension. Slight forward lean.",
-          "muscleGroup": "shoulders"
-        },
-        {
-          "name": "Overhead Cable Tricep Extension",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Full stretch at bottom. Rope or bar attachment.",
-          "muscleGroup": "triceps"
-        },
-        {
-          "name": "Cable Tricep Pushdown",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Bar or rope. Full extension.",
-          "muscleGroup": "triceps"
-        },
-        {
-          "name": "Face Pulls",
-          "sets": 2,
-          "repRange": "15-20",
-          "notes": "External rotation at top. Rear delt and rotator cuff health.",
-          "muscleGroup": "shoulders"
-        }
+        {"name": "Smith Machine Incline Press", "sets": 4, "repRange": "8-12"},
+        {"name": "Machine Chest Press", "sets": 3, "repRange": "10-12"},
+        {"name": "Cable Crossover (Low to High)", "sets": 3, "repRange": "12-15"},
+        {"name": "Dumbbell Shoulder Press", "sets": 3, "repRange": "10-12"},
+        {"name": "Cable Lateral Raise", "sets": 3, "repRange": "12-15"},
+        {"name": "Overhead Cable Tricep Extension", "sets": 3, "repRange": "10-12"},
+        {"name": "Cable Tricep Pushdown", "sets": 3, "repRange": "10-12"},
+        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
       ]
     },
     "Push B": {
       "focus": "Shoulder Emphasis",
-      "muscles": ["shoulders", "chest", "triceps"],
       "exercises": [
-        {
-          "name": "Smith Machine Overhead Press",
-          "sets": 4,
-          "repRange": "6-10",
-          "notes": "Angled Smith: face away. Bar moves toward head.",
-          "muscleGroup": "shoulders"
-        },
-        {
-          "name": "Dumbbell Lateral Raise",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Controlled tempo. Slight bend in elbows.",
-          "muscleGroup": "shoulders"
-        },
-        {
-          "name": "Cable Crossover (High to Low)",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Targets lower/mid chest. Different angle from Push A.",
-          "muscleGroup": "chest"
-        },
-        {
-          "name": "Machine Chest Press",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Incline setting if available for variation.",
-          "muscleGroup": "chest"
-        },
-        {
-          "name": "Reverse Pec Deck",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Rear delt isolation. Squeeze at contraction.",
-          "muscleGroup": "shoulders"
-        },
-        {
-          "name": "Assisted Dips",
-          "sets": 3,
-          "repRange": "8-12",
-          "notes": "Tricep focus - upright torso. Skip if shoulder discomfort.",
-          "muscleGroup": "triceps"
-        },
-        {
-          "name": "Overhead Cable Tricep Extension",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Different attachment than Push A for variation.",
-          "muscleGroup": "triceps"
-        },
-        {
-          "name": "Face Pulls",
-          "sets": 2,
-          "repRange": "15-20",
-          "notes": "Shoulder health and rear delt.",
-          "muscleGroup": "shoulders"
-        }
+        {"name": "Smith Machine Overhead Press", "sets": 4, "repRange": "6-10"},
+        {"name": "Dumbbell Lateral Raise", "sets": 3, "repRange": "12-15"},
+        {"name": "Cable Crossover (High to Low)", "sets": 3, "repRange": "12-15"},
+        {"name": "Machine Chest Press", "sets": 3, "repRange": "10-12"},
+        {"name": "Reverse Pec Deck", "sets": 3, "repRange": "12-15"},
+        {"name": "Assisted Dips", "sets": 3, "repRange": "8-12"},
+        {"name": "Overhead Cable Tricep Extension", "sets": 3, "repRange": "10-12"},
+        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
       ]
     },
     "Pull A": {
-      "focus": "Back Width + Deadlift",
-      "muscles": ["back", "biceps", "rear delts"],
+      "focus": "Back Width",
       "exercises": [
-        {
-          "name": "Deadlift",
-          "sets": 4,
-          "repRange": "5-8",
-          "notes": "Conventional or sumo. Rest 3-4 min between sets. TRIGGERS 48hr posterior chain recovery.",
-          "muscleGroup": "back",
-          "triggersRecovery": "posteriorChain"
-        },
-        {
-          "name": "Lat Pulldown (Wide Grip)",
-          "sets": 3,
-          "repRange": "8-12",
-          "notes": "Width focus. Full stretch at top.",
-          "muscleGroup": "back"
-        },
-        {
-          "name": "Seated Cable Row (Wide Grip)",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Squeeze shoulder blades. Width emphasis.",
-          "muscleGroup": "back"
-        },
-        {
-          "name": "Dumbbell Curl",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Alternating or simultaneous. Full ROM.",
-          "muscleGroup": "biceps"
-        },
-        {
-          "name": "Cable Hammer Curl",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Rope attachment. Brachialis and forearm emphasis.",
-          "muscleGroup": "biceps"
-        },
-        {
-          "name": "Face Pulls",
-          "sets": 2,
-          "repRange": "15-20",
-          "notes": "Rear delts and external rotation.",
-          "muscleGroup": "shoulders"
-        }
+        {"name": "Deadlift", "sets": 4, "repRange": "5-8"},
+        {"name": "Lat Pulldown (Wide Grip)", "sets": 3, "repRange": "8-12"},
+        {"name": "Seated Cable Row (Wide Grip)", "sets": 3, "repRange": "10-12"},
+        {"name": "Dumbbell Curl", "sets": 3, "repRange": "10-12"},
+        {"name": "Cable Hammer Curl", "sets": 3, "repRange": "10-12"},
+        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
       ]
     },
     "Pull B": {
       "focus": "Back Thickness",
-      "muscles": ["back", "biceps", "traps"],
       "exercises": [
-        {
-          "name": "Smith Bent Over Row",
-          "sets": 4,
-          "repRange": "8-10",
-          "notes": "Angled Smith: face the angle so bar moves naturally. Thickness focus.",
-          "muscleGroup": "back"
-        },
-        {
-          "name": "Lat Pulldown (Close/Neutral Grip)",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Different grip than Pull A for fiber variation.",
-          "muscleGroup": "back"
-        },
-        {
-          "name": "Straight Arm Pulldown",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Lat isolation. Keep arms straight.",
-          "muscleGroup": "back"
-        },
-        {
-          "name": "Dumbbell Shrug",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Trap development. Hold at top.",
-          "muscleGroup": "back"
-        },
-        {
-          "name": "Dumbbell Curl",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "Incline or concentration for variation from Pull A.",
-          "muscleGroup": "biceps"
-        },
-        {
-          "name": "Cable Reverse Curl",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Straight bar or angled cable attachment. Forearm/brachialis.",
-          "muscleGroup": "biceps"
-        },
-        {
-          "name": "Face Pulls",
-          "sets": 2,
-          "repRange": "15-20",
-          "notes": "Rear delts and rotator cuff.",
-          "muscleGroup": "shoulders"
-        }
+        {"name": "Smith Bent Over Row", "sets": 4, "repRange": "8-10"},
+        {"name": "Lat Pulldown (Close Grip)", "sets": 3, "repRange": "10-12"},
+        {"name": "Straight Arm Pulldown", "sets": 3, "repRange": "12-15"},
+        {"name": "Dumbbell Shrug", "sets": 3, "repRange": "12-15"},
+        {"name": "Incline Dumbbell Curl", "sets": 3, "repRange": "10-12"},
+        {"name": "Cable Reverse Curl", "sets": 3, "repRange": "12-15"},
+        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
       ]
     },
     "Legs A": {
-      "focus": "Quad Emphasis (SAFE 24hr after deadlifts)",
-      "muscles": ["quads", "adductors", "abductors", "calves", "abs"],
-      "safetyNote": "This workout is QUAD-DOMINANT. Safe to perform 24hr after Pull A deadlifts because it minimizes posterior chain stress.",
+      "focus": "Quad Emphasis",
       "exercises": [
-        {
-          "name": "Leg Press (FEET LOW)",
-          "sets": 4,
-          "repRange": "10-12",
-          "notes": "FEET LOW on platform = QUAD focus. Minimizes hamstring/glute involvement. Safe after deadlifts.",
-          "muscleGroup": "quads"
-        },
-        {
-          "name": "Leg Extension",
-          "sets": 4,
-          "repRange": "10-15",
-          "notes": "Pure quad isolation. Full ROM, controlled eccentric.",
-          "muscleGroup": "quads"
-        },
-        {
-          "name": "Hip Adductor Machine",
-          "sets": 2,
-          "repRange": "12-15",
-          "notes": "Inner thigh. Often neglected.",
-          "muscleGroup": "adductors"
-        },
-        {
-          "name": "Hip Abductor Machine",
-          "sets": 2,
-          "repRange": "12-15",
-          "notes": "Outer hip/glute medius. Important for leg symmetry.",
-          "muscleGroup": "abductors"
-        },
-        {
-          "name": "Calf Raise (Standing Smith OR Leg Press)",
-          "sets": 4,
-          "repRange": "12-15",
-          "notes": "Standing = gastrocnemius emphasis. Full stretch at bottom.",
-          "muscleGroup": "calves"
-        },
-        {
-          "name": "Cable Crunch",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Focus on spinal flexion, not hip flexion.",
-          "muscleGroup": "abs"
-        },
-        {
-          "name": "Hanging Leg Raise",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Lower abs. Controlled movement.",
-          "muscleGroup": "abs"
-        }
+        {"name": "Leg Press (Feet Low)", "sets": 4, "repRange": "10-12"},
+        {"name": "Leg Extension", "sets": 4, "repRange": "10-15"},
+        {"name": "Hip Adductor", "sets": 2, "repRange": "12-15"},
+        {"name": "Hip Abductor", "sets": 2, "repRange": "12-15"},
+        {"name": "Standing Calf Raise", "sets": 4, "repRange": "12-15"},
+        {"name": "Cable Crunch", "sets": 3, "repRange": "12-15"},
+        {"name": "Hanging Leg Raise", "sets": 3, "repRange": "12-15"}
       ]
     },
     "Legs B": {
-      "focus": "Posterior Chain (REQUIRES 48-72hr after deadlifts)",
-      "muscles": ["hamstrings", "glutes", "adductors", "abductors", "calves", "abs"],
-      "safetyNote": "This workout targets posterior chain. DO NOT perform within 48hr of Pull A deadlifts.",
-      "recoveryRequirement": "posteriorChain",
+      "focus": "Posterior Chain",
       "exercises": [
-        {
-          "name": "Romanian Deadlift (Smith)",
-          "sets": 4,
-          "repRange": "8-10",
-          "notes": "Angled Smith: face angle direction. Hamstring stretch focus. TRIGGERS posterior chain recovery.",
-          "muscleGroup": "hamstrings",
-          "triggersRecovery": "posteriorChain"
-        },
-        {
-          "name": "Leg Press (FEET HIGH)",
-          "sets": 3,
-          "repRange": "10-12",
-          "notes": "FEET HIGH on platform = glute/hamstring focus. Posterior chain emphasis.",
-          "muscleGroup": "hamstrings"
-        },
-        {
-          "name": "Leg Curl",
-          "sets": 4,
-          "repRange": "10-12",
-          "notes": "Lying or seated. Full ROM, squeeze at contraction.",
-          "muscleGroup": "hamstrings"
-        },
-        {
-          "name": "Hip Adductor Machine",
-          "sets": 2,
-          "repRange": "12-15",
-          "notes": "Inner thigh development.",
-          "muscleGroup": "adductors"
-        },
-        {
-          "name": "Hip Abductor Machine",
-          "sets": 2,
-          "repRange": "12-15",
-          "notes": "Glute medius and outer hip.",
-          "muscleGroup": "abductors"
-        },
-        {
-          "name": "Calf Raise (Standing Smith OR Leg Press)",
-          "sets": 4,
-          "repRange": "12-15",
-          "notes": "Alternate between standing and leg press calf raises week to week.",
-          "muscleGroup": "calves"
-        },
-        {
-          "name": "Cable Crunch",
-          "sets": 3,
-          "repRange": "12-15",
-          "notes": "Core stability for compound lifts.",
-          "muscleGroup": "abs"
-        },
-        {
-          "name": "Plank",
-          "sets": 2,
-          "repRange": "45-60 sec",
-          "notes": "Core endurance and stability.",
-          "muscleGroup": "abs"
-        }
+        {"name": "Romanian Deadlift (Smith)", "sets": 4, "repRange": "8-10"},
+        {"name": "Leg Press (Feet High)", "sets": 3, "repRange": "10-12"},
+        {"name": "Leg Curl", "sets": 4, "repRange": "10-12"},
+        {"name": "Hip Adductor", "sets": 2, "repRange": "12-15"},
+        {"name": "Hip Abductor", "sets": 2, "repRange": "12-15"},
+        {"name": "Standing Calf Raise", "sets": 4, "repRange": "12-15"},
+        {"name": "Cable Crunch", "sets": 3, "repRange": "12-15"},
+        {"name": "Plank", "sets": 2, "repRange": "45-60s"}
       ]
     },
     "Rest": {
       "focus": "Recovery",
-      "muscles": [],
-      "exercises": [],
-      "notes": "Active recovery: walking, stretching, foam rolling. Protein intake maintained."
-    }
-  },
-  "rotation": {
-    "sequence": ["Push A", "Pull A", "Legs A", "Push B", "Pull B", "Legs B", "Rest"],
-    "notes": "Legs A (quad focus) is safe 24hr after Pull A (deadlifts). Legs B (posterior focus) requires minimum 48hr gap from deadlifts - typically falls 4+ days after Pull A in this rotation.",
-    "recoveryLogic": "Pull A → Legs A is safe (quads). Pull A → Legs B would need 48hr minimum (both hit posterior chain)."
-  },
-  "volumeSummary": {
-    "perWeek": {
-      "chest": "~13 direct sets (Push A: 10, Push B: 6) - within 10-16 target",
-      "back": "~16 direct sets (Pull A: 6 + DL, Pull B: 10) - within 14-20 target",
-      "shoulders": "~11 direct lateral/rear sets - within 10-14 target",
-      "quads": "~11 direct sets (Legs A: 8, Legs B partial: 3) - within 12-16 target",
-      "hamstrings": "~11 direct sets (DL: 4, Legs B: 7) - within 10-14 target",
-      "biceps": "~12 direct sets (Pull A: 6, Pull B: 6) - within 10-16 target",
-      "triceps": "~12 direct sets (Push A: 6, Push B: 6) + pressing - within 10-16 target",
-      "calves": "~8 direct sets - within 6-10 target"
+      "exercises": []
     }
   }
 }
