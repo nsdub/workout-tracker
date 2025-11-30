@@ -1,21 +1,16 @@
 {
   "name": "Protocol - Competition Prep",
   "short_name": "Protocol",
-  "start_url": "./",
+  "description": "52-week bodybuilding competition prep tracker",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#1F1C1A",
-  "theme_color": "#2D2926",
-  "orientation": "portrait",
+  "theme_color": "#1F1C1A",
   "icons": [
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231F1C1A' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='%23C7633E'>P</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }
