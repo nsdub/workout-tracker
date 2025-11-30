@@ -1,0 +1,93 @@
+{
+  "version": "1.1",
+  "name": "Competition Prep",
+  "subtitle": "52-Week Journey to Stage",
+  "competition_date": "2026-11-30",
+  "last_updated": "2025-11-30",
+  "phases": [
+    { "name": "Phase 1: Hypertrophy", "weeks": "52-40", "split": "Push/Pull/Legs" },
+    { "name": "Phase 2: Strength", "weeks": "39-28", "split": "Upper/Lower" },
+    { "name": "Phase 3: Contest Prep", "weeks": "27-0", "split": "High Frequency" }
+  ],
+  "recovery_rules": {
+    "posterior_chain": {
+      "exercises": ["Deadlift", "Romanian Deadlift", "Smith RDL", "RDL"],
+      "min_rest_hours": 48,
+      "warning": "Posterior chain (hamstrings, glutes, lower back) needs 48-72hr between heavy sessions"
+    },
+    "chest": {
+      "exercises": ["Smith Incline Press", "Machine Chest Press", "Cable Crossover"],
+      "min_rest_hours": 48,
+      "warning": "Protect left pec - ensure full recovery"
+    }
+  },
+  "notes": {
+    "deadlift_leg_sequencing": "If deadlifts on Pull day, next leg day should be QUAD-focused (Legs A). If RDLs needed (Legs B), wait 72hr after deadlifts."
+  },
+  "workouts": {
+    "Push A": {
+      "focus": "Chest Emphasis",
+      "exercises": [
+        { "name": "Smith Incline Press", "sets": 4, "reps": "10-12", "weight": 175, "notes": "Stop at 90° elbow" },
+        { "name": "Machine Chest Press", "sets": 3, "reps": "12", "weight": 135, "notes": "" },
+        { "name": "Cable Crossover (Low→High)", "sets": 3, "reps": "15", "weight": 10, "notes": "" },
+        { "name": "Smith OHP", "sets": 4, "reps": "8", "weight": 120, "notes": "" },
+        { "name": "Cable Lateral Raise", "sets": 4, "reps": "15", "weight": 9.5, "notes": "" },
+        { "name": "Reverse Pec Deck", "sets": 3, "reps": "15", "weight": 71, "notes": "" },
+        { "name": "Overhead Cable Tricep Ext", "sets": 3, "reps": "12", "weight": 52.5, "notes": "" },
+        { "name": "Cable Pushdown", "sets": 3, "reps": "12", "weight": 27.5, "notes": "" },
+        { "name": "Face Pulls", "sets": 3, "reps": "15", "weight": 21.5, "notes": "" }
+      ]
+    },
+    "Pull A": {
+      "focus": "Back Width",
+      "exercises": [
+        { "name": "Deadlift", "sets": 4, "reps": "6", "weight": 255, "notes": "Skip Legs B for 72hr after this" },
+        { "name": "Lat Pulldown (Wide)", "sets": 4, "reps": "10", "weight": 105, "notes": "" },
+        { "name": "Seated Cable Row", "sets": 4, "reps": "10", "weight": 120, "notes": "" },
+        { "name": "Smith Bent Over Row", "sets": 3, "reps": "10", "weight": 155, "notes": "" },
+        { "name": "Dumbbell Shrug", "sets": 3, "reps": "15", "weight": 65, "notes": "" },
+        { "name": "Dumbbell Curl", "sets": 3, "reps": "10", "weight": 40, "notes": "" },
+        { "name": "Hammer Curl", "sets": 3, "reps": "12", "weight": 40, "notes": "" },
+        { "name": "Smith Reverse Curl", "sets": 3, "reps": "12", "weight": 80, "notes": "" },
+        { "name": "Face Pulls", "sets": 2, "reps": "15", "weight": 21.5, "notes": "" }
+      ]
+    },
+    "Legs A": {
+      "focus": "Quad Emphasis (Safe after Pull A)",
+      "exercises": [
+        { "name": "Smith Squat", "sets": 4, "reps": "8-10", "weight": 125, "notes": "" },
+        { "name": "Leg Press", "sets": 4, "reps": "12", "weight": 270, "notes": "High foot placement" },
+        { "name": "Leg Extension", "sets": 4, "reps": "12", "weight": 150, "notes": "" },
+        { "name": "Leg Curl", "sets": 4, "reps": "15", "weight": 142.5, "notes": "Light - supporting role" },
+        { "name": "Hip Adductor", "sets": 3, "reps": "15", "weight": 130, "notes": "" },
+        { "name": "Hip Abductor", "sets": 3, "reps": "15", "weight": 130, "notes": "" },
+        { "name": "Seated Calf Raise", "sets": 4, "reps": "15", "weight": 340, "notes": "" },
+        { "name": "Cable Crunch", "sets": 3, "reps": "15", "weight": 52.5, "notes": "" },
+        { "name": "Hanging Leg Raise", "sets": 3, "reps": "15", "weight": 0, "notes": "" }
+      ]
+    },
+    "Legs B": {
+      "focus": "Posterior Chain (72hr+ after Pull A)",
+      "exercises": [
+        { "name": "Smith RDL", "sets": 4, "reps": "10", "weight": 205, "notes": "Only if 72hr+ since deadlifts" },
+        { "name": "Bulgarian Split Squat", "sets": 3, "reps": "10", "weight": 20, "notes": "Each leg" },
+        { "name": "Leg Press (Low Foot)", "sets": 3, "reps": "12", "weight": 250, "notes": "" },
+        { "name": "Leg Curl", "sets": 4, "reps": "12", "weight": 142.5, "notes": "" },
+        { "name": "Hip Adductor", "sets": 3, "reps": "15", "weight": 130, "notes": "" },
+        { "name": "Hip Abductor", "sets": 3, "reps": "15", "weight": 130, "notes": "" },
+        { "name": "Smith Calf Raise", "sets": 4, "reps": "12", "weight": 135, "notes": "" },
+        { "name": "Cable Crunch", "sets": 3, "reps": "15", "weight": 52.5, "notes": "" },
+        { "name": "Side Plank", "sets": 2, "reps": "30s", "weight": 0, "notes": "Each side" }
+      ]
+    },
+    "Rest": {
+      "focus": "Recovery",
+      "exercises": [
+        { "name": "Walk", "sets": 1, "reps": "20-30 min", "weight": 0, "notes": "" },
+        { "name": "Stretching", "sets": 1, "reps": "10-15 min", "weight": 0, "notes": "" },
+        { "name": "Foam Rolling", "sets": 1, "reps": "10 min", "weight": 0, "notes": "" }
+      ]
+    }
+  }
+}
