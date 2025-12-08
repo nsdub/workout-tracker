@@ -236,10 +236,14 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
     </div>
     <div class="session-card" style="margin-top:12px;">
       <div class="session-title">Cloud Sync</div>
-      <p style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Sync your data to the cloud. Save your Bin ID to restore on any device.</p>
+      <p style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Sync across devices with a 6-character code. Workouts auto-sync when saved.</p>
+      <div id="syncCodeDisplay" style="background:var(--sage-soft);padding:12px;border-radius:8px;margin-bottom:10px;text-align:center;display:none;">
+        <div style="font-size:11px;color:var(--text-mid);margin-bottom:4px;">Your Sync Code</div>
+        <div id="currentSyncCode" style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:var(--sage);letter-spacing:4px;"></div>
+      </div>
       <div class="input-group" style="margin-bottom:10px;">
-        <label class="input-label">Bin ID (for restore)</label>
-        <input type="text" class="input-field" id="binId" placeholder="Leave empty to create new">
+        <label class="input-label">Enter Sync Code (to restore from another device)</label>
+        <input type="text" class="input-field" id="syncCode" placeholder="e.g. ABC123" maxlength="6" style="text-transform:uppercase;letter-spacing:2px;text-align:center;font-family:'DM Mono',monospace;">
       </div>
       <button class="btn" id="cloudSaveBtn">Save to Cloud</button>
       <button class="btn btn-secondary" id="cloudLoadBtn" style="margin-top:8px;">Load from Cloud</button>
@@ -257,15 +261,17 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
 </nav>
 
 <script>
-const DEFAULT_PLAN={"version":"2.1","workouts":{"Push A":{"focus":"Chest","exercises":[{"name":"Smith Incline Press","sets":4,"repRange":"8-12"},{"name":"Machine Chest Press","sets":3,"repRange":"10-12"},{"name":"Cable Crossover (Low-High)","sets":3,"repRange":"12-15"},{"name":"DB Shoulder Press","sets":3,"repRange":"10-12"},{"name":"Cable Lateral Raise","sets":3,"repRange":"12-15"},{"name":"Overhead Tricep Extension","sets":3,"repRange":"10-12"},{"name":"Rope Pushdown","sets":3,"repRange":"15-20"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Push B":{"focus":"Shoulders","exercises":[{"name":"Smith Overhead Press","sets":4,"repRange":"6-10"},{"name":"DB Lateral Raise","sets":3,"repRange":"12-15"},{"name":"Cable Crossover (High-Low)","sets":3,"repRange":"12-15"},{"name":"Machine Chest Press","sets":3,"repRange":"10-12"},{"name":"Reverse Pec Deck","sets":3,"repRange":"12-15"},{"name":"Assisted Dips","sets":3,"repRange":"8-12"},{"name":"Overhead Tricep Extension","sets":3,"repRange":"10-12"},{"name":"Reverse Grip Pushdown","sets":2,"repRange":"15"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Pull A":{"focus":"Width","exercises":[{"name":"Deadlift","sets":4,"repRange":"5-8"},{"name":"Wide Lat Pulldown","sets":3,"repRange":"8-12"},{"name":"Wide Cable Row","sets":3,"repRange":"10-12"},{"name":"DB Curl","sets":3,"repRange":"10-12"},{"name":"Cable Hammer Curl","sets":3,"repRange":"10-12"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Pull B":{"focus":"Thickness","exercises":[{"name":"Smith Bent Row","sets":4,"repRange":"8-10"},{"name":"Close Grip Pulldown","sets":3,"repRange":"10-12"},{"name":"Straight Arm Pulldown","sets":3,"repRange":"12-15"},{"name":"DB Shrug","sets":3,"repRange":"12-15"},{"name":"Incline DB Curl","sets":3,"repRange":"10-12"},{"name":"Cable Reverse Curl","sets":3,"repRange":"12-15"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Legs A":{"focus":"Quads","exercises":[{"name":"Leg Press (Low Feet)","sets":4,"repRange":"10-12"},{"name":"Leg Extension","sets":4,"repRange":"10-15"},{"name":"Hip Adductor","sets":2,"repRange":"12-15"},{"name":"Hip Abductor","sets":2,"repRange":"12-15"},{"name":"Standing Calf Raise","sets":4,"repRange":"12-15"},{"name":"Cable Crunch","sets":3,"repRange":"12-15"},{"name":"Hanging Leg Raise","sets":3,"repRange":"12-15"}]},"Legs B":{"focus":"Posterior","exercises":[{"name":"Smith RDL","sets":4,"repRange":"8-10"},{"name":"Leg Press (High Feet)","sets":3,"repRange":"10-12"},{"name":"Leg Curl","sets":4,"repRange":"10-12"},{"name":"Hip Adductor","sets":2,"repRange":"12-15"},{"name":"Hip Abductor","sets":2,"repRange":"12-15"},{"name":"Standing Calf Raise","sets":4,"repRange":"12-15"},{"name":"Cable Crunch","sets":3,"repRange":"12-15"},{"name":"Plank","sets":2,"repRange":"45-60s"}]},"Rest":{"focus":"Recovery","exercises":[]}}};
+const DEFAULT_PLAN={"version":"2.1","workouts":{"Push A":{"focus":"Chest Emphasis","exercises":[{"name":"Smith Machine Incline Press","sets":4,"repRange":"8-12"},{"name":"Machine Chest Press","sets":3,"repRange":"10-12"},{"name":"Cable Crossover (Low to High)","sets":3,"repRange":"12-15"},{"name":"Dumbbell Shoulder Press","sets":3,"repRange":"10-12"},{"name":"Cable Lateral Raise","sets":3,"repRange":"12-15"},{"name":"Overhead Cable Tricep Extension","sets":3,"repRange":"10-12"},{"name":"Rope Pushdown","sets":3,"repRange":"15-20"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Push B":{"focus":"Shoulder Emphasis","exercises":[{"name":"Smith Machine Overhead Press","sets":4,"repRange":"6-10"},{"name":"Dumbbell Lateral Raise","sets":3,"repRange":"12-15"},{"name":"Cable Crossover (High to Low)","sets":3,"repRange":"12-15"},{"name":"Machine Chest Press","sets":3,"repRange":"10-12"},{"name":"Reverse Pec Deck","sets":3,"repRange":"12-15"},{"name":"Assisted Dips","sets":3,"repRange":"8-12"},{"name":"Overhead Cable Tricep Extension","sets":3,"repRange":"10-12"},{"name":"Reverse Grip Pushdown","sets":2,"repRange":"15"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Pull A":{"focus":"Back Width","exercises":[{"name":"Deadlift","sets":4,"repRange":"5-8"},{"name":"Lat Pulldown (Wide Grip)","sets":3,"repRange":"8-12"},{"name":"Seated Cable Row (Wide Grip)","sets":3,"repRange":"10-12"},{"name":"Dumbbell Curl","sets":3,"repRange":"10-12"},{"name":"Cable Hammer Curl","sets":3,"repRange":"10-12"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Pull B":{"focus":"Back Thickness","exercises":[{"name":"Smith Bent Over Row","sets":4,"repRange":"8-10"},{"name":"Lat Pulldown (Close Grip)","sets":3,"repRange":"10-12"},{"name":"Straight Arm Pulldown","sets":3,"repRange":"12-15"},{"name":"Dumbbell Shrug","sets":3,"repRange":"12-15"},{"name":"Incline Dumbbell Curl","sets":3,"repRange":"10-12"},{"name":"Cable Reverse Curl","sets":3,"repRange":"12-15"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Legs A":{"focus":"Quad Emphasis","exercises":[{"name":"Leg Press (Feet Low)","sets":4,"repRange":"10-12"},{"name":"Leg Extension","sets":4,"repRange":"10-15"},{"name":"Hip Adductor","sets":2,"repRange":"12-15"},{"name":"Hip Abductor","sets":2,"repRange":"12-15"},{"name":"Standing Calf Raise","sets":4,"repRange":"12-15"},{"name":"Cable Crunch","sets":3,"repRange":"12-15"},{"name":"Hanging Leg Raise","sets":3,"repRange":"12-15"}]},"Legs B":{"focus":"Posterior Chain","exercises":[{"name":"Romanian Deadlift (Smith)","sets":4,"repRange":"8-10"},{"name":"Leg Press (Feet High)","sets":3,"repRange":"10-12"},{"name":"Leg Curl","sets":4,"repRange":"10-12"},{"name":"Hip Adductor","sets":2,"repRange":"12-15"},{"name":"Hip Abductor","sets":2,"repRange":"12-15"},{"name":"Standing Calf Raise","sets":4,"repRange":"12-15"},{"name":"Cable Crunch","sets":3,"repRange":"12-15"},{"name":"Plank","sets":2,"repRange":"45-60s"}]},"Rest":{"focus":"Recovery","exercises":[]}}};
 
-// jsonblob.com - free JSON storage, no auth required
-const JSONBLOB_API = 'https://jsonblob.com/api/jsonBlob';
+// Cloud Sync API - Deploy your own backend or use the hosted version
+// See /backend folder for Cloudflare Worker deployment
+const SYNC_API = 'https://protocol-sync.nsdub.workers.dev';
 
 let plan = null;
 let history = JSON.parse(localStorage.getItem('protocol-history')) || [];
 let form = JSON.parse(localStorage.getItem('protocol-form')) || {};
 let theme = localStorage.getItem('protocol-theme') || 'light';
+let syncCode = localStorage.getItem('protocol-sync-code') || null;
 let currentWorkout = null;
 
 async function initPlan() {
@@ -322,10 +328,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   initListeners();
   autoSelectWorkout();
 
-  // Restore saved bin ID
-  const savedBinId = localStorage.getItem('protocol-bin-id');
-  if (savedBinId) {
-    document.getElementById('binId').value = savedBinId;
+  // Show sync code if exists
+  if (syncCode) {
+    document.getElementById('syncCode').value = syncCode;
+    document.getElementById('currentSyncCode').textContent = syncCode;
+    document.getElementById('syncCodeDisplay').style.display = 'block';
   }
 });
 
@@ -531,16 +538,19 @@ function saveWorkout() {
   });
   
   localStorage.setItem('protocol-history', JSON.stringify(history));
-  
+
   // Clear form
   Object.keys(form).forEach(k => { if (k.startsWith(currentWorkout)) delete form[k]; });
   form.bodyweight = ''; form.readiness = ''; form.notes = '';
   saveForm();
-  
+
   document.getElementById('bodyweight').value = '';
   document.getElementById('readiness').value = '';
   document.getElementById('notes').value = '';
-  
+
+  // Auto-sync to cloud if sync code exists
+  autoSync();
+
   alert('Saved!');
   
   // Move to next workout
@@ -673,86 +683,94 @@ function setSyncStatus(msg, isError = false) {
   el.style.color = isError ? 'var(--accent)' : 'var(--sage)';
 }
 
-async function saveToCloud() {
-  setSyncStatus('Saving...');
+function updateSyncCodeDisplay(code) {
+  syncCode = code;
+  localStorage.setItem('protocol-sync-code', code);
+  document.getElementById('syncCode').value = code;
+  document.getElementById('currentSyncCode').textContent = code;
+  document.getElementById('syncCodeDisplay').style.display = 'block';
+}
+
+async function saveToCloud(silent = false) {
+  if (!silent) setSyncStatus('Saving...');
 
   const data = {
-    version: '1.0',
-    syncDate: new Date().toISOString(),
     plan: plan,
     history: history,
     form: form
   };
 
-  const blobId = document.getElementById('binId').value.trim();
+  const inputCode = document.getElementById('syncCode').value.trim().toUpperCase();
+  const codeToUse = inputCode || syncCode;
 
   try {
     let response;
-    let newBlobId = blobId;
 
-    if (blobId) {
-      // Update existing blob
-      response = await fetch(`${JSONBLOB_API}/${blobId}`, {
+    if (codeToUse) {
+      // Update existing sync
+      response = await fetch(`${SYNC_API}/sync/${codeToUse}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-    } else {
-      // Create new blob
-      response = await fetch(JSONBLOB_API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
 
-      // Get the blob ID from the Location header
-      const location = response.headers.get('Location');
-      if (location) {
-        newBlobId = location.split('/').pop();
+      if (response.status === 404) {
+        // Code doesn't exist, create new
+        response = await fetch(`${SYNC_API}/sync`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
       }
+    } else {
+      // Create new sync
+      response = await fetch(`${SYNC_API}/sync`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
     }
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      const err = await response.json();
+      throw new Error(err.error || `HTTP ${response.status}`);
     }
 
-    if (newBlobId) {
-      document.getElementById('binId').value = newBlobId;
-      localStorage.setItem('protocol-bin-id', newBlobId);
-      setSyncStatus(`Saved! ID: ${newBlobId}`);
+    const result = await response.json();
 
-      // Copy ID to clipboard for easy sharing
-      navigator.clipboard.writeText(newBlobId).catch(() => {});
-    } else {
-      setSyncStatus('Saved to cloud!');
+    if (result.syncCode) {
+      updateSyncCodeDisplay(result.syncCode);
+      if (!silent) {
+        setSyncStatus(`Synced! Code: ${result.syncCode}`);
+        navigator.clipboard.writeText(result.syncCode).catch(() => {});
+      }
+    } else if (!silent) {
+      setSyncStatus('Synced!');
     }
+
+    return true;
   } catch(err) {
-    setSyncStatus('Error: ' + err.message, true);
+    if (!silent) setSyncStatus('Error: ' + err.message, true);
+    console.error('Sync error:', err);
+    return false;
   }
 }
 
 async function loadFromCloud() {
-  const blobId = document.getElementById('binId').value.trim();
-  if (!blobId) {
-    setSyncStatus('Enter a Blob ID first', true);
+  const code = document.getElementById('syncCode').value.trim().toUpperCase();
+  if (!code || code.length !== 6) {
+    setSyncStatus('Enter a 6-character sync code', true);
     return;
   }
 
   setSyncStatus('Loading...');
 
   try {
-    const response = await fetch(`${JSONBLOB_API}/${blobId}`, {
-      headers: { 'Accept': 'application/json' }
-    });
+    const response = await fetch(`${SYNC_API}/sync/${code}`);
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      const err = await response.json();
+      throw new Error(err.error || `HTTP ${response.status}`);
     }
 
     const data = await response.json();
@@ -772,14 +790,21 @@ async function loadFromCloud() {
       localStorage.setItem('protocol-form', JSON.stringify(form));
     }
 
-    localStorage.setItem('protocol-bin-id', blobId);
+    updateSyncCodeDisplay(code);
     renderWorkoutGrid();
     autoSelectWorkout();
 
-    const syncDate = data.syncDate ? new Date(data.syncDate).toLocaleString() : 'unknown';
+    const syncDate = data.updatedAt ? new Date(data.updatedAt).toLocaleString() : 'unknown';
     setSyncStatus(`Loaded! Last sync: ${syncDate}`);
   } catch(err) {
     setSyncStatus('Error: ' + err.message, true);
+  }
+}
+
+// Auto-sync after saving workout (called from saveWorkout)
+async function autoSync() {
+  if (syncCode) {
+    await saveToCloud(true);
   }
 }
 </script>
