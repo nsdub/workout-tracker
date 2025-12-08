@@ -227,6 +227,24 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
       <textarea class="input-field" id="programJson" rows="5" placeholder="Paste plan.json"></textarea>
       <button class="btn" id="updateBtn" style="margin-top:10px;">Update</button>
     </div>
+    <div class="session-card" style="margin-top:12px;">
+      <div class="session-title">Backup & Restore</div>
+      <p style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Download all your data or restore from a backup file.</p>
+      <button class="btn btn-secondary" id="backupBtn">Download Backup</button>
+      <input type="file" id="restoreFile" accept=".json" style="display:none;">
+      <button class="btn btn-secondary" id="restoreBtn" style="margin-top:8px;">Restore from Backup</button>
+    </div>
+    <div class="session-card" style="margin-top:12px;">
+      <div class="session-title">Cloud Sync</div>
+      <p style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Sync your data to the cloud. Save your Bin ID to restore on any device.</p>
+      <div class="input-group" style="margin-bottom:10px;">
+        <label class="input-label">Bin ID (for restore)</label>
+        <input type="text" class="input-field" id="binId" placeholder="Leave empty to create new">
+      </div>
+      <button class="btn" id="cloudSaveBtn">Save to Cloud</button>
+      <button class="btn btn-secondary" id="cloudLoadBtn" style="margin-top:8px;">Load from Cloud</button>
+      <div id="syncStatus" style="font-size:11px;color:var(--sage);margin-top:8px;font-family:'DM Mono',monospace;"></div>
+    </div>
   </section>
 </div>
 
@@ -241,18 +259,74 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
 <script>
 const DEFAULT_PLAN={"version":"2.0","workouts":{"Push A":{"focus":"Chest","exercises":[{"name":"Smith Incline Press","sets":4,"repRange":"8-12"},{"name":"Machine Chest Press","sets":3,"repRange":"10-12"},{"name":"Cable Crossover (Low-High)","sets":3,"repRange":"12-15"},{"name":"DB Shoulder Press","sets":3,"repRange":"10-12"},{"name":"Cable Lateral Raise","sets":3,"repRange":"12-15"},{"name":"Overhead Tricep Extension","sets":3,"repRange":"10-12"},{"name":"Cable Pushdown","sets":3,"repRange":"10-12"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Push B":{"focus":"Shoulders","exercises":[{"name":"Smith Overhead Press","sets":4,"repRange":"6-10"},{"name":"DB Lateral Raise","sets":3,"repRange":"12-15"},{"name":"Cable Crossover (High-Low)","sets":3,"repRange":"12-15"},{"name":"Machine Chest Press","sets":3,"repRange":"10-12"},{"name":"Reverse Pec Deck","sets":3,"repRange":"12-15"},{"name":"Assisted Dips","sets":3,"repRange":"8-12"},{"name":"Overhead Tricep Extension","sets":3,"repRange":"10-12"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Pull A":{"focus":"Width","exercises":[{"name":"Deadlift","sets":4,"repRange":"5-8"},{"name":"Wide Lat Pulldown","sets":3,"repRange":"8-12"},{"name":"Wide Cable Row","sets":3,"repRange":"10-12"},{"name":"DB Curl","sets":3,"repRange":"10-12"},{"name":"Cable Hammer Curl","sets":3,"repRange":"10-12"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Pull B":{"focus":"Thickness","exercises":[{"name":"Smith Bent Row","sets":4,"repRange":"8-10"},{"name":"Close Grip Pulldown","sets":3,"repRange":"10-12"},{"name":"Straight Arm Pulldown","sets":3,"repRange":"12-15"},{"name":"DB Shrug","sets":3,"repRange":"12-15"},{"name":"Incline DB Curl","sets":3,"repRange":"10-12"},{"name":"Cable Reverse Curl","sets":3,"repRange":"12-15"},{"name":"Face Pulls","sets":2,"repRange":"15-20"}]},"Legs A":{"focus":"Quads","exercises":[{"name":"Leg Press (Low Feet)","sets":4,"repRange":"10-12"},{"name":"Leg Extension","sets":4,"repRange":"10-15"},{"name":"Hip Adductor","sets":2,"repRange":"12-15"},{"name":"Hip Abductor","sets":2,"repRange":"12-15"},{"name":"Standing Calf Raise","sets":4,"repRange":"12-15"},{"name":"Cable Crunch","sets":3,"repRange":"12-15"},{"name":"Hanging Leg Raise","sets":3,"repRange":"12-15"}]},"Legs B":{"focus":"Posterior","exercises":[{"name":"Smith RDL","sets":4,"repRange":"8-10"},{"name":"Leg Press (High Feet)","sets":3,"repRange":"10-12"},{"name":"Leg Curl","sets":4,"repRange":"10-12"},{"name":"Hip Adductor","sets":2,"repRange":"12-15"},{"name":"Hip Abductor","sets":2,"repRange":"12-15"},{"name":"Standing Calf Raise","sets":4,"repRange":"12-15"},{"name":"Cable Crunch","sets":3,"repRange":"12-15"},{"name":"Plank","sets":2,"repRange":"45-60s"}]},"Rest":{"focus":"Recovery","exercises":[]}}};
 
-let plan = JSON.parse(localStorage.getItem('protocol-plan')) || DEFAULT_PLAN;
+// jsonblob.com - free JSON storage, no auth required
+const JSONBLOB_API = 'https://jsonblob.com/api/jsonBlob';
+
+let plan = null;
 let history = JSON.parse(localStorage.getItem('protocol-history')) || [];
 let form = JSON.parse(localStorage.getItem('protocol-form')) || {};
 let theme = localStorage.getItem('protocol-theme') || 'light';
 let currentWorkout = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+async function initPlan() {
+  // Try localStorage first
+  const stored = localStorage.getItem('protocol-plan');
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed && parsed.workouts && validatePlan(parsed)) {
+        plan = parsed;
+        return;
+      }
+    } catch(e) {}
+  }
+
+  // Try fetching from plan.json in repo
+  try {
+    const res = await fetch('plan.json');
+    if (res.ok) {
+      const fetched = await res.json();
+      if (fetched && fetched.workouts) {
+        plan = fetched;
+        localStorage.setItem('protocol-plan', JSON.stringify(plan));
+        console.log('Loaded plan from plan.json');
+        return;
+      }
+    }
+  } catch(e) {
+    console.log('Could not fetch plan.json:', e);
+  }
+
+  // Fall back to DEFAULT_PLAN
+  plan = DEFAULT_PLAN;
+  localStorage.setItem('protocol-plan', JSON.stringify(plan));
+}
+
+function validatePlan(p) {
+  // Check that exercises have repRange defined
+  for (const [name, workout] of Object.entries(p.workouts || {})) {
+    if (workout.exercises) {
+      for (const ex of workout.exercises) {
+        if (!ex.repRange) return false;
+      }
+    }
+  }
+  return true;
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   applyTheme(theme);
+  await initPlan();
   renderWorkoutGrid();
   initNav();
   initListeners();
   autoSelectWorkout();
+
+  // Restore saved bin ID
+  const savedBinId = localStorage.getItem('protocol-bin-id');
+  if (savedBinId) {
+    document.getElementById('binId').value = savedBinId;
+  }
 });
 
 function applyTheme(t) {
@@ -328,7 +402,7 @@ function loadExercises(name) {
     let html = `<div class="exercise">
       <div class="exercise-header">
         <div class="exercise-name">${ex.name}</div>
-        <div class="exercise-meta">${ex.sets}×${ex.repRange}</div>
+        <div class="exercise-meta">${ex.sets}×${ex.repRange || '?'}</div>
       </div>`;
     
     if (lastEx?.sets?.length) {
@@ -418,6 +492,15 @@ function initListeners() {
   document.getElementById('saveBtn').addEventListener('click', saveWorkout);
   document.getElementById('exportBtn').addEventListener('click', exportHistory);
   document.getElementById('updateBtn').addEventListener('click', updateProgram);
+
+  // Backup & Restore
+  document.getElementById('backupBtn').addEventListener('click', downloadBackup);
+  document.getElementById('restoreBtn').addEventListener('click', () => document.getElementById('restoreFile').click());
+  document.getElementById('restoreFile').addEventListener('change', restoreBackup);
+
+  // Cloud Sync
+  document.getElementById('cloudSaveBtn').addEventListener('click', saveToCloud);
+  document.getElementById('cloudLoadBtn').addEventListener('click', loadFromCloud);
 }
 
 function saveWorkout() {
@@ -522,6 +605,181 @@ function updateProgram() {
     alert('Updated!');
   } catch(e) {
     alert('Invalid JSON: ' + e.message);
+  }
+}
+
+// === BACKUP & RESTORE ===
+
+function downloadBackup() {
+  const backup = {
+    version: '1.0',
+    exportDate: new Date().toISOString(),
+    plan: plan,
+    history: history,
+    form: form
+  };
+
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `protocol-backup-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function restoreBackup(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const backup = JSON.parse(event.target.result);
+
+      if (backup.plan && backup.plan.workouts) {
+        plan = backup.plan;
+        localStorage.setItem('protocol-plan', JSON.stringify(plan));
+      }
+
+      if (backup.history && Array.isArray(backup.history)) {
+        history = backup.history;
+        localStorage.setItem('protocol-history', JSON.stringify(history));
+      }
+
+      if (backup.form) {
+        form = backup.form;
+        localStorage.setItem('protocol-form', JSON.stringify(form));
+      }
+
+      renderWorkoutGrid();
+      autoSelectWorkout();
+      alert('Backup restored successfully!');
+    } catch(err) {
+      alert('Invalid backup file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = ''; // Reset file input
+}
+
+// === CLOUD SYNC ===
+
+function setSyncStatus(msg, isError = false) {
+  const el = document.getElementById('syncStatus');
+  el.textContent = msg;
+  el.style.color = isError ? 'var(--accent)' : 'var(--sage)';
+}
+
+async function saveToCloud() {
+  setSyncStatus('Saving...');
+
+  const data = {
+    version: '1.0',
+    syncDate: new Date().toISOString(),
+    plan: plan,
+    history: history,
+    form: form
+  };
+
+  const blobId = document.getElementById('binId').value.trim();
+
+  try {
+    let response;
+    let newBlobId = blobId;
+
+    if (blobId) {
+      // Update existing blob
+      response = await fetch(`${JSONBLOB_API}/${blobId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+    } else {
+      // Create new blob
+      response = await fetch(JSONBLOB_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      // Get the blob ID from the Location header
+      const location = response.headers.get('Location');
+      if (location) {
+        newBlobId = location.split('/').pop();
+      }
+    }
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    if (newBlobId) {
+      document.getElementById('binId').value = newBlobId;
+      localStorage.setItem('protocol-bin-id', newBlobId);
+      setSyncStatus(`Saved! ID: ${newBlobId}`);
+
+      // Copy ID to clipboard for easy sharing
+      navigator.clipboard.writeText(newBlobId).catch(() => {});
+    } else {
+      setSyncStatus('Saved to cloud!');
+    }
+  } catch(err) {
+    setSyncStatus('Error: ' + err.message, true);
+  }
+}
+
+async function loadFromCloud() {
+  const blobId = document.getElementById('binId').value.trim();
+  if (!blobId) {
+    setSyncStatus('Enter a Blob ID first', true);
+    return;
+  }
+
+  setSyncStatus('Loading...');
+
+  try {
+    const response = await fetch(`${JSONBLOB_API}/${blobId}`, {
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.plan && data.plan.workouts) {
+      plan = data.plan;
+      localStorage.setItem('protocol-plan', JSON.stringify(plan));
+    }
+
+    if (data.history && Array.isArray(data.history)) {
+      history = data.history;
+      localStorage.setItem('protocol-history', JSON.stringify(history));
+    }
+
+    if (data.form) {
+      form = data.form;
+      localStorage.setItem('protocol-form', JSON.stringify(form));
+    }
+
+    localStorage.setItem('protocol-bin-id', blobId);
+    renderWorkoutGrid();
+    autoSelectWorkout();
+
+    const syncDate = data.syncDate ? new Date(data.syncDate).toLocaleString() : 'unknown';
+    setSyncStatus(`Loaded! Last sync: ${syncDate}`);
+  } catch(err) {
+    setSyncStatus('Error: ' + err.message, true);
   }
 }
 </script>
