@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "workouts": {
     "Push A": {
       "focus": "Chest Emphasis",
@@ -10,7 +10,7 @@
         {"name": "Dumbbell Shoulder Press", "sets": 3, "repRange": "10-12"},
         {"name": "Cable Lateral Raise", "sets": 3, "repRange": "12-15"},
         {"name": "Overhead Cable Tricep Extension", "sets": 3, "repRange": "10-12"},
-        {"name": "Cable Tricep Pushdown", "sets": 3, "repRange": "10-12"},
+        {"name": "Rope Pushdown", "sets": 3, "repRange": "15-20"},
         {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
       ]
     },
@@ -24,6 +24,7 @@
         {"name": "Reverse Pec Deck", "sets": 3, "repRange": "12-15"},
         {"name": "Assisted Dips", "sets": 3, "repRange": "8-12"},
         {"name": "Overhead Cable Tricep Extension", "sets": 3, "repRange": "10-12"},
+        {"name": "Reverse Grip Pushdown", "sets": 2, "repRange": "15"},
         {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
       ]
     },
