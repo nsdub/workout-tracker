@@ -170,6 +170,33 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
   font-size: 11px; font-weight: 500; opacity: 0; transition: opacity 0.2s;
 }
 .autosave.show { opacity: 1; }
+
+/* V3.0: History Accordion */
+.history-toggle {
+  font-size: 11px; color: var(--accent); background: none; border: none;
+  cursor: pointer; padding: 4px 0; font-weight: 500; margin-top: 4px;
+  display: inline-block;
+}
+.history-toggle:hover { opacity: 0.8; }
+.history-content {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;
+}
+.history-content.expanded {
+  max-height: 400px; overflow-y: auto;
+}
+.history-row {
+  font-size: 11px; padding: 6px 8px; border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: 80px 1fr 60px; gap: 8px;
+  font-family: 'DM Mono', monospace;
+}
+.history-row:last-child { border-bottom: none; }
+.history-date { color: var(--text-light); }
+.history-sets { color: var(--text-mid); }
+.history-vol { color: var(--text-dark); text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .history-content { transition-duration: 0.01ms; }
+}
 </style>
 </head>
 <body>
@@ -355,6 +382,24 @@ function getLastPerformance(exerciseName) {
   return null;
 }
 
+// V3.0: Get exercise history (last 8 sessions)
+function getExerciseHistory(exerciseName) {
+  const sessions = [];
+  for (const session of history) {
+    const exercise = session.exercises.find(e => e.name === exerciseName);
+    if (exercise && exercise.sets.length > 0) {
+      sessions.push({
+        date: session.date,
+        workout: session.workout,
+        sets: exercise.sets,
+        note: exercise.note
+      });
+      if (sessions.length >= 8) break;
+    }
+  }
+  return sessions;
+}
+
 async function initPlan() {
   // Try localStorage first
   const stored = localStorage.getItem('protocol-plan');
@@ -523,6 +568,10 @@ function loadExercises(name) {
       exHtml += `<div class="last-session">Last: ${displaySets}</div>`;
     }
 
+    // V3.0: History accordion
+    exHtml += `<button class="history-toggle" data-ex-name="${ex.name}" data-ex-idx="${i}">📊 History</button>
+      <div class="history-content" id="history-${i}"></div>`;
+
     exHtml += `<div class="sets">`;
     for (let s = 0; s < ex.sets; s++) {
       const sv = saved[s] || {};
@@ -590,6 +639,46 @@ function loadExercises(name) {
       form[key].note = inp.value;
       saveForm();
       showSave();
+    });
+  });
+
+  // V3.0: History accordion listener
+  list.querySelectorAll('.history-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const exerciseName = btn.dataset.exName;
+      const idx = btn.dataset.exIdx;
+      const contentEl = document.getElementById(`history-${idx}`);
+
+      // Toggle expanded state
+      const isExpanded = contentEl.classList.contains('expanded');
+
+      if (!isExpanded) {
+        // Render history content (lazy)
+        const sessions = getExerciseHistory(exerciseName);
+        if (sessions.length > 0) {
+          contentEl.innerHTML = sessions.map(sess => {
+            const d = new Date(sess.date);
+            const dateStr = d.toLocaleDateString('en-US', {month:'short',day:'numeric'});
+            const setsDisplay = sess.sets.map(s =>
+              `${getDisplayWeight(s.weight)}×${s.reps}`
+            ).join(', ');
+            const volume = sess.sets.reduce((sum, s) => sum + s.weight * s.reps, 0);
+            const volDisplay = Math.round(volume).toLocaleString();
+            return `<div class="history-row">
+              <div class="history-date">${dateStr}</div>
+              <div class="history-sets">${setsDisplay}</div>
+              <div class="history-vol">${volDisplay}</div>
+            </div>`;
+          }).join('');
+        } else {
+          contentEl.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--text-light);">No history yet</div>';
+        }
+        contentEl.classList.add('expanded');
+      } else {
+        // Collapse and clear content
+        contentEl.classList.remove('expanded');
+        setTimeout(() => { contentEl.innerHTML = ''; }, 300);
+      }
     });
   });
 }
