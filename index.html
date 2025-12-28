@@ -481,33 +481,55 @@ function loadExercises(name) {
     return;
   }
 
-  list.innerHTML = workout.exercises.map((ex, i) => {
+  // V3.0: Workout description card
+  let html = '';
+  if (workout.description) {
+    html += `<div class="session-card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div class="session-title">${name}</div>
+        <button class="theme-btn" id="descToggle" style="font-size:14px;">ℹ️</button>
+      </div>
+      <div id="workoutDesc" class="hidden" style="font-size:12px;color:var(--text-mid);line-height:1.5;">
+        ${workout.description}
+      </div>
+    </div>`;
+  }
+
+  html += workout.exercises.map((ex, i) => {
     // V3.0: Cross-workout exercise matching
     const lastPerf = getLastPerformance(ex.name);
     const formKey = `${name}-${i}`;
     const saved = form[formKey] || [];
 
-    let html = `<div class="exercise">
+    let exHtml = `<div class="exercise">
       <div class="exercise-header">
         <div class="exercise-name">${ex.name}</div>
         <div class="exercise-meta">${ex.sets}×${ex.repRange || '?'}</div>
       </div>`;
+
+    // V3.0: Target display
+    if (ex.targetWeight && ex.targetReps) {
+      const targetDisp = `${getDisplayWeight(ex.targetWeight)}×${ex.targetReps}`;
+      exHtml += `<div style="font-size:11px;color:var(--taupe);margin-bottom:8px;">
+        Target: ${targetDisp} by Nov 2026
+      </div>`;
+    }
 
     // V3.0: Display last performance with unit conversion
     if (lastPerf?.sets?.length) {
       const displaySets = lastPerf.sets.map(s =>
         `${getDisplayWeight(s.weight)}×${s.reps}`
       ).join(', ');
-      html += `<div class="last-session">Last: ${displaySets}</div>`;
+      exHtml += `<div class="last-session">Last: ${displaySets}</div>`;
     }
 
-    html += `<div class="sets">`;
+    exHtml += `<div class="sets">`;
     for (let s = 0; s < ex.sets; s++) {
       const sv = saved[s] || {};
       const lastSet = lastPerf?.sets?.[s];
       const wPh = lastSet ? getDisplayWeight(lastSet.weight) : getDisplayUnit();
       const rPh = lastSet?.reps || 'reps';
-      html += `<div class="set-row">
+      exHtml += `<div class="set-row">
         <span class="set-num">${s+1}</span>
         <div class="set-inputs">
           <input type="number" class="set-input" data-ex="${i}" data-set="${s}" data-field="weight"
@@ -518,11 +540,30 @@ function loadExercises(name) {
         </div>
       </div>`;
     }
-    html += `</div></div>`;
-    return html;
+    exHtml += `</div>`;
+
+    // V3.0: Exercise notes
+    const savedNote = saved.note || '';
+    exHtml += `<div style="margin-top:8px;">
+      <input type="text" class="input-field exercise-note" data-ex="${i}"
+             placeholder="Notes (optional)" value="${savedNote}"
+             style="padding:6px 8px;font-size:12px;">
+    </div>`;
+
+    exHtml += `</div>`;
+    return exHtml;
   }).join('');
 
+  list.innerHTML = html;
   session.classList.remove('hidden');
+
+  // V3.0: Description toggle listener
+  const descToggle = document.getElementById('descToggle');
+  if (descToggle) {
+    descToggle.addEventListener('click', () => {
+      document.getElementById('workoutDesc').classList.toggle('hidden');
+    });
+  }
 
   // Restore session fields
   if (form.bodyweight) document.getElementById('bodyweight').value = form.bodyweight;
@@ -536,6 +577,17 @@ function loadExercises(name) {
       if (!form[key]) form[key] = [];
       if (!form[key][inp.dataset.set]) form[key][inp.dataset.set] = {};
       form[key][inp.dataset.set][inp.dataset.field] = inp.value;
+      saveForm();
+      showSave();
+    });
+  });
+
+  // V3.0: Exercise notes listener
+  list.querySelectorAll('.exercise-note').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const key = `${name}-${inp.dataset.ex}`;
+      if (!form[key]) form[key] = [];
+      form[key].note = inp.value;
       saveForm();
       showSave();
     });
@@ -613,12 +665,20 @@ function saveWorkout() {
 
   workout.exercises.forEach((ex, i) => {
     const key = `${currentWorkout}-${i}`;
-    const sets = (form[key] || []).filter(s => s && (s.weight || s.reps)).map(s => ({
+    const formData = form[key] || [];
+    const sets = formData.filter(s => s && (s.weight || s.reps)).map(s => ({
       // V3.0: Convert from display unit to lbs (canonical storage)
       weight: convertToLbs(s.weight) || 0,
       reps: parseInt(s.reps) || 0
     }));
-    if (sets.length) exercises.push({ name: ex.name, sets });
+    if (sets.length) {
+      const exercise = { name: ex.name, sets };
+      // V3.0: Include exercise note if present
+      if (formData.note) {
+        exercise.note = formData.note;
+      }
+      exercises.push(exercise);
+    }
   });
 
   if (!exercises.length) return alert('Log at least one set');
