@@ -1,83 +1,412 @@
 {
-  "version": "2.1",
+  "version": "3.0",
+  "lastUpdated": "2025-12-27",
+  "athlete": {
+    "name": "Pimp",
+    "competition": "November 2026",
+    "weeksOut": 47,
+    "currentPhase": "Hypertrophy"
+  },
   "workouts": {
     "Push A": {
       "focus": "Chest Emphasis",
+      "description": "Primary horizontal push day emphasizing upper chest through incline pressing. Machine-based movements accommodate pec injury history — no free bar bench, stop at 90° elbow bend, never to failure on pressing. Secondary focus on anterior deltoids and tricep long head.",
       "exercises": [
-        {"name": "Smith Machine Incline Press", "sets": 4, "repRange": "8-12"},
-        {"name": "Machine Chest Press", "sets": 3, "repRange": "10-12"},
-        {"name": "Cable Crossover (Low to High)", "sets": 3, "repRange": "12-15"},
-        {"name": "Dumbbell Shoulder Press", "sets": 3, "repRange": "10-12"},
-        {"name": "Cable Lateral Raise", "sets": 3, "repRange": "12-15"},
-        {"name": "Overhead Cable Tricep Extension", "sets": 3, "repRange": "10-12"},
-        {"name": "Rope Pushdown", "sets": 3, "repRange": "15-20"},
-        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": 4,
+          "repRange": "8-10",
+          "targetWeight": 225,
+          "targetReps": 8,
+          "notes": "30-45° incline. Stop at 90° elbow. Control negative."
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 220,
+          "targetReps": 10,
+          "notes": "Squeeze at contraction. Full ROM."
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 25,
+          "targetReps": 12,
+          "notes": "Upper chest emphasis. Hands meet at eye level."
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 55,
+          "targetReps": 10,
+          "notes": "Slight forward lean. Don't lock out."
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 17.5,
+          "targetReps": 15,
+          "notes": "Lead with elbow. Slight forward lean."
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 75,
+          "targetReps": 12,
+          "notes": "Long head emphasis. Full stretch overhead."
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": 3,
+          "repRange": "15-20",
+          "targetWeight": 45,
+          "targetReps": 15,
+          "notes": "Split rope at bottom. Medial head focus."
+        },
+        {
+          "name": "Face Pulls",
+          "sets": 2,
+          "repRange": "15-20",
+          "targetWeight": 35,
+          "targetReps": 15,
+          "notes": "External rotation at top. Rear delt/rotator cuff."
+        }
       ]
     },
     "Push B": {
       "focus": "Shoulder Emphasis",
+      "description": "Vertical push priority with overhead pressing as primary movement. Lower chest work via high-to-low cables. Includes rear delt work via reverse pec deck and dips for tricep mass. Reduced chest volume compared to Push A.",
       "exercises": [
-        {"name": "Smith Machine Overhead Press", "sets": 4, "repRange": "6-10"},
-        {"name": "Dumbbell Lateral Raise", "sets": 3, "repRange": "12-15"},
-        {"name": "Cable Crossover (High to Low)", "sets": 3, "repRange": "12-15"},
-        {"name": "Machine Chest Press", "sets": 3, "repRange": "10-12"},
-        {"name": "Reverse Pec Deck", "sets": 3, "repRange": "12-15"},
-        {"name": "Assisted Dips", "sets": 3, "repRange": "8-12"},
-        {"name": "Overhead Cable Tricep Extension", "sets": 3, "repRange": "10-12"},
-        {"name": "Reverse Grip Pushdown", "sets": 2, "repRange": "15"},
-        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": 4,
+          "repRange": "6-10",
+          "targetWeight": 155,
+          "targetReps": 8,
+          "notes": "Slight incline on bench. Bar to chin level."
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 22.5,
+          "targetReps": 15,
+          "notes": "Controlled negatives. No swinging."
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 40,
+          "targetReps": 12,
+          "notes": "Lower chest emphasis. Hands meet at navel."
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 180,
+          "targetReps": 10,
+          "notes": "Secondary chest volume. Moderate intensity."
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 105,
+          "targetReps": 15,
+          "notes": "Rear delt isolation. Squeeze at contraction."
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": -20,
+          "targetReps": 12,
+          "notes": "Upright torso for triceps. Negative = assistance weight."
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 70,
+          "targetReps": 12,
+          "notes": "Long head emphasis."
+        },
+        {
+          "name": "Reverse Grip Pushdown",
+          "sets": 2,
+          "repRange": "12-15",
+          "targetWeight": 32.5,
+          "targetReps": 15,
+          "notes": "Medial head emphasis. Underhand grip."
+        },
+        {
+          "name": "Face Pulls",
+          "sets": 2,
+          "repRange": "15-20",
+          "targetWeight": 35,
+          "targetReps": 15,
+          "notes": "Rear delt and external rotation."
+        }
       ]
     },
     "Pull A": {
-      "focus": "Back Width",
+      "focus": "Back Width + Deadlift",
+      "description": "Heavy hip hinge day with conventional deadlift as primary strength movement. Vertical pulling for lat width development. Bicep work focuses on peak (standard curls) and brachialis (hammer curls). 72hr minimum before any posterior chain work.",
       "exercises": [
-        {"name": "Deadlift", "sets": 4, "repRange": "5-8"},
-        {"name": "Lat Pulldown (Wide Grip)", "sets": 3, "repRange": "8-12"},
-        {"name": "Seated Cable Row (Wide Grip)", "sets": 3, "repRange": "10-12"},
-        {"name": "Dumbbell Curl", "sets": 3, "repRange": "10-12"},
-        {"name": "Cable Hammer Curl", "sets": 3, "repRange": "10-12"},
-        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
+        {
+          "name": "Deadlift",
+          "sets": 4,
+          "repRange": "4-6",
+          "targetWeight": 335,
+          "targetReps": 5,
+          "notes": "Conventional stance. Reset each rep. Belt optional 275+."
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": 3,
+          "repRange": "8-12",
+          "targetWeight": 172.5,
+          "targetReps": 10,
+          "notes": "Wide overhand. Pull to upper chest. Slight lean back."
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 142.5,
+          "targetReps": 10,
+          "notes": "Wide grip for upper back thickness. Row to lower chest."
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 40,
+          "targetReps": 10,
+          "notes": "Supinate at top. Full ROM."
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 55,
+          "targetReps": 10,
+          "notes": "Rope attachment. Brachialis emphasis."
+        },
+        {
+          "name": "Face Pulls",
+          "sets": 2,
+          "repRange": "15-20",
+          "targetWeight": 35,
+          "targetReps": 15,
+          "notes": "Rear delt and rotator cuff health."
+        }
       ]
     },
     "Pull B": {
       "focus": "Back Thickness",
+      "description": "Horizontal rowing emphasis for mid-back thickness and trap development. No deadlift — allows this workout 48hr after Pull A if needed. Bicep work targets long head (incline curls) and forearms (reverse curls).",
       "exercises": [
-        {"name": "Smith Bent Over Row", "sets": 4, "repRange": "8-10"},
-        {"name": "Lat Pulldown (Close Grip)", "sets": 3, "repRange": "10-12"},
-        {"name": "Straight Arm Pulldown", "sets": 3, "repRange": "12-15"},
-        {"name": "Dumbbell Shrug", "sets": 3, "repRange": "12-15"},
-        {"name": "Incline Dumbbell Curl", "sets": 3, "repRange": "10-12"},
-        {"name": "Cable Reverse Curl", "sets": 3, "repRange": "12-15"},
-        {"name": "Face Pulls", "sets": 2, "repRange": "15-20"}
+        {
+          "name": "Smith Bent Over Row",
+          "sets": 4,
+          "repRange": "8-10",
+          "targetWeight": 195,
+          "targetReps": 10,
+          "notes": "45° torso angle. Pull to lower chest. Squeeze lats."
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 157.5,
+          "targetReps": 10,
+          "notes": "Neutral close grip. Full stretch at top."
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 62.5,
+          "targetReps": 12,
+          "notes": "Lat isolation. Keep arms straight. Hinge slightly."
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 80,
+          "targetReps": 15,
+          "notes": "Straight up and down. Hold at top 1 sec."
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 35,
+          "targetReps": 10,
+          "notes": "45° incline. Long head stretch. No swinging."
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 35,
+          "targetReps": 15,
+          "notes": "Brachioradialis and forearm development."
+        },
+        {
+          "name": "Face Pulls",
+          "sets": 2,
+          "repRange": "15-20",
+          "targetWeight": 35,
+          "targetReps": 15,
+          "notes": "Rear delt and rotator cuff."
+        }
       ]
     },
     "Legs A": {
       "focus": "Quad Emphasis",
+      "description": "Quad-dominant leg day with leg press as primary compound (low foot position for quad bias). Includes leg curl for hamstring balance. High volume leg extensions for quad isolation. Calves and abs to finish.",
       "exercises": [
-        {"name": "Leg Press (Feet Low)", "sets": 4, "repRange": "10-12"},
-        {"name": "Leg Extension", "sets": 4, "repRange": "10-15"},
-        {"name": "Hip Adductor", "sets": 2, "repRange": "12-15"},
-        {"name": "Hip Abductor", "sets": 2, "repRange": "12-15"},
-        {"name": "Standing Calf Raise", "sets": 4, "repRange": "12-15"},
-        {"name": "Cable Crunch", "sets": 3, "repRange": "12-15"},
-        {"name": "Hanging Leg Raise", "sets": 3, "repRange": "12-15"}
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": 4,
+          "repRange": "10-12",
+          "targetWeight": 320,
+          "targetReps": 10,
+          "notes": "Feet low and narrow for quad bias. Don't lock knees."
+        },
+        {
+          "name": "Leg Extension",
+          "sets": 4,
+          "repRange": "10-15",
+          "targetWeight": 200,
+          "targetReps": 12,
+          "notes": "Pause at top. Control negative. Full ROM."
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": 2,
+          "repRange": "12-15",
+          "targetWeight": 120,
+          "targetReps": 15,
+          "notes": "Inner thigh. Pause at contraction."
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": 2,
+          "repRange": "12-15",
+          "targetWeight": 157.5,
+          "targetReps": 15,
+          "notes": "Glute medius. Control the weight."
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": 4,
+          "repRange": "12-15",
+          "targetWeight": 340,
+          "targetReps": 15,
+          "notes": "Full stretch at bottom. Pause at top."
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 60,
+          "targetReps": 15,
+          "notes": "Crunch ribs to hips. Don't pull with arms."
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": 3,
+          "repRange": "10-15",
+          "targetWeight": 0,
+          "targetReps": 15,
+          "notes": "Control swing. Curl pelvis up."
+        }
       ]
     },
     "Legs B": {
       "focus": "Posterior Chain",
+      "description": "Hamstring and glute dominant day. Smith RDL as primary hip hinge (72hr after deadlift). High foot position leg press for glute/ham bias. Heavy leg curls. Maintains quad stimulus via higher position leg press.",
       "exercises": [
-        {"name": "Romanian Deadlift (Smith)", "sets": 4, "repRange": "8-10"},
-        {"name": "Leg Press (Feet High)", "sets": 3, "repRange": "10-12"},
-        {"name": "Leg Curl", "sets": 4, "repRange": "10-12"},
-        {"name": "Hip Adductor", "sets": 2, "repRange": "12-15"},
-        {"name": "Hip Abductor", "sets": 2, "repRange": "12-15"},
-        {"name": "Standing Calf Raise", "sets": 4, "repRange": "12-15"},
-        {"name": "Cable Crunch", "sets": 3, "repRange": "12-15"},
-        {"name": "Plank", "sets": 2, "repRange": "45-60s"}
+        {
+          "name": "Romanian Deadlift (Smith)",
+          "sets": 4,
+          "repRange": "8-10",
+          "targetWeight": 265,
+          "targetReps": 10,
+          "notes": "Slight knee bend. Push hips back. Feel hamstring stretch."
+        },
+        {
+          "name": "Leg Press (Feet High)",
+          "sets": 3,
+          "repRange": "10-12",
+          "targetWeight": 240,
+          "targetReps": 10,
+          "notes": "Feet high and wide for glute/ham bias."
+        },
+        {
+          "name": "Leg Curl",
+          "sets": 4,
+          "repRange": "10-12",
+          "targetWeight": 195,
+          "targetReps": 12,
+          "notes": "Primary hamstring isolation. Full ROM."
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": 2,
+          "repRange": "12-15",
+          "targetWeight": 112.5,
+          "targetReps": 15,
+          "notes": "Adductor magnus assistance."
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": 2,
+          "repRange": "12-15",
+          "targetWeight": 157.5,
+          "targetReps": 15,
+          "notes": "Glute medius. Hip stability."
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": 4,
+          "repRange": "12-15",
+          "targetWeight": 340,
+          "targetReps": 15,
+          "notes": "Match Legs A volume for symmetry."
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": 3,
+          "repRange": "12-15",
+          "targetWeight": 60,
+          "targetReps": 15,
+          "notes": "Core stability for heavy compounds."
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": 3,
+          "repRange": "10-15",
+          "targetWeight": 0,
+          "targetReps": 15,
+          "notes": "Lower ab emphasis. Replace plank for better development."
+        }
       ]
     },
     "Rest": {
       "focus": "Recovery",
+      "description": "Active recovery day. Light stretching, foam rolling, or walking encouraged. No resistance training. Sleep 8+ hours. Hydration focus.",
       "exercises": []
     }
   }
