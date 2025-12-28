@@ -170,6 +170,33 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
   font-size: 11px; font-weight: 500; opacity: 0; transition: opacity 0.2s;
 }
 .autosave.show { opacity: 1; }
+
+/* V3.0: History Accordion */
+.history-toggle {
+  font-size: 11px; color: var(--accent); background: none; border: none;
+  cursor: pointer; padding: 4px 0; font-weight: 500; margin-top: 4px;
+  display: inline-block;
+}
+.history-toggle:hover { opacity: 0.8; }
+.history-content {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;
+}
+.history-content.expanded {
+  max-height: 400px; overflow-y: auto;
+}
+.history-row {
+  font-size: 11px; padding: 6px 8px; border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: 80px 1fr 60px; gap: 8px;
+  font-family: 'DM Mono', monospace;
+}
+.history-row:last-child { border-bottom: none; }
+.history-date { color: var(--text-light); }
+.history-sets { color: var(--text-mid); }
+.history-vol { color: var(--text-dark); text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .history-content { transition-duration: 0.01ms; }
+}
 </style>
 </head>
 <body>
@@ -178,7 +205,10 @@ textarea.input-field { min-height: 60px; resize: vertical; font-family: 'DM Sans
 <div class="container">
   <header>
     <div class="logo">PROTOCOL</div>
-    <button class="theme-btn" id="themeBtn">🌙</button>
+    <div style="display:flex;gap:8px;">
+      <button class="theme-btn" id="unitBtn" title="Toggle units">lbs</button>
+      <button class="theme-btn" id="themeBtn">🌙</button>
+    </div>
   </header>
 
   <!-- WORKOUT VIEW -->
@@ -266,7 +296,109 @@ let plan = null;
 let history = JSON.parse(localStorage.getItem('protocol-history')) || [];
 let form = JSON.parse(localStorage.getItem('protocol-form')) || {};
 let theme = localStorage.getItem('protocol-theme') || 'light';
+let unit = localStorage.getItem('protocol-unit') || 'lbs';
+let prs = JSON.parse(localStorage.getItem('protocol-prs')) || {};
 let currentWorkout = null;
+
+// === V3.0 UNIT CONVERSION ===
+function getDisplayWeight(lbs) {
+  if (unit === 'kg') {
+    return (lbs * 0.453592).toFixed(1);
+  }
+  return lbs.toString();
+}
+
+function getDisplayUnit() {
+  return unit;
+}
+
+function convertToLbs(value) {
+  if (unit === 'kg') {
+    return parseFloat(value) / 0.453592;
+  }
+  return parseFloat(value);
+}
+
+// === V3.0 PR SYSTEM ===
+function calculateE1RM(weight, reps) {
+  if (reps === 0) return 0;
+  return weight * (1 + reps / 30);
+}
+
+function checkForPR(exerciseName, sets) {
+  const currentPR = prs[exerciseName];
+
+  let bestE1RM = 0;
+  let bestSet = null;
+
+  for (const set of sets) {
+    if (set.reps === 0) continue;
+    const e1rm = calculateE1RM(set.weight, set.reps);
+    if (e1rm > bestE1RM) {
+      bestE1RM = e1rm;
+      bestSet = set;
+    }
+  }
+
+  if (!bestSet) return { isPR: false };
+
+  if (!currentPR || bestE1RM > currentPR.e1rm) {
+    return { isPR: true, e1rm: bestE1RM, set: bestSet };
+  }
+  return { isPR: false };
+}
+
+function updatePRs(exercises, workoutName) {
+  const newPRs = [];
+  for (const ex of exercises) {
+    const result = checkForPR(ex.name, ex.sets);
+    if (result.isPR) {
+      prs[ex.name] = {
+        e1rm: result.e1rm,
+        date: new Date().toISOString(),
+        weight: result.set.weight,
+        reps: result.set.reps,
+        workout: workoutName
+      };
+      newPRs.push(ex.name);
+    }
+  }
+  localStorage.setItem('protocol-prs', JSON.stringify(prs));
+  return newPRs;
+}
+
+// === V3.0 CROSS-WORKOUT EXERCISE MATCHING ===
+function getLastPerformance(exerciseName) {
+  for (const session of history) {
+    const exercise = session.exercises.find(e => e.name === exerciseName);
+    if (exercise && exercise.sets.length > 0) {
+      return {
+        date: session.date,
+        workout: session.workout,
+        sets: exercise.sets
+      };
+    }
+  }
+  return null;
+}
+
+// V3.0: Get exercise history (last 8 sessions)
+function getExerciseHistory(exerciseName) {
+  const sessions = [];
+  for (const session of history) {
+    const exercise = session.exercises.find(e => e.name === exerciseName);
+    if (exercise && exercise.sets.length > 0) {
+      sessions.push({
+        date: session.date,
+        workout: session.workout,
+        sets: exercise.sets,
+        note: exercise.note
+      });
+      if (sessions.length >= 8) break;
+    }
+  }
+  return sessions;
+}
 
 async function initPlan() {
   // Try localStorage first
@@ -316,6 +448,8 @@ function validatePlan(p) {
 
 document.addEventListener('DOMContentLoaded', async () => {
   applyTheme(theme);
+  // V3.0: Initialize unit button
+  document.getElementById('unitBtn').textContent = unit;
   await initPlan();
   renderWorkoutGrid();
   initNav();
@@ -385,57 +519,106 @@ function loadExercises(name) {
   const list = document.getElementById('exerciseList');
   const session = document.getElementById('sessionSection');
   const workout = plan.workouts[name];
-  
+
   if (!workout || !workout.exercises || workout.exercises.length === 0) {
     list.innerHTML = '<div class="empty">Rest day - recover well</div>';
     session.classList.add('hidden');
     return;
   }
-  
-  const lastSession = history.find(h => h.workout === name);
-  
-  list.innerHTML = workout.exercises.map((ex, i) => {
-    const lastEx = lastSession?.exercises?.find(e => e.name === ex.name);
+
+  // V3.0: Workout description card
+  let html = '';
+  if (workout.description) {
+    html += `<div class="session-card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div class="session-title">${name}</div>
+        <button class="theme-btn" id="descToggle" style="font-size:14px;">ℹ️</button>
+      </div>
+      <div id="workoutDesc" class="hidden" style="font-size:12px;color:var(--text-mid);line-height:1.5;">
+        ${workout.description}
+      </div>
+    </div>`;
+  }
+
+  html += workout.exercises.map((ex, i) => {
+    // V3.0: Cross-workout exercise matching
+    const lastPerf = getLastPerformance(ex.name);
     const formKey = `${name}-${i}`;
     const saved = form[formKey] || [];
-    
-    let html = `<div class="exercise">
+
+    let exHtml = `<div class="exercise">
       <div class="exercise-header">
         <div class="exercise-name">${ex.name}</div>
         <div class="exercise-meta">${ex.sets}×${ex.repRange || '?'}</div>
       </div>`;
-    
-    if (lastEx?.sets?.length) {
-      html += `<div class="last-session">Last: ${lastEx.sets.map(s => s.weight+'×'+s.reps).join(', ')}</div>`;
+
+    // V3.0: Target display
+    if (ex.targetWeight && ex.targetReps) {
+      const targetDisp = `${getDisplayWeight(ex.targetWeight)}×${ex.targetReps}`;
+      exHtml += `<div style="font-size:11px;color:var(--taupe);margin-bottom:8px;">
+        Target: ${targetDisp} by Nov 2026
+      </div>`;
     }
-    
-    html += `<div class="sets">`;
+
+    // V3.0: Display last performance with unit conversion
+    if (lastPerf?.sets?.length) {
+      const displaySets = lastPerf.sets.map(s =>
+        `${getDisplayWeight(s.weight)}×${s.reps}`
+      ).join(', ');
+      exHtml += `<div class="last-session">Last: ${displaySets}</div>`;
+    }
+
+    // V3.0: History accordion
+    exHtml += `<button class="history-toggle" data-ex-name="${ex.name}" data-ex-idx="${i}">📊 History</button>
+      <div class="history-content" id="history-${i}"></div>`;
+
+    exHtml += `<div class="sets">`;
     for (let s = 0; s < ex.sets; s++) {
       const sv = saved[s] || {};
-      const wPh = lastEx?.sets?.[s]?.weight || '';
-      const rPh = lastEx?.sets?.[s]?.reps || '';
-      html += `<div class="set-row">
+      const lastSet = lastPerf?.sets?.[s];
+      const wPh = lastSet ? getDisplayWeight(lastSet.weight) : getDisplayUnit();
+      const rPh = lastSet?.reps || 'reps';
+      exHtml += `<div class="set-row">
         <span class="set-num">${s+1}</span>
         <div class="set-inputs">
-          <input type="number" class="set-input" data-ex="${i}" data-set="${s}" data-field="weight" 
-                 inputmode="decimal" placeholder="${wPh || 'lbs'}" value="${sv.weight || ''}">
+          <input type="number" class="set-input" data-ex="${i}" data-set="${s}" data-field="weight"
+                 inputmode="decimal" placeholder="${wPh}" value="${sv.weight || ''}">
           <span class="x-sep">×</span>
-          <input type="number" class="set-input" data-ex="${i}" data-set="${s}" data-field="reps" 
-                 inputmode="numeric" placeholder="${rPh || 'reps'}" value="${sv.reps || ''}">
+          <input type="number" class="set-input" data-ex="${i}" data-set="${s}" data-field="reps"
+                 inputmode="numeric" placeholder="${rPh}" value="${sv.reps || ''}">
         </div>
       </div>`;
     }
-    html += `</div></div>`;
-    return html;
+    exHtml += `</div>`;
+
+    // V3.0: Exercise notes
+    const savedNote = saved.note || '';
+    exHtml += `<div style="margin-top:8px;">
+      <input type="text" class="input-field exercise-note" data-ex="${i}"
+             placeholder="Notes (optional)" value="${savedNote}"
+             style="padding:6px 8px;font-size:12px;">
+    </div>`;
+
+    exHtml += `</div>`;
+    return exHtml;
   }).join('');
-  
+
+  list.innerHTML = html;
   session.classList.remove('hidden');
-  
+
+  // V3.0: Description toggle listener
+  const descToggle = document.getElementById('descToggle');
+  if (descToggle) {
+    descToggle.addEventListener('click', () => {
+      document.getElementById('workoutDesc').classList.toggle('hidden');
+    });
+  }
+
   // Restore session fields
   if (form.bodyweight) document.getElementById('bodyweight').value = form.bodyweight;
   if (form.readiness) document.getElementById('readiness').value = form.readiness;
   if (form.notes) document.getElementById('notes').value = form.notes;
-  
+
   // Add listeners
   list.querySelectorAll('.set-input').forEach(inp => {
     inp.addEventListener('input', () => {
@@ -445,6 +628,57 @@ function loadExercises(name) {
       form[key][inp.dataset.set][inp.dataset.field] = inp.value;
       saveForm();
       showSave();
+    });
+  });
+
+  // V3.0: Exercise notes listener
+  list.querySelectorAll('.exercise-note').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const key = `${name}-${inp.dataset.ex}`;
+      if (!form[key]) form[key] = [];
+      form[key].note = inp.value;
+      saveForm();
+      showSave();
+    });
+  });
+
+  // V3.0: History accordion listener
+  list.querySelectorAll('.history-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const exerciseName = btn.dataset.exName;
+      const idx = btn.dataset.exIdx;
+      const contentEl = document.getElementById(`history-${idx}`);
+
+      // Toggle expanded state
+      const isExpanded = contentEl.classList.contains('expanded');
+
+      if (!isExpanded) {
+        // Render history content (lazy)
+        const sessions = getExerciseHistory(exerciseName);
+        if (sessions.length > 0) {
+          contentEl.innerHTML = sessions.map(sess => {
+            const d = new Date(sess.date);
+            const dateStr = d.toLocaleDateString('en-US', {month:'short',day:'numeric'});
+            const setsDisplay = sess.sets.map(s =>
+              `${getDisplayWeight(s.weight)}×${s.reps}`
+            ).join(', ');
+            const volume = sess.sets.reduce((sum, s) => sum + s.weight * s.reps, 0);
+            const volDisplay = Math.round(volume).toLocaleString();
+            return `<div class="history-row">
+              <div class="history-date">${dateStr}</div>
+              <div class="history-sets">${setsDisplay}</div>
+              <div class="history-vol">${volDisplay}</div>
+            </div>`;
+          }).join('');
+        } else {
+          contentEl.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--text-light);">No history yet</div>';
+        }
+        contentEl.classList.add('expanded');
+      } else {
+        // Collapse and clear content
+        contentEl.classList.remove('expanded');
+        setTimeout(() => { contentEl.innerHTML = ''; }, 300);
+      }
     });
   });
 }
@@ -475,12 +709,21 @@ function initNav() {
 }
 
 function initListeners() {
+  // V3.0: Unit toggle
+  document.getElementById('unitBtn').addEventListener('click', () => {
+    unit = unit === 'lbs' ? 'kg' : 'lbs';
+    localStorage.setItem('protocol-unit', unit);
+    document.getElementById('unitBtn').textContent = unit;
+    // Reload current workout to update display
+    if (currentWorkout) loadExercises(currentWorkout);
+  });
+
   document.getElementById('themeBtn').addEventListener('click', () => {
     theme = theme === 'dark' ? 'light' : 'dark';
     localStorage.setItem('protocol-theme', theme);
     applyTheme(theme);
   });
-  
+
   ['bodyweight', 'readiness', 'notes'].forEach(id => {
     document.getElementById(id).addEventListener('input', e => {
       form[id] = e.target.value;
@@ -488,7 +731,7 @@ function initListeners() {
       showSave();
     });
   });
-  
+
   document.getElementById('saveBtn').addEventListener('click', saveWorkout);
   document.getElementById('exportBtn').addEventListener('click', exportHistory);
   document.getElementById('updateBtn').addEventListener('click', updateProgram);
@@ -505,21 +748,33 @@ function initListeners() {
 
 function saveWorkout() {
   if (!currentWorkout) return alert('Select a workout');
-  
+
   const workout = plan.workouts[currentWorkout];
   const exercises = [];
-  
+
   workout.exercises.forEach((ex, i) => {
     const key = `${currentWorkout}-${i}`;
-    const sets = (form[key] || []).filter(s => s && (s.weight || s.reps)).map(s => ({
-      weight: parseFloat(s.weight) || 0,
+    const formData = form[key] || [];
+    const sets = formData.filter(s => s && (s.weight || s.reps)).map(s => ({
+      // V3.0: Convert from display unit to lbs (canonical storage)
+      weight: convertToLbs(s.weight) || 0,
       reps: parseInt(s.reps) || 0
     }));
-    if (sets.length) exercises.push({ name: ex.name, sets });
+    if (sets.length) {
+      const exercise = { name: ex.name, sets };
+      // V3.0: Include exercise note if present
+      if (formData.note) {
+        exercise.note = formData.note;
+      }
+      exercises.push(exercise);
+    }
   });
-  
+
   if (!exercises.length) return alert('Log at least one set');
-  
+
+  // V3.0: Track if this is a NEW save (for PR celebration)
+  const prevHistoryLength = history.length;
+
   history.unshift({
     id: Date.now(),
     date: new Date().toISOString(),
@@ -529,20 +784,28 @@ function saveWorkout() {
     readiness: parseInt(document.getElementById('readiness').value) || null,
     notes: document.getElementById('notes').value || null
   });
-  
+
   localStorage.setItem('protocol-history', JSON.stringify(history));
-  
+
+  // V3.0: Check for PRs (only celebrate if new save, not import)
+  const newPRs = updatePRs(exercises, currentWorkout);
+  if (newPRs.length > 0 && history.length > prevHistoryLength) {
+    alert(`🎉 PR! New record on: ${newPRs.join(', ')}`);
+  }
+
   // Clear form
   Object.keys(form).forEach(k => { if (k.startsWith(currentWorkout)) delete form[k]; });
   form.bodyweight = ''; form.readiness = ''; form.notes = '';
   saveForm();
-  
+
   document.getElementById('bodyweight').value = '';
   document.getElementById('readiness').value = '';
   document.getElementById('notes').value = '';
-  
-  alert('Saved!');
-  
+
+  if (newPRs.length === 0) {
+    alert('Saved!');
+  }
+
   // Move to next workout
   const rotation = ['Push A', 'Pull A', 'Legs A', 'Push B', 'Pull B', 'Legs B'];
   const idx = rotation.indexOf(currentWorkout);
