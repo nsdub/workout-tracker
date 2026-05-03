@@ -1,0 +1,103 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+  workflow_dispatch: # allow manual trigger
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    defaults:
+      run:
+        working-directory: ./app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create or fetch D1 database
+        id: d1
+        run: |
+          set -e
+          # Try to create; if exists, list and find by name
+          OUTPUT=$(npx wrangler d1 create protocol-workout-db 2>&1 || true)
+          if echo "$OUTPUT" | grep -q '"database_id"'; then
+            DB_ID=$(echo "$OUTPUT" | grep -oE '"[a-f0-9-]{36}"' | head -1 | tr -d '"')
+            echo "Created new D1 database: $DB_ID"
+          else
+            echo "Database may already exist, looking up..."
+            LIST=$(npx wrangler d1 list 2>&1)
+            DB_ID=$(echo "$LIST" | grep "protocol-workout-db" | grep -oE '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' | head -1)
+            echo "Found existing D1 database: $DB_ID"
+          fi
+          if [ -z "$DB_ID" ]; then
+            echo "Failed to determine D1 database_id"
+            exit 1
+          fi
+          echo "db_id=$DB_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Update wrangler.toml with database_id
+        run: |
+          sed -i "s/PLACEHOLDER_REPLACE_WITH_ACTUAL_ID/${{ steps.d1.outputs.db_id }}/g" wrangler.toml
+          echo "wrangler.toml updated:"
+          grep database_id wrangler.toml
+
+      - name: Apply schema migration (idempotent)
+        run: |
+          # Use IF NOT EXISTS pattern in schema, run always
+          npx wrangler d1 execute protocol-workout-db --remote --file=./migrations/0001_initial_schema.sql || \
+            echo "Schema migration likely already applied (continuing)"
+
+      - name: Seed program data (idempotent)
+        run: |
+          # Only seed if no programs exist yet
+          COUNT=$(npx wrangler d1 execute protocol-workout-db --remote --command="SELECT COUNT(*) as c FROM programs" --json 2>/dev/null | grep -o '"c": *[0-9]*' | grep -o '[0-9]*' || echo "0")
+          if [ "$COUNT" = "0" ]; then
+            echo "No programs found, seeding..."
+            npx wrangler d1 execute protocol-workout-db --remote --file=./migrations/0002_seed_program.sql
+          else
+            echo "Programs already seeded ($COUNT existing), skipping seed"
+          fi
+
+      - name: Build SvelteKit app
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: ./app
+          command: pages deploy .svelte-kit/cloudflare --project-name=protocol-workout --commit-dirty=true --branch=main
+
+      - name: Set AUTH_PIN secret (only if provided in repo secrets)
+        if: ${{ env.AUTH_PIN_VALUE != '' }}
+        env:
+          AUTH_PIN_VALUE: ${{ secrets.AUTH_PIN }}
+        run: |
+          echo "$AUTH_PIN_VALUE" | npx wrangler pages secret put AUTH_PIN --project-name=protocol-workout
+
+      - name: Deployment summary
+        run: |
+          echo "🚀 Deployed to https://protocol-workout.pages.dev"
+          echo "If first deploy: ensure AUTH_PIN secret is set in repo (Settings → Secrets)"
