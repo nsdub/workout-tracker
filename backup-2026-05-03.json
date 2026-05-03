@@ -1,0 +1,6669 @@
+{
+  "version": "3.0",
+  "exportDate": "2026-05-03T15:59:58.702Z",
+  "plan": {
+    "version": "3.0",
+    "lastUpdated": "2025-12-27",
+    "athlete": {
+      "name": "Pimp",
+      "competition": "November 2026",
+      "weeksOut": 47,
+      "currentPhase": "Hypertrophy"
+    },
+    "workouts": {
+      "Push A": {
+        "focus": "Chest Emphasis",
+        "description": "Primary horizontal push day emphasizing upper chest through incline pressing. Machine-based movements accommodate pec injury history — no free bar bench, stop at 90° elbow bend, never to failure on pressing.",
+        "exercises": [
+          {
+            "name": "Smith Machine Incline Press",
+            "sets": 4,
+            "repRange": "8-10",
+            "targetWeight": 225,
+            "targetReps": 8
+          },
+          {
+            "name": "Machine Chest Press",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 220,
+            "targetReps": 10
+          },
+          {
+            "name": "Cable Crossover (Low to High)",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 25,
+            "targetReps": 12
+          },
+          {
+            "name": "Dumbbell Shoulder Press",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 55,
+            "targetReps": 10
+          },
+          {
+            "name": "Cable Lateral Raise",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 17.5,
+            "targetReps": 15
+          },
+          {
+            "name": "Overhead Cable Tricep Extension",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 75,
+            "targetReps": 12
+          },
+          {
+            "name": "Rope Pushdown",
+            "sets": 3,
+            "repRange": "15-20",
+            "targetWeight": 45,
+            "targetReps": 15
+          },
+          {
+            "name": "Face Pulls",
+            "sets": 2,
+            "repRange": "15-20",
+            "targetWeight": 35,
+            "targetReps": 15
+          }
+        ]
+      },
+      "Push B": {
+        "focus": "Shoulder Emphasis",
+        "description": "Vertical push priority with overhead pressing as primary movement. Lower chest work via high-to-low cables.",
+        "exercises": [
+          {
+            "name": "Smith Machine Overhead Press",
+            "sets": 4,
+            "repRange": "6-10",
+            "targetWeight": 155,
+            "targetReps": 8
+          },
+          {
+            "name": "Dumbbell Lateral Raise",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 22.5,
+            "targetReps": 15
+          },
+          {
+            "name": "Cable Crossover (High to Low)",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 40,
+            "targetReps": 12
+          },
+          {
+            "name": "Machine Chest Press",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 180,
+            "targetReps": 10
+          },
+          {
+            "name": "Reverse Pec Deck",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 105,
+            "targetReps": 15
+          },
+          {
+            "name": "Assisted Dips",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": -20,
+            "targetReps": 12
+          },
+          {
+            "name": "Overhead Cable Tricep Extension",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 70,
+            "targetReps": 12
+          },
+          {
+            "name": "Reverse Grip Pushdown",
+            "sets": 2,
+            "repRange": "12-15",
+            "targetWeight": 32.5,
+            "targetReps": 15
+          },
+          {
+            "name": "Face Pulls",
+            "sets": 2,
+            "repRange": "15-20",
+            "targetWeight": 35,
+            "targetReps": 15
+          }
+        ]
+      },
+      "Pull A": {
+        "focus": "Back Width + Deadlift",
+        "description": "Heavy hip hinge day with conventional deadlift as primary strength movement. Vertical pulling for lat width.",
+        "exercises": [
+          {
+            "name": "Deadlift",
+            "sets": 4,
+            "repRange": "4-6",
+            "targetWeight": 335,
+            "targetReps": 5
+          },
+          {
+            "name": "Lat Pulldown (Wide Grip)",
+            "sets": 3,
+            "repRange": "8-12",
+            "targetWeight": 172.5,
+            "targetReps": 10
+          },
+          {
+            "name": "Seated Cable Row (Wide Grip)",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 142.5,
+            "targetReps": 10
+          },
+          {
+            "name": "Dumbbell Curl",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 40,
+            "targetReps": 10
+          },
+          {
+            "name": "Cable Hammer Curl",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 55,
+            "targetReps": 10
+          },
+          {
+            "name": "Face Pulls",
+            "sets": 2,
+            "repRange": "15-20",
+            "targetWeight": 35,
+            "targetReps": 15
+          }
+        ]
+      },
+      "Pull B": {
+        "focus": "Back Thickness",
+        "description": "Horizontal rowing emphasis for mid-back thickness and trap development. No deadlift.",
+        "exercises": [
+          {
+            "name": "Smith Bent Over Row",
+            "sets": 4,
+            "repRange": "8-10",
+            "targetWeight": 195,
+            "targetReps": 10
+          },
+          {
+            "name": "Lat Pulldown (Close Grip)",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 157.5,
+            "targetReps": 10
+          },
+          {
+            "name": "Straight Arm Pulldown",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 62.5,
+            "targetReps": 12
+          },
+          {
+            "name": "Dumbbell Shrug",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 80,
+            "targetReps": 15
+          },
+          {
+            "name": "Incline Dumbbell Curl",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 35,
+            "targetReps": 10
+          },
+          {
+            "name": "Cable Reverse Curl",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 35,
+            "targetReps": 15
+          },
+          {
+            "name": "Face Pulls",
+            "sets": 2,
+            "repRange": "15-20",
+            "targetWeight": 35,
+            "targetReps": 15
+          }
+        ]
+      },
+      "Legs A": {
+        "focus": "Quad Emphasis",
+        "description": "Quad-dominant leg day with leg press as primary compound. Includes leg curl for hamstring balance.",
+        "exercises": [
+          {
+            "name": "Leg Press (Feet Low)",
+            "sets": 4,
+            "repRange": "10-12",
+            "targetWeight": 320,
+            "targetReps": 10
+          },
+          {
+            "name": "Leg Extension",
+            "sets": 4,
+            "repRange": "10-15",
+            "targetWeight": 200,
+            "targetReps": 12
+          },
+          {
+            "name": "Leg Curl",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 165,
+            "targetReps": 12
+          },
+          {
+            "name": "Hip Adductor",
+            "sets": 2,
+            "repRange": "12-15",
+            "targetWeight": 120,
+            "targetReps": 15
+          },
+          {
+            "name": "Hip Abductor",
+            "sets": 2,
+            "repRange": "12-15",
+            "targetWeight": 157.5,
+            "targetReps": 15
+          },
+          {
+            "name": "Standing Calf Raise",
+            "sets": 4,
+            "repRange": "12-15",
+            "targetWeight": 340,
+            "targetReps": 15
+          },
+          {
+            "name": "Cable Crunch",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 60,
+            "targetReps": 15
+          },
+          {
+            "name": "Hanging Leg Raise",
+            "sets": 3,
+            "repRange": "10-15",
+            "targetWeight": 0,
+            "targetReps": 15
+          }
+        ]
+      },
+      "Legs B": {
+        "focus": "Posterior Chain",
+        "description": "Hamstring and glute dominant day. Smith RDL as primary hip hinge.",
+        "exercises": [
+          {
+            "name": "Romanian Deadlift (Smith)",
+            "sets": 4,
+            "repRange": "8-10",
+            "targetWeight": 265,
+            "targetReps": 10
+          },
+          {
+            "name": "Leg Press (Feet High)",
+            "sets": 3,
+            "repRange": "10-12",
+            "targetWeight": 240,
+            "targetReps": 10
+          },
+          {
+            "name": "Leg Curl",
+            "sets": 4,
+            "repRange": "10-12",
+            "targetWeight": 195,
+            "targetReps": 12
+          },
+          {
+            "name": "Hip Adductor",
+            "sets": 2,
+            "repRange": "12-15",
+            "targetWeight": 112.5,
+            "targetReps": 15
+          },
+          {
+            "name": "Hip Abductor",
+            "sets": 2,
+            "repRange": "12-15",
+            "targetWeight": 157.5,
+            "targetReps": 15
+          },
+          {
+            "name": "Standing Calf Raise",
+            "sets": 4,
+            "repRange": "12-15",
+            "targetWeight": 340,
+            "targetReps": 15
+          },
+          {
+            "name": "Cable Crunch",
+            "sets": 3,
+            "repRange": "12-15",
+            "targetWeight": 60,
+            "targetReps": 15
+          },
+          {
+            "name": "Hanging Leg Raise",
+            "sets": 3,
+            "repRange": "10-15",
+            "targetWeight": 0,
+            "targetReps": 15
+          }
+        ]
+      },
+      "Rest": {
+        "focus": "Recovery",
+        "description": "Active recovery day. Light stretching, foam rolling, or walking.",
+        "exercises": []
+      }
+    }
+  },
+  "history": [
+    {
+      "id": 1772060582490,
+      "date": "2026-02-25T23:03:02.490Z",
+      "workout": "Pull B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 145,
+              "reps": 10
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1771985391500,
+      "date": "2026-02-25T02:09:51.500Z",
+      "workout": "Push A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 215,
+              "reps": 7
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 18
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 80,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1771445449579,
+      "date": "2026-02-18T20:10:49.579Z",
+      "workout": "Push A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 7
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 215,
+              "reps": 6
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 11
+            },
+            {
+              "weight": 20,
+              "reps": 13
+            },
+            {
+              "weight": 20,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 8
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 13
+            },
+            {
+              "weight": 10,
+              "reps": 13
+            },
+            {
+              "weight": 10,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1771028193105,
+      "date": "2026-02-14T00:16:33.105Z",
+      "workout": "Pull B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 20,
+              "reps": 13
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 50,
+              "reps": 10
+            },
+            {
+              "weight": 50,
+              "reps": 10
+            },
+            {
+              "weight": 50,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1771021584719,
+      "date": "2026-02-13T22:26:24.719Z",
+      "workout": "Pull A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 225,
+              "reps": 4
+            },
+            {
+              "weight": 245,
+              "reps": 5
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 265,
+              "reps": 3
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 8
+            },
+            {
+              "weight": 65,
+              "reps": 8
+            },
+            {
+              "weight": 65,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 8
+            },
+            {
+              "weight": 40,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1770847394199,
+      "date": "2026-02-11T22:03:14.199Z",
+      "workout": "Push A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 155,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 7
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            },
+            {
+              "weight": 205,
+              "reps": 6
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 7
+            },
+            {
+              "weight": 20,
+              "reps": 9
+            },
+            {
+              "weight": 20,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 10
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1770675747625,
+      "date": "2026-02-09T22:22:27.625Z",
+      "workout": "Pull B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 10
+            },
+            {
+              "weight": 65,
+              "reps": 10
+            },
+            {
+              "weight": 65,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1770075404892,
+      "date": "2026-02-02T23:36:44.892Z",
+      "workout": "Push B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 135,
+              "reps": 6
+            },
+            {
+              "weight": 135,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 85,
+              "reps": 11
+            },
+            {
+              "weight": 85,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1769875703446,
+      "date": "2026-01-31T16:08:23.446Z",
+      "workout": "Pull A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 255,
+              "reps": 3
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 60,
+              "reps": 9
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 8
+            }
+          ],
+          "note": "Barbell"
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 10
+            },
+            {
+              "weight": 90,
+              "reps": 10
+            },
+            {
+              "weight": 90,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 15
+            },
+            {
+              "weight": 30,
+              "reps": 17
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1769724739054,
+      "date": "2026-01-29T22:12:19.054Z",
+      "workout": "Push A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            },
+            {
+              "weight": 215,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 80,
+              "reps": 8
+            },
+            {
+              "weight": 80,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 12
+            },
+            {
+              "weight": 10,
+              "reps": 10
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 13
+            },
+            {
+              "weight": 60,
+              "reps": 14
+            },
+            {
+              "weight": 60,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 15
+            },
+            {
+              "weight": 30,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1769477768868,
+      "date": "2026-01-27T01:36:08.868Z",
+      "workout": "Pull B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 8
+            },
+            {
+              "weight": 135,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 14
+            },
+            {
+              "weight": 40,
+              "reps": 13
+            },
+            {
+              "weight": 40,
+              "reps": 13
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 14
+            },
+            {
+              "weight": 40,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1769471279930,
+      "date": "2026-01-26T23:47:59.930Z",
+      "workout": "Push B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 6
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 13
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 11
+            },
+            {
+              "weight": 205,
+              "reps": 9
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 50,
+              "reps": 12
+            },
+            {
+              "weight": 50,
+              "reps": 13
+            },
+            {
+              "weight": 55,
+              "reps": 13
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 13
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 9
+            },
+            {
+              "weight": 20,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1768955188756,
+      "date": "2026-01-21T00:26:28.756Z",
+      "workout": "Pull A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 205,
+              "reps": 5
+            },
+            {
+              "weight": 235,
+              "reps": 5
+            },
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 275,
+              "reps": 4
+            }
+          ],
+          "note": "Barbell"
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 11
+            },
+            {
+              "weight": 65,
+              "reps": 11
+            },
+            {
+              "weight": 65,
+              "reps": 11
+            }
+          ],
+          "note": "Reverse bbell"
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 13
+            },
+            {
+              "weight": 40,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1768951030946,
+      "date": "2026-01-20T23:17:10.946Z",
+      "workout": "Push A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ],
+          "note": "Barbell"
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            }
+          ],
+          "note": "Smith "
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 80,
+              "reps": 8
+            },
+            {
+              "weight": 80,
+              "reps": 8
+            }
+          ],
+          "note": "Machine fly"
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 12
+            },
+            {
+              "weight": 35,
+              "reps": 12
+            }
+          ],
+          "note": "Standing dumbell"
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 12
+            },
+            {
+              "weight": 10,
+              "reps": 13
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 13
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            }
+          ],
+          "note": "Dumbell press"
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 12
+            },
+            {
+              "weight": 80,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 15
+            },
+            {
+              "weight": 30,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1768364847665,
+      "date": "2026-01-14T04:27:27.665Z",
+      "workout": "Legs A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": [
+            {
+              "weight": 125,
+              "reps": 5
+            },
+            {
+              "weight": 145,
+              "reps": 5
+            },
+            {
+              "weight": 145,
+              "reps": 5
+            },
+            {
+              "weight": 95,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 7
+            },
+            {
+              "weight": 185,
+              "reps": 7
+            },
+            {
+              "weight": 185,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1768101535482,
+      "date": "2026-01-11T03:18:55.482Z",
+      "workout": "Pull A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 225,
+              "reps": 5
+            },
+            {
+              "weight": 245,
+              "reps": 5
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 260,
+              "reps": 4
+            }
+          ],
+          "note": "Barbell"
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            }
+          ],
+          "note": "Assisted band pullup, purple band"
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 11
+            },
+            {
+              "weight": 90,
+              "reps": 11
+            },
+            {
+              "weight": 90,
+              "reps": 12
+            }
+          ],
+          "note": "Simons cable machine"
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 10
+            },
+            {
+              "weight": 65,
+              "reps": 12
+            },
+            {
+              "weight": 65,
+              "reps": 12
+            }
+          ],
+          "note": "Barbell reverse curl"
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ],
+          "note": "Dumbbell"
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 10
+            },
+            {
+              "weight": 15,
+              "reps": 10
+            }
+          ],
+          "note": "Simons cable machine"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1768090741444,
+      "date": "2026-01-11T00:19:01.444Z",
+      "workout": "Push A",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 10
+            },
+            {
+              "weight": 145,
+              "reps": 10
+            },
+            {
+              "weight": 145,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 7
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 13
+            },
+            {
+              "weight": 12.5,
+              "reps": 13
+            },
+            {
+              "weight": 12.5,
+              "reps": 13
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 13
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            },
+            {
+              "weight": 100,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 8
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 18
+            },
+            {
+              "weight": 30,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1767753220020,
+      "date": "2026-01-07T02:33:40.020Z",
+      "workout": "Legs B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Romanian Deadlift (Smith)",
+          "sets": [
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 8
+            },
+            {
+              "weight": 225,
+              "reps": 8
+            },
+            {
+              "weight": 225,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Leg Press (Feet High)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 14
+            },
+            {
+              "weight": 97.5,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 15
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 15
+            },
+            {
+              "weight": 185,
+              "reps": 15
+            },
+            {
+              "weight": 185,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 50.5,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1767672020819,
+      "date": "2026-01-06T04:00:20.819Z",
+      "workout": "Pull B",
+      "bodyweight": null,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 166,
+              "reps": 7
+            },
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 11
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 29,
+              "reps": 14
+            },
+            {
+              "weight": 29,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1767574073650,
+      "date": "2026-01-05T00:47:53.650Z",
+      "workout": "Push B",
+      "bodyweight": 214,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 20,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.2,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 14
+            },
+            {
+              "weight": 90,
+              "reps": 11
+            },
+            {
+              "weight": 90,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 60.5,
+              "reps": 10
+            },
+            {
+              "weight": 60.5,
+              "reps": 9
+            },
+            {
+              "weight": 59,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1767054588360,
+      "date": "2025-12-30T00:29:48.361Z",
+      "workout": "Legs A",
+      "bodyweight": 217.5,
+      "readiness": null,
+      "exercises": [
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": [
+            {
+              "weight": 180,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 11
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 12
+            },
+            {
+              "weight": 97.5,
+              "reps": 13
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 15
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 280,
+              "reps": 15
+            },
+            {
+              "weight": 280,
+              "reps": 14
+            },
+            {
+              "weight": 280,
+              "reps": 14
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            }
+          ],
+          "note": ""
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ],
+          "note": ""
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": 1766887142436,
+      "date": "2025-12-28T01:59:02.436Z",
+      "workout": "Pull A",
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 275,
+              "reps": 5
+            },
+            {
+              "weight": 285,
+              "reps": 4
+            },
+            {
+              "weight": 285,
+              "reps": 4
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 45.5,
+              "reps": 10
+            },
+            {
+              "weight": 45.5,
+              "reps": 11
+            },
+            {
+              "weight": 45.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 217.5,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766800469272,
+      "date": "2025-12-27T01:54:29.272Z",
+      "workout": "Push A",
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 185,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 187.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 19,
+              "reps": 11
+            },
+            {
+              "weight": 19,
+              "reps": 11
+            },
+            {
+              "weight": 19,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 45,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 59,
+              "reps": 13
+            },
+            {
+              "weight": 60.5,
+              "reps": 12
+            },
+            {
+              "weight": 62.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 16
+            },
+            {
+              "weight": 37.5,
+              "reps": 14
+            },
+            {
+              "weight": 37.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 217.5,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766699803771,
+      "date": "2025-12-25T21:56:43.771Z",
+      "workout": "Legs B",
+      "exercises": [
+        {
+          "name": "Romanian Deadlift (Smith)",
+          "sets": [
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 8
+            },
+            {
+              "weight": 220,
+              "reps": 8
+            },
+            {
+              "weight": 225,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Leg Press (Feet High)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 13
+            },
+            {
+              "weight": 97.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 15
+            },
+            {
+              "weight": 142.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 280,
+              "reps": 13
+            },
+            {
+              "weight": 280,
+              "reps": 13
+            },
+            {
+              "weight": 280,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Plank",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 60
+            }
+          ]
+        }
+      ],
+      "bodyweight": null,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766621964576,
+      "date": "2025-12-25T00:19:24.576Z",
+      "workout": "Pull B",
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 11
+            },
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 52.5,
+              "reps": 8
+            },
+            {
+              "weight": 52.5,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 9
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 27.5,
+              "reps": 15
+            },
+            {
+              "weight": 29,
+              "reps": 15
+            },
+            {
+              "weight": 29,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 216,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766530640413,
+      "date": "2025-12-23T22:57:20.414Z",
+      "workout": "Push B",
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 10
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 32.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 82.5,
+              "reps": 15
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 14
+            },
+            {
+              "weight": 0,
+              "reps": 14
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 54,
+              "reps": 12
+            },
+            {
+              "weight": 55.5,
+              "reps": 12
+            },
+            {
+              "weight": 55.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 216.5,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766460113748,
+      "date": "2025-12-23T03:21:53.748Z",
+      "workout": "Legs A",
+      "exercises": [
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": [
+            {
+              "weight": 180,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 10
+            },
+            {
+              "weight": 240,
+              "reps": 11
+            },
+            {
+              "weight": 240,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 105,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 300,
+              "reps": 15
+            },
+            {
+              "weight": 300,
+              "reps": 15
+            },
+            {
+              "weight": 300,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        }
+      ],
+      "bodyweight": 215,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766368675976,
+      "date": "2025-12-22T01:57:55.976Z",
+      "workout": "Pull A",
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 275,
+              "reps": 5
+            },
+            {
+              "weight": 285,
+              "reps": 3
+            },
+            {
+              "weight": 290,
+              "reps": 0
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 45.5,
+              "reps": 10
+            },
+            {
+              "weight": 45.5,
+              "reps": 10
+            },
+            {
+              "weight": 45.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 215.5,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766278702059,
+      "date": "2025-12-21T00:58:22.059Z",
+      "workout": "Push A",
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 195,
+              "reps": 7
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            },
+            {
+              "weight": 195,
+              "reps": 8
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 13
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            },
+            {
+              "weight": 19,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 8
+            },
+            {
+              "weight": 45,
+              "reps": 8
+            },
+            {
+              "weight": 45,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 15.5,
+              "reps": 8
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 59,
+              "reps": 13
+            },
+            {
+              "weight": 59,
+              "reps": 12
+            },
+            {
+              "weight": 57.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 39,
+              "reps": 12
+            },
+            {
+              "weight": 39,
+              "reps": 11
+            },
+            {
+              "weight": 37.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 216,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766118241830,
+      "date": "2025-12-19T04:24:01.831Z",
+      "workout": "Pull B",
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 11
+            },
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 52.5,
+              "reps": 8
+            },
+            {
+              "weight": 52.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 13
+            },
+            {
+              "weight": 27.5,
+              "reps": 13
+            },
+            {
+              "weight": 27.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 14
+            },
+            {
+              "weight": 24,
+              "reps": 14
+            }
+          ]
+        }
+      ],
+      "bodyweight": null,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1766026019144,
+      "date": "2025-12-18T02:46:59.144Z",
+      "workout": "Push B",
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 10
+            },
+            {
+              "weight": 125,
+              "reps": 9
+            },
+            {
+              "weight": 125,
+              "reps": 9
+            },
+            {
+              "weight": 130,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 13
+            },
+            {
+              "weight": 17.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 32.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 12
+            },
+            {
+              "weight": 142.5,
+              "reps": 10
+            },
+            {
+              "weight": 142.2,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 75,
+              "reps": 12
+            },
+            {
+              "weight": 82.5,
+              "reps": 12
+            },
+            {
+              "weight": 82.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 52.5,
+              "reps": 12
+            },
+            {
+              "weight": 54,
+              "reps": 10
+            },
+            {
+              "weight": 54,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 12
+            },
+            {
+              "weight": 24,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 13
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": null,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1765940292531,
+      "date": "2025-12-17T02:58:12.531Z",
+      "workout": "Legs A",
+      "exercises": [
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 220,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 11
+            },
+            {
+              "weight": 240,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 11
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 11
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 12
+            },
+            {
+              "weight": 142.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 300,
+              "reps": 14
+            },
+            {
+              "weight": 300,
+              "reps": 11
+            },
+            {
+              "weight": 300,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        }
+      ],
+      "bodyweight": 215,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1765837291961,
+      "date": "2025-12-15T22:21:31.961Z",
+      "workout": "Pull A",
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 6
+            },
+            {
+              "weight": 275,
+              "reps": 4
+            },
+            {
+              "weight": 275,
+              "reps": 3
+            },
+            {
+              "weight": 285,
+              "reps": 3
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 112.5,
+              "reps": 10
+            },
+            {
+              "weight": 112.2,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 8
+            },
+            {
+              "weight": 35,
+              "reps": 7
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 42.5,
+              "reps": 10
+            },
+            {
+              "weight": 44,
+              "reps": 10
+            },
+            {
+              "weight": 44,
+              "reps": 0
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 13
+            }
+          ]
+        }
+      ],
+      "bodyweight": 216,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1765755887646,
+      "date": "2025-12-14T23:44:47.647Z",
+      "workout": "Push A",
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 195,
+              "reps": 8
+            },
+            {
+              "weight": 200,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 15.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 12
+            },
+            {
+              "weight": 40,
+              "reps": 12
+            },
+            {
+              "weight": 40,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 12.5,
+              "reps": 11
+            },
+            {
+              "weight": 12.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 57.5,
+              "reps": 12
+            },
+            {
+              "weight": 57.5,
+              "reps": 12
+            },
+            {
+              "weight": 57.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 39,
+              "reps": 9
+            },
+            {
+              "weight": 39,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 12
+            }
+          ]
+        }
+      ],
+      "bodyweight": 215.5,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1765579371405,
+      "date": "2025-12-12T22:42:51.405Z",
+      "workout": "Legs B",
+      "exercises": [
+        {
+          "name": "Romanian Deadlift (Smith)",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Leg Press (Feet High)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 10
+            },
+            {
+              "weight": 160,
+              "reps": 10
+            },
+            {
+              "weight": 160,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 14
+            },
+            {
+              "weight": 90,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 220,
+              "reps": 15
+            },
+            {
+              "weight": 280,
+              "reps": 14
+            },
+            {
+              "weight": 280,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            }
+          ]
+        }
+      ],
+      "bodyweight": 214.5,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1765498563707,
+      "date": "2025-12-12T00:16:03.707Z",
+      "workout": "Pull B",
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 160,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 112.5,
+              "reps": 12
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 14
+            },
+            {
+              "weight": 25.5,
+              "reps": 12
+            },
+            {
+              "weight": 25.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 13
+            },
+            {
+              "weight": 22.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": null,
+      "readiness": null,
+      "notes": null
+    },
+    {
+      "id": 1765412919302,
+      "date": "2025-12-11T00:28:39.302Z",
+      "workout": "Push B",
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 11
+            },
+            {
+              "weight": 115,
+              "reps": 9
+            },
+            {
+              "weight": 125,
+              "reps": 6
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            },
+            {
+              "weight": 17.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 27.5,
+              "reps": 14
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 127.5,
+              "reps": 12
+            },
+            {
+              "weight": 135,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 13
+            },
+            {
+              "weight": 67.5,
+              "reps": 13
+            },
+            {
+              "weight": 75,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 52.5,
+              "reps": 12
+            },
+            {
+              "weight": 57.2,
+              "reps": 10
+            },
+            {
+              "weight": 52.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 22.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": 214,
+      "readiness": 6,
+      "notes": null
+    },
+    {
+      "id": 1765325681599,
+      "date": "2025-12-10T00:14:41.599Z",
+      "workout": "Legs A",
+      "exercises": [
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": [
+            {
+              "weight": 140,
+              "reps": 12
+            },
+            {
+              "weight": 200,
+              "reps": 10
+            },
+            {
+              "weight": 200,
+              "reps": 11
+            },
+            {
+              "weight": 220,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 11
+            },
+            {
+              "weight": 165,
+              "reps": 11
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 12
+            },
+            {
+              "weight": 97.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 260,
+              "reps": 15
+            },
+            {
+              "weight": 300,
+              "reps": 12
+            },
+            {
+              "weight": 300,
+              "reps": 12
+            },
+            {
+              "weight": 280,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 47.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            }
+          ]
+        }
+      ],
+      "bodyweight": 213.5,
+      "readiness": 5,
+      "notes": null
+    },
+    {
+      "id": 1765245631247,
+      "date": "2025-12-09T02:00:31.247Z",
+      "workout": "Pull A",
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 265,
+              "reps": 4
+            },
+            {
+              "weight": 265,
+              "reps": 5
+            },
+            {
+              "weight": 265,
+              "reps": 5
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 142.5,
+              "reps": 9
+            },
+            {
+              "weight": 142.5,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 12
+            },
+            {
+              "weight": 112.5,
+              "reps": 10
+            },
+            {
+              "weight": 112.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 42.5,
+              "reps": 10
+            },
+            {
+              "weight": 42.5,
+              "reps": 10
+            },
+            {
+              "weight": 42.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "bodyweight": null,
+      "readiness": 5,
+      "notes": null
+    },
+    {
+      "id": 1733598000000,
+      "date": "2025-12-07T00:00:00.000Z",
+      "workout": "Push A",
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 10
+            },
+            {
+              "weight": 175,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 12
+            },
+            {
+              "weight": 150,
+              "reps": 12
+            },
+            {
+              "weight": 165,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 14,
+              "reps": 13
+            },
+            {
+              "weight": 15.5,
+              "reps": 12
+            },
+            {
+              "weight": 15.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 11
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 11
+            },
+            {
+              "weight": 10.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 50.5,
+              "reps": 14
+            },
+            {
+              "weight": 57.5,
+              "reps": 10
+            },
+            {
+              "weight": 57.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 22.5,
+              "reps": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1733429400000,
+      "date": "2025-12-05T00:00:00.000Z",
+      "workout": "Legs B",
+      "exercises": [
+        {
+          "name": "Romanian Deadlift (Smith)",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 185,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Leg Press (Feet High)",
+          "sets": [
+            {
+              "weight": 140,
+              "reps": 11
+            },
+            {
+              "weight": 140,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 12
+            },
+            {
+              "weight": 165,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 14
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 200,
+              "reps": 15
+            },
+            {
+              "weight": 280,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 14
+            },
+            {
+              "weight": 47.5,
+              "reps": 14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1733343000000,
+      "date": "2025-12-04T00:00:00.000Z",
+      "workout": "Pull B",
+      "bodyweight": 214,
+      "exercises": [
+        {
+          "name": "Smith Bent Over Row",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 11
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Close Grip)",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 112.5,
+              "reps": 10
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Straight Arm Pulldown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 12
+            },
+            {
+              "weight": 37.5,
+              "reps": 12
+            },
+            {
+              "weight": 37.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "name": "Incline Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 25,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 13
+            },
+            {
+              "weight": 22.5,
+              "reps": 13
+            },
+            {
+              "weight": 24,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1733256600000,
+      "date": "2025-12-03T00:00:00.000Z",
+      "workout": "Push B",
+      "exercises": [
+        {
+          "name": "Smith Machine Overhead Press",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 90,
+              "reps": 8
+            },
+            {
+              "weight": 90,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 15,
+              "reps": 12
+            },
+            {
+              "weight": 15,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (High to Low)",
+          "sets": [
+            {
+              "weight": 27.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 9
+            },
+            {
+              "weight": 27.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 13
+            },
+            {
+              "weight": 110,
+              "reps": 11
+            },
+            {
+              "weight": 110,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 12
+            },
+            {
+              "weight": 60,
+              "reps": 12
+            },
+            {
+              "weight": 60,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 12
+            },
+            {
+              "weight": 100,
+              "reps": 12
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1733170200000,
+      "date": "2025-12-02T00:00:00.000Z",
+      "workout": "Legs A",
+      "exercises": [
+        {
+          "name": "Leg Press (Feet Low)",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 15
+            },
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 200,
+              "reps": 10
+            },
+            {
+              "weight": 220,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 12
+            },
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 170,
+              "reps": 12
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 140,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 170,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 280,
+              "reps": 12
+            },
+            {
+              "weight": 265,
+              "reps": 13
+            },
+            {
+              "weight": 265,
+              "reps": 12
+            },
+            {
+              "weight": 260,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 10
+            },
+            {
+              "weight": 42.5,
+              "reps": 12
+            },
+            {
+              "weight": 42.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 7
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1733083800000,
+      "date": "2025-12-01T00:00:00.000Z",
+      "workout": "Pull A",
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 215,
+              "reps": 6
+            },
+            {
+              "weight": 235,
+              "reps": 5
+            },
+            {
+              "weight": 245,
+              "reps": 5
+            }
+          ]
+        },
+        {
+          "name": "Lat Pulldown (Wide Grip)",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 9
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            },
+            {
+              "weight": 145,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Seated Cable Row (Wide Grip)",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 9
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 8
+            },
+            {
+              "weight": 35,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 14
+            },
+            {
+              "weight": 45,
+              "reps": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1732997400000,
+      "date": "2025-11-30T00:00:00.000Z",
+      "workout": "Push A",
+      "bodyweight": 213.5,
+      "exercises": [
+        {
+          "name": "Smith Machine Incline Press",
+          "sets": [
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 12
+            },
+            {
+              "weight": 120,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Crossover (Low to High)",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 14,
+              "reps": 13
+            },
+            {
+              "weight": 14,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 12
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 15,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "name": "Overhead Cable Tricep Extension",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 11
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 100,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "prs": {
+    "Leg Press (Feet Low)": {
+      "e1rm": 336,
+      "date": "2025-12-30T00:29:48.365Z",
+      "weight": 240,
+      "reps": 12,
+      "workout": "Legs A"
+    },
+    "Leg Extension": {
+      "e1rm": 241.49999999999997,
+      "date": "2025-12-30T00:29:48.365Z",
+      "weight": 172.5,
+      "reps": 12,
+      "workout": "Legs A"
+    },
+    "Leg Curl": {
+      "e1rm": 241.49999999999997,
+      "date": "2025-12-30T00:29:48.365Z",
+      "weight": 172.5,
+      "reps": 12,
+      "workout": "Legs A"
+    },
+    "Hip Adductor": {
+      "e1rm": 143,
+      "date": "2026-01-07T02:33:40.024Z",
+      "weight": 97.5,
+      "reps": 14,
+      "workout": "Legs B"
+    },
+    "Hip Abductor": {
+      "e1rm": 213.75,
+      "date": "2025-12-30T00:29:48.365Z",
+      "weight": 142.5,
+      "reps": 15,
+      "workout": "Legs A"
+    },
+    "Standing Calf Raise": {
+      "e1rm": 420,
+      "date": "2025-12-30T00:29:48.365Z",
+      "weight": 280,
+      "reps": 15,
+      "workout": "Legs A"
+    },
+    "Cable Crunch": {
+      "e1rm": 70.69999999999999,
+      "date": "2025-12-30T00:29:48.365Z",
+      "weight": 50.5,
+      "reps": 12,
+      "workout": "Legs A"
+    },
+    "Smith Machine Overhead Press": {
+      "e1rm": 166.5,
+      "date": "2026-02-02T23:36:44.894Z",
+      "weight": 135,
+      "reps": 7,
+      "workout": "Push B"
+    },
+    "Dumbbell Lateral Raise": {
+      "e1rm": 28.666666666666668,
+      "date": "2026-01-26T23:47:59.934Z",
+      "weight": 20,
+      "reps": 13,
+      "workout": "Push B"
+    },
+    "Cable Crossover (High to Low)": {
+      "e1rm": 168,
+      "date": "2026-01-05T00:47:53.656Z",
+      "weight": 120,
+      "reps": 12,
+      "workout": "Push B"
+    },
+    "Machine Chest Press": {
+      "e1rm": 272.3333333333333,
+      "date": "2026-01-29T22:12:19.056Z",
+      "weight": 215,
+      "reps": 8,
+      "workout": "Push A"
+    },
+    "Reverse Pec Deck": {
+      "e1rm": 132,
+      "date": "2026-01-05T00:47:53.656Z",
+      "weight": 90,
+      "reps": 14,
+      "workout": "Push B"
+    },
+    "Overhead Cable Tricep Extension": {
+      "e1rm": 133.33333333333331,
+      "date": "2026-01-11T00:19:01.446Z",
+      "weight": 100,
+      "reps": 10,
+      "workout": "Push A"
+    },
+    "Reverse Grip Pushdown": {
+      "e1rm": 36,
+      "date": "2026-01-05T00:47:53.656Z",
+      "weight": 24,
+      "reps": 15,
+      "workout": "Push B"
+    },
+    "Face Pulls": {
+      "e1rm": 60,
+      "date": "2026-02-02T23:36:44.895Z",
+      "weight": 40,
+      "reps": 15,
+      "workout": "Push B"
+    },
+    "Smith Bent Over Row": {
+      "e1rm": 214.5,
+      "date": "2026-01-06T04:00:20.819Z",
+      "weight": 165,
+      "reps": 9,
+      "workout": "Pull B"
+    },
+    "Lat Pulldown (Close Grip)": {
+      "e1rm": 170,
+      "date": "2026-01-06T04:00:20.819Z",
+      "weight": 127.5,
+      "reps": 10,
+      "workout": "Pull B"
+    },
+    "Straight Arm Pulldown": {
+      "e1rm": 126.75,
+      "date": "2026-02-09T22:22:27.631Z",
+      "weight": 97.5,
+      "reps": 9,
+      "workout": "Pull B"
+    },
+    "Dumbbell Shrug": {
+      "e1rm": 105,
+      "date": "2026-01-06T04:00:20.819Z",
+      "weight": 70,
+      "reps": 15,
+      "workout": "Pull B"
+    },
+    "Incline Dumbbell Curl": {
+      "e1rm": 38,
+      "date": "2026-01-06T04:00:20.819Z",
+      "weight": 30,
+      "reps": 8,
+      "workout": "Pull B"
+    },
+    "Cable Reverse Curl": {
+      "e1rm": 86.66666666666666,
+      "date": "2026-02-09T22:22:27.631Z",
+      "weight": 65,
+      "reps": 10,
+      "workout": "Pull B"
+    },
+    "Romanian Deadlift (Smith)": {
+      "e1rm": 285,
+      "date": "2026-01-07T02:33:40.024Z",
+      "weight": 225,
+      "reps": 8,
+      "workout": "Legs B"
+    },
+    "Leg Press (Feet High)": {
+      "e1rm": 246,
+      "date": "2026-01-07T02:33:40.024Z",
+      "weight": 180,
+      "reps": 11,
+      "workout": "Legs B"
+    },
+    "Smith Machine Incline Press": {
+      "e1rm": 240.5,
+      "date": "2026-01-11T00:19:01.446Z",
+      "weight": 195,
+      "reps": 7,
+      "workout": "Push A"
+    },
+    "Dumbbell Shoulder Press": {
+      "e1rm": 145.66666666666666,
+      "date": "2026-01-11T00:19:01.446Z",
+      "weight": 115,
+      "reps": 8,
+      "workout": "Push A"
+    },
+    "Cable Lateral Raise": {
+      "e1rm": 17.916666666666668,
+      "date": "2026-01-11T00:19:01.446Z",
+      "weight": 12.5,
+      "reps": 13,
+      "workout": "Push A"
+    },
+    "Rope Pushdown": {
+      "e1rm": 126.66666666666666,
+      "date": "2026-01-11T00:19:01.446Z",
+      "weight": 100,
+      "reps": 8,
+      "workout": "Push A"
+    },
+    "Deadlift": {
+      "e1rm": 311.6666666666667,
+      "date": "2026-01-21T00:26:28.758Z",
+      "weight": 275,
+      "reps": 4,
+      "workout": "Pull A"
+    },
+    "Seated Cable Row (Wide Grip)": {
+      "e1rm": 177.66666666666666,
+      "date": "2026-01-21T00:26:28.758Z",
+      "weight": 130,
+      "reps": 11,
+      "workout": "Pull A"
+    },
+    "Dumbbell Curl": {
+      "e1rm": 91,
+      "date": "2026-01-11T03:18:55.486Z",
+      "weight": 65,
+      "reps": 12,
+      "workout": "Pull A"
+    },
+    "Cable Hammer Curl": {
+      "e1rm": 120,
+      "date": "2026-01-31T16:08:23.449Z",
+      "weight": 90,
+      "reps": 10,
+      "workout": "Pull A"
+    },
+    "Cable Crossover (Low to High)": {
+      "e1rm": 104,
+      "date": "2026-01-20T23:17:10.952Z",
+      "weight": 80,
+      "reps": 9,
+      "workout": "Push A"
+    },
+    "Lat Pulldown (Wide Grip)": {
+      "e1rm": 117,
+      "date": "2026-01-31T16:08:23.449Z",
+      "weight": 90,
+      "reps": 9,
+      "workout": "Pull A"
+    }
+  },
+  "form": {}
+}
