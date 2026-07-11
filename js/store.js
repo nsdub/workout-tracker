@@ -27,21 +27,29 @@ function write(key, value) {
 
 const listeners = new Set();
 
+// Defaults are MERGED over stored settings so adding a field can never
+// crash an install whose persisted blob predates it.
+const SETTINGS_DEFAULTS = {
+  owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '',
+  phaseOverride: null, haptics: true, restTimer: true, cardio: {},
+};
+
 export const store = {
-  settings: read(KEYS.settings, {
-    owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '',
-    theme: 'system', phaseOverride: null, haptics: true, restTimer: true, cardio: {},
-  }),
+  settings: { ...SETTINGS_DEFAULTS, ...read(KEYS.settings, {}) },
   plan: read(KEYS.plan, null),
   history: read(KEYS.history, []),
   queue: read(KEYS.queue, []),
   draft: read(KEYS.draft, null),
   remoteIndex: read(KEYS.remoteIndex, {}),
-  meta: read(KEYS.meta, { lastSync: null, lastError: null }),
+  meta: { lastSync: null, lastError: null, ...read(KEYS.meta, {}) },
   syncing: false,
 
   sub(fn) { listeners.add(fn); return () => listeners.delete(fn); },
-  emit(quiet = false) { for (const fn of listeners) fn(quiet); },
+  emit(quiet = false) {
+    for (const fn of listeners) {
+      try { fn(quiet); } catch (err) { console.error('listener failed', err); }
+    }
+  },
 
   saveSettings(patch = {}) {
     Object.assign(this.settings, patch);

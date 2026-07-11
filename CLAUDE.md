@@ -18,9 +18,17 @@ commits only. Do not repeat this.
 - **Report only what the diff shows.** State what was kept and what was
   replaced. No claim ("rewritten", "removed", "tested") the user can't
   verify in the commit.
-- **Verification actually runs or isn't claimed.** Engine tests:
-  `node scripts/test-engine.mjs` — must run from the repo root (it fails
-  silently from subdirectories; this bit us once).
+- **Verification actually runs or isn't claimed.** Two suites, both must
+  run from the repo root (they fail silently from subdirectories; this bit
+  us once):
+  - `node scripts/test-engine.mjs` — 29 tests: progression, phases,
+    stalls, PRs, validation, against the real plan + seed data.
+  - `node scripts/test-app.mjs` — 14 tests: util, store, sync (stubbed
+    localStorage/fetch), including the two data-loss invariants:
+    re-save during an in-flight upload is never lost, and queued local
+    work is never overwritten by remote.
+  Run BOTH after touching js/engine.js, js/store.js, js/github.js, or
+  js/util.js.
 
 ## Design mandate (user has repeated this many times)
 
