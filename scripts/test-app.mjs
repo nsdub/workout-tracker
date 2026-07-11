@@ -198,19 +198,19 @@ await ok('importSeedBundle validates and enqueues everything', () => {
 // ——— universes: the world pool ———
 const { UNIVERSES, pickWorld, worldDef } = await import('../js/worlds.js');
 
-await ok('every session type has a universe with 3 worlds and full copy', () => {
+await ok('every session type has a universe with 8+ worlds and full copy', () => {
   const types = ['PushA', 'PullA', 'LegsA', 'PushB', 'PullB', 'LegsB'];
   assert.deepEqual(Object.keys(UNIVERSES).sort(), [...types].sort());
   const allCls = new Set();
   for (const t of types) {
     const U = UNIVERSES[t];
-    assert.equal(U.worlds.length, 3, `${t} needs 3 worlds`);
-    assert.equal(new Set(U.worlds.map((w) => w.id)).size, 3, `${t} world ids must be unique`);
+    assert.ok(U.worlds.length >= 8, `${t} needs 8+ worlds, has ${U.worlds.length}`);
+    assert.equal(new Set(U.worlds.map((w) => w.id)).size, U.worlds.length, `${t} world ids must be unique`);
     for (const k of ['log', 'rest', 'results', 'objDone', 'pr', 'finish', 'trophyNote']) {
       assert.ok(U.copy[k], `${t} copy.${k} missing`);
     }
     for (const w of U.worlds) {
-      assert.ok(typeof w.scene === 'function' && w.scene().length > 0, `${t}/${w.id} scene builds`);
+      assert.ok(typeof w.scene === 'function' && w.scene().length > 200, `${t}/${w.id} scene builds`);
       assert.ok(!allCls.has(w.cls), `world cls ${w.cls} reused`);
       allCls.add(w.cls);
     }
@@ -219,10 +219,24 @@ await ok('every session type has a universe with 3 worlds and full copy', () => 
 await ok('INVARIANT: no world repeats until the universe pool is exhausted', () => {
   localStorage.removeItem('p3.worldPools');
   for (const t of Object.keys(UNIVERSES)) {
-    const first = [pickWorld(t), pickWorld(t), pickWorld(t)];
-    assert.equal(new Set(first).size, 3, `${t} first cycle repeated a world: ${first}`);
-    const second = [pickWorld(t), pickWorld(t), pickWorld(t)];
-    assert.equal(new Set(second).size, 3, `${t} reshuffled cycle repeated a world`);
+    const n = UNIVERSES[t].worlds.length;
+    const first = Array.from({ length: n }, () => pickWorld(t));
+    assert.equal(new Set(first).size, n, `${t} first cycle repeated a world: ${first}`);
+    const second = Array.from({ length: n }, () => pickWorld(t));
+    assert.equal(new Set(second).size, n, `${t} reshuffled cycle repeated a world`);
+  }
+});
+await ok('INVARIANT: a fresh shuffle never opens with the world just served', () => {
+  for (let trial = 0; trial < 40; trial++) {
+    localStorage.removeItem('p3.worldPools');
+    const t = ['PushA', 'PullA', 'LegsA', 'PushB', 'PullB', 'LegsB'][trial % 6];
+    const n = UNIVERSES[t].worlds.length;
+    let last = null;
+    for (let i = 0; i < n * 2 + 1; i++) {
+      const id = pickWorld(t);
+      assert.notEqual(id, last, `${t} served ${id} twice in a row (draw ${i})`);
+      last = id;
+    }
   }
 });
 await ok('pickWorld survives a corrupted pool and unknown ids', () => {

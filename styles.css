@@ -431,39 +431,115 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .empty h3 { font-family: var(--disp); font-size: 20px; margin-bottom: 6px; }
 .empty p { font-family: var(--mono); font-size: 12.5px; color: var(--ink2); line-height: 1.5; }
 
-/* ═══════════ SCENE SPRITE KIT (shared physics, per-universe costumes) ═══════════ */
+/* ═══════════ SCENE ENGINE: layered vistas + sprite kit ═══════════ */
 @keyframes rippleout { 0% { transform: scale(.25); opacity: .9 } 100% { transform: scale(1.7); opacity: 0 } }
 @keyframes eyeblink { 0%, 82%, 100% { opacity: 0 } 86%, 94% { opacity: 1 } }
+@keyframes eyeopen { 0%, 76%, 100% { transform: scaleY(0.05) } 83%, 92% { transform: scaleY(1) } }
 @keyframes stepfade { 0%, 100% { opacity: 0 } 40%, 70% { opacity: .55 } }
 @keyframes mothjig { 0% { transform: translate(0, 0) rotate(-8deg) } 50% { transform: translate(7px, -9px) rotate(10deg) } 100% { transform: translate(-5px, 5px) rotate(-4deg) } }
-@keyframes ventpuff { 0%, 100% { transform: scaleY(.8); opacity: .35 } 50% { transform: scaleY(1.15); opacity: .6 } }
-@keyframes ski { from { transform: translate3d(-14vw, 6vh, 0) rotate(9deg) } to { transform: translate3d(112vw, 52vh, 0) rotate(9deg) } }
-@keyframes cascade-flow { to { background-position: 0 72px } }
-@keyframes waves-slide { to { background-position-x: 96px } }
-@keyframes lava-pulse { 0%, 100% { opacity: .75; filter: blur(1px) } 50% { opacity: 1; filter: blur(2.5px) } }
-@keyframes signflicker { 0%, 92%, 100% { opacity: 1 } 94%, 97% { opacity: .35 } }
-@keyframes glowpulse { 0%, 100% { opacity: .7; transform: scale(1) } 50% { opacity: 1; transform: scale(1.08) } }
+@keyframes ski { from { transform: translate3d(-14vw, 4vh, 0) rotate(9deg) } to { transform: translate3d(112vw, 46vh, 0) rotate(9deg) } }
 @keyframes quake { 0%, 100% { transform: translate(0, 0) } 20% { transform: translate(-3px, 2px) rotate(-.4deg) } 45% { transform: translate(3px, -2px) rotate(.4deg) } 70% { transform: translate(-2px, -1px) } }
+@keyframes glowpulse { 0%, 100% { opacity: .7; transform: scale(1) } 50% { opacity: 1; transform: scale(1.08) } }
 @keyframes fireflydrift { 0%, 100% { transform: translate(0, 0); opacity: .2 } 30% { opacity: 1 } 50% { transform: translate(14px, -18px); opacity: .5 } 75% { opacity: 1 } }
+@keyframes auroraflow { to { transform: translateX(5%) skewX(-7deg) } }
+@keyframes lightningflash { 0%, 95.4%, 96.4%, 97%, 100% { opacity: 0 } 95.7% { opacity: .5 } 96.7% { opacity: .22 } }
+@keyframes hop { 0%, 100% { transform: translateY(0) } 38% { transform: translateY(-16px) rotate(-4deg) } 66% { transform: translateY(0) } }
+@keyframes sprayfade { 0% { transform: scale(.4); opacity: .9 } 100% { transform: scale(1.7) translateY(-14px); opacity: 0 } }
+@keyframes shoot { 0%, 82% { opacity: 0; transform: translate(0, 0) rotate(18deg) } 84% { opacity: 1 } 92%, 100% { opacity: 0; transform: translate(190px, 64px) rotate(18deg) } }
 
 /* every world reacts to a record: panels quake, the scene surges */
 :root.pr-moment .objective { animation: quake 500ms ease-in-out 2; }
 :root.pr-moment .scene { filter: brightness(1.3) saturate(1.35); }
 .scene { transition: filter 400ms; }
 
-/* falling / rising / crossing costumes */
-.scene .sp.bubble { border: 1.5px solid rgba(143, 242, 224, 0.7); border-radius: 50%; width: var(--s); height: var(--s); opacity: var(--op, .5); animation: rise var(--dur) linear infinite; }
-.scene .sp.snow { width: var(--s); height: var(--s); border-radius: 50%; background: #fff; opacity: var(--op, .7); animation: fall var(--dur) linear infinite; }
-.scene .sp.petal { width: 11px; height: 8px; background: var(--c); border-radius: 65% 35% 60% 40%; opacity: var(--op, .8); animation: fall var(--dur) linear infinite; }
-.scene .sp.ember { width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ffd24a, #ff6a2c 70%); box-shadow: 0 0 10px 2px rgba(255, 138, 60, 0.6); opacity: var(--op, .8); animation: rise var(--dur) linear infinite; }
-.scene .sp.steam { top: auto; bottom: 0; width: var(--s, 12px); height: 48px; border-radius: 8px; background: linear-gradient(transparent, rgba(255, 255, 255, 0.5)); filter: blur(3px); animation: rise var(--dur) linear infinite; }
-.scene .sp.marine-snow { width: 3px; height: 3px; border-radius: 50%; background: rgba(223, 242, 236, 0.55); animation: fall var(--dur) linear infinite; }
-.scene .sp.noodle { width: 6px; height: 36px; background: #f2dfb8; border-radius: 45% 55% 40% 60% / 20%; opacity: var(--op, .85); animation: fall var(--dur) linear infinite; }
-.scene .sp.feather { width: 8px; height: 16px; background: var(--c); border-radius: 50% 50% 50% 50% / 82% 82% 18% 18%; animation: fall var(--dur) linear infinite; opacity: .85; }
-.scene .sp.fishy { left: 0; width: var(--s); color: rgba(191, 238, 230, 0.5); animation: cross var(--dur) linear infinite; }
-.scene .sp.fishy svg { display: block; }
+/* scenery layers: bottom-anchored full-bleed svg bands (painted in worlds.js) */
+.scene .fx.L { left: 0; right: 0; bottom: 0; height: var(--h); }
+.scene .fx.L svg { width: 100%; height: 100%; display: block; }
+.scene .fx.H svg { width: 100%; height: auto; display: block; }
+.scene .fx.H.moonglow svg { filter: drop-shadow(0 0 28px rgba(244, 240, 220, 0.65)); }
 
-/* ═══════════ UNIVERSE: MOUNT VOLCANO DOJO (PushA) ═══════════ */
+/* set dressing */
+.scene .fx.bigsun { width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle at 42% 38%, var(--c1), var(--c2) 74%); box-shadow: 0 0 60px 22px color-mix(in srgb, var(--c2) 50%, transparent), 0 0 150px 60px color-mix(in srgb, var(--c2) 24%, transparent); }
+.scene .fx.godray { top: -5%; width: 90px; height: 72%; background: linear-gradient(rgba(255, 255, 235, 0.28), transparent); transform: rotate(14deg); filter: blur(7px); animation: glowpulse var(--d, 5s) ease-in-out infinite; }
+.scene .fx.mist { left: -4%; right: -4%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.34), transparent); filter: blur(10px); animation: breathe 7s ease-in-out infinite; }
+.scene .fx.glowbed { left: 0; right: 0; bottom: 0; height: 32%; background: radial-gradient(closest-side at 50% 100%, var(--c), transparent); }
+.scene .fx.beam { width: 340px; height: 340px; border-radius: 50%; background: conic-gradient(rgba(255, 232, 180, 0.42) 0 13deg, transparent 13.5deg); animation: spin 14s linear infinite; }
+.scene .fx.lightning { inset: 0; background: #e8f0ff; opacity: 0; animation: lightningflash 7s steps(1) infinite; }
+.scene .fx.aurora { left: -12%; right: -12%; top: -6%; height: 54%; background: linear-gradient(102deg, transparent 4%, rgba(58, 220, 160, 0.45) 20%, transparent 34%, rgba(232, 68, 180, 0.36) 50%, transparent 64%, rgba(90, 220, 130, 0.32) 80%, transparent 94%); filter: blur(14px); animation: auroraflow 9s ease-in-out infinite alternate; }
+.scene .fx.aurora.a2 { animation-duration: 13s; animation-delay: -4s; transform: scaleX(-1); opacity: .7; }
+.scene .fx.discoball { left: 50%; top: 3%; width: 60px; height: 60px; margin-left: -30px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 34px rgba(232, 221, 246, 0.55); }
+.scene .fx.discoball::before { content: ''; position: absolute; left: 50%; top: -18px; width: 2px; height: 18px; background: #8a80a0; }
+.scene .fx.discoball i { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(#e8ddf6 0 14deg, #9a8fc0 14deg 28deg); animation: spin 9s linear infinite; }
+.scene .fx.bigeye { left: 50%; top: 32%; width: 250px; height: 135px; margin-left: -125px; }
+.scene .fx.bigeye i { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #38dcc8 0 16%, #0e3a34 17% 44%, #04141c 45%); box-shadow: 0 0 70px rgba(56, 220, 200, 0.2); animation: eyeopen 12s ease-in-out infinite; }
+
+/* falling / rising / crossing / ambient sprites */
+.scene .sp.bubble { border: 1.5px solid rgba(200, 245, 255, 0.75); border-radius: 50%; width: var(--s); height: var(--s); opacity: var(--op, .5); animation: rise var(--dur) linear infinite; }
+.scene .sp.snow { width: var(--s); height: var(--s); border-radius: 50%; background: #fff; opacity: var(--op, .75); animation: fall var(--dur) linear infinite; }
+.scene .sp.petal { width: 11px; height: 8px; background: var(--c); border-radius: 65% 35% 60% 40%; opacity: var(--op, .85); animation: fall var(--dur) linear infinite; }
+.scene .sp.ember { width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ffd24a, #ff6a2c 70%); box-shadow: 0 0 10px 2px rgba(255, 138, 60, 0.65); opacity: var(--op, .85); animation: rise var(--dur) linear infinite; }
+.scene .sp.steam { top: auto; bottom: 0; width: var(--s, 12px); height: 52px; border-radius: 8px; background: linear-gradient(transparent, rgba(255, 255, 255, 0.55)); filter: blur(3px); animation: rise var(--dur) linear infinite; }
+.scene .sp.marine-snow { width: 3px; height: 3px; border-radius: 50%; background: rgba(223, 242, 236, 0.6); animation: fall var(--dur) linear infinite; }
+.scene .sp.noodle { width: 6px; height: 36px; background: #f2dfb8; border-radius: 45% 55% 40% 60% / 20%; opacity: var(--op, .85); animation: fall var(--dur) linear infinite; }
+.scene .sp.feather { width: 8px; height: 16px; background: var(--c); border-radius: 50% 50% 50% 50% / 82% 82% 18% 18%; animation: fall var(--dur) linear infinite; opacity: .9; }
+.scene .sp.fishy { left: 0; width: var(--s); color: rgba(215, 248, 242, 0.65); animation: cross var(--dur) linear infinite; }
+.scene .sp.fishy svg { display: block; }
+.scene .sp.star { width: var(--s); height: var(--s); border-radius: 50%; background: #fff; box-shadow: 0 0 6px rgba(255, 255, 255, 0.9); animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.candle { width: 6px; height: 10px; border-radius: 50% 50% 40% 40%; background: radial-gradient(circle at 50% 70%, #ffd24a, #ff8a3c); box-shadow: 0 0 12px 4px rgba(255, 178, 60, 0.55); animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.dust { width: 4px; height: 4px; border-radius: 50%; background: rgba(232, 200, 150, 0.55); animation: rise var(--dur) linear infinite; }
+.scene .sp.wisp { width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 18px 7px color-mix(in srgb, var(--c) 60%, transparent); opacity: .85; animation: fireflydrift var(--dur) ease-in-out infinite; }
+.scene .sp.spark { width: 5px; height: 5px; border-radius: 50%; background: var(--c); box-shadow: 0 0 12px 4px color-mix(in srgb, var(--c) 55%, transparent); animation: fireflydrift var(--dur) ease-in-out infinite; }
+.scene .sp.firefly { width: 4px; height: 4px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px 3px rgba(255, 224, 138, 0.55); animation: fireflydrift var(--dur) ease-in-out infinite; }
+.scene .sp.rain { width: 2px; height: 18px; background: linear-gradient(rgba(200, 220, 240, 0), rgba(200, 220, 240, 0.75)); animation: fall var(--dur) linear infinite; }
+.scene .sp.coin { width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffe9a3, #e0a13c 72%); box-shadow: 0 0 8px rgba(255, 210, 74, 0.65), inset 0 0 0 2px #c2822c; animation: fall var(--dur) linear infinite; }
+.scene .sp.pearl { width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle at 35% 30%, #6a4630, #241408 72%); animation: rise var(--dur) linear infinite; }
+.scene .sp.fortune { width: 34px; height: 12px; background: #fff8ec; border-left: 4px solid #d93a20; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); animation: fall var(--dur) linear infinite; }
+.scene .sp.veg { width: 12px; height: 12px; border-radius: 50% 50% 50% 12%; background: var(--c); animation: fall var(--dur) linear infinite; }
+.scene .sp.scallion { width: 10px; height: 10px; border-radius: 50%; border: 3px solid #7ad48a; animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.polyp { width: var(--s); height: var(--s); border-radius: 50%; background: var(--c); box-shadow: 0 0 14px 4px color-mix(in srgb, var(--c) 55%, transparent); opacity: .95; animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.sonar { border: 2px solid rgba(56, 220, 200, 0.65); border-radius: 50%; width: var(--s); height: var(--s); animation: rippleout var(--d) ease-out infinite; }
+.scene .sp.lure { width: var(--s); height: var(--s); border-radius: 50%; background: #8ff2e0; box-shadow: 0 0 18px 7px rgba(143, 242, 224, 0.5); animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.moth { width: var(--s); height: calc(var(--s) * 0.75); background: #e8dfc0; clip-path: polygon(50% 100%, 0 0, 50% 38%, 100% 0); opacity: .85; animation: mothjig var(--d) ease-in-out infinite alternate; }
+.scene .sp.redeyes { width: 6px; height: 6px; border-radius: 50%; background: #ff2f2f; box-shadow: 11px 0 0 #ff2f2f, 0 0 10px 2px rgba(255, 47, 47, 0.7), 11px 0 10px 2px rgba(255, 47, 47, 0.7); opacity: 0; animation: eyeblink var(--d) ease-in-out infinite; }
+.scene .sp.footprint { top: auto; width: 12px; height: 19px; background: #10180f; border-radius: 50% 50% 45% 45%; opacity: 0; box-shadow: -4px -7px 0 -3px #10180f, 0 -9px 0 -3px #10180f, 4px -7px 0 -3px #10180f; animation: stepfade 7s ease-in-out infinite; animation-delay: var(--d); }
+.scene .sp.ripple { width: 36px; height: 10px; border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%; animation: rippleout var(--d) ease-out infinite; }
+.scene .sp.radiowave { border: 2.5px solid rgba(255, 232, 196, 0.85); border-radius: 50%; width: var(--s); height: var(--s); animation: rippleout var(--d) ease-out infinite; }
+.scene .sp.buoy { width: 15px; height: 19px; border-radius: 50% 50% 42% 42%; background: var(--c); animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.buoy::after { content: ''; position: absolute; left: 0; right: 0; top: 45%; height: 4px; background: rgba(255, 255, 255, 0.8); }
+.scene .sp.discodot { width: 11px; height: 11px; border-radius: 50%; background: var(--c); filter: blur(1px); box-shadow: 0 0 12px var(--c); animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.koi { left: 0; width: 34px; height: 12px; background: var(--c); border-radius: 60% 40% 40% 60% / 50%; animation: cross var(--dur) linear infinite; }
+.scene .sp.koi::after { content: ''; position: absolute; right: -8px; top: 1px; border-left: 10px solid var(--c); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+.scene .sp.crab { top: auto; left: 0; width: 22px; height: 13px; background: #e0562c; border-radius: 50% 50% 30% 30%; animation: cross var(--dur) linear infinite; }
+.scene .sp.crab::before { content: ''; position: absolute; top: -4px; left: 3px; width: 4px; height: 4px; border-radius: 50%; background: #2a1208; box-shadow: 9px 0 0 #2a1208; }
+.scene .sp.crab::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: -3px; height: 5px; background: repeating-linear-gradient(90deg, #a33a1c 0 3px, transparent 3px 7px); }
+.scene .sp.brushbird { width: 18px; height: 8px; border: 2.5px solid transparent; border-top-color: #3c3050; border-radius: 50%; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.brushbird::after { content: ''; position: absolute; left: 12px; top: -2.5px; width: 14px; height: 8px; border: 2.5px solid transparent; border-top-color: #3c3050; border-radius: 50%; }
+.scene .sp.gull { width: 24px; height: 10px; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.gull::before, .scene .sp.gull::after { content: ''; position: absolute; width: 13px; height: 10px; border: 2.6px solid transparent; border-top-color: #2c3444; border-radius: 50%; }
+.scene .sp.gull::after { left: 10px; }
+.scene .sp.brushsmoke { top: auto; bottom: -10%; width: var(--s); height: calc(var(--s) * 1.7); border-radius: 50%; background: rgba(240, 230, 224, 0.3); filter: blur(7px); animation: rise var(--dur) linear infinite; }
+.scene .sp.spray { width: var(--s); height: var(--s); border-radius: 50%; background: rgba(255, 255, 255, 0.85); filter: blur(2px); animation: sprayfade var(--d) ease-out infinite; }
+.scene .sp.shootstar { width: 90px; height: 2.5px; border-radius: 2px; background: linear-gradient(90deg, transparent, #fff); animation: shoot 7s ease-in infinite; }
+
+/* creatures & props that carry their own svg */
+.scene .sp.squatch, .scene .sp.dragon, .scene .sp.noodledragon, .scene .sp.angler, .scene .sp.comet, .scene .sp.jackalope { left: 0; animation: cross var(--dur) linear infinite; }
+.scene .sp.dragon { width: 230px; } .scene .sp.noodledragon { width: 300px; } .scene .sp.angler { width: 110px; } .scene .sp.comet { width: 100px; } .scene .sp.jackalope { width: 44px; top: auto; }
+.scene .sp.squatch svg, .scene .sp.dragon svg, .scene .sp.noodledragon svg, .scene .sp.angler svg, .scene .sp.comet svg, .scene .sp.jackalope svg, .scene .sp.jelly svg, .scene .sp.dumpling svg, .scene .sp.lantern svg, .scene .sp.bottle svg, .scene .sp.snowcat svg, .scene .sp.skiyeti svg, .scene .sp.starface svg, .scene .sp.chopsat svg { display: block; width: 100%; }
+.scene .sp.jackalope svg { animation: hop .85s cubic-bezier(.4, 0, .6, 1) infinite; }
+.scene .sp.dragon svg, .scene .sp.noodledragon svg { animation: bob 4s ease-in-out infinite; }
+.scene .sp.jelly { animation: rise var(--dur) linear infinite; }
+.scene .sp.dumpling { animation: bob var(--d) ease-in-out infinite; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25)); }
+.scene .sp.lantern { width: 24px; transform-origin: 50% 0; animation: swing var(--d) ease-in-out infinite; }
+.scene .sp.lantern svg { filter: drop-shadow(0 0 9px rgba(255, 120, 90, 0.6)); }
+.scene .sp.starface { animation: bob var(--d) ease-in-out infinite; filter: drop-shadow(0 0 10px rgba(255, 210, 74, 0.55)); }
+.scene .sp.bottle { width: 26px; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.vinyl { width: 36px; height: 36px; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.vinyl i { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--c) 0 26%, #14100c 27%); box-shadow: 0 0 0 2px rgba(255, 232, 196, 0.3), 0 4px 12px rgba(0, 0, 0, 0.35); animation: spin var(--spin, 3s) linear infinite; }
+.scene .sp.snowcat { left: 0; top: auto; bottom: 22%; width: 110px; animation: cross var(--dur) linear infinite; }
+.scene .sp.skiyeti { left: 0; top: 0; width: 52px; animation: ski var(--dur) linear infinite; }
+.scene .sp.chopsat { width: 60px; animation: spin var(--d) linear infinite; }
+
+/* ═══════════ UNIVERSE SKINS (controls wear the world) ═══════════ */
 :root[data-universe="dojo"] {
   --bg: #1d1420;
   --paper: #f2e6d0; --paper2: #e6d5b8; --ink: #2b1c14; --ink2: #7a5a40;
@@ -476,7 +552,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px #7a2214, 6px 8px 0 rgba(0, 0, 0, 0.4);
   background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M10 40q30-20 60 0' stroke='%23d9c8a8' stroke-width='1.4' fill='none' opacity='.5'/></svg>");
 }
-:root[data-universe="dojo"] .obj-name { letter-spacing: .02em; }
 :root[data-universe="dojo"] .g-log {
   background: linear-gradient(#d9502f, #b32e18); border: 4px solid #7a1408;
   border-radius: 10px; transform: rotate(-1.2deg); letter-spacing: .1em; text-transform: uppercase;
@@ -485,24 +560,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="dojo"] .trophy { background: #e8d5ae; color: #4a2c14; border: 2px solid #8a5a2a; border-bottom-width: 5px; border-radius: 4px 4px 8px 8px; }
 :root[data-universe="dojo"] .world-name { text-shadow: 3px 3px 0 rgba(122, 34, 20, 0.65); }
 
-:root[data-world="dojo-stairs"] .app { background: linear-gradient(#392044, #241530 55%, #1d1420); }
-.fx.mountain { left: -6%; right: -6%; bottom: 0; height: 42%; background: linear-gradient(#120c18, #0c080f); clip-path: polygon(0 100%, 0 78%, 14% 52%, 26% 68%, 43% 18%, 51% 30%, 58% 12%, 74% 58%, 86% 40%, 100% 72%, 100% 100%); }
-.fx.stairs { right: 20%; top: 24%; bottom: 8%; width: 54px; transform: skewY(-16deg); background: repeating-linear-gradient(rgba(242, 230, 208, 0.16) 0 3px, transparent 3px 16px); }
-.fx.redsun { right: 9%; top: 6%; width: 78px; height: 78px; border-radius: 50%; background: radial-gradient(circle at 42% 38%, #e8543a, #b32e18 75%); box-shadow: 0 0 34px rgba(217, 80, 47, 0.5); }
-.fx.redsun.big { right: auto; left: 50%; transform: translateX(-50%); top: 5%; width: 150px; height: 150px; }
-.scene .sp.brushbird { width: 18px; height: 8px; border: 2.5px solid transparent; border-top-color: #d8ccb8; border-radius: 50%; animation: bob var(--d) ease-in-out infinite; }
-.scene .sp.brushbird::after { content: ''; position: absolute; left: 12px; top: 0; width: 14px; height: 8px; border: 2.5px solid transparent; border-top-color: #d8ccb8; border-radius: 50%; }
-:root[data-world="dojo-falls"] .app { background: linear-gradient(#1c2c38, #101c26 60%, #0c141c); }
-.fx.cascade { left: 24%; top: 0; bottom: 26%; width: 44px; border-radius: 0 0 10px 10px; background: repeating-linear-gradient(rgba(220, 240, 255, 0.3) 0 16px, rgba(220, 240, 255, 0.08) 16px 36px); background-size: 100% 72px; animation: cascade-flow 1.1s linear infinite; filter: blur(0.5px); }
-.fx.cascade.c2 { left: auto; right: 14%; width: 26px; bottom: 32%; opacity: .7; animation-duration: 1.5s; }
-.fx.mist { left: 0; right: 0; bottom: 8%; height: 20%; background: radial-gradient(closest-side, rgba(230, 244, 255, 0.22), transparent); filter: blur(9px); }
-.scene .sp.koi { left: 0; width: 34px; height: 12px; background: var(--c); border-radius: 60% 40% 40% 60% / 50%; animation: cross var(--dur) linear infinite; }
-.scene .sp.koi::after { content: ''; position: absolute; right: -8px; top: 1px; border-left: 10px solid var(--c); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-:root[data-world="dojo-summit"] .app { background: linear-gradient(#331014, #200a0c 62%, #140608); }
-.fx.lava-line { left: 0; right: 0; bottom: calc(var(--tabbar-h) + 10px); height: 5px; border-radius: 4px; background: linear-gradient(90deg, #ff6a2c, #ffd24a 40%, #ff6a2c 75%, #ffb84d); box-shadow: 0 0 18px rgba(255, 138, 60, 0.8); animation: lava-pulse 2.6s ease-in-out infinite; }
-.scene .sp.brushsmoke { top: auto; bottom: -10%; width: var(--s); height: calc(var(--s) * 1.7); border-radius: 50%; background: rgba(200, 188, 178, 0.22); filter: blur(7px); animation: rise var(--dur) linear infinite; }
-
-/* ═══════════ UNIVERSE: THE DEEP (PullA) ═══════════ */
 :root[data-universe="deep"] {
   --bg: #04121c;
   --paper: #0a2433; --paper2: #0e3044; --ink: #bfeee6; --ink2: #5c9a92;
@@ -517,7 +574,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   box-shadow: 0 0 26px rgba(56, 220, 200, 0.22), inset 0 0 34px rgba(56, 220, 200, 0.07);
 }
 :root[data-universe="deep"] .world-name { text-shadow: 0 0 18px rgba(56, 220, 200, 0.6); letter-spacing: .04em; }
-:root[data-universe="deep"] .obj-name { letter-spacing: .03em; }
 :root[data-universe="deep"] .g-val { color: #dffaf4; text-shadow: 0 0 16px rgba(56, 220, 200, 0.55); }
 :root[data-universe="deep"] .g-log {
   background: radial-gradient(circle at 50% 32%, #1c5c52, #0d3a34 70%); color: #8ff2e0;
@@ -536,21 +592,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="deep"] .rs-stat { background: #0e3044; border-color: #1c5c52; }
 :root[data-universe="deep"] .hud-status .tag { background: #0a2433; color: #8fd8cc; border: 1px solid #1c5c52; }
 
-:root[data-world="deep-vents"] .app { background: radial-gradient(120% 90% at 50% 108%, #3a1c10 0%, #0a2433 42%, #04121c 78%); }
-.fx.ventglow { left: 0; right: 0; bottom: 0; height: 30%; background: radial-gradient(closest-side at 50% 100%, rgba(255, 122, 60, 0.28), transparent); }
-.scene .sp.vent { top: auto; bottom: 0; width: 28px; height: var(--h); background: linear-gradient(#0c1c26, #071219); border-radius: 45% 45% 0 0; }
-.scene .sp.vent::after { content: ''; position: absolute; left: 4px; right: 4px; bottom: 96%; height: 60px; border-radius: 50%; background: rgba(120, 140, 150, 0.3); filter: blur(6px); transform-origin: 50% 100%; animation: ventpuff var(--d) ease-in-out infinite; }
-.scene .sp.tubeworm { top: auto; bottom: 0; width: 9px; height: var(--h); background: #e8e0d0; border-radius: 5px 5px 0 0; transform-origin: 50% 100%; animation: swing var(--d) ease-in-out infinite; }
-.scene .sp.tubeworm::after { content: ''; position: absolute; left: -2px; top: -7px; width: 13px; height: 11px; border-radius: 50%; background: #d9503c; }
-:root[data-world="deep-whalefall"] .app { background: linear-gradient(#083048 0%, #04121c 55%, #030d14); }
-.fx.ribcage { left: 50%; bottom: calc(var(--tabbar-h) - 10px); transform: translateX(-50%); width: min(94vw, 430px); }
-.fx.ribcage svg { display: block; width: 100%; }
-:root[data-world="deep-market"] .app { background: radial-gradient(100% 70% at 50% 30%, #062030, #030d14 75%); }
-.scene .sp.lure { width: var(--s); height: var(--s); border-radius: 50%; background: #8ff2e0; box-shadow: 0 0 18px 7px rgba(143, 242, 224, 0.45); animation: blink var(--d) ease-in-out infinite; }
-.scene .sp.angler { left: 0; width: 76px; animation: cross var(--dur) linear infinite; }
-.scene .sp.angler svg { display: block; animation: bob 4.5s ease-in-out infinite; }
-
-/* ═══════════ UNIVERSE: CRYPTID NATIONAL PARK (LegsA) ═══════════ */
 :root[data-universe="park"] {
   --bg: #14231a;
   --paper: #f2e8d0; --paper2: #e6d8ba; --ink: #33291a; --ink2: #7a6a48;
@@ -577,26 +618,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="park"] .trophy { background: #fff; color: var(--ink); border: 5px solid #fff; outline: 1px solid #b8a878; box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.35); border-radius: 1px; }
 :root[data-universe="park"] .world-name { text-shadow: 2px 2px 0 rgba(14, 24, 17, 0.8); }
 
-:root[data-world="park-trail"] .app { background: linear-gradient(#2c3d24, #16261a 62%, #0e1811); }
-.fx.treeline { left: -2%; right: -2%; bottom: 0; height: 36%; background: #0b140d; clip-path: polygon(0 100%, 0 62%, 5% 30%, 10% 62%, 14% 40%, 19% 66%, 25% 22%, 31% 60%, 36% 38%, 42% 64%, 48% 18%, 54% 58%, 60% 34%, 66% 62%, 72% 26%, 78% 60%, 84% 42%, 90% 64%, 95% 32%, 100% 58%, 100% 100%); }
-.fx.treeline.dark { background: #070b10; height: 42%; }
-.scene .sp.footprint { top: auto; width: 12px; height: 19px; background: #10180f; border-radius: 50% 50% 45% 45%; opacity: 0; box-shadow: -4px -7px 0 -3px #10180f, 0 -9px 0 -3px #10180f, 4px -7px 0 -3px #10180f; animation: stepfade 7s ease-in-out infinite; animation-delay: var(--d); }
-.scene .sp.squatch { top: auto; bottom: 13%; left: 0; width: 46px; opacity: .92; animation: cross var(--dur) linear infinite; }
-.scene .sp.squatch svg { display: block; animation: bob 1.1s ease-in-out infinite; }
-.scene .sp.firefly { width: 4px; height: 4px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px 3px rgba(255, 224, 138, 0.5); animation: fireflydrift var(--dur) ease-in-out infinite; }
-:root[data-world="park-mothman"] .app { background: linear-gradient(#131a2c, #0c1120 60%, #070b10); }
-.fx.bigmoon { right: 8%; top: 6%; width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle at 40% 36%, #f4f0dc, #cfc9a8 78%); box-shadow: 0 0 46px rgba(244, 240, 220, 0.35); }
-.scene .sp.redeyes { width: 6px; height: 6px; border-radius: 50%; background: #ff2f2f; box-shadow: 11px 0 0 #ff2f2f, 0 0 10px 2px rgba(255, 47, 47, 0.7), 11px 0 10px 2px rgba(255, 47, 47, 0.7); opacity: 0; animation: eyeblink var(--d) ease-in-out infinite; }
-.scene .sp.moth { width: var(--s); height: calc(var(--s) * 0.75); background: #c9c2a8; clip-path: polygon(50% 100%, 0 0, 50% 38%, 100% 0); opacity: .8; animation: mothjig var(--d) ease-in-out infinite alternate; }
-:root[data-world="park-marina"] .app { background: linear-gradient(#1c2c3a 0%, #16303a 58%, #0e2028); }
-.fx.lake { left: 0; right: 0; bottom: 0; height: 42%; background: linear-gradient(#1c4048, #0e2028); border-top: 2px solid rgba(223, 242, 236, 0.25); }
-.scene .sp.nessie { top: auto; bottom: 20%; left: 0; width: 96px; animation: cross var(--dur) linear infinite; }
-.scene .sp.nessie svg { display: block; animation: bob 3.2s ease-in-out infinite; }
-.scene .sp.buoy { width: 15px; height: 19px; border-radius: 50% 50% 42% 42%; background: var(--c); animation: bob var(--d) ease-in-out infinite; }
-.scene .sp.buoy::after { content: ''; position: absolute; left: 0; right: 0; top: 45%; height: 4px; background: rgba(255, 255, 255, 0.75); }
-.scene .sp.ripple { width: 36px; height: 10px; border: 2px solid rgba(223, 242, 236, 0.4); border-radius: 50%; animation: rippleout var(--d) ease-out infinite; }
-
-/* ═══════════ UNIVERSE: THE NOODLE COSMOS (PushB) ═══════════ */
 :root[data-universe="wok"] {
   --bg: #200d0e;
   --paper: #fff4e0; --paper2: #f6e4c8; --ink: #4a2410; --ink2: #96652f;
@@ -616,19 +637,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="wok"] .trophy { background: #ffe9c4; color: #7a3410; border: 2px dashed #c98a3a; border-radius: 3px; }
 :root[data-universe="wok"] .world-name { text-shadow: 3px 3px 0 rgba(163, 34, 16, 0.75); }
 
-:root[data-world="wok-inferno"] .app { background: linear-gradient(#3a0f0f, #240a0a 55%, #180606); }
-.fx.flamewall { left: 0; right: 0; bottom: 0; height: 24%; filter: blur(1.5px); background: radial-gradient(22px 34px at 12% 100%, #ff7a2c 58%, transparent 60%), radial-gradient(28px 46px at 32% 100%, #e8531c 58%, transparent 60%), radial-gradient(20px 30px at 50% 100%, #ffb84d 58%, transparent 60%), radial-gradient(30px 50px at 68% 100%, #e8531c 58%, transparent 60%), radial-gradient(22px 36px at 86% 100%, #ff7a2c 58%, transparent 60%), linear-gradient(transparent 55%, rgba(232, 83, 28, 0.5)); animation: glowpulse 1.6s ease-in-out infinite; transform-origin: 50% 100%; }
-:root[data-world="wok-steam"] .app { background: linear-gradient(#2c1a20, #1f1114 58%, #140a0c); }
-.fx.steambank { left: -4%; right: -4%; bottom: 0; height: 44%; background: linear-gradient(transparent, rgba(255, 244, 224, 0.2)); filter: blur(11px); animation: glowpulse 5s ease-in-out infinite; transform-origin: 50% 100%; }
-.scene .sp.dumpling { width: 40px; animation: bob var(--d) ease-in-out infinite; }
-.scene .sp.dumpling svg { display: block; }
-:root[data-world="wok-alley"] .app { background: linear-gradient(#1f0d1c, #140a12 62%, #0e070c); }
-.scene .sp.lantern { width: 24px; transform-origin: 50% 0; animation: swing var(--d) ease-in-out infinite; }
-.scene .sp.lantern svg { display: block; filter: drop-shadow(0 0 9px rgba(255, 93, 93, 0.55)); }
-.fx.shopsign { right: 7%; top: 12%; width: 34px; height: 124px; background: #2a0f1f; border: 2px solid #ff5d7a; border-radius: 4px; box-shadow: 0 0 16px rgba(255, 93, 122, 0.55), inset 0 0 8px rgba(255, 93, 122, 0.4); padding: 8px 7px; background-clip: content-box; background-image: repeating-linear-gradient(rgba(255, 93, 122, 0.75) 0 10px, transparent 10px 19px); animation: signflicker 5s steps(1) infinite; }
-.fx.shopsign.s2 { right: auto; left: 6%; top: 26%; height: 90px; border-color: #3adcc8; box-shadow: 0 0 16px rgba(58, 220, 200, 0.5), inset 0 0 8px rgba(58, 220, 200, 0.4); background-image: repeating-linear-gradient(rgba(58, 220, 200, 0.75) 0 10px, transparent 10px 19px); animation-delay: -2.2s; }
-
-/* ═══════════ UNIVERSE: PIRATE RADIO ATOLL (PullB) ═══════════ */
 :root[data-universe="atoll"] {
   --bg: #1c4050;
   --paper: #f4e4c4; --paper2: #e8d4a8; --ink: #3a2a14; --ink2: #85653a;
@@ -650,25 +658,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="atoll"] .trophy { background: #241c14; color: #ffe8c4; border: 2px solid #4a3014; border-radius: 40px; box-shadow: inset 0 0 0 3px #c04828; }
 :root[data-universe="atoll"] .world-name { text-shadow: 2px 2px 0 rgba(42, 26, 10, 0.7); }
 
-.fx.waves { left: 0; right: 0; top: 53.4%; height: 15px; background: radial-gradient(14px 9px at 12px 0, rgba(255, 232, 196, 0.5) 60%, transparent 62%) repeat-x; background-size: 48px 15px; animation: waves-slide 7s linear infinite; opacity: .8; }
-.scene .sp.radiowave { border: 2px solid rgba(255, 232, 196, 0.75); border-radius: 50%; width: var(--s); height: var(--s); animation: rippleout var(--d) ease-out infinite; }
-:root[data-world="atoll-wreck"] .app { background: linear-gradient(#e8944a 0%, #d96a3c 30%, #8a4a4a 53%, #1c4b5e 54%, #12303c); }
-.fx.wreck { left: 5%; top: 30%; width: 210px; opacity: .9; }
-.fx.wreck svg { display: block; animation: bob 6s ease-in-out infinite; }
-.scene .sp.crab { top: auto; left: 0; width: 22px; height: 13px; background: #e0562c; border-radius: 50% 50% 30% 30%; animation: cross var(--dur) linear infinite; }
-.scene .sp.crab::before { content: ''; position: absolute; top: -4px; left: 3px; width: 4px; height: 4px; border-radius: 50%; background: #2a1208; box-shadow: 9px 0 0 #2a1208; }
-.scene .sp.crab::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: -3px; height: 5px; background: repeating-linear-gradient(90deg, #a33a1c 0 3px, transparent 3px 7px); }
-:root[data-world="atoll-light"] .app { background: linear-gradient(#5c3454 0%, #a34a48 34%, #d96a3c 52%, #16394a 55%, #0e2833); }
-.fx.volcano { right: -6%; bottom: calc(var(--tabbar-h) - 14px); width: 250px; height: 210px; background: #1f0e16; clip-path: polygon(4% 100%, 42% 10%, 62% 10%, 100% 100%); }
-.fx.volcano::after { content: ''; position: absolute; left: 44%; top: 6%; width: 40px; height: 16px; border-radius: 50%; background: #ff8a3c; box-shadow: 0 0 22px 8px rgba(255, 138, 60, 0.7); animation: glowpulse 2.4s ease-in-out infinite; }
-.fx.beam { right: 64px; top: -40px; width: 340px; height: 340px; background: conic-gradient(rgba(255, 232, 180, 0.3) 0 13deg, transparent 13.5deg); border-radius: 50%; transform-origin: 50% 50%; animation: spin 15s linear infinite; }
-:root[data-world="atoll-parrots"] .app { background: linear-gradient(#8fd4ec 0%, #5cb8dc 48%, #1c6b8a 55%, #14506a); }
-.fx.rigging { left: 0; right: 0; top: 0; height: 46%; background: repeating-linear-gradient(62deg, rgba(74, 48, 20, 0.4) 0 3px, transparent 3px 44px), repeating-linear-gradient(-62deg, rgba(74, 48, 20, 0.4) 0 3px, transparent 3px 44px); }
-.scene .sp.parrot { width: 24px; animation: bob var(--d) ease-in-out infinite; }
-.scene .sp.parrot svg { display: block; }
-:root[data-universe="atoll"][data-world="atoll-parrots"] .world-name { text-shadow: 2px 2px 0 rgba(20, 80, 106, 0.8); }
-
-/* ═══════════ UNIVERSE: YETI SKI RESORT (LegsB) ═══════════ */
 :root[data-universe="yeti"] {
   --bg: #bfe0f2;
   --paper: #fbfdff; --paper2: #e8f1f8; --ink: #1c3348; --ink2: #5c7a92;
@@ -677,7 +666,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-universe="yeti"] .app { background: linear-gradient(#a8d8f0, #bfe0f2 55%, #e8f4fb); }
 :root[data-universe="yeti"] .world-name { color: #fff; text-shadow: 2px 2px 0 #3a8fd9; }
-:root[data-universe="yeti"] .uni-name { color: #14304a; }
 :root[data-universe="yeti"] .objective {
   border-radius: 16px; border: 4px solid #3a8fd9;
   box-shadow: 0 8px 0 rgba(28, 74, 122, 0.35), 0 12px 24px rgba(20, 48, 74, 0.2);
@@ -690,25 +678,225 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="yeti"] .trophy { background: #fff; color: var(--ink); border: 2px dashed #3a8fd9; border-radius: 8px; padding-left: 20px; position: relative; }
 :root[data-universe="yeti"] .trophy::before { content: ''; position: absolute; left: 7px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #bfe0f2; box-shadow: inset 0 0 0 4px #3a8fd9; }
 
-:root[data-world="yeti-lift"] .app { background: linear-gradient(#8ec8ec, #bfe0f2 60%, #eef7fc); }
-.fx.peaks { left: -2%; right: -2%; bottom: 14%; height: 34%; background: #fff; clip-path: polygon(0 100%, 0 70%, 12% 26%, 22% 58%, 34% 12%, 46% 52%, 58% 20%, 70% 62%, 82% 30%, 92% 60%, 100% 42%, 100% 100%); opacity: .95; }
-.fx.cable { left: -2%; right: -2%; top: 17.5%; height: 3px; background: #4a3a2a; transform: rotate(-1.6deg); }
-.scene .sp.chair { left: 0; width: 36px; animation: cross var(--dur) linear infinite; }
-.scene .sp.chair svg { display: block; }
-:root[data-world="yeti-diamond"] .app { background: linear-gradient(150deg, #8ec8ec 0%, #b8dcf2 32%, #f4fafd 33%, #dceef8); }
-.fx.slope { display: none; }
-.scene .sp.gate { width: 4px; height: 26px; background: #f4fafd; border-radius: 2px; box-shadow: 0 1px 2px rgba(20, 48, 74, 0.3); }
-.scene .sp.gate::after { content: ''; position: absolute; left: 3px; top: 0; width: 15px; height: 10px; background: var(--c); clip-path: polygon(0 0, 100% 50%, 0 100%); }
-.scene .sp.skiyeti { left: 0; top: 0; width: 46px; animation: ski var(--dur) linear infinite; }
-.scene .sp.skiyeti svg { display: block; }
-:root[data-world="yeti-disco"] .app { background: linear-gradient(#3a2a52, #241c3a 60%, #1a1430); }
-:root[data-universe="yeti"][data-world="yeti-disco"] .world-name { text-shadow: 2px 2px 0 #e0447a; }
-:root[data-universe="yeti"][data-world="yeti-disco"] .uni-name, :root[data-universe="yeti"][data-world="yeti-disco"] .mission-line { color: #e8ddf6; }
-.fx.discoball { left: 50%; top: 4%; width: 56px; height: 56px; margin-left: -28px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 30px rgba(232, 221, 246, 0.5); }
-.fx.discoball::before { content: ''; position: absolute; left: 50%; top: -18px; width: 2px; height: 18px; background: #8a80a0; }
-.fx.discoball i { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(#e8ddf6 0 14deg, #9a8fc0 14deg 28deg); animation: spin 9s linear infinite; }
-.scene .sp.discodot { width: 11px; height: 11px; border-radius: 50%; background: var(--c); filter: blur(1px); box-shadow: 0 0 12px var(--c); animation: blink var(--d) ease-in-out infinite; }
-.fx.firepit { left: 50%; bottom: calc(var(--tabbar-h) + 6px); width: 170px; height: 62px; margin-left: -85px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 138, 60, 0.65), transparent); animation: glowpulse 2.1s ease-in-out infinite; }
+/* ═══════════ 48 SKIES (every world owns its light) ═══════════ */
+/* — Mount Volcano Dojo — */
+:root[data-world="dojo-stairs"] .app { background: linear-gradient(180deg, #3a3a7c 0%, #8a4a8c 30%, #e06a6a 52%, #ffb84d 68%, #58184a 100%); }
+:root[data-world="dojo-falls"] .app { background: linear-gradient(#a8ecf0 0%, #4ab8c8 42%, #1c7a8c 72%, #0e3a44 100%); }
+:root[data-world="dojo-falls"] { --chrome: #123a40; } :root[data-world="dojo-falls"] .world-name { text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5); }
+:root[data-world="dojo-summit"] .app { background: radial-gradient(80% 42% at 50% 16%, rgba(255, 106, 44, 0.55), transparent 65%), linear-gradient(#4a1030 0%, #8a1c2c 40%, #e0532c 80%, #2a0a14 100%); }
+:root[data-world="dojo-bamboo"] .app { background: linear-gradient(#eef8cc 0%, #a8d878 45%, #4c9450 100%); }
+:root[data-world="dojo-bamboo"] { --chrome: #1c3820; } :root[data-world="dojo-bamboo"] .world-name { text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.55); }
+:root[data-world="dojo-torii"] .app { background: linear-gradient(#ffc87c 0%, #ff7a4c 36%, #c23b52 66%, #58184a 100%); }
+:root[data-world="dojo-snow"] .app { background: linear-gradient(#a8d4f0 0%, #5c9cd8 55%, #2c5a94 100%); }
+:root[data-world="dojo-snow"] { --chrome: #16324e; } :root[data-world="dojo-snow"] .world-name { text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.6); }
+:root[data-world="dojo-hall"] .app { background: radial-gradient(70% 40% at 50% 80%, rgba(255, 178, 92, 0.3), transparent 70%), linear-gradient(#6a3a1c 0%, #40200c 60%, #200e04 100%); }
+:root[data-world="dojo-dragon"] .app { background: linear-gradient(#2c1c5c 0%, #6a3a9c 42%, #c86a9c 74%, #3a1c50 100%); }
+
+/* — The Deep — */
+:root[data-world="deep-vents"] .app { background: radial-gradient(100% 45% at 50% 100%, rgba(255, 122, 60, 0.5), transparent 62%), linear-gradient(#0e5a74 0%, #0a3a54 48%, #062030 100%); }
+:root[data-world="deep-whalefall"] .app { background: radial-gradient(70% 42% at 50% 0%, rgba(122, 224, 208, 0.4), transparent 58%), linear-gradient(#1c7a94 0%, #0e4460 52%, #071e30 100%); }
+:root[data-world="deep-market"] .app { background: linear-gradient(#3a1c6c 0%, #221048 46%, #0c0a24 100%); }
+:root[data-world="deep-kelp"] .app { background: radial-gradient(80% 50% at 50% 0%, rgba(200, 255, 224, 0.45), transparent 60%), linear-gradient(#2aa87c 0%, #147a5c 46%, #063428 100%); }
+:root[data-world="deep-kelp"] { --chrome: #dffff0; }
+:root[data-world="deep-jelly"] .app { background: linear-gradient(#6a3aac 0%, #45228c 46%, #1c1048 100%); }
+:root[data-world="deep-jelly"] { --chrome: #e8dcff; }
+:root[data-world="deep-subs"] .app { background: linear-gradient(#3a7a8c 0%, #1c4a5c 50%, #0a2430 100%); }
+:root[data-world="deep-reef"] .app { background: linear-gradient(#4ad8e0 0%, #1a8aac 46%, #0c4468 100%); }
+:root[data-world="deep-reef"] { --chrome: #08303c; } :root[data-world="deep-reef"] .world-name { text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.45); }
+:root[data-world="deep-void"] .app { background: radial-gradient(120% 80% at 50% 30%, #0a1626, #020810 72%); }
+
+/* — Cryptid National Park — */
+:root[data-world="park-trail"] .app { background: linear-gradient(#ffd98a 0%, #e8944a 26%, #6a8a4c 50%, #1c3824 100%); }
+:root[data-world="park-trail"] { --chrome: #2c1c0c; } :root[data-world="park-trail"] .world-name { text-shadow: 2px 2px 0 rgba(255, 217, 138, 0.6); }
+:root[data-world="park-mothman"] .app { background: linear-gradient(#4a4a9c 0%, #2c2c6c 46%, #10102c 100%); }
+:root[data-world="park-marina"] .app { background: linear-gradient(#ff9ab8 0%, #c86a9c 30%, #4a5a9c 62%, #16303c 100%); }
+:root[data-world="park-ufo"] .app { background: radial-gradient(60% 40% at 50% 62%, rgba(122, 224, 208, 0.28), transparent 62%), linear-gradient(#1c4a3c 0%, #0e2c22 56%, #06140c 100%); }
+:root[data-world="park-meadow"] .app { background: radial-gradient(70% 40% at 30% 16%, rgba(255, 244, 200, 0.7), transparent 60%), linear-gradient(#ffe9a3 0%, #ffc86a 36%, #a8d878 62%, #4a8a3c 100%); }
+:root[data-world="park-meadow"] { --chrome: #3c2c10; } :root[data-world="park-meadow"] .world-name { text-shadow: 2px 2px 0 rgba(255, 249, 224, 0.7); }
+:root[data-world="park-tower"] .app { background: linear-gradient(#ffb87c 0%, #d87a94 30%, #6a4a9c 62%, #1c1c3c 100%); }
+:root[data-world="park-canyon"] .app { background: linear-gradient(#ffce7a 0%, #ff9a4c 36%, #d95a3c 66%, #58203c 100%); }
+:root[data-world="park-canyon"] { --chrome: #3c180c; } :root[data-world="park-canyon"] .world-name { text-shadow: 2px 2px 0 rgba(255, 206, 122, 0.65); }
+:root[data-world="park-bog"] .app { background: linear-gradient(#c8d86a 0%, #8aa84c 36%, #3c5c34 70%, #16281c 100%); }
+:root[data-world="park-bog"] { --chrome: #24300c; } :root[data-world="park-bog"] .world-name { text-shadow: 2px 2px 0 rgba(224, 232, 150, 0.6); }
+
+/* — The Noodle Cosmos — */
+:root[data-world="wok-inferno"] .app { background: radial-gradient(80% 50% at 50% 100%, rgba(255, 184, 77, 0.55), transparent 62%), linear-gradient(#7a1408 0%, #c22a10 46%, #ff6a2c 86%, #3a0a04 100%); }
+:root[data-world="wok-steam"] .app { background: linear-gradient(#ffe9c8 0%, #ffc890 42%, #c98a5c 76%, #6a3a24 100%); }
+:root[data-world="wok-steam"] { --chrome: #4c2810; } :root[data-world="wok-steam"] .world-name { text-shadow: 2px 2px 0 rgba(255, 233, 200, 0.7); }
+:root[data-world="wok-alley"] .app { background: linear-gradient(#6a1c5a 0%, #3a1040 52%, #16081c 100%); }
+:root[data-world="wok-asteroids"] .app { background: radial-gradient(60% 40% at 70% 18%, rgba(224, 68, 160, 0.45), transparent 60%), radial-gradient(50% 36% at 18% 40%, rgba(90, 140, 255, 0.3), transparent 60%), linear-gradient(#3a1c7c 0%, #241456 52%, #0c0824 100%); }
+:root[data-world="wok-nebula"] .app { background: radial-gradient(70% 50% at 50% 28%, rgba(255, 184, 77, 0.4), transparent 66%), linear-gradient(#8a3a1c 0%, #5c2450 56%, #200a2c 100%); }
+:root[data-world="wok-dragon"] .app { background: linear-gradient(#ffb84d 0%, #e0662c 36%, #a32240 70%, #4a0f2c 100%); }
+:root[data-world="wok-dragon"] { --chrome: #3c1408; } :root[data-world="wok-dragon"] .world-name { text-shadow: 2px 2px 0 rgba(255, 184, 77, 0.65); }
+:root[data-world="wok-shrine"] .app { background: linear-gradient(#ff9a5c 0%, #e0532c 46%, #8a1428 82%, #3a0a14 100%); }
+:root[data-world="wok-boba"] .app { background: linear-gradient(#ffe0c8 0%, #f0b890 42%, #c98a6a 76%, #6a3c2c 100%); }
+:root[data-world="wok-boba"] { --chrome: #4c2414; } :root[data-world="wok-boba"] .world-name { text-shadow: 2px 2px 0 rgba(255, 224, 200, 0.7); }
+
+/* — Pirate Radio Atoll — */
+:root[data-world="atoll-wreck"] .app { background: radial-gradient(70% 45% at 50% 24%, rgba(255, 233, 179, 0.6), transparent 62%), linear-gradient(#7ac8ec 0%, #ffd98a 38%, #ff9a5c 52%, #1c6b8a 53%, #0f4258 100%); }
+:root[data-world="atoll-wreck"] { --chrome: #2c1c08; } :root[data-world="atoll-wreck"] .world-name { text-shadow: 2px 2px 0 rgba(255, 233, 179, 0.7); }
+:root[data-world="atoll-light"] .app { background: linear-gradient(#8a4a9c 0%, #d96a5c 38%, #ff9a5c 50%, #16394a 51%, #0c2836 100%); }
+:root[data-world="atoll-parrots"] .app { background: linear-gradient(#a8f0f8 0%, #4ac8e0 48%, #1c8aac 100%); }
+:root[data-world="atoll-parrots"] { --chrome: #0c3844; } :root[data-world="atoll-parrots"] .world-name { text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5); }
+:root[data-world="atoll-kraken"] .app { background: linear-gradient(#5c3a9c 0%, #3a2a7c 40%, #123a52 56%, #0a2438 100%); }
+:root[data-world="atoll-bottles"] .app { background: radial-gradient(60% 40% at 16% 14%, rgba(255, 246, 208, 0.75), transparent 55%), linear-gradient(#ffe9b3 0%, #ffc86a 40%, #2c8aa8 56%, #14506a 100%); }
+:root[data-world="atoll-bottles"] { --chrome: #3c2408; } :root[data-world="atoll-bottles"] .world-name { text-shadow: 2px 2px 0 rgba(255, 233, 179, 0.75); }
+:root[data-world="atoll-skull"] .app { background: linear-gradient(#2c3a7c 0%, #1a2450 52%, #0c1228 100%); }
+:root[data-world="atoll-storm"] .app { background: linear-gradient(#4a5a8c 0%, #2c3854 52%, #141c30 100%); }
+:root[data-world="atoll-antenna"] .app { background: linear-gradient(#ffd24a 0%, #ffa04c 40%, #8a5a9c 76%, #3c2454 100%); }
+:root[data-world="atoll-antenna"] { --chrome: #3c2408; } :root[data-world="atoll-antenna"] .world-name { text-shadow: 2px 2px 0 rgba(255, 210, 74, 0.7); }
+
+/* — Yeti Ski Resort — */
+:root[data-world="yeti-lift"] .app { background: linear-gradient(#4ab0ec 0%, #8ed4f4 56%, #d8eefa 100%); }
+:root[data-world="yeti-diamond"] .app { background: linear-gradient(#5cb8ec 0%, #a8dcf4 40%, #eef7fc 100%); }
+:root[data-world="yeti-disco"] .app { background: radial-gradient(60% 40% at 50% 10%, rgba(232, 221, 246, 0.4), transparent 62%), linear-gradient(#6a2c9c 0%, #45226c 52%, #1c1240 100%); }
+:root[data-world="yeti-disco"] { --chrome: #eee6fa; } :root[data-world="yeti-disco"] .world-name { color: #fff; text-shadow: 2px 2px 0 #e0447a; }
+:root[data-world="yeti-springs"] .app { background: linear-gradient(#ffc8d4 0%, #e090b0 36%, #8a7ab8 72%, #4a4a84 100%); }
+:root[data-world="yeti-icebar"] .app { background: linear-gradient(#5cd0e8 0%, #2c98c8 52%, #145a8a 100%); }
+:root[data-world="yeti-icebar"] { --chrome: #0c344c; }
+:root[data-world="yeti-groomer"] .app { background: linear-gradient(#2c3a7c 0%, #1a2456 56%, #0c1230 100%); }
+:root[data-world="yeti-groomer"] { --chrome: #dce8f8; } :root[data-world="yeti-groomer"] .world-name { color: #fff; text-shadow: 2px 2px 0 #3a4a9c; }
+:root[data-world="yeti-aurora"] .app { background: linear-gradient(#0c2038 0%, #12304c 60%, #1c4258 100%); }
+:root[data-world="yeti-aurora"] { --chrome: #d8f0e8; } :root[data-world="yeti-aurora"] .world-name { color: #fff; text-shadow: 2px 2px 0 #1c6b5c; }
+:root[data-world="yeti-village"] .app { background: linear-gradient(#c890d8 0%, #8a6ab8 42%, #4c3a8c 100%); }
+:root[data-world="yeti-village"] { --chrome: #f0e8fa; } :root[data-world="yeti-village"] .world-name { color: #fff; text-shadow: 2px 2px 0 #6a3a8c; }
+
+
+/* ═══════════ THE MACHINES: each universe's console is a different object ═══════════ */
+
+/* DOJO — a hanging scroll between wooden rollers; sets are brush tallies */
+:root[data-universe="dojo"] .objective { margin-top: 18px; margin-bottom: 18px; overflow: visible; }
+:root[data-universe="dojo"] .objective::before, :root[data-universe="dojo"] .objective::after {
+  content: ''; position: absolute; left: -16px; right: -16px; height: 20px; border-radius: 10px;
+  background: linear-gradient(#a06a34, #58341a 70%); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 -4px 0 #40200c, inset 0 3px 0 #c98a4c;
+}
+:root[data-universe="dojo"] .objective::before { top: -13px; }
+:root[data-universe="dojo"] .objective::after { bottom: -13px; }
+:root[data-universe="dojo"] .obj-name { position: relative; padding-right: 44px; }
+:root[data-universe="dojo"] .obj-name::after {
+  content: ''; position: absolute; right: 0; top: 2px; width: 34px; height: 34px; border-radius: 6px;
+  background: linear-gradient(#d9502f, #b32e18); rotate: 4deg;
+  box-shadow: inset 0 0 0 3px #f2e6d0, inset 0 0 0 5px #7a1408, 1px 2px 4px rgba(0, 0, 0, 0.3);
+}
+:root[data-universe="dojo"] .pip { width: 6px; height: 20px; border-radius: 3px; border: none; background: #d8c8a8; rotate: 14deg; }
+:root[data-universe="dojo"] .pip.done { background: #b3361e; box-shadow: 0 0 8px rgba(179, 54, 30, 0.5); }
+:root[data-universe="dojo"] .pip.cur { background: #7a5a40; }
+
+/* DEEP — porthole console with rivets and a live depth gauge */
+:root[data-universe="deep"] .objective { padding-left: 42px; }
+.depth-rail {
+  position: absolute; left: 11px; top: 18px; bottom: 18px; width: 17px; border-radius: 9px;
+  background: repeating-linear-gradient(0deg, transparent 0 10%, rgba(56, 220, 200, 0.55) 10% 11.5%), rgba(4, 18, 28, 0.65);
+  border: 1px solid #1c5c52;
+}
+.depth-rail .dmark {
+  position: absolute; left: -6px; width: 28px; height: 11px; border-radius: 5px;
+  background: linear-gradient(#ffb37a, #ff8f5c); box-shadow: 0 0 12px rgba(255, 143, 92, 0.85);
+  transition: top 600ms var(--spring);
+}
+:root[data-universe="deep"] .console {
+  border: 5px solid #c9884a; border-radius: 24px; background: rgba(5, 22, 32, 0.55);
+  box-shadow: inset 0 0 26px rgba(56, 220, 200, 0.14), 0 6px 14px rgba(0, 0, 0, 0.35); padding: 14px 10px 12px;
+  background-image: radial-gradient(circle 4px at 14px 14px, #c9884a 4px, transparent 5px), radial-gradient(circle 4px at calc(100% - 14px) 14px, #c9884a 4px, transparent 5px), radial-gradient(circle 4px at 14px calc(100% - 14px), #c9884a 4px, transparent 5px), radial-gradient(circle 4px at calc(100% - 14px) calc(100% - 14px), #c9884a 4px, transparent 5px);
+}
+:root[data-universe="deep"] .pip { border-radius: 50%; border: 2px solid #38dcc8; background: transparent; }
+:root[data-universe="deep"] .pip.done { background: #38dcc8; box-shadow: 0 0 10px rgba(56, 220, 200, 0.7); }
+
+/* PARK — manila folder with tab; the lift is a paperclipped polaroid; sets are punched holes */
+:root[data-universe="park"] .objective { border-radius: 0 10px 3px 3px; margin-top: 18px; overflow: visible; }
+:root[data-universe="park"] .objective::after {
+  content: ''; position: absolute; top: -13px; left: 16px; width: 34%; height: 15px;
+  background: #e6d8ba; border: 2px solid #b8a878; border-bottom: none; border-radius: 8px 8px 0 0;
+}
+:root[data-universe="park"] .obj-name { position: relative; }
+:root[data-universe="park"] .obj-name button {
+  background: #fff; padding: 10px 14px 16px; border: 1px solid #d8ccb0;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25); rotate: -1.4deg; margin: 4px 0 6px;
+}
+:root[data-universe="park"] .obj-name::before {
+  content: ''; position: absolute; left: -8px; top: -10px; width: 16px; height: 34px; z-index: 2;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 34'><path d='M8 2 q5 0 5 6 l0 18 q0 6 -5 6 q-5 0 -5 -6 l0 -14 q0 -4 3.4 -4 q3.6 0 3.6 4 l0 12' fill='none' stroke='%236a7a8a' stroke-width='2.4' stroke-linecap='round'/></svg>") no-repeat;
+}
+:root[data-universe="park"] .pip { background: radial-gradient(circle at 40% 35%, #fff, #d8ccb0); border: 2px solid #8a7a58; }
+:root[data-universe="park"] .pip.done { background: #33291a; border-color: #33291a; }
+:root[data-universe="park"] .g-log { overflow: visible; margin-top: 34px; position: relative; }
+:root[data-universe="park"] .g-log::before {
+  content: ''; position: absolute; left: 50%; top: -28px; width: 38px; height: 28px; margin-left: -19px;
+  border-radius: 12px 12px 5px 5px; background: linear-gradient(#8a5a3a, #5a3a22);
+  box-shadow: inset 0 -3px 0 #40281a;
+}
+
+/* WOK — an order ticket torn off the rail; sets are dumplings in a steamer */
+:root[data-universe="wok"] .objective {
+  padding-top: 28px; padding-bottom: 32px;
+  -webkit-mask: radial-gradient(circle 8px at 8px 0, transparent 97%, #000) 0 0 / 16px 16px repeat-x, radial-gradient(circle 8px at 8px 100%, transparent 97%, #000) 0 100% / 16px 16px repeat-x, linear-gradient(#000, #000) 0 8px / 100% calc(100% - 16px) no-repeat;
+  mask: radial-gradient(circle 8px at 8px 0, transparent 97%, #000) 0 0 / 16px 16px repeat-x, radial-gradient(circle 8px at 8px 100%, transparent 97%, #000) 0 100% / 16px 16px repeat-x, linear-gradient(#000, #000) 0 8px / 100% calc(100% - 16px) no-repeat;
+}
+:root[data-universe="wok"] .set-pips {
+  background: linear-gradient(#c98a4c, #a86a34); border-radius: 12px; padding: 9px 12px; gap: 10px;
+  box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.35), 0 2px 0 #7a4a20;
+}
+:root[data-universe="wok"] .pip { position: relative; width: 19px; height: 15px; border: none; border-radius: 50% 50% 46% 46%; background: #e8d5b8; opacity: .38; }
+:root[data-universe="wok"] .pip.done { opacity: 1; background: #f6ead0; box-shadow: inset 0 -3px 0 #d9b88a; }
+:root[data-universe="wok"] .pip.done::before { content: ''; position: absolute; left: 5px; top: 7px; width: 2.6px; height: 2.6px; border-radius: 50%; background: #4a3218; box-shadow: 6px 0 0 #4a3218; }
+:root[data-universe="wok"] .pip.cur { opacity: .7; }
+
+/* ATOLL — a wooden radio cabinet: tuning needle + speaker grille */
+.freq {
+  position: relative; height: 24px; margin: 2px 0 12px; border-radius: 7px; overflow: hidden;
+  background: linear-gradient(#241c14, #3a2c1c); border: 2px solid #4a3014;
+}
+.freq::before { content: ''; position: absolute; inset: 4px 7px; background: repeating-linear-gradient(90deg, rgba(255, 232, 196, 0.6) 0 2px, transparent 2px 13px); }
+.freq .needle { position: absolute; top: 0; bottom: 0; width: 3.4px; background: #ff5d3c; box-shadow: 0 0 9px rgba(255, 93, 60, 0.95); transition: left 600ms var(--spring); }
+:root[data-universe="atoll"] .objective { padding-bottom: 34px; }
+:root[data-universe="atoll"] .objective { background-image: radial-gradient(circle 1.6px at 4px 4px, rgba(74, 48, 20, 0.5) 1.6px, transparent 2.4px); background-size: 9px 8px; background-position: 0 calc(100% - 4px); background-repeat: repeat-x; }
+:root[data-universe="atoll"] .pip { border-radius: 2px; width: 9px; height: 16px; }
+
+/* YETI — sets are chairs riding the lift cable */
+:root[data-universe="yeti"] .set-pips { position: relative; padding-top: 10px; gap: 14px; }
+:root[data-universe="yeti"] .set-pips::before { content: ''; position: absolute; left: 6px; right: 6px; top: 4px; height: 3px; border-radius: 2px; background: #4a3a2a; }
+:root[data-universe="yeti"] .pip { position: relative; width: 17px; height: 14px; border: none; border-radius: 4px 4px 7px 7px; background: #c8dcec; margin-top: 6px; }
+:root[data-universe="yeti"] .pip::before { content: ''; position: absolute; top: -8px; left: 50%; width: 2.6px; height: 9px; margin-left: -1.3px; background: #4a3a2a; }
+:root[data-universe="yeti"] .pip.done { background: #e0447a; }
+:root[data-universe="yeti"] .pip.cur { background: #3a8fd9; }
+
+/* ═══════════ THE MOTION LAYER: everything is alive ═══════════ */
+/* independent transform props (scale/rotate/translate) so universe skins'
+   static transforms never get stomped by these animations */
+@keyframes title-slam { 0% { opacity: 0; scale: 1.7; rotate: -3deg } 62% { scale: .95; rotate: 1deg } 100% { opacity: 1; scale: 1; rotate: 0deg } }
+@keyframes fade-drop { from { opacity: 0; translate: 0 -10px } to { opacity: 1; translate: 0 0 } }
+@keyframes panel-in { 0% { opacity: 0; translate: 0 30px; scale: .95 } 100% { opacity: 1; translate: 0 0; scale: 1 } }
+@keyframes val-pop { 0% { opacity: 0; scale: .6 } 70% { scale: 1.08 } 100% { opacity: 1; scale: 1 } }
+@keyframes log-breathe { 0%, 100% { scale: 1; filter: brightness(1) } 50% { scale: 1.03; filter: brightness(1.12) } }
+@keyframes pip-hop { 0%, 100% { translate: 0 0 } 50% { translate: 0 -5px } }
+@keyframes pip-pop { 0% { scale: 0 } 70% { scale: 1.35 } 100% { scale: 1 } }
+@keyframes odot-throb { 0%, 100% { scale: 1 } 50% { scale: 1.22 } }
+@keyframes strike-quake { 0%, 100% { translate: 0 0 } 20% { translate: -4px 2px } 45% { translate: 4px -3px } 70% { translate: -3px -1px } }
+@keyframes trophy-dangle { 0% { rotate: -2.2deg } 100% { rotate: 2.6deg } }
+@keyframes tool-drop { from { opacity: 0; translate: 0 -12px } to { opacity: 1; translate: 0 0 } }
+@keyframes notice-in { from { opacity: 0; translate: -14px 0 } to { opacity: 1; translate: 0 0 } }
+@keyframes rest-glow { 0%, 100% { filter: brightness(1) } 50% { filter: brightness(1.18) } }
+
+.uni-name { animation: fade-drop .5s .05s var(--ease) both; }
+.world-name { animation: title-slam .65s var(--spring) both; }
+.mission-line { animation: fade-drop .5s .18s var(--ease) both; }
+.head-tools .tool { animation: tool-drop .45s var(--ease) both; }
+.head-tools .tool:nth-child(2) { animation-delay: .08s; }
+.head-tools .tool:nth-child(3) { animation-delay: .16s; }
+.notice { animation: notice-in .4s var(--ease) both; }
+.objective { animation: panel-in .55s .08s var(--spring) both; }
+.obj-dots { animation: fade-drop .5s .26s var(--ease) both; }
+.g-val { animation: val-pop .45s var(--spring) both; }
+.g-log { animation: log-breathe 2.8s ease-in-out .9s infinite; }
+.pip.cur { animation: pip-hop 1.1s ease-in-out infinite; }
+.pip.done { animation: pip-pop .4s var(--spring); }
+.odot.cur { animation: odot-throb 2s ease-in-out infinite; }
+.console.struck { animation: strike-quake .45s var(--ease); }
+.trophy { animation: trophy-in .4s var(--spring) backwards, trophy-dangle 2.8s ease-in-out infinite alternate; }
+.trophy:nth-child(even) { animation-delay: 0s, -1.4s; }
+.rest-pill { animation: dock-in .3s var(--ease), rest-glow 2.2s ease-in-out infinite; }
+.obj-done .big { animation: title-slam .6s var(--spring) both; }
+
 
 /* ═══════════ SPACES: SCRAPBOOK + THE BOARD ═══════════ */
 :root[data-universe="sb"], :root[data-universe="cb"] {

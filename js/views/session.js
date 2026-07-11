@@ -197,6 +197,17 @@ function renderWorldScreen(draft, phaseInfo) {
   const cur = curIdx === -1 ? null : x.sets[curIdx];
   const lastWarned = [...x.sets].reverse().find((s) => s.done && s.warn && !s.warnDismissed);
 
+  // Universe furniture: the console is a different machine in every universe.
+  // The Deep's panel wears a live depth gauge; the Atoll's radio has a tuning
+  // needle — both sweep as sets get logged.
+  const doneInEx = x.sets.filter((s) => s.done).length;
+  const exPct = Math.round((doneInEx / Math.max(1, x.sets.length)) * 100);
+  const frameExtras = U.cls === 'deep'
+    ? `<div class="depth-rail"><i class="dmark" style="top:${(6 + exPct * 0.86).toFixed(1)}%"></i></div>`
+    : U.cls === 'atoll'
+      ? `<div class="freq"><i class="needle" style="left:${(5 + exPct * 0.88).toFixed(1)}%"></i></div>`
+      : '';
+
   root.innerHTML = `
     <header class="world-head">
       <div class="uni-name">${esc(U.name)}</div>
@@ -214,6 +225,7 @@ function renderWorldScreen(draft, phaseInfo) {
     ${phase?.type === 'calibration' ? `<div class="notice">Calibration week — seeds at 90%</div>` : ''}
 
     <section class="objective">
+      ${frameExtras}
       <div class="obj-top">
         <button class="count" id="open-brief">act <b>${focusIdx + 1}</b> of ${draft.exercises.length}</button>
         <div class="obj-pg">
