@@ -119,7 +119,7 @@ export function render(el) {
       <div class="kv"><span class="k">Export local data</span><button class="v" id="sd-export">download</button></div>
       <div class="kv"><span class="k">Reset local data</span><button class="v" id="sd-reset" style="color:var(--bad)">reset</button></div>
     </div>
-    <p style="font-family:var(--mono);font-size:10.5px;color:var(--text3);text-align:center;padding:6px 0 12px">protocol v${plan.version} · plan updated ${esc(plan.updated)}</p>`;
+    <p style="font-family:var(--mono);font-size:10.5px;color:var(--text3);text-align:center;padding:6px 0 12px">app ${esc(self.PROTOCOL_VERSION || 'dev')} · plan v${plan.version} · updated ${esc(plan.updated)}</p>`;
 
   wire(info);
 }

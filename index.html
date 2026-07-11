@@ -26,7 +26,19 @@
   <div class="app" id="app">
     <div class="scene" id="scene" aria-hidden="true"></div>
     <header class="topbar">
-      <div class="wordmark">Protocol</div>
+      <div class="wordmark">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="26" r="17" fill="#e8543f"/>
+          <path d="M13 18C12 7 36 7 35 18" fill="none" stroke="#2b2140" stroke-width="6" stroke-linecap="round"/>
+          <path d="M16 21l6 2M32 21l-6 2" stroke="#2b2140" stroke-width="2.6" stroke-linecap="round"/>
+          <ellipse cx="20" cy="27" rx="3.2" ry="3.9" fill="#fff"/>
+          <ellipse cx="28" cy="27" rx="3.2" ry="3.9" fill="#fff"/>
+          <circle cx="20.8" cy="26.4" r="1.5" fill="#2b2140"/>
+          <circle cx="28.8" cy="26.4" r="1.5" fill="#2b2140"/>
+          <path d="M18 33q6 5 12 0-1.5 6-6 6t-6-6z" fill="#5b1f18"/>
+        </svg>
+        Protocol
+      </div>
       <div class="topbar-right">
         <button class="phase-chip" id="phase-chip" aria-label="Current phase"></button>
         <button class="sync-dot" id="sync-dot" aria-label="Sync status"></button>
@@ -60,6 +72,7 @@
   <div class="sheet-root" id="sheet-root"></div>
   <div class="toast-root" id="toast-root"></div>
 
+  <script src="js/version.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

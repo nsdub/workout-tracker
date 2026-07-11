@@ -86,6 +86,14 @@ store.sub((quiet) => {
 
 initTheme(store.settings.theme);
 store.pruneDraft();
+
+// Announce fresh builds so updates are visible.
+const appVersion = self.PROTOCOL_VERSION || 'dev';
+const lastVersion = localStorage.getItem('p3.lastVersion');
+if (lastVersion && lastVersion !== appVersion) {
+  setTimeout(() => toast(`Updated to ${appVersion}`), 600);
+}
+localStorage.setItem('p3.lastVersion', appVersion);
 $(`#view-${active}`).classList.add('active');
 document.querySelector(`.tab[data-tab="${active}"]`).classList.add('active');
 renderActive();

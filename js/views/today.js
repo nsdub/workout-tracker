@@ -169,7 +169,7 @@ function renderSession(draft, phaseInfo) {
   const theme = THEMES[draft.session_type];
   root.innerHTML = `
     <div class="session-head">
-      <div class="eyebrow">${fmtDate(draft.date)}${theme ? ` · ${theme.world}` : ''}${isNext ? '' : ' · out of rotation'}</div>
+      <div class="eyebrow">${fmtDate(draft.date)}${theme ? ` · <span class="wname">${theme.world}</span>` : ''}${isNext ? '' : ' · out of rotation'}</div>
       <h1><span class="session-title">${esc(session.name)}</span>
         <button class="session-switch" id="switch-session">switch</button>
       </h1>
@@ -476,7 +476,10 @@ export function renderDock() {
     dock.appendChild(bar);
   }
   bar.innerHTML = `
-    <span class="prog num"><b>${done}</b> / ${total} sets</span>
+    <span class="xp">
+      <span class="xp-track"><i style="width:${Math.round((done / total) * 100)}%"></i></span>
+      <span class="xp-label num">${done}/${total}</span>
+    </span>
     <button class="btn primary" id="finish-btn">Finish</button>`;
   bar.querySelector('#finish-btn').addEventListener('click', () => {
     if (done < total) {

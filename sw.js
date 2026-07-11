@@ -1,6 +1,7 @@
-// Offline-first service worker. App shell is cache-first (bump VERSION on
-// deploy); the GitHub API is never cached — sync logic owns that traffic.
-const VERSION = 'protocol-v5';
+// Offline-first service worker. App shell is cache-first (bump the version
+// in js/version.js on deploy); the GitHub API is never cached.
+importScripts('js/version.js');
+const VERSION = `protocol-${self.PROTOCOL_VERSION}`;
 
 const SHELL = [
   './',
@@ -12,6 +13,7 @@ const SHELL = [
   'icons/icon.svg',
   'icons/maskable.svg',
   'js/app.js',
+  'js/version.js',
   'js/util.js',
   'js/store.js',
   'js/github.js',
@@ -24,7 +26,13 @@ const SHELL = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  // cache:'reload' bypasses the HTTP cache — a new version must never
+  // install stale files (Pages serves with max-age=600).
+  e.waitUntil(
+    caches.open(VERSION)
+      .then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' }))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', (e) => {
