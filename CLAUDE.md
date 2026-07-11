@@ -24,9 +24,18 @@ commits only. Do not repeat this.
 
 ## Design mandate (user has repeated this many times)
 
-- Aesthetic: **unhinged AAA video game.** Never restrained, never SaaS,
-  never minimal. When in doubt, go crazier — the user has never once asked
-  for less intensity.
+- Aesthetic: **completely unhinged design that is still functional.**
+  NOT "professional game studio" — the user rejected that as too tame.
+  The reference points are Adventure Time / SpongeBob / South Park
+  (cartoon anarchy, faces on everything, rubber physics), Matisse
+  (cut-out shapes, fauvist color), and Dune / The Fifth Element
+  (visionary, operatic, maximal). Never restrained, never SaaS, never
+  minimal, never merely "polished." When in doubt, go crazier — the user
+  has never once asked for less intensity.
+- Each world is its own **art style**, not just a palette: different
+  drawing language, different type treatment, different physics. UI
+  controls are characters and objects that live in the world, not
+  neutral widgets placed on top of it.
 - **There are no modes.** No light/dark toggle, no theme settings, no
   mode language at all. The job is ONE beautiful interface. Each session
   world commits totally to its own look — a world may be bright pastel
