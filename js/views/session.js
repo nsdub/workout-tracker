@@ -167,7 +167,6 @@ function renderWorldScreen(draft, phaseInfo) {
   root.innerHTML = `
     <header class="world-head">
       <div class="world-name">${esc(W.world)}</div>
-      <div class="world-tag">${esc(W.tagline)}</div>
       <div class="mission-line">${esc(session.name)} — night ${missionNo} — ${fmtDate(draft.date)}</div>
       <div class="head-tools">
         <button class="tool" id="chip-bw">BW ${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</button>

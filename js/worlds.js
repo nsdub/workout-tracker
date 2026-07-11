@@ -18,7 +18,6 @@ export const WORLDS = {
   PushA: {
     world: 'Big Top Midnight',
     cls: 'w1',
-    tagline: 'the carnival stayed open for you',
     copy: {
       log: 'Ring it', rest: 'Intermission', results: 'Showstopper',
       objDone: 'Bell rung', pr: 'JACKPOT', finish: 'Close the show',
@@ -42,7 +41,6 @@ export const WORLDS = {
   PullA: {
     world: 'The Unfinished Ceiling',
     cls: 'w2',
-    tagline: 'the cherubs are watching your back angles',
     copy: {
       log: 'Carve it', rest: 'The paint dries', results: 'Masterpiece',
       objDone: 'Panel finished', pr: 'GOLD BREAKS THROUGH', finish: 'Sign the ceiling',
@@ -71,7 +69,6 @@ export const WORLDS = {
   LegsA: {
     world: 'The Underdirt',
     cls: 'w3',
-    tagline: 'the colony filed a work order for your quads',
     copy: {
       log: 'Dispatch', rest: 'Tunnel break', results: 'Project complete',
       objDone: 'Order filled', pr: 'DECREE OF THE QUEEN', finish: 'Seal the tunnel',
@@ -97,7 +94,6 @@ export const WORLDS = {
   PushB: {
     world: 'Meemaw’s Midnight Kitchen',
     cls: 'w4',
-    tagline: 'the fridge believes in you, conditionally',
     copy: {
       log: 'Ding!', rest: 'Cooling rack', results: 'Supper’s ready',
       objDone: 'Dish served', pr: 'MEEMAW WINKED', finish: 'Say grace',
@@ -120,7 +116,6 @@ export const WORLDS = {
   PullB: {
     world: 'Channel 87',
     cls: 'w5',
-    tagline: 'live from a television that should not still work',
     copy: {
       log: '⏺ Rec', rest: 'Commercial break', results: 'Off the air',
       objDone: 'Taped', pr: 'SIGNAL LOST', finish: 'End broadcast',
@@ -143,7 +138,6 @@ export const WORLDS = {
   LegsB: {
     world: 'Parade Eternal',
     cls: 'w6',
-    tagline: 'the band has been playing since tuesday',
     copy: {
       log: 'Fire!', rest: 'Halftime', results: 'Parade dismissed',
       objDone: 'Float launched', pr: 'THE BALLOONS ARE FREE', finish: 'Wave goodbye',
@@ -180,12 +174,4 @@ export function applyWorld(key) {
 
 export function worldOf(sessionType) {
   return WORLDS[sessionType];
-}
-
-export function worldTitle(sessionType) {
-  return WORLDS[sessionType]?.world ?? sessionType;
-}
-
-export function worldTag(sessionType) {
-  return esc(WORLDS[sessionType]?.tagline ?? '');
 }

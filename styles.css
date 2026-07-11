@@ -122,7 +122,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   font-family: var(--disp); font-size: 30px; line-height: 1.02; color: var(--chrome);
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
 }
-.world-tag { font-family: var(--mono); font-size: 10.5px; opacity: 0.75; margin-top: 4px; letter-spacing: 0.04em; }
 .mission-line { font-family: var(--mono); font-size: 11px; opacity: 0.85; margin-top: 6px; }
 .head-tools { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
 .tool {
@@ -459,9 +458,8 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-world="w1"] .fx.wheel i:nth-child(1) { transform: rotate(0deg) } :root[data-world="w1"] .fx.wheel i:nth-child(2) { transform: rotate(60deg) } :root[data-world="w1"] .fx.wheel i:nth-child(3) { transform: rotate(120deg) } :root[data-world="w1"] .fx.wheel i:nth-child(4) { transform: rotate(180deg) } :root[data-world="w1"] .fx.wheel i:nth-child(5) { transform: rotate(240deg) } :root[data-world="w1"] .fx.wheel i:nth-child(6) { transform: rotate(300deg) }
 :root[data-world="w1"] .objective {
   border-radius: 10px;
-  -webkit-mask: radial-gradient(circle 7px at 0 50%, transparent 96%, #000) -7px 50% / 100% 28px repeat-y,
-                linear-gradient(#000, #000);
-  -webkit-mask-composite: destination-out; mask-composite: exclude;
+  -webkit-mask: radial-gradient(circle 7px at 0 50%, transparent 96%, #000) -7px 50% / 100% 28px repeat-y;
+  mask: radial-gradient(circle 7px at 0 50%, transparent 96%, #000) -7px 50% / 100% 28px repeat-y;
   border: 3px solid #b3862a;
 }
 :root[data-world="w1"] .g-log { background: radial-gradient(circle at 50% 35%, #ff5c72, var(--acc) 70%); border-radius: 50% / 38%; border: 4px solid #7a1020; }
@@ -483,7 +481,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-world="w2"] {
   --bg: #e9dfcd;
   --paper: #f7f0e2; --paper2: #ece2cd; --ink: #3a3128; --ink2: #7a6a52;
-  --acc: #b3862a; --acc2: #7fa8c9; --chrome: #4a4032;
+  --acc: #8a6620; --acc2: #7fa8c9; --chrome: #4a4032;
   --disp: 'Cinzel', serif;
 }
 :root[data-world="w2"] .app {
@@ -520,7 +518,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 /* ═══════════ WORLD 3: THE UNDERDIRT ═══════════ */
 :root[data-world="w3"] {
-  --bg: #33241668;
+  --bg: #332416;
   --paper: #e8d9b8; --paper2: #dcc99f; --ink: #33251a; --ink2: #7a5f3d;
   --acc: #c9541f; --acc2: #4a7a3a; --chrome: #e8d9b8;
   --disp: 'Special Elite', serif;
@@ -530,6 +528,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
     linear-gradient(#7ec8e8 0, #7ec8e8 7%, #4a7a3a 7%, #3a5f2c 9%,
       #4a3423 9%, #3a2a1c 30%, #33241a 30%, #2b1e12 55%, #241a10 55%, #1c130a 100%);
 }
+:root[data-world="w3"] .world-name, :root[data-world="w3"] .mission-line { color: #2b1e12; text-shadow: 1px 1px 0 rgba(232, 217, 184, 0.6); }
 :root[data-world="w3"] .fx.strata { left: 0; right: 0; height: 3px; background: rgba(232, 217, 184, 0.12); }
 :root[data-world="w3"] .fx.strata.s1 { top: 30%; } :root[data-world="w3"] .fx.strata.s2 { top: 55%; } :root[data-world="w3"] .fx.strata.s3 { top: 78%; }
 :root[data-world="w3"] .fx.root { top: 9%; width: 6px; height: var(--h); background: #5a3f28; border-radius: 0 0 8px 8px; transform-origin: 50% 0; animation: swing var(--d) ease-in-out infinite; }
@@ -604,11 +603,11 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-world="w5"] .fx.crt-glow { inset: 0; box-shadow: inset 0 0 120px rgba(88, 255, 157, 0.22); }
 :root[data-world="w5"] .fx.rec { top: calc(10px + env(safe-area-inset-top, 0px)); left: 12px; font-family: 'VT323'; font-size: 20px; color: #ff3b3b; display: flex; gap: 7px; align-items: center; }
 :root[data-world="w5"] .fx.rec i { width: 12px; height: 12px; border-radius: 50%; background: #ff3b3b; animation: blink 1s steps(2) infinite; }
-:root[data-world="w5"] .fx.smpte { left: 0; right: 0; bottom: 0; height: 16px; display: flex; }
+:root[data-world="w5"] .fx.smpte { left: 0; right: 0; bottom: var(--tabbar-h); height: 16px; display: flex; }
 :root[data-world="w5"] .fx.smpte i { flex: 1; }
 :root[data-world="w5"] .fx.smpte i:nth-child(1){background:#c0c0c0}:root[data-world="w5"] .fx.smpte i:nth-child(2){background:#c0c000}:root[data-world="w5"] .fx.smpte i:nth-child(3){background:#00c0c0}:root[data-world="w5"] .fx.smpte i:nth-child(4){background:#00c000}:root[data-world="w5"] .fx.smpte i:nth-child(5){background:#c000c0}:root[data-world="w5"] .fx.smpte i:nth-child(6){background:#c00000}
 :root[data-world="w5"] .fx.chyron {
-  left: 0; right: 0; bottom: 16px; overflow: hidden;
+  left: 0; right: 0; bottom: calc(var(--tabbar-h) + 16px); overflow: hidden;
   background: rgba(0, 0, 0, 0.8); border-top: 2px solid #58ff9d; border-bottom: 2px solid #58ff9d;
 }
 :root[data-world="w5"] .fx.chyron span { display: inline-block; white-space: nowrap; font-family: 'VT323'; font-size: 19px; color: #58ff9d; padding: 3px 0; animation: ticker 20s linear infinite; }
@@ -658,7 +657,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-world="w6"] .world-name { color: #fff; text-shadow: 3px 3px 0 #ff4f79; }
 :root[data-world="w6"] .g-log { background: linear-gradient(#ff7a9a, #ff4f79); border-radius: 16px; border: 4px solid #fff; box-shadow: 0 6px 0 #b32e51, 0 10px 24px rgba(0,0,0,.25); }
-:root[data-world="w6"] .trophy { background: #59c9a5; clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%); padding-right: 18px; border-radius: 4px 0 0 4px; }
+:root[data-world="w6"] .trophy { background: #59c9a5; color: var(--ink); clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%); padding-right: 18px; border-radius: 4px 0 0 4px; }
 
 /* ═══════════ SPACES: SCRAPBOOK + THE BOARD ═══════════ */
 :root[data-world="sb"], :root[data-world="cb"] {
