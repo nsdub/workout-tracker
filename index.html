@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#1a0b10">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Protocol</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="scene" id="scene" aria-hidden="true"></div>
+    <main class="views" id="views">
+      <section class="view" id="view-today" data-view="today"></section>
+      <section class="view" id="view-history" data-view="history"></section>
+      <section class="view" id="view-plan" data-view="plan"></section>
+    </main>
+    <nav class="tabbar" id="tabbar">
+      <button class="tab" data-tab="today"><span class="t-face">💪</span><span>Lift</span></button>
+      <button class="tab" data-tab="history"><span class="t-face">📼</span><span>Scrapbook</span></button>
+      <button class="tab" data-tab="plan"><span class="t-face">🧵</span><span>The Board</span></button>
+    </nav>
+    <div class="dock" id="dock"></div>
+    <div class="hud-status" id="hud-status"></div>
+  </div>
+  <div class="sheet-root" id="sheet-root"></div>
+  <div class="toast-root" id="toast-root"></div>
+  <script src="js/version.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

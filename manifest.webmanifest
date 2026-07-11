@@ -1,0 +1,14 @@
+{
+  "name": "Protocol",
+  "short_name": "Protocol",
+  "description": "Six worlds. One barbell. Log fast, get strong, ring the bell.",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#26090f",
+  "theme_color": "#26090f",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

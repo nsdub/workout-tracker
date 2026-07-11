@@ -1,0 +1,69 @@
+// Offline-first service worker. Shell is cache-first; installs bypass the
+// HTTP cache; data/ and the GitHub API are never cached here.
+importScripts('js/version.js');
+const VERSION = `protocol-${self.PROTOCOL_VERSION}`;
+
+const SHELL = [
+  './',
+  'index.html',
+  'styles.css',
+  'manifest.webmanifest',
+  'fonts/Rye-latin.woff2',
+  'fonts/Cinzel-latin.woff2',
+  'fonts/Chewy-latin.woff2',
+  'fonts/VT323-latin.woff2',
+  'fonts/Shrikhand-latin.woff2',
+  'fonts/SpecialElite-latin.woff2',
+  'fonts/GeistMono-latin.woff2',
+  'icons/icon.svg',
+  'icons/maskable.svg',
+  'js/app.js',
+  'js/version.js',
+  'js/util.js',
+  'js/store.js',
+  'js/github.js',
+  'js/engine.js',
+  'js/components.js',
+  'js/worlds.js',
+  'js/views/session.js',
+  'js/views/log.js',
+  'js/views/plan.js',
+];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(VERSION)
+      .then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' }))))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+  if (e.request.method !== 'GET' || url.hostname === 'api.github.com') return;
+  if (url.origin !== location.origin) return;
+  if (url.pathname.includes('/data/')) return;
+  e.respondWith(
+    caches.match(e.request, { ignoreSearch: true }).then((hit) => {
+      if (hit) return hit;
+      return fetch(e.request).then((res) => {
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(VERSION).then((c) => c.put(e.request, copy));
+        }
+        return res;
+      }).catch(() => {
+        if (e.request.mode === 'navigate') return caches.match('index.html');
+        throw new Error('offline');
+      });
+    })
+  );
+});

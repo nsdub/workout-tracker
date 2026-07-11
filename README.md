@@ -20,11 +20,9 @@ training log is public too.
 - **Reads without a token.** A fresh install loads `data/plan.json` straight
   off Pages. The PAT is only needed to write and to pull history.
 - **Worlds.** One interface, no modes, no theme selector. Each session
-  type is a committed, fully animated world (Molten Forge, The Abyss,
-  Deep Jungle, Ice Cream Parlor, Arctic Expedition, Neon District) that
-  owns its entire look — bright or dark as the world demands.
-  (Note: the frontend was removed at commit 6550eaf pending a ground-up
-  rebuild; this section describes the design mandate, not shipped code.)
+  type is a fully committed world with its own art style — bright or dark
+  as the world demands. The worlds themselves are creative territory, not
+  spec: they are whatever the current build says they are.
 - **How-tos.** Every exercise in `plan.json` carries a `howto` form guide,
   reachable from the exercise name on the log screen and from the templates
   on the Plan tab.
