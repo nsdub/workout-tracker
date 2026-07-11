@@ -88,14 +88,14 @@ export function render(el) {
     <div class="beacon">
       <b>⚠ DISTRESS BEACONS</b>
       ${stalls.map((s) => `<span>${esc(s.name)} <i>(${esc(s.sessionType)})</i></span>`).join('')}
-      <span class="dim">swap variations at the next deload</span>
+      <span class="dim">Swap variations at the next deload.</span>
     </div>` : ''}
 
     <div class="orbit-map">${orbitMap(plan, info, today, show)}</div>
 
     <div class="console-card">
       <h3>The six workouts</h3>
-      <div class="cc-line" style="margin-bottom:9px">every workout's exercise list, sets and weights — tap one</div>
+      <div class="cc-line" style="margin-bottom:9px">Every workout's exercise list, sets and weights — tap one.</div>
       <div class="rot-strip" id="arsenal">
         ${plan.rotation.map((t) => `<button class="rot-cell" data-t="${t}" style="--c:${UNIVERSES[t].swatch}">${t.replace(/([AB])$/, ' $1')}</button>`).join('')}
       </div>
@@ -103,9 +103,9 @@ export function render(el) {
 
     <div class="console-card manual">
       <h3>How the weights go up</h3>
-      <div class="cc-line">hit the TOP of the rep range on every set of a lift → next session the app raises that lift by ${plan.rules.progression.upperIncrement} lb (+${plan.rules.progression.lowerIncrement} on deadlift, RDL and leg presses). Miss it → same weight again. You never pick the numbers.</div>
-      <div class="cc-line" style="margin-top:6px">effort: on big lifts stop with 1–2 reps left in the tank; the final set of small lifts can go to failure. On deload weeks stay 4+ reps away from failure.</div>
-      <div class="cc-line" style="margin-top:6px">same weight ${plan.rules.stall.sessions} sessions in a row → a red beacon lights up here, and the lift gets a variation swap at the next deload.</div>
+      <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift by ${plan.rules.progression.upperIncrement} lb (+${plan.rules.progression.lowerIncrement} on deadlift, RDL and leg presses). Miss it → same weight again. You never pick the numbers.</div>
+      <div class="cc-line" style="margin-top:6px">Effort: on big lifts stop with 1–2 reps left in the tank; the final set of small lifts can go to failure. On deload weeks stay 4+ reps away from failure.</div>
+      <div class="cc-line" style="margin-top:6px">Same weight ${plan.rules.stall.sessions} sessions in a row → a red beacon lights up here, and the lift gets a variation swap at the next deload.</div>
     </div>
 
     ${info.override ? `<button class="btn quiet" id="clear-override" style="margin:0 2px 14px">Release manual phase lock</button>` : ''}
@@ -221,7 +221,7 @@ function orbitMap(plan, info, today, show) {
 
 function statusLabel() {
   const s = store.syncStatus();
-  return { synced: 'ok', pending: 'pending', failed: 'FAILED', off: 'off' }[s];
+  return { synced: 'OK', pending: 'pending', failed: 'FAILED', off: 'off' }[s];
 }
 
 function wire(info) {
@@ -256,7 +256,7 @@ function arsenalSheet(type) {
   const s = plan.sessions[type];
   openSheet(`
     <h2>${esc(s.name)} — ${esc(UNIVERSES[type].name)}</h2>
-    <div class="sub">tap a lift for the field guide</div>
+    <div class="sub">Tap a lift for the field guide</div>
     <div class="opt-list">
       ${s.exercises.map((slot) => `
         <button class="opt" data-ex="${esc(slot.id)}">
@@ -276,24 +276,24 @@ function arsenalSheet(type) {
 function drawerSheet(info) {
   openSheet(`
     <h2>Systems console</h2>
-    <div class="sub">uplink / device / data</div>
+    <div class="sub">Uplink / device / data</div>
     <div class="card">
       <div class="kv"><span class="k">Repo</span><span class="v">${esc(store.settings.owner)}/${esc(store.settings.repo)}</span></div>
-      <div class="kv"><span class="k">Token</span><button class="v" id="sd-token">${store.settings.token ? 'update' : 'add'}</button></div>
+      <div class="kv"><span class="k">Token</span><button class="v" id="sd-token">${store.settings.token ? 'Update' : 'Add'}</button></div>
       <div class="kv"><span class="k">Sync status</span><span class="v ${store.syncStatus() === 'synced' ? 'ok' : store.syncStatus() === 'failed' ? 'bad' : ''}">${statusLabel()}</span></div>
       ${syncError() ? `<div class="kv"><span class="k" style="color:#ff5d7a">Error</span><span class="v" style="max-width:58%;white-space:normal">${esc(syncError())}</span></div>` : ''}
       <div class="kv"><span class="k">Queue</span><span class="v num">${store.queue.length}</span></div>
-      <div class="kv"><span class="k">Sync now</span><button class="v" id="sd-sync">run</button></div>
-      <div class="kv"><span class="k">App update</span><button class="v" id="sd-update">check now</button></div>
+      <div class="kv"><span class="k">Sync now</span><button class="v" id="sd-sync">Run</button></div>
+      <div class="kv"><span class="k">App update</span><button class="v" id="sd-update">Check now</button></div>
     </div>
     <div class="card">
-      <div class="kv"><span class="k">Rest timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'on' : 'off'}</button></div>
-      <div class="kv"><span class="k">Sound</span><button class="v" id="sd-sound">${store.settings.sound ? 'on' : 'off'}</button></div>
-      <div class="kv"><span class="k">Haptics</span><button class="v" id="sd-haptics">${store.settings.haptics ? 'on' : 'off'}</button></div>
-      <div class="kv"><span class="k">Phase override</span><button class="v" id="sd-phase">${info.override ? esc(info.phase.name) : 'auto'}</button></div>
-      <div class="kv"><span class="k">Import seed</span><button class="v" id="sd-import">file</button><input type="file" id="sd-file" accept=".json" hidden></div>
-      <div class="kv"><span class="k">Export data</span><button class="v" id="sd-export">download</button></div>
-      <div class="kv"><span class="k">Reset device</span><button class="v" id="sd-reset" style="color:#ff5d7a">reset</button></div>
+      <div class="kv"><span class="k">Rest timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'On' : 'Off'}</button></div>
+      <div class="kv"><span class="k">Sound</span><button class="v" id="sd-sound">${store.settings.sound ? 'On' : 'Off'}</button></div>
+      <div class="kv"><span class="k">Haptics</span><button class="v" id="sd-haptics">${store.settings.haptics ? 'On' : 'Off'}</button></div>
+      <div class="kv"><span class="k">Phase override</span><button class="v" id="sd-phase">${info.override ? esc(info.phase.name) : 'Auto'}</button></div>
+      <div class="kv"><span class="k">Import seed</span><button class="v" id="sd-import">File</button><input type="file" id="sd-file" accept=".json" hidden></div>
+      <div class="kv"><span class="k">Export data</span><button class="v" id="sd-export">Download</button></div>
+      <div class="kv"><span class="k">Reset device</span><button class="v" id="sd-reset" style="color:#ff5d7a">Reset</button></div>
     </div>`, {
     onOpen(sheet, close) {
       $('#sd-token', sheet).addEventListener('click', () => { close(); connectSheet(); });
@@ -338,7 +338,7 @@ function drawerSheet(info) {
 export function phaseOverrideSheet(info) {
   optionSheet({
     title: 'Lock a phase by hand',
-    sub: 'phases normally advance by calendar',
+    sub: 'Phases normally advance by calendar',
     options: [
       { label: 'Automatic (by date)', selected: !store.settings.phaseOverride, value: null },
       ...store.plan.phases.map((p) => ({

@@ -168,7 +168,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Strike', rest: 'Meditate', results: 'Training complete',
       objDone: 'Form complete', pr: 'THE MOUNTAIN BOWS', finish: 'Descend the stairs',
-      trophyNote: 'tap a scroll to unlearn it',
+      trophyNote: 'Tap a scroll to unlearn it',
     },
     worlds: [
       {
@@ -399,7 +399,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Descend', rest: 'Decompression', results: 'Back from the deep',
       objDone: 'Depth reached', pr: 'THE LEVIATHAN STIRS', finish: 'Surface',
-      trophyNote: 'tap a depth marker to rise',
+      trophyNote: 'Tap a depth marker to rise',
     },
     worlds: [
       {
@@ -610,7 +610,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Sighting!', rest: 'Trail break', results: 'Case closed',
       objDone: 'Trail cleared', pr: 'CONFIRMED SIGHTING', finish: 'File the report',
-      trophyNote: 'tap a photo to redact it',
+      trophyNote: 'Tap a photo to redact it',
     },
     worlds: [
       {
@@ -884,7 +884,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Wok toss', rest: 'Simmer', results: 'Kitchen closed',
       objDone: 'Order up', pr: 'THE DRAGON APPROVES', finish: 'Last call',
-      trophyNote: 'tap a ticket to refire it',
+      trophyNote: 'Tap a ticket to refire it',
     },
     worlds: [
       {
@@ -1145,7 +1145,7 @@ export const UNIVERSES = {
     copy: {
       log: 'On air', rest: 'Dead air', results: 'Off the air',
       objDone: 'Track played', pr: 'HEARD ON THE MAINLAND', finish: 'Sign off',
-      trophyNote: 'tap a record to scratch it',
+      trophyNote: 'Tap a record to scratch it',
     },
     worlds: [
       {
@@ -1436,7 +1436,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Send it', rest: 'Lodge break', results: 'Après-ski',
       objDone: 'Run cleared', pr: 'AVALANCHE!', finish: 'Last run',
-      trophyNote: 'tap a lift ticket to refund it',
+      trophyNote: 'Tap a lift ticket to refund it',
     },
     worlds: [
       {

@@ -85,7 +85,7 @@ export function connectSheet() {
   const s = store.settings;
   openSheet(`
     <h2>Connect GitHub</h2>
-    <div class="sub">fine-grained token, contents read-write</div>
+    <div class="sub">Fine-grained token, contents read-write</div>
     <div class="card">
       <div class="field"><label>Repository</label><input id="c-repo" value="${esc(s.owner)}/${esc(s.repo)}" autocapitalize="off"></div>
       <div class="field"><label>Token</label><input id="c-token" type="password" value="${esc(s.token)}" placeholder="github_pat_…" autocapitalize="off"></div>
@@ -186,13 +186,13 @@ function switchSession(type) {
 
 const BASIS = {
   progress: (x) => `<span class="num">${fmtW(x.prevTop)}</span> <span class="up">→ <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb — every set hit the top</span>`,
-  repeat: (x) => `repeat <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  hold: (x) => `prep — hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  seed: (x) => x.prev ? `new program — seed weight (older logs shown for reference)` : `first run — seed weight`,
-  calibration: (x) => `seed <span class="num">${fmtW(x.prevTop)}</span> at 90%`,
+  repeat: (x) => `Repeat <span class="num">${fmtW(x.prevTop)}</span> lb`,
+  hold: (x) => `Prep — hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
+  seed: (x) => x.prev ? `New program — seed weight (older logs shown for reference)` : `First run — seed weight`,
+  calibration: (x) => `Seed <span class="num">${fmtW(x.prevTop)}</span> at 90%`,
   deload: (x) => `80% of <span class="num">${fmtW(x.prevTop)}</span>`,
-  verify: (x) => esc(x.note || 'verify weight'),
-  bodyweight: () => `bodyweight`,
+  verify: (x) => esc(x.note || 'Verify weight'),
+  bodyweight: () => `Bodyweight`,
 };
 
 function renderWorldScreen(draft, phaseInfo) {
@@ -230,21 +230,21 @@ function renderWorldScreen(draft, phaseInfo) {
       <div class="mission-line">${esc(session.name)} — night ${missionNo} — ${fmtDate(draft.date)}</div>
       <div class="head-tools">
         <button class="tool" id="chip-bw">BW ${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</button>
-        <button class="tool" id="chip-notes">${draft.notes ? 'note ●' : 'note +'}</button>
+        <button class="tool" id="chip-notes">${draft.notes ? 'Note ●' : 'Note +'}</button>
         <button class="tool" id="chip-fuel">⚡ ${fuelDone}/${fuelCells.length}</button>
-        <button class="tool" id="switch-session">swap day</button>
+        <button class="tool" id="switch-session">Swap day</button>
       </div>
     </header>
     ${isNext ? '' : `<div class="notice">Off the rotation tonight — allowed. Days get pushed, never skipped.</div>`}
     ${streak >= 6 ? `<div class="notice">${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.</div>` : ''}
-    ${draft.date !== todayStr() ? `<div class="notice"><span>Resuming ${fmtDate(draft.date)}</span><button id="resume-discard">discard</button></div>` : ''}
+    ${draft.date !== todayStr() ? `<div class="notice"><span>Resuming ${fmtDate(draft.date)}</span><button id="resume-discard">Discard</button></div>` : ''}
     ${phase?.type === 'deload' ? `<div class="notice">Deload week — 80% load, 60% sets, 4+ RIR</div>` : ''}
     ${phase?.type === 'calibration' ? `<div class="notice">Calibration week — seeds at 90%</div>` : ''}
 
     <section class="objective">
       ${frameExtras}
       <div class="obj-top">
-        <button class="count" id="open-brief">act <b>${focusIdx + 1}</b> of ${draft.exercises.length}</button>
+        <button class="count" id="open-brief">Act <b>${focusIdx + 1}</b> of ${draft.exercises.length}</button>
         <div class="obj-pg">
           <button class="pg" id="pg-prev" ${focusIdx === 0 ? 'disabled' : ''}>◀</button>
           <button class="pg" id="pg-next" ${focusIdx === draft.exercises.length - 1 ? 'disabled' : ''}>▶</button>
@@ -283,7 +283,7 @@ function renderWorldScreen(draft, phaseInfo) {
       </div>` : `
       <div class="obj-done">
         <div class="big">${esc(U.copy.objDone)}!</div>
-        ${focusIdx < draft.exercises.length - 1 ? `<button class="btn primary" id="od-next">Next act</button>` : `<div class="basis-line">every act cleared — ${esc(U.copy.finish.toLowerCase())} below</div>`}
+        ${focusIdx < draft.exercises.length - 1 ? `<button class="btn primary" id="od-next">Next act</button>` : `<div class="basis-line">Every act cleared — ${esc(U.copy.finish.toLowerCase())} below</div>`}
       </div>`}
     </section>
 
@@ -418,7 +418,7 @@ function logSet(x, s, U) {
 function unlogSet(x, s) {
   s.done = false; s.pr = false; s.repPr = false; s.warn = null;
   store.saveDraft(store.draft);
-  toast('took it back');
+  toast('Took it back');
   haptic(8);
   sfx('tap');
   render(root);
@@ -444,14 +444,14 @@ function briefingSheet() {
   const d = store.draft;
   openSheet(`
     <h2>Tonight’s program</h2>
-    <div class="sub">${d.exercises.length} acts</div>
+    <div class="sub">${d.exercises.length} acts tonight</div>
     <div class="opt-list">
       ${d.exercises.map((e, i) => {
         const dn = e.sets.filter((s) => s.done).length;
         return `<button class="opt ${i === focusIdx ? 'selected' : ''}" data-oi="${i}">${esc(e.name)}<span class="hint num">${dn}/${e.sets.length}</span></button>`;
       }).join('')}
     </div>
-    <button class="btn quiet" id="brief-add" style="margin-top:8px">+ sneak one in</button>`, {
+    <button class="btn quiet" id="brief-add" style="margin-top:8px">+ Sneak one in</button>`, {
     onOpen(sheet, close) {
       sheet.addEventListener('click', (e) => {
         const opt = e.target.closest('.opt');
@@ -471,7 +471,7 @@ function switchSheet() {
     title: 'Pick a universe',
     options: store.plan.rotation.map((t) => ({
       label: `${store.plan.sessions[t].name} — ${UNIVERSES[t].name}`,
-      hint: t === nextType ? 'next up' : lastByType[t] ? `last ${fmtDate(lastByType[t])}` : '',
+      hint: t === nextType ? 'Next up' : lastByType[t] ? `Last ${fmtDate(lastByType[t])}` : '',
       selected: t === store.draft?.session_type,
       value: t,
     })),
@@ -493,7 +493,7 @@ function bodyweightSheet() {
   const last = [...store.history].reverse().find((e) => e.bodyweight)?.bodyweight;
   numpadSheet({
     title: 'Bodyweight',
-    sub: last ? `optional — weigh 1–2× a week, same conditions · last ${fmtW(last)} lb` : 'optional — weigh 1–2× a week, same conditions',
+    sub: last ? `Optional — weigh 1–2× a week, same conditions · last ${fmtW(last)} lb` : 'Optional — weigh 1–2× a week, same conditions',
     value: store.draft.bodyweight ?? last ?? 215,
     unit: 'lb', step: 0.5, decimals: true, max: 400,
     onConfirm(v) { store.draft.bodyweight = v || null; store.saveDraft(store.draft); render(root); },
@@ -519,7 +519,7 @@ function addExerciseSheet() {
   let sets = 3;
   openSheet(`
     <h2>Sneak one in</h2>
-    <div class="sub">tonight only</div>
+    <div class="sub">Tonight only</div>
     <div class="card">
       <div class="field"><label>Name</label><input id="ax-name" placeholder="e.g. Preacher Curl"></div>
       <div class="field"><label>Sets</label>
@@ -570,7 +570,7 @@ export function renderDock() {
   }
   bar.innerHTML = `
     <span class="xp">
-      <span class="xp-head"><span>tonight</span><span class="num">${done}/${total}</span></span>
+      <span class="xp-head"><span>Tonight</span><span class="num">${done}/${total}</span></span>
       <span class="xp-track"><i style="width:${Math.round((done / total) * 100)}%"></i></span>
     </span>
     <button class="btn primary" id="finish-btn">${esc(U.copy.finish)}</button>`;
@@ -638,7 +638,7 @@ function showResults(stats) {
         <div class="rs-stat ${stats.prs ? 'pr' : ''}"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i></div>
       </div>
       <button class="btn primary" id="rs-go">Take a bow</button>
-      <div class="rs-sync">${navigator.onLine && store.settings.token ? 'uploading to github' : 'saved offline — syncs later'}</div>
+      <div class="rs-sync">${navigator.onLine && store.settings.token ? 'Uploading to GitHub' : 'Saved offline — syncs later'}</div>
     </div>`;
   document.body.appendChild(el);
   el.querySelector('#rs-go').addEventListener('click', () => {

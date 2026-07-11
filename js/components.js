@@ -139,7 +139,7 @@ export function optionSheet({ title, sub = '', options, onPick }) {
 export function confirmSheet({ title, body = '', confirmLabel = 'Confirm', danger = false, onConfirm }) {
   openSheet(`
     <h2>${esc(title)}</h2>
-    ${body ? `<p style="font-family:var(--mono);font-size:12.5px;margin:6px 0 16px;line-height:1.5">${body}</p>` : ''}
+    ${body ? `<p style="font-family:var(--body);font-size:13.5px;margin:6px 0 16px;line-height:1.5">${body}</p>` : ''}
     <div style="display:flex;flex-direction:column;gap:9px">
       <button class="btn ${danger ? 'danger' : 'primary'}" id="cf-ok">${esc(confirmLabel)}</button>
       <button class="btn quiet" id="cf-no">Never mind</button>
@@ -173,7 +173,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     <span class="lbl">${esc(label)}</span>
     <span class="t num" id="rest-t"></span>
     <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
-    <button class="skip">skip</button>`;
+    <button class="skip">Skip</button>`;
   container.prepend(el);
   const bar = el.querySelector('#rest-bar');
   const digits = el.querySelector('#rest-t');

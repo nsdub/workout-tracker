@@ -92,11 +92,11 @@ function renderList() {
         <span class="sn-info">
           <span class="sn-name">${esc(name)}</span>
           <span class="sn-world">${esc(world)}</span>
-          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' · ⇡ beaming up' : ''}</span>
+          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' · ⇡ Beaming up' : ''}</span>
         </span>
       </button>`;
   }).join('');
-  root.innerHTML = segHtml() + `<div class="starpath">${rows}<div class="path-end"><i></i>the beginning</div></div>`;
+  root.innerHTML = segHtml() + `<div class="starpath">${rows}<div class="path-end"><i></i>The beginning</div></div>`;
   wireSeg();
   root.onclick = (e) => {
     const row = e.target.closest('.star-node');
@@ -115,7 +115,7 @@ function renderDetail() {
   root.innerHTML = `
     <div class="space-title">The Atlas</div>
     <div class="debrief" style="--c:${SWATCH[entry.session_type] ?? '#8a9ac8'}">
-      <button class="back" id="back">← back to the chart</button>
+      <button class="back" id="back">← Back to the chart</button>
       <div class="db-head">
         <span class="planet big"></span>
         <span>
@@ -150,7 +150,7 @@ function renderLiftList() {
     <button class="lift-card" data-ex="${esc(x.id)}" style="--c:${['#ffd24a', '#3adcc8', '#ff6a4c', '#5cb8ff', '#8f6fdc', '#7ad48a'][i % 6]}">
       <span class="lc-orbit"><i></i></span>
       <span><span class="lc-name">${esc(x.name)}</span>
-        <span class="lc-meta num">${x.count} nights · last ${fmtDate(x.last)}</span></span>
+        <span class="lc-meta num">${x.count} nights · Last ${fmtDate(x.last)}</span></span>
       <span class="lc-end">›</span>
     </button>`).join('') + `</div>`;
   wireSeg();
@@ -179,9 +179,9 @@ function renderChart() {
   root.innerHTML = `
     <div class="space-title">The Atlas</div>
     <div class="debrief" style="padding-bottom:8px;--c:#ffd24a">
-      <button class="back" id="back">← back to the lifts</button>
+      <button class="back" id="back">← Back to the lifts</button>
       <h1>${esc(name)}</h1>
-      <div class="m dim">${useReps ? 'top-set reps' : 'top set'} per night — the trajectory</div>
+      <div class="m dim">${useReps ? 'Top-set reps' : 'Top set'} per night — the trajectory</div>
     </div>
     <div class="chart-box">
       ${chartSvg(series)}
@@ -196,7 +196,7 @@ function renderChart() {
 
 function chartSvg(points) {
   const W = 340, H = 156, P = { t: 16, r: 16, b: 24, l: 38 };
-  if (points.length < 2) return `<svg viewBox="0 0 ${W} ${H}"><text x="${W / 2}" y="${H / 2}" fill="#8a9ac8" font-size="12" text-anchor="middle" font-family="monospace">not enough data yet</text></svg>`;
+  if (points.length < 2) return `<svg viewBox="0 0 ${W} ${H}"><text x="${W / 2}" y="${H / 2}" fill="#8a9ac8" font-size="12" text-anchor="middle" font-family="monospace">Not enough data yet</text></svg>`;
   const ws = points.map((p) => p.w);
   let lo = Math.min(...ws), hi = Math.max(...ws);
   if (lo === hi) { lo -= 10; hi += 10; }
