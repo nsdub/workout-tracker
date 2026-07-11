@@ -255,4 +255,15 @@ await ok('worldDef resolves saved ids and falls back for unknown/legacy entries'
   assert.equal(worldDef('PullA', null).id, UNIVERSES.PullA.worlds[0].id);
 });
 
+// ——— release integrity ———
+await ok('sw.js build line matches js/version.js (update-detection guard)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const sw = readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
+  const ver = readFileSync(new URL('../js/version.js', import.meta.url), 'utf8');
+  const build = sw.match(/\/\/ build: (v\d+)/)?.[1];
+  const version = ver.match(/PROTOCOL_VERSION = '(v\d+)'/)?.[1];
+  assert.ok(build, 'sw.js is missing its "// build: vN" line — without a byte change, browsers may not fetch the new release');
+  assert.equal(build, version, `sw.js says ${build} but js/version.js says ${version} — bump BOTH on every release`);
+});
+
 console.log(`\n${n} app tests passed`);

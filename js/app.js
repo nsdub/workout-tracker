@@ -97,10 +97,14 @@ document.addEventListener('visibilitychange', () => {
 setInterval(() => { if (store.queue.length) flushQueue(); }, 45000);
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  navigator.serviceWorker.register('sw.js').then((reg) => {
+  // updateViaCache:'none' — update checks must bypass the HTTP cache for
+  // imported scripts too, or a stale js/version.js can pin an old build
+  // for as long as the CDN cache lives.
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') reg.update().catch(() => {});
     });
+    setInterval(() => reg.update().catch(() => {}), 15 * 60 * 1000);
   }).catch(() => {});
   let reloaded = false;
   let hadController = !!navigator.serviceWorker.controller;

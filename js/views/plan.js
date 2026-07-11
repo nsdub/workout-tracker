@@ -283,6 +283,7 @@ function drawerSheet(info) {
       ${syncError() ? `<div class="kv"><span class="k" style="color:#ff5d7a">Error</span><span class="v" style="max-width:58%;white-space:normal">${esc(syncError())}</span></div>` : ''}
       <div class="kv"><span class="k">Queue</span><span class="v num">${store.queue.length}</span></div>
       <div class="kv"><span class="k">Sync now</span><button class="v" id="sd-sync">run</button></div>
+      <div class="kv"><span class="k">App update</span><button class="v" id="sd-update">check now</button></div>
     </div>
     <div class="card">
       <div class="kv"><span class="k">Rest timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'on' : 'off'}</button></div>
@@ -299,6 +300,17 @@ function drawerSheet(info) {
         close(); toast('Syncing…');
         await flushQueue(); await pullRemote();
         toast(store.syncStatus() === 'synced' ? 'All caught up' : 'Still some pending', store.syncStatus() === 'synced' ? 'ok' : 'bad');
+      });
+      $('#sd-update', sheet).addEventListener('click', async () => {
+        close();
+        toast('Checking for a new version…');
+        try {
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (!reg) return toast(`No offline worker — running ${self.PROTOCOL_VERSION} straight from the network`, 'ok', 3400);
+          await reg.update();
+          if (reg.installing || reg.waiting) toast('Update found — installing now, it applies in a moment', 'ok', 3600);
+          else toast(`You're on the latest (${self.PROTOCOL_VERSION})`, 'ok', 3000);
+        } catch { toast('Could not check — are you online?', 'bad', 3000); }
       });
       $('#sd-rest', sheet).addEventListener('click', () => { store.saveSettings({ restTimer: !store.settings.restTimer }); close(); });
       $('#sd-sound', sheet).addEventListener('click', () => { store.saveSettings({ sound: !store.settings.sound }); sfx('tap'); close(); });
