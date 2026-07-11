@@ -8,6 +8,32 @@ import { setAccent } from '../theme.js';
 let root = null;
 const state = { tab: 'sessions', entryPath: null, exId: null };
 
+// Back-gesture support: each drill-in owns a history entry (pushed at open);
+// app.js routes popstate here. Returns true when a level was closed.
+export function popBack() {
+  if (state.entryPath || state.exId) {
+    state.entryPath = null;
+    state.exId = null;
+    if (root) { render(root); root.scrollTop = 0; }
+    return true;
+  }
+  return false;
+}
+
+function drillIn(patch) {
+  Object.assign(state, patch);
+  try { window.history.pushState({ p3: 'drill' }, ''); } catch { /* throttled */ }
+  render(root);
+  root.scrollTop = 0;
+}
+
+// Back button: prefer popping our history entry; fall back to a direct
+// close if the History API is throttled.
+function backOut() {
+  try { window.history.back(); } catch { popBack(); }
+  setTimeout(() => { if (state.entryPath || state.exId) popBack(); }, 250);
+}
+
 const accVar = (type) => `var(--acc-${type.toLowerCase()})`;
 
 function phaseLabel(phase) {
@@ -90,9 +116,7 @@ function renderList() {
   root.onclick = (e) => {
     const row = e.target.closest('.h-row');
     if (!row) return;
-    state.entryPath = row.dataset.path;
-    render(root);
-    root.scrollTop = 0;
+    drillIn({ entryPath: row.dataset.path });
   };
 }
 
@@ -123,10 +147,7 @@ function renderDetail() {
     </div>
     ${entry.notes ? `<div class="card"><div class="d-ex"><div class="n">Notes</div><div style="font-size:13.5px;color:var(--text2)">${esc(entry.notes)}</div></div></div>` : ''}`;
 
-  $('#back', root).addEventListener('click', () => {
-    state.entryPath = null;
-    render(root);
-  });
+  $('#back', root).addEventListener('click', backOut);
 }
 
 // ——— Exercises tab ———
@@ -158,9 +179,7 @@ function renderExerciseList() {
   root.onclick = (e) => {
     const row = e.target.closest('.h-row[data-ex]');
     if (!row) return;
-    state.exId = row.dataset.ex;
-    render(root);
-    root.scrollTop = 0;
+    drillIn({ exId: row.dataset.ex });
   };
 }
 
@@ -177,28 +196,28 @@ function renderChart() {
     if (top) points.push({ date: e.date, w: top.weight, reps: top.reps });
   }
 
-  const last = points[points.length - 1];
-  const best = points.reduce((m, p) => (p.w > m.w ? p : m), points[0] ?? { w: 0 });
+  // Bodyweight movements have no meaningful weight line — chart reps instead.
+  const useReps = points.length > 0 && points.every((p) => !p.w);
+  const series = useReps ? points.map((p) => ({ ...p, w: p.reps })) : points;
+  const last = series[series.length - 1];
+  const best = series.reduce((m, p) => (p.w > m.w ? p : m), series[0] ?? { w: 0 });
 
   root.innerHTML = `
     <div class="detail-head">
       <button class="back" id="back">${ICONS.back} Exercises</button>
       <h1>${esc(name)}</h1>
-      <div class="m">top set per session</div>
+      <div class="m">${useReps ? 'top-set reps per session' : 'top set per session'}</div>
     </div>
     <div class="card">
-      <div class="chart-wrap">${chartSvg(points)}</div>
+      <div class="chart-wrap">${chartSvg(series)}</div>
       <div class="chart-meta">
         <span>last <b class="num">${last ? fmtW(last.w) : '—'}</b></span>
         <span>best <b class="num">${best ? fmtW(best.w) : '—'}</b></span>
-        <span><b class="num">${points.length}</b> sessions</span>
+        <span><b class="num">${series.length}</b> sessions</span>
       </div>
     </div>`;
 
-  $('#back', root).addEventListener('click', () => {
-    state.exId = null;
-    render(root);
-  });
+  $('#back', root).addEventListener('click', backOut);
 }
 
 function chartSvg(points) {

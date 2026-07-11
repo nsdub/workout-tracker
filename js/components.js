@@ -4,15 +4,59 @@ import { $, esc, fmtW, haptic, ICONS } from './util.js';
 
 const sheetRoot = () => $('#sheet-root');
 
+// Sheet lifecycle. Two hard rules learned the hard way:
+//  1. A pending cleanup timer must never wipe a NEWER sheet's DOM — that
+//     leaves an invisible full-screen tap blocker (frozen app).
+//  2. Every open sheet owns one history entry so the Android back gesture
+//     closes it instead of exiting the PWA.
+let cleanupTimer = null;
+let backEats = 0; // popstates we triggered ourselves via history.back()
+
+function internalClose(fromPop) {
+  const root = sheetRoot();
+  if (!root.classList.contains('open')) return;
+  const mySheet = root.querySelector('.sheet');
+  root.classList.remove('open');
+  clearTimeout(cleanupTimer);
+  cleanupTimer = setTimeout(() => {
+    // Only clear if this sheet is still the one mounted and nothing reopened.
+    if (!root.classList.contains('open') && mySheet && root.contains(mySheet)) root.innerHTML = '';
+  }, 280);
+  // Consume our own history entry — but only when the top entry is actually
+  // ours, and with a reclaim timeout so a back() that never produces a
+  // popstate can't poison the counter and eat a future sheet. History API
+  // calls can throw under browser throttling; the UI must survive that.
+  if (!fromPop && history.state?.p3 === 'sheet') {
+    try {
+      backEats += 1;
+      setTimeout(() => { if (backEats > 0) backEats -= 1; }, 500);
+      history.back();
+    } catch { /* throttled: back-gesture degrades, UI unaffected */ }
+  }
+}
+
+// Central popstate hook (called from app.js). Returns true when consumed.
+export function sheetPopHandled() {
+  if (backEats > 0) { backEats -= 1; return true; }
+  if (sheetRoot().classList.contains('open')) { internalClose(true); return true; }
+  return false;
+}
+
 export function openSheet(html, { onOpen } = {}) {
   const root = sheetRoot();
+  clearTimeout(cleanupTimer);
+  root.classList.remove('open');
   root.innerHTML = `<div class="scrim"></div><div class="sheet" role="dialog">${html}</div>`;
+  // Forced reflow instead of rAF: rAF never fires on a hidden page (phone
+  // locked mid-tap), which would leave the sheet mounted but invisible.
+  void root.offsetHeight;
+  root.classList.add('open');
+  try { history.pushState({ p3: 'sheet' }, ''); } catch { /* throttled */ }
   let closed = false;
-  requestAnimationFrame(() => { if (!closed) root.classList.add('open'); });
   const close = () => {
+    if (closed) return;
     closed = true;
-    root.classList.remove('open');
-    setTimeout(() => { if (!root.classList.contains('open')) root.innerHTML = ''; }, 280);
+    internalClose(false);
   };
   $('.scrim', root).addEventListener('click', close);
   onOpen?.(root.querySelector('.sheet'), close);
@@ -20,9 +64,7 @@ export function openSheet(html, { onOpen } = {}) {
 }
 
 export function closeSheet() {
-  const root = sheetRoot();
-  root.classList.remove('open');
-  setTimeout(() => { if (!root.classList.contains('open')) root.innerHTML = ''; }, 280);
+  internalClose(false);
 }
 
 // Stepper + numpad for all numeric input. Two-tap logging stays sacred:
@@ -47,7 +89,7 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
       <button class="np-key" data-k="0">0</button>
       <button class="np-key fn" data-k="del">⌫</button>
     </div>
-    <button class="btn primary" id="np-ok">Set</button>`;
+    <button class="btn primary" id="np-ok">Lock in</button>`;
 
   openSheet(html, {
     onOpen(sheet, close) {

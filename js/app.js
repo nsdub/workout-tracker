@@ -3,7 +3,7 @@ import { $, todayStr } from './util.js';
 import { store } from './store.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
-import { toast } from './components.js';
+import { toast, sheetPopHandled } from './components.js';
 import { initTheme } from './theme.js';
 import * as today from './views/today.js';
 import * as history from './views/history.js';
@@ -80,6 +80,14 @@ $('#sync-dot').addEventListener('click', async () => {
 store.sub((quiet) => {
   if (quiet) return renderHeader();
   renderActive();
+});
+
+// Android back gesture: close the top-most layer (sheet, then drill-in)
+// instead of exiting the app. Falls through to the browser default when
+// nothing is open.
+window.addEventListener('popstate', () => {
+  if (sheetPopHandled()) return;
+  history.popBack(); // the Log view module (shadows window.history here)
 });
 
 // ——— Boot ———

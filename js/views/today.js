@@ -153,8 +153,8 @@ function switchSession(type) {
 const BASIS_LABEL = {
   progress: (x) => `<span class="num prev">${fmtW(x.prevTop)}</span> <span class="up">→ <span class="num count-to" data-from="${x.prevTop}" data-to="${x.prevTop + x.bump}">${fmtW(x.prevTop + x.bump)}</span> lb</span>`,
   repeat: (x) => `last <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  hold: (x) => `hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  seed: () => `seed`,
+  hold: (x) => `prep · hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
+  seed: () => `first run · seed weight`,
   calibration: (x) => `seed <span class="num">${fmtW(x.prevTop)}</span> at 90%`,
   deload: (x) => `80% of <span class="num">${fmtW(x.prevTop)}</span>`,
   verify: (x) => esc(x.note || 'verify weight'),
@@ -185,6 +185,11 @@ function renderSession(draft, phaseInfo) {
         <button class="meta-chip" id="chip-notes">${draft.notes ? 'Edit note' : 'Add note'}</button>
       </div>
     </div>
+    ${draft.date !== todayStr() ? `
+    <div class="deload-note" style="justify-content:space-between">
+      <span>Resuming ${fmtDate(draft.date)} mission</span>
+      <button id="resume-discard" style="font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.14em;color:var(--bad)">Discard</button>
+    </div>` : ''}
     ${phase?.type === 'deload' ? `<div class="deload-note">Deload week: 80% load, 60% sets, 4+ RIR</div>` : ''}
     ${phase?.type === 'calibration' ? `<div class="deload-note">Calibration week: seeds at 90%</div>` : ''}
     ${draft.exercises.map((x, xi) => {
@@ -233,6 +238,15 @@ function renderSession(draft, phaseInfo) {
     });
   }
 
+  $('#resume-discard', root)?.addEventListener('click', () => {
+    confirmSheet({
+      title: `Discard the ${fmtDate(draft.date)} mission?`,
+      body: 'Its logged sets are dropped and today starts fresh.',
+      confirmLabel: 'Discard',
+      danger: true,
+      onConfirm() { store.clearDraft(); render(root); renderDock(); },
+    });
+  });
   $('#switch-session', root).addEventListener('click', sessionSwitchSheet);
   $('#chip-bw', root).addEventListener('click', bodyweightSheet);
   $('#chip-notes', root).addEventListener('click', notesSheet);
@@ -269,7 +283,9 @@ function onRowTap(e) {
 
   if (e.target.closest('.check')) {
     if (s.done) return unlogSet(x, s);
-    if (s.weight == null && x.basis === 'verify') return editValue(x, s, xi, si, 'weight');
+    // Never one-tap log a weightless set — ask for the number first
+    // (verify seeds and ad-hoc exercises both start with weight null).
+    if (s.weight == null) return editValue(x, s, xi, si, 'weight');
     return logSet(x, s, row);
   }
 }
@@ -317,7 +333,9 @@ function logSet(x, s, row) {
   const warnings = engine.validateSet(store.plan, store.history, x.id, s.weight ?? 0, s.reps);
   s.warn = warnings.length ? warnings.map((w) => w.msg).join(' · ') : null;
   s.warnDismissed = false;
-  s.pr = !x.adhoc && s.reps >= 1 && bestBefore > 0 && (s.weight ?? 0) > bestBefore;
+  // A set the validator flags as suspect never triggers the record
+  // celebration — no achievement and anti-cheat warning in the same frame.
+  s.pr = !warnings.length && !x.adhoc && s.reps >= 1 && bestBefore > 0 && (s.weight ?? 0) > bestBefore;
 
   store.saveDraft(store.draft);
   haptic(s.pr ? [15, 40, 25] : 12);
@@ -373,7 +391,7 @@ function sessionSwitchSheet() {
   const lastByType = {};
   for (const e of store.history) lastByType[e.session_type] = e.date;
   optionSheet({
-    title: 'Session',
+    title: 'Mission',
     options: store.plan.rotation.map((t) => ({
       label: `${store.plan.sessions[t].name} · ${THEMES[t]?.world ?? ''}`,
       hint: t === nextType ? 'next' : lastByType[t] ? `last ${fmtDate(lastByType[t])}` : '',
@@ -385,8 +403,8 @@ function sessionSwitchSheet() {
       if (dirty) {
         confirmSheet({
           title: 'Discard logged sets?',
-          body: `Switching to ${esc(store.plan.sessions[opt.value].name)} clears today’s logged sets.`,
-          confirmLabel: 'Switch session',
+          body: `Switching to ${esc(store.plan.sessions[opt.value].name)} clears this mission’s logged sets.`,
+          confirmLabel: 'Switch mission',
           danger: true,
           onConfirm: () => switchSession(opt.value),
         });
@@ -495,7 +513,7 @@ export function renderDock() {
       confirmSheet({
         title: `Finish with ${done} of ${total} sets?`,
         body: 'Unlogged sets are dropped from the record.',
-        confirmLabel: 'Finish session',
+        confirmLabel: 'Finish mission',
         onConfirm: finishSession,
       });
     } else {

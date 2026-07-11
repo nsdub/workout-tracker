@@ -4,8 +4,12 @@
   "plan": {
     "version": 3,
     "name": "Protocol v3",
-    "updated": "2026-07-10",
+    "updated": "2026-07-11",
     "units": "lb",
+    "show": {
+      "date": "2027-03-01",
+      "label": "March ’27 show"
+    },
     "rotation": [
       "PushA",
       "PullA",

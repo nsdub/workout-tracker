@@ -37,7 +37,8 @@ export function render(el) {
   const info = engine.phaseForDate(plan, today, store.settings.phaseOverride);
   const stalls = engine.stalledLifts(plan, store.history);
   const next = engine.rotationNext(plan, store.history);
-  const showDays = Math.max(0, daysBetween(today, '2027-03-01'));
+  const show = plan.show || { date: '2027-03-01', label: 'March ’27 show' };
+  const showDays = Math.max(0, daysBetween(today, show.date));
   const last7 = store.history.filter((e) => daysBetween(e.date, today) < 7).length;
   const wk = weekKey(today);
   const cardio = store.settings.cardio[wk] || [false, false, false];
@@ -54,8 +55,8 @@ export function render(el) {
     </div>
 
     <div class="stat-grid">
-      <div class="stat"><div class="v num">${showDays}<span class="u"> d</span></div><div class="k">To March ’27 show</div></div>
-      <div class="stat"><div class="v num">${last7}<span class="u"> / 6</span></div><div class="k">Missions this week</div></div>
+      <div class="stat"><div class="v num">${showDays}<span class="u"> d</span></div><div class="k">To ${esc(show.label)}</div></div>
+      <div class="stat"><div class="v num">${last7}<span class="u"> / ${plan.rotation.length}</span></div><div class="k">Missions this week</div></div>
     </div>
 
     ${info.phase?.type !== 'prep' ? `
@@ -68,6 +69,7 @@ export function render(el) {
           ${cardio.map((on, i) => `<button class="cardio-dot ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.5L19 7.5"/></svg></button>`).join('')}
         </span>
       </div>
+      <div class="kv"><span class="k" style="font-size:11px;color:var(--text3);text-transform:none;letter-spacing:.02em">Tick one hex per cardio session done this week</span></div>
     </div>` : ''}
 
     ${stalls.length ? `
@@ -249,9 +251,25 @@ export function phaseOverrideSheet(info) {
       })),
     ],
     onPick(opt) {
-      store.clearDraft(); // prescriptions change with the phase — rebuild before the emit re-renders
-      store.saveSettings({ phaseOverride: opt.value });
-      toast(opt.value ? `Phase set to ${opt.label}` : 'Back to automatic');
+      if (opt.value === (store.settings.phaseOverride ?? null)) return;
+      const apply = () => {
+        store.clearDraft(); // prescriptions change with the phase — rebuild before the emit re-renders
+        store.saveSettings({ phaseOverride: opt.value });
+        toast(opt.value ? `Phase set to ${opt.label}` : 'Back to automatic');
+      };
+      // Never silently destroy logged sets — same guard as mission switching.
+      const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
+      if (dirty) {
+        confirmSheet({
+          title: 'Discard logged sets?',
+          body: 'Changing phase rebuilds the current mission and clears its logged sets.',
+          confirmLabel: 'Change phase',
+          danger: true,
+          onConfirm: apply,
+        });
+      } else {
+        apply();
+      }
     },
   });
 }
