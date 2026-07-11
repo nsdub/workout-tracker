@@ -101,9 +101,20 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     });
   }).catch(() => {});
   let reloaded = false;
+  let hadController = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController) { hadController = true; return; } // first install: no reload
     if (reloaded) return;
-    reloaded = true;
-    location.reload();
+    const sheetOpen = document.querySelector('.sheet-root.open');
+    if (document.visibilityState === 'hidden' || !sheetOpen) {
+      reloaded = true;
+      location.reload();
+    } else {
+      // never yank a numpad out of someone's hands mid-set
+      toast('Updated — applies next time you look away');
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && !reloaded) { reloaded = true; location.reload(); }
+      }, { once: true });
+    }
   });
 }

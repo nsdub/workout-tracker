@@ -9,6 +9,8 @@ import { WORLDS, applyWorld, worldOf } from '../worlds.js';
 
 let root = null;
 let focusIdx = null;
+let lastLogAt = 0;
+let resumeAsked = false;
 
 export function render(el) {
   root = el;
@@ -17,6 +19,16 @@ export function render(el) {
   const phaseInfo = engine.phaseForDate(store.plan, today, store.settings.phaseOverride);
   ensureDraft(today, phaseInfo);
   applyWorld(store.draft.session_type);
+  if (store.draft.date !== today && !resumeAsked) {
+    resumeAsked = true;
+    setTimeout(() => confirmSheet({
+      title: `Finish ${fmtDate(store.draft.date)}, or start fresh?`,
+      body: 'You have logged sets from a previous day. "Never mind" keeps finishing that night.',
+      confirmLabel: 'Start tonight fresh',
+      danger: true,
+      onConfirm() { store.clearDraft(); focusIdx = null; render(root); renderDock(); },
+    }), 300);
+  }
   const n = store.draft.exercises.length;
   if (focusIdx == null || focusIdx >= n) focusIdx = defaultFocus(store.draft);
   renderWorldScreen(store.draft, phaseInfo);
@@ -62,6 +74,7 @@ export function connectSheet() {
         const [owner, repo] = $('#c-repo', sheet).value.trim().split('/');
         const token = $('#c-token', sheet).value.trim();
         if (!owner || !repo || !token) return toast('Fill in repo and token', 'bad');
+        const prior = { owner: store.settings.owner, repo: store.settings.repo, token: store.settings.token };
         store.saveSettings({ owner, repo, token });
         const btn = $('#c-save', sheet);
         btn.textContent = 'Connecting…'; btn.disabled = true;
@@ -73,8 +86,9 @@ export function connectSheet() {
           await flushQueue();
           toast(store.plan ? 'Plan loaded' : 'Repo has no plan yet — import the seed bundle', store.plan ? 'ok' : 'bad', 3200);
         } catch (err) {
+          store.saveSettings(prior); // never keep a token GitHub rejected
           btn.textContent = 'Connect & pull'; btn.disabled = false;
-          toast(err.message, 'bad', 4000);
+          toast('GitHub rejected it — check the token and repo name', 'bad', 4000);
         }
       });
     },
@@ -113,7 +127,11 @@ function buildDraft(date, sessionType, phaseInfo) {
     const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo);
     const last = engine.lastPerformance(store.history, sessionType, slot.id, {});
     return {
-      prev: last ? { date: last.entry.date, sets: last.ex.sets.map((s) => `${fmtW(s.weight)}×${s.reps}`).join('  ') } : null,
+      prev: last ? {
+        date: last.entry.date,
+        sets: last.ex.sets.map((s) => `${fmtW(s.weight)}×${s.reps}`).join('  '),
+        tag: store.plan.phases.find((p) => p.id === last.entry.phase)?.type === 'deload' ? 'deload' : null,
+      } : null,
       id: slot.id,
       name: engine.exMeta(store.plan, slot.id).name,
       repMin: slot.repMin, repMax: slot.repMax, repUnit: slot.repUnit || null,
@@ -146,7 +164,7 @@ const BASIS = {
   progress: (x) => `<span class="num">${fmtW(x.prevTop)}</span> <span class="up">→ <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb — every set hit the top</span>`,
   repeat: (x) => `repeat <span class="num">${fmtW(x.prevTop)}</span> lb`,
   hold: (x) => `prep — hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  seed: () => `first run — seed weight`,
+  seed: (x) => x.prev ? `new program — seed weight (older logs shown for reference)` : `first run — seed weight`,
   calibration: (x) => `seed <span class="num">${fmtW(x.prevTop)}</span> at 90%`,
   deload: (x) => `80% of <span class="num">${fmtW(x.prevTop)}</span>`,
   verify: (x) => esc(x.note || 'verify weight'),
@@ -193,7 +211,7 @@ function renderWorldScreen(draft, phaseInfo) {
         ${x.stalled ? '<span class="chipper warn">stalled</span>' : ''}
         ${x.basis === 'verify' ? '<span class="chipper warn">verify</span>' : ''}
       </div>
-      ${x.prev ? `<div class="last-strip"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}</span><span class="num">${x.prev.sets}</span></div>` : ''}
+      ${x.prev ? `<div class="last-strip"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span><span class="num">${x.prev.sets}</span></div>` : ''}
       <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
 
       ${x.sets.some((s) => s.done) ? `
@@ -301,6 +319,9 @@ function draftBest(exId) {
 }
 
 function logSet(x, s, W) {
+  const now = Date.now();
+  if (now - lastLogAt < 400) return; // double-tap = one set
+  lastLogAt = now;
   const bestBefore = Math.max(engine.allTimeBest(store.history, x.id)?.weight ?? 0, draftBest(x.id));
   s.done = true;
   s.at = Date.now();
@@ -308,17 +329,20 @@ function logSet(x, s, W) {
   s.warn = warnings.length ? warnings.map((w) => w.msg).join(' — ') : null;
   s.warnDismissed = false;
   s.pr = !warnings.length && !x.adhoc && s.reps >= 1 && bestBefore > 0 && (s.weight ?? 0) > bestBefore;
+  s.repPr = !s.pr && !warnings.length && !x.adhoc && engine.isRepPR(store.history, x.id, s.weight ?? 0, s.reps);
+  if (s.repPr) s.pr = true; // rep PRs at a held weight count as records too
   store.saveDraft(store.draft);
   haptic(s.pr ? [15, 40, 25] : 12);
 
   const finishedObjective = x.sets.every((q) => q.done);
   render(root);
+  root.querySelector('.console, .obj-done')?.scrollIntoView({ block: 'center' });
   const consoleEl = document.getElementById('console');
   consoleEl?.classList.add('struck');
   burstAt(consoleEl?.querySelector('.g-log') ?? root.querySelector('.obj-done'), { pr: s.pr });
 
   if (s.pr) {
-    prOverlay(W.copy.pr, `${fmtW(s.weight)} lb`);
+    prOverlay(W.copy.pr, s.repPr ? `${fmtW(s.weight)}×${s.reps}` : `${fmtW(s.weight)} lb`);
     // world-specific scene rituals
     document.documentElement.classList.add(W.cls === 'w4' ? 'pr-wink' : W.cls === 'w6' ? 'pr-free' : 'pr-plain');
     setTimeout(() => document.documentElement.classList.remove('pr-wink', 'pr-free', 'pr-plain'), 3000);
@@ -333,8 +357,9 @@ function logSet(x, s, W) {
 }
 
 function unlogSet(x, s) {
-  s.done = false; s.pr = false; s.warn = null;
+  s.done = false; s.pr = false; s.repPr = false; s.warn = null;
   store.saveDraft(store.draft);
+  toast('took it back');
   haptic(8);
   render(root);
   renderDock();
@@ -526,8 +551,8 @@ function finishSession() {
   if (d.bodyweight) entry.bodyweight = d.bodyweight;
   if (d.notes) entry.notes = d.notes;
 
-  store.upsertEntry(entry);
   store.clearDraft();
+  store.upsertEntry(entry);
   clearDock();
   hideRestTimer();
   haptic([10, 60, 20, 60, 30]);
@@ -544,10 +569,10 @@ function showResults(stats) {
       <div class="rs-k">${esc(stats.world)}</div>
       <div class="rs-n">${esc(stats.title)}</div>
       <div class="rs-grid">
-        <div class="rs-stat"><b class="num">${stats.sets}</b><i>sets</i></div>
+        <div class="rs-stat"><b class="num">${stats.sets}</b><i>${stats.sets === 1 ? 'set' : 'sets'}</i></div>
         <div class="rs-stat"><b class="num">${stats.tonnage.toLocaleString()}</b><i>lb moved</i></div>
-        <div class="rs-stat"><b class="num">${stats.acts}</b><i>acts</i></div>
-        <div class="rs-stat ${stats.prs ? 'pr' : ''}"><b class="num">${stats.prs}</b><i>records</i></div>
+        <div class="rs-stat"><b class="num">${stats.acts}</b><i>${stats.acts === 1 ? 'act' : 'acts'}</i></div>
+        <div class="rs-stat ${stats.prs ? 'pr' : ''}"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i></div>
       </div>
       <button class="btn primary" id="rs-go">Take a bow</button>
       <div class="rs-sync">${navigator.onLine && store.settings.token ? 'uploading to github' : 'saved offline — syncs later'}</div>

@@ -81,7 +81,7 @@ export const WORLDS = {
       ${sprinkle(3, 'root', (i) => `left:${[16, 52, 82][i]}%;--d:${r(5, 9)}s;--h:${r(70, 130)}px`)}
       ${[0, 1, 2, 3, 4, 5].map((i) => `
         <span class="sp ant" style="top:${r(28, 88)}%;--dur:${r(18, 34)}s;animation-delay:-${r(0, 30)}s;--flip:${i % 2 ? -1 : 1}">
-          <svg viewBox="0 0 26 12"><g fill="#241a10"><ellipse cx="5" cy="7" rx="4" ry="3"/><ellipse cx="12" cy="6.4" rx="3.4" ry="2.6"/><ellipse cx="19" cy="6" rx="4.4" ry="3.4"/><circle cx="2.6" cy="4.6" r="1"/></g><g stroke="#241a10" stroke-width="1"><path d="M9 9l-2 3M12 9l0 3M15 9l2 3"/></g><rect x="14" y="-1" width="9" height="5" rx="1" fill="#c9803a" transform="rotate(-8 18 2)"/></svg>
+          <svg viewBox="0 0 26 12"><g fill="#241a10" stroke="#e8d9b8" stroke-width="0.7"><ellipse cx="5" cy="7" rx="4" ry="3"/><ellipse cx="12" cy="6.4" rx="3.4" ry="2.6"/><ellipse cx="19" cy="6" rx="4.4" ry="3.4"/><circle cx="2.6" cy="4.6" r="1"/></g><g stroke="#241a10" stroke-width="1"><path d="M9 9l-2 3M12 9l0 3M15 9l2 3"/></g><rect x="14" y="-1" width="9" height="5" rx="1" fill="#c9803a" transform="rotate(-8 18 2)"/></svg>
         </span>`).join('')}
       ${sprinkle(7, 'spore', () => `left:${r(0, 100)}%;--dur:${r(14, 26)}s;animation-delay:-${r(0, 26)}s;--sway:${r(-20, 20)}px`)}
     `,
@@ -147,7 +147,7 @@ export const WORLDS = {
       <div class="fx sunface"><svg viewBox="0 0 80 80"><g class="rays" stroke="#ffb63a" stroke-width="5" stroke-linecap="round"><path d="M40 2v12M40 66v12M2 40h12M66 40h12M13 13l8 8M59 59l8 8M67 13l-8 8M21 59l-8 8"/></g><circle cx="40" cy="40" r="20" fill="#ffd24a"/><circle cx="34" cy="37" r="2.4" fill="#7a4a10"/><circle cx="46" cy="37" r="2.4" fill="#7a4a10"/><path d="M33 45q7 6 14 0" stroke="#7a4a10" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></div>
       ${[0, 1, 2].map((i) => `
         <span class="sp balloon b${i}" style="left:${[10, 46, 78][i]}%;--dur:${r(6, 9)}s;animation-delay:-${r(0, 8)}s">
-          <svg viewBox="0 0 40 70"><path d="M20 44v22" stroke="#7a4a10" stroke-width="1.6"/><ellipse cx="14" cy="22" rx="11" ry="14" fill="${['#ff4f79', '#59c9a5', '#8f6fdc'][i]}"/><ellipse cx="28" cy="16" rx="8" ry="10" fill="${['#ff8fb1', '#8fe0c8', '#b59ff0'][i]}"/><circle cx="12" cy="18" r="1.8" fill="#2b1c0c"/><circle cx="19" cy="18" r="1.8" fill="#2b1c0c"/><path d="M12 26q4 3 8 0" stroke="#2b1c0c" stroke-width="1.4" fill="none"/></svg>
+          <svg viewBox="0 0 40 70"><path d="M14 36v30" stroke="#7a4a10" stroke-width="1.6"/><ellipse cx="14" cy="22" rx="11" ry="14" fill="${['#ff4f79', '#59c9a5', '#8f6fdc'][i]}"/><ellipse cx="28" cy="16" rx="8" ry="10" fill="${['#ff8fb1', '#8fe0c8', '#b59ff0'][i]}"/><circle cx="12" cy="18" r="1.8" fill="#2b1c0c"/><circle cx="19" cy="18" r="1.8" fill="#2b1c0c"/><path d="M12 26q4 3 8 0" stroke="#2b1c0c" stroke-width="1.4" fill="none"/></svg>
         </span>`).join('')}
       ${sprinkle(18, 'confetti', (i) => `left:${r(0, 100)}%;--c:${['#ff4f79', '#ffd24a', '#59c9a5', '#8f6fdc', '#ff8a3c'][i % 5]};--dur:${r(6, 13)}s;animation-delay:-${r(0, 13)}s;--sway:${r(-70, 70)}px;--rot:${r(200, 720)}deg`)}
       ${sprinkle(6, 'streamer', (i) => `left:${r(2, 96)}%;--c:${['#ff4f79', '#59c9a5', '#ffd24a'][i % 3]};--dur:${r(9, 15)}s;animation-delay:-${r(0, 15)}s;--sway:${r(-40, 40)}px`)}

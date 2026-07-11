@@ -196,4 +196,33 @@ ok('zero weight on a loaded lift warns; bodyweight lifts exempt', () => {
   assert.equal(E.validateSet(plan, history, 'hanging-leg-raise', 0, 10).length, 0);
 });
 
+// ——— Coach-audit rules ———
+ok('rep gains at the same weight clear the stall flag', () => {
+  const mk = (d, reps) => mkEntry(d, 'PushA', 'machine-chest-press',
+    reps.map((r) => ({ weight: 195, reps: r })));
+  const h = [...history, mk('2026-07-21', [8, 8, 8]), mk('2026-07-28', [9, 8, 8]), mk('2026-08-04', [10, 9, 8])];
+  assert.equal(E.isStalled(plan, h, 'PushA', slot('PushA', 'machine-chest-press')), false);
+});
+ok('progressing out of calibration returns at least to the seed', () => {
+  const h = [...history, {
+    date: '2026-07-15', session_type: 'PushA', phase: 'calibration', week: 1,
+    exercises: [{ id: 'smith-incline-press', name: 'x', sets: [6, 6, 6, 6].map(() => ({ weight: 167.5, reps: 8 })) }],
+  }];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), E.phaseForDate(plan, '2026-07-21'));
+  assert.equal(rx.basis, 'progress');
+  assert.equal(rx.sets[0].weight, 185); // max(seed 185, 167.5 + 5)
+});
+ok('smashing the ceiling by 2+ reps earns a double jump', () => {
+  const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
+    { weight: 195, reps: 12 }, { weight: 195, reps: 12 }, { weight: 195, reps: 12 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.sets[0].weight, 205); // +10 instead of +5
+});
+ok('rep PR at a held weight is detected; matching reps are not', () => {
+  assert.equal(E.isRepPR(history, 'deadlift', 255, 7), true);  // best at 255 is 6
+  assert.equal(E.isRepPR(history, 'deadlift', 255, 6), false);
+  assert.equal(E.isRepPR(history, 'deadlift', 999, 5), false); // never lifted
+});
+
 console.log(`\n${n} engine tests passed`);

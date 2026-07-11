@@ -160,11 +160,18 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
   // Progression needs every prescribed set, not just every logged one —
   // 2-of-4 sets at the top of the range is an unfinished session, not a trigger.
   const grow = phase?.type !== 'prep' && prev.length >= slot.sets && progressionMet(prev, slot.repMax);
+  // Smashing the ceiling by 2+ reps on every set earns a double jump;
+  // and progressing out of calibration returns at least to the seed —
+  // the -10% week must never sandbag the meso.
+  const jump = grow && prev.every((s) => s.reps >= slot.repMax + 2) ? inc * 2 : inc;
+  const lastPhase = plan.phases.find((p) => p.id === last.entry.phase);
+  const fromCalibration = lastPhase?.type === 'calibration';
   const sets = Array.from({ length: nSets }, (_, i) => {
     const src = prev[Math.min(i, prev.length - 1)];
-    return grow
-      ? { weight: src.weight + inc, reps: slot.repMin }
-      : { weight: src.weight, reps: clamp(src.reps, slot.repMin, slot.repMax) };
+    if (!grow) return { weight: src.weight, reps: clamp(src.reps, slot.repMin, slot.repMax) };
+    let w = src.weight + jump;
+    if (fromCalibration && slot.seed != null) w = Math.max(w, slot.seed);
+    return { weight: w, reps: slot.repMin };
   });
   return {
     sets,
@@ -183,9 +190,13 @@ export function isStalled(plan, history, sessionType, slot) {
   const perfs = performances(history, sessionType, slot.id).filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
   if (perfs.length < 3) return false;
   const recent = perfs.slice(-4);
-  const tops = recent.map((p) => topSet(p.ex.sets)?.weight ?? 0);
+  const tops = recent.map((p) => topSet(p.ex.sets) ?? { weight: 0, reps: 0 });
   let increased = false;
-  for (let i = 1; i < tops.length; i++) if (tops[i] > tops[i - 1]) increased = true;
+  for (let i = 1; i < tops.length; i++) {
+    // weight up, or reps up at the same weight — both are progress
+    if (tops[i].weight > tops[i - 1].weight) increased = true;
+    else if (tops[i].weight === tops[i - 1].weight && tops[i].reps > tops[i - 1].reps) increased = true;
+  }
   const newest = recent[recent.length - 1];
   return !increased && !progressionMet(newest.ex.sets, slot.repMax);
 }
@@ -209,6 +220,21 @@ export function isPR(history, exId, weight, reps) {
   if (reps < 1 || !weight) return false;
   const best = allTimeBest(history, exId);
   return !best || weight > best.weight;
+}
+
+// Best reps ever achieved at exactly this weight (rep-PR detection).
+export function isRepPR(history, exId, weight, reps) {
+  if (!weight || reps < 1) return false;
+  let best = null;
+  for (const e of history) {
+    for (const x of e.exercises) {
+      if (x.id !== exId) continue;
+      for (const s of x.sets) {
+        if (s.weight === weight && s.reps >= 1) best = Math.max(best ?? 0, s.reps);
+      }
+    }
+  }
+  return best != null && reps > best;
 }
 
 // ——— Input validation (warn, never block) ———

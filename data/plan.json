@@ -1,42 +1,154 @@
 {
   "version": 3,
   "name": "Protocol v3",
-  "updated": "2026-07-11",
+  "updated": "2026-07-12",
   "units": "lb",
-  "show": { "date": "2027-03-01", "label": "March ’27 show" },
-  "rotation": ["PushA", "PullA", "LegsA", "PushB", "PullB", "LegsB"],
+  "show": {
+    "date": "2027-03-01",
+    "label": "March ’27 show"
+  },
+  "rotation": [
+    "PushA",
+    "PullA",
+    "LegsA",
+    "PushB",
+    "PullB",
+    "LegsB"
+  ],
   "schedule": {
     "pattern": "6-on-1-off",
-    "protected": ["LegsA", "LegsB"],
+    "protected": [
+      "LegsA",
+      "LegsB"
+    ],
     "note": "Sessions are never skipped, only pushed. Rotation continues where it left off. Leg days are never the ones dropped."
   },
   "phases": [
-    { "id": "calibration", "name": "Calibration", "start": "2026-07-13", "end": "2026-07-19", "type": "calibration", "loadFactor": 0.9, "note": "All seed loads -10%. Re-establish working weights after the logging gap." },
-    { "id": "meso1", "name": "Meso 1", "start": "2026-07-20", "end": "2026-08-16", "type": "build", "note": "Progressive overload." },
-    { "id": "deload1", "name": "Deload", "start": "2026-08-17", "end": "2026-08-23", "type": "deload", "loadFactor": 0.8, "setFactor": 0.6, "note": "-20% load, ~60% sets, nothing under 4 RIR." },
-    { "id": "meso2", "name": "Meso 2", "start": "2026-08-24", "end": "2026-09-20", "type": "build", "note": "Progressive overload." },
-    { "id": "deload2", "name": "Deload", "start": "2026-09-21", "end": "2026-09-27", "type": "deload", "loadFactor": 0.8, "setFactor": 0.6, "note": "-20% load, ~60% sets, nothing under 4 RIR." },
-    { "id": "meso3", "name": "Meso 3", "start": "2026-09-28", "end": "2026-10-25", "type": "build", "note": "Progressive overload." },
-    { "id": "deload3", "name": "Deload", "start": "2026-10-26", "end": "2026-11-01", "type": "deload", "loadFactor": 0.8, "setFactor": 0.6, "note": "-20% load, ~60% sets, nothing under 4 RIR." },
-    { "id": "assessment", "name": "Assessment", "start": "2026-11-02", "end": "2026-11-08", "type": "assessment", "note": "Physique check. Prep block gets programmed here." },
-    { "id": "prep", "name": "Prep", "start": "2026-11-09", "end": "2027-03-31", "type": "prep", "progression": "hold", "note": "Placeholder — detailed programming comes at Assessment. Holding reps at the same weight is a win." }
+    {
+      "id": "calibration",
+      "name": "Calibration",
+      "start": "2026-07-13",
+      "end": "2026-07-19",
+      "type": "calibration",
+      "loadFactor": 0.9,
+      "note": "All seed loads -10%. Re-establish working weights after the logging gap."
+    },
+    {
+      "id": "meso1",
+      "name": "Meso 1",
+      "start": "2026-07-20",
+      "end": "2026-08-16",
+      "type": "build",
+      "note": "Progressive overload."
+    },
+    {
+      "id": "deload1",
+      "name": "Deload",
+      "start": "2026-08-17",
+      "end": "2026-08-23",
+      "type": "deload",
+      "loadFactor": 0.8,
+      "setFactor": 0.6,
+      "note": "-20% load, ~60% sets, nothing under 4 RIR."
+    },
+    {
+      "id": "meso2",
+      "name": "Meso 2",
+      "start": "2026-08-24",
+      "end": "2026-09-20",
+      "type": "build",
+      "note": "Progressive overload."
+    },
+    {
+      "id": "deload2",
+      "name": "Deload",
+      "start": "2026-09-21",
+      "end": "2026-09-27",
+      "type": "deload",
+      "loadFactor": 0.8,
+      "setFactor": 0.6,
+      "note": "-20% load, ~60% sets, nothing under 4 RIR."
+    },
+    {
+      "id": "meso3",
+      "name": "Meso 3",
+      "start": "2026-09-28",
+      "end": "2026-10-25",
+      "type": "build",
+      "note": "Progressive overload."
+    },
+    {
+      "id": "deload3",
+      "name": "Deload",
+      "start": "2026-10-26",
+      "end": "2026-11-01",
+      "type": "deload",
+      "loadFactor": 0.8,
+      "setFactor": 0.6,
+      "note": "-20% load, ~60% sets, nothing under 4 RIR."
+    },
+    {
+      "id": "assessment",
+      "name": "Assessment",
+      "start": "2026-11-02",
+      "end": "2026-11-08",
+      "type": "assessment",
+      "note": "Physique check. Prep block gets programmed here."
+    },
+    {
+      "id": "prep",
+      "name": "Prep",
+      "start": "2026-11-09",
+      "end": "2027-03-31",
+      "type": "prep",
+      "progression": "hold",
+      "note": "Placeholder — detailed programming comes at Assessment. Holding reps at the same weight is a win."
+    }
   ],
   "rules": {
     "progression": {
       "type": "double",
       "upperIncrement": 5,
       "lowerIncrement": 10,
-      "lowerExercises": ["deadlift", "smith-rdl", "leg-press-low", "leg-press-high"],
+      "lowerExercises": [
+        "deadlift",
+        "smith-rdl",
+        "leg-press-low",
+        "leg-press-high"
+      ],
       "trigger": "All sets at the top of the rep range → suggest +increment next session."
     },
-    "stall": { "sessions": 3, "note": "3 sessions without progression on a lift → flag it. Variation swaps only at deload boundaries." },
-    "rir": { "compound": "1-2 RIR", "isolation": "last set may go to failure", "deload": "nothing under 4 RIR" },
-    "validation": { "deviationPct": 25, "trailingSessions": 5, "maxReps": 30 },
-    "cardio": { "sessionsPerWeek": [2, 3], "minutes": [20, 30], "intensity": "low", "note": "Build block only. Tracked as a simple checkbox if at all." }
+    "stall": {
+      "sessions": 3,
+      "note": "3 sessions without progression on a lift → flag it. Variation swaps only at deload boundaries."
+    },
+    "rir": {
+      "compound": "1-2 RIR",
+      "isolation": "last set may go to failure",
+      "deload": "nothing under 4 RIR"
+    },
+    "validation": {
+      "deviationPct": 25,
+      "trailingSessions": 5,
+      "maxReps": 30
+    },
+    "cardio": {
+      "sessionsPerWeek": [
+        2,
+        3
+      ],
+      "minutes": [
+        20,
+        30
+      ],
+      "intensity": "low",
+      "note": "Build block only. Tracked as a simple checkbox if at all."
+    }
   },
   "exercises": {
     "smith-incline-press": {
-      "name": "Smith Incline Press", "compound": true,
+      "name": "Smith Incline Press",
+      "compound": true,
       "howto": [
         "Bench at 30–40°, positioned so the bar meets the upper chest, just below the clavicles. Grip slightly wider than shoulders, shoulder blades pinned back and down, feet planted.",
         "Lower under control to a light touch on the chest, elbows about 45–60° from the torso. Press to lockout without letting the shoulders roll forward off the pad.",
@@ -44,55 +156,64 @@
       ]
     },
     "machine-chest-press": {
-      "name": "Machine Chest Press", "compound": true,
+      "name": "Machine Chest Press",
+      "compound": true,
       "howto": [
         "Set the seat so the handles sit at mid-chest. Shoulder blades squeezed into the pad, chest up, feet flat.",
         "Press to just short of elbow lockout, then lower until the hands are near chest level with a stretch across the pecs. Keep the shoulders pinned back the entire rep."
       ]
     },
     "cable-crossover-low-high": {
-      "name": "Cable Crossover (low→high)", "howto": [
+      "name": "Cable Crossover (low→high)",
+      "howto": [
         "Pulleys at the bottom. Step forward into a staggered stance with a slight forward lean, palms facing up and forward.",
         "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
         "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
       ]
     },
     "db-shoulder-press": {
-      "name": "DB Shoulder Press", "compound": true,
+      "name": "DB Shoulder Press",
+      "compound": true,
       "howto": [
         "Seated with back support. Dumbbells start at shoulder height, palms forward or slightly turned in, forearms vertical.",
         "Press up and slightly together to lockout overhead, then lower under control until the dumbbells are back at ear-to-shoulder level. Ribs down, no arching off the pad."
       ]
     },
     "cable-lateral-raise": {
-      "name": "Cable Lateral Raise", "howto": [
+      "name": "Cable Lateral Raise",
+      "howto": [
         "Pulley at the bottom, cable running behind the body or in front of the legs. Stand side-on, handle in the far hand.",
         "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
         "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
       ]
     },
     "overhead-cable-triceps": {
-      "name": "Overhead Cable Triceps Ext", "howto": [
+      "name": "Overhead Cable Triceps Ext",
+      "howto": [
         "Rope on a low or mid pulley. Face away from the stack, rope behind the head, elbows up and pointing forward, slight forward split stance.",
         "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
         "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
       ]
     },
     "rope-pushdown": {
-      "name": "Rope Pushdown", "howto": [
+      "name": "Rope Pushdown",
+      "howto": [
         "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
         "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
       ]
     },
     "face-pulls": {
-      "name": "Face Pulls", "howto": [
+      "name": "Face Pulls",
+      "howto": [
         "Rope at upper-face height. Grab with thumbs pointing back toward you, step back to load the stack, staggered stance.",
         "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
         "Think external rotation, not rowing: hands finish above the elbows every rep."
       ]
     },
     "deadlift": {
-      "name": "Deadlift", "compound": true, "lower": true,
+      "name": "Deadlift",
+      "compound": true,
+      "lower": true,
       "howto": [
         "Bar over mid-foot, shins an inch away. Hinge down, grip just outside the legs, shins to the bar, chest up, lats tight — pull the slack out before the break.",
         "Push the floor away and stand, bar dragging up the legs. Lock by driving the hips through, not leaning back. Return by hinging first, bending the knees once the bar passes them.",
@@ -100,7 +221,8 @@
       ]
     },
     "lat-pulldown-wide": {
-      "name": "Lat Pulldown (wide)", "compound": true,
+      "name": "Lat Pulldown (wide)",
+      "compound": true,
       "howto": [
         "Wide grip on the long bar, knees locked under the pads. Slight lean back, chest up.",
         "Pull the bar to the top of the chest by driving the elbows down and back. Pause with the shoulder blades pinched, then let the bar rise until the arms are long and the lats stretch.",
@@ -108,27 +230,32 @@
       ]
     },
     "seated-cable-row-wide": {
-      "name": "Seated Cable Row (wide)", "compound": true,
+      "name": "Seated Cable Row (wide)",
+      "compound": true,
       "howto": [
         "Wide grip bar, feet braced, knees soft. Sit tall with the torso vertical.",
         "Row to the lower chest with elbows flaring out around 45–60°, squeezing the mid-back. Let the weight pull the shoulders forward into a full stretch between reps, torso staying near vertical."
       ]
     },
     "db-curl": {
-      "name": "DB Curl", "howto": [
+      "name": "DB Curl",
+      "howto": [
         "Standing or seated, dumbbells at the sides, palms forward (or supinating on the way up).",
         "Curl without moving the upper arm — elbows stay at the ribs. Squeeze at the top, lower slowly to a full hang.",
         "If the shoulders swing to start the rep, the weight is doing the curl, not the biceps."
       ]
     },
     "cable-hammer-curl": {
-      "name": "Cable Hammer Curl", "howto": [
+      "name": "Cable Hammer Curl",
+      "howto": [
         "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
         "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
       ]
     },
     "leg-press-low": {
-      "name": "Leg Press (feet low)", "compound": true, "lower": true,
+      "name": "Leg Press (feet low)",
+      "compound": true,
+      "lower": true,
       "howto": [
         "Feet low on the platform, about shoulder width. Low placement biases the quads.",
         "Lower until the knees reach roughly 90° or as deep as possible without the lower back curling off the pad. Press through the whole foot to just short of knee lockout.",
@@ -136,14 +263,16 @@
       ]
     },
     "leg-extension": {
-      "name": "Leg Extension", "lower": true,
+      "name": "Leg Extension",
+      "lower": true,
       "howto": [
         "Seat set so the knee lines up with the machine's pivot, pad on the lower shin, back against the seat.",
         "Extend to a full squeeze at the top and hold a beat. Lower slowly — the eccentric is most of the value here."
       ]
     },
     "leg-curl": {
-      "name": "Leg Curl", "lower": true,
+      "name": "Leg Curl",
+      "lower": true,
       "howto": [
         "Knee joint aligned with the machine pivot, pad just above the heels.",
         "Curl all the way to a full hamstring squeeze, then return slowly to a long stretch without letting the stack rest between reps.",
@@ -151,21 +280,24 @@
       ]
     },
     "hip-adductor": {
-      "name": "Hip Adductor", "lower": true,
+      "name": "Hip Adductor",
+      "lower": true,
       "howto": [
         "Sit tall, pads inside the knees, start at a comfortable stretch — widen the range setting over warm-up sets, not cold.",
         "Squeeze the legs together under control, hold the contraction, and open slowly against the pads."
       ]
     },
     "hip-abductor": {
-      "name": "Hip Abductor", "lower": true,
+      "name": "Hip Abductor",
+      "lower": true,
       "howto": [
         "Pads outside the knees. A slight forward lean with the glutes back biases the upper glutes.",
         "Drive the knees apart to full range, pause, and return slowly without letting the stack touch down between reps."
       ]
     },
     "standing-calf-raise": {
-      "name": "Standing Calf Raise", "lower": true,
+      "name": "Standing Calf Raise",
+      "lower": true,
       "howto": [
         "Balls of the feet on the platform, heels hanging free, legs straight but knees not locked back.",
         "Lower to a deep stretch and pause there for a beat, then drive up to full height and squeeze.",
@@ -173,14 +305,16 @@
       ]
     },
     "cable-crunch": {
-      "name": "Cable Crunch", "howto": [
+      "name": "Cable Crunch",
+      "howto": [
         "Kneel below a high pulley, rope held at the sides of the head, hips stacked over the knees.",
         "Crunch the ribs toward the pelvis, rounding the spine — the hips don't move. Return until the abs reach a stretch.",
         "If the hips rock back and forth it becomes a hip flexor exercise. Fix the hips, flex the spine."
       ]
     },
     "hanging-leg-raise": {
-      "name": "Hanging Leg Raise", "bodyweight": true,
+      "name": "Hanging Leg Raise",
+      "bodyweight": true,
       "howto": [
         "Dead hang from the bar, shoulders active enough to stay stable.",
         "Raise the legs by tilting the pelvis up and curling it toward the ribs — knees bent or straight by strength level. Lower slowly to a dead hang without swinging.",
@@ -188,7 +322,8 @@
       ]
     },
     "smith-overhead-press": {
-      "name": "Smith Overhead Press", "compound": true,
+      "name": "Smith Overhead Press",
+      "compound": true,
       "howto": [
         "Seated or standing under the bar, grip just outside shoulders, bar starting at the clavicles. Position yourself so the fixed path clears the chin naturally.",
         "Press to lockout overhead, finishing with the bar over the ears. Lower under control back to the clavicles.",
@@ -196,28 +331,33 @@
       ]
     },
     "db-lateral-raise": {
-      "name": "DB Lateral Raise", "howto": [
+      "name": "DB Lateral Raise",
+      "howto": [
         "Dumbbells at the sides, slight forward tilt of the torso, soft elbows.",
         "Raise out and slightly forward to shoulder height, leading with the elbows, pinkies no higher than thumbs. Lower on a 2–3 second count.",
         "Past shoulder height it becomes traps. Lighter and stricter beats heavier and swung, 25 sets a week says so."
       ]
     },
     "cable-crossover-high-low": {
-      "name": "Cable Crossover (high→low)", "howto": [
+      "name": "Cable Crossover (high→low)",
+      "howto": [
         "Pulleys at the top. Step forward, slight lean, arms open wide with a stretch across the chest.",
         "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
         "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
       ]
     },
     "reverse-pec-deck": {
-      "name": "Reverse Pec Deck", "howto": [
+      "name": "Reverse Pec Deck",
+      "howto": [
         "Face the pad, seat set so the handles are at shoulder height, arms long with a soft bend.",
         "Open the arms straight back until they are in line with the shoulders, squeezing the rear delts and mid-back. Return slowly without letting the plates stack.",
         "Keep the shoulders down. Shrugging up hands the rep to the traps."
       ]
     },
     "assisted-dips": {
-      "name": "Assisted Dips", "bodyweight": true, "compound": true,
+      "name": "Assisted Dips",
+      "bodyweight": true,
+      "compound": true,
       "howto": [
         "Knees or feet on the assist platform, grip on the bars, shoulders down away from the ears.",
         "Lower until the upper arms reach parallel or the shoulders signal the end of range, torso leaning slightly forward. Press back to lockout.",
@@ -225,13 +365,15 @@
       ]
     },
     "reverse-grip-pushdown": {
-      "name": "Reverse Grip Pushdown", "howto": [
+      "name": "Reverse Grip Pushdown",
+      "howto": [
         "Straight or EZ bar on a high pulley, underhand grip, elbows at the sides.",
         "Push down to lockout keeping the palms up, squeeze, and return under control. The underhand grip forces stricter elbows and biases the medial head."
       ]
     },
     "smith-bent-over-row": {
-      "name": "Smith Bent-Over Row", "compound": true,
+      "name": "Smith Bent-Over Row",
+      "compound": true,
       "howto": [
         "Hinge to roughly 30–45° above horizontal, knees soft, bar hanging at arm's length on the fixed track. Overhand grip just outside the legs.",
         "Row to the lower ribs, elbows tracking back at about 45°. Squeeze, then lower to a full hang without the torso rising.",
@@ -239,41 +381,48 @@
       ]
     },
     "lat-pulldown-close": {
-      "name": "Lat Pulldown (close)", "compound": true,
+      "name": "Lat Pulldown (close)",
+      "compound": true,
       "howto": [
         "Neutral close-grip handle, thighs locked under the pads, slight lean back.",
         "Pull the handle to the upper chest, elbows driving down past the ribs. Full stretch at the top of every rep — the close grip gives more range, so use it."
       ]
     },
     "straight-arm-pulldown": {
-      "name": "Straight-Arm Pulldown", "howto": [
+      "name": "Straight-Arm Pulldown",
+      "howto": [
         "High pulley, bar or rope, arms long with a soft fixed elbow. Hinge slightly forward.",
         "Sweep the hands down to the thighs in an arc, feeling the lats pull the whole way, then let the arms rise until a deep lat stretch overhead.",
         "The elbow angle never changes — if it bends and extends, the triceps have taken over."
       ]
     },
     "db-shrug": {
-      "name": "DB Shrug", "howto": [
+      "name": "DB Shrug",
+      "howto": [
         "Dumbbells at the sides, standing tall, neck neutral.",
         "Elevate the shoulders straight up toward the ears, pause a full second at the top, and lower slowly to a stretch.",
         "Straight up and down — rolling the shoulders adds nothing but wear."
       ]
     },
     "incline-db-curl": {
-      "name": "Incline DB Curl", "howto": [
+      "name": "Incline DB Curl",
+      "howto": [
         "Bench at about 45–60°, dumbbells hanging straight down, shoulders back against the pad.",
         "Curl with the upper arms staying behind the torso, squeeze, and lower to a full stretch of the long head.",
         "The arms hanging behind the body is the entire point — if the elbows drift forward it's a standing curl on a slant."
       ]
     },
     "cable-reverse-curl": {
-      "name": "Cable Reverse Curl", "howto": [
+      "name": "Cable Reverse Curl",
+      "howto": [
         "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
         "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
       ]
     },
     "smith-rdl": {
-      "name": "Smith RDL", "compound": true, "lower": true,
+      "name": "Smith RDL",
+      "compound": true,
+      "lower": true,
       "howto": [
         "Bar at hip height, overhand grip, feet hip width, soft knee bend that stays constant.",
         "Push the hips straight back, sliding the bar down the thighs to shins until the hamstrings hit a deep stretch — mid-shin at most. Drive the hips forward to stand.",
@@ -281,14 +430,18 @@
       ]
     },
     "leg-press-high": {
-      "name": "Leg Press (feet high)", "compound": true, "lower": true,
+      "name": "Leg Press (feet high)",
+      "compound": true,
+      "lower": true,
       "howto": [
         "Feet high on the platform, slightly wider than shoulders. High placement biases glutes and hamstrings.",
         "Lower deep, keeping the pelvis flat on the pad, then drive through the heels to just short of lockout."
       ]
     },
     "plank": {
-      "name": "Plank", "bodyweight": true, "timed": true,
+      "name": "Plank",
+      "bodyweight": true,
+      "timed": true,
       "howto": [
         "Forearms down, elbows under shoulders, body one straight line from ears to heels.",
         "Squeeze the glutes, tuck the pelvis slightly, and breathe — the low back never sags and the hips never pike.",
@@ -300,76 +453,394 @@
     "PushA": {
       "name": "Push A",
       "exercises": [
-        { "id": "smith-incline-press", "sets": 4, "repMin": 6, "repMax": 8, "seed": 185, "rest": 150 },
-        { "id": "machine-chest-press", "sets": 3, "repMin": 8, "repMax": 10, "seed": 215, "rest": 120 },
-        { "id": "cable-crossover-low-high", "sets": 3, "repMin": 12, "repMax": 15, "seed": 30, "rest": 75 },
-        { "id": "db-shoulder-press", "sets": 3, "repMin": 8, "repMax": 10, "seed": 40, "rest": 120 },
-        { "id": "cable-lateral-raise", "sets": 3, "repMin": 12, "repMax": 15, "seed": 12.5, "rest": 75 },
-        { "id": "overhead-cable-triceps", "sets": 3, "repMin": 10, "repMax": 12, "seed": 55, "rest": 75 },
-        { "id": "rope-pushdown", "sets": 3, "repMin": 10, "repMax": 12, "seed": 80, "rest": 75 },
-        { "id": "face-pulls", "sets": 2, "repMin": 15, "repMax": 15, "seed": 40, "rest": 60 }
+        {
+          "id": "smith-incline-press",
+          "sets": 4,
+          "repMin": 6,
+          "repMax": 8,
+          "seed": 185,
+          "rest": 180
+        },
+        {
+          "id": "machine-chest-press",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 215,
+          "rest": 120
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 30,
+          "rest": 75
+        },
+        {
+          "id": "db-shoulder-press",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 40,
+          "rest": 120
+        },
+        {
+          "id": "cable-lateral-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 12.5,
+          "rest": 75
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 55,
+          "rest": 75
+        },
+        {
+          "id": "rope-pushdown",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 80,
+          "rest": 75
+        },
+        {
+          "id": "face-pulls",
+          "sets": 2,
+          "repMin": 15,
+          "repMax": 15,
+          "seed": 40,
+          "rest": 60
+        }
       ]
     },
     "PullA": {
       "name": "Pull A",
       "exercises": [
-        { "id": "deadlift", "sets": 4, "repMin": 5, "repMax": 6, "seed": 255, "seedNote": "Seed = top set", "rest": 180 },
-        { "id": "lat-pulldown-wide", "sets": 3, "repMin": 8, "repMax": 10, "seed": null, "seedNote": "Verify in week 1 — logs conflict: 150 vs 90", "rest": 120 },
-        { "id": "seated-cable-row-wide", "sets": 3, "repMin": 10, "repMax": 12, "seed": 130, "rest": 120 },
-        { "id": "db-curl", "sets": 3, "repMin": 8, "repMax": 10, "seed": 35, "rest": 75 },
-        { "id": "cable-hammer-curl", "sets": 3, "repMin": 10, "repMax": 12, "seed": 45, "rest": 75 },
-        { "id": "face-pulls", "sets": 2, "repMin": 15, "repMax": 15, "seed": 40, "rest": 60 }
+        {
+          "id": "deadlift",
+          "sets": 4,
+          "repMin": 5,
+          "repMax": 6,
+          "seed": 255,
+          "seedNote": "Seed = top set",
+          "rest": 240
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": null,
+          "seedNote": "Verify in week 1 — logs conflict: 150 vs 90",
+          "rest": 120
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 130,
+          "rest": 120
+        },
+        {
+          "id": "db-curl",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 35,
+          "rest": 75
+        },
+        {
+          "id": "cable-hammer-curl",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 45,
+          "rest": 75
+        },
+        {
+          "id": "face-pulls",
+          "sets": 2,
+          "repMin": 15,
+          "repMax": 15,
+          "seed": 40,
+          "rest": 60
+        }
       ]
     },
     "LegsA": {
       "name": "Legs A",
       "exercises": [
-        { "id": "leg-press-low", "sets": 4, "repMin": 8, "repMax": 10, "seed": 240, "rest": 150 },
-        { "id": "leg-extension", "sets": 3, "repMin": 12, "repMax": 15, "seed": 172.5, "rest": 90 },
-        { "id": "leg-curl", "sets": 3, "repMin": 12, "repMax": 15, "seed": 172.5, "rest": 90 },
-        { "id": "hip-adductor", "sets": 2, "repMin": 12, "repMax": 15, "seed": 97.5, "rest": 75 },
-        { "id": "standing-calf-raise", "sets": 4, "repMin": 12, "repMax": 15, "seed": 280, "rest": 75 },
-        { "id": "cable-crunch", "sets": 3, "repMin": 12, "repMax": 15, "seed": 50, "rest": 60 },
-        { "id": "hanging-leg-raise", "sets": 3, "repMin": 10, "repMax": 12, "seed": 0, "rest": 60 }
+        {
+          "id": "leg-press-low",
+          "sets": 4,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 240,
+          "rest": 180
+        },
+        {
+          "id": "leg-extension",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 172.5,
+          "rest": 90
+        },
+        {
+          "id": "leg-curl",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 172.5,
+          "rest": 90
+        },
+        {
+          "id": "hip-adductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 97.5,
+          "rest": 75
+        },
+        {
+          "id": "standing-calf-raise",
+          "sets": 4,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 280,
+          "rest": 75
+        },
+        {
+          "id": "cable-crunch",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 50,
+          "rest": 60
+        },
+        {
+          "id": "hanging-leg-raise",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 0,
+          "rest": 60
+        }
       ]
     },
     "PushB": {
       "name": "Push B",
       "exercises": [
-        { "id": "smith-overhead-press", "sets": 4, "repMin": 6, "repMax": 8, "seed": 135, "rest": 150 },
-        { "id": "machine-chest-press", "sets": 3, "repMin": 10, "repMax": 12, "seed": 200, "rest": 120 },
-        { "id": "db-lateral-raise", "sets": 4, "repMin": 12, "repMax": 15, "seed": 20, "rest": 75 },
-        { "id": "cable-crossover-high-low", "sets": 3, "repMin": 12, "repMax": 15, "seed": 35, "rest": 75 },
-        { "id": "reverse-pec-deck", "sets": 3, "repMin": 12, "repMax": 15, "seed": 85, "rest": 75 },
-        { "id": "assisted-dips", "sets": 3, "repMin": 8, "repMax": 12, "seed": 0, "rest": 120 },
-        { "id": "overhead-cable-triceps", "sets": 3, "repMin": 10, "repMax": 12, "seed": 55, "rest": 75 },
-        { "id": "reverse-grip-pushdown", "sets": 2, "repMin": 12, "repMax": 15, "seed": 24, "rest": 75 },
-        { "id": "face-pulls", "sets": 2, "repMin": 15, "repMax": 15, "seed": 40, "rest": 60 }
+        {
+          "id": "smith-overhead-press",
+          "sets": 4,
+          "repMin": 6,
+          "repMax": 8,
+          "seed": 135,
+          "rest": 180
+        },
+        {
+          "id": "machine-chest-press",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 200,
+          "rest": 120
+        },
+        {
+          "id": "db-lateral-raise",
+          "sets": 4,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 20,
+          "rest": 75
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 35,
+          "rest": 75
+        },
+        {
+          "id": "reverse-pec-deck",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 85,
+          "rest": 75
+        },
+        {
+          "id": "assisted-dips",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 12,
+          "seed": 0,
+          "rest": 120
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 55,
+          "rest": 75
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 24,
+          "rest": 75
+        },
+        {
+          "id": "face-pulls",
+          "sets": 2,
+          "repMin": 15,
+          "repMax": 15,
+          "seed": 40,
+          "rest": 60
+        }
       ]
     },
     "PullB": {
       "name": "Pull B",
       "exercises": [
-        { "id": "smith-bent-over-row", "sets": 4, "repMin": 8, "repMax": 10, "seed": 155, "rest": 150 },
-        { "id": "lat-pulldown-close", "sets": 3, "repMin": 10, "repMax": 12, "seed": 127.5, "rest": 120 },
-        { "id": "straight-arm-pulldown", "sets": 3, "repMin": 12, "repMax": 15, "seed": 45, "rest": 75 },
-        { "id": "db-shrug", "sets": 3, "repMin": 12, "repMax": 15, "seed": 70, "rest": 75 },
-        { "id": "incline-db-curl", "sets": 3, "repMin": 8, "repMax": 10, "seed": 30, "rest": 75 },
-        { "id": "cable-reverse-curl", "sets": 3, "repMin": 12, "repMax": 15, "seed": 50, "rest": 75 },
-        { "id": "face-pulls", "sets": 2, "repMin": 15, "repMax": 15, "seed": 40, "rest": 60 }
+        {
+          "id": "smith-bent-over-row",
+          "sets": 4,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 155,
+          "rest": 180
+        },
+        {
+          "id": "lat-pulldown-close",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 127.5,
+          "rest": 120
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 45,
+          "rest": 75
+        },
+        {
+          "id": "db-shrug",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 70,
+          "rest": 75
+        },
+        {
+          "id": "incline-db-curl",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 30,
+          "rest": 75
+        },
+        {
+          "id": "cable-reverse-curl",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 50,
+          "rest": 75
+        },
+        {
+          "id": "face-pulls",
+          "sets": 2,
+          "repMin": 15,
+          "repMax": 15,
+          "seed": 40,
+          "rest": 60
+        }
       ]
     },
     "LegsB": {
       "name": "Legs B",
       "exercises": [
-        { "id": "smith-rdl", "sets": 4, "repMin": 8, "repMax": 10, "seed": 225, "rest": 150 },
-        { "id": "leg-press-high", "sets": 3, "repMin": 10, "repMax": 12, "seed": 180, "rest": 150 },
-        { "id": "leg-curl", "sets": 4, "repMin": 10, "repMax": 12, "seed": 180, "rest": 90 },
-        { "id": "leg-extension", "sets": 3, "repMin": 12, "repMax": 15, "seed": 172.5, "rest": 90 },
-        { "id": "hip-abductor", "sets": 2, "repMin": 12, "repMax": 15, "seed": 142.5, "rest": 75 },
-        { "id": "standing-calf-raise", "sets": 4, "repMin": 12, "repMax": 15, "seed": 280, "rest": 75 },
-        { "id": "cable-crunch", "sets": 3, "repMin": 12, "repMax": 15, "seed": 50, "rest": 60 },
-        { "id": "plank", "sets": 2, "repMin": 60, "repMax": 60, "seed": 0, "repUnit": "sec", "rest": 60 }
+        {
+          "id": "smith-rdl",
+          "sets": 4,
+          "repMin": 8,
+          "repMax": 10,
+          "seed": 225,
+          "rest": 180
+        },
+        {
+          "id": "leg-press-high",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 180,
+          "rest": 180
+        },
+        {
+          "id": "leg-curl",
+          "sets": 4,
+          "repMin": 10,
+          "repMax": 12,
+          "seed": 180,
+          "rest": 90
+        },
+        {
+          "id": "leg-extension",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 172.5,
+          "rest": 90
+        },
+        {
+          "id": "hip-abductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 142.5,
+          "rest": 75
+        },
+        {
+          "id": "standing-calf-raise",
+          "sets": 4,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 280,
+          "rest": 75
+        },
+        {
+          "id": "cable-crunch",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 50,
+          "rest": 60
+        },
+        {
+          "id": "plank",
+          "sets": 2,
+          "repMin": 60,
+          "repMax": 60,
+          "seed": 0,
+          "repUnit": "sec",
+          "rest": 60
+        }
       ]
     }
   }

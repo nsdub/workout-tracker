@@ -85,6 +85,8 @@ export async function flushQueue() {
   store.emit(true);
   try {
     for (const item of [...store.queue]) {
+      // exponential backoff: a failing item must not spam the API forever
+      if (item.attempts > 0 && Date.now() - (item.lastAttemptAt || 0) < Math.min(2 ** item.attempts * 30000, 3600000)) continue;
       try {
         const sha = await putFile(item.path, item.content, `log: ${item.path.replace(/^data\/(history\/)?/, '').replace(/\.json$/, '')}`);
         store.remoteIndex[item.path] = sha;
@@ -124,16 +126,19 @@ export async function pullRemote() {
       if (queued.has(path) || index[path] === f.sha) { index[path] = f.sha; continue; }
       const file = await getFile(path);
       if (file) {
-        store.upsertEntry(file.content, { enqueue: false });
+        // quiet per-file merge; one emit below (first sync is ~50 files)
+        store.upsertEntry(file.content, { enqueue: false, quiet: true });
         index[path] = f.sha;
         changed = true;
       }
     }
     store.setRemoteIndex(index);
-    store.setMeta({ lastSync: Date.now(), lastError: null });
+    store.setMeta({ lastSync: Date.now(), lastError: null, lastErrorAt: null });
     if (changed) store.emit();
+    else store.emit(true);
   } catch (err) {
-    store.setMeta({ lastError: err.message || String(err) });
+    store.setMeta({ lastError: err.message || String(err), lastErrorAt: Date.now() });
+    store.emit(true);
   }
 }
 

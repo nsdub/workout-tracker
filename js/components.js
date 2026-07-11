@@ -6,6 +6,8 @@ const sheetRoot = () => $('#sheet-root');
 
 let cleanupTimer = null;
 let backEats = 0;
+let backPending = false;
+let pendingPush = false;
 
 function internalClose(fromPop) {
   const root = sheetRoot();
@@ -19,14 +21,32 @@ function internalClose(fromPop) {
   if (!fromPop && history.state?.p3 === 'sheet') {
     try {
       backEats += 1;
-      setTimeout(() => { if (backEats > 0) backEats -= 1; }, 500);
+      backPending = true;
+      setTimeout(() => { if (backEats > 0) backEats -= 1; backPending = false; flushPendingPush(); }, 500);
       history.back();
-    } catch { /* throttled */ }
+    } catch { backPending = false; }
+  }
+}
+
+// A sheet opened while the previous sheet's back() is still in flight must
+// not push its history entry yet — the pending pop would consume it and a
+// later back-gesture would exit the app (UX audit P1).
+function flushPendingPush() {
+  if (pendingPush && sheetRoot().classList.contains('open')) {
+    pendingPush = false;
+    try { history.pushState({ p3: 'sheet' }, ''); } catch { /* throttled */ }
+  } else {
+    pendingPush = false;
   }
 }
 
 export function sheetPopHandled() {
-  if (backEats > 0) { backEats -= 1; return true; }
+  if (backEats > 0) {
+    backEats -= 1;
+    backPending = false;
+    flushPendingPush();
+    return true;
+  }
   if (sheetRoot().classList.contains('open')) { internalClose(true); return true; }
   return false;
 }
@@ -38,7 +58,8 @@ export function openSheet(html, { onOpen } = {}) {
   root.innerHTML = `<div class="scrim"></div><div class="sheet" role="dialog">${html}</div>`;
   void root.offsetHeight;
   root.classList.add('open');
-  try { history.pushState({ p3: 'sheet' }, ''); } catch { /* throttled */ }
+  if (backPending) pendingPush = true;
+  else { try { history.pushState({ p3: 'sheet' }, ''); } catch { /* throttled */ } }
   let closed = false;
   const close = () => { if (!closed) { closed = true; internalClose(false); } };
   $('.scrim', root).addEventListener('click', close);

@@ -80,14 +80,14 @@ export const store = {
   },
 
   // Insert or replace (same date + session type re-log replaces).
-  upsertEntry(entry, { enqueue = true } = {}) {
+  upsertEntry(entry, { enqueue = true, quiet = false } = {}) {
     const path = this.entryPath(entry);
     this.history = this.history.filter((e) => this.entryPath(e) !== path);
     this.history.push(entry);
     this.history.sort((a, b) => a.date.localeCompare(b.date));
     write(KEYS.history, this.history);
     if (enqueue) this.enqueue(path, entry);
-    this.emit();
+    if (!quiet) this.emit();
   },
 
   replaceHistory(entries) {
@@ -111,7 +111,7 @@ export const store = {
 
   markAttempt(path, error) {
     const item = this.queue.find((q) => q.path === path);
-    if (item) { item.attempts += 1; item.lastError = String(error); }
+    if (item) { item.attempts += 1; item.lastError = String(error); item.lastAttemptAt = Date.now(); }
     write(KEYS.queue, this.queue);
     this.emit(true);
   },
@@ -135,6 +135,8 @@ export const store = {
 
   syncStatus() {
     if (!this.settings.token) return 'off';
+    // an expired token must never show a green dot: pull failures count
+    if (this.meta.lastErrorAt && this.meta.lastErrorAt > (this.meta.lastSync || 0)) return 'failed';
     if (this.queue.some((q) => q.attempts >= 3)) return 'failed';
     if (this.queue.length) return 'pending';
     return 'synced';

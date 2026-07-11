@@ -4,7 +4,7 @@
   "plan": {
     "version": 3,
     "name": "Protocol v3",
-    "updated": "2026-07-11",
+    "updated": "2026-07-12",
     "units": "lb",
     "show": {
       "date": "2027-03-01",
@@ -462,7 +462,7 @@
             "repMin": 6,
             "repMax": 8,
             "seed": 185,
-            "rest": 150
+            "rest": 180
           },
           {
             "id": "machine-chest-press",
@@ -532,7 +532,7 @@
             "repMax": 6,
             "seed": 255,
             "seedNote": "Seed = top set",
-            "rest": 180
+            "rest": 240
           },
           {
             "id": "lat-pulldown-wide",
@@ -586,7 +586,7 @@
             "repMin": 8,
             "repMax": 10,
             "seed": 240,
-            "rest": 150
+            "rest": 180
           },
           {
             "id": "leg-extension",
@@ -647,7 +647,7 @@
             "repMin": 6,
             "repMax": 8,
             "seed": 135,
-            "rest": 150
+            "rest": 180
           },
           {
             "id": "machine-chest-press",
@@ -724,7 +724,7 @@
             "repMin": 8,
             "repMax": 10,
             "seed": 155,
-            "rest": 150
+            "rest": 180
           },
           {
             "id": "lat-pulldown-close",
@@ -785,7 +785,7 @@
             "repMin": 8,
             "repMax": 10,
             "seed": 225,
-            "rest": 150
+            "rest": 180
           },
           {
             "id": "leg-press-high",
@@ -793,7 +793,7 @@
             "repMin": 10,
             "repMax": 12,
             "seed": 180,
-            "rest": 150
+            "rest": 180
           },
           {
             "id": "leg-curl",

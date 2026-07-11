@@ -170,6 +170,9 @@ function wire(info) {
     const arr = store.settings.cardio[wk] || [false, false, false];
     arr[Number(dot.dataset.ci)] = !arr[Number(dot.dataset.ci)];
     store.settings.cardio[wk] = arr;
+    // prune punch cards older than ~6 weeks (unbounded growth otherwise)
+    const cutoff = weekKey(new Date(Date.now() - 42 * 86400000).toISOString().slice(0, 10));
+    for (const k of Object.keys(store.settings.cardio)) if (k < cutoff) delete store.settings.cardio[k];
     haptic(8);
     store.saveSettings();
   });
@@ -240,7 +243,9 @@ function drawerSheet(info) {
         close();
         confirmSheet({
           title: 'Reset this device?',
-          body: 'Clears everything local. Data already on GitHub is untouched.',
+          body: store.queue.length
+            ? `<b>${store.queue.length} item(s) are NOT on GitHub yet and will be lost forever.</b> Export first. Data already synced is untouched.`
+            : 'Clears everything local. Data already on GitHub is untouched.',
           confirmLabel: 'Reset', danger: true,
           onConfirm: () => store.resetLocal(),
         });
@@ -296,5 +301,5 @@ function exportData() {
   a.href = URL.createObjectURL(blob);
   a.download = `protocol-export-${todayStr()}.json`;
   a.click();
-  URL.revokeObjectURL(a.href);
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000); // sync revoke aborts the download on some engines
 }
