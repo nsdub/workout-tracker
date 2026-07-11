@@ -13,6 +13,8 @@ let focusIdx = null;
 let lastLogAt = 0;
 let resumeAsked = false;
 let announceWorld = false; // set when a fresh draft lands in a new world
+let navDir = null;         // 'next' | 'prev' — card slide direction
+let lastWorldKey = null;   // entrance animations only when this changes
 
 export function render(el) {
   root = el;
@@ -43,7 +45,13 @@ export function render(el) {
   }
   const n = store.draft.exercises.length;
   if (focusIdx == null || focusIdx >= n) focusIdx = defaultFocus(store.draft);
+  // a re-render inside the same world must not replay the entrance — the
+  // stage stays still and only the card moves
+  const worldKey = `${store.draft.session_type}:${store.draft.world}`;
+  root.classList.toggle('no-entrance', worldKey === lastWorldKey);
+  lastWorldKey = worldKey;
   renderWorldScreen(store.draft, phaseInfo);
+  navDir = null;
   renderDock();
 }
 
@@ -241,7 +249,7 @@ function renderWorldScreen(draft, phaseInfo) {
     ${phase?.type === 'deload' ? `<div class="notice">Deload week — 80% load, 60% sets, 4+ RIR</div>` : ''}
     ${phase?.type === 'calibration' ? `<div class="notice">Calibration week — seeds at 90%</div>` : ''}
 
-    <section class="objective">
+    <section class="objective ${navDir === 'next' ? 'slide-next' : navDir === 'prev' ? 'slide-prev' : ''}">
       ${frameExtras}
       <div class="obj-top">
         <button class="count" id="open-brief">Act <b>${focusIdx + 1}</b> of ${draft.exercises.length}</button>
@@ -325,10 +333,20 @@ function wire(draft, x, curIdx) {
       onConfirm() { store.clearDraft(); focusIdx = null; render(root); renderDock(); },
     });
   });
-  $('#pg-prev', root)?.addEventListener('click', () => { focusIdx -= 1; render(root); });
-  $('#pg-next', root)?.addEventListener('click', () => { focusIdx += 1; render(root); });
-  $('#od-next', root)?.addEventListener('click', () => { focusIdx = defaultFocus(store.draft); render(root); });
-  root.querySelectorAll('.odot').forEach((d) => d.addEventListener('click', () => { focusIdx = Number(d.dataset.oi); render(root); }));
+  const paginate = (target, dir) => {
+    navDir = dir ?? (target > focusIdx ? 'next' : 'prev');
+    focusIdx = target;
+    const st = root.scrollTop;
+    render(root);
+    root.scrollTop = st;
+  };
+  $('#pg-prev', root)?.addEventListener('click', () => paginate(focusIdx - 1, 'prev'));
+  $('#pg-next', root)?.addEventListener('click', () => paginate(focusIdx + 1, 'next'));
+  $('#od-next', root)?.addEventListener('click', () => paginate(defaultFocus(store.draft), 'next'));
+  root.querySelectorAll('.odot').forEach((d) => d.addEventListener('click', () => {
+    const t = Number(d.dataset.oi);
+    if (t !== focusIdx) paginate(t);
+  }));
   root.querySelectorAll('.trophy').forEach((t) => t.addEventListener('click', () => unlogSet(x, x.sets[Number(t.dataset.si)])));
   $('#warn-dismiss', root)?.addEventListener('click', () => {
     const s = [...x.sets].reverse().find((q) => q.done && q.warn && !q.warnDismissed);
@@ -455,7 +473,7 @@ function briefingSheet() {
     onOpen(sheet, close) {
       sheet.addEventListener('click', (e) => {
         const opt = e.target.closest('.opt');
-        if (opt) { close(); focusIdx = Number(opt.dataset.oi); render(root); }
+        if (opt) { close(); const t = Number(opt.dataset.oi); navDir = t >= focusIdx ? 'next' : 'prev'; focusIdx = t; render(root); }
       });
       $('#brief-add', sheet).addEventListener('click', () => { close(); addExerciseSheet(); });
     },

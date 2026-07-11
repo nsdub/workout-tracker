@@ -921,6 +921,20 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .rest-pill { animation: dock-in .3s var(--ease), rest-glow 2.2s ease-in-out infinite; }
 .obj-done .big { animation: title-slam .6s var(--spring) both; }
 
+/* internal re-renders (pagination, set logging) keep the stage still —
+   entrance choreography belongs to entering a world, not to every tap */
+.no-entrance .uni-name, .no-entrance .world-name, .no-entrance .mission-line,
+.no-entrance .head-tools .tool, .no-entrance .obj-dots, .no-entrance .notice { animation: none; }
+.no-entrance .objective { animation: none; }
+.no-entrance .pip.done { animation: none; }
+.no-entrance .trophy { animation: trophy-dangle 2.8s ease-in-out infinite alternate; }
+
+/* the card itself glides between exercises */
+@keyframes card-next { from { opacity: 0; translate: 64px 0; rotate: .8deg } to { opacity: 1; translate: 0 0; rotate: 0deg } }
+@keyframes card-prev { from { opacity: 0; translate: -64px 0; rotate: -.8deg } to { opacity: 1; translate: 0 0; rotate: 0deg } }
+.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next .32s var(--ease) both; }
+.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev .32s var(--ease) both; }
+
 
 /* ═══════════ THE COSMOS: THE ATLAS + MISSION CONTROL ═══════════
    Zoom out of the worlds: history and planning happen in the space the
