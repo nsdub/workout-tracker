@@ -59,6 +59,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .view.active { visibility: visible; }
 
 .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.scene-front { z-index: 5; }
 .scene .sp, .scene .fx { position: absolute; will-change: transform; }
 .scene .sp { top: 0; }
 
@@ -148,14 +149,18 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 .notice button { color: var(--acc); font-family: inherit; font-size: 12px; padding: 8px; margin: -8px; }
 
-/* The objective panel — each world reskins it completely below */
+/* The objective panel — frosted material: the world shows THROUGH it.
+   Each universe reskins it completely below. */
 .objective {
   position: relative; z-index: 2;
   background: var(--paper); color: var(--ink);
   padding: 16px 16px 20px;
   box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.3);
   border-radius: 6px;
+  backdrop-filter: blur(9px) saturate(1.2);
+  -webkit-backdrop-filter: blur(9px) saturate(1.2);
 }
+.notice { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .obj-top { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; color: var(--ink2); }
 .obj-top .count b { color: var(--ink); font-weight: 700; }
 .obj-top .count { padding: 14px 14px 14px 0; margin: -12px 0; }
@@ -434,7 +439,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 /* ═══════════ SCENE ENGINE: layered vistas + sprite kit ═══════════ */
 @keyframes rippleout { 0% { transform: scale(.25); opacity: .9 } 100% { transform: scale(1.7); opacity: 0 } }
 @keyframes eyeblink { 0%, 82%, 100% { opacity: 0 } 86%, 94% { opacity: 1 } }
-@keyframes eyeopen { 0%, 76%, 100% { transform: scaleY(0.05) } 83%, 92% { transform: scaleY(1) } }
+@keyframes eyeopen { 0%, 55%, 100% { transform: scaleY(0.06) } 63%, 88% { transform: scaleY(1) } }
 @keyframes stepfade { 0%, 100% { opacity: 0 } 40%, 70% { opacity: .55 } }
 @keyframes mothjig { 0% { transform: translate(0, 0) rotate(-8deg) } 50% { transform: translate(7px, -9px) rotate(10deg) } 100% { transform: translate(-5px, 5px) rotate(-4deg) } }
 @keyframes ski { from { transform: translate3d(-14vw, 4vh, 0) rotate(9deg) } to { transform: translate3d(112vw, 46vh, 0) rotate(9deg) } }
@@ -442,7 +447,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 @keyframes glowpulse { 0%, 100% { opacity: .7; transform: scale(1) } 50% { opacity: 1; transform: scale(1.08) } }
 @keyframes fireflydrift { 0%, 100% { transform: translate(0, 0); opacity: .2 } 30% { opacity: 1 } 50% { transform: translate(14px, -18px); opacity: .5 } 75% { opacity: 1 } }
 @keyframes auroraflow { to { transform: translateX(5%) skewX(-7deg) } }
-@keyframes lightningflash { 0%, 95.4%, 96.4%, 97%, 100% { opacity: 0 } 95.7% { opacity: .5 } 96.7% { opacity: .22 } }
+@keyframes lightningflash { 0%, 91.4%, 92.6%, 94%, 100% { opacity: 0 } 91.9% { opacity: .5 } 93.2% { opacity: .25 } }
 @keyframes hop { 0%, 100% { transform: translateY(0) } 38% { transform: translateY(-16px) rotate(-4deg) } 66% { transform: translateY(0) } }
 @keyframes sprayfade { 0% { transform: scale(.4); opacity: .9 } 100% { transform: scale(1.7) translateY(-14px); opacity: 0 } }
 @keyframes shoot { 0%, 82% { opacity: 0; transform: translate(0, 0) rotate(18deg) } 84% { opacity: 1 } 92%, 100% { opacity: 0; transform: translate(190px, 64px) rotate(18deg) } }
@@ -460,11 +465,18 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 /* set dressing */
 .scene .fx.bigsun { width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle at 42% 38%, var(--c1), var(--c2) 74%); box-shadow: 0 0 60px 22px color-mix(in srgb, var(--c2) 50%, transparent), 0 0 150px 60px color-mix(in srgb, var(--c2) 24%, transparent); }
+.scene .fx.bigsun.face::before { content: ''; position: absolute; left: 30%; top: 40%; width: 9%; height: 9%; border-radius: 50%; background: #7a4a10; box-shadow: 340% 0 0 #7a4a10; }
+.scene .fx.bigsun.face::after { content: ''; position: absolute; left: 38%; top: 56%; width: 24%; height: 12%; border: 3px solid #7a4a10; border-top: none; border-radius: 0 0 50px 50px; }
+.scene .sp.cloud { left: 0; animation: cross var(--dur) linear infinite; }
+.scene .sp.cloud svg { display: block; width: 100%; }
+.scene .sp.butterfly { width: 20px; animation: fireflydrift var(--d) ease-in-out infinite alternate; }
+.scene .sp.butterfly svg { display: block; width: 100%; }
+.scene .sp.dustdevil { width: 22px; height: 60px; background: repeating-linear-gradient(0deg, rgba(232,200,150,.4) 0 6px, transparent 6px 12px); border-radius: 40% 40% 20% 20%; filter: blur(1px); animation: swing var(--d) ease-in-out infinite; transform-origin: 50% 100%; }
 .scene .fx.godray { top: -5%; width: 90px; height: 72%; background: linear-gradient(rgba(255, 255, 235, 0.28), transparent); transform: rotate(14deg); filter: blur(7px); animation: glowpulse var(--d, 5s) ease-in-out infinite; }
 .scene .fx.mist { left: -4%; right: -4%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.34), transparent); filter: blur(10px); animation: breathe 7s ease-in-out infinite; }
 .scene .fx.glowbed { left: 0; right: 0; bottom: 0; height: 32%; background: radial-gradient(closest-side at 50% 100%, var(--c), transparent); }
 .scene .fx.beam { width: 340px; height: 340px; border-radius: 50%; background: conic-gradient(rgba(255, 232, 180, 0.42) 0 13deg, transparent 13.5deg); animation: spin 14s linear infinite; }
-.scene .fx.lightning { inset: 0; background: #e8f0ff; opacity: 0; animation: lightningflash 7s steps(1) infinite; }
+.scene .fx.lightning { inset: 0; background: #e8f0ff; opacity: 0; animation: lightningflash 4.5s steps(1) infinite; }
 .scene .fx.aurora { left: -12%; right: -12%; top: -6%; height: 54%; background: linear-gradient(102deg, transparent 4%, rgba(58, 220, 160, 0.45) 20%, transparent 34%, rgba(232, 68, 180, 0.36) 50%, transparent 64%, rgba(90, 220, 130, 0.32) 80%, transparent 94%); filter: blur(14px); animation: auroraflow 9s ease-in-out infinite alternate; }
 .scene .fx.aurora.a2 { animation-duration: 13s; animation-delay: -4s; transform: scaleX(-1); opacity: .7; }
 .scene .fx.discoball { left: 50%; top: 3%; width: 60px; height: 60px; margin-left: -30px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 34px rgba(232, 221, 246, 0.55); }
@@ -523,7 +535,8 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 /* creatures & props that carry their own svg */
 .scene .sp.squatch, .scene .sp.dragon, .scene .sp.noodledragon, .scene .sp.angler, .scene .sp.comet, .scene .sp.jackalope { left: 0; animation: cross var(--dur) linear infinite; }
-.scene .sp.dragon { width: 230px; } .scene .sp.noodledragon { width: 300px; } .scene .sp.angler { width: 110px; } .scene .sp.comet { width: 100px; } .scene .sp.jackalope { width: 44px; top: auto; }
+.scene .sp.dragon { width: 300px; } .scene .sp.noodledragon { width: 340px; } .scene .sp.angler { width: 120px; } .scene .sp.comet { width: 100px; } .scene .sp.jackalope { width: 44px; top: auto; }
+.scene .sp.squatch { width: 150px; }
 .scene .sp.squatch svg, .scene .sp.dragon svg, .scene .sp.noodledragon svg, .scene .sp.angler svg, .scene .sp.comet svg, .scene .sp.jackalope svg, .scene .sp.jelly svg, .scene .sp.dumpling svg, .scene .sp.lantern svg, .scene .sp.bottle svg, .scene .sp.snowcat svg, .scene .sp.skiyeti svg, .scene .sp.starface svg, .scene .sp.chopsat svg { display: block; width: 100%; }
 .scene .sp.jackalope svg { animation: hop .85s cubic-bezier(.4, 0, .6, 1) infinite; }
 .scene .sp.dragon svg, .scene .sp.noodledragon svg { animation: bob 4s ease-in-out infinite; }
@@ -535,7 +548,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .scene .sp.bottle { width: 26px; animation: bob var(--d) ease-in-out infinite; }
 .scene .sp.vinyl { width: 36px; height: 36px; animation: bob var(--d) ease-in-out infinite; }
 .scene .sp.vinyl i { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--c) 0 26%, #14100c 27%); box-shadow: 0 0 0 2px rgba(255, 232, 196, 0.3), 0 4px 12px rgba(0, 0, 0, 0.35); animation: spin var(--spin, 3s) linear infinite; }
-.scene .sp.snowcat { left: 0; top: auto; bottom: 22%; width: 110px; animation: cross var(--dur) linear infinite; }
+.scene .sp.snowcat { left: 0; top: auto; bottom: 20%; width: 160px; animation: cross var(--dur) linear infinite; }
 .scene .sp.skiyeti { left: 0; top: 0; width: 52px; animation: ski var(--dur) linear infinite; }
 .scene .sp.chopsat { width: 60px; animation: spin var(--d) linear infinite; }
 
@@ -550,7 +563,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="dojo"] .objective {
   border-radius: 3px; border: 3px solid #7a2214;
   box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px #7a2214, 6px 8px 0 rgba(0, 0, 0, 0.4);
-  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M10 40q30-20 60 0' stroke='%23d9c8a8' stroke-width='1.4' fill='none' opacity='.5'/></svg>");
+  background: rgba(242, 230, 208, 0.84) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M10 40q30-20 60 0' stroke='%23d9c8a8' stroke-width='1.4' fill='none' opacity='.5'/></svg>");
 }
 :root[data-universe="dojo"] .g-log {
   background: linear-gradient(#d9502f, #b32e18); border: 4px solid #7a1408;
@@ -569,7 +582,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-universe="deep"] .app { background: radial-gradient(130% 100% at 50% 0%, #093048, #04121c 70%); }
 :root[data-universe="deep"] .objective {
-  background: rgba(8, 30, 42, 0.9); color: var(--ink);
+  background: rgba(8, 30, 42, 0.72); color: var(--ink);
   border: 2px solid rgba(56, 220, 200, 0.7); border-radius: 14px;
   box-shadow: 0 0 26px rgba(56, 220, 200, 0.22), inset 0 0 34px rgba(56, 220, 200, 0.07);
 }
@@ -602,7 +615,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="park"] .objective {
   border-radius: 2px; border: 2px solid #b8a878; padding-top: 30px;
   box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.45);
-  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><circle cx='30' cy='40' r='.9' fill='%23a89468' opacity='.5'/><circle cx='90' cy='88' r='.7' fill='%23a89468' opacity='.4'/></svg>");
+  background: rgba(242, 232, 208, 0.86) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><circle cx='30' cy='40' r='.9' fill='%23a89468' opacity='.5'/><circle cx='90' cy='88' r='.7' fill='%23a89468' opacity='.4'/></svg>");
 }
 :root[data-universe="park"] .objective::before {
   content: 'CASE FILE — DO NOT DISCLOSE'; position: absolute; top: 0; left: 0; right: 0;
@@ -626,6 +639,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-universe="wok"] .app { background: linear-gradient(#33121a, #200d0e 60%, #160809); }
 :root[data-universe="wok"] .objective {
+  background: rgba(255, 244, 224, 0.85);
   border-radius: 14px; border: 4px solid #a32210;
   box-shadow: 0 0 0 2px #e8a13c, 6px 8px 0 rgba(0, 0, 0, 0.45);
 }
@@ -647,7 +661,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="atoll"] .objective {
   border-radius: 6px; border: 3px solid #8a5a2a;
   box-shadow: 0 0 0 2px #4a3014, 6px 8px 0 rgba(0, 0, 0, 0.4);
-  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='30'><path d='M0 15q35-9 70 0t70 0' stroke='%23d9bc8a' stroke-width='1.3' fill='none' opacity='.6'/></svg>");
+  background: rgba(244, 228, 196, 0.85) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='30'><path d='M0 15q35-9 70 0t70 0' stroke='%23d9bc8a' stroke-width='1.3' fill='none' opacity='.6'/></svg>");
 }
 :root[data-universe="atoll"] .g-log {
   background: radial-gradient(circle at 50% 34%, #e06038, #b33a1c 74%);
@@ -667,6 +681,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="yeti"] .app { background: linear-gradient(#a8d8f0, #bfe0f2 55%, #e8f4fb); }
 :root[data-universe="yeti"] .world-name { color: #fff; text-shadow: 2px 2px 0 #3a8fd9; }
 :root[data-universe="yeti"] .objective {
+  background: rgba(251, 253, 255, 0.82);
   border-radius: 16px; border: 4px solid #3a8fd9;
   box-shadow: 0 8px 0 rgba(28, 74, 122, 0.35), 0 12px 24px rgba(20, 48, 74, 0.2);
 }
