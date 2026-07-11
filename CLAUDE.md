@@ -27,7 +27,11 @@ commits only. Do not repeat this.
 - Aesthetic: **unhinged AAA video game.** Never restrained, never SaaS,
   never minimal. When in doubt, go crazier — the user has never once asked
   for less intensity.
-- **No light mode. Ever.** Dark, committed worlds only.
+- **There are no modes.** No light/dark toggle, no theme settings, no
+  mode language at all. The job is ONE beautiful interface. Each session
+  world commits totally to its own look — a world may be bright pastel
+  daylight (Ice Cream Parlor) or pitch black (the Abyss). "Dark mode only"
+  is as wrong as offering a toggle.
 - Each of the six session types is its own fully committed themed world
   (palette + animated scene + identity), not an accent swap.
 - The interaction surface itself must be game-like, not just backdrops.
