@@ -1,12 +1,12 @@
-// Plan — phase status, rotation, stall flags, session templates, rules,
-// and the sync/data controls (PAT, import, export).
+// CAMPAIGN — situational awareness first: where you are NOW, what changes
+// next, then the queue, trackers, reference material, and the uplink.
 import { $, esc, fmtW, todayStr, fmtDate, daysBetween, weekKey, haptic, ICONS } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
 import { optionSheet, confirmSheet, toast } from '../components.js';
 import { connectSheet, handleSeedFile, howtoSheet } from './today.js';
-import { setAccent, setMode } from '../theme.js';
+import { setAccent } from '../theme.js';
 
 let root = null;
 const acc = new Set(); // open accordions
@@ -19,8 +19,8 @@ export function render(el) {
     root.innerHTML = `
       <div class="empty">
         <div class="glyph"><svg viewBox="0 0 24 24"><rect x="4.5" y="5.5" width="15" height="14" rx="2.5"/><path d="M4.5 10h15M9 3.5v3.5M15 3.5v3.5" stroke-linecap="round"/></svg></div>
-        <h3>No plan loaded</h3>
-        <p>Connect the data repo or import the seed bundle to load Protocol v3.</p>
+        <h3>No campaign loaded</h3>
+        <p>Connect the repo or import the seed bundle to load Protocol v3.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;padding:0 6px">
         <button class="btn primary" id="p-connect">Connect GitHub</button>
@@ -43,28 +43,32 @@ export function render(el) {
   const cardio = store.settings.cardio[wk] || [false, false, false];
 
   root.innerHTML = `
-    <div class="section-label">Phase</div>
-    <div class="card">
-      ${plan.phases.map((p) => phaseRow(p, info, today)).join('')}
-    </div>
-    ${info.override ? `<button class="btn quiet small" id="clear-override" style="margin:-4px 0 12px">Clear manual override</button>` : ''}
+    <div class="section-label">Now</div>
+    <div class="card">${nowPanel(plan, info, today)}</div>
 
-    <div class="stat-grid">
-      <div class="stat"><div class="v num">${showDays}<span class="u"> d</span></div><div class="k">to March ’27 show</div></div>
-      <div class="stat"><div class="v num">${last7}<span class="u"> / 6</span></div><div class="k">sessions this week</div></div>
-    </div>
-
-    <div class="section-label">Rotation · 6 on / 1 off</div>
+    <div class="section-label">Next mission</div>
     <div class="card">
       <div class="rot-strip">
         ${plan.rotation.map((t) => `<span class="rot-cell ${t === next ? 'next' : ''}" style="--cell-acc:var(--acc-${t.toLowerCase()})">${t.replace(/([AB])$/, ' $1')}</span>`).join('')}
       </div>
-      <div class="kv"><span class="k">Cardio this week</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="v num">${showDays}<span class="u"> d</span></div><div class="k">To March ’27 show</div></div>
+      <div class="stat"><div class="v num">${last7}<span class="u"> / 6</span></div><div class="k">Missions this week</div></div>
+    </div>
+
+    ${info.phase?.type !== 'prep' ? `
+    <div class="section-label">Cardio</div>
+    <div class="card">
+      <div class="kv">
+        <span class="k" style="color:var(--text)">${plan.rules.cardio.sessionsPerWeek.join('–')}× this week</span>
+        <span class="v" style="text-align:left;margin-left:0">${plan.rules.cardio.minutes.join('–')} min · low intensity</span>
         <span class="cardio-dots" id="cardio-dots">
           ${cardio.map((on, i) => `<button class="cardio-dot ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.5L19 7.5"/></svg></button>`).join('')}
         </span>
       </div>
-    </div>
+    </div>` : ''}
 
     ${stalls.length ? `
     <div class="section-label">Stalled lifts</div>
@@ -72,7 +76,13 @@ export function render(el) {
       ${stalls.map((s) => `<div class="kv"><span class="flag stall">stall</span><span class="k" style="color:var(--text)">${esc(s.name)}</span><span class="v">${esc(s.sessionType)}</span></div>`).join('')}
     </div>` : ''}
 
-    <div class="section-label">Sessions</div>
+    <div class="section-label">Campaign map</div>
+    <div class="card">
+      ${plan.phases.map((p) => phaseRow(p, info, today)).join('')}
+    </div>
+    ${info.override ? `<button class="btn quiet small" id="clear-override" style="margin:-6px 0 14px">Clear manual override</button>` : ''}
+
+    <div class="section-label">Arsenal</div>
     ${Object.entries(plan.sessions).map(([type, s]) => `
       <div class="card acc ${acc.has(type) ? 'open' : ''}" data-acc="${type}">
         <button class="acc-head">${esc(s.name)}
@@ -89,23 +99,19 @@ export function render(el) {
         </div>
       </div>`).join('')}
 
-    <div class="section-label">Rules</div>
-    <div class="card"><ul class="rule-list">
-      <li><b>Progression</b> all sets at top of range → +${plan.rules.progression.upperIncrement} upper / +${plan.rules.progression.lowerIncrement} lower</li>
-      <li><b>RIR</b> compounds ${esc(plan.rules.rir.compound)} · isolation ${esc(plan.rules.rir.isolation)}</li>
-      <li><b>Deload</b> −20% load · ~60% sets · ${esc(plan.rules.rir.deload)}</li>
-      <li><b>Stalls</b> ${plan.rules.stall.sessions} flat sessions → flag · swap at deload boundaries</li>
-      <li><b>Cardio</b> ${plan.rules.cardio.sessionsPerWeek.join('–')}× ${plan.rules.cardio.minutes.join('–')} min low intensity</li>
-    </ul></div>
-
-    <div class="section-label">Appearance &amp; behavior</div>
-    <div class="card">
-      <div class="kv"><span class="k">Theme</span><button class="v" id="sd-theme">${esc(store.settings.theme || 'system')}</button></div>
-      <div class="kv"><span class="k">Rest timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'on' : 'off'}</button></div>
-      <div class="kv"><span class="k">Haptics</span><button class="v" id="sd-haptics">${store.settings.haptics ? 'on' : 'off'}</button></div>
+    <div class="card acc ${acc.has('rules') ? 'open' : ''}" data-acc="rules">
+      <button class="acc-head">Rules of engagement
+        <span class="chev">${ICONS.chev}</span>
+      </button>
+      <div class="acc-body"><ul class="rule-list">
+        <li><b>Progress</b> all sets at top of range → +${plan.rules.progression.upperIncrement} upper / +${plan.rules.progression.lowerIncrement} lower</li>
+        <li><b>RIR</b> compounds ${esc(plan.rules.rir.compound)} · isolation ${esc(plan.rules.rir.isolation)}</li>
+        <li><b>Deload</b> 80% load · ~60% sets · ${esc(plan.rules.rir.deload)}</li>
+        <li><b>Stalls</b> ${plan.rules.stall.sessions} flat sessions → flag · swap at deload boundaries</li>
+      </ul></div>
     </div>
 
-    <div class="section-label">Sync &amp; data</div>
+    <div class="section-label">Uplink</div>
     <div class="card">
       <div class="kv"><span class="k">Repo</span><span class="v">${esc(store.settings.owner)}/${esc(store.settings.repo)}</span></div>
       <div class="kv"><span class="k">Token</span><button class="v" id="sd-token">${store.settings.token ? 'update' : 'add token'}</button></div>
@@ -114,32 +120,57 @@ export function render(el) {
       <div class="kv"><span class="k">Queue</span><span class="v num">${store.queue.length} pending</span></div>
       <div class="kv"><span class="k">Last sync</span><span class="v">${store.meta.lastSync ? new Date(store.meta.lastSync).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'never'}</span></div>
       <div class="kv"><span class="k">Sync now</span><button class="v" id="sd-sync">run</button></div>
+    </div>
+
+    <div class="section-label">System</div>
+    <div class="card">
+      <div class="kv"><span class="k">Cooldown timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'on' : 'off'}</button></div>
+      <div class="kv"><span class="k">Haptics</span><button class="v" id="sd-haptics">${store.settings.haptics ? 'on' : 'off'}</button></div>
       <div class="kv"><span class="k">Phase override</span><button class="v" id="sd-phase">${info.override ? esc(info.phase.name) : 'automatic'}</button></div>
       <div class="kv"><span class="k">Import seed bundle</span><button class="v" id="sd-import">choose file</button><input type="file" id="sd-file" accept=".json" hidden></div>
       <div class="kv"><span class="k">Export local data</span><button class="v" id="sd-export">download</button></div>
       <div class="kv"><span class="k">Reset local data</span><button class="v" id="sd-reset" style="color:var(--bad)">reset</button></div>
     </div>
-    <p style="font-family:var(--mono);font-size:10.5px;color:var(--text3);text-align:center;padding:6px 0 12px">app ${esc(self.PROTOCOL_VERSION || 'dev')} · plan v${plan.version} · updated ${esc(plan.updated)}</p>`;
+    <p style="font-family:var(--mono);font-size:10.5px;color:var(--text3);text-align:center;padding:6px 0 12px;letter-spacing:.1em">APP ${esc(self.PROTOCOL_VERSION || 'dev')} · PLAN V${plan.version} · ${esc(plan.updated)}</p>`;
 
   wire(info);
 }
 
+// The one panel that answers: where am I, how far in, what changes next.
+function nowPanel(plan, info, today) {
+  if (!info.phase) {
+    const first = plan.phases[0];
+    const days = daysBetween(today, first.start);
+    return `
+      <div class="now-panel">
+        <div class="np-phase">Standby</div>
+        <div class="np-line">${esc(first.name)} starts ${fmtDate(first.start)} · <b class="num">${days}</b> day${days === 1 ? '' : 's'}</div>
+      </div>`;
+  }
+  const p = info.phase;
+  const total = daysBetween(p.start, p.end) + 1;
+  const done = Math.min(total, Math.max(0, daysBetween(p.start, today) + 1));
+  const left = Math.max(0, daysBetween(today, p.end));
+  const upcoming = plan.phases.find((q) => q.start > p.start);
+  return `
+    <div class="now-panel">
+      <div class="np-phase">${esc(p.name)} <span class="tag">Week ${info.week}/${info.weeks}${info.override ? ' · manual' : ''}</span></div>
+      ${p.note ? `<div class="np-note">${esc(p.note)}</div>` : ''}
+      <div class="phase-prog"><i style="width:${Math.round((done / total) * 100)}%"></i></div>
+      <div class="np-line"><b class="num">${left}</b> day${left === 1 ? '' : 's'} left${upcoming ? ` · then ${esc(upcoming.name)} (${fmtDate(upcoming.start)})` : ''}</div>
+    </div>`;
+}
+
+// Compact map row: name + dates only. Context lives in the NOW panel.
 function phaseRow(p, info, today) {
   const isNow = info.phase?.id === p.id;
   const cls = isNow ? 'now' : p.end < today ? 'past' : '';
-  let prog = '';
-  if (isNow) {
-    const total = daysBetween(p.start, p.end) + 1;
-    const done = Math.min(total, Math.max(0, daysBetween(p.start, today) + 1));
-    prog = `<div class="phase-prog"><i style="width:${Math.round((done / total) * 100)}%"></i></div>`;
-  }
   return `
     <div class="phase-row ${cls}">
       <span class="rail"><i></i></span>
       <span class="info">
-        <div class="n">${esc(p.name)} ${isNow ? `<span class="tag">· week ${info.week}/${info.weeks}${info.override ? ' · manual' : ''}</span>` : ''}</div>
-        <div class="dates">${fmtDate(p.start)} – ${fmtDate(p.end, { year: true })}${p.note ? ` · ${esc(p.note)}` : ''}</div>
-        ${prog}
+        <div class="n">${esc(p.name)} ${isNow ? `<span class="tag">· active</span>` : ''}</div>
+        <div class="dates">${fmtDate(p.start)} – ${fmtDate(p.end, { year: true })}</div>
       </span>
     </div>`;
 }
@@ -149,14 +180,14 @@ function statusClass() {
   return s === 'synced' ? 'ok' : s === 'failed' ? 'bad' : '';
 }
 
-function syncError() {
-  if (store.syncStatus() !== 'failed') return null;
-  return store.queue.find((q) => q.lastError)?.lastError || store.meta.lastError;
-}
-
 function statusLabel() {
   const s = store.syncStatus();
   return { synced: 'synced', pending: 'pending', failed: 'failed — retrying', off: 'not connected' }[s];
+}
+
+function syncError() {
+  if (store.syncStatus() !== 'failed') return null;
+  return store.queue.find((q) => q.lastError)?.lastError || store.meta.lastError;
 }
 
 function wire(info) {
@@ -165,6 +196,8 @@ function wire(info) {
     acc.has(key) ? acc.delete(key) : acc.add(key);
     h.closest('.acc').classList.toggle('open');
   }));
+
+  root.querySelectorAll('.t-row[data-ex]').forEach((r) => r.addEventListener('click', () => howtoSheet(r.dataset.ex)));
 
   $('#cardio-dots', root)?.addEventListener('click', (e) => {
     const dot = e.target.closest('.cardio-dot');
@@ -177,26 +210,8 @@ function wire(info) {
     store.saveSettings();
   });
 
-  root.querySelectorAll('.t-row[data-ex]').forEach((r) => r.addEventListener('click', () => howtoSheet(r.dataset.ex)));
-
-  $('#sd-theme', root).addEventListener('click', () => {
-    optionSheet({
-      title: 'Theme',
-      options: ['system', 'dark', 'light'].map((m) => ({
-        label: m[0].toUpperCase() + m.slice(1),
-        selected: (store.settings.theme || 'system') === m,
-        value: m,
-      })),
-      onPick(opt) {
-        setMode(opt.value);
-        store.saveSettings({ theme: opt.value });
-      },
-    });
-  });
-
   $('#sd-rest', root).addEventListener('click', () => store.saveSettings({ restTimer: !store.settings.restTimer }));
   $('#sd-haptics', root).addEventListener('click', () => store.saveSettings({ haptics: !store.settings.haptics }));
-
   $('#sd-token', root).addEventListener('click', connectSheet);
   $('#sd-sync', root).addEventListener('click', async () => {
     toast('Syncing…');
@@ -223,7 +238,7 @@ function wire(info) {
 export function phaseOverrideSheet(info) {
   optionSheet({
     title: 'Phase override',
-    sub: 'phases normally advance by calendar',
+    sub: 'phases advance by calendar',
     options: [
       { label: 'Automatic (by date)', selected: !store.settings.phaseOverride, value: null },
       ...store.plan.phases.map((p) => ({

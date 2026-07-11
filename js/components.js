@@ -149,36 +149,30 @@ export function countUp(el, from, to, dur = 450) {
   requestAnimationFrame(tick);
 }
 
-// ——— Rest timer: a smooth ring, not a jumping integer ———
+// ——— Cooldown: a smooth depleting bar with live digits ———
 
 let restRAF = null;
 
 export function showRestTimer(seconds, container) {
   hideRestTimer();
-  const R = 14;
-  const C = 2 * Math.PI * R;
   const el = document.createElement('div');
   el.className = 'rest-pill';
   el.id = 'rest-pill';
   el.innerHTML = `
-    <svg class="ring" viewBox="0 0 34 34">
-      <circle class="track" cx="17" cy="17" r="${R}"/>
-      <circle class="arc" cx="17" cy="17" r="${R}" stroke-dasharray="${C}" stroke-dashoffset="0" transform="rotate(-90 17 17)"/>
-    </svg>
+    <span class="lbl">Cooldown</span>
     <span class="t num" id="rest-t"></span>
-    <span class="lbl">rest</span>
+    <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
     <button class="skip">Skip</button>`;
   container.prepend(el);
 
-  const arc = el.querySelector('.arc');
+  const bar = el.querySelector('#rest-bar');
   const label = el.querySelector('#rest-t');
   const t0 = performance.now();
   const total = seconds * 1000;
 
   const tick = (t) => {
     const left = Math.max(0, total - (t - t0));
-    const frac = left / total;
-    arc.style.strokeDashoffset = String(C * (1 - frac));
+    bar.style.width = `${(left / total) * 100}%`;
     const s = Math.ceil(left / 1000);
     label.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
     if (left > 0) {
@@ -197,6 +191,17 @@ export function hideRestTimer() {
   if (restRAF) cancelAnimationFrame(restRAF);
   restRAF = null;
   document.getElementById('rest-pill')?.remove();
+}
+
+// Full-screen NEW RECORD banner — the biggest moment in the app.
+export function recordBanner(text) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelector('.record-banner')?.remove();
+  const el = document.createElement('div');
+  el.className = 'record-banner';
+  el.innerHTML = `★ NEW RECORD <span class="num">${esc(text)}</span> ★`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1700);
 }
 
 // Themed particle burst from an element (the check, 25× a session).

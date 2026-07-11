@@ -5,7 +5,7 @@ import { $, esc, fmtW, todayStr, fmtDate, haptic, ICONS } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
-import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, countUp, showRestTimer, hideRestTimer, burstAt } from '../components.js';
+import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, countUp, showRestTimer, hideRestTimer, burstAt, recordBanner } from '../components.js';
 import { setAccent, THEMES } from '../theme.js';
 
 let root = null;
@@ -114,7 +114,10 @@ function buildDraft(date, sessionType, phaseInfo) {
   const session = store.plan.sessions[sessionType];
   const exercises = session.exercises.map((slot) => {
     const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo);
+    // What actually happened last time, verbatim — date + every set.
+    const last = engine.lastPerformance(store.history, sessionType, slot.id, {});
     return {
+      prev: last ? { date: last.entry.date, sets: last.ex.sets.map((s) => `${fmtW(s.weight)}×${s.reps}`).join('  ') } : null,
       id: slot.id,
       name: engine.exMeta(store.plan, slot.id).name,
       repMin: slot.repMin,
@@ -167,19 +170,23 @@ function renderSession(draft, phaseInfo) {
   let nextMarked = false;
 
   const theme = THEMES[draft.session_type];
+  const missionNo = store.history.length + 1;
   root.innerHTML = `
     <div class="session-head">
-      <div class="eyebrow">${fmtDate(draft.date)}${theme ? ` · <span class="wname">${theme.world}</span>` : ''}${isNext ? '' : ' · out of rotation'}</div>
-      <h1><span class="session-title">${esc(session.name)}</span>
-        <button class="session-switch" id="switch-session">switch</button>
-      </h1>
+      <div class="eyebrow">${fmtDate(draft.date)}${theme ? ` · <span class="wname">${theme.world}</span>` : ''}</div>
+      <h1><span class="session-title">${esc(session.name)}</span></h1>
+      <div class="m-sub">
+        <span>Mission ${String(missionNo).padStart(2, '0')}</span>
+        ${isNext ? '' : '<span class="warn-rot">Out of rotation</span>'}
+        <button class="session-switch" id="switch-session">Switch</button>
+      </div>
       <div class="session-meta">
         <button class="meta-chip" id="chip-bw"><span class="k">BW</span> <span class="num">${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</span></button>
         <button class="meta-chip" id="chip-notes">${draft.notes ? 'Edit note' : 'Add note'}</button>
       </div>
     </div>
-    ${phase?.type === 'deload' ? `<div class="deload-note">Deload week: 80% load, 60% sets, 4+ RIR.</div>` : ''}
-    ${phase?.type === 'calibration' ? `<div class="deload-note">Calibration week: seeds run at 90%.</div>` : ''}
+    ${phase?.type === 'deload' ? `<div class="deload-note">Deload week: 80% load, 60% sets, 4+ RIR</div>` : ''}
+    ${phase?.type === 'calibration' ? `<div class="deload-note">Calibration week: seeds at 90%</div>` : ''}
     ${draft.exercises.map((x, xi) => {
       const sub = BASIS_LABEL[x.basis]?.(x) ?? '';
       return `
@@ -194,6 +201,7 @@ function renderSession(draft, phaseInfo) {
           </button>
           <span class="ex-target">${x.sets.length} × ${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}${x.repUnit === 'sec' ? 's' : ''}</span>
         </div>
+        ${x.prev ? `<div class="ex-last"><b>Last</b> <span class="d">${fmtDate(x.prev.date)}</span> <span class="num">${x.prev.sets}</span></div>` : ''}
         <div class="ex-sub"><span class="sug">${sub}</span></div>
         <div class="set-rows">
           ${x.sets.map((s, si) => {
@@ -317,6 +325,7 @@ function logSet(x, s, row) {
   const fresh = root.querySelector(`.set-row[data-xi="${row.dataset.xi}"][data-si="${row.dataset.si}"]`);
   fresh?.classList.add('just-done');
   burstAt(fresh?.querySelector('.check'), { pr: s.pr });
+  if (s.pr) recordBanner(`${fmtW(s.weight)} lb`);
 
   const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done).length, 0);
   if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'));

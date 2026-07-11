@@ -1,30 +1,8 @@
-// Theme engine. Two axes:
-//  - mode: light | dark | system (user setting)
-//  - accent: the app's own theme, or a fixed per-session theme
-//    (Push A is always Push A's color, in both modes)
-const media = matchMedia('(prefers-color-scheme: dark)');
-let currentMode = 'system';
-
-function resolvedMode() {
-  return currentMode === 'system' ? (media.matches ? 'dark' : 'light') : currentMode;
-}
-
-function apply() {
-  const mode = resolvedMode();
-  document.documentElement.dataset.mode = mode;
+// Theme engine. One axis only: the session world. The worlds are committed —
+// there is no light mode, no user theme knob. Each session IS its theme.
+export function initTheme() {
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = mode === 'dark' ? '#0c0a09' : '#f7f4f0';
-}
-
-export function setMode(mode) {
-  currentMode = mode;
-  apply();
-}
-
-export function initTheme(mode) {
-  currentMode = mode || 'system';
-  media.addEventListener('change', () => { if (currentMode === 'system') apply(); });
-  apply();
+  if (meta) meta.content = '#08070a';
 }
 
 // null → app accent; a session type → that session's world (palette + live scene)

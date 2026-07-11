@@ -84,7 +84,7 @@ store.sub((quiet) => {
 
 // ——— Boot ———
 
-initTheme(store.settings.theme);
+initTheme();
 store.pruneDraft();
 
 // Announce fresh builds so updates are visible.
