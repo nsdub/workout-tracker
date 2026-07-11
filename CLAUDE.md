@@ -36,6 +36,14 @@ commits only. Do not repeat this.
   drawing language, different type treatment, different physics. UI
   controls are characters and objects that live in the world, not
   neutral widgets placed on top of it.
+- **Universes (2026-07-11 direction):** each session type is a UNIVERSE;
+  every visit lands in a DIFFERENT world inside that universe (no repeats
+  until the pool is exhausted, tracked per universe). The user is
+  selecting the final six universes from a pitched list of 26.
+- **Sound + motion mandate:** the universe build must ship with sound
+  effects (WebAudio-synthesized — no audio files; per-world log dings,
+  PR fanfares, cooldown chimes, respecting a mute toggle) and MORE
+  animation everywhere. This is a standing requirement, not a nice-to-have.
 - **There are no modes.** No light/dark toggle, no theme settings, no
   mode language at all. The job is ONE beautiful interface. Each session
   world commits totally to its own look — a world may be bright pastel
