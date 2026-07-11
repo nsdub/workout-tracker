@@ -5,7 +5,7 @@ import { $, esc, fmtW, todayStr, fmtDate, haptic, ICONS } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
-import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, countUp, showRestTimer, hideRestTimer } from '../components.js';
+import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, countUp, showRestTimer, hideRestTimer, burstAt } from '../components.js';
 import { setAccent, THEMES } from '../theme.js';
 
 let root = null;
@@ -316,6 +316,7 @@ function logSet(x, s, row) {
   render(root);
   const fresh = root.querySelector(`.set-row[data-xi="${row.dataset.xi}"][data-si="${row.dataset.si}"]`);
   fresh?.classList.add('just-done');
+  burstAt(fresh?.querySelector('.check'), { pr: s.pr });
 
   const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done).length, 0);
   if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'));

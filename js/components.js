@@ -199,4 +199,28 @@ export function hideRestTimer() {
   document.getElementById('rest-pill')?.remove();
 }
 
+// Themed particle burst from an element (the check, 25× a session).
+// PRs get a bigger, longer pop.
+export function burstAt(el, { pr = false } = {}) {
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const n = pr ? 16 : 9;
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('i');
+    p.className = 'burst-p';
+    p.style.left = `${cx}px`;
+    p.style.top = `${cy}px`;
+    p.style.background = i % 3 === 0 ? 'color-mix(in srgb, var(--accent) 45%, white)' : 'var(--accent)';
+    document.body.appendChild(p);
+    const ang = (Math.PI * 2 * i) / n + Math.random() * 0.6;
+    const dist = (pr ? 46 : 28) + Math.random() * (pr ? 42 : 20);
+    p.animate([
+      { transform: 'translate(-50%,-50%) scale(1)', opacity: 1 },
+      { transform: `translate(calc(-50% + ${(Math.cos(ang) * dist).toFixed(1)}px), calc(-50% + ${(Math.sin(ang) * dist - 10).toFixed(1)}px)) scale(.25)`, opacity: 0 },
+    ], { duration: pr ? 720 : 520, easing: 'cubic-bezier(.15,.85,.35,1)' }).onfinish = () => p.remove();
+  }
+}
+
 export const checkIcon = ICONS.check;

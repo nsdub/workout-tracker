@@ -103,5 +103,19 @@ document.addEventListener('visibilitychange', () => {
 setInterval(() => { if (store.queue.length) flushQueue(); }, 45000);
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  navigator.serviceWorker.register('sw.js').catch(() => { /* dev server without https */ });
+  navigator.serviceWorker.register('sw.js').then((reg) => {
+    // Look for a new version whenever the app comes back to the foreground.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') reg.update().catch(() => {});
+    });
+  }).catch(() => { /* dev server without https */ });
+
+  // When an updated service worker takes over, reload once so the new
+  // version applies immediately. Drafts live in localStorage, so nothing is lost.
+  let reloadedForUpdate = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloadedForUpdate) return;
+    reloadedForUpdate = true;
+    location.reload();
+  });
 }

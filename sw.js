@@ -1,6 +1,6 @@
 // Offline-first service worker. App shell is cache-first (bump VERSION on
 // deploy); the GitHub API is never cached — sync logic owns that traffic.
-const VERSION = 'protocol-v4';
+const VERSION = 'protocol-v5';
 
 const SHELL = [
   './',

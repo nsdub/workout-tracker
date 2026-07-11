@@ -934,7 +934,131 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   animation: fx-blink var(--dur) ease-in-out infinite;
 }
 
+/* Extra shared physics */
+@keyframes fx-rise-grow {
+  0% { transform: translate3d(0, 40vh, 0) scale(0.6); opacity: 0; }
+  15% { opacity: 0.5; }
+  100% { transform: translate3d(var(--sway, 30px), -45vh, 0) scale(1.9); opacity: 0; }
+}
+@keyframes fx-lava-flow { to { background-position: 300% 0; } }
+@keyframes fx-swing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+@keyframes fx-flutter { 0%, 100% { transform: rotate(-16deg); } 50% { transform: rotate(14deg); } }
+@keyframes fx-waddle { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes fx-drip-melt { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.14); } }
+
+/* Forge extras */
+.scene .smoke {
+  width: var(--s); height: var(--s); border-radius: 50%;
+  background: radial-gradient(circle, rgba(150, 105, 80, 0.16), transparent 68%);
+  animation: fx-rise-grow var(--dur) linear infinite;
+}
+.scene .lava {
+  left: 0; right: 0; bottom: 0; height: 6px;
+  background: linear-gradient(90deg, #ff4d2e, #ffb35c, #ff7a45, #ff4d2e);
+  background-size: 300% 100%;
+  box-shadow: 0 -10px 26px rgba(255, 90, 30, 0.45);
+  opacity: 0.75;
+  animation: fx-lava-flow 7s linear infinite;
+}
+
+/* Abyss extras */
+.scene .whale {
+  left: 0; width: 170px; color: var(--accent); opacity: 0.13;
+  animation: fx-cross var(--dur) linear infinite;
+}
+.scene .whale svg { width: 100%; animation: fx-bob 7s ease-in-out infinite; }
+.scene .fishy {
+  left: 0; width: var(--s); color: var(--accent); opacity: 0.35;
+  animation: fx-cross var(--dur) linear infinite;
+}
+.scene .fishy svg { width: 100%; animation: fx-bob 2.6s ease-in-out infinite; }
+.scene .kelp {
+  bottom: -4px; top: auto; width: 18px; height: var(--s);
+  color: color-mix(in srgb, var(--accent) 40%, transparent);
+  transform-origin: 50% 100%;
+  animation: fx-swing var(--dur) ease-in-out infinite;
+}
+.scene .kelp svg { width: 100%; height: 100%; }
+
+/* Jungle extras */
+.scene .vine {
+  top: -6px; width: 22px; height: var(--s);
+  color: rgba(144, 199, 73, 0.35);
+  transform-origin: 50% 0;
+  animation: fx-swing var(--dur) ease-in-out infinite;
+}
+.scene .vine svg { width: 100%; height: 100%; }
+.scene .butterfly {
+  left: 0; width: var(--s); color: var(--c, #ffb340); opacity: 0.65;
+  animation: fx-cross var(--dur) linear infinite;
+}
+.scene .butterfly svg { width: 100%; animation: fx-flutter 0.55s ease-in-out infinite; }
+
+/* Parlor extras */
+.scene .drip {
+  top: 0; width: var(--s);
+  border-radius: 0 0 45% 45%;
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+  transform-origin: 50% 0;
+  animation: fx-drip-melt var(--dur) ease-in-out infinite;
+}
+.scene .scoop.pop { color: #7fe3c3; opacity: 0.5; }
+.scene .scoop.cherry { color: #ff5d7e; opacity: 0.55; }
+
+/* Arctic extras */
+.scene .star {
+  width: var(--s); height: var(--s); border-radius: 50%;
+  background: #eaf4ff;
+  animation: fx-blink var(--dur) ease-in-out infinite;
+}
+.scene .iceberg {
+  left: 0; top: auto; bottom: 7%; width: var(--s);
+  color: color-mix(in srgb, var(--accent) 30%, transparent);
+  animation: fx-cross var(--dur) linear infinite;
+}
+.scene .iceberg.b { bottom: 9%; opacity: 0.6; }
+.scene .iceberg svg { width: 100%; }
+.scene .penguin {
+  left: 0; top: auto; bottom: 6.5%; width: var(--s);
+  color: #2c3b52;
+  animation: fx-cross var(--dur) linear infinite;
+}
+.scene .penguin svg { width: 100%; animation: fx-waddle 0.55s ease-in-out infinite; }
+
+/* Neon extras */
+.scene .skyline {
+  left: 0; right: 0; bottom: 41.5%; top: auto; height: 44px;
+  color: color-mix(in srgb, var(--bg0) 55%, black);
+  filter: drop-shadow(0 -1px 8px rgba(232, 121, 249, 0.3));
+}
+.scene .skyline svg { width: 100%; height: 100%; }
+.scene .window {
+  width: 2.5px; height: 2.5px; top: auto;
+  background: #ffd479;
+  animation: fx-blink var(--dur) ease-in-out infinite;
+}
+.scene .streak {
+  left: 0; width: 74px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #22d3ee, transparent);
+  opacity: 0.55;
+  animation: fx-cross var(--dur) linear infinite;
+}
+
+/* Set-logging burst */
+.burst-p {
+  position: fixed; width: 6px; height: 6px; border-radius: 50%;
+  pointer-events: none; z-index: 60;
+}
+
 /* Light-mode weather adjustments */
+:root[data-mode="light"] .scene .whale,
+:root[data-mode="light"] .scene .fishy { opacity: 0.22; }
+:root[data-mode="light"] .scene .star { background: #7da7c9; }
+:root[data-mode="light"] .scene .penguin { color: #33415c; }
+:root[data-mode="light"] .scene .skyline { color: color-mix(in srgb, var(--acc-legsb) 30%, #d8c8e0); filter: none; }
+:root[data-mode="light"] .scene .streak { background: linear-gradient(90deg, transparent, #0891b2, transparent); opacity: 0.4; }
+:root[data-mode="light"] .scene .smoke { background: radial-gradient(circle, rgba(160, 110, 70, 0.1), transparent 68%); }
+:root[data-mode="light"] .scene .lava { opacity: 0.5; }
 :root[data-mode="light"] .scene .ember { opacity: 0.55; }
 :root[data-mode="light"] .scene .snow { background: #7da7c9; }
 :root[data-mode="light"] .scene .aurora { opacity: 0.45; }
