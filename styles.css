@@ -979,20 +979,22 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 /* ——— the star path: every night is a planet on a golden trail ——— */
 .starpath { position: relative; z-index: 2; margin: 0 2px; padding: 2px 0 8px; }
 .starpath::before {
-  content: ''; position: absolute; left: 50%; top: 0; bottom: 40px; width: 3px; margin-left: -1.5px;
+  content: ''; position: absolute; left: 30px; top: 0; bottom: 40px; width: 3px;
   background: linear-gradient(rgba(255, 210, 74, 0.7), rgba(138, 154, 200, 0.22));
   box-shadow: 0 0 14px rgba(255, 210, 74, 0.35); border-radius: 2px;
 }
 .sector {
-  position: relative; z-index: 2; display: flex; align-items: center; gap: 10px; margin: 4px 0 14px;
+  position: relative; z-index: 2; display: flex; align-items: center; gap: 10px; margin: 4px 0 14px 62px;
   font-family: var(--mono); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: #8a9ac8;
 }
 .sector i { flex: 1; height: 1.4px; background: linear-gradient(90deg, transparent, rgba(138, 154, 200, 0.45), transparent); }
+.sector i:first-child { display: none; }
 .star-node {
-  position: relative; display: flex; gap: 13px; align-items: center; text-align: left;
-  width: calc(50% + 76px); margin: 0 0 20px auto; padding: 4px 8px 4px 0;
+  position: relative; display: flex; gap: 16px; align-items: center; text-align: left;
+  width: 100%; margin: 0 0 18px; padding: 4px 8px 4px 2px;
 }
-.star-node.flip { margin: 0 auto 20px 0; flex-direction: row-reverse; text-align: right; padding: 4px 0 4px 8px; }
+.star-node .sn-info { min-width: 0; }
+.sn-name, .sn-world, .sn-meta { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .planet {
   position: relative; width: 58px; height: 58px; flex: none; border-radius: 50%;
   display: grid; place-items: center;
@@ -1006,8 +1008,8 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .sn-name { font-family: var(--disp); font-size: 16px; display: block; color: var(--ink); }
 .sn-world { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--c); margin: 3px 0; text-shadow: 0 0 12px color-mix(in srgb, var(--c) 50%, transparent); }
 .sn-meta { display: block; font-size: 10.5px; color: var(--ink2); }
-.path-end { position: relative; z-index: 2; text-align: center; font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: #8a9ac8; padding-top: 4px; }
-.path-end i { display: block; width: 10px; height: 10px; border-radius: 50%; background: #8a9ac8; margin: 0 auto 9px; box-shadow: 0 0 12px rgba(138, 154, 200, 0.9); }
+.path-end { position: relative; z-index: 2; display: flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: #8a9ac8; padding-top: 4px; }
+.path-end i { width: 10px; height: 10px; border-radius: 50%; background: #8a9ac8; margin-left: 26px; box-shadow: 0 0 12px rgba(138, 154, 200, 0.9); flex: none; }
 
 /* ——— debrief (night detail) ——— */
 .debrief {

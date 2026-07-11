@@ -73,7 +73,6 @@ function renderList() {
   const entries = [...store.history].sort((a, b) => b.date.localeCompare(a.date));
   const queued = new Set(store.queue.map((q) => q.path));
   let lastMonth = '';
-  let side = 0;
   const rows = entries.map((e) => {
     const path = store.entryPath(e);
     const sets = e.exercises.reduce((n, x) => n + x.sets.length, 0);
@@ -85,9 +84,8 @@ function renderList() {
     lastMonth = month;
     const name = store.plan?.sessions[e.session_type]?.name ?? e.session_type;
     const world = (e.world && worldDef(e.session_type, e.world)?.name) || UNIVERSES[e.session_type]?.name || '';
-    side = 1 - side;
     return `${sector}
-      <button class="star-node ${side ? 'flip' : ''}" data-path="${esc(path)}" style="--c:${SWATCH[e.session_type] ?? '#8a9ac8'}">
+      <button class="star-node" data-path="${esc(path)}" style="--c:${SWATCH[e.session_type] ?? '#8a9ac8'}">
         <span class="planet"><b class="num">${mon}<u>${day}</u></b></span>
         <span class="sn-info">
           <span class="sn-name">${esc(name)}</span>
