@@ -2,7 +2,7 @@
 // Parses Appendix A (scripts/history-raw.txt) into per-session history JSON files
 // plus a one-shot seed bundle (plan + full history) for the in-app importer.
 // Import is verbatim — suspect entries are preserved exactly as logged.
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -93,8 +93,9 @@ for (const line of raw.split('\n')) {
 
 entries.sort((a, b) => a.date.localeCompare(b.date) || a.session_type.localeCompare(b.session_type));
 
+// NEVER wipe the directory: it also holds live entries synced from the
+// phone that are NOT derived from the appendix. Only (re)write our own.
 const outDir = join(root, 'data/history');
-rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 for (const e of entries) {
   writeFileSync(join(outDir, `${e.date}-${e.session_type.toLowerCase()}.json`), JSON.stringify(e, null, 2) + '\n');
