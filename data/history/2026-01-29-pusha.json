@@ -1,0 +1,153 @@
+{
+  "date": "2026-01-29",
+  "session_type": "PushA",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 165,
+          "reps": 10
+        },
+        {
+          "weight": 175,
+          "reps": 8
+        },
+        {
+          "weight": 175,
+          "reps": 9
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 185,
+          "reps": 10
+        },
+        {
+          "weight": 205,
+          "reps": 7
+        },
+        {
+          "weight": 215,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 80,
+          "reps": 9
+        },
+        {
+          "weight": 80,
+          "reps": 8
+        },
+        {
+          "weight": 80,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 10
+        },
+        {
+          "weight": 35,
+          "reps": 10
+        },
+        {
+          "weight": 35,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 12
+        },
+        {
+          "weight": 10,
+          "reps": 10
+        },
+        {
+          "weight": 10,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 10
+        },
+        {
+          "weight": 55,
+          "reps": 10
+        },
+        {
+          "weight": 55,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 13
+        },
+        {
+          "weight": 60,
+          "reps": 14
+        },
+        {
+          "weight": 60,
+          "reps": 14
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 15
+        },
+        {
+          "weight": 30,
+          "reps": 15
+        }
+      ]
+    }
+  ],
+  "imported": true
+}

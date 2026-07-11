@@ -1,0 +1,14 @@
+{
+  "name": "Protocol",
+  "short_name": "Protocol",
+  "description": "Single-user workout tracker. Log fast, progress on rules, sync to GitHub.",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0c0a09",
+  "theme_color": "#0c0a09",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "date": "2025-12-16",
+  "session_type": "LegsA",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 12
+        },
+        {
+          "weight": 220,
+          "reps": 12
+        },
+        {
+          "weight": 240,
+          "reps": 11
+        },
+        {
+          "weight": 240,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 12
+        },
+        {
+          "weight": 172.5,
+          "reps": 11
+        },
+        {
+          "weight": 172.5,
+          "reps": 10
+        },
+        {
+          "weight": 172.5,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 11
+        },
+        {
+          "weight": 105,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 12
+        },
+        {
+          "weight": 142.5,
+          "reps": 14
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Standing Calf Raise",
+      "sets": [
+        {
+          "weight": 300,
+          "reps": 14
+        },
+        {
+          "weight": 300,
+          "reps": 11
+        },
+        {
+          "weight": 300,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 47.5,
+          "reps": 12
+        },
+        {
+          "weight": 49,
+          "reps": 12
+        },
+        {
+          "weight": 49,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10
+        },
+        {
+          "weight": 0,
+          "reps": 10
+        },
+        {
+          "weight": 0,
+          "reps": 10
+        }
+      ]
+    }
+  ],
+  "imported": true,
+  "bodyweight": 215
+}

@@ -1,0 +1,71 @@
+{
+  "date": "2026-01-13",
+  "session_type": "LegsA",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 125,
+          "reps": 5
+        },
+        {
+          "weight": 145,
+          "reps": 5
+        },
+        {
+          "weight": 145,
+          "reps": 5
+        },
+        {
+          "weight": 95,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 10
+        },
+        {
+          "weight": 30,
+          "reps": 10
+        },
+        {
+          "weight": 30,
+          "reps": 12
+        },
+        {
+          "weight": 30,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 7
+        },
+        {
+          "weight": 185,
+          "reps": 7
+        },
+        {
+          "weight": 185,
+          "reps": 7
+        }
+      ]
+    }
+  ],
+  "imported": true
+}

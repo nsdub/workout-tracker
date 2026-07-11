@@ -1,0 +1,7076 @@
+{
+  "kind": "protocol-seed",
+  "version": 3,
+  "plan": {
+    "version": 3,
+    "name": "Protocol v3",
+    "updated": "2026-07-10",
+    "units": "lb",
+    "rotation": [
+      "PushA",
+      "PullA",
+      "LegsA",
+      "PushB",
+      "PullB",
+      "LegsB"
+    ],
+    "schedule": {
+      "pattern": "6-on-1-off",
+      "protected": [
+        "LegsA",
+        "LegsB"
+      ],
+      "note": "Sessions are never skipped, only pushed. Rotation continues where it left off. Leg days are never the ones dropped."
+    },
+    "phases": [
+      {
+        "id": "calibration",
+        "name": "Calibration",
+        "start": "2026-07-13",
+        "end": "2026-07-19",
+        "type": "calibration",
+        "loadFactor": 0.9,
+        "note": "All seed loads -10%. Re-establish working weights after the logging gap."
+      },
+      {
+        "id": "meso1",
+        "name": "Meso 1",
+        "start": "2026-07-20",
+        "end": "2026-08-16",
+        "type": "build",
+        "note": "Progressive overload."
+      },
+      {
+        "id": "deload1",
+        "name": "Deload",
+        "start": "2026-08-17",
+        "end": "2026-08-23",
+        "type": "deload",
+        "loadFactor": 0.8,
+        "setFactor": 0.6,
+        "note": "-20% load, ~60% sets, nothing under 4 RIR."
+      },
+      {
+        "id": "meso2",
+        "name": "Meso 2",
+        "start": "2026-08-24",
+        "end": "2026-09-20",
+        "type": "build",
+        "note": "Progressive overload."
+      },
+      {
+        "id": "deload2",
+        "name": "Deload",
+        "start": "2026-09-21",
+        "end": "2026-09-27",
+        "type": "deload",
+        "loadFactor": 0.8,
+        "setFactor": 0.6,
+        "note": "-20% load, ~60% sets, nothing under 4 RIR."
+      },
+      {
+        "id": "meso3",
+        "name": "Meso 3",
+        "start": "2026-09-28",
+        "end": "2026-10-25",
+        "type": "build",
+        "note": "Progressive overload."
+      },
+      {
+        "id": "deload3",
+        "name": "Deload",
+        "start": "2026-10-26",
+        "end": "2026-11-01",
+        "type": "deload",
+        "loadFactor": 0.8,
+        "setFactor": 0.6,
+        "note": "-20% load, ~60% sets, nothing under 4 RIR."
+      },
+      {
+        "id": "assessment",
+        "name": "Assessment",
+        "start": "2026-11-02",
+        "end": "2026-11-08",
+        "type": "assessment",
+        "note": "Physique check. Prep block gets programmed here."
+      },
+      {
+        "id": "prep",
+        "name": "Prep",
+        "start": "2026-11-09",
+        "end": "2027-03-31",
+        "type": "prep",
+        "progression": "hold",
+        "note": "Placeholder — detailed programming comes at Assessment. Holding reps at the same weight is a win."
+      }
+    ],
+    "rules": {
+      "progression": {
+        "type": "double",
+        "upperIncrement": 5,
+        "lowerIncrement": 10,
+        "lowerExercises": [
+          "deadlift",
+          "smith-rdl",
+          "leg-press-low",
+          "leg-press-high"
+        ],
+        "trigger": "All sets at the top of the rep range → suggest +increment next session."
+      },
+      "stall": {
+        "sessions": 3,
+        "note": "3 sessions without progression on a lift → flag it. Variation swaps only at deload boundaries."
+      },
+      "rir": {
+        "compound": "1-2 RIR",
+        "isolation": "last set may go to failure",
+        "deload": "nothing under 4 RIR"
+      },
+      "validation": {
+        "deviationPct": 25,
+        "trailingSessions": 5,
+        "maxReps": 30
+      },
+      "cardio": {
+        "sessionsPerWeek": [
+          2,
+          3
+        ],
+        "minutes": [
+          20,
+          30
+        ],
+        "intensity": "low",
+        "note": "Build block only. Tracked as a simple checkbox if at all."
+      }
+    },
+    "exercises": {
+      "smith-incline-press": {
+        "name": "Smith Incline Press",
+        "compound": true,
+        "howto": [
+          "Bench at 30–40°, positioned so the bar meets the upper chest, just below the clavicles. Grip slightly wider than shoulders, shoulder blades pinned back and down, feet planted.",
+          "Lower under control to a light touch on the chest, elbows about 45–60° from the torso. Press to lockout without letting the shoulders roll forward off the pad.",
+          "The Smith path is fixed, so bench placement is the whole setup. Mark the position that lets the bar track over the upper chest, not the neck."
+        ]
+      },
+      "machine-chest-press": {
+        "name": "Machine Chest Press",
+        "compound": true,
+        "howto": [
+          "Set the seat so the handles sit at mid-chest. Shoulder blades squeezed into the pad, chest up, feet flat.",
+          "Press to just short of elbow lockout, then lower until the hands are near chest level with a stretch across the pecs. Keep the shoulders pinned back the entire rep."
+        ]
+      },
+      "cable-crossover-low-high": {
+        "name": "Cable Crossover (low→high)",
+        "howto": [
+          "Pulleys at the bottom. Step forward into a staggered stance with a slight forward lean, palms facing up and forward.",
+          "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
+          "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
+        ]
+      },
+      "db-shoulder-press": {
+        "name": "DB Shoulder Press",
+        "compound": true,
+        "howto": [
+          "Seated with back support. Dumbbells start at shoulder height, palms forward or slightly turned in, forearms vertical.",
+          "Press up and slightly together to lockout overhead, then lower under control until the dumbbells are back at ear-to-shoulder level. Ribs down, no arching off the pad."
+        ]
+      },
+      "cable-lateral-raise": {
+        "name": "Cable Lateral Raise",
+        "howto": [
+          "Pulley at the bottom, cable running behind the body or in front of the legs. Stand side-on, handle in the far hand.",
+          "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
+          "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
+        ]
+      },
+      "overhead-cable-triceps": {
+        "name": "Overhead Cable Triceps Ext",
+        "howto": [
+          "Rope on a low or mid pulley. Face away from the stack, rope behind the head, elbows up and pointing forward, slight forward split stance.",
+          "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
+          "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
+        ]
+      },
+      "rope-pushdown": {
+        "name": "Rope Pushdown",
+        "howto": [
+          "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
+          "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
+        ]
+      },
+      "face-pulls": {
+        "name": "Face Pulls",
+        "howto": [
+          "Rope at upper-face height. Grab with thumbs pointing back toward you, step back to load the stack, staggered stance.",
+          "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
+          "Think external rotation, not rowing: hands finish above the elbows every rep."
+        ]
+      },
+      "deadlift": {
+        "name": "Deadlift",
+        "compound": true,
+        "lower": true,
+        "howto": [
+          "Bar over mid-foot, shins an inch away. Hinge down, grip just outside the legs, shins to the bar, chest up, lats tight — pull the slack out before the break.",
+          "Push the floor away and stand, bar dragging up the legs. Lock by driving the hips through, not leaning back. Return by hinging first, bending the knees once the bar passes them.",
+          "Brace hard before every rep. At 1–2 RIR the back position is the stop signal: any rounding, the set is over."
+        ]
+      },
+      "lat-pulldown-wide": {
+        "name": "Lat Pulldown (wide)",
+        "compound": true,
+        "howto": [
+          "Wide grip on the long bar, knees locked under the pads. Slight lean back, chest up.",
+          "Pull the bar to the top of the chest by driving the elbows down and back. Pause with the shoulder blades pinched, then let the bar rise until the arms are long and the lats stretch.",
+          "Momentum from a rocking torso is the usual cheat. The lean is set once — it doesn't grow during the set."
+        ]
+      },
+      "seated-cable-row-wide": {
+        "name": "Seated Cable Row (wide)",
+        "compound": true,
+        "howto": [
+          "Wide grip bar, feet braced, knees soft. Sit tall with the torso vertical.",
+          "Row to the lower chest with elbows flaring out around 45–60°, squeezing the mid-back. Let the weight pull the shoulders forward into a full stretch between reps, torso staying near vertical."
+        ]
+      },
+      "db-curl": {
+        "name": "DB Curl",
+        "howto": [
+          "Standing or seated, dumbbells at the sides, palms forward (or supinating on the way up).",
+          "Curl without moving the upper arm — elbows stay at the ribs. Squeeze at the top, lower slowly to a full hang.",
+          "If the shoulders swing to start the rep, the weight is doing the curl, not the biceps."
+        ]
+      },
+      "cable-hammer-curl": {
+        "name": "Cable Hammer Curl",
+        "howto": [
+          "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
+          "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
+        ]
+      },
+      "leg-press-low": {
+        "name": "Leg Press (feet low)",
+        "compound": true,
+        "lower": true,
+        "howto": [
+          "Feet low on the platform, about shoulder width. Low placement biases the quads.",
+          "Lower until the knees reach roughly 90° or as deep as possible without the lower back curling off the pad. Press through the whole foot to just short of knee lockout.",
+          "The tailbone lifting off the seat is the depth limit. Never let the knees slam into lockout."
+        ]
+      },
+      "leg-extension": {
+        "name": "Leg Extension",
+        "lower": true,
+        "howto": [
+          "Seat set so the knee lines up with the machine's pivot, pad on the lower shin, back against the seat.",
+          "Extend to a full squeeze at the top and hold a beat. Lower slowly — the eccentric is most of the value here."
+        ]
+      },
+      "leg-curl": {
+        "name": "Leg Curl",
+        "lower": true,
+        "howto": [
+          "Knee joint aligned with the machine pivot, pad just above the heels.",
+          "Curl all the way to a full hamstring squeeze, then return slowly to a long stretch without letting the stack rest between reps.",
+          "Pointing the toes (plantarflexed) takes the calves out and keeps it on the hamstrings."
+        ]
+      },
+      "hip-adductor": {
+        "name": "Hip Adductor",
+        "lower": true,
+        "howto": [
+          "Sit tall, pads inside the knees, start at a comfortable stretch — widen the range setting over warm-up sets, not cold.",
+          "Squeeze the legs together under control, hold the contraction, and open slowly against the pads."
+        ]
+      },
+      "hip-abductor": {
+        "name": "Hip Abductor",
+        "lower": true,
+        "howto": [
+          "Pads outside the knees. A slight forward lean with the glutes back biases the upper glutes.",
+          "Drive the knees apart to full range, pause, and return slowly without letting the stack touch down between reps."
+        ]
+      },
+      "standing-calf-raise": {
+        "name": "Standing Calf Raise",
+        "lower": true,
+        "howto": [
+          "Balls of the feet on the platform, heels hanging free, legs straight but knees not locked back.",
+          "Lower to a deep stretch and pause there for a beat, then drive up to full height and squeeze.",
+          "The pause at the bottom kills the bounce out of the Achilles — the bounce is the main reason calves stall."
+        ]
+      },
+      "cable-crunch": {
+        "name": "Cable Crunch",
+        "howto": [
+          "Kneel below a high pulley, rope held at the sides of the head, hips stacked over the knees.",
+          "Crunch the ribs toward the pelvis, rounding the spine — the hips don't move. Return until the abs reach a stretch.",
+          "If the hips rock back and forth it becomes a hip flexor exercise. Fix the hips, flex the spine."
+        ]
+      },
+      "hanging-leg-raise": {
+        "name": "Hanging Leg Raise",
+        "bodyweight": true,
+        "howto": [
+          "Dead hang from the bar, shoulders active enough to stay stable.",
+          "Raise the legs by tilting the pelvis up and curling it toward the ribs — knees bent or straight by strength level. Lower slowly to a dead hang without swinging.",
+          "The pelvic tilt is the rep. Legs lifting with a fixed pelvis is hip flexor work, not abs."
+        ]
+      },
+      "smith-overhead-press": {
+        "name": "Smith Overhead Press",
+        "compound": true,
+        "howto": [
+          "Seated or standing under the bar, grip just outside shoulders, bar starting at the clavicles. Position yourself so the fixed path clears the chin naturally.",
+          "Press to lockout overhead, finishing with the bar over the ears. Lower under control back to the clavicles.",
+          "Brace the ribs down; the Smith machine hides balance problems but not a leaking arch."
+        ]
+      },
+      "db-lateral-raise": {
+        "name": "DB Lateral Raise",
+        "howto": [
+          "Dumbbells at the sides, slight forward tilt of the torso, soft elbows.",
+          "Raise out and slightly forward to shoulder height, leading with the elbows, pinkies no higher than thumbs. Lower on a 2–3 second count.",
+          "Past shoulder height it becomes traps. Lighter and stricter beats heavier and swung, 25 sets a week says so."
+        ]
+      },
+      "cable-crossover-high-low": {
+        "name": "Cable Crossover (high→low)",
+        "howto": [
+          "Pulleys at the top. Step forward, slight lean, arms open wide with a stretch across the chest.",
+          "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
+          "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
+        ]
+      },
+      "reverse-pec-deck": {
+        "name": "Reverse Pec Deck",
+        "howto": [
+          "Face the pad, seat set so the handles are at shoulder height, arms long with a soft bend.",
+          "Open the arms straight back until they are in line with the shoulders, squeezing the rear delts and mid-back. Return slowly without letting the plates stack.",
+          "Keep the shoulders down. Shrugging up hands the rep to the traps."
+        ]
+      },
+      "assisted-dips": {
+        "name": "Assisted Dips",
+        "bodyweight": true,
+        "compound": true,
+        "howto": [
+          "Knees or feet on the assist platform, grip on the bars, shoulders down away from the ears.",
+          "Lower until the upper arms reach parallel or the shoulders signal the end of range, torso leaning slightly forward. Press back to lockout.",
+          "More lean hits chest, upright hits triceps. Pick one and keep it consistent set to set."
+        ]
+      },
+      "reverse-grip-pushdown": {
+        "name": "Reverse Grip Pushdown",
+        "howto": [
+          "Straight or EZ bar on a high pulley, underhand grip, elbows at the sides.",
+          "Push down to lockout keeping the palms up, squeeze, and return under control. The underhand grip forces stricter elbows and biases the medial head."
+        ]
+      },
+      "smith-bent-over-row": {
+        "name": "Smith Bent-Over Row",
+        "compound": true,
+        "howto": [
+          "Hinge to roughly 30–45° above horizontal, knees soft, bar hanging at arm's length on the fixed track. Overhand grip just outside the legs.",
+          "Row to the lower ribs, elbows tracking back at about 45°. Squeeze, then lower to a full hang without the torso rising.",
+          "The torso angle set on rep one is the contract for the whole set."
+        ]
+      },
+      "lat-pulldown-close": {
+        "name": "Lat Pulldown (close)",
+        "compound": true,
+        "howto": [
+          "Neutral close-grip handle, thighs locked under the pads, slight lean back.",
+          "Pull the handle to the upper chest, elbows driving down past the ribs. Full stretch at the top of every rep — the close grip gives more range, so use it."
+        ]
+      },
+      "straight-arm-pulldown": {
+        "name": "Straight-Arm Pulldown",
+        "howto": [
+          "High pulley, bar or rope, arms long with a soft fixed elbow. Hinge slightly forward.",
+          "Sweep the hands down to the thighs in an arc, feeling the lats pull the whole way, then let the arms rise until a deep lat stretch overhead.",
+          "The elbow angle never changes — if it bends and extends, the triceps have taken over."
+        ]
+      },
+      "db-shrug": {
+        "name": "DB Shrug",
+        "howto": [
+          "Dumbbells at the sides, standing tall, neck neutral.",
+          "Elevate the shoulders straight up toward the ears, pause a full second at the top, and lower slowly to a stretch.",
+          "Straight up and down — rolling the shoulders adds nothing but wear."
+        ]
+      },
+      "incline-db-curl": {
+        "name": "Incline DB Curl",
+        "howto": [
+          "Bench at about 45–60°, dumbbells hanging straight down, shoulders back against the pad.",
+          "Curl with the upper arms staying behind the torso, squeeze, and lower to a full stretch of the long head.",
+          "The arms hanging behind the body is the entire point — if the elbows drift forward it's a standing curl on a slant."
+        ]
+      },
+      "cable-reverse-curl": {
+        "name": "Cable Reverse Curl",
+        "howto": [
+          "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
+          "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
+        ]
+      },
+      "smith-rdl": {
+        "name": "Smith RDL",
+        "compound": true,
+        "lower": true,
+        "howto": [
+          "Bar at hip height, overhand grip, feet hip width, soft knee bend that stays constant.",
+          "Push the hips straight back, sliding the bar down the thighs to shins until the hamstrings hit a deep stretch — mid-shin at most. Drive the hips forward to stand.",
+          "Range is set by hamstring stretch, not the floor. A flat back and shifting the load into the heels are non-negotiable."
+        ]
+      },
+      "leg-press-high": {
+        "name": "Leg Press (feet high)",
+        "compound": true,
+        "lower": true,
+        "howto": [
+          "Feet high on the platform, slightly wider than shoulders. High placement biases glutes and hamstrings.",
+          "Lower deep, keeping the pelvis flat on the pad, then drive through the heels to just short of lockout."
+        ]
+      },
+      "plank": {
+        "name": "Plank",
+        "bodyweight": true,
+        "timed": true,
+        "howto": [
+          "Forearms down, elbows under shoulders, body one straight line from ears to heels.",
+          "Squeeze the glutes, tuck the pelvis slightly, and breathe — the low back never sags and the hips never pike.",
+          "When the hips drop, the set is over regardless of the clock."
+        ]
+      }
+    },
+    "sessions": {
+      "PushA": {
+        "name": "Push A",
+        "exercises": [
+          {
+            "id": "smith-incline-press",
+            "sets": 4,
+            "repMin": 6,
+            "repMax": 8,
+            "seed": 185,
+            "rest": 150
+          },
+          {
+            "id": "machine-chest-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 215,
+            "rest": 120
+          },
+          {
+            "id": "cable-crossover-low-high",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 30,
+            "rest": 75
+          },
+          {
+            "id": "db-shoulder-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 40,
+            "rest": 120
+          },
+          {
+            "id": "cable-lateral-raise",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 12.5,
+            "rest": 75
+          },
+          {
+            "id": "overhead-cable-triceps",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 55,
+            "rest": 75
+          },
+          {
+            "id": "rope-pushdown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 80,
+            "rest": 75
+          },
+          {
+            "id": "face-pulls",
+            "sets": 2,
+            "repMin": 15,
+            "repMax": 15,
+            "seed": 40,
+            "rest": 60
+          }
+        ]
+      },
+      "PullA": {
+        "name": "Pull A",
+        "exercises": [
+          {
+            "id": "deadlift",
+            "sets": 4,
+            "repMin": 5,
+            "repMax": 6,
+            "seed": 255,
+            "seedNote": "Seed = top set",
+            "rest": 180
+          },
+          {
+            "id": "lat-pulldown-wide",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": null,
+            "seedNote": "Verify in week 1 — logs conflict: 150 vs 90",
+            "rest": 120
+          },
+          {
+            "id": "seated-cable-row-wide",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 130,
+            "rest": 120
+          },
+          {
+            "id": "db-curl",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 35,
+            "rest": 75
+          },
+          {
+            "id": "cable-hammer-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 45,
+            "rest": 75
+          },
+          {
+            "id": "face-pulls",
+            "sets": 2,
+            "repMin": 15,
+            "repMax": 15,
+            "seed": 40,
+            "rest": 60
+          }
+        ]
+      },
+      "LegsA": {
+        "name": "Legs A",
+        "exercises": [
+          {
+            "id": "leg-press-low",
+            "sets": 4,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 240,
+            "rest": 150
+          },
+          {
+            "id": "leg-extension",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 172.5,
+            "rest": 90
+          },
+          {
+            "id": "leg-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 172.5,
+            "rest": 90
+          },
+          {
+            "id": "hip-adductor",
+            "sets": 2,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 97.5,
+            "rest": 75
+          },
+          {
+            "id": "standing-calf-raise",
+            "sets": 4,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 280,
+            "rest": 75
+          },
+          {
+            "id": "cable-crunch",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 50,
+            "rest": 60
+          },
+          {
+            "id": "hanging-leg-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 0,
+            "rest": 60
+          }
+        ]
+      },
+      "PushB": {
+        "name": "Push B",
+        "exercises": [
+          {
+            "id": "smith-overhead-press",
+            "sets": 4,
+            "repMin": 6,
+            "repMax": 8,
+            "seed": 135,
+            "rest": 150
+          },
+          {
+            "id": "machine-chest-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 200,
+            "rest": 120
+          },
+          {
+            "id": "db-lateral-raise",
+            "sets": 4,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 20,
+            "rest": 75
+          },
+          {
+            "id": "cable-crossover-high-low",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 35,
+            "rest": 75
+          },
+          {
+            "id": "reverse-pec-deck",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 85,
+            "rest": 75
+          },
+          {
+            "id": "assisted-dips",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 12,
+            "seed": 0,
+            "rest": 120
+          },
+          {
+            "id": "overhead-cable-triceps",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 55,
+            "rest": 75
+          },
+          {
+            "id": "reverse-grip-pushdown",
+            "sets": 2,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 24,
+            "rest": 75
+          },
+          {
+            "id": "face-pulls",
+            "sets": 2,
+            "repMin": 15,
+            "repMax": 15,
+            "seed": 40,
+            "rest": 60
+          }
+        ]
+      },
+      "PullB": {
+        "name": "Pull B",
+        "exercises": [
+          {
+            "id": "smith-bent-over-row",
+            "sets": 4,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 155,
+            "rest": 150
+          },
+          {
+            "id": "lat-pulldown-close",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 127.5,
+            "rest": 120
+          },
+          {
+            "id": "straight-arm-pulldown",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 45,
+            "rest": 75
+          },
+          {
+            "id": "db-shrug",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 70,
+            "rest": 75
+          },
+          {
+            "id": "incline-db-curl",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 30,
+            "rest": 75
+          },
+          {
+            "id": "cable-reverse-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 50,
+            "rest": 75
+          },
+          {
+            "id": "face-pulls",
+            "sets": 2,
+            "repMin": 15,
+            "repMax": 15,
+            "seed": 40,
+            "rest": 60
+          }
+        ]
+      },
+      "LegsB": {
+        "name": "Legs B",
+        "exercises": [
+          {
+            "id": "smith-rdl",
+            "sets": 4,
+            "repMin": 8,
+            "repMax": 10,
+            "seed": 225,
+            "rest": 150
+          },
+          {
+            "id": "leg-press-high",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 180,
+            "rest": 150
+          },
+          {
+            "id": "leg-curl",
+            "sets": 4,
+            "repMin": 10,
+            "repMax": 12,
+            "seed": 180,
+            "rest": 90
+          },
+          {
+            "id": "leg-extension",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 172.5,
+            "rest": 90
+          },
+          {
+            "id": "hip-abductor",
+            "sets": 2,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 142.5,
+            "rest": 75
+          },
+          {
+            "id": "standing-calf-raise",
+            "sets": 4,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 280,
+            "rest": 75
+          },
+          {
+            "id": "cable-crunch",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 50,
+            "rest": 60
+          },
+          {
+            "id": "plank",
+            "sets": 2,
+            "repMin": 60,
+            "repMax": 60,
+            "seed": 0,
+            "repUnit": "sec",
+            "rest": 60
+          }
+        ]
+      }
+    }
+  },
+  "history": [
+    {
+      "date": "2025-11-29",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 12
+            },
+            {
+              "weight": 120,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 14,
+              "reps": 13
+            },
+            {
+              "weight": 14,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 12
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 15,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 11
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 100,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 213.5
+    },
+    {
+      "date": "2025-11-30",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 215,
+              "reps": 6
+            },
+            {
+              "weight": 235,
+              "reps": 5
+            },
+            {
+              "weight": 245,
+              "reps": 5
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 9
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            },
+            {
+              "weight": 145,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 9
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 8
+            },
+            {
+              "weight": 35,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 14
+            },
+            {
+              "weight": 45,
+              "reps": 13
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-01",
+      "session_type": "LegsA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "name": "Leg Press (feet low)",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 15
+            },
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 200,
+              "reps": 10
+            },
+            {
+              "weight": 220,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "leg-extension",
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 12
+            },
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 170,
+              "reps": 12
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 140,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 170,
+              "reps": 10
+            },
+            {
+              "weight": 170,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 280,
+              "reps": 12
+            },
+            {
+              "weight": 265,
+              "reps": 13
+            },
+            {
+              "weight": 265,
+              "reps": 12
+            },
+            {
+              "weight": 260,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 10
+            },
+            {
+              "weight": 42.5,
+              "reps": 12
+            },
+            {
+              "weight": 42.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hanging-leg-raise",
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 7
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-02",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 90,
+              "reps": 8
+            },
+            {
+              "weight": 90,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 15,
+              "reps": 12
+            },
+            {
+              "weight": 15,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 27.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 9
+            },
+            {
+              "weight": 27.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 13
+            },
+            {
+              "weight": 110,
+              "reps": 11
+            },
+            {
+              "weight": 110,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 12
+            },
+            {
+              "weight": 60,
+              "reps": 12
+            },
+            {
+              "weight": 60,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 12
+            },
+            {
+              "weight": 100,
+              "reps": 12
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 16
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-03",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 11
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            },
+            {
+              "weight": 160,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 112.5,
+              "reps": 10
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 12
+            },
+            {
+              "weight": 37.5,
+              "reps": 12
+            },
+            {
+              "weight": 37.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 25,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 13
+            },
+            {
+              "weight": 22.5,
+              "reps": 13
+            },
+            {
+              "weight": 24,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 214
+    },
+    {
+      "date": "2025-12-04",
+      "session_type": "LegsB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-rdl",
+          "name": "Smith RDL",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 185,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "leg-press-high",
+          "name": "Leg Press (feet high)",
+          "sets": [
+            {
+              "weight": 140,
+              "reps": 11
+            },
+            {
+              "weight": 140,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "leg-curl",
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 12
+            },
+            {
+              "weight": 165,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 14
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 200,
+              "reps": 15
+            },
+            {
+              "weight": 280,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 14
+            },
+            {
+              "weight": 47.5,
+              "reps": 14
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-06",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 10
+            },
+            {
+              "weight": 175,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 12
+            },
+            {
+              "weight": 150,
+              "reps": 12
+            },
+            {
+              "weight": 165,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 14,
+              "reps": 13
+            },
+            {
+              "weight": 15.5,
+              "reps": 12
+            },
+            {
+              "weight": 15.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 11
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 11
+            },
+            {
+              "weight": 10.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 50.5,
+              "reps": 14
+            },
+            {
+              "weight": 57.5,
+              "reps": 10
+            },
+            {
+              "weight": 57.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 22.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-08",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 265,
+              "reps": 4
+            },
+            {
+              "weight": 265,
+              "reps": 5
+            },
+            {
+              "weight": 265,
+              "reps": 5
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 142.5,
+              "reps": 9
+            },
+            {
+              "weight": 142.5,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 12
+            },
+            {
+              "weight": 112.5,
+              "reps": 10
+            },
+            {
+              "weight": 112.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 42.5,
+              "reps": 10
+            },
+            {
+              "weight": 42.5,
+              "reps": 10
+            },
+            {
+              "weight": 42.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-09",
+      "session_type": "LegsA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "name": "Leg Press (feet low)",
+          "sets": [
+            {
+              "weight": 140,
+              "reps": 12
+            },
+            {
+              "weight": 200,
+              "reps": 10
+            },
+            {
+              "weight": 200,
+              "reps": 11
+            },
+            {
+              "weight": 220,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "leg-extension",
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 11
+            },
+            {
+              "weight": 165,
+              "reps": 11
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 12
+            },
+            {
+              "weight": 97.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 260,
+              "reps": 15
+            },
+            {
+              "weight": 300,
+              "reps": 12
+            },
+            {
+              "weight": 300,
+              "reps": 12
+            },
+            {
+              "weight": 280,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 47.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "hanging-leg-raise",
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 213.5
+    },
+    {
+      "date": "2025-12-10",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 11
+            },
+            {
+              "weight": 115,
+              "reps": 9
+            },
+            {
+              "weight": 125,
+              "reps": 6
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            },
+            {
+              "weight": 17.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 27.5,
+              "reps": 14
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 127.5,
+              "reps": 12
+            },
+            {
+              "weight": 135,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 13
+            },
+            {
+              "weight": 67.5,
+              "reps": 13
+            },
+            {
+              "weight": 75,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 52.5,
+              "reps": 12
+            },
+            {
+              "weight": 57.2,
+              "reps": 10
+            },
+            {
+              "weight": 52.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 22.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 214
+    },
+    {
+      "date": "2025-12-11",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 160,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 112.5,
+              "reps": 12
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            },
+            {
+              "weight": 60,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 25,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 14
+            },
+            {
+              "weight": 25.5,
+              "reps": 12
+            },
+            {
+              "weight": 25.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 13
+            },
+            {
+              "weight": 22.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-12",
+      "session_type": "LegsB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-rdl",
+          "name": "Smith RDL",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "leg-press-high",
+          "name": "Leg Press (feet high)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 10
+            },
+            {
+              "weight": 160,
+              "reps": 10
+            },
+            {
+              "weight": 160,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "leg-curl",
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 14
+            },
+            {
+              "weight": 90,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 220,
+              "reps": 15
+            },
+            {
+              "weight": 280,
+              "reps": 14
+            },
+            {
+              "weight": 280,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 214.5
+    },
+    {
+      "date": "2025-12-14",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 195,
+              "reps": 8
+            },
+            {
+              "weight": 200,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 15.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 12
+            },
+            {
+              "weight": 40,
+              "reps": 12
+            },
+            {
+              "weight": 40,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 15,
+              "reps": 13
+            },
+            {
+              "weight": 12.5,
+              "reps": 11
+            },
+            {
+              "weight": 12.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 57.5,
+              "reps": 12
+            },
+            {
+              "weight": 57.5,
+              "reps": 12
+            },
+            {
+              "weight": 57.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 39,
+              "reps": 9
+            },
+            {
+              "weight": 39,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 12
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 215.5
+    },
+    {
+      "date": "2025-12-15",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 6
+            },
+            {
+              "weight": 275,
+              "reps": 4
+            },
+            {
+              "weight": 275,
+              "reps": 3
+            },
+            {
+              "weight": 285,
+              "reps": 3
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 112.5,
+              "reps": 10
+            },
+            {
+              "weight": 112.2,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 8
+            },
+            {
+              "weight": 35,
+              "reps": 7
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 42.5,
+              "reps": 10
+            },
+            {
+              "weight": 44,
+              "reps": 10
+            },
+            {
+              "weight": 44,
+              "reps": 0
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 13
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 216
+    },
+    {
+      "date": "2025-12-16",
+      "session_type": "LegsA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "name": "Leg Press (feet low)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 220,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 11
+            },
+            {
+              "weight": 240,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "leg-extension",
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 11
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 11
+            },
+            {
+              "weight": 105,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 12
+            },
+            {
+              "weight": 142.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 300,
+              "reps": 14
+            },
+            {
+              "weight": 300,
+              "reps": 11
+            },
+            {
+              "weight": 300,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 47.5,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hanging-leg-raise",
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 215
+    },
+    {
+      "date": "2025-12-17",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 10
+            },
+            {
+              "weight": 125,
+              "reps": 9
+            },
+            {
+              "weight": 125,
+              "reps": 9
+            },
+            {
+              "weight": 130,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 13
+            },
+            {
+              "weight": 17.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 32.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 12
+            },
+            {
+              "weight": 142.5,
+              "reps": 10
+            },
+            {
+              "weight": 142.2,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 75,
+              "reps": 12
+            },
+            {
+              "weight": 82.5,
+              "reps": 12
+            },
+            {
+              "weight": 82.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 52.5,
+              "reps": 12
+            },
+            {
+              "weight": 54,
+              "reps": 10
+            },
+            {
+              "weight": 54,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 22.5,
+              "reps": 12
+            },
+            {
+              "weight": 24,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 13
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-18",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 11
+            },
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 52.5,
+              "reps": 8
+            },
+            {
+              "weight": 52.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 13
+            },
+            {
+              "weight": 27.5,
+              "reps": 13
+            },
+            {
+              "weight": 27.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 14
+            },
+            {
+              "weight": 24,
+              "reps": 14
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-20",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 195,
+              "reps": 7
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            },
+            {
+              "weight": 195,
+              "reps": 8
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 13
+            },
+            {
+              "weight": 17.5,
+              "reps": 12
+            },
+            {
+              "weight": 19,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 8
+            },
+            {
+              "weight": 45,
+              "reps": 8
+            },
+            {
+              "weight": 45,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 15.5,
+              "reps": 8
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 59,
+              "reps": 13
+            },
+            {
+              "weight": 59,
+              "reps": 12
+            },
+            {
+              "weight": 57.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 39,
+              "reps": 12
+            },
+            {
+              "weight": 39,
+              "reps": 11
+            },
+            {
+              "weight": 37.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 216
+    },
+    {
+      "date": "2025-12-21",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 275,
+              "reps": 5
+            },
+            {
+              "weight": 285,
+              "reps": 3
+            },
+            {
+              "weight": 290,
+              "reps": 0
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 45.5,
+              "reps": 10
+            },
+            {
+              "weight": 45.5,
+              "reps": 10
+            },
+            {
+              "weight": 45.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 215.5
+    },
+    {
+      "date": "2025-12-22",
+      "session_type": "LegsA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "name": "Leg Press (feet low)",
+          "sets": [
+            {
+              "weight": 180,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 10
+            },
+            {
+              "weight": 240,
+              "reps": 11
+            },
+            {
+              "weight": 240,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "leg-extension",
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 105,
+              "reps": 10
+            },
+            {
+              "weight": 105,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 13
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 300,
+              "reps": 15
+            },
+            {
+              "weight": 300,
+              "reps": 15
+            },
+            {
+              "weight": 300,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "hanging-leg-raise",
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 215
+    },
+    {
+      "date": "2025-12-23",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 10
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 14
+            },
+            {
+              "weight": 17.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 32.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 82.5,
+              "reps": 15
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 14
+            },
+            {
+              "weight": 0,
+              "reps": 14
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 54,
+              "reps": 12
+            },
+            {
+              "weight": 55.5,
+              "reps": 12
+            },
+            {
+              "weight": 55.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 216.5
+    },
+    {
+      "date": "2025-12-24",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 11
+            },
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 52.5,
+              "reps": 8
+            },
+            {
+              "weight": 52.5,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 9
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 27.5,
+              "reps": 15
+            },
+            {
+              "weight": 29,
+              "reps": 15
+            },
+            {
+              "weight": 29,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 216
+    },
+    {
+      "date": "2025-12-25",
+      "session_type": "LegsB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-rdl",
+          "name": "Smith RDL",
+          "sets": [
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 8
+            },
+            {
+              "weight": 220,
+              "reps": 8
+            },
+            {
+              "weight": 225,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "leg-press-high",
+          "name": "Leg Press (feet high)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "leg-curl",
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 172.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 13
+            },
+            {
+              "weight": 97.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 15
+            },
+            {
+              "weight": 142.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 280,
+              "reps": 13
+            },
+            {
+              "weight": 280,
+              "reps": 13
+            },
+            {
+              "weight": 280,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "plank",
+          "name": "Plank",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 60
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2025-12-26",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 185,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 187.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 19,
+              "reps": 11
+            },
+            {
+              "weight": 19,
+              "reps": 11
+            },
+            {
+              "weight": 19,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 45,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 59,
+              "reps": 13
+            },
+            {
+              "weight": 60.5,
+              "reps": 12
+            },
+            {
+              "weight": 62.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 16
+            },
+            {
+              "weight": 37.5,
+              "reps": 14
+            },
+            {
+              "weight": 37.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 217.5
+    },
+    {
+      "date": "2025-12-27",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 275,
+              "reps": 5
+            },
+            {
+              "weight": 285,
+              "reps": 4
+            },
+            {
+              "weight": 285,
+              "reps": 4
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 9
+            },
+            {
+              "weight": 150,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 10
+            },
+            {
+              "weight": 120,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 45.5,
+              "reps": 10
+            },
+            {
+              "weight": 45.5,
+              "reps": 11
+            },
+            {
+              "weight": 45.5,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 217.5
+    },
+    {
+      "date": "2025-12-29",
+      "session_type": "LegsA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "name": "Leg Press (feet low)",
+          "sets": [
+            {
+              "weight": 180,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 12
+            },
+            {
+              "weight": 240,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "leg-extension",
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "leg-curl",
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 11
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            },
+            {
+              "weight": 172.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 12
+            },
+            {
+              "weight": 97.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 15
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 280,
+              "reps": 15
+            },
+            {
+              "weight": 280,
+              "reps": 14
+            },
+            {
+              "weight": 280,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 49,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hanging-leg-raise",
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 217.5
+    },
+    {
+      "date": "2026-01-04",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 17.5,
+              "reps": 15
+            },
+            {
+              "weight": 20,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 120,
+              "reps": 12
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 172.2,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 32.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 14
+            },
+            {
+              "weight": 90,
+              "reps": 11
+            },
+            {
+              "weight": 90,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 60.5,
+              "reps": 10
+            },
+            {
+              "weight": 60.5,
+              "reps": 9
+            },
+            {
+              "weight": 59,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 24,
+              "reps": 15
+            },
+            {
+              "weight": 24,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true,
+      "bodyweight": 214
+    },
+    {
+      "date": "2026-01-05",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 166,
+              "reps": 7
+            },
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 10
+            },
+            {
+              "weight": 37.5,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 29,
+              "reps": 14
+            },
+            {
+              "weight": 29,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 25.5,
+              "reps": 15
+            },
+            {
+              "weight": 25.5,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-06",
+      "session_type": "LegsB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-rdl",
+          "name": "Smith RDL",
+          "sets": [
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 8
+            },
+            {
+              "weight": 225,
+              "reps": 8
+            },
+            {
+              "weight": 225,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "leg-press-high",
+          "name": "Leg Press (feet high)",
+          "sets": [
+            {
+              "weight": 160,
+              "reps": 12
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "leg-curl",
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 172.5,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            },
+            {
+              "weight": 180,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "hip-adductor",
+          "name": "Hip Adductor",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 14
+            },
+            {
+              "weight": 97.5,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "hip-abductor",
+          "name": "Hip Abductor",
+          "sets": [
+            {
+              "weight": 142.5,
+              "reps": 15
+            },
+            {
+              "weight": 142.5,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "standing-calf-raise",
+          "name": "Standing Calf Raise",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 15
+            },
+            {
+              "weight": 185,
+              "reps": 15
+            },
+            {
+              "weight": 185,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "cable-crunch",
+          "name": "Cable Crunch",
+          "sets": [
+            {
+              "weight": 50.5,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            },
+            {
+              "weight": 50.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "hanging-leg-raise",
+          "name": "Hanging Leg Raise",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            },
+            {
+              "weight": 0,
+              "reps": 12
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-10",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 225,
+              "reps": 5
+            },
+            {
+              "weight": 245,
+              "reps": 5
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 260,
+              "reps": 4
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 11
+            },
+            {
+              "weight": 90,
+              "reps": 11
+            },
+            {
+              "weight": 90,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 10
+            },
+            {
+              "weight": 65,
+              "reps": 12
+            },
+            {
+              "weight": 65,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 10
+            },
+            {
+              "weight": 15,
+              "reps": 10
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-10",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            },
+            {
+              "weight": 195,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 145,
+              "reps": 10
+            },
+            {
+              "weight": 145,
+              "reps": 10
+            },
+            {
+              "weight": 145,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 13
+            },
+            {
+              "weight": 12.5,
+              "reps": 13
+            },
+            {
+              "weight": 12.5,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 13
+            },
+            {
+              "weight": 90,
+              "reps": 13
+            },
+            {
+              "weight": 100,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 100,
+              "reps": 8
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 18
+            },
+            {
+              "weight": 30,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-13",
+      "session_type": "LegsA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "name": "Leg Press (feet low)",
+          "sets": [
+            {
+              "weight": 125,
+              "reps": 5
+            },
+            {
+              "weight": 145,
+              "reps": 5
+            },
+            {
+              "weight": 145,
+              "reps": 5
+            },
+            {
+              "weight": 95,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "leg-extension",
+          "name": "Leg Extension",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 10
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "leg-curl",
+          "name": "Leg Curl",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 7
+            },
+            {
+              "weight": 185,
+              "reps": 7
+            },
+            {
+              "weight": 185,
+              "reps": 7
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-20",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 205,
+              "reps": 5
+            },
+            {
+              "weight": 235,
+              "reps": 5
+            },
+            {
+              "weight": 255,
+              "reps": 5
+            },
+            {
+              "weight": 275,
+              "reps": 4
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 11
+            },
+            {
+              "weight": 65,
+              "reps": 11
+            },
+            {
+              "weight": 65,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 13
+            },
+            {
+              "weight": 40,
+              "reps": 14
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-20",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            },
+            {
+              "weight": 165,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 9
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 80,
+              "reps": 8
+            },
+            {
+              "weight": 80,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 12
+            },
+            {
+              "weight": 35,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 12
+            },
+            {
+              "weight": 10,
+              "reps": 13
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 13
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 12
+            },
+            {
+              "weight": 80,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 15
+            },
+            {
+              "weight": 30,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-26",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 8
+            },
+            {
+              "weight": 135,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 37.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            },
+            {
+              "weight": 70,
+              "reps": 15
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 14
+            },
+            {
+              "weight": 40,
+              "reps": 13
+            },
+            {
+              "weight": 40,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 14
+            },
+            {
+              "weight": 40,
+              "reps": 14
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-26",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 95,
+              "reps": 8
+            },
+            {
+              "weight": 115,
+              "reps": 6
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 13
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 11
+            },
+            {
+              "weight": 205,
+              "reps": 9
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 50,
+              "reps": 12
+            },
+            {
+              "weight": 50,
+              "reps": 13
+            },
+            {
+              "weight": 55,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 11
+            },
+            {
+              "weight": 0,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 45,
+              "reps": 13
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            },
+            {
+              "weight": 45,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "name": "Reverse Grip Pushdown",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 9
+            },
+            {
+              "weight": 20,
+              "reps": 9
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-29",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            },
+            {
+              "weight": 215,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 80,
+              "reps": 8
+            },
+            {
+              "weight": 80,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 12
+            },
+            {
+              "weight": 10,
+              "reps": 10
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 60,
+              "reps": 13
+            },
+            {
+              "weight": 60,
+              "reps": 14
+            },
+            {
+              "weight": 60,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 15
+            },
+            {
+              "weight": 30,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-01-31",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 255,
+              "reps": 3
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 60,
+              "reps": 9
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 10
+            },
+            {
+              "weight": 90,
+              "reps": 10
+            },
+            {
+              "weight": 90,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 15
+            },
+            {
+              "weight": 30,
+              "reps": 17
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-02",
+      "session_type": "PushB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-overhead-press",
+          "name": "Smith Overhead Press",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 7
+            },
+            {
+              "weight": 125,
+              "reps": 8
+            },
+            {
+              "weight": 135,
+              "reps": 6
+            },
+            {
+              "weight": 135,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "db-lateral-raise",
+          "name": "DB Lateral Raise",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            },
+            {
+              "weight": 20,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "name": "Cable Crossover (high→low)",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            },
+            {
+              "weight": 35,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 205,
+              "reps": 8
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "reverse-pec-deck",
+          "name": "Reverse Pec Deck",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 85,
+              "reps": 11
+            },
+            {
+              "weight": 85,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "assisted-dips",
+          "name": "Assisted Dips",
+          "sets": [
+            {
+              "weight": 0,
+              "reps": 9
+            },
+            {
+              "weight": 0,
+              "reps": 8
+            },
+            {
+              "weight": 0,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-09",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 115,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 97.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            },
+            {
+              "weight": 37.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 10
+            },
+            {
+              "weight": 65,
+              "reps": 10
+            },
+            {
+              "weight": 65,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-11",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 155,
+              "reps": 10
+            },
+            {
+              "weight": 165,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 7
+            },
+            {
+              "weight": 205,
+              "reps": 7
+            },
+            {
+              "weight": 205,
+              "reps": 6
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 7
+            },
+            {
+              "weight": 20,
+              "reps": 9
+            },
+            {
+              "weight": 20,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            },
+            {
+              "weight": 35,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 10
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            },
+            {
+              "weight": 10,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            },
+            {
+              "weight": 70,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-13",
+      "session_type": "PullA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "deadlift",
+          "name": "Deadlift",
+          "sets": [
+            {
+              "weight": 225,
+              "reps": 4
+            },
+            {
+              "weight": 245,
+              "reps": 5
+            },
+            {
+              "weight": 255,
+              "reps": 4
+            },
+            {
+              "weight": 265,
+              "reps": 3
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "name": "Lat Pulldown (wide)",
+          "sets": [
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            },
+            {
+              "weight": 90,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "name": "Seated Cable Row (wide)",
+          "sets": [
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 11
+            },
+            {
+              "weight": 130,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "db-curl",
+          "name": "DB Curl",
+          "sets": [
+            {
+              "weight": 65,
+              "reps": 8
+            },
+            {
+              "weight": 65,
+              "reps": 8
+            },
+            {
+              "weight": 65,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-hammer-curl",
+          "name": "Cable Hammer Curl",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 10
+            },
+            {
+              "weight": 40,
+              "reps": 8
+            },
+            {
+              "weight": 40,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-13",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 135,
+              "reps": 11
+            }
+          ]
+        },
+        {
+          "id": "lat-pulldown-close",
+          "name": "Lat Pulldown (close)",
+          "sets": [
+            {
+              "weight": 127.5,
+              "reps": 10
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            },
+            {
+              "weight": 127.5,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "name": "Straight-Arm Pulldown",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 20,
+              "reps": 13
+            }
+          ]
+        },
+        {
+          "id": "db-shrug",
+          "name": "DB Shrug",
+          "sets": [
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            },
+            {
+              "weight": 70,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "incline-db-curl",
+          "name": "Incline DB Curl",
+          "sets": [
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            },
+            {
+              "weight": 30,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "cable-reverse-curl",
+          "name": "Cable Reverse Curl",
+          "sets": [
+            {
+              "weight": 50,
+              "reps": 10
+            },
+            {
+              "weight": 50,
+              "reps": 10
+            },
+            {
+              "weight": 50,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-18",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 165,
+              "reps": 10
+            },
+            {
+              "weight": 175,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 7
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 10
+            },
+            {
+              "weight": 215,
+              "reps": 6
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 11
+            },
+            {
+              "weight": 20,
+              "reps": 13
+            },
+            {
+              "weight": 20,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 8
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 10,
+              "reps": 13
+            },
+            {
+              "weight": 10,
+              "reps": 13
+            },
+            {
+              "weight": 10,
+              "reps": 14
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 70,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-24",
+      "session_type": "PushA",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "name": "Smith Incline Press",
+          "sets": [
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            },
+            {
+              "weight": 185,
+              "reps": 8
+            }
+          ]
+        },
+        {
+          "id": "machine-chest-press",
+          "name": "Machine Chest Press",
+          "sets": [
+            {
+              "weight": 215,
+              "reps": 7
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            },
+            {
+              "weight": 215,
+              "reps": 7
+            }
+          ]
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "name": "Cable Crossover (low→high)",
+          "sets": [
+            {
+              "weight": 20,
+              "reps": 12
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            },
+            {
+              "weight": 30,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "db-shoulder-press",
+          "name": "DB Shoulder Press",
+          "sets": [
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            },
+            {
+              "weight": 35,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "cable-lateral-raise",
+          "name": "Cable Lateral Raise",
+          "sets": [
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            },
+            {
+              "weight": 12.5,
+              "reps": 12
+            }
+          ]
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "name": "Overhead Cable Triceps Ext",
+          "sets": [
+            {
+              "weight": 55,
+              "reps": 18
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            },
+            {
+              "weight": 55,
+              "reps": 10
+            }
+          ]
+        },
+        {
+          "id": "rope-pushdown",
+          "name": "Rope Pushdown",
+          "sets": [
+            {
+              "weight": 80,
+              "reps": 10
+            },
+            {
+              "weight": 80,
+              "reps": 9
+            },
+            {
+              "weight": 80,
+              "reps": 9
+            }
+          ]
+        },
+        {
+          "id": "face-pulls",
+          "name": "Face Pulls",
+          "sets": [
+            {
+              "weight": 40,
+              "reps": 15
+            },
+            {
+              "weight": 40,
+              "reps": 15
+            }
+          ]
+        }
+      ],
+      "imported": true
+    },
+    {
+      "date": "2026-02-25",
+      "session_type": "PullB",
+      "phase": "legacy",
+      "week": null,
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "name": "Smith Bent-Over Row",
+          "sets": [
+            {
+              "weight": 135,
+              "reps": 10
+            },
+            {
+              "weight": 145,
+              "reps": 10
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            },
+            {
+              "weight": 155,
+              "reps": 8
+            }
+          ]
+        }
+      ],
+      "imported": true
+    }
+  ]
+}

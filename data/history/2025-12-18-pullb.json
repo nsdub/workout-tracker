@@ -1,0 +1,135 @@
+{
+  "date": "2025-12-18",
+  "session_type": "PullB",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 8
+        },
+        {
+          "weight": 165,
+          "reps": 9
+        },
+        {
+          "weight": 165,
+          "reps": 9
+        },
+        {
+          "weight": 165,
+          "reps": 9
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 11
+        },
+        {
+          "weight": 127.5,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 10
+        },
+        {
+          "weight": 52.5,
+          "reps": 8
+        },
+        {
+          "weight": 52.5,
+          "reps": 9
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 70,
+          "reps": 14
+        },
+        {
+          "weight": 70,
+          "reps": 14
+        },
+        {
+          "weight": 70,
+          "reps": 14
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 10
+        },
+        {
+          "weight": 30,
+          "reps": 10
+        },
+        {
+          "weight": 30,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 25.5,
+          "reps": 13
+        },
+        {
+          "weight": 27.5,
+          "reps": 13
+        },
+        {
+          "weight": 27.5,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 24,
+          "reps": 14
+        },
+        {
+          "weight": 24,
+          "reps": 14
+        }
+      ]
+    }
+  ],
+  "imported": true
+}

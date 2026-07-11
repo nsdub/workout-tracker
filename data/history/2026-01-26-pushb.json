@@ -1,0 +1,153 @@
+{
+  "date": "2026-01-26",
+  "session_type": "PushB",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "smith-overhead-press",
+      "name": "Smith Overhead Press",
+      "sets": [
+        {
+          "weight": 95,
+          "reps": 8
+        },
+        {
+          "weight": 115,
+          "reps": 6
+        },
+        {
+          "weight": 125,
+          "reps": 8
+        },
+        {
+          "weight": 125,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 20,
+          "reps": 13
+        },
+        {
+          "weight": 20,
+          "reps": 11
+        },
+        {
+          "weight": 20,
+          "reps": 11
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 11
+        },
+        {
+          "weight": 35,
+          "reps": 11
+        },
+        {
+          "weight": 35,
+          "reps": 11
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 185,
+          "reps": 11
+        },
+        {
+          "weight": 205,
+          "reps": 9
+        },
+        {
+          "weight": 215,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 12
+        },
+        {
+          "weight": 50,
+          "reps": 13
+        },
+        {
+          "weight": 55,
+          "reps": 13
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 11
+        },
+        {
+          "weight": 0,
+          "reps": 11
+        },
+        {
+          "weight": 0,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 13
+        },
+        {
+          "weight": 45,
+          "reps": 12
+        },
+        {
+          "weight": 45,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 20,
+          "reps": 9
+        },
+        {
+          "weight": 20,
+          "reps": 9
+        }
+      ]
+    }
+  ],
+  "imported": true
+}

@@ -1,0 +1,117 @@
+{
+  "date": "2026-01-31",
+  "session_type": "PullA",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 255,
+          "reps": 4
+        },
+        {
+          "weight": 255,
+          "reps": 4
+        },
+        {
+          "weight": 255,
+          "reps": 3
+        },
+        {
+          "weight": 255,
+          "reps": 4
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 9
+        },
+        {
+          "weight": 60,
+          "reps": 9
+        },
+        {
+          "weight": 90,
+          "reps": 9
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 130,
+          "reps": 11
+        },
+        {
+          "weight": 130,
+          "reps": 11
+        },
+        {
+          "weight": 130,
+          "reps": 9
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 70,
+          "reps": 9
+        },
+        {
+          "weight": 70,
+          "reps": 9
+        },
+        {
+          "weight": 70,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 10
+        },
+        {
+          "weight": 90,
+          "reps": 10
+        },
+        {
+          "weight": 90,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 15
+        },
+        {
+          "weight": 30,
+          "reps": 17
+        }
+      ]
+    }
+  ],
+  "imported": true
+}

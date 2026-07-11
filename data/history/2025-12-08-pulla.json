@@ -1,0 +1,117 @@
+{
+  "date": "2025-12-08",
+  "session_type": "PullA",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 255,
+          "reps": 5
+        },
+        {
+          "weight": 265,
+          "reps": 4
+        },
+        {
+          "weight": 265,
+          "reps": 5
+        },
+        {
+          "weight": 265,
+          "reps": 5
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 142.5,
+          "reps": 9
+        },
+        {
+          "weight": 142.5,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12
+        },
+        {
+          "weight": 112.5,
+          "reps": 10
+        },
+        {
+          "weight": 112.5,
+          "reps": 11
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 10
+        },
+        {
+          "weight": 35,
+          "reps": 10
+        },
+        {
+          "weight": 35,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 42.5,
+          "reps": 10
+        },
+        {
+          "weight": 42.5,
+          "reps": 10
+        },
+        {
+          "weight": 42.5,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 22.5,
+          "reps": 15
+        },
+        {
+          "weight": 24,
+          "reps": 15
+        }
+      ]
+    }
+  ],
+  "imported": true
+}

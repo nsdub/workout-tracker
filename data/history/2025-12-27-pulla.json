@@ -1,0 +1,118 @@
+{
+  "date": "2025-12-27",
+  "session_type": "PullA",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 255,
+          "reps": 5
+        },
+        {
+          "weight": 275,
+          "reps": 5
+        },
+        {
+          "weight": 285,
+          "reps": 4
+        },
+        {
+          "weight": 285,
+          "reps": 4
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 9
+        },
+        {
+          "weight": 150,
+          "reps": 9
+        },
+        {
+          "weight": 150,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 10
+        },
+        {
+          "weight": 120,
+          "reps": 10
+        },
+        {
+          "weight": 120,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 10
+        },
+        {
+          "weight": 35,
+          "reps": 9
+        },
+        {
+          "weight": 35,
+          "reps": 9
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 45.5,
+          "reps": 10
+        },
+        {
+          "weight": 45.5,
+          "reps": 11
+        },
+        {
+          "weight": 45.5,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 25.5,
+          "reps": 15
+        },
+        {
+          "weight": 25.5,
+          "reps": 15
+        }
+      ]
+    }
+  ],
+  "imported": true,
+  "bodyweight": 217.5
+}

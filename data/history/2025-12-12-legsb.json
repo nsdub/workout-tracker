@@ -1,0 +1,136 @@
+{
+  "date": "2025-12-12",
+  "session_type": "LegsB",
+  "phase": "legacy",
+  "week": null,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 9
+        },
+        {
+          "weight": 185,
+          "reps": 9
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        },
+        {
+          "weight": 215,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 10
+        },
+        {
+          "weight": 160,
+          "reps": 10
+        },
+        {
+          "weight": 160,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 10
+        },
+        {
+          "weight": 165,
+          "reps": 10
+        },
+        {
+          "weight": 165,
+          "reps": 10
+        },
+        {
+          "weight": 165,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 14
+        },
+        {
+          "weight": 90,
+          "reps": 14
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 13
+        },
+        {
+          "weight": 142.5,
+          "reps": 15
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Standing Calf Raise",
+      "sets": [
+        {
+          "weight": 220,
+          "reps": 15
+        },
+        {
+          "weight": 280,
+          "reps": 14
+        },
+        {
+          "weight": 280,
+          "reps": 12
+        },
+        {
+          "weight": 0,
+          "reps": 15
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 47.5,
+          "reps": 12
+        },
+        {
+          "weight": 49,
+          "reps": 12
+        }
+      ]
+    }
+  ],
+  "imported": true,
+  "bodyweight": 214.5
+}

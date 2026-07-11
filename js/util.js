@@ -1,0 +1,69 @@
+export const $ = (sel, root = document) => root.querySelector(sel);
+
+export function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+// Weights render without trailing .0 and with .5/.25 kept (stack pins like 172.5)
+export function fmtW(w) {
+  if (w == null || Number.isNaN(w)) return '—';
+  return Number.isInteger(w) ? String(w) : String(Math.round(w * 100) / 100);
+}
+
+export function todayStr(d = new Date()) {
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+export function fmtDate(iso, { year = false } = {}) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${MONTHS[m - 1]} ${d}${year ? ` ’${String(y).slice(2)}` : ''}`;
+}
+
+export function monthLabel(iso) {
+  const [y, m] = iso.split('-').map(Number);
+  return `${MONTHS[m - 1]} ${y}`;
+}
+
+export function dayParts(iso) {
+  const [, m, d] = iso.split('-').map(Number);
+  return { mon: MONTHS[m - 1].toUpperCase(), day: d };
+}
+
+export function daysBetween(a, b) {
+  return Math.round((new Date(b + 'T12:00') - new Date(a + 'T12:00')) / 86400000);
+}
+
+// ISO week key for the cardio checkboxes, e.g. "2026-W29"
+export function weekKey(iso) {
+  const d = new Date(iso + 'T12:00');
+  const day = (d.getDay() + 6) % 7;
+  d.setDate(d.getDate() - day + 3);
+  const firstThu = new Date(d.getFullYear(), 0, 4);
+  const fday = (firstThu.getDay() + 6) % 7;
+  firstThu.setDate(firstThu.getDate() - fday + 3);
+  const week = 1 + Math.round((d - firstThu) / (7 * 86400000));
+  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
+}
+
+export function haptic(pattern = 10) {
+  if (globalThis.__p3Haptics === false) return;
+  try { navigator.vibrate?.(pattern); } catch { /* unsupported */ }
+}
+
+export function debounce(fn, ms) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+export const ICONS = {
+  check: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.5L19 7.5"/></svg>',
+  chev: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
+  back: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  bar: '<svg viewBox="0 0 24 24"><path d="M4 12h2.2M17.8 12H20M7 8.5v7M17 8.5v7M9.5 12h5" stroke-linecap="round"/></svg>',
+};
