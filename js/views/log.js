@@ -2,12 +2,13 @@
 import { $, esc, fmtW, fmtDate, monthLabel, dayParts } from '../util.js';
 import { store } from '../store.js';
 import { topSet } from '../engine.js';
-import { applyWorld, WORLDS } from '../worlds.js';
+import { applyWorld, UNIVERSES, worldDef } from '../worlds.js';
 
 let root = null;
 const state = { tab: 'sessions', entryPath: null, exId: null };
 
-const SWATCH = { PushA: '#d92f45', PullA: '#b3862a', LegsA: '#c9541f', PushB: '#d96a4a', PullB: '#1c5c38', LegsB: '#ff4f79' };
+// universe hues, mixed down to read on scrapbook paper with white type
+const SWATCH = { PushA: '#c23b22', PullA: '#0f6b5e', LegsA: '#3e6b32', PushB: '#d95427', PullB: '#a86a1e', LegsB: '#2f6fa8' };
 
 export function popBack() {
   if (state.entryPath || state.exId) {
@@ -79,7 +80,8 @@ function renderList() {
     const label = month !== lastMonth ? `<div class="month-label">${month}</div>` : '';
     lastMonth = month;
     const name = store.plan?.sessions[e.session_type]?.name ?? e.session_type;
-    const world = WORLDS[e.session_type]?.world ?? '';
+    // entries remember the exact world they were logged in; older ones only know the universe
+    const world = (e.world && worldDef(e.session_type, e.world)?.name) || UNIVERSES[e.session_type]?.name || '';
     return `${label}
       <button class="polaroid" data-path="${esc(path)}">
         <span class="swatch" style="background:${SWATCH[e.session_type] ?? '#777'}">${mon} ${day}</span>

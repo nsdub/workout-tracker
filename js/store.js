@@ -31,7 +31,7 @@ const listeners = new Set();
 // crash an install whose persisted blob predates it.
 const SETTINGS_DEFAULTS = {
   owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '',
-  phaseOverride: null, haptics: true, restTimer: true, cardio: {},
+  phaseOverride: null, haptics: true, restTimer: true, sound: true, cardio: {},
 };
 
 export const store = {

@@ -195,4 +195,50 @@ await ok('importSeedBundle validates and enqueues everything', () => {
   assert.equal(store.queue[0].path, 'data/plan.json');
 });
 
+// ——— universes: the world pool ———
+const { UNIVERSES, pickWorld, worldDef } = await import('../js/worlds.js');
+
+await ok('every session type has a universe with 3 worlds and full copy', () => {
+  const types = ['PushA', 'PullA', 'LegsA', 'PushB', 'PullB', 'LegsB'];
+  assert.deepEqual(Object.keys(UNIVERSES).sort(), [...types].sort());
+  const allCls = new Set();
+  for (const t of types) {
+    const U = UNIVERSES[t];
+    assert.equal(U.worlds.length, 3, `${t} needs 3 worlds`);
+    assert.equal(new Set(U.worlds.map((w) => w.id)).size, 3, `${t} world ids must be unique`);
+    for (const k of ['log', 'rest', 'results', 'objDone', 'pr', 'finish', 'trophyNote']) {
+      assert.ok(U.copy[k], `${t} copy.${k} missing`);
+    }
+    for (const w of U.worlds) {
+      assert.ok(typeof w.scene === 'function' && w.scene().length > 0, `${t}/${w.id} scene builds`);
+      assert.ok(!allCls.has(w.cls), `world cls ${w.cls} reused`);
+      allCls.add(w.cls);
+    }
+  }
+});
+await ok('INVARIANT: no world repeats until the universe pool is exhausted', () => {
+  localStorage.removeItem('p3.worldPools');
+  for (const t of Object.keys(UNIVERSES)) {
+    const first = [pickWorld(t), pickWorld(t), pickWorld(t)];
+    assert.equal(new Set(first).size, 3, `${t} first cycle repeated a world: ${first}`);
+    const second = [pickWorld(t), pickWorld(t), pickWorld(t)];
+    assert.equal(new Set(second).size, 3, `${t} reshuffled cycle repeated a world`);
+  }
+});
+await ok('pickWorld survives a corrupted pool and unknown ids', () => {
+  localStorage.setItem('p3.worldPools', JSON.stringify({ PushA: ['deleted-world'], PullA: 'garbage' }));
+  const a = pickWorld('PushA');
+  assert.ok(UNIVERSES.PushA.worlds.some((w) => w.id === a));
+  const b = pickWorld('PullA');
+  assert.ok(UNIVERSES.PullA.worlds.some((w) => w.id === b));
+  localStorage.setItem('p3.worldPools', '{not json');
+  assert.ok(pickWorld('LegsB'));
+  assert.equal(pickWorld('NotASession'), null);
+});
+await ok('worldDef resolves saved ids and falls back for unknown/legacy entries', () => {
+  assert.equal(worldDef('PullA', 'whalefall').name, 'Whale-Fall City');
+  assert.equal(worldDef('PullA', 'no-such-world').id, UNIVERSES.PullA.worlds[0].id);
+  assert.equal(worldDef('PullA', null).id, UNIVERSES.PullA.worlds[0].id);
+});
+
 console.log(`\n${n} app tests passed`);

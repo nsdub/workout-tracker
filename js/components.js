@@ -1,6 +1,7 @@
 // Shared machinery: sheets (with back-gesture support), numpad, toasts,
 // cooldown timer, particle bursts, world-flavored interstitials.
 import { $, esc, fmtW, haptic } from './util.js';
+import { sfx } from './audio.js';
 
 const sheetRoot = () => $('#sheet-root');
 
@@ -184,7 +185,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     const s = Math.ceil(left / 1000);
     digits.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
     if (left > 0) restRAF = requestAnimationFrame(tick);
-    else { haptic([30, 60, 30]); setTimeout(hideRestTimer, 1200); }
+    else { haptic([30, 60, 30]); sfx('restDone'); setTimeout(hideRestTimer, 1200); }
   };
   restRAF = requestAnimationFrame(tick);
   el.querySelector('.skip').addEventListener('click', hideRestTimer);

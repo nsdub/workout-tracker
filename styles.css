@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   PROTOCOL — six worlds, one gym tool, zero restraint.
+   PROTOCOL — six universes, eighteen worlds, one gym tool, zero restraint.
    Numbers are sacred (Geist Mono, always legible).
    Everything else is allowed to be alive.
    ═══════════════════════════════════════════════════════════ */
@@ -10,6 +10,7 @@
 @font-face { font-family: 'Chewy'; src: url('fonts/Chewy-latin.woff2') format('woff2'); font-display: swap; }
 @font-face { font-family: 'VT323'; src: url('fonts/VT323-latin.woff2') format('woff2'); font-display: swap; }
 @font-face { font-family: 'Shrikhand'; src: url('fonts/Shrikhand-latin.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'Shojumaru'; src: url('fonts/Shojumaru-latin.woff2') format('woff2'); font-display: swap; }
 @font-face { font-family: 'Geist Mono'; src: url('fonts/GeistMono-latin.woff2') format('woff2'); font-weight: 400 600; font-display: swap; }
 
 /* ——— World variables (each world sets ALL of these) ——— */
@@ -118,6 +119,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 /* ═══════════ SESSION SCREEN (shared bones, world skins) ═══════════ */
 
 .world-head { position: relative; z-index: 2; padding: 4px 4px 12px; max-width: calc(100% - 132px); }
+.uni-name { font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; opacity: .8; margin-bottom: 3px; }
 .world-name {
   font-family: var(--disp); font-size: 30px; line-height: 1.02; color: var(--chrome);
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
@@ -429,247 +431,295 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .empty h3 { font-family: var(--disp); font-size: 20px; margin-bottom: 6px; }
 .empty p { font-family: var(--mono); font-size: 12.5px; color: var(--ink2); line-height: 1.5; }
 
-/* ═══════════ WORLD 1: BIG TOP MIDNIGHT ═══════════ */
-:root[data-world="w1"] {
-  --bg: #26090f;
-  --paper: #f6e7c8; --paper2: #eeD9ac; --ink: #3a1410; --ink2: #8a5a3a;
-  --acc: #d92f45; --acc2: #ffcf5c; --chrome: #ffe9bf;
-  --disp: 'Rye', serif;
-}
-:root[data-world="w1"] .app {
-  background:
-    radial-gradient(140% 70% at 50% 112%, rgba(217, 47, 69, 0.4), transparent 60%),
-    repeating-conic-gradient(from 0deg at 50% -100%, #2e0b12 0 14deg, #26090f 14deg 28deg);
-}
-:root[data-world="w1"] .fx.bunting, :root[data-world="w1"] .fx.bunting.b2 {
-  top: 0; left: -4%; right: -4%; height: 52px;
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='40'><path d='M0 6q18 8 36 0q18 8 36 0' fill='none' stroke='%23120409' stroke-width='2'/><path d='M4 7l14 24 14-24z' fill='%23d92f45'/><path d='M40 7l14 24 14-24z' fill='%23ffcf5c'/></svg>") repeat-x;
-  animation: swing 5s ease-in-out infinite; transform-origin: 50% 0;
-}
-:root[data-world="w1"] .fx.bunting.b2 { top: 26px; animation-delay: -2.4s; opacity: .8; }
-:root[data-world="w1"] .sp.bulb { width: 10px; height: 10px; border-radius: 50%; background: #ffcf5c; box-shadow: 0 0 14px 4px rgba(255, 207, 92, 0.55); animation: blink var(--d) ease-in-out infinite; }
-:root[data-world="w1"] .sp.ticket { width: 30px; height: 16px; background: #ffcf5c; border-radius: 3px; border: 2px dashed #b3862a; animation: fall var(--dur) linear infinite; opacity: .85; }
-:root[data-world="w1"] .sp.popcorn { width: 9px; height: 9px; border-radius: 50% 40% 55% 45%; background: #fff3d6; animation: fall var(--dur) linear infinite; }
-:root[data-world="w1"] .fx.wheel {
-  right: -70px; bottom: 12%; width: 220px; height: 220px; border-radius: 50%;
-  border: 6px solid rgba(255, 207, 92, 0.35);
-  animation: spin 40s linear infinite; opacity: .5;
-}
-:root[data-world="w1"] .fx.wheel i { position: absolute; left: 50%; top: 50%; width: 104px; height: 3px; background: rgba(255,207,92,.3); transform-origin: 0 50%; }
-:root[data-world="w1"] .fx.wheel i:nth-child(1) { transform: rotate(0deg) } :root[data-world="w1"] .fx.wheel i:nth-child(2) { transform: rotate(60deg) } :root[data-world="w1"] .fx.wheel i:nth-child(3) { transform: rotate(120deg) } :root[data-world="w1"] .fx.wheel i:nth-child(4) { transform: rotate(180deg) } :root[data-world="w1"] .fx.wheel i:nth-child(5) { transform: rotate(240deg) } :root[data-world="w1"] .fx.wheel i:nth-child(6) { transform: rotate(300deg) }
-:root[data-world="w1"] .objective {
-  border-radius: 10px;
-  -webkit-mask: radial-gradient(circle 7px at 0 50%, transparent 96%, #000) -7px 50% / 100% 28px repeat-y;
-  mask: radial-gradient(circle 7px at 0 50%, transparent 96%, #000) -7px 50% / 100% 28px repeat-y;
-  border: 3px solid #b3862a;
-}
-:root[data-world="w1"] .g-log { background: radial-gradient(circle at 50% 35%, #ff5c72, var(--acc) 70%); border-radius: 50% / 38%; border: 4px solid #7a1020; }
-:root[data-world="w1"] .trophy { background: #ffcf5c; color: #3a1410; border: 2px dashed #b3862a; }
-/* the high striker: puck + bell live on the console's right edge */
-:root[data-world="w1"] .console::after {
-  content: '🔔'; position: absolute; right: 2px; top: -6px; font-size: 22px; filter: grayscale(.4) opacity(.7);
-}
-:root[data-world="w1"] .console.struck::after { animation: bell-ring 700ms var(--spring); filter: none; }
-@keyframes bell-ring { 0% { transform: rotate(0) } 25% { transform: rotate(24deg) scale(1.35) } 55% { transform: rotate(-18deg) scale(1.25) } 100% { transform: rotate(0) } }
-:root[data-world="w1"] .console .striker { position: absolute; right: 10px; bottom: 120px; top: 26px; width: 5px; background: repeating-linear-gradient(#b3862a 0 8px, transparent 8px 14px); border-radius: 3px; }
-:root[data-world="w1"] .console.struck .striker::after {
-  content: ''; position: absolute; left: -5px; bottom: 0; width: 15px; height: 15px; border-radius: 50%;
-  background: var(--acc); animation: puck-up 600ms var(--ease) forwards;
-}
-@keyframes puck-up { to { transform: translateY(calc(-100% * 8)); opacity: .9 } }
+/* ═══════════ SCENE SPRITE KIT (shared physics, per-universe costumes) ═══════════ */
+@keyframes rippleout { 0% { transform: scale(.25); opacity: .9 } 100% { transform: scale(1.7); opacity: 0 } }
+@keyframes eyeblink { 0%, 82%, 100% { opacity: 0 } 86%, 94% { opacity: 1 } }
+@keyframes stepfade { 0%, 100% { opacity: 0 } 40%, 70% { opacity: .55 } }
+@keyframes mothjig { 0% { transform: translate(0, 0) rotate(-8deg) } 50% { transform: translate(7px, -9px) rotate(10deg) } 100% { transform: translate(-5px, 5px) rotate(-4deg) } }
+@keyframes ventpuff { 0%, 100% { transform: scaleY(.8); opacity: .35 } 50% { transform: scaleY(1.15); opacity: .6 } }
+@keyframes ski { from { transform: translate3d(-14vw, 6vh, 0) rotate(9deg) } to { transform: translate3d(112vw, 52vh, 0) rotate(9deg) } }
+@keyframes cascade-flow { to { background-position: 0 72px } }
+@keyframes waves-slide { to { background-position-x: 96px } }
+@keyframes lava-pulse { 0%, 100% { opacity: .75; filter: blur(1px) } 50% { opacity: 1; filter: blur(2.5px) } }
+@keyframes signflicker { 0%, 92%, 100% { opacity: 1 } 94%, 97% { opacity: .35 } }
+@keyframes glowpulse { 0%, 100% { opacity: .7; transform: scale(1) } 50% { opacity: 1; transform: scale(1.08) } }
+@keyframes quake { 0%, 100% { transform: translate(0, 0) } 20% { transform: translate(-3px, 2px) rotate(-.4deg) } 45% { transform: translate(3px, -2px) rotate(.4deg) } 70% { transform: translate(-2px, -1px) } }
+@keyframes fireflydrift { 0%, 100% { transform: translate(0, 0); opacity: .2 } 30% { opacity: 1 } 50% { transform: translate(14px, -18px); opacity: .5 } 75% { opacity: 1 } }
 
-/* ═══════════ WORLD 2: THE UNFINISHED CEILING ═══════════ */
-:root[data-world="w2"] {
-  --bg: #e9dfcd;
-  --paper: #f7f0e2; --paper2: #ece2cd; --ink: #3a3128; --ink2: #7a6a52;
-  --acc: #8a6620; --acc2: #7fa8c9; --chrome: #4a4032;
+/* every world reacts to a record: panels quake, the scene surges */
+:root.pr-moment .objective { animation: quake 500ms ease-in-out 2; }
+:root.pr-moment .scene { filter: brightness(1.3) saturate(1.35); }
+.scene { transition: filter 400ms; }
+
+/* falling / rising / crossing costumes */
+.scene .sp.bubble { border: 1.5px solid rgba(143, 242, 224, 0.7); border-radius: 50%; width: var(--s); height: var(--s); opacity: var(--op, .5); animation: rise var(--dur) linear infinite; }
+.scene .sp.snow { width: var(--s); height: var(--s); border-radius: 50%; background: #fff; opacity: var(--op, .7); animation: fall var(--dur) linear infinite; }
+.scene .sp.petal { width: 11px; height: 8px; background: var(--c); border-radius: 65% 35% 60% 40%; opacity: var(--op, .8); animation: fall var(--dur) linear infinite; }
+.scene .sp.ember { width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ffd24a, #ff6a2c 70%); box-shadow: 0 0 10px 2px rgba(255, 138, 60, 0.6); opacity: var(--op, .8); animation: rise var(--dur) linear infinite; }
+.scene .sp.steam { top: auto; bottom: 0; width: var(--s, 12px); height: 48px; border-radius: 8px; background: linear-gradient(transparent, rgba(255, 255, 255, 0.5)); filter: blur(3px); animation: rise var(--dur) linear infinite; }
+.scene .sp.marine-snow { width: 3px; height: 3px; border-radius: 50%; background: rgba(223, 242, 236, 0.55); animation: fall var(--dur) linear infinite; }
+.scene .sp.noodle { width: 6px; height: 36px; background: #f2dfb8; border-radius: 45% 55% 40% 60% / 20%; opacity: var(--op, .85); animation: fall var(--dur) linear infinite; }
+.scene .sp.feather { width: 8px; height: 16px; background: var(--c); border-radius: 50% 50% 50% 50% / 82% 82% 18% 18%; animation: fall var(--dur) linear infinite; opacity: .85; }
+.scene .sp.fishy { left: 0; width: var(--s); color: rgba(191, 238, 230, 0.5); animation: cross var(--dur) linear infinite; }
+.scene .sp.fishy svg { display: block; }
+
+/* ═══════════ UNIVERSE: MOUNT VOLCANO DOJO (PushA) ═══════════ */
+:root[data-universe="dojo"] {
+  --bg: #1d1420;
+  --paper: #f2e6d0; --paper2: #e6d5b8; --ink: #2b1c14; --ink2: #7a5a40;
+  --acc: #c23b22; --acc2: #d9a53c; --chrome: #f2e6d0;
+  --disp: 'Shojumaru', system-ui;
+}
+:root[data-universe="dojo"] .app { background: linear-gradient(#2a1c30, #1d1420); }
+:root[data-universe="dojo"] .objective {
+  border-radius: 3px; border: 3px solid #7a2214;
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px #7a2214, 6px 8px 0 rgba(0, 0, 0, 0.4);
+  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M10 40q30-20 60 0' stroke='%23d9c8a8' stroke-width='1.4' fill='none' opacity='.5'/></svg>");
+}
+:root[data-universe="dojo"] .obj-name { letter-spacing: .02em; }
+:root[data-universe="dojo"] .g-log {
+  background: linear-gradient(#d9502f, #b32e18); border: 4px solid #7a1408;
+  border-radius: 10px; transform: rotate(-1.2deg); letter-spacing: .1em; text-transform: uppercase;
+  box-shadow: 0 5px 0 #58100a, 0 9px 20px rgba(0, 0, 0, 0.4);
+}
+:root[data-universe="dojo"] .trophy { background: #e8d5ae; color: #4a2c14; border: 2px solid #8a5a2a; border-bottom-width: 5px; border-radius: 4px 4px 8px 8px; }
+:root[data-universe="dojo"] .world-name { text-shadow: 3px 3px 0 rgba(122, 34, 20, 0.65); }
+
+:root[data-world="dojo-stairs"] .app { background: linear-gradient(#392044, #241530 55%, #1d1420); }
+.fx.mountain { left: -6%; right: -6%; bottom: 0; height: 42%; background: linear-gradient(#120c18, #0c080f); clip-path: polygon(0 100%, 0 78%, 14% 52%, 26% 68%, 43% 18%, 51% 30%, 58% 12%, 74% 58%, 86% 40%, 100% 72%, 100% 100%); }
+.fx.stairs { right: 20%; top: 24%; bottom: 8%; width: 54px; transform: skewY(-16deg); background: repeating-linear-gradient(rgba(242, 230, 208, 0.16) 0 3px, transparent 3px 16px); }
+.fx.redsun { right: 9%; top: 6%; width: 78px; height: 78px; border-radius: 50%; background: radial-gradient(circle at 42% 38%, #e8543a, #b32e18 75%); box-shadow: 0 0 34px rgba(217, 80, 47, 0.5); }
+.fx.redsun.big { right: auto; left: 50%; transform: translateX(-50%); top: 5%; width: 150px; height: 150px; }
+.scene .sp.brushbird { width: 18px; height: 8px; border: 2.5px solid transparent; border-top-color: #d8ccb8; border-radius: 50%; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.brushbird::after { content: ''; position: absolute; left: 12px; top: 0; width: 14px; height: 8px; border: 2.5px solid transparent; border-top-color: #d8ccb8; border-radius: 50%; }
+:root[data-world="dojo-falls"] .app { background: linear-gradient(#1c2c38, #101c26 60%, #0c141c); }
+.fx.cascade { left: 24%; top: 0; bottom: 26%; width: 44px; border-radius: 0 0 10px 10px; background: repeating-linear-gradient(rgba(220, 240, 255, 0.3) 0 16px, rgba(220, 240, 255, 0.08) 16px 36px); background-size: 100% 72px; animation: cascade-flow 1.1s linear infinite; filter: blur(0.5px); }
+.fx.cascade.c2 { left: auto; right: 14%; width: 26px; bottom: 32%; opacity: .7; animation-duration: 1.5s; }
+.fx.mist { left: 0; right: 0; bottom: 8%; height: 20%; background: radial-gradient(closest-side, rgba(230, 244, 255, 0.22), transparent); filter: blur(9px); }
+.scene .sp.koi { left: 0; width: 34px; height: 12px; background: var(--c); border-radius: 60% 40% 40% 60% / 50%; animation: cross var(--dur) linear infinite; }
+.scene .sp.koi::after { content: ''; position: absolute; right: -8px; top: 1px; border-left: 10px solid var(--c); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+:root[data-world="dojo-summit"] .app { background: linear-gradient(#331014, #200a0c 62%, #140608); }
+.fx.lava-line { left: 0; right: 0; bottom: calc(var(--tabbar-h) + 10px); height: 5px; border-radius: 4px; background: linear-gradient(90deg, #ff6a2c, #ffd24a 40%, #ff6a2c 75%, #ffb84d); box-shadow: 0 0 18px rgba(255, 138, 60, 0.8); animation: lava-pulse 2.6s ease-in-out infinite; }
+.scene .sp.brushsmoke { top: auto; bottom: -10%; width: var(--s); height: calc(var(--s) * 1.7); border-radius: 50%; background: rgba(200, 188, 178, 0.22); filter: blur(7px); animation: rise var(--dur) linear infinite; }
+
+/* ═══════════ UNIVERSE: THE DEEP (PullA) ═══════════ */
+:root[data-universe="deep"] {
+  --bg: #04121c;
+  --paper: #0a2433; --paper2: #0e3044; --ink: #bfeee6; --ink2: #5c9a92;
+  --acc: #38dcc8; --acc2: #ff8f5c; --chrome: #bfeee6;
   --disp: 'Cinzel', serif;
+  --line: rgba(56, 220, 200, 0.22);
 }
-:root[data-world="w2"] .app {
-  background:
-    radial-gradient(60% 40% at 20% 18%, rgba(127, 168, 201, 0.5), transparent 70%),
-    radial-gradient(50% 35% at 78% 30%, rgba(201, 148, 158, 0.4), transparent 70%),
-    radial-gradient(70% 45% at 55% 70%, rgba(214, 196, 158, 0.55), transparent 75%),
-    #e9dfcd;
+:root[data-universe="deep"] .app { background: radial-gradient(130% 100% at 50% 0%, #093048, #04121c 70%); }
+:root[data-universe="deep"] .objective {
+  background: rgba(8, 30, 42, 0.9); color: var(--ink);
+  border: 2px solid rgba(56, 220, 200, 0.7); border-radius: 14px;
+  box-shadow: 0 0 26px rgba(56, 220, 200, 0.22), inset 0 0 34px rgba(56, 220, 200, 0.07);
 }
-:root[data-world="w2"] .fx.sky-patch { border-radius: 50%; filter: blur(2px); opacity: .8; }
-:root[data-world="w2"] .fx.sky-patch.p1 { left: 6%; top: 6%; width: 200px; height: 120px; background: radial-gradient(closest-side, #a9c7e0, transparent); }
-:root[data-world="w2"] .fx.sky-patch.p2 { right: 4%; top: 26%; width: 160px; height: 110px; background: radial-gradient(closest-side, #d9b2ba, transparent); }
-:root[data-world="w2"] .fx.scaffold {
-  left: 0; right: 0; bottom: 10%; height: 14px;
-  background: repeating-linear-gradient(90deg, #8a6a3a 0 60px, #a3854f 60px 64px);
-  box-shadow: 0 20px 0 -6px #8a6a3a; opacity: .55;
+:root[data-universe="deep"] .world-name { text-shadow: 0 0 18px rgba(56, 220, 200, 0.6); letter-spacing: .04em; }
+:root[data-universe="deep"] .obj-name { letter-spacing: .03em; }
+:root[data-universe="deep"] .g-val { color: #dffaf4; text-shadow: 0 0 16px rgba(56, 220, 200, 0.55); }
+:root[data-universe="deep"] .g-log {
+  background: radial-gradient(circle at 50% 32%, #1c5c52, #0d3a34 70%); color: #8ff2e0;
+  border: 4px solid #c9884a; border-radius: 50px; text-transform: uppercase; letter-spacing: .14em;
+  box-shadow: 0 0 22px rgba(56, 220, 200, 0.35), 0 6px 0 #7a5024;
 }
-:root[data-world="w2"] .sp.putto { left: 0; width: 74px; animation: cross var(--dur) linear infinite; }
-:root[data-world="w2"] .sp.putto svg { animation: bob 3.5s ease-in-out infinite; }
-:root[data-world="w2"] .sp.putto.p2 { width: 52px; opacity: .8; }
-:root[data-world="w2"] .sp.goldfleck { width: 7px; height: 7px; background: #c9a227; transform: rotate(45deg); animation: fall var(--dur) linear infinite; box-shadow: 0 0 8px rgba(201,162,39,.7); }
-:root[data-world="w2"] .sp.drip-paint { top: 0; width: 8px; height: var(--h); border-radius: 0 0 6px 6px; background: linear-gradient(#7fa8c9, #5c86ad); transform-origin: 50% 0; animation: drip-grow var(--d) ease-in-out infinite alternate; opacity: .7; }
-@keyframes drip-grow { to { transform: scaleY(1.25) } }
-:root[data-world="w2"] .objective {
-  background: linear-gradient(160deg, #f9f3e6, #efe5cf);
-  border: 2px solid #c9b98f;
-  box-shadow: 0 3px 0 #c9b98f, 0 10px 24px rgba(90, 70, 40, 0.3), inset 0 0 40px rgba(201, 185, 143, 0.35);
-  border-radius: 4px;
-}
-:root[data-world="w2"] .obj-name { letter-spacing: 0.04em; }
-:root[data-world="w2"] .g-log { background: linear-gradient(#8a6a3a, #6d5228); border-radius: 4px; letter-spacing: .12em; border: 2px solid #4a371a; }
-:root[data-world="w2"] .trophy { background: #ece2cd; color: #3a3128; border: 2px solid #c9b98f; box-shadow: 0 3px 0 #c9b98f; font-family: var(--mono); }
-:root[data-world="w2"] .g-val { text-shadow: 0 1px 0 #fff; }
+:root[data-universe="deep"] .trophy { background: transparent; border: 2px solid #38dcc8; color: #bfeee6; border-radius: 40px; }
+:root[data-universe="deep"] .tool { background: #0a2433; color: #8fd8cc; border: 1px solid #1c5c52; box-shadow: none; }
+:root[data-universe="deep"] .pip { background: #0a2433; border-color: #1c5c52; }
+:root[data-universe="deep"] .pip.done { background: #38dcc8; border-color: #38dcc8; }
+:root[data-universe="deep"] .last-strip { background: rgba(56, 220, 200, 0.08); border-color: #1c5c52; color: #9fe8dc; }
+:root[data-universe="deep"] .warnbox { background: #33180c; color: #ffb37a; border-color: #ff8f5c; }
+:root[data-universe="deep"] .rest-pill, :root[data-universe="deep"] .finish-bar, :root[data-universe="deep"] .sheet, :root[data-universe="deep"] .toast { background: #0a2433; color: #bfeee6; border-color: #38dcc8; }
+:root[data-universe="deep"] .card, :root[data-universe="deep"] .opt, :root[data-universe="deep"] .np-key { background: #0e3044; border-color: #1c5c52; color: #bfeee6; }
+:root[data-universe="deep"] .rs-card { background: #0a2433; color: #bfeee6; border-color: #38dcc8; }
+:root[data-universe="deep"] .rs-stat { background: #0e3044; border-color: #1c5c52; }
+:root[data-universe="deep"] .hud-status .tag { background: #0a2433; color: #8fd8cc; border: 1px solid #1c5c52; }
 
-/* ═══════════ WORLD 3: THE UNDERDIRT ═══════════ */
-:root[data-world="w3"] {
-  --bg: #332416;
-  --paper: #e8d9b8; --paper2: #dcc99f; --ink: #33251a; --ink2: #7a5f3d;
-  --acc: #c9541f; --acc2: #4a7a3a; --chrome: #e8d9b8;
+:root[data-world="deep-vents"] .app { background: radial-gradient(120% 90% at 50% 108%, #3a1c10 0%, #0a2433 42%, #04121c 78%); }
+.fx.ventglow { left: 0; right: 0; bottom: 0; height: 30%; background: radial-gradient(closest-side at 50% 100%, rgba(255, 122, 60, 0.28), transparent); }
+.scene .sp.vent { top: auto; bottom: 0; width: 28px; height: var(--h); background: linear-gradient(#0c1c26, #071219); border-radius: 45% 45% 0 0; }
+.scene .sp.vent::after { content: ''; position: absolute; left: 4px; right: 4px; bottom: 96%; height: 60px; border-radius: 50%; background: rgba(120, 140, 150, 0.3); filter: blur(6px); transform-origin: 50% 100%; animation: ventpuff var(--d) ease-in-out infinite; }
+.scene .sp.tubeworm { top: auto; bottom: 0; width: 9px; height: var(--h); background: #e8e0d0; border-radius: 5px 5px 0 0; transform-origin: 50% 100%; animation: swing var(--d) ease-in-out infinite; }
+.scene .sp.tubeworm::after { content: ''; position: absolute; left: -2px; top: -7px; width: 13px; height: 11px; border-radius: 50%; background: #d9503c; }
+:root[data-world="deep-whalefall"] .app { background: linear-gradient(#083048 0%, #04121c 55%, #030d14); }
+.fx.ribcage { left: 50%; bottom: calc(var(--tabbar-h) - 10px); transform: translateX(-50%); width: min(94vw, 430px); }
+.fx.ribcage svg { display: block; width: 100%; }
+:root[data-world="deep-market"] .app { background: radial-gradient(100% 70% at 50% 30%, #062030, #030d14 75%); }
+.scene .sp.lure { width: var(--s); height: var(--s); border-radius: 50%; background: #8ff2e0; box-shadow: 0 0 18px 7px rgba(143, 242, 224, 0.45); animation: blink var(--d) ease-in-out infinite; }
+.scene .sp.angler { left: 0; width: 76px; animation: cross var(--dur) linear infinite; }
+.scene .sp.angler svg { display: block; animation: bob 4.5s ease-in-out infinite; }
+
+/* ═══════════ UNIVERSE: CRYPTID NATIONAL PARK (LegsA) ═══════════ */
+:root[data-universe="park"] {
+  --bg: #14231a;
+  --paper: #f2e8d0; --paper2: #e6d8ba; --ink: #33291a; --ink2: #7a6a48;
+  --acc: #b3492f; --acc2: #2f6b46; --chrome: #e8dcc0;
   --disp: 'Special Elite', serif;
 }
-:root[data-world="w3"] .app {
-  background:
-    linear-gradient(#7ec8e8 0, #7ec8e8 7%, #4a7a3a 7%, #3a5f2c 9%,
-      #4a3423 9%, #3a2a1c 30%, #33241a 30%, #2b1e12 55%, #241a10 55%, #1c130a 100%);
+:root[data-universe="park"] .app { background: linear-gradient(#22331f, #14231a 60%, #0e1811); }
+:root[data-universe="park"] .objective {
+  border-radius: 2px; border: 2px solid #b8a878; padding-top: 30px;
+  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.45);
+  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><circle cx='30' cy='40' r='.9' fill='%23a89468' opacity='.5'/><circle cx='90' cy='88' r='.7' fill='%23a89468' opacity='.4'/></svg>");
 }
-:root[data-world="w3"] .world-name, :root[data-world="w3"] .mission-line { color: #2b1e12; text-shadow: 1px 1px 0 rgba(232, 217, 184, 0.6); }
-:root[data-world="w3"] .fx.strata { left: 0; right: 0; height: 3px; background: rgba(232, 217, 184, 0.12); }
-:root[data-world="w3"] .fx.strata.s1 { top: 30%; } :root[data-world="w3"] .fx.strata.s2 { top: 55%; } :root[data-world="w3"] .fx.strata.s3 { top: 78%; }
-:root[data-world="w3"] .fx.root { top: 9%; width: 6px; height: var(--h); background: #5a3f28; border-radius: 0 0 8px 8px; transform-origin: 50% 0; animation: swing var(--d) ease-in-out infinite; }
-:root[data-world="w3"] .fx.root::after { content: ''; position: absolute; left: -8px; top: 40%; width: 20px; height: 4px; background: #5a3f28; border-radius: 4px; transform: rotate(-30deg); }
-:root[data-world="w3"] .sp.ant { left: 0; width: 30px; animation: cross var(--dur) linear infinite; }
-:root[data-world="w3"] .sp.spore { width: 5px; height: 5px; border-radius: 50%; background: rgba(232, 217, 184, 0.4); animation: rise var(--dur) linear infinite; }
-:root[data-world="w3"] .objective {
-  border-radius: 2px;
-  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle cx='6' cy='9' r='.8' fill='%237a5f3d' opacity='.25'/></svg>");
-  border: none;
-  box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.45);
-  padding-left: 34px;
+:root[data-universe="park"] .objective::before {
+  content: 'CASE FILE — DO NOT DISCLOSE'; position: absolute; top: 0; left: 0; right: 0;
+  font-family: var(--mono); font-size: 9px; letter-spacing: .28em; text-align: center;
+  color: #f2e8d0; background: #4a3c24; padding: 5px 0;
 }
-:root[data-world="w3"] .objective::before {
-  content: ''; position: absolute; left: 10px; top: 14px; bottom: 14px; width: 10px;
-  background: radial-gradient(circle 5px, #241a10 45%, transparent 50%) 0 0 / 10px 34px repeat-y;
+:root[data-universe="park"] .obj-name { text-transform: uppercase; }
+:root[data-universe="park"] .g-log {
+  background: var(--paper); color: #b3492f; border: 4px double #b3492f; border-radius: 6px;
+  transform: rotate(-2deg); text-transform: uppercase; letter-spacing: .16em;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
 }
-:root[data-world="w3"] .obj-name { text-transform: uppercase; }
-:root[data-world="w3"] .g-log {
-  background: var(--acc); border-radius: 6px; border: 3px double #7a2f0f;
-  transform: rotate(-1.6deg); text-transform: uppercase; letter-spacing: .1em;
-}
-:root[data-world="w3"] .trophy { background: #a3773f; border: 2px solid #6d4a22; box-shadow: 0 3px 0 #4a3116; border-radius: 3px; }
+:root[data-universe="park"] .trophy { background: #fff; color: var(--ink); border: 5px solid #fff; outline: 1px solid #b8a878; box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.35); border-radius: 1px; }
+:root[data-universe="park"] .world-name { text-shadow: 2px 2px 0 rgba(14, 24, 17, 0.8); }
 
-/* ═══════════ WORLD 4: MEEMAW'S MIDNIGHT KITCHEN ═══════════ */
-:root[data-world="w4"] {
-  --bg: #f3e3c9;
-  --paper: #fff8ec; --paper2: #f6e9d2; --ink: #4a3328; --ink2: #8a6a52;
-  --acc: #d96a4a; --acc2: #7fbfa8; --chrome: #5a4232;
-  --disp: 'Chewy', system-ui;
-}
-:root[data-world="w4"] .app {
-  background: #f3e3c9 url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><g fill='none'><circle cx='24' cy='24' r='9' stroke='%23d96a4a' stroke-width='2' opacity='.35'/><circle cx='24' cy='24' r='3' fill='%23e8a13c' opacity='.4'/><path d='M60 58q6-10 12 0q-6 10-12 0z' fill='%237fbfa8' opacity='.4'/><circle cx='70' cy='22' r='2.4' fill='%23d96a4a' opacity='.3'/></g></svg>");
-  animation: wallpaper-breathe 9s ease-in-out infinite;
-}
-@keyframes wallpaper-breathe { 50% { background-size: 96px 96px } }
-:root[data-world="w4"] .fx.shelf { left: 4%; right: 40%; top: 21%; height: 8px; background: #8a5a3a; border-radius: 3px; box-shadow: 0 3px 0 #6d4528; }
-:root[data-world="w4"] .fx.jello { left: 10%; top: calc(21% - 34px); width: 44px; height: 34px; }
-:root[data-world="w4"] .fx.jello i { display: block; width: 100%; height: 100%; background: linear-gradient(#ff7a8a, #d94f6a); border-radius: 40% 40% 20% 20%; animation: wobble 2.2s ease-in-out infinite; box-shadow: inset 0 4px 0 rgba(255,255,255,.4); }
-:root[data-world="w4"] .fx.portrait { right: 6%; top: 8%; width: 64px; animation: swing 7s ease-in-out infinite; transform-origin: 50% 0; }
-:root[data-world="w4"] .fx.portrait .eye-l { transform-origin: center; }
-:root[data-world="w4"].pr-wink .fx.portrait .eye-l { animation: wink 900ms ease-in-out 2; }
-@keyframes wink { 45%, 65% { transform: scaleY(0.08) } }
-:root[data-world="w4"] .fx.magnets { left: 6%; top: 34%; display: flex; flex-direction: column; gap: 6px; }
-:root[data-world="w4"] .fx.magnets b {
-  font-family: 'Chewy', system-ui; font-size: 13px; padding: 3px 7px; border-radius: 4px; color: #fff;
-  background: #d96a4a; transform: rotate(calc(var(--i) * 3deg - 4deg)); width: max-content;
-  box-shadow: 1px 2px 0 rgba(0,0,0,.25); opacity: .9;
-}
-:root[data-world="w4"] .fx.magnets b:nth-child(2) { background: #7fbfa8 } :root[data-world="w4"] .fx.magnets b:nth-child(3) { background: #e8a13c } :root[data-world="w4"] .fx.magnets b:nth-child(4) { background: #8f6fdc }
-:root[data-world="w4"] .sp.steam { top: auto; bottom: 0; width: 12px; height: 44px; border-radius: 8px; background: linear-gradient(transparent, rgba(255,255,255,.55)); filter: blur(3px); animation: rise var(--dur) linear infinite; }
-:root[data-world="w4"] .sp.crumb { width: 6px; height: 6px; border-radius: 2px; background: #b3813a; animation: fall var(--dur) linear infinite; }
-:root[data-world="w4"] .objective {
-  border-radius: 12px; border: 3px solid #d96a4a;
-  background: repeating-linear-gradient(var(--paper) 0 26px, #f0e0c8 26px 28px);
-}
-:root[data-world="w4"] .objective::before { content: 'FROM THE KITCHEN OF MEEMAW'; position: absolute; top: -1px; left: 0; right: 0; text-align: center; font-family: 'Chewy'; font-size: 10px; letter-spacing: .2em; color: #fff; background: #d96a4a; padding: 3px 0; border-radius: 8px 8px 0 0; }
-:root[data-world="w4"] .obj-top { margin-top: 14px; }
-:root[data-world="w4"] .g-log { background: radial-gradient(circle at 50% 30%, #ff8a63, var(--acc) 75%); border-radius: 50%; width: 150px; min-height: 150px; margin: 0 auto; border: 6px solid #fff; outline: 3px solid #b34a2e; }
-:root[data-world="w4"] .trophy { background: #fff; color: var(--ink); border: 3px solid #7fbfa8; border-radius: 50px; }
+:root[data-world="park-trail"] .app { background: linear-gradient(#2c3d24, #16261a 62%, #0e1811); }
+.fx.treeline { left: -2%; right: -2%; bottom: 0; height: 36%; background: #0b140d; clip-path: polygon(0 100%, 0 62%, 5% 30%, 10% 62%, 14% 40%, 19% 66%, 25% 22%, 31% 60%, 36% 38%, 42% 64%, 48% 18%, 54% 58%, 60% 34%, 66% 62%, 72% 26%, 78% 60%, 84% 42%, 90% 64%, 95% 32%, 100% 58%, 100% 100%); }
+.fx.treeline.dark { background: #070b10; height: 42%; }
+.scene .sp.footprint { top: auto; width: 12px; height: 19px; background: #10180f; border-radius: 50% 50% 45% 45%; opacity: 0; box-shadow: -4px -7px 0 -3px #10180f, 0 -9px 0 -3px #10180f, 4px -7px 0 -3px #10180f; animation: stepfade 7s ease-in-out infinite; animation-delay: var(--d); }
+.scene .sp.squatch { top: auto; bottom: 13%; left: 0; width: 46px; opacity: .92; animation: cross var(--dur) linear infinite; }
+.scene .sp.squatch svg { display: block; animation: bob 1.1s ease-in-out infinite; }
+.scene .sp.firefly { width: 4px; height: 4px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px 3px rgba(255, 224, 138, 0.5); animation: fireflydrift var(--dur) ease-in-out infinite; }
+:root[data-world="park-mothman"] .app { background: linear-gradient(#131a2c, #0c1120 60%, #070b10); }
+.fx.bigmoon { right: 8%; top: 6%; width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle at 40% 36%, #f4f0dc, #cfc9a8 78%); box-shadow: 0 0 46px rgba(244, 240, 220, 0.35); }
+.scene .sp.redeyes { width: 6px; height: 6px; border-radius: 50%; background: #ff2f2f; box-shadow: 11px 0 0 #ff2f2f, 0 0 10px 2px rgba(255, 47, 47, 0.7), 11px 0 10px 2px rgba(255, 47, 47, 0.7); opacity: 0; animation: eyeblink var(--d) ease-in-out infinite; }
+.scene .sp.moth { width: var(--s); height: calc(var(--s) * 0.75); background: #c9c2a8; clip-path: polygon(50% 100%, 0 0, 50% 38%, 100% 0); opacity: .8; animation: mothjig var(--d) ease-in-out infinite alternate; }
+:root[data-world="park-marina"] .app { background: linear-gradient(#1c2c3a 0%, #16303a 58%, #0e2028); }
+.fx.lake { left: 0; right: 0; bottom: 0; height: 42%; background: linear-gradient(#1c4048, #0e2028); border-top: 2px solid rgba(223, 242, 236, 0.25); }
+.scene .sp.nessie { top: auto; bottom: 20%; left: 0; width: 96px; animation: cross var(--dur) linear infinite; }
+.scene .sp.nessie svg { display: block; animation: bob 3.2s ease-in-out infinite; }
+.scene .sp.buoy { width: 15px; height: 19px; border-radius: 50% 50% 42% 42%; background: var(--c); animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.buoy::after { content: ''; position: absolute; left: 0; right: 0; top: 45%; height: 4px; background: rgba(255, 255, 255, 0.75); }
+.scene .sp.ripple { width: 36px; height: 10px; border: 2px solid rgba(223, 242, 236, 0.4); border-radius: 50%; animation: rippleout var(--d) ease-out infinite; }
 
-/* ═══════════ WORLD 5: CHANNEL 87 ═══════════ */
-:root[data-world="w5"] {
-  --bg: #050b06;
-  --paper: #0d1a0f; --paper2: #12241466; --ink: #58ff9d; --ink2: #2f9c5c;
-  --acc: #ff3b3b; --acc2: #58d9ff; --chrome: #58ff9d;
-  --disp: 'VT323', monospace;
-  --line: rgba(88, 255, 157, 0.25);
-}
-:root[data-world="w5"] .app { background: radial-gradient(120% 90% at 50% 50%, #0a140b, #050b06 75%); }
-:root[data-world="w5"] .fx.crt-lines { inset: 0; background: repeating-linear-gradient(0deg, rgba(88, 255, 157, 0.07) 0 2px, transparent 2px 5px); z-index: 5; }
-:root[data-world="w5"] .fx.crt-glow { inset: 0; box-shadow: inset 0 0 120px rgba(88, 255, 157, 0.22); }
-:root[data-world="w5"] .fx.rec { top: auto; bottom: calc(var(--tabbar-h) + 44px); left: 12px; font-family: 'VT323'; font-size: 20px; color: #ff3b3b; display: flex; gap: 7px; align-items: center; }
-:root[data-world="w5"] .fx.rec i { width: 12px; height: 12px; border-radius: 50%; background: #ff3b3b; animation: blink 1s steps(2) infinite; }
-:root[data-world="w5"] .fx.smpte { left: 0; right: 0; bottom: var(--tabbar-h); height: 16px; display: flex; }
-:root[data-world="w5"] .fx.smpte i { flex: 1; }
-:root[data-world="w5"] .fx.smpte i:nth-child(1){background:#c0c0c0}:root[data-world="w5"] .fx.smpte i:nth-child(2){background:#c0c000}:root[data-world="w5"] .fx.smpte i:nth-child(3){background:#00c0c0}:root[data-world="w5"] .fx.smpte i:nth-child(4){background:#00c000}:root[data-world="w5"] .fx.smpte i:nth-child(5){background:#c000c0}:root[data-world="w5"] .fx.smpte i:nth-child(6){background:#c00000}
-:root[data-world="w5"] .fx.chyron {
-  left: 0; right: 0; bottom: calc(var(--tabbar-h) + 16px); overflow: hidden;
-  background: rgba(0, 0, 0, 0.8); border-top: 2px solid #58ff9d; border-bottom: 2px solid #58ff9d;
-}
-:root[data-world="w5"] .fx.chyron span { display: inline-block; white-space: nowrap; font-family: 'VT323'; font-size: 19px; color: #58ff9d; padding: 3px 0; animation: ticker 20s linear infinite; }
-:root[data-world="w5"] .sp.static-dot { width: 2px; height: 2px; background: #9fffc4; animation: blink var(--d) steps(2) infinite; }
-:root[data-world="w5"] .objective {
-  background: rgba(6, 18, 9, 0.88); color: var(--ink);
-  border: 2px solid #58ff9d; border-radius: 0;
-  box-shadow: 0 0 24px rgba(88, 255, 157, 0.3), inset 0 0 30px rgba(88, 255, 157, 0.08);
-  animation: shiver 3s steps(6) infinite;
-}
-:root[data-world="w5"] .obj-name, :root[data-world="w5"] .world-name { text-transform: uppercase; }
-:root[data-world="w5"] .obj-name { font-size: 36px; text-shadow: 2px 0 #ff3b3b88, -2px 0 #58d9ff88; }
-:root[data-world="w5"] .last-strip { background: rgba(88,255,157,.08); border-color: #2f9c5c; color: #9fffc4; }
-:root[data-world="w5"] .g-val { color: #baffd4; text-shadow: 0 0 14px rgba(88,255,157,.6); }
-:root[data-world="w5"] .g-log { background: #200; border: 3px solid #ff3b3b; color: #ff5c5c; border-radius: 8px; text-transform: uppercase; text-shadow: 0 0 12px #ff3b3b; box-shadow: 0 0 22px rgba(255, 59, 59, 0.45), 0 6px 0 #400; }
-:root[data-world="w5"] .trophy { background: transparent; border: 2px solid #58ff9d; color: #9fffc4; border-radius: 0; }
-:root[data-world="w5"] .tool { background: #0d1a0f; color: #58ff9d; border: 1px solid #2f9c5c; box-shadow: none; }
-:root[data-world="w5"] .pip { background: #0d1a0f; border-color: #2f9c5c; }
-:root[data-world="w5"] .pip.done { background: #58ff9d; border-color: #58ff9d; }
-:root[data-world="w5"] .warnbox { background: #2a1408; color: #ffb37a; border-color: #ff7a3c; }
-:root[data-world="w5"] .rest-pill, :root[data-world="w5"] .finish-bar, :root[data-world="w5"] .sheet, :root[data-world="w5"] .toast { background: #0d1a0f; color: #9fffc4; border-color: #58ff9d; }
-:root[data-world="w5"] .card, :root[data-world="w5"] .opt, :root[data-world="w5"] .np-key { background: #122414; border-color: #2f9c5c; color: #9fffc4; }
-:root[data-world="w5"] .rs-card { background: #0d1a0f; color: #9fffc4; border-color: #58ff9d; }
-:root[data-world="w5"] .rs-stat { background: #122414; border-color: #2f9c5c; }
-:root[data-world="w5"] .hud-status .tag { background: #0d1a0f; color: #58ff9d; border: 1px solid #2f9c5c; }
-
-/* ═══════════ WORLD 6: PARADE ETERNAL ═══════════ */
-:root[data-world="w6"] {
-  --bg: #7ec8e8;
-  --paper: #fff6e8; --paper2: #ffe9c9; --ink: #4a2c10; --ink2: #94682f;
-  --acc: #ff4f79; --acc2: #59c9a5; --chrome: #3a2410;
+/* ═══════════ UNIVERSE: THE NOODLE COSMOS (PushB) ═══════════ */
+:root[data-universe="wok"] {
+  --bg: #200d0e;
+  --paper: #fff4e0; --paper2: #f6e4c8; --ink: #4a2410; --ink2: #96652f;
+  --acc: #d93a20; --acc2: #e8a13c; --chrome: #ffd9a3;
   --disp: 'Shrikhand', system-ui;
 }
-:root[data-world="w6"] .app {
-  background: linear-gradient(#9fd8f0, #7ec8e8 55%, #f0d9a3 55.5%, #e8c988);
+:root[data-universe="wok"] .app { background: linear-gradient(#33121a, #200d0e 60%, #160809); }
+:root[data-universe="wok"] .objective {
+  border-radius: 14px; border: 4px solid #a32210;
+  box-shadow: 0 0 0 2px #e8a13c, 6px 8px 0 rgba(0, 0, 0, 0.45);
 }
-:root[data-world="w6"] .fx.sunface { right: 6%; top: 5%; width: 86px; animation: spin 60s linear infinite; }
-:root[data-world="w6"] .sp.balloon { top: auto; bottom: 18%; width: 52px; animation: bob var(--dur) ease-in-out infinite; }
-:root[data-world="w6"].pr-free .sp.balloon { animation: balloon-free 2.4s ease-in forwards; }
-@keyframes balloon-free { to { transform: translateY(-110vh) rotate(20deg) } }
-:root[data-world="w6"] .sp.confetti { width: 8px; height: 12px; background: var(--c); animation: fall var(--dur) linear infinite; }
-:root[data-world="w6"] .sp.streamer { width: 5px; height: 34px; border-radius: 4px; background: var(--c); animation: fall var(--dur) linear infinite; }
-:root[data-world="w6"] .objective {
-  border-radius: 12px; border: 4px solid var(--acc);
-  -webkit-mask: radial-gradient(circle 12px at 12px 100%, transparent 96%, #000) 0 100% / 24px 24px repeat-x, linear-gradient(#000, #000 calc(100% - 12px));
-  padding-bottom: 30px;
+:root[data-universe="wok"] .g-log {
+  background: radial-gradient(circle at 50% 30%, #ff6a3c, #d93a20 72%);
+  border: 4px solid #e8a13c; border-radius: 50px;
+  box-shadow: 0 6px 0 #7a1408, 0 10px 24px rgba(0, 0, 0, 0.4);
 }
-:root[data-world="w6"] .world-name { color: #fff; text-shadow: 3px 3px 0 #ff4f79; }
-:root[data-world="w6"] .g-log { background: linear-gradient(#ff7a9a, #ff4f79); border-radius: 16px; border: 4px solid #fff; box-shadow: 0 6px 0 #b32e51, 0 10px 24px rgba(0,0,0,.25); }
-:root[data-world="w6"] .trophy { background: #59c9a5; color: var(--ink); clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%); padding-right: 18px; border-radius: 4px 0 0 4px; }
+:root[data-universe="wok"] .trophy { background: #ffe9c4; color: #7a3410; border: 2px dashed #c98a3a; border-radius: 3px; }
+:root[data-universe="wok"] .world-name { text-shadow: 3px 3px 0 rgba(163, 34, 16, 0.75); }
+
+:root[data-world="wok-inferno"] .app { background: linear-gradient(#3a0f0f, #240a0a 55%, #180606); }
+.fx.flamewall { left: 0; right: 0; bottom: 0; height: 24%; filter: blur(1.5px); background: radial-gradient(22px 34px at 12% 100%, #ff7a2c 58%, transparent 60%), radial-gradient(28px 46px at 32% 100%, #e8531c 58%, transparent 60%), radial-gradient(20px 30px at 50% 100%, #ffb84d 58%, transparent 60%), radial-gradient(30px 50px at 68% 100%, #e8531c 58%, transparent 60%), radial-gradient(22px 36px at 86% 100%, #ff7a2c 58%, transparent 60%), linear-gradient(transparent 55%, rgba(232, 83, 28, 0.5)); animation: glowpulse 1.6s ease-in-out infinite; transform-origin: 50% 100%; }
+:root[data-world="wok-steam"] .app { background: linear-gradient(#2c1a20, #1f1114 58%, #140a0c); }
+.fx.steambank { left: -4%; right: -4%; bottom: 0; height: 44%; background: linear-gradient(transparent, rgba(255, 244, 224, 0.2)); filter: blur(11px); animation: glowpulse 5s ease-in-out infinite; transform-origin: 50% 100%; }
+.scene .sp.dumpling { width: 40px; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.dumpling svg { display: block; }
+:root[data-world="wok-alley"] .app { background: linear-gradient(#1f0d1c, #140a12 62%, #0e070c); }
+.scene .sp.lantern { width: 24px; transform-origin: 50% 0; animation: swing var(--d) ease-in-out infinite; }
+.scene .sp.lantern svg { display: block; filter: drop-shadow(0 0 9px rgba(255, 93, 93, 0.55)); }
+.fx.shopsign { right: 7%; top: 12%; width: 34px; height: 124px; background: #2a0f1f; border: 2px solid #ff5d7a; border-radius: 4px; box-shadow: 0 0 16px rgba(255, 93, 122, 0.55), inset 0 0 8px rgba(255, 93, 122, 0.4); padding: 8px 7px; background-clip: content-box; background-image: repeating-linear-gradient(rgba(255, 93, 122, 0.75) 0 10px, transparent 10px 19px); animation: signflicker 5s steps(1) infinite; }
+.fx.shopsign.s2 { right: auto; left: 6%; top: 26%; height: 90px; border-color: #3adcc8; box-shadow: 0 0 16px rgba(58, 220, 200, 0.5), inset 0 0 8px rgba(58, 220, 200, 0.4); background-image: repeating-linear-gradient(rgba(58, 220, 200, 0.75) 0 10px, transparent 10px 19px); animation-delay: -2.2s; }
+
+/* ═══════════ UNIVERSE: PIRATE RADIO ATOLL (PullB) ═══════════ */
+:root[data-universe="atoll"] {
+  --bg: #1c4050;
+  --paper: #f4e4c4; --paper2: #e8d4a8; --ink: #3a2a14; --ink2: #85653a;
+  --acc: #c04828; --acc2: #1c6b8a; --chrome: #ffe8c4;
+  --disp: 'Rye', serif;
+}
+:root[data-universe="atoll"] .app { background: linear-gradient(#e8944a 0%, #d96a3c 32%, #8a4a4a 54%, #1c4b5e 55%, #12303c); }
+:root[data-universe="atoll"] .objective {
+  border-radius: 6px; border: 3px solid #8a5a2a;
+  box-shadow: 0 0 0 2px #4a3014, 6px 8px 0 rgba(0, 0, 0, 0.4);
+  background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='30'><path d='M0 15q35-9 70 0t70 0' stroke='%23d9bc8a' stroke-width='1.3' fill='none' opacity='.6'/></svg>");
+}
+:root[data-universe="atoll"] .g-log {
+  background: radial-gradient(circle at 50% 34%, #e06038, #b33a1c 74%);
+  border: 4px solid #4a3014; border-radius: 50%; width: 152px; min-height: 152px; margin: 0 auto;
+  text-transform: uppercase; letter-spacing: .1em;
+  box-shadow: 0 0 0 5px #d9bc8a, 0 7px 0 #2a1a0a, 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+:root[data-universe="atoll"] .trophy { background: #241c14; color: #ffe8c4; border: 2px solid #4a3014; border-radius: 40px; box-shadow: inset 0 0 0 3px #c04828; }
+:root[data-universe="atoll"] .world-name { text-shadow: 2px 2px 0 rgba(42, 26, 10, 0.7); }
+
+.fx.waves { left: 0; right: 0; top: 53.4%; height: 15px; background: radial-gradient(14px 9px at 12px 0, rgba(255, 232, 196, 0.5) 60%, transparent 62%) repeat-x; background-size: 48px 15px; animation: waves-slide 7s linear infinite; opacity: .8; }
+.scene .sp.radiowave { border: 2px solid rgba(255, 232, 196, 0.75); border-radius: 50%; width: var(--s); height: var(--s); animation: rippleout var(--d) ease-out infinite; }
+:root[data-world="atoll-wreck"] .app { background: linear-gradient(#e8944a 0%, #d96a3c 30%, #8a4a4a 53%, #1c4b5e 54%, #12303c); }
+.fx.wreck { left: 5%; top: 30%; width: 210px; opacity: .9; }
+.fx.wreck svg { display: block; animation: bob 6s ease-in-out infinite; }
+.scene .sp.crab { top: auto; left: 0; width: 22px; height: 13px; background: #e0562c; border-radius: 50% 50% 30% 30%; animation: cross var(--dur) linear infinite; }
+.scene .sp.crab::before { content: ''; position: absolute; top: -4px; left: 3px; width: 4px; height: 4px; border-radius: 50%; background: #2a1208; box-shadow: 9px 0 0 #2a1208; }
+.scene .sp.crab::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: -3px; height: 5px; background: repeating-linear-gradient(90deg, #a33a1c 0 3px, transparent 3px 7px); }
+:root[data-world="atoll-light"] .app { background: linear-gradient(#5c3454 0%, #a34a48 34%, #d96a3c 52%, #16394a 55%, #0e2833); }
+.fx.volcano { right: -6%; bottom: calc(var(--tabbar-h) - 14px); width: 250px; height: 210px; background: #1f0e16; clip-path: polygon(4% 100%, 42% 10%, 62% 10%, 100% 100%); }
+.fx.volcano::after { content: ''; position: absolute; left: 44%; top: 6%; width: 40px; height: 16px; border-radius: 50%; background: #ff8a3c; box-shadow: 0 0 22px 8px rgba(255, 138, 60, 0.7); animation: glowpulse 2.4s ease-in-out infinite; }
+.fx.beam { right: 64px; top: -40px; width: 340px; height: 340px; background: conic-gradient(rgba(255, 232, 180, 0.3) 0 13deg, transparent 13.5deg); border-radius: 50%; transform-origin: 50% 50%; animation: spin 15s linear infinite; }
+:root[data-world="atoll-parrots"] .app { background: linear-gradient(#8fd4ec 0%, #5cb8dc 48%, #1c6b8a 55%, #14506a); }
+.fx.rigging { left: 0; right: 0; top: 0; height: 46%; background: repeating-linear-gradient(62deg, rgba(74, 48, 20, 0.4) 0 3px, transparent 3px 44px), repeating-linear-gradient(-62deg, rgba(74, 48, 20, 0.4) 0 3px, transparent 3px 44px); }
+.scene .sp.parrot { width: 24px; animation: bob var(--d) ease-in-out infinite; }
+.scene .sp.parrot svg { display: block; }
+:root[data-universe="atoll"][data-world="atoll-parrots"] .world-name { text-shadow: 2px 2px 0 rgba(20, 80, 106, 0.8); }
+
+/* ═══════════ UNIVERSE: YETI SKI RESORT (LegsB) ═══════════ */
+:root[data-universe="yeti"] {
+  --bg: #bfe0f2;
+  --paper: #fbfdff; --paper2: #e8f1f8; --ink: #1c3348; --ink2: #5c7a92;
+  --acc: #e0447a; --acc2: #3a8fd9; --chrome: #14304a;
+  --disp: 'Chewy', system-ui;
+}
+:root[data-universe="yeti"] .app { background: linear-gradient(#a8d8f0, #bfe0f2 55%, #e8f4fb); }
+:root[data-universe="yeti"] .world-name { color: #fff; text-shadow: 2px 2px 0 #3a8fd9; }
+:root[data-universe="yeti"] .uni-name { color: #14304a; }
+:root[data-universe="yeti"] .objective {
+  border-radius: 16px; border: 4px solid #3a8fd9;
+  box-shadow: 0 8px 0 rgba(28, 74, 122, 0.35), 0 12px 24px rgba(20, 48, 74, 0.2);
+}
+:root[data-universe="yeti"] .objective::before { content: ''; position: absolute; top: -12px; left: 8%; right: 20%; height: 16px; background: #fff; border-radius: 50px 60px 40px 50px / 20px; box-shadow: 0 2px 0 rgba(163, 200, 224, 0.8); }
+:root[data-universe="yeti"] .g-log {
+  background: linear-gradient(#ff6f9e, #e0447a); border-radius: 16px; border: 4px solid #fff;
+  box-shadow: 0 6px 0 #a32654, 0 10px 24px rgba(20, 48, 74, 0.3);
+}
+:root[data-universe="yeti"] .trophy { background: #fff; color: var(--ink); border: 2px dashed #3a8fd9; border-radius: 8px; padding-left: 20px; position: relative; }
+:root[data-universe="yeti"] .trophy::before { content: ''; position: absolute; left: 7px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #bfe0f2; box-shadow: inset 0 0 0 4px #3a8fd9; }
+
+:root[data-world="yeti-lift"] .app { background: linear-gradient(#8ec8ec, #bfe0f2 60%, #eef7fc); }
+.fx.peaks { left: -2%; right: -2%; bottom: 14%; height: 34%; background: #fff; clip-path: polygon(0 100%, 0 70%, 12% 26%, 22% 58%, 34% 12%, 46% 52%, 58% 20%, 70% 62%, 82% 30%, 92% 60%, 100% 42%, 100% 100%); opacity: .95; }
+.fx.cable { left: -2%; right: -2%; top: 17.5%; height: 3px; background: #4a3a2a; transform: rotate(-1.6deg); }
+.scene .sp.chair { left: 0; width: 36px; animation: cross var(--dur) linear infinite; }
+.scene .sp.chair svg { display: block; }
+:root[data-world="yeti-diamond"] .app { background: linear-gradient(150deg, #8ec8ec 0%, #b8dcf2 32%, #f4fafd 33%, #dceef8); }
+.fx.slope { display: none; }
+.scene .sp.gate { width: 4px; height: 26px; background: #f4fafd; border-radius: 2px; box-shadow: 0 1px 2px rgba(20, 48, 74, 0.3); }
+.scene .sp.gate::after { content: ''; position: absolute; left: 3px; top: 0; width: 15px; height: 10px; background: var(--c); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.scene .sp.skiyeti { left: 0; top: 0; width: 46px; animation: ski var(--dur) linear infinite; }
+.scene .sp.skiyeti svg { display: block; }
+:root[data-world="yeti-disco"] .app { background: linear-gradient(#3a2a52, #241c3a 60%, #1a1430); }
+:root[data-universe="yeti"][data-world="yeti-disco"] .world-name { text-shadow: 2px 2px 0 #e0447a; }
+:root[data-universe="yeti"][data-world="yeti-disco"] .uni-name, :root[data-universe="yeti"][data-world="yeti-disco"] .mission-line { color: #e8ddf6; }
+.fx.discoball { left: 50%; top: 4%; width: 56px; height: 56px; margin-left: -28px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 30px rgba(232, 221, 246, 0.5); }
+.fx.discoball::before { content: ''; position: absolute; left: 50%; top: -18px; width: 2px; height: 18px; background: #8a80a0; }
+.fx.discoball i { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(#e8ddf6 0 14deg, #9a8fc0 14deg 28deg); animation: spin 9s linear infinite; }
+.scene .sp.discodot { width: 11px; height: 11px; border-radius: 50%; background: var(--c); filter: blur(1px); box-shadow: 0 0 12px var(--c); animation: blink var(--d) ease-in-out infinite; }
+.fx.firepit { left: 50%; bottom: calc(var(--tabbar-h) + 6px); width: 170px; height: 62px; margin-left: -85px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 138, 60, 0.65), transparent); animation: glowpulse 2.1s ease-in-out infinite; }
 
 /* ═══════════ SPACES: SCRAPBOOK + THE BOARD ═══════════ */
-:root[data-world="sb"], :root[data-world="cb"] {
+:root[data-universe="sb"], :root[data-universe="cb"] {
   --paper: #fff9ee; --paper2: #f3ead6; --ink: #3a2c1c; --ink2: #7d6a4d;
   --acc: #c0392b; --acc2: #3a7ca5; --chrome: #f4ead8;
   --disp: 'Special Elite', serif;
 }
-:root[data-world="sb"] { --bg: #8a6a48; }
-:root[data-world="sb"] .app { background: #8a6a48 url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='10' cy='12' r='1' fill='%23705436'/><circle cx='42' cy='40' r='1.2' fill='%23705436'/><circle cx='28' cy='52' r='.8' fill='%23705436'/></svg>"); }
-:root[data-world="cb"] { --bg: #a8804f; }
-:root[data-world="cb"] .app { background: #a8804f url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><circle cx='8' cy='9' r='1.1' fill='%23906a3e'/><circle cx='30' cy='26' r='1.3' fill='%23906a3e'/><circle cx='18' cy='38' r='.9' fill='%23c09a66'/></svg>"); }
+:root[data-universe="sb"] { --bg: #8a6a48; }
+:root[data-universe="sb"] .app { background: #8a6a48 url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='10' cy='12' r='1' fill='%23705436'/><circle cx='42' cy='40' r='1.2' fill='%23705436'/><circle cx='28' cy='52' r='.8' fill='%23705436'/></svg>"); }
+:root[data-universe="cb"] { --bg: #a8804f; }
+:root[data-universe="cb"] .app { background: #a8804f url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><circle cx='8' cy='9' r='1.1' fill='%23906a3e'/><circle cx='30' cy='26' r='1.3' fill='%23906a3e'/><circle cx='18' cy='38' r='.9' fill='%23c09a66'/></svg>"); }
 
 .space-title { position: relative; z-index: 2; font-family: var(--disp); font-size: 28px; color: #fff4dd; text-shadow: 2px 2px 0 rgba(0,0,0,.35); padding: 4px 4px 12px; }
 

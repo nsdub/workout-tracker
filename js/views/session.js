@@ -5,12 +5,14 @@ import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
 import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay } from '../components.js';
-import { WORLDS, applyWorld, worldOf } from '../worlds.js';
+import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld } from '../worlds.js';
+import { sfx } from '../audio.js';
 
 let root = null;
 let focusIdx = null;
 let lastLogAt = 0;
 let resumeAsked = false;
+let announceWorld = false; // set when a fresh draft lands in a new world
 
 export function render(el) {
   root = el;
@@ -18,7 +20,17 @@ export function render(el) {
   const today = todayStr();
   const phaseInfo = engine.phaseForDate(store.plan, today, store.settings.phaseOverride);
   ensureDraft(today, phaseInfo);
-  applyWorld(store.draft.session_type);
+  if (!store.draft.world) { // drafts from before the universes knew about worlds
+    store.draft.world = pickWorld(store.draft.session_type);
+    store.saveDraft(store.draft);
+  }
+  applyWorld(store.draft.session_type, store.draft.world);
+  if (announceWorld) {
+    announceWorld = false;
+    const U = universeOf(store.draft.session_type);
+    const W = worldDef(store.draft.session_type, store.draft.world);
+    if (U && W) setTimeout(() => flashCard(`TONIGHT: ${W.name}`, U.name, () => {}), 350);
+  }
   if (store.draft.date !== today && !resumeAsked) {
     resumeAsked = true;
     setTimeout(() => confirmSheet({
@@ -118,6 +130,7 @@ function ensureDraft(today, phaseInfo) {
   const type = engine.rotationNext(store.plan, store.history);
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
+  announceWorld = true;
   return type;
 }
 
@@ -143,7 +156,7 @@ function buildDraft(date, sessionType, phaseInfo) {
     };
   });
   return {
-    date, session_type: sessionType,
+    date, session_type: sessionType, world: pickWorld(sessionType),
     phase: phaseInfo.phase?.id ?? null, week: phaseInfo.week,
     bodyweight: null, notes: '', exercises,
   };
@@ -155,6 +168,7 @@ function switchSession(type) {
   hideRestTimer();
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
+  announceWorld = true;
   render(root);
 }
 
@@ -172,7 +186,8 @@ const BASIS = {
 };
 
 function renderWorldScreen(draft, phaseInfo) {
-  const W = worldOf(draft.session_type);
+  const U = universeOf(draft.session_type);
+  const W = worldDef(draft.session_type, draft.world);
   const session = store.plan.sessions[draft.session_type];
   const isNext = engine.rotationNext(store.plan, store.history) === draft.session_type;
   const phase = phaseInfo.phase;
@@ -184,7 +199,8 @@ function renderWorldScreen(draft, phaseInfo) {
 
   root.innerHTML = `
     <header class="world-head">
-      <div class="world-name">${esc(W.world)}</div>
+      <div class="uni-name">${esc(U.name)}</div>
+      <div class="world-name">${esc(W.name)}</div>
       <div class="mission-line">${esc(session.name)} — night ${missionNo} — ${fmtDate(draft.date)}</div>
       <div class="head-tools">
         <button class="tool" id="chip-bw">BW ${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</button>
@@ -215,7 +231,7 @@ function renderWorldScreen(draft, phaseInfo) {
       <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
 
       ${x.sets.some((s) => s.done) ? `
-        <div class="trophy-note">${esc(W.copy.trophyNote)}</div>
+        <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
         <div class="trophies">
           ${x.sets.map((s, si) => s.done ? `<button class="trophy" data-si="${si}"><span class="num">${fmtW(s.weight)}×${s.reps}</span>${s.pr ? ' ★' : ''}</button>` : '').join('')}
         </div>` : ''}
@@ -231,14 +247,14 @@ function renderWorldScreen(draft, phaseInfo) {
           <span class="c-x">×</span>
           <button class="g-val" id="g-r">${cur.reps}<u>${x.repUnit === 'sec' ? 'sec' : 'reps'}</u></button>
         </div>
-        <button class="g-log" id="g-log">${esc(W.copy.log)}</button>
+        <button class="g-log" id="g-log">${esc(U.copy.log)}</button>
         <div class="set-pips">
           ${x.sets.map((s, si) => `<i class="pip ${s.done ? 'done' : si === curIdx ? 'cur' : ''}"></i>`).join('')}
         </div>
       </div>` : `
       <div class="obj-done">
-        <div class="big">${esc(W.copy.objDone)}!</div>
-        ${focusIdx < draft.exercises.length - 1 ? `<button class="btn primary" id="od-next">Next act</button>` : `<div class="basis-line">every act cleared — ${esc(W.copy.finish.toLowerCase())} below</div>`}
+        <div class="big">${esc(U.copy.objDone)}!</div>
+        ${focusIdx < draft.exercises.length - 1 ? `<button class="btn primary" id="od-next">Next act</button>` : `<div class="basis-line">every act cleared — ${esc(U.copy.finish.toLowerCase())} below</div>`}
       </div>`}
     </section>
 
@@ -254,7 +270,7 @@ function renderWorldScreen(draft, phaseInfo) {
 
 function wire(draft, x, curIdx) {
   root.onclick = null;
-  const W = worldOf(draft.session_type);
+  const U = universeOf(draft.session_type);
   $('#open-brief', root).addEventListener('click', briefingSheet);
   $('#chip-bw', root).addEventListener('click', bodyweightSheet);
   $('#chip-notes', root).addEventListener('click', notesSheet);
@@ -283,7 +299,7 @@ function wire(draft, x, curIdx) {
     $('#g-r', root).addEventListener('click', () => editValue(x, cur, curIdx, 'reps'));
     $('#g-log', root).addEventListener('click', () => {
       if (cur.weight == null) return editValue(x, cur, curIdx, 'weight');
-      logSet(x, cur, W);
+      logSet(x, cur, U);
     });
   }
 }
@@ -318,7 +334,7 @@ function draftBest(exId) {
   return best;
 }
 
-function logSet(x, s, W) {
+function logSet(x, s, U) {
   const now = Date.now();
   if (now - lastLogAt < 400) return; // double-tap = one set
   lastLogAt = now;
@@ -333,6 +349,7 @@ function logSet(x, s, W) {
   if (s.repPr) s.pr = true; // rep PRs at a held weight count as records too
   store.saveDraft(store.draft);
   haptic(s.pr ? [15, 40, 25] : 12);
+  sfx(s.pr ? 'pr' : 'log');
 
   const finishedObjective = x.sets.every((q) => q.done);
   render(root);
@@ -342,16 +359,17 @@ function logSet(x, s, W) {
   burstAt(consoleEl?.querySelector('.g-log') ?? root.querySelector('.obj-done'), { pr: s.pr });
 
   if (s.pr) {
-    prOverlay(W.copy.pr, s.repPr ? `${fmtW(s.weight)}×${s.reps}` : `${fmtW(s.weight)} lb`);
-    // world-specific scene rituals
-    document.documentElement.classList.add(W.cls === 'w4' ? 'pr-wink' : W.cls === 'w6' ? 'pr-free' : 'pr-plain');
-    setTimeout(() => document.documentElement.classList.remove('pr-wink', 'pr-free', 'pr-plain'), 3000);
+    prOverlay(U.copy.pr, s.repPr ? `${fmtW(s.weight)}×${s.reps}` : `${fmtW(s.weight)} lb`);
+    // the whole world reacts: scene sprites surge, panels shake (CSS per universe)
+    document.documentElement.classList.add('pr-moment');
+    setTimeout(() => document.documentElement.classList.remove('pr-moment'), 3000);
   }
 
   const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done).length, 0);
-  if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'), W.copy.rest);
+  if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'), U.copy.rest);
   if (finishedObjective && remaining > 0) {
-    flashCard(`${W.copy.objDone}!`, x.name, () => { focusIdx = defaultFocus(store.draft); render(root); });
+    if (!s.pr) sfx('objDone');
+    flashCard(`${U.copy.objDone}!`, x.name, () => { focusIdx = defaultFocus(store.draft); render(root); });
   }
   renderDock();
 }
@@ -361,6 +379,7 @@ function unlogSet(x, s) {
   store.saveDraft(store.draft);
   toast('took it back');
   haptic(8);
+  sfx('tap');
   render(root);
   renderDock();
 }
@@ -408,9 +427,9 @@ function switchSheet() {
   const lastByType = {};
   for (const e of store.history) lastByType[e.session_type] = e.date;
   optionSheet({
-    title: 'Pick a world',
+    title: 'Pick a universe',
     options: store.plan.rotation.map((t) => ({
-      label: `${store.plan.sessions[t].name} — ${WORLDS[t].world}`,
+      label: `${store.plan.sessions[t].name} — ${UNIVERSES[t].name}`,
       hint: t === nextType ? 'next up' : lastByType[t] ? `last ${fmtDate(lastByType[t])}` : '',
       selected: t === store.draft?.session_type,
       value: t,
@@ -419,7 +438,7 @@ function switchSheet() {
       if (opt.value === store.draft?.session_type) return;
       if (dirty) {
         confirmSheet({
-          title: 'Leave this world?',
+          title: 'Leave this universe?',
           body: `Switching to ${esc(store.plan.sessions[opt.value].name)} drops tonight’s logged sets.`,
           confirmLabel: 'Switch', danger: true,
           onConfirm: () => switchSession(opt.value),
@@ -501,7 +520,7 @@ export function renderDock() {
   const done = d?.exercises.reduce((n, x) => n + x.sets.filter((s) => s.done).length, 0) ?? 0;
   const total = d?.exercises.reduce((n, x) => n + x.sets.length, 0) ?? 0;
   if (!d || done === 0 || !store.plan) { bar?.remove(); return; }
-  const W = worldOf(d.session_type);
+  const U = universeOf(d.session_type);
   if (!bar) {
     bar = document.createElement('div');
     bar.id = 'finish-bar';
@@ -513,13 +532,13 @@ export function renderDock() {
       <span class="xp-head"><span>tonight</span><span class="num">${done}/${total}</span></span>
       <span class="xp-track"><i style="width:${Math.round((done / total) * 100)}%"></i></span>
     </span>
-    <button class="btn primary" id="finish-btn">${esc(W.copy.finish)}</button>`;
+    <button class="btn primary" id="finish-btn">${esc(U.copy.finish)}</button>`;
   bar.querySelector('#finish-btn').addEventListener('click', () => {
     if (done < total) {
       confirmSheet({
         title: `Finish with ${done} of ${total} sets?`,
         body: 'Unlogged sets are dropped from the record.',
-        confirmLabel: W.copy.finish,
+        confirmLabel: U.copy.finish,
         onConfirm: finishSession,
       });
     } else finishSession();
@@ -532,7 +551,8 @@ export function clearDock() {
 
 function finishSession() {
   const d = store.draft;
-  const W = worldOf(d.session_type);
+  const U = universeOf(d.session_type);
+  const W = worldDef(d.session_type, d.world);
   const exercises = d.exercises
     .map((x) => ({ id: x.id, name: x.name, sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps })) }))
     .filter((x) => x.sets.length);
@@ -543,11 +563,12 @@ function finishSession() {
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),
     prs: d.exercises.reduce((n, x) => n + x.sets.filter((s) => s.pr).length, 0),
     acts: exercises.length,
-    title: W.copy.results,
-    world: W.world,
+    title: U.copy.results,
+    world: W ? `${W.name} · ${U.name}` : U.name,
   };
 
   const entry = { date: d.date, session_type: d.session_type, phase: d.phase, week: d.week, exercises };
+  if (d.world) entry.world = d.world;
   if (d.bodyweight) entry.bodyweight = d.bodyweight;
   if (d.notes) entry.notes = d.notes;
 
@@ -556,6 +577,7 @@ function finishSession() {
   clearDock();
   hideRestTimer();
   haptic([10, 60, 20, 60, 30]);
+  sfx('finish');
   flushQueue();
   showResults(stats);
 }

@@ -5,8 +5,9 @@ import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
 import { optionSheet, confirmSheet, openSheet, toast } from '../components.js';
+import { sfx } from '../audio.js';
 import { connectSheet, handleSeedFile, howtoSheet } from './session.js';
-import { applyWorld, WORLDS } from '../worlds.js';
+import { applyWorld, UNIVERSES } from '../worlds.js';
 
 let root = null;
 
@@ -60,7 +61,7 @@ export function render(el) {
       <div class="rot-strip">
         ${plan.rotation.map((t) => `<span class="rot-cell ${t === next ? 'next' : ''}">${t.replace(/([AB])$/, ' $1')}</span>`).join('')}
       </div>
-      <div class="np-line" style="margin-top:8px">${esc(WORLDS[next].world)} — sessions never get skipped, only pushed</div>
+      <div class="np-line" style="margin-top:8px">${esc(UNIVERSES[next].name)} — sessions never get skipped, only pushed</div>
     </div>
 
     ${info.phase?.type !== 'prep' ? `
@@ -188,7 +189,7 @@ function arsenalSheet(type) {
   const plan = store.plan;
   const s = plan.sessions[type];
   openSheet(`
-    <h2>${esc(s.name)} — ${esc(WORLDS[type].world)}</h2>
+    <h2>${esc(s.name)} — ${esc(UNIVERSES[type].name)}</h2>
     <div class="sub">tap a lift for the field guide</div>
     <div class="opt-list">
       ${s.exercises.map((slot) => `
@@ -220,6 +221,7 @@ function drawerSheet(info) {
     </div>
     <div class="card">
       <div class="kv"><span class="k">Rest timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'on' : 'off'}</button></div>
+      <div class="kv"><span class="k">Sound</span><button class="v" id="sd-sound">${store.settings.sound ? 'on' : 'off'}</button></div>
       <div class="kv"><span class="k">Haptics</span><button class="v" id="sd-haptics">${store.settings.haptics ? 'on' : 'off'}</button></div>
       <div class="kv"><span class="k">Phase override</span><button class="v" id="sd-phase">${info.override ? esc(info.phase.name) : 'auto'}</button></div>
       <div class="kv"><span class="k">Import seed</span><button class="v" id="sd-import">file</button><input type="file" id="sd-file" accept=".json" hidden></div>
@@ -234,6 +236,7 @@ function drawerSheet(info) {
         toast(store.syncStatus() === 'synced' ? 'All caught up' : 'Still some pending', store.syncStatus() === 'synced' ? 'ok' : 'bad');
       });
       $('#sd-rest', sheet).addEventListener('click', () => { store.saveSettings({ restTimer: !store.settings.restTimer }); close(); });
+      $('#sd-sound', sheet).addEventListener('click', () => { store.saveSettings({ sound: !store.settings.sound }); sfx('tap'); close(); });
       $('#sd-haptics', sheet).addEventListener('click', () => { store.saveSettings({ haptics: !store.settings.haptics }); close(); });
       $('#sd-phase', sheet).addEventListener('click', () => { close(); phaseOverrideSheet(info); });
       $('#sd-import', sheet).addEventListener('click', () => $('#sd-file', sheet).click());

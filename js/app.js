@@ -4,6 +4,7 @@ import { store } from './store.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
 import { toast, sheetPopHandled } from './components.js';
+import { initAudio } from './audio.js';
 import * as session from './views/session.js';
 import * as log from './views/log.js';
 import * as board from './views/plan.js';
@@ -70,6 +71,7 @@ window.addEventListener('popstate', () => {
 
 // ——— Boot ———
 
+initAudio();
 store.pruneDraft();
 $(`#view-${active}`).classList.add('active');
 document.querySelector(`.tab[data-tab="${active}"]`).classList.add('active');
