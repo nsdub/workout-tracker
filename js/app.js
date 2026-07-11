@@ -30,7 +30,7 @@ function renderStatus() {
     <button class="sync ${store.syncStatus()}" id="sync-tag" aria-label="sync"><i></i></button>`;
   $('#phase-tag').onclick = () => { if (store.plan) board.phaseOverrideSheet(phaseForDate(store.plan, todayStr(), store.settings.phaseOverride)); };
   $('#sync-tag').onclick = async () => {
-    if (!store.settings.token) return toast('No token yet — junk drawer on The Board', 'bad');
+    if (!store.settings.token) return toast('No token yet — Systems console on the Mission deck', 'bad');
     if (!navigator.onLine) return toast('Offline. Writes are queued.');
     toast('Syncing…');
     await flushQueue();

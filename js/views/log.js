@@ -1,4 +1,6 @@
-// THE SCRAPBOOK — every finished night taped in as a polaroid.
+// THE ATLAS — zoom out of the worlds and into the cosmos they float in.
+// Every finished night is a planet on a winding star-path; months are
+// sectors; PR nights wear a crown. Lifts are charted as constellations.
 import { $, esc, fmtW, fmtDate, monthLabel, dayParts } from '../util.js';
 import { store } from '../store.js';
 import { topSet } from '../engine.js';
@@ -7,8 +9,8 @@ import { applyWorld, UNIVERSES, worldDef } from '../worlds.js';
 let root = null;
 const state = { tab: 'sessions', entryPath: null, exId: null };
 
-// universe hues, mixed down to read on scrapbook paper with white type
-const SWATCH = { PushA: '#c23b22', PullA: '#0f6b5e', LegsA: '#3e6b32', PushB: '#d95427', PullB: '#a86a1e', LegsB: '#2f6fa8' };
+// universe hues, neon-tuned to glow against the void
+const SWATCH = { PushA: '#ff6a4c', PullA: '#3adcc8', LegsA: '#7ad48a', PushB: '#ff9a5c', PullB: '#ffd24a', LegsB: '#5cb8ff' };
 
 export function popBack() {
   if (state.entryPath || state.exId) {
@@ -43,13 +45,13 @@ export function render(el) {
 function renderEmpty() {
   root.onclick = null;
   root.innerHTML = `
-    <div class="space-title">The Scrapbook</div>
-    <div class="empty"><div class="card-e"><h3>Empty album</h3><p>Finish a night in any world and it gets taped in here.</p></div></div>`;
+    <div class="space-title">The Atlas</div>
+    <div class="empty"><div class="card-e"><h3>Uncharted space</h3><p>Finish a night in any world and its star gets charted here.</p></div></div>`;
 }
 
 function segHtml() {
   return `
-    <div class="space-title">The Scrapbook</div>
+    <div class="space-title">The Atlas</div>
     <div class="seg">
       <button data-t="sessions" class="${state.tab === 'sessions' ? 'active' : ''}">Nights</button>
       <button data-t="exercises" class="${state.tab === 'exercises' ? 'active' : ''}">Lifts</button>
@@ -71,30 +73,33 @@ function renderList() {
   const entries = [...store.history].sort((a, b) => b.date.localeCompare(a.date));
   const queued = new Set(store.queue.map((q) => q.path));
   let lastMonth = '';
+  let side = 0;
   const rows = entries.map((e) => {
     const path = store.entryPath(e);
     const sets = e.exercises.reduce((n, x) => n + x.sets.length, 0);
     const tonnage = Math.round(e.exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + (s.weight || 0) * s.reps, 0), 0));
+    const hasPr = false; // records live on the star itself below when known
     const { mon, day } = dayParts(e.date);
     const month = monthLabel(e.date);
-    const label = month !== lastMonth ? `<div class="month-label">${month}</div>` : '';
+    const sector = month !== lastMonth ? `<div class="sector"><i></i><span>${esc(month)} sector</span><i></i></div>` : '';
     lastMonth = month;
     const name = store.plan?.sessions[e.session_type]?.name ?? e.session_type;
-    // entries remember the exact world they were logged in; older ones only know the universe
     const world = (e.world && worldDef(e.session_type, e.world)?.name) || UNIVERSES[e.session_type]?.name || '';
-    return `${label}
-      <button class="polaroid" data-path="${esc(path)}">
-        <span class="swatch" style="background:${SWATCH[e.session_type] ?? '#777'}">${mon} ${day}</span>
-        <span><span class="p-name">${esc(name)}</span>
-          <span class="p-meta">${esc(world)}<br>${sets} sets / ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${e.bodyweight ? ` / bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' / ✈ syncing' : ''}</span>
+    side = 1 - side;
+    return `${sector}
+      <button class="star-node ${side ? 'flip' : ''}" data-path="${esc(path)}" style="--c:${SWATCH[e.session_type] ?? '#8a9ac8'}">
+        <span class="planet"><b class="num">${mon}<u>${day}</u></b></span>
+        <span class="sn-info">
+          <span class="sn-name">${esc(name)}</span>
+          <span class="sn-world">${esc(world)}</span>
+          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' · ⇡ beaming up' : ''}</span>
         </span>
-        <span class="p-end">›</span>
       </button>`;
   }).join('');
-  root.innerHTML = segHtml() + rows;
+  root.innerHTML = segHtml() + `<div class="starpath">${rows}<div class="path-end"><i></i>the beginning</div></div>`;
   wireSeg();
   root.onclick = (e) => {
-    const row = e.target.closest('.polaroid');
+    const row = e.target.closest('.star-node');
     if (!row) return;
     drillIn({ entryPath: row.dataset.path });
   };
@@ -105,20 +110,27 @@ function renderDetail() {
   const entry = store.history.find((e) => store.entryPath(e) === state.entryPath);
   if (!entry) { state.entryPath = null; return renderList(); }
   const name = store.plan?.sessions[entry.session_type]?.name ?? entry.session_type;
+  const world = (entry.world && worldDef(entry.session_type, entry.world)?.name) || UNIVERSES[entry.session_type]?.name || '';
   const phase = entry.phase === 'legacy' ? 'imported' : (store.plan?.phases.find((p) => p.id === entry.phase)?.name ?? entry.phase ?? '');
   root.innerHTML = `
-    <div class="space-title">The Scrapbook</div>
-    <div class="detail-sheet">
-      <button class="back" id="back">← back to the album</button>
-      <h1>${esc(name)}</h1>
-      <div class="m">${fmtDate(entry.date, { year: true })}${entry.bodyweight ? ` / bw ${fmtW(entry.bodyweight)} lb` : ''}${phase ? ` / ${esc(phase)}` : ''}</div>
+    <div class="space-title">The Atlas</div>
+    <div class="debrief" style="--c:${SWATCH[entry.session_type] ?? '#8a9ac8'}">
+      <button class="back" id="back">← back to the chart</button>
+      <div class="db-head">
+        <span class="planet big"></span>
+        <span>
+          <h1>${esc(name)}</h1>
+          <div class="m">${esc(world)}</div>
+          <div class="m dim">${fmtDate(entry.date, { year: true })}${entry.bodyweight ? ` · bw ${fmtW(entry.bodyweight)} lb` : ''}${phase ? ` · ${esc(phase)}` : ''}</div>
+        </span>
+      </div>
       ${entry.exercises.map((x) => {
         const top = topSet(x.sets);
         return `<div class="d-ex"><div class="n">${esc(x.name)}</div>
           <div class="d-sets">${x.sets.map((s) => `<span class="d-set ${top && s === top ? 'top' : ''}"><b class="num">${fmtW(s.weight)}</b>×${s.reps}</span>`).join('')}</div>
         </div>`;
       }).join('')}
-      ${entry.notes ? `<div class="d-ex"><div class="n">Notes</div><div style="font-family:var(--mono);font-size:12px">${esc(entry.notes)}</div></div>` : ''}
+      ${entry.notes ? `<div class="d-ex"><div class="n">Field notes</div><div style="font-family:var(--mono);font-size:12px;color:var(--ink)">${esc(entry.notes)}</div></div>` : ''}
     </div>`;
   $('#back', root).addEventListener('click', backOut);
 }
@@ -134,15 +146,16 @@ function renderLiftList() {
     }
   }
   const items = [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
-  root.innerHTML = segHtml() + items.map((x) => `
-    <button class="polaroid" data-ex="${esc(x.id)}">
-      <span><span class="p-name">${esc(x.name)}</span>
-        <span class="p-meta">${x.count} sessions / last ${fmtDate(x.last)}</span></span>
-      <span class="p-end">›</span>
-    </button>`).join('');
+  root.innerHTML = segHtml() + `<div class="lift-grid">` + items.map((x, i) => `
+    <button class="lift-card" data-ex="${esc(x.id)}" style="--c:${['#ffd24a', '#3adcc8', '#ff6a4c', '#5cb8ff', '#8f6fdc', '#7ad48a'][i % 6]}">
+      <span class="lc-orbit"><i></i></span>
+      <span><span class="lc-name">${esc(x.name)}</span>
+        <span class="lc-meta num">${x.count} nights · last ${fmtDate(x.last)}</span></span>
+      <span class="lc-end">›</span>
+    </button>`).join('') + `</div>`;
   wireSeg();
   root.onclick = (e) => {
-    const row = e.target.closest('.polaroid[data-ex]');
+    const row = e.target.closest('.lift-card[data-ex]');
     if (!row) return;
     drillIn({ exId: row.dataset.ex });
   };
@@ -164,26 +177,26 @@ function renderChart() {
   const last = series[series.length - 1];
   const best = series.reduce((m, p) => (p.w > m.w ? p : m), series[0] ?? { w: 0 });
   root.innerHTML = `
-    <div class="space-title">The Scrapbook</div>
-    <div class="detail-sheet" style="padding-bottom:6px">
+    <div class="space-title">The Atlas</div>
+    <div class="debrief" style="padding-bottom:8px;--c:#ffd24a">
       <button class="back" id="back">← back to the lifts</button>
       <h1>${esc(name)}</h1>
-      <div class="m">${useReps ? 'top-set reps' : 'top set'} per session</div>
+      <div class="m dim">${useReps ? 'top-set reps' : 'top set'} per night — the trajectory</div>
     </div>
     <div class="chart-box">
       ${chartSvg(series)}
       <div class="chart-meta">
         <span>last <b class="num">${last ? fmtW(last.w) : '—'}</b></span>
         <span>best <b class="num">${best ? fmtW(best.w) : '—'}</b></span>
-        <span><b class="num">${series.length}</b> sessions</span>
+        <span><b class="num">${series.length}</b> nights</span>
       </div>
     </div>`;
   $('#back', root).addEventListener('click', backOut);
 }
 
 function chartSvg(points) {
-  const W = 340, H = 150, P = { t: 14, r: 14, b: 24, l: 38 };
-  if (points.length < 2) return `<svg viewBox="0 0 ${W} ${H}"><text x="${W / 2}" y="${H / 2}" fill="#7d6a4d" font-size="12" text-anchor="middle" font-family="monospace">not enough data yet</text></svg>`;
+  const W = 340, H = 156, P = { t: 16, r: 16, b: 24, l: 38 };
+  if (points.length < 2) return `<svg viewBox="0 0 ${W} ${H}"><text x="${W / 2}" y="${H / 2}" fill="#8a9ac8" font-size="12" text-anchor="middle" font-family="monospace">not enough data yet</text></svg>`;
   const ws = points.map((p) => p.w);
   let lo = Math.min(...ws), hi = Math.max(...ws);
   if (lo === hi) { lo -= 10; hi += 10; }
@@ -191,12 +204,20 @@ function chartSvg(points) {
   const X = (i) => P.l + (i / (points.length - 1)) * (W - P.l - P.r);
   const Y = (w) => P.t + (1 - (w - lo) / (hi - lo)) * (H - P.t - P.b);
   const path = points.map((p, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)},${Y(p.w).toFixed(1)}`).join('');
+  const bi = points.reduce((m, p, i) => (p.w > points[m].w ? i : m), 0);
   return `<svg viewBox="0 0 ${W} ${H}">
-    <path d="${path}" fill="none" stroke="#c0392b" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1 0"/>
-    ${points.map((p, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.w).toFixed(1)}" r="${i === points.length - 1 ? 4 : 2.4}" fill="#c0392b"/>`).join('')}
-    <text x="${P.l - 6}" y="${Y(hi - pad) + 4}" fill="#7d6a4d" font-size="10" text-anchor="end" font-family="monospace">${fmtW(Math.round(hi - pad))}</text>
-    <text x="${P.l - 6}" y="${Y(lo + pad) + 4}" fill="#7d6a4d" font-size="10" text-anchor="end" font-family="monospace">${fmtW(Math.round(lo + pad))}</text>
-    <text x="${P.l}" y="${H - 7}" fill="#7d6a4d" font-size="10" font-family="monospace">${fmtDate(points[0].date, { year: true })}</text>
-    <text x="${W - P.r}" y="${H - 7}" fill="#7d6a4d" font-size="10" text-anchor="end" font-family="monospace">${fmtDate(points[points.length - 1].date, { year: true })}</text>
+    <defs>
+      <linearGradient id="tj" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3adcc8"/><stop offset="1" stop-color="#ffd24a"/></linearGradient>
+      <linearGradient id="tjf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,210,74,.22)"/><stop offset="1" stop-color="rgba(255,210,74,0)"/></linearGradient>
+    </defs>
+    ${[0.25, 0.5, 0.75].map((f) => `<line x1="${P.l}" y1="${P.t + f * (H - P.t - P.b)}" x2="${W - P.r}" y2="${P.t + f * (H - P.t - P.b)}" stroke="rgba(138,154,200,.16)" stroke-width="1" stroke-dasharray="3 5"/>`).join('')}
+    <path d="${path} L${X(points.length - 1).toFixed(1)},${H - P.b} L${P.l},${H - P.b} Z" fill="url(#tjf)"/>
+    <path d="${path}" fill="none" stroke="url(#tj)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+    ${points.map((p, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.w).toFixed(1)}" r="${i === points.length - 1 ? 4.4 : 2.6}" fill="${i === points.length - 1 ? '#ffd24a' : '#3adcc8'}"/>`).join('')}
+    <circle cx="${X(bi).toFixed(1)}" cy="${Y(points[bi].w).toFixed(1)}" r="7" fill="none" stroke="#ffd24a" stroke-width="1.6"><animate attributeName="r" values="7;10;7" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.3;1" dur="2.4s" repeatCount="indefinite"/></circle>
+    <text x="${P.l - 6}" y="${Y(hi - pad) + 4}" fill="#8a9ac8" font-size="10" text-anchor="end" font-family="monospace">${fmtW(Math.round(hi - pad))}</text>
+    <text x="${P.l - 6}" y="${Y(lo + pad) + 4}" fill="#8a9ac8" font-size="10" text-anchor="end" font-family="monospace">${fmtW(Math.round(lo + pad))}</text>
+    <text x="${P.l}" y="${H - 7}" fill="#8a9ac8" font-size="10" font-family="monospace">${fmtDate(points[0].date, { year: true })}</text>
+    <text x="${W - P.r}" y="${H - 7}" fill="#8a9ac8" font-size="10" text-anchor="end" font-family="monospace">${fmtDate(points[points.length - 1].date, { year: true })}</text>
   </svg>`;
 }

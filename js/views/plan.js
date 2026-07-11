@@ -1,15 +1,18 @@
-// THE BOARD — a corkboard of pinned cards and red yarn. Where am I now,
-// what changes next, what's stalling, and the junk drawer of settings.
+// MISSION CONTROL — the observatory deck above the universes. The road to
+// the show is an orbit trail of planets; cardio is fuel; stalled lifts are
+// distress beacons; the settings live in the systems console.
 import { $, esc, fmtW, todayStr, fmtDate, daysBetween, weekKey, haptic } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
 import { optionSheet, confirmSheet, openSheet, toast } from '../components.js';
-import { sfx } from '../audio.js';
 import { connectSheet, handleSeedFile, howtoSheet } from './session.js';
 import { applyWorld, UNIVERSES } from '../worlds.js';
+import { sfx } from '../audio.js';
 
 let root = null;
+
+const PHASE_HUE = { calibration: '#3adcc8', build: '#ffd24a', deload: '#8f6fdc', assessment: '#ff5d7a', prep: '#ff9a5c' };
 
 export function render(el) {
   root = el;
@@ -18,9 +21,9 @@ export function render(el) {
   if (!plan) {
     root.onclick = null;
     root.innerHTML = `
-      <div class="space-title">The Board</div>
+      <div class="space-title">Mission Control</div>
       <div class="empty"><div class="card-e">
-        <h3>Nothing pinned yet</h3><p>Connect the repo or import the seed bundle and the whole campaign goes up on the board.</p>
+        <h3>No mission loaded</h3><p>Connect the repo or import the seed bundle and the whole campaign lights up.</p>
         <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
           <button class="btn primary" id="p-connect">Connect GitHub</button>
           <button class="btn quiet" id="p-import">Import seed bundle</button>
@@ -42,78 +45,94 @@ export function render(el) {
   const last7 = store.history.filter((e) => daysBetween(e.date, today) < 7).length;
   const wk = weekKey(today);
   const cardio = store.settings.cardio[wk] || [false, false, false];
+  const weekPct = Math.min(1, last7 / plan.rotation.length);
 
   root.innerHTML = `
-    <div class="space-title">The Board</div>
+    <div class="space-title">Mission Control</div>
 
-    <div class="pin-card">
+    <div class="hud-pair">
+      <div class="gauge">
+        ${gaugeRing(1 - Math.min(1, showDays / 233), '#ff5d7a')}
+        <b class="num">${showDays}</b><i>days to ${esc(show.label)}</i>
+      </div>
+      <div class="gauge">
+        ${gaugeRing(weekPct, '#3adcc8')}
+        <b class="num">${last7}<u>/${plan.rotation.length}</u></b><i>nights this week</i>
+      </div>
+    </div>
+
+    <div class="console-card now">
       <h3>${nowTitle(plan, info)}</h3>
       ${nowBody(plan, info, today)}
     </div>
 
-    <div class="stat-pair">
-      <div class="stat-note"><b class="num">${showDays}</b><i>days to ${esc(show.label)}</i></div>
-      <div class="stat-note"><b class="num">${last7}/${plan.rotation.length}</b><i>nights this week</i></div>
-    </div>
-
-    <div class="pin-card">
+    <div class="console-card">
       <h3>Up next</h3>
       <div class="rot-strip">
         ${plan.rotation.map((t) => `<span class="rot-cell ${t === next ? 'next' : ''}">${t.replace(/([AB])$/, ' $1')}</span>`).join('')}
       </div>
-      <div class="np-line" style="margin-top:8px">${esc(UNIVERSES[next].name)} — sessions never get skipped, only pushed</div>
+      <div class="cc-line" style="margin-top:9px">${esc(UNIVERSES[next].name)} — nights never get skipped, only pushed</div>
     </div>
 
     ${info.phase?.type !== 'prep' ? `
-    <div class="pin-card">
-      <h3>Cardio punch card</h3>
-      <div class="np-line" style="margin-bottom:8px">${plan.rules.cardio.sessionsPerWeek.join('–')}× this week / ${plan.rules.cardio.minutes.join('–')} min / low intensity — punch one per session done</div>
+    <div class="console-card">
+      <h3>Fuel cells</h3>
+      <div class="cc-line" style="margin-bottom:9px">cardio — ${plan.rules.cardio.sessionsPerWeek.join('–')}× this week, ${plan.rules.cardio.minutes.join('–')} min low intensity</div>
       <div class="punchcard" id="cardio-dots">
-        ${cardio.map((on, i) => `<button class="punch ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.5L19 7.5"/></svg></button>`).join('')}
+        ${cardio.map((on, i) => `<button class="punch ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M13 2 L5 14 h5 l-1 8 L18 9 h-6 Z"/></svg></button>`).join('')}
       </div>
     </div>` : ''}
 
     ${stalls.length ? `
-    <div class="sticky">
-      <b>STUCK ⚠</b><br>
-      ${stalls.map((s) => `${esc(s.name)} (${esc(s.sessionType)})`).join('<br>')}
-      <br><span style="font-size:10px">swap variations at the next deload</span>
+    <div class="beacon">
+      <b>⚠ DISTRESS BEACONS</b>
+      ${stalls.map((s) => `<span>${esc(s.name)} <i>(${esc(s.sessionType)})</i></span>`).join('')}
+      <span class="dim">swap variations at the next deload</span>
     </div>` : ''}
 
-    <div class="yarn-map">${yarnMap(plan, info, today)}</div>
+    <div class="orbit-map">${orbitMap(plan, info, today, show)}</div>
 
-    <div class="pin-card">
-      <h3>The arsenal</h3>
-      <div class="np-line" style="margin-bottom:8px">tap a day to see its lifts and field guides</div>
+    <div class="console-card">
+      <h3>The loadout</h3>
+      <div class="cc-line" style="margin-bottom:9px">tap a day for its lifts and field guides</div>
       <div class="rot-strip" id="arsenal">
-        ${plan.rotation.map((t) => `<button class="rot-cell" data-t="${t}">${t.replace(/([AB])$/, ' $1')}</button>`).join('')}
+        ${plan.rotation.map((t) => `<button class="rot-cell" data-t="${t}" style="--c:${UNIVERSES[t].swatch}">${t.replace(/([AB])$/, ' $1')}</button>`).join('')}
       </div>
     </div>
 
-    <div class="sticky" id="rules-note">
-      <b>HOUSE RULES</b><br>
-      top of range every set → +${plan.rules.progression.upperIncrement} up / +${plan.rules.progression.lowerIncrement} low<br>
-      compounds ${esc(plan.rules.rir.compound)} / deload ${esc(plan.rules.rir.deload)}<br>
-      ${plan.rules.stall.sessions} flat nights → stuck note goes up
+    <div class="console-card manual">
+      <h3>Flight manual</h3>
+      <div class="cc-line">top of range every set → +${plan.rules.progression.upperIncrement} up / +${plan.rules.progression.lowerIncrement} low</div>
+      <div class="cc-line">compounds ${esc(plan.rules.rir.compound)} · deload ${esc(plan.rules.rir.deload)}</div>
+      <div class="cc-line">${plan.rules.stall.sessions} flat nights → a beacon goes up</div>
     </div>
 
-    ${info.override ? `<button class="btn quiet" id="clear-override" style="margin:0 2px 14px;background:rgba(255,249,238,.8)">Un-pin the manual phase</button>` : ''}
-    <button class="btn" id="open-drawer" style="margin:0 2px 8px">The junk drawer — sync ${statusLabel()} / ${store.queue.length} queued</button>
-    <p style="position:relative;z-index:2;font-family:var(--mono);font-size:10px;color:#ffedc9;text-align:center;padding:10px 0;letter-spacing:.12em">APP ${esc(self.PROTOCOL_VERSION || 'dev')} / PLAN V${plan.version} / ${esc(plan.updated)}</p>`;
+    ${info.override ? `<button class="btn quiet" id="clear-override" style="margin:0 2px 14px">Release manual phase lock</button>` : ''}
+    <button class="btn console-btn" id="open-drawer"><i class="cb-dot ${store.syncStatus()}"></i>Systems console — sync ${statusLabel()} / ${store.queue.length} queued</button>
+    <p class="mission-foot">APP ${esc(self.PROTOCOL_VERSION || 'dev')} · PLAN V${plan.version} · ${esc(plan.updated)}</p>`;
 
   wire(info);
 }
 
+function gaugeRing(pct, color) {
+  const R = 26, C = 2 * Math.PI * R;
+  return `<svg class="g-ring" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="${R}" fill="none" stroke="rgba(138,154,200,.2)" stroke-width="5"/>
+    <circle cx="32" cy="32" r="${R}" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round"
+      stroke-dasharray="${(pct * C).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/>
+  </svg>`;
+}
+
 function nowTitle(plan, info) {
   if (!info.phase) return 'Standby';
-  return `${info.phase.name} — week ${info.week}/${info.weeks}${info.override ? ' (pinned by hand)' : ''}`;
+  return `${info.phase.name} — week ${info.week}/${info.weeks}${info.override ? ' (manual lock)' : ''}`;
 }
 
 function nowBody(plan, info, today) {
   if (!info.phase) {
     const first = plan.phases[0];
     const days = daysBetween(today, first.start);
-    return `<div class="np-line">${esc(first.name)} starts ${fmtDate(first.start)} — <b class="num">${days}</b> day${days === 1 ? '' : 's'} out</div>`;
+    return `<div class="cc-line">${esc(first.name)} ignition ${fmtDate(first.start)} — <b class="num">${days}</b> day${days === 1 ? '' : 's'} out</div>`;
   }
   const p = info.phase;
   const total = daysBetween(p.start, p.end) + 1;
@@ -121,40 +140,56 @@ function nowBody(plan, info, today) {
   const left = Math.max(0, daysBetween(today, p.end));
   const upcoming = plan.phases.find((q) => q.start > p.start);
   return `
-    ${p.note ? `<div class="np-note">${esc(p.note)}</div>` : ''}
+    ${p.note ? `<div class="cc-note">${esc(p.note)}</div>` : ''}
     <div class="phase-prog"><i style="width:${Math.round((done / total) * 100)}%"></i></div>
-    <div class="np-line"><b class="num">${left}</b> day${left === 1 ? '' : 's'} left${upcoming ? ` — then ${esc(upcoming.name)} (${fmtDate(upcoming.start)})` : ''}</div>`;
+    <div class="cc-line"><b class="num">${left}</b> day${left === 1 ? '' : 's'} left${upcoming ? ` — then ${esc(upcoming.name)} (${fmtDate(upcoming.start)})` : ''}</div>`;
 }
 
-// The campaign as pinned polaroids joined by red yarn.
-function yarnMap(plan, info, today) {
+// The campaign as an orbit trail: every phase a planet, the show a ringed
+// giant at the end of the line.
+function orbitMap(plan, info, today, show) {
   const phases = plan.phases;
-  const stepY = 84;
-  const H = 60 + (phases.length - 1) * stepY + 50;
-  const X = (i) => (i % 2 === 0 ? 96 : 288);
-  const Y = (i) => 56 + i * stepY;
-  let yarn = '';
-  for (let i = 0; i < phases.length - 1; i++) {
+  const stepY = 86;
+  const n = phases.length + 1; // +1 for the show itself
+  const H = 70 + (n - 1) * stepY + 70;
+  const X = (i) => (i % 2 === 0 ? 110 : 274);
+  const Y = (i) => 64 + i * stepY;
+  let trail = '';
+  for (let i = 0; i < n - 1; i++) {
     const x1 = X(i), y1 = Y(i), x2 = X(i + 1), y2 = Y(i + 1);
-    yarn += `<path d="M${x1} ${y1} C ${x1 + (x2 > x1 ? 60 : -60)} ${y1 + 30}, ${x2 + (x2 > x1 ? -60 : 60)} ${y2 - 30}, ${x2} ${y2}" fill="none" stroke="#c0392b" stroke-width="2.5" opacity="${phases[i].end < today ? 1 : 0.45}" ${phases[i].end < today ? '' : 'stroke-dasharray="5 7"'}/>`;
+    const past = phases[i].end < today;
+    trail += `<path d="M${x1} ${y1} C ${x1 + (x2 > x1 ? 70 : -70)} ${y1 + 34}, ${x2 + (x2 > x1 ? -70 : 70)} ${y2 - 34}, ${x2} ${y2}" fill="none" stroke="${past ? '#ffd24a' : 'rgba(138,154,200,.4)'}" stroke-width="2.6" ${past ? '' : 'stroke-dasharray="4 8"'}/>`;
   }
   const nodes = phases.map((p, i) => {
     const x = X(i), y = Y(i);
     const isNow = info.phase?.id === p.id;
     const past = !isNow && p.end < today;
-    const rot = (i % 3) - 1;
-    const w = 128, h = 44;
+    const hue = PHASE_HUE[p.type] ?? '#8a9ac8';
     return `
-      <g transform="rotate(${rot * 2.4} ${x} ${y})">
-        <rect x="${x - w / 2}" y="${y - h / 2}" width="${w}" height="${h}" rx="3"
-          fill="${isNow ? '#fff3a3' : '#fff9ee'}" stroke="${isNow ? '#c0392b' : '#c9b98f'}" stroke-width="${isNow ? 3 : 1.5}" opacity="${past ? 0.75 : 1}"/>
-        <circle cx="${x}" cy="${y - h / 2 + 2}" r="5.5" fill="${isNow ? '#c0392b' : past ? '#7a8a4a' : '#3a7ca5'}" stroke="#5a2a1c" stroke-width="1"/>
-        <text x="${x}" y="${y - 1}" text-anchor="middle" class="map-pin" font-size="14" fill="#3a2c1c">${esc(p.name.toUpperCase())}${past ? ' ✔' : ''}</text>
-        <text x="${x}" y="${y + 14}" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#7d6a4d">${fmtDate(p.start).toUpperCase()}–${fmtDate(p.end, { year: true }).toUpperCase()}</text>
-        ${isNow ? `<text x="${x}" y="${y - h / 2 - 8}" text-anchor="middle" class="map-pin" font-size="10" fill="#c0392b">YOU ARE HERE</text>` : ''}
+      <g opacity="${past ? 0.65 : 1}">
+        ${isNow ? `<circle cx="${x}" cy="${y}" r="24" fill="none" stroke="${hue}" stroke-width="2"><animate attributeName="r" values="22;30;22" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;.15;.9" dur="2.6s" repeatCount="indefinite"/></circle>` : ''}
+        <circle cx="${x}" cy="${y}" r="17" fill="${hue}"/>
+        <circle cx="${x - 5}" cy="${y - 5}" r="4.4" fill="rgba(255,255,255,.4)"/>
+        ${past ? `<path d="M${x - 6} ${y} l4.4 4.4 l8 -9" stroke="#101a36" stroke-width="3.4" fill="none" stroke-linecap="round"/>` : ''}
+        <text x="${x + (i % 2 === 0 ? 30 : -30)}" y="${y - 2}" text-anchor="${i % 2 === 0 ? 'start' : 'end'}" class="om-name">${esc(p.name.toUpperCase())}</text>
+        <text x="${x + (i % 2 === 0 ? 30 : -30)}" y="${y + 13}" text-anchor="${i % 2 === 0 ? 'start' : 'end'}" class="om-date">${fmtDate(p.start).toUpperCase()} – ${fmtDate(p.end).toUpperCase()}</text>
+        ${isNow ? `<text x="${x}" y="${y - 32}" text-anchor="middle" class="om-here">YOU ARE HERE</text>` : ''}
       </g>`;
   }).join('');
-  return `<svg viewBox="0 0 384 ${H}" xmlns="http://www.w3.org/2000/svg">${yarn}${nodes}</svg>`;
+  const sx = X(n - 1), sy = Y(n - 1);
+  const showNode = `
+    <g>
+      <circle cx="${sx}" cy="${sy}" r="26" fill="#ff5d7a"/>
+      <circle cx="${sx - 8}" cy="${sy - 8}" r="6" fill="rgba(255,255,255,.4)"/>
+      <ellipse cx="${sx}" cy="${sy}" rx="42" ry="11" fill="none" stroke="#ffd24a" stroke-width="3.4" transform="rotate(-14 ${sx} ${sy})"/>
+      <path d="M${sx - 12} ${sy - 30} l5 -9 l7 6 l7 -6 l5 9 Z" fill="#ffd24a" stroke="#c2822c" stroke-width="1.6"/>
+      <text x="${sx + (n % 2 ? 52 : -52)}" y="${sy - 2}" text-anchor="${(n - 1) % 2 === 0 ? 'start' : 'end'}" class="om-name big">${esc((show.label || 'THE SHOW').toUpperCase())}</text>
+      <text x="${sx + ((n - 1) % 2 === 0 ? 52 : -52)}" y="${sy + 14}" text-anchor="${(n - 1) % 2 === 0 ? 'start' : 'end'}" class="om-date">${fmtDate(show.date, { year: true }).toUpperCase()}</text>
+    </g>`;
+  return `<svg viewBox="0 0 384 ${H}" xmlns="http://www.w3.org/2000/svg">
+    ${Array.from({ length: 22 }, () => `<circle cx="${(Math.random() * 384).toFixed(0)}" cy="${(Math.random() * H).toFixed(0)}" r="${(Math.random() * 1.3 + 0.5).toFixed(1)}" fill="rgba(223,232,255,.5)"/>`).join('')}
+    ${trail}${nodes}${showNode}
+  </svg>`;
 }
 
 function statusLabel() {
@@ -175,6 +210,7 @@ function wire(info) {
     const cutoff = weekKey(new Date(Date.now() - 42 * 86400000).toISOString().slice(0, 10));
     for (const k of Object.keys(store.settings.cardio)) if (k < cutoff) delete store.settings.cardio[k];
     haptic(8);
+    sfx('tap');
     store.saveSettings();
   });
   $('#arsenal', root).addEventListener('click', (e) => {
@@ -209,13 +245,13 @@ function arsenalSheet(type) {
 
 function drawerSheet(info) {
   openSheet(`
-    <h2>The junk drawer</h2>
+    <h2>Systems console</h2>
     <div class="sub">uplink / device / data</div>
     <div class="card">
       <div class="kv"><span class="k">Repo</span><span class="v">${esc(store.settings.owner)}/${esc(store.settings.repo)}</span></div>
       <div class="kv"><span class="k">Token</span><button class="v" id="sd-token">${store.settings.token ? 'update' : 'add'}</button></div>
       <div class="kv"><span class="k">Sync status</span><span class="v ${store.syncStatus() === 'synced' ? 'ok' : store.syncStatus() === 'failed' ? 'bad' : ''}">${statusLabel()}</span></div>
-      ${syncError() ? `<div class="kv"><span class="k" style="color:#b3492f">Error</span><span class="v" style="max-width:58%;white-space:normal">${esc(syncError())}</span></div>` : ''}
+      ${syncError() ? `<div class="kv"><span class="k" style="color:#ff5d7a">Error</span><span class="v" style="max-width:58%;white-space:normal">${esc(syncError())}</span></div>` : ''}
       <div class="kv"><span class="k">Queue</span><span class="v num">${store.queue.length}</span></div>
       <div class="kv"><span class="k">Sync now</span><button class="v" id="sd-sync">run</button></div>
     </div>
@@ -226,7 +262,7 @@ function drawerSheet(info) {
       <div class="kv"><span class="k">Phase override</span><button class="v" id="sd-phase">${info.override ? esc(info.phase.name) : 'auto'}</button></div>
       <div class="kv"><span class="k">Import seed</span><button class="v" id="sd-import">file</button><input type="file" id="sd-file" accept=".json" hidden></div>
       <div class="kv"><span class="k">Export data</span><button class="v" id="sd-export">download</button></div>
-      <div class="kv"><span class="k">Reset device</span><button class="v" id="sd-reset" style="color:#b3492f">reset</button></div>
+      <div class="kv"><span class="k">Reset device</span><button class="v" id="sd-reset" style="color:#ff5d7a">reset</button></div>
     </div>`, {
     onOpen(sheet, close) {
       $('#sd-token', sheet).addEventListener('click', () => { close(); connectSheet(); });
@@ -259,7 +295,7 @@ function drawerSheet(info) {
 
 export function phaseOverrideSheet(info) {
   optionSheet({
-    title: 'Pin a phase by hand',
+    title: 'Lock a phase by hand',
     sub: 'phases normally advance by calendar',
     options: [
       { label: 'Automatic (by date)', selected: !store.settings.phaseOverride, value: null },
@@ -275,7 +311,7 @@ export function phaseOverrideSheet(info) {
       const apply = () => {
         store.clearDraft();
         store.saveSettings({ phaseOverride: opt.value });
-        toast(opt.value ? `Pinned: ${opt.label}` : 'Back to automatic');
+        toast(opt.value ? `Locked: ${opt.label}` : 'Back to automatic');
       };
       const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
       if (dirty) {

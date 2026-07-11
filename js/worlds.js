@@ -1735,10 +1735,20 @@ export const UNIVERSES = {
   },
 };
 
-// Non-session spaces: the scrapbook (log) and the board (plan).
+// Non-session spaces: the cosmos the universes float in. The Atlas charts
+// where you've been; Mission Control charts where you're going.
+const cosmos = () => `
+  ${stars(38, [0, 96])}
+  <div class="fx nebula" style="left:-14%;top:4%;--c:rgba(143,111,220,.32);--s:340px"></div>
+  <div class="fx nebula" style="right:-16%;top:40%;--c:rgba(58,220,200,.16);--s:300px"></div>
+  <div class="fx nebula" style="left:16%;bottom:-12%;--c:rgba(255,93,122,.15);--s:300px"></div>
+  <span class="sp shootstar" style="left:${r(8, 58)}%;top:${r(4, 16)}%"></span>
+  ${starfaces(1, [66, 82])}
+`;
+
 export const SPACES = {
-  sb: { cls: 'sb', name: 'The Scrapbook' },
-  cb: { cls: 'cb', name: 'The Board' },
+  sb: { cls: 'sb', name: 'The Atlas', scene: cosmos },
+  cb: { cls: 'cb', name: 'Mission Control', scene: cosmos },
 };
 
 // ——— world pool: no repeats until a universe is exhausted, and a fresh
@@ -1801,7 +1811,7 @@ export function applyWorld(sessionType, worldId = null) {
   if (SPACES[sessionType]) {
     root.dataset.universe = SPACES[sessionType].cls;
     root.dataset.world = '';
-    if (scene) scene.innerHTML = '';
+    if (scene) scene.innerHTML = SPACES[sessionType].scene ? SPACES[sessionType].scene() : '';
     if (front) front.innerHTML = '';
     return;
   }
