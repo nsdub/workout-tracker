@@ -1,6 +1,6 @@
 // Offline-first service worker. Shell is cache-first; installs bypass the
 // HTTP cache; data/ and the GitHub API are never cached here.
-// build: v20 — MUST match js/version.js (tested); a byte-change here is
+// build: v21 — MUST match js/version.js (tested); a byte-change here is
 // what makes every browser notice a new release.
 importScripts('js/version.js');
 const VERSION = `protocol-${self.PROTOCOL_VERSION}`;
@@ -18,6 +18,7 @@ const SHELL = [
   'fonts/Shojumaru-latin.woff2',
   'fonts/SpecialElite-latin.woff2',
   'fonts/GeistMono-latin.woff2',
+  'fonts/Nunito-latin.woff2',
   'icons/icon.svg',
   'icons/maskable.svg',
   'js/app.js',

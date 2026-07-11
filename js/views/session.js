@@ -235,8 +235,8 @@ function renderWorldScreen(draft, phaseInfo) {
         <button class="tool" id="switch-session">swap day</button>
       </div>
     </header>
-    ${isNext ? '' : `<div class="notice">Off the rotation tonight — that's allowed. Days get pushed, never skipped.</div>`}
-    ${streak >= 6 ? `<div class="notice">${streak} straight nights — the program says take the rest day. The mission waits for you.</div>` : ''}
+    ${isNext ? '' : `<div class="notice">Off the rotation tonight — allowed. Days get pushed, never skipped.</div>`}
+    ${streak >= 6 ? `<div class="notice">${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.</div>` : ''}
     ${draft.date !== todayStr() ? `<div class="notice"><span>Resuming ${fmtDate(draft.date)}</span><button id="resume-discard">discard</button></div>` : ''}
     ${phase?.type === 'deload' ? `<div class="notice">Deload week — 80% load, 60% sets, 4+ RIR</div>` : ''}
     ${phase?.type === 'calibration' ? `<div class="notice">Calibration week — seeds at 90%</div>` : ''}

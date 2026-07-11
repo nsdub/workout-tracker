@@ -69,15 +69,16 @@ export function render(el) {
     <div class="console-card">
       <h3>The week ahead</h3>
       <div class="week-rows">${weekAhead(plan, next, today)}</div>
-      <div class="cc-line" style="margin-top:9px">this is the plan if you train daily — rest ANY day you need and the order simply pauses. After the rest day the loop starts over.</div>
-      <div class="cc-line">cardio: fit 2–3 easy sessions (20–30 min) anywhere in the week — after lifting or on the rest day.</div>
+      <div class="cc-line" style="margin-top:9px">Train daily and this is the order. Rest any day — the order pauses, nothing is skipped.</div>
+      <div class="cc-line dim">Cardio fits anywhere: 2–3 easy sessions a week, after lifting or on the rest day.</div>
     </div>
 
     ${info.phase?.type !== 'prep' ? `
     <div class="console-card">
       <h3>Fuel cells</h3>
-      <div class="cc-line">cardio — ${plan.rules.cardio.sessionsPerWeek.join('–')}× a week, ${plan.rules.cardio.minutes.join('–')} min, easy pace (you can hold a conversation)</div>
-      <div class="cc-line" style="margin-bottom:9px">any day works: after lifting or on a rest day — just never before lifting. Tap a cell when one's done; it saves instantly on this phone and the week resets Monday.</div>
+      <div class="cc-line"><b class="num">${plan.rules.cardio.sessionsPerWeek.join('–')}×</b> a week · <b class="num">${plan.rules.cardio.minutes.join('–')}</b> min · easy pace</div>
+      <div class="cc-line">After lifting or on a rest day. Never before lifting.</div>
+      <div class="cc-line dim" style="margin-bottom:9px">Tap a cell when one's done — saves instantly, resets Monday.</div>
       <div class="punchcard" id="cardio-dots">
         ${cardio.map((on, i) => `<button class="punch ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M13 2 L5 14 h5 l-1 8 L18 9 h-6 Z"/></svg></button>`).join('')}
       </div>
@@ -132,7 +133,7 @@ function weekAhead(plan, next, today) {
     rows.push(`<div class="wk-row" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span></div>`);
     if (idx === plan.rotation.length - 1 && rows.length < 7) {
       d++;
-      rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">🌙 rest day — you earned it</span></div>`);
+      rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">🌙 rest day</span></div>`);
     }
     idx = (idx + 1) % plan.rotation.length;
     d++;
