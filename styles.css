@@ -904,6 +904,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .head-tools .tool { animation: tool-drop .45s var(--ease) both; }
 .head-tools .tool:nth-child(2) { animation-delay: .08s; }
 .head-tools .tool:nth-child(3) { animation-delay: .16s; }
+.head-tools .tool:nth-child(4) { animation-delay: .24s; }
 .notice { animation: notice-in .4s var(--ease) both; }
 .objective { animation: panel-in .55s .08s var(--spring) both; }
 .obj-dots { animation: fade-drop .5s .26s var(--ease) both; }
@@ -1060,6 +1061,13 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .cc-note { font-family: var(--mono); font-size: 11px; margin: 4px 0 8px; color: var(--ink); }
 .phase-prog { height: 13px; background: #0a1226; border: 1px solid rgba(138, 154, 200, 0.35); border-radius: 8px; overflow: hidden; margin: 9px 0 7px; }
 .phase-prog i { display: block; height: 100%; background: linear-gradient(90deg, #3adcc8, #ffd24a); box-shadow: 0 0 12px rgba(255, 210, 74, 0.5); }
+
+.week-rows { border-top: 1px dashed var(--line); }
+.wk-row { display: flex; align-items: center; gap: 12px; padding: 8px 2px; border-bottom: 1px dashed var(--line); }
+.wk-day { font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink2); width: 84px; flex: none; }
+.wk-sess { font-family: var(--disp); font-size: 14.5px; color: var(--c, var(--ink)); text-shadow: 0 0 12px color-mix(in srgb, var(--c, #8a9ac8) 40%, transparent); }
+.wk-row.rest .wk-sess { color: #b8a4f0; font-size: 13px; }
+.wk-row:first-child .wk-day { color: var(--acc); }
 
 .rot-strip { display: flex; gap: 6px; }
 .rot-cell { flex: 1; text-align: center; padding: 11px 0; font-family: var(--mono); font-size: 9.5px; background: #0c1630; border: 1px solid rgba(138, 154, 200, 0.3); border-radius: 8px; color: var(--ink2); }

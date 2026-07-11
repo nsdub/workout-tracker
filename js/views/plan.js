@@ -67,17 +67,17 @@ export function render(el) {
     </div>
 
     <div class="console-card">
-      <h3>Up next</h3>
-      <div class="rot-strip">
-        ${plan.rotation.map((t) => `<span class="rot-cell ${t === next ? 'next' : ''}">${t.replace(/([AB])$/, ' $1')}</span>`).join('')}
-      </div>
-      <div class="cc-line" style="margin-top:9px">${esc(UNIVERSES[next].name)} — nights never get skipped, only pushed</div>
+      <h3>The week ahead</h3>
+      <div class="week-rows">${weekAhead(plan, next, today)}</div>
+      <div class="cc-line" style="margin-top:9px">this is the plan if you train daily — rest ANY day you need and the order simply pauses. After the rest day the loop starts over.</div>
+      <div class="cc-line">cardio: fit 2–3 easy sessions (20–30 min) anywhere in the week — after lifting or on the rest day.</div>
     </div>
 
     ${info.phase?.type !== 'prep' ? `
     <div class="console-card">
       <h3>Fuel cells</h3>
-      <div class="cc-line" style="margin-bottom:9px">cardio — ${plan.rules.cardio.sessionsPerWeek.join('–')}× this week, ${plan.rules.cardio.minutes.join('–')} min low intensity</div>
+      <div class="cc-line">cardio — ${plan.rules.cardio.sessionsPerWeek.join('–')}× a week, ${plan.rules.cardio.minutes.join('–')} min, easy pace (you can hold a conversation)</div>
+      <div class="cc-line" style="margin-bottom:9px">any day works: after lifting or on a rest day — just never before lifting. Tap a cell when one's done; it saves instantly on this phone and the week resets Monday.</div>
       <div class="punchcard" id="cardio-dots">
         ${cardio.map((on, i) => `<button class="punch ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M13 2 L5 14 h5 l-1 8 L18 9 h-6 Z"/></svg></button>`).join('')}
       </div>
@@ -93,18 +93,18 @@ export function render(el) {
     <div class="orbit-map">${orbitMap(plan, info, today, show)}</div>
 
     <div class="console-card">
-      <h3>The loadout</h3>
-      <div class="cc-line" style="margin-bottom:9px">tap a day for its lifts and field guides</div>
+      <h3>The six workouts</h3>
+      <div class="cc-line" style="margin-bottom:9px">every workout's exercise list, sets and weights — tap one</div>
       <div class="rot-strip" id="arsenal">
         ${plan.rotation.map((t) => `<button class="rot-cell" data-t="${t}" style="--c:${UNIVERSES[t].swatch}">${t.replace(/([AB])$/, ' $1')}</button>`).join('')}
       </div>
     </div>
 
     <div class="console-card manual">
-      <h3>Flight manual</h3>
-      <div class="cc-line">top of range every set → +${plan.rules.progression.upperIncrement} up / +${plan.rules.progression.lowerIncrement} low</div>
-      <div class="cc-line">compounds ${esc(plan.rules.rir.compound)} · deload ${esc(plan.rules.rir.deload)}</div>
-      <div class="cc-line">${plan.rules.stall.sessions} flat nights → a beacon goes up</div>
+      <h3>How the weights go up</h3>
+      <div class="cc-line">hit the TOP of the rep range on every set of a lift → next session the app raises that lift by ${plan.rules.progression.upperIncrement} lb (+${plan.rules.progression.lowerIncrement} on deadlift, RDL and leg presses). Miss it → same weight again. You never pick the numbers.</div>
+      <div class="cc-line" style="margin-top:6px">effort: on big lifts stop with 1–2 reps left in the tank; the final set of small lifts can go to failure. On deload weeks stay 4+ reps away from failure.</div>
+      <div class="cc-line" style="margin-top:6px">same weight ${plan.rules.stall.sessions} sessions in a row → a red beacon lights up here, and the lift gets a variation swap at the next deload.</div>
     </div>
 
     ${info.override ? `<button class="btn quiet" id="clear-override" style="margin:0 2px 14px">Release manual phase lock</button>` : ''}
@@ -112,6 +112,32 @@ export function render(el) {
     <p class="mission-foot">APP ${esc(self.PROTOCOL_VERSION || 'dev')} · PLAN V${plan.version} · ${esc(plan.updated)}</p>`;
 
   wire(info);
+}
+
+// The next seven days spelled out: tonight's session, then the rest of the
+// loop, a rest day after Legs B, then the loop starts over.
+function weekAhead(plan, next, today) {
+  const rows = [];
+  let idx = plan.rotation.indexOf(next);
+  let d = 0;
+  const dayLabel = (offset) => {
+    if (offset === 0) return 'Today';
+    if (offset === 1) return 'Tomorrow';
+    const dt = new Date(today + 'T12:00:00');
+    dt.setDate(dt.getDate() + offset);
+    return dt.toLocaleDateString('en-US', { weekday: 'long' });
+  };
+  while (rows.length < 7) {
+    const t = plan.rotation[idx];
+    rows.push(`<div class="wk-row" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span></div>`);
+    if (idx === plan.rotation.length - 1 && rows.length < 7) {
+      d++;
+      rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">🌙 rest day — you earned it</span></div>`);
+    }
+    idx = (idx + 1) % plan.rotation.length;
+    d++;
+  }
+  return rows.slice(0, 7).join('');
 }
 
 function gaugeRing(pct, color) {
@@ -204,14 +230,17 @@ function wire(info) {
     if (!dot) return;
     const wk = weekKey(todayStr());
     const arr = store.settings.cardio[wk] || [false, false, false];
-    arr[Number(dot.dataset.ci)] = !arr[Number(dot.dataset.ci)];
+    const i = Number(dot.dataset.ci);
+    arr[i] = !arr[i];
     store.settings.cardio[wk] = arr;
     // prune punch cards older than ~6 weeks (unbounded growth otherwise)
     const cutoff = weekKey(new Date(Date.now() - 42 * 86400000).toISOString().slice(0, 10));
     for (const k of Object.keys(store.settings.cardio)) if (k < cutoff) delete store.settings.cardio[k];
     haptic(8);
-    sfx('tap');
+    sfx(arr[i] ? 'objDone' : 'tap');
     store.saveSettings();
+    const done = arr.filter(Boolean).length;
+    toast(arr[i] ? `Fuel cell charged — cardio ${done}/${arr.length} this week · saved` : `Fuel cell drained — ${done}/${arr.length} this week`, 'ok', 2600);
   });
   $('#arsenal', root).addEventListener('click', (e) => {
     const b = e.target.closest('[data-t]');

@@ -1,6 +1,6 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, haptic } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, weekKey, haptic } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
@@ -50,6 +50,16 @@ export function render(el) {
 function defaultFocus(d) {
   const i = d.exercises.findIndex((x) => x.sets.some((s) => !s.done));
   return i === -1 ? Math.max(0, d.exercises.length - 1) : i;
+}
+
+// consecutive training days ending yesterday (tonight isn't banked yet)
+function trainStreak(history, today) {
+  const days = new Set(history.map((e) => e.date));
+  const d = new Date(today + 'T12:00:00');
+  let n = 0;
+  d.setDate(d.getDate() - 1);
+  while (days.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
 }
 
 // ——— First run ———
@@ -202,6 +212,11 @@ function renderWorldScreen(draft, phaseInfo) {
   // needle — both sweep as sets get logged.
   const doneInEx = x.sets.filter((s) => s.done).length;
   const exPct = Math.round((doneInEx / Math.max(1, x.sets.length)) * 100);
+
+  // weekly cardio fuel + rest coaching, so the day's orders are explicit
+  const fuelCells = store.settings.cardio[weekKey(draft.date)] || [false, false, false];
+  const fuelDone = fuelCells.filter(Boolean).length;
+  const streak = trainStreak(store.history, draft.date);
   const frameExtras = U.cls === 'deep'
     ? `<div class="depth-rail"><i class="dmark" style="top:${(6 + exPct * 0.86).toFixed(1)}%"></i></div>`
     : U.cls === 'atoll'
@@ -216,10 +231,12 @@ function renderWorldScreen(draft, phaseInfo) {
       <div class="head-tools">
         <button class="tool" id="chip-bw">BW ${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</button>
         <button class="tool" id="chip-notes">${draft.notes ? 'note ●' : 'note +'}</button>
+        <button class="tool" id="chip-fuel">⚡ ${fuelDone}/${fuelCells.length}</button>
         <button class="tool" id="switch-session">swap day</button>
       </div>
     </header>
-    ${isNext ? '' : `<div class="notice">You wandered off the rotation</div>`}
+    ${isNext ? '' : `<div class="notice">Off the rotation tonight — that's allowed. Days get pushed, never skipped.</div>`}
+    ${streak >= 6 ? `<div class="notice">${streak} straight nights — the program says take the rest day. The mission waits for you.</div>` : ''}
     ${draft.date !== todayStr() ? `<div class="notice"><span>Resuming ${fmtDate(draft.date)}</span><button id="resume-discard">discard</button></div>` : ''}
     ${phase?.type === 'deload' ? `<div class="notice">Deload week — 80% load, 60% sets, 4+ RIR</div>` : ''}
     ${phase?.type === 'calibration' ? `<div class="notice">Calibration week — seeds at 90%</div>` : ''}
@@ -286,6 +303,18 @@ function wire(draft, x, curIdx) {
   $('#open-brief', root).addEventListener('click', briefingSheet);
   $('#chip-bw', root).addEventListener('click', bodyweightSheet);
   $('#chip-notes', root).addEventListener('click', notesSheet);
+  $('#chip-fuel', root).addEventListener('click', () => {
+    const wk = weekKey(todayStr());
+    const arr = store.settings.cardio[wk] || [false, false, false];
+    const idx = arr.findIndex((v) => !v);
+    if (idx === -1) return toast('Cardio quota already full this week — undo from Mission', 'ok', 3000);
+    arr[idx] = true;
+    store.settings.cardio[wk] = arr;
+    haptic(10);
+    sfx('objDone');
+    store.saveSettings();
+    toast(`Fuel cell charged — cardio ${idx + 1}/${arr.length} this week · saved`, 'ok', 3000);
+  });
   $('#switch-session', root).addEventListener('click', switchSheet);
   $('#open-howto', root).addEventListener('click', (e) => howtoSheet(e.currentTarget.dataset.ex));
   $('#resume-discard', root)?.addEventListener('click', () => {
@@ -464,7 +493,7 @@ function bodyweightSheet() {
   const last = [...store.history].reverse().find((e) => e.bodyweight)?.bodyweight;
   numpadSheet({
     title: 'Bodyweight',
-    sub: last ? `last recorded ${fmtW(last)} lb` : '',
+    sub: last ? `optional — weigh 1–2× a week, same conditions · last ${fmtW(last)} lb` : 'optional — weigh 1–2× a week, same conditions',
     value: store.draft.bodyweight ?? last ?? 215,
     unit: 'lb', step: 0.5, decimals: true, max: 400,
     onConfirm(v) { store.draft.bodyweight = v || null; store.saveDraft(store.draft); render(root); },
