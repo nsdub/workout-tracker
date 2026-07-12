@@ -159,33 +159,67 @@ export async function openGame({ deadline }) {
     if (active !== mine) return;
     clearInterval(mine.clock);
     mine.clock = null;
-    // pause AND stop the loop: a hitstop timeout in flight would otherwise
-    // resume the scene behind the results panel and keep scoring
-    try { mine.game.scene.pause('play'); mine.game.loop.stop(); } catch { /* already gone */ }
     const finalScore = mine.score;
     const prevBest = bestFor(worldCls);
     const isRecord = saveBest(worldCls, finalScore);
-    el.insertAdjacentHTML('beforeend', `
-      <div class="go-over">
-        <div class="go-over-eyebrow">Rest complete</div>
-        <div class="go-over-title">${isRecord ? 'NEW RECORD' : 'Time'}</div>
-        <div class="go-over-score num" id="go-final">0</div>
-        <div class="go-over-best num">${isRecord ? `Old best ${prevBest}` : `Best ${Math.max(prevBest, finalScore)}`} · ${esc(spec.cfg.name)}</div>
-        <button class="btn primary go-back" id="go-back">Back to work</button>
-      </div>`);
-    // the score counts up — earned, not stated
-    const finalEl = $('#go-final', el);
-    const t0 = performance.now();
-    const tick = () => {
-      if (!finalEl.isConnected) return;
-      const f = Math.min(1, (performance.now() - t0) / 900);
-      finalEl.textContent = Math.round(finalScore * (1 - Math.pow(1 - f, 3)));
-      if (f < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    if (isRecord && finalScore > 0) { sfx('pr'); haptic([15, 40, 25]); }
-    else sfx('objDone');
-    $('#go-back', el).addEventListener('click', () => closeGame());
+
+    // THE FINALE: before the panel, the canvas detonates — a staggered
+    // fireworks volley inside the final slow-mo beat (Peggle's law: the
+    // hard stop IS the fever). Wall-clock timers, because scene time is
+    // running at 0.3x right now.
+    let finaleMs = 0;
+    try {
+      const scene = mine.game.scene.getScene('play');
+      if (scene?.scene.isActive()) {
+        finaleMs = 950;
+        const W = scene.scale.width, H = scene.scale.height;
+        const colors = isRecord ? [0xffd24a, 0xfff0c8, 0x3adcc8, 0xff8ad0] : [0xffd24a, 0xfff0c8, 0x3adcc8];
+        for (let i = 0; i < (isRecord ? 8 : 5); i++) {
+          setTimeout(() => {
+            if (active !== mine) return;
+            try {
+              const x = W * (0.15 + Math.random() * 0.7);
+              const y = H * (0.12 + Math.random() * 0.5);
+              const tint = colors[i % colors.length];
+              burst(scene, x, y, tint, { n: 26, speed: 460, scale: 0.7, life: 900 });
+              shockRing(scene, x, y, tint, 130);
+            } catch { /* scene gone */ }
+          }, i * 130);
+        }
+        flash(scene, isRecord ? 0xffd24a : 0xffffff, 200, 0.4);
+        zoomPunch(scene, 1.08, 500);
+        glyphBanner(scene, isRecord ? 'NEW RECORD' : 'TIME!', '#ffd24a', 38);
+        haptic([12, 40, 12, 40, 20]);
+      }
+    } catch { /* no scene, straight to the panel */ }
+
+    setTimeout(() => {
+      if (active !== mine) return;
+      // pause AND stop the loop: a hitstop timeout in flight would
+      // otherwise resume the scene behind the panel and keep scoring
+      try { mine.game.scene.pause('play'); mine.game.loop.stop(); } catch { /* already gone */ }
+      el.insertAdjacentHTML('beforeend', `
+        <div class="go-over">
+          <div class="go-over-eyebrow">Rest complete</div>
+          <div class="go-over-title">${isRecord ? 'NEW RECORD' : 'Time'}</div>
+          <div class="go-over-score num" id="go-final">0</div>
+          <div class="go-over-best num">${isRecord ? `Old best ${prevBest}` : `Best ${Math.max(prevBest, finalScore)}`} · ${esc(spec.cfg.name)}</div>
+          <button class="btn primary go-back" id="go-back">Back to work</button>
+        </div>`);
+      // the score counts up — earned, not stated
+      const finalEl = $('#go-final', el);
+      const t0 = performance.now();
+      const tick = () => {
+        if (!finalEl.isConnected) return;
+        const f = Math.min(1, (performance.now() - t0) / 900);
+        finalEl.textContent = Math.round(finalScore * (1 - Math.pow(1 - f, 3)));
+        if (f < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      if (isRecord && finalScore > 0) { sfx('pr'); haptic([15, 40, 25]); }
+      else sfx('objDone');
+      $('#go-back', el).addEventListener('click', () => closeGame());
+    }, finaleMs);
   }
 }
 
