@@ -1159,6 +1159,48 @@ button.rot-cell { color: color-mix(in srgb, var(--c, #8a9ac8) 80%, #fff); border
 .warnbox .dismiss { padding: 14px 14px; margin: -12px -10px; }
 
 
+/* ═══════════ THE ARCADE (rest-period mini-games) ═══════════ */
+.game-overlay {
+  position: fixed; inset: 0; z-index: 40;
+  display: flex; flex-direction: column;
+  background: radial-gradient(120% 80% at 50% 0%, rgba(20, 26, 52, 0.97), rgba(6, 9, 20, 0.985));
+  animation: go-in .28s var(--ease);
+  touch-action: none;
+}
+@keyframes go-in { from { opacity: 0 } }
+.go-hud {
+  display: flex; align-items: center; gap: 12px;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px;
+  color: #dfe8ff;
+}
+.go-titles { display: grid; line-height: 1.15; min-width: 0; }
+.go-titles b { font-family: var(--disp); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.go-titles i { font-style: normal; font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #8a9ac8; }
+.go-score { margin-left: auto; font-size: 24px; font-weight: 700; color: #ffd24a; text-shadow: 0 0 14px rgba(255, 210, 74, .5); }
+.go-time { font-size: 14px; color: #3adcc8; }
+.go-quit { width: 42px; height: 42px; border-radius: 50%; background: rgba(138, 154, 200, 0.14); color: #8a9ac8; font-size: 16px; }
+.go-canvas { flex: 1; width: 100%; touch-action: none; }
+.go-over {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  background: rgba(6, 9, 20, 0.82);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  animation: go-in .3s var(--ease);
+  padding: 24px;
+}
+.go-over-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: #3adcc8; }
+.go-over-title { font-family: var(--disp); font-size: 40px; color: #ffd24a; text-shadow: 0 0 26px rgba(255, 210, 74, .5); animation: title-slam .6s var(--spring) both; }
+.go-over-score { font-size: 64px; font-weight: 700; color: #dfe8ff; line-height: 1; }
+.go-over-best { font-size: 12px; color: #8a9ac8; margin-bottom: 18px; }
+.go-back { min-width: 220px; }
+.rest-pill .play {
+  font-family: var(--body); font-weight: 700; font-size: 12px;
+  color: #241a04; background: linear-gradient(#ffd24a, #e0a83c);
+  padding: 9px 14px; border-radius: 18px; margin: -6px 0;
+  box-shadow: 0 0 14px rgba(255, 210, 74, 0.45);
+  animation: log-breathe 2.2s ease-in-out infinite;
+}
+
 /* ——— Reduced motion ——— */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

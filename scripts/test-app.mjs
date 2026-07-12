@@ -255,6 +255,49 @@ await ok('worldDef resolves saved ids and falls back for unknown/legacy entries'
   assert.equal(worldDef('PullA', null).id, UNIVERSES.PullA.worlds[0].id);
 });
 
+// ——— the arcade ———
+const { GAMES, gameFor, saveBest, bestFor } = await import('../js/game/registry.js');
+const eng = await import('../js/game/engine.js');
+
+await ok('every one of the 48 worlds has a mini-game config', () => {
+  for (const [type, U] of Object.entries(UNIVERSES)) {
+    assert.ok(GAMES[U.cls], `${U.cls} universe has no game module`);
+    for (const w of U.worlds) {
+      const spec = gameFor(U.cls, w.cls);
+      assert.ok(spec, `${w.cls} has no game config`);
+      assert.ok(spec.cfg.name, `${w.cls} game config missing a name`);
+      assert.ok(typeof spec.create === 'function', `${U.cls} game missing create()`);
+      assert.ok(spec.title, `${U.cls} game missing TITLE`);
+    }
+  }
+});
+await ok('game modules carry exactly the 8 world keys of their universe', () => {
+  for (const U of Object.values(UNIVERSES)) {
+    const expect = new Set(U.worlds.map((w) => w.cls));
+    const got = new Set(Object.keys(GAMES[U.cls].WORLDS));
+    assert.deepEqual([...got].sort(), [...expect].sort(), `${U.cls} world keys drift`);
+  }
+});
+await ok('engine math: collisions and clamps', () => {
+  assert.equal(eng.circleHit(0, 0, 5, 8, 0, 4), true);
+  assert.equal(eng.circleHit(0, 0, 5, 10, 0, 4), false);
+  assert.equal(eng.rectHit(0, 0, 10, 10, 9, 9, 5, 5), true);
+  assert.equal(eng.rectHit(0, 0, 10, 10, 11, 0, 5, 5), false);
+  assert.equal(eng.clamp(5, 0, 3), 3);
+  assert.equal(eng.clamp(-2, 0, 3), 0);
+});
+await ok('best scores persist per world and only improve', () => {
+  localStorage.removeItem('p3.gameBests');
+  assert.equal(bestFor('dojo-stairs'), 0);
+  assert.equal(saveBest('dojo-stairs', 120), true);
+  assert.equal(saveBest('dojo-stairs', 90), false);
+  assert.equal(bestFor('dojo-stairs'), 120);
+  assert.equal(saveBest('dojo-stairs', 150), true);
+  assert.equal(bestFor('dojo-stairs'), 150);
+  localStorage.setItem('p3.gameBests', '{corrupt');
+  assert.equal(bestFor('dojo-stairs'), 0); // corruption never throws
+});
+
 // ——— release integrity ———
 await ok('sw.js build line matches js/version.js (update-detection guard)', async () => {
   const { readFileSync } = await import('node:fs');

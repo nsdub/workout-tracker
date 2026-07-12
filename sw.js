@@ -1,6 +1,6 @@
 // Offline-first service worker. Shell is cache-first; installs bypass the
 // HTTP cache; data/ and the GitHub API are never cached here.
-// build: v25 — MUST match js/version.js (tested); a byte-change here is
+// build: v26 — MUST match js/version.js (tested); a byte-change here is
 // what makes every browser notice a new release.
 importScripts('js/version.js');
 const VERSION = `protocol-${self.PROTOCOL_VERSION}`;
@@ -30,6 +30,15 @@ const SHELL = [
   'js/components.js',
   'js/worlds.js',
   'js/audio.js',
+  'js/game/engine.js',
+  'js/game/registry.js',
+  'js/game/overlay.js',
+  'js/game/games/dojo.js',
+  'js/game/games/deep.js',
+  'js/game/games/park.js',
+  'js/game/games/wok.js',
+  'js/game/games/atoll.js',
+  'js/game/games/yeti.js',
   'js/views/session.js',
   'js/views/log.js',
   'js/views/plan.js',

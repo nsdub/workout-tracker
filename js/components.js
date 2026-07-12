@@ -169,6 +169,19 @@ export function toast(msg, kind = 'ok', ms = 2400) {
 let restRAF = null;
 let restState = null; // { deadline, total, fired, bar, digits, lock }
 
+// The arcade loads lazily on the first Play tap — zero boot cost.
+const GAME_UNIVERSES = new Set(['dojo', 'deep', 'park', 'wok', 'atoll', 'yeti']);
+let gameMod = null;
+async function loadGames() {
+  gameMod ??= await import('./game/overlay.js');
+  return gameMod;
+}
+
+// app.js popstate chain asks us; if the module never loaded, no game is open.
+export function gamePopHandled() {
+  return gameMod ? gameMod.gamePopHandled() : false;
+}
+
 async function acquireWakeLock() {
   try {
     if (restState && navigator.wakeLock) restState.lock = await navigator.wakeLock.request('screen');
@@ -178,6 +191,7 @@ async function acquireWakeLock() {
 function restTick() {
   if (!restState) return;
   const left = Math.max(0, restState.deadline - Date.now());
+  if (left < 15000) document.getElementById('rest-play')?.remove();
   restState.bar.style.width = `${(left / restState.total) * 100}%`;
   const s = Math.ceil(left / 1000);
   restState.digits.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -203,10 +217,12 @@ export function showRestTimer(seconds, container, label = 'Rest') {
   const el = document.createElement('div');
   el.className = 'rest-pill';
   el.id = 'rest-pill';
+  const playable = GAME_UNIVERSES.has(document.documentElement.dataset.universe);
   el.innerHTML = `
     <span class="lbl">${esc(label)}</span>
     <span class="t num" id="rest-t"></span>
     <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
+    ${playable ? '<button class="play" id="rest-play">▶ Play</button>' : ''}
     <button class="skip">Skip</button>`;
   container.prepend(el);
   const total = seconds * 1000;
@@ -221,6 +237,13 @@ export function showRestTimer(seconds, container, label = 'Rest') {
   acquireWakeLock();
   restRAF = requestAnimationFrame(restTick);
   el.querySelector('.skip').addEventListener('click', hideRestTimer);
+  el.querySelector('#rest-play')?.addEventListener('click', async () => {
+    if (!restState || restState.deadline - Date.now() < 15000) {
+      return toast('Not enough rest left for a game', 'ok', 2200);
+    }
+    const mod = await loadGames();
+    if (restState) mod.openGame({ deadline: restState.deadline });
+  });
 }
 
 export function hideRestTimer() {

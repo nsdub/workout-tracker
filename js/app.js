@@ -3,7 +3,7 @@ import { $, todayStr } from './util.js';
 import { store } from './store.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
-import { toast, sheetPopHandled } from './components.js';
+import { toast, sheetPopHandled, gamePopHandled } from './components.js';
 import { initAudio } from './audio.js';
 import * as session from './views/session.js';
 import * as log from './views/log.js';
@@ -63,8 +63,9 @@ store.sub((quiet) => {
   renderActive();
 });
 
-// Android back gesture: sheets first, then scrapbook drill-ins.
+// Android back gesture: the game first, then sheets, then Atlas drill-ins.
 window.addEventListener('popstate', () => {
+  if (gamePopHandled()) return;
   if (sheetPopHandled()) return;
   log.popBack();
 });
