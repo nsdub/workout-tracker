@@ -181,8 +181,13 @@ ok('290×1 would be a PR, 285 is not', () => {
 });
 
 // ——— Validation ———
-ok('>25% deviation from trailing average warns', () => {
+ok('>25% deviation from trailing average warns, with user-checkable math', () => {
   const warns = E.validateSet(plan, history, 'deadlift', 150, 5);
+  const m = warns.find((w) => w.code === 'dev')?.msg ?? '';
+  const [, pct, dir, avg] = m.match(/(\d+)% (lighter|heavier) than your recent top sets \(avg (\d+) lb\)/) ?? [];
+  assert.ok(pct, `dev message malformed: ${m}`);
+  assert.equal(dir, 'lighter');
+  assert.equal(Number(pct), Math.round(Math.abs(150 - Number(avg)) / Number(avg) * 100), 'shown % must match shown avg');
   assert.equal(warns.some((w) => w.code === 'dev'), true);
 });
 ok('normal weight passes clean', () => {

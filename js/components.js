@@ -161,8 +161,42 @@ export function toast(msg, kind = 'ok', ms = 2400) {
 }
 
 // ——— Cooldown (world names it: Intermission, Commercial break…) ———
+// Wall-clock based: the deadline is an absolute timestamp, so backgrounding
+// the app or locking the phone never loses time — on return the display
+// catches up instantly and a missed completion fires once. While resting we
+// also hold a screen wake lock so the phone doesn't sleep mid-countdown.
 
 let restRAF = null;
+let restState = null; // { deadline, total, fired, bar, digits, lock }
+
+async function acquireWakeLock() {
+  try {
+    if (restState && navigator.wakeLock) restState.lock = await navigator.wakeLock.request('screen');
+  } catch { /* denied or unsupported — wall-clock math still holds */ }
+}
+
+function restTick() {
+  if (!restState) return;
+  const left = Math.max(0, restState.deadline - Date.now());
+  restState.bar.style.width = `${(left / restState.total) * 100}%`;
+  const s = Math.ceil(left / 1000);
+  restState.digits.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  if (left > 0) { restRAF = requestAnimationFrame(restTick); return; }
+  if (!restState.fired) {
+    restState.fired = true;
+    haptic([30, 60, 30]);
+    sfx('restDone');
+    setTimeout(hideRestTimer, 1200);
+  }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && restState) {
+    if (restRAF) cancelAnimationFrame(restRAF);
+    acquireWakeLock(); // the lock auto-releases when the page hides
+    restTick();
+  }
+});
 
 export function showRestTimer(seconds, container, label = 'Rest') {
   hideRestTimer();
@@ -175,25 +209,25 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
     <button class="skip">Skip</button>`;
   container.prepend(el);
-  const bar = el.querySelector('#rest-bar');
-  const digits = el.querySelector('#rest-t');
-  const t0 = performance.now();
   const total = seconds * 1000;
-  const tick = (t) => {
-    const left = Math.max(0, total - (t - t0));
-    bar.style.width = `${(left / total) * 100}%`;
-    const s = Math.ceil(left / 1000);
-    digits.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-    if (left > 0) restRAF = requestAnimationFrame(tick);
-    else { haptic([30, 60, 30]); sfx('restDone'); setTimeout(hideRestTimer, 1200); }
+  restState = {
+    deadline: Date.now() + total,
+    total,
+    fired: false,
+    bar: el.querySelector('#rest-bar'),
+    digits: el.querySelector('#rest-t'),
+    lock: null,
   };
-  restRAF = requestAnimationFrame(tick);
+  acquireWakeLock();
+  restRAF = requestAnimationFrame(restTick);
   el.querySelector('.skip').addEventListener('click', hideRestTimer);
 }
 
 export function hideRestTimer() {
   if (restRAF) cancelAnimationFrame(restRAF);
   restRAF = null;
+  restState?.lock?.release?.().catch?.(() => {});
+  restState = null;
   document.getElementById('rest-pill')?.remove();
 }
 

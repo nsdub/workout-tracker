@@ -1,6 +1,6 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, weekKey, haptic } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, haptic } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
@@ -56,7 +56,7 @@ export function render(el) {
 }
 
 function defaultFocus(d) {
-  const i = d.exercises.findIndex((x) => x.sets.some((s) => !s.done));
+  const i = d.exercises.findIndex((x) => x.sets.some((s) => !s.done && !s.skipped));
   return i === -1 ? Math.max(0, d.exercises.length - 1) : i;
 }
 
@@ -211,7 +211,7 @@ function renderWorldScreen(draft, phaseInfo) {
   const phase = phaseInfo.phase;
   const missionNo = store.history.length + 1;
   const x = draft.exercises[focusIdx];
-  const curIdx = x.sets.findIndex((s) => !s.done);
+  const curIdx = x.sets.findIndex((s) => !s.done && !s.skipped);
   const cur = curIdx === -1 ? null : x.sets[curIdx];
   const lastWarned = [...x.sets].reverse().find((s) => s.done && s.warn && !s.warnDismissed);
 
@@ -221,9 +221,6 @@ function renderWorldScreen(draft, phaseInfo) {
   const doneInEx = x.sets.filter((s) => s.done).length;
   const exPct = Math.round((doneInEx / Math.max(1, x.sets.length)) * 100);
 
-  // weekly cardio fuel + rest coaching, so the day's orders are explicit
-  const fuelCells = store.settings.cardio[weekKey(draft.date)] || [false, false, false];
-  const fuelDone = fuelCells.filter(Boolean).length;
   const streak = trainStreak(store.history, draft.date);
   const frameExtras = U.cls === 'deep'
     ? `<div class="depth-rail"><i class="dmark" style="top:${(6 + exPct * 0.86).toFixed(1)}%"></i></div>`
@@ -239,7 +236,6 @@ function renderWorldScreen(draft, phaseInfo) {
       <div class="head-tools">
         <button class="tool" id="chip-bw">BW ${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</button>
         <button class="tool" id="chip-notes">${draft.notes ? 'Note ●' : 'Note +'}</button>
-        <button class="tool" id="chip-fuel">⚡ ${fuelDone}/${fuelCells.length}</button>
         <button class="tool" id="switch-session">Swap day</button>
       </div>
     </header>
@@ -285,12 +281,14 @@ function renderWorldScreen(draft, phaseInfo) {
           <button class="g-val" id="g-r">${cur.reps}<u>${x.repUnit === 'sec' ? 'sec' : 'reps'}</u></button>
         </div>
         <button class="g-log" id="g-log">${esc(U.copy.log)}</button>
-        <div class="set-pips">
-          ${x.sets.map((s, si) => `<i class="pip ${s.done ? 'done' : si === curIdx ? 'cur' : ''}"></i>`).join('')}
+        <button class="g-skip" id="g-skip">Skip this set</button>
+        <div class="set-pips" id="set-pips">
+          ${x.sets.map((s, si) => `<i class="pip ${s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : ''}" data-si="${si}"></i>`).join('')}
         </div>
       </div>` : `
       <div class="obj-done">
         <div class="big">${esc(U.copy.objDone)}!</div>
+        ${x.sets.some((q) => q.skipped) ? `<div class="basis-line">${x.sets.filter((q) => q.skipped).length} skipped — tap a crossed pip below to bring one back</div><div class="set-pips" id="set-pips">${x.sets.map((q, si) => `<i class="pip ${q.done ? 'done' : q.skipped ? 'skip' : ''}" data-si="${si}"></i>`).join('')}</div>` : ''}
         ${focusIdx < draft.exercises.length - 1 ? `<button class="btn primary" id="od-next">Next act</button>` : `<div class="basis-line">Every act cleared — ${esc(U.copy.finish.toLowerCase())} below</div>`}
       </div>`}
     </section>
@@ -311,18 +309,6 @@ function wire(draft, x, curIdx) {
   $('#open-brief', root).addEventListener('click', briefingSheet);
   $('#chip-bw', root).addEventListener('click', bodyweightSheet);
   $('#chip-notes', root).addEventListener('click', notesSheet);
-  $('#chip-fuel', root).addEventListener('click', () => {
-    const wk = weekKey(todayStr());
-    const arr = store.settings.cardio[wk] || [false, false, false];
-    const idx = arr.findIndex((v) => !v);
-    if (idx === -1) return toast('Cardio quota already full this week — undo from Mission', 'ok', 3000);
-    arr[idx] = true;
-    store.settings.cardio[wk] = arr;
-    haptic(10);
-    sfx('objDone');
-    store.saveSettings();
-    toast(`Fuel cell charged — cardio ${idx + 1}/${arr.length} this week · saved`, 'ok', 3000);
-  });
   $('#switch-session', root).addEventListener('click', switchSheet);
   $('#open-howto', root).addEventListener('click', (e) => howtoSheet(e.currentTarget.dataset.ex));
   $('#resume-discard', root)?.addEventListener('click', () => {
@@ -348,6 +334,15 @@ function wire(draft, x, curIdx) {
     if (t !== focusIdx) paginate(t);
   }));
   root.querySelectorAll('.trophy').forEach((t) => t.addEventListener('click', () => unlogSet(x, x.sets[Number(t.dataset.si)])));
+  $('#set-pips', root)?.addEventListener('click', (e) => {
+    const pip = e.target.closest('.pip.skip');
+    if (!pip) return;
+    x.sets[Number(pip.dataset.si)].skipped = false;
+    store.saveDraft(store.draft);
+    haptic(6);
+    render(root);
+    renderDock();
+  });
   $('#warn-dismiss', root)?.addEventListener('click', () => {
     const s = [...x.sets].reverse().find((q) => q.done && q.warn && !q.warnDismissed);
     if (s) { s.warnDismissed = true; store.saveDraft(store.draft); render(root); }
@@ -359,6 +354,14 @@ function wire(draft, x, curIdx) {
     $('#g-log', root).addEventListener('click', () => {
       if (cur.weight == null) return editValue(x, cur, curIdx, 'weight');
       logSet(x, cur, U);
+    });
+    $('#g-skip', root)?.addEventListener('click', () => {
+      cur.skipped = true;
+      store.saveDraft(store.draft);
+      haptic(6);
+      sfx('tap');
+      render(root);
+      renderDock();
     });
   }
 }
@@ -410,9 +413,14 @@ function logSet(x, s, U) {
   haptic(s.pr ? [15, 40, 25] : 12);
   sfx(s.pr ? 'pr' : 'log');
 
-  const finishedObjective = x.sets.every((q) => q.done);
+  const finishedObjective = x.sets.every((q) => q.done || q.skipped);
   render(root);
-  root.querySelector('.console, .obj-done')?.scrollIntoView({ block: 'center' });
+  const anchor = root.querySelector('.console, .obj-done');
+  if (anchor) {
+    const r = anchor.getBoundingClientRect();
+    // scroll only if the console left the viewport — never yank a stable page
+    if (r.top < 0 || r.bottom > window.innerHeight - 140) anchor.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
   const consoleEl = document.getElementById('console');
   consoleEl?.classList.add('struck');
   burstAt(consoleEl?.querySelector('.g-log') ?? root.querySelector('.obj-done'), { pr: s.pr });
@@ -424,7 +432,7 @@ function logSet(x, s, U) {
     setTimeout(() => document.documentElement.classList.remove('pr-moment'), 3000);
   }
 
-  const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done).length, 0);
+  const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done && !q.skipped).length, 0);
   if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'), U.copy.rest);
   if (finishedObjective && remaining > 0) {
     if (!s.pr) sfx('objDone');
@@ -577,25 +585,34 @@ export function renderDock() {
   let bar = document.getElementById('finish-bar');
   const d = store.draft;
   const done = d?.exercises.reduce((n, x) => n + x.sets.filter((s) => s.done).length, 0) ?? 0;
-  const total = d?.exercises.reduce((n, x) => n + x.sets.length, 0) ?? 0;
+  const total = d?.exercises.reduce((n, x) => n + x.sets.filter((s) => !s.skipped).length, 0) ?? 0;
   if (!d || done === 0 || !store.plan) { bar?.remove(); return; }
   const U = universeOf(d.session_type);
-  if (!bar) {
-    bar = document.createElement('div');
-    bar.id = 'finish-bar';
-    bar.className = 'finish-bar';
-    dock.appendChild(bar);
+  const pct = Math.max(2.5, (done / Math.max(1, total)) * 100).toFixed(1);
+  if (bar) {
+    // update in place so the fill visibly glides — rebuilding the node
+    // every set killed the width transition
+    bar.querySelector('.xp-head .num').textContent = `${done}/${total}`;
+    bar.querySelector('.xp-track i').style.width = `${pct}%`;
+    bar.querySelector('#finish-btn').textContent = U.copy.finish;
+    return;
   }
+  bar = document.createElement('div');
+  bar.id = 'finish-bar';
+  bar.className = 'finish-bar';
+  dock.appendChild(bar);
   bar.innerHTML = `
     <span class="xp">
       <span class="xp-head"><span>Tonight</span><span class="num">${done}/${total}</span></span>
-      <span class="xp-track"><i style="width:${Math.round((done / total) * 100)}%"></i></span>
+      <span class="xp-track"><i style="width:${pct}%"></i></span>
     </span>
     <button class="btn primary" id="finish-btn">${esc(U.copy.finish)}</button>`;
   bar.querySelector('#finish-btn').addEventListener('click', () => {
-    if (done < total) {
+    const dn = store.draft?.exercises.reduce((n, x) => n + x.sets.filter((s) => s.done).length, 0) ?? 0;
+    const tt = store.draft?.exercises.reduce((n, x) => n + x.sets.filter((s) => !s.skipped).length, 0) ?? 0;
+    if (dn < tt) {
       confirmSheet({
-        title: `Finish with ${done} of ${total} sets?`,
+        title: `Finish with ${dn} of ${tt} sets?`,
         body: 'Unlogged sets are dropped from the record.',
         confirmLabel: U.copy.finish,
         onConfirm: finishSession,
@@ -613,11 +630,14 @@ function finishSession() {
   const U = universeOf(d.session_type);
   const W = worldDef(d.session_type, d.world);
   const exercises = d.exercises
-    .map((x) => ({ id: x.id, name: x.name, sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps })) }))
+    .map((x) => ({ id: x.id, name: x.name, sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}) })) }))
     .filter((x) => x.sets.length);
   if (!exercises.length) return toast('Nothing logged yet', 'bad');
 
+  const ats = exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
+  const mins = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
   const stats = {
+    mins,
     sets: exercises.reduce((n, x) => n + x.sets.length, 0),
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),
     prs: d.exercises.reduce((n, x) => n + x.sets.filter((s) => s.pr).length, 0),
@@ -652,7 +672,7 @@ function showResults(stats) {
       <div class="rs-grid">
         <div class="rs-stat"><b class="num">${stats.sets}</b><i>${stats.sets === 1 ? 'set' : 'sets'}</i></div>
         <div class="rs-stat"><b class="num">${stats.tonnage.toLocaleString()}</b><i>lb moved</i></div>
-        <div class="rs-stat"><b class="num">${stats.acts}</b><i>${stats.acts === 1 ? 'act' : 'acts'}</i></div>
+        <div class="rs-stat"><b class="num">${stats.mins ?? stats.acts}</b><i>${stats.mins ? 'minutes' : stats.acts === 1 ? 'act' : 'acts'}</i></div>
         <div class="rs-stat ${stats.prs ? 'pr' : ''}"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i></div>
       </div>
       <button class="btn primary" id="rs-go">Take a bow</button>

@@ -110,6 +110,8 @@ function renderDetail() {
   const name = store.plan?.sessions[entry.session_type]?.name ?? entry.session_type;
   const world = (entry.world && worldDef(entry.session_type, entry.world)?.name) || UNIVERSES[entry.session_type]?.name || '';
   const phase = entry.phase === 'legacy' ? 'imported' : (store.plan?.phases.find((p) => p.id === entry.phase)?.name ?? entry.phase ?? '');
+  const ats = entry.exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
+  const mins = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
   root.innerHTML = `
     <div class="space-title">The Atlas</div>
     <div class="debrief" style="--c:${SWATCH[entry.session_type] ?? '#8a9ac8'}">
@@ -119,7 +121,7 @@ function renderDetail() {
         <span>
           <h1>${esc(name)}</h1>
           <div class="m">${esc(world)}</div>
-          <div class="m dim">${fmtDate(entry.date, { year: true })}${entry.bodyweight ? ` · bw ${fmtW(entry.bodyweight)} lb` : ''}${phase ? ` · ${esc(phase)}` : ''}</div>
+          <div class="m dim">${fmtDate(entry.date, { year: true })}${mins ? ` · ${mins} min` : ''}${entry.bodyweight ? ` · bw ${fmtW(entry.bodyweight)} lb` : ''}${phase ? ` · ${esc(phase)}` : ''}</div>
         </span>
       </div>
       ${entry.exercises.map((x) => {

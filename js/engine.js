@@ -260,7 +260,11 @@ export function validateSet(plan, history, exId, weight, reps) {
       const avg = tops.reduce((a, b) => a + b, 0) / tops.length;
       const dev = Math.abs(weight - avg) / avg;
       if (dev > (plan.rules.validation.deviationPct ?? 25) / 100) {
-        warnings.push({ code: 'dev', msg: `${Math.round(dev * 100)}% off recent average (${Math.round(avg)} lb)` });
+        // show percent against the SAME rounded average we display, so the
+        // arithmetic in the message checks out by hand
+        const avgShown = Math.round(avg);
+        const pct = Math.round((Math.abs(weight - avgShown) / avgShown) * 100);
+        warnings.push({ code: 'dev', msg: `${pct}% ${weight < avgShown ? 'lighter' : 'heavier'} than your recent top sets (avg ${avgShown} lb)` });
       }
     }
   }
