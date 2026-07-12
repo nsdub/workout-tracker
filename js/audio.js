@@ -144,3 +144,18 @@ export function sfx(cue) {
     (pack[cue] || NEUTRAL[cue])?.(c);
   } catch { /* audio is garnish, never break the set log */ }
 }
+
+// Pentatonic combo ladder for the arcade: consecutive hits step up a
+// never-dissonant scale (Peggle's trick — the music of a hot streak).
+// Callers restart their chain at 0 on a miss. Caps three octaves up.
+const PENTA = [523.25, 587.33, 659.25, 783.99, 880.0];
+export function note(step = 0, vol = 0.15) {
+  if (!store.settings.sound) return;
+  const c = ac();
+  if (!c) return;
+  try {
+    const s = Math.max(0, Math.min(step, PENTA.length * 3 - 1));
+    const f = PENTA[s % PENTA.length] * 2 ** Math.floor(s / PENTA.length);
+    ding(c, 0, f, vol, 0.34);
+  } catch { /* audio is garnish, never break the rest */ }
+}

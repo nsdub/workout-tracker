@@ -127,19 +127,50 @@ export function hitstop(scene, ms = 70, after = null) {
 }
 
 // Slow motion for dramatic beats (multi-slice, final target). factor 0.3 =
-// 30% speed. Phaser scales tweens/timers UP with timeScale and Arcade
-// physics DOWN, hence the split.
+// 30% speed. Phaser scales tweens/timers UP with timeScale, Arcade
+// physics DOWN, and Matter with its own timing — hence the three writes.
 export function slowmo(scene, factor = 0.35, ms = 450) {
   scene.time.timeScale = factor;
   scene.tweens.timeScale = factor;
   if (scene.physics?.world) scene.physics.world.timeScale = 1 / factor;
+  if (scene.matter?.world?.engine) scene.matter.world.engine.timing.timeScale = factor;
   setTimeout(() => {
     try {
       scene.time.timeScale = 1;
       scene.tweens.timeScale = 1;
       if (scene.physics?.world) scene.physics.world.timeScale = 1;
+      if (scene.matter?.world?.engine) scene.matter.world.engine.timing.timeScale = 1;
     } catch { /* scene torn down */ }
   }, ms);
+}
+
+// Squash-and-stretch on impact: 1.28 along the hit axis's normal, 0.72
+// along it, sprung back with Back ease. Apply to EVERYTHING that collides.
+export function squash(scene, obj, axis = 'y', ms = 170) {
+  if (!obj.active) return;
+  const sx = obj.scaleX, sy = obj.scaleY;
+  if (axis === 'y') obj.setScale(sx * 1.28, sy * 0.72);
+  else obj.setScale(sx * 0.72, sy * 1.28);
+  scene.tweens.add({ targets: obj, scaleX: sx, scaleY: sy, duration: ms, ease: 'Back.easeOut' });
+}
+
+// GOLD RUSH — the last 10 seconds of every rest. The world goes molten:
+// a pulsing gold veil, gold sparks rising, everything worth double
+// (the doubling itself lives in the overlay's score API).
+export function goldRush(scene) {
+  const W = scene.scale.width, H = scene.scale.height;
+  const veil = scene.add.rectangle(0, 0, W, H, 0xffb43c, 0.1).setOrigin(0).setDepth(70);
+  try { veil.setBlendMode('ADD'); } catch { /* canvas quirk */ }
+  scene.tweens.add({ targets: veil, alpha: { from: 0.06, to: 0.16 }, duration: 700, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+  scene.add.particles(0, 0, 'fx-dot', {
+    x: { min: 0, max: W }, y: H + 8,
+    speedY: { min: -H * 0.12, max: -H * 0.05 },
+    scale: { start: 0.34, end: 0 },
+    tint: [0xffd24a, 0xffb43c, 0xfff0c8],
+    blendMode: 'ADD',
+    lifespan: 3000,
+    frequency: 90,
+  }).setDepth(69);
 }
 
 // Vertical gradient sky painted into a texture and stretched full-canvas.
@@ -176,6 +207,110 @@ export function ambientMotes(scene, tint, opts = {}) {
     blendMode: 'ADD',
     advance: 9000, // pre-warm so the field is already alive on frame one
   }).setDepth(depth);
+}
+
+// ——— WebGL-only spectacle (Phaser 4 filters/lights) ———
+// The QA rig and odd devices fall back to Phaser's Canvas renderer, where
+// none of this exists; every helper here feature-detects and degrades to
+// nothing rather than crashing a rest period.
+
+const gl = (scene) => !!scene.sys.renderer?.renderNodes;
+
+// Full-screen bloom on the main camera. Call once in create(); every glow
+// texture in the scene starts to actually GLOW.
+export function bloomCamera(scene) {
+  if (!gl(scene)) return;
+  try { window.Phaser.Actions.AddEffectBloom(scene.cameras.main); } catch { /* filter miss */ }
+}
+
+// Soft darkened edges — instant cinema, one filter pass.
+export function vignette(scene, strength = 0.45, radius = 0.72) {
+  if (!gl(scene)) return;
+  try { scene.cameras.main.filters.internal.addVignette(0.5, 0.5, radius, strength); } catch { /* filter miss */ }
+}
+
+// Camera zoom-punch: kiss the action, spring back.
+export function zoomPunch(scene, amount = 1.1, ms = 260) {
+  const cam = scene.cameras.main;
+  try {
+    cam.zoomTo(amount, ms * 0.35, 'Back.easeOut', true);
+    scene.time.delayedCall(ms * 0.4, () => cam.zoomTo(1, ms * 0.6, 'Sine.easeOut', true));
+  } catch { /* camera busy */ }
+}
+
+// Score suction: a burst whose sparks spiral into a point (the HUD corner)
+// — Peggle-style "the points are physically coming to you".
+export function collectTo(scene, x, y, tx, ty, tint, n = 14) {
+  const e = scene.add.particles(x, y, 'fx-dot', {
+    speed: { min: 60, max: 260 },
+    angle: { min: 0, max: 360 },
+    scale: { start: 0.4, end: 0.08 },
+    lifespan: 900,
+    tint,
+    blendMode: 'ADD',
+    emitting: false,
+  }).setDepth(58);
+  try { e.createGravityWell({ x: tx, y: ty, power: 4, epsilon: 120, gravity: 260 }); } catch { /* v4-only */ }
+  e.explode(n);
+  scene.time.delayedCall(1000, () => e.destroy());
+}
+
+// Per-glyph ceremony text: letters bounce in from the center outward.
+export function glyphBanner(scene, text, color = '#ffd24a', size = 36) {
+  const W = scene.scale.width, H = scene.scale.height;
+  const glyphs = [...text];
+  const style = {
+    fontFamily: '"Geist Mono", monospace', fontSize: `${Math.round(size)}px`, fontStyle: '700',
+    color, stroke: 'rgba(4,6,14,.75)', strokeThickness: size * 0.22,
+  };
+  const widths = glyphs.map((ch) => (ch === ' ' ? size * 0.5 : size * 0.62));
+  const total = widths.reduce((a, b) => a + b, 0);
+  let x = W / 2 - total / 2;
+  const objs = glyphs.map((ch, i) => {
+    const t = scene.add.text(x + widths[i] / 2, H * 0.3, ch, style)
+      .setOrigin(0.5).setDepth(61).setScale(0).setAlpha(0);
+    x += widths[i];
+    return t;
+  });
+  scene.tweens.add({
+    targets: objs, scale: 1, alpha: 1, duration: 300, ease: 'Back.easeOut',
+    delay: scene.tweens.stagger(34, { from: 'center' }),
+  });
+  scene.tweens.add({
+    targets: objs, alpha: 0, y: H * 0.26, delay: 1000, duration: 380,
+    onComplete: () => objs.forEach((o) => o.destroy()),
+  });
+}
+
+// Real darkness with a real light. Returns the cone light (or null on
+// Canvas) — aim it with setConeRotation / move it with x/y.
+export function darknessCone(scene, opts = {}) {
+  if (!gl(scene)) return null;
+  const { ambient = 0x0b0b16, x = 0, y = 0, radius = 420, color = 0xffe2b0, intensity = 2.4, angle = 0.55 } = opts;
+  try {
+    scene.lights.enable().setAmbientColor(ambient);
+    return scene.lights.addConeLight(x, y, radius, color, intensity, 0, angle * 0.5, angle);
+  } catch { return null; }
+}
+
+export function pointLight(scene, x, y, color = 0xffc46c, radius = 220, intensity = 1.6, flicker = true) {
+  if (!gl(scene)) return null;
+  try {
+    const l = scene.lights.addLight(x, y, radius, color, intensity);
+    if (flicker) {
+      scene.tweens.add({
+        targets: l, intensity: intensity * 0.55, duration: 260 + Math.random() * 240,
+        yoyo: true, repeat: -1, ease: 'Sine.easeInOut',
+      });
+    }
+    return l;
+  } catch { return null; }
+}
+
+// Mark a game object as lit by the scene's lights (no-op on Canvas).
+export function lit(obj) {
+  try { obj.setLighting?.(true); } catch { /* canvas renderer */ }
+  return obj;
 }
 
 // Rich sprite factory: draw once into a canvas texture with the full 2D

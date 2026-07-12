@@ -1180,6 +1180,7 @@ button.rot-cell { color: color-mix(in srgb, var(--c, #8a9ac8) 80%, #fff); border
 .go-titles i { font-style: normal; font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #8a9ac8; }
 .go-score { margin-left: auto; font-size: 24px; font-weight: 700; color: #ffd24a; text-shadow: 0 0 14px rgba(255, 210, 74, .5); }
 .go-time { font-size: 14px; color: #3adcc8; }
+.go-time.gold { color: #ffd24a; text-shadow: 0 0 12px rgba(255, 210, 74, .6); animation: log-breathe 0.7s ease-in-out infinite; }
 .go-quit { width: 42px; height: 42px; border-radius: 50%; background: rgba(138, 154, 200, 0.14); color: #8a9ac8; font-size: 16px; }
 .go-stage { flex: 1; position: relative; overflow: hidden; touch-action: none; }
 .go-stage canvas { display: block; }

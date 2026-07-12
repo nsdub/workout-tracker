@@ -1,11 +1,23 @@
-// IAIDO BLADE — Mount Volcano Dojo. Objects arc up from below; a swipe is
-// a sword stroke. Slice everything, chain slices in one stroke for combos,
-// never touch the powder kegs. Fruit-ninja mechanics on Arcade physics:
-// every target is a physics body, every slice splits it into two spinning
-// halves, and big combos bend time.
-import { ensureFx, canvasTex, burst, shockRing, floatScore, banner, shake, flash, hitstop, slowmo, paintSky, ambientMotes, unit } from '../fx.js';
+// IAIDO — Mount Volcano Dojo. A swipe is a sword stroke: everything it
+// crosses splits into two velocity-inheriting halves that keep tumbling
+// and pile up on the floor (the wreckage is the trophy). Chain slices in
+// one stroke for combos that bend time. Hold your thumb STILL to sheathe:
+// the world collapses to slow motion while the stance meter drains, and
+// the flick out of stance is a full draw-cut through everything on the
+// line. Powder bombs with angry faces punish greed.
+//
+// Worlds mutate the blade, not the wallpaper: the waterfall hides golden
+// koi behind a cuttable ribbon, forge ingots only cut while the bellows
+// pulse has them glowing, the sparring hall's candles gutter with every
+// stroke you throw, and the dragon's spine launches everything at angles
+// no honest mountain would.
+import {
+  ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
+  shake, flash, hitstop, slowmo, zoomPunch, collectTo, paintSky,
+  ambientMotes, bloomCamera, vignette, squash, unit,
+} from '../fx.js';
 
-export const TITLE = 'Iaido Blade';
+export const TITLE = 'Iaido';
 
 export const WORLDS = {
   'dojo-stairs': {
@@ -14,32 +26,36 @@ export const WORLDS = {
   },
   'dojo-falls': {
     name: 'Waterfall Slice', sky: [[0, '#0e2c4c'], [0.6, '#1c6a8c'], [1, '#7ac8dc']],
-    accent: 0x9adcf0, blade: 0xdff6ff, objects: ['koi', 'gourd'], bombs: 0, drift: 90, pace: 1.05, land: 'falls',
+    accent: 0x9adcf0, blade: 0xdff6ff, objects: ['koi', 'gourd'], bombs: 0, drift: 90, pace: 1.05, land: 'falls', ribbon: true,
   },
   'dojo-summit': {
     name: 'Forge Tempering', sky: [[0, '#190a12'], [0.55, '#5c1f28'], [1, '#c2452e']],
-    accent: 0xff9a4c, blade: 0xffd0a0, objects: ['ingot', 'coal'], bombs: 0.2, pace: 1.15, land: 'summit', embers: true,
+    accent: 0xff9a4c, blade: 0xffd0a0, objects: ['ingot', 'coal'], bombs: 0.16, pace: 1.1, land: 'summit', embers: true, forge: true,
   },
   'dojo-bamboo': {
     name: 'Grove Cutter', sky: [[0, '#0f2a0c'], [0.6, '#3f7a2c'], [1, '#a8d46c']],
-    accent: 0xc8f09a, blade: 0xeaffd0, objects: ['bamboo', 'melon'], bombs: 0.08, pace: 1.1, land: 'bamboo',
+    accent: 0xc8f09a, blade: 0xeaffd0, objects: ['bamboo', 'melon'], bombs: 0.08, pace: 1.1, land: 'bamboo', vertical: true,
   },
   'dojo-torii': {
     name: 'Spirit Gate Slash', sky: [[0, '#320c28'], [0.55, '#7c2040'], [1, '#ff7a4c']],
-    accent: 0xffc46c, blade: 0xffe2c0, objects: ['orb', 'charm'], bombs: 0.1, pace: 1.15, land: 'torii',
+    accent: 0xffc46c, blade: 0xffe2c0, objects: ['orb', 'charm'], bombs: 0.1, pace: 1.15, land: 'torii', blink: true,
   },
   'dojo-snow': {
     name: 'Snowbound Kata', sky: [[0, '#141c3c'], [0.6, '#44608f'], [1, '#b8d0ec']],
-    accent: 0xffffff, blade: 0xdfefff, objects: ['flake', 'peach'], bombs: 0.06, pace: 0.95, land: 'snow', snow: true,
+    accent: 0xffffff, blade: 0xdfefff, objects: ['flake', 'peach'], bombs: 0.06, pace: 1.0, land: 'snow', snow: true, icetime: true,
   },
   'dojo-hall': {
     name: 'Candle Discipline', sky: [[0, '#120b06'], [0.6, '#38220f'], [1, '#6e421a']],
     accent: 0xffc46c, blade: 0xfff0c8, objects: ['candle', 'scroll'], bombs: 0.1, pace: 1.0, land: 'hall', candles: true,
   },
+  'dojo-dragon': {
+    name: "Dragon's Spine", sky: [[0, '#0c1430'], [0.5, '#28306e'], [1, '#5c4a9c']],
+    accent: 0x7ad0ff, blade: 0xd8f0ff, objects: ['orb', 'lantern'], bombs: 0.1, pace: 1.15, land: 'dragon', spine: true,
+  },
 };
 
 // ——— sprite painters: canvas 2D once, WebGL sprite forever ———
-// Every one gets character — this dojo puts faces on its fruit.
+// Faces on everything. The bombs WANT you to make a mistake.
 
 const PAINT = {
   koi(c, w, h) {
@@ -58,6 +74,13 @@ const PAINT = {
     c.beginPath(); c.arc(w * 0.185, h * 0.43, w * 0.05, 0, 7); c.fill();
     c.strokeStyle = 'rgba(255,255,255,.5)'; c.lineWidth = w * 0.02;
     c.beginPath(); c.arc(w * 0.5, h * 0.42, w * 0.1, 0.4, 2.4); c.stroke();
+  },
+  goldkoi(c, w, h) {
+    PAINT.koi(c, w, h);
+    c.globalCompositeOperation = 'source-atop';
+    c.fillStyle = 'rgba(255,210,74,.55)';
+    c.fillRect(0, 0, w, h);
+    c.globalCompositeOperation = 'source-over';
   },
   lantern(c, w, h) {
     const g = c.createRadialGradient(w / 2, h * 0.5, 2, w / 2, h * 0.5, w * 0.55);
@@ -197,6 +220,15 @@ const PAINT = {
     c.fillStyle = '#6a4a2a';
     c.fillRect(w * 0.48, h * 0.22, w * 0.04, h * 0.08);
   },
+  itch(c, w, h) {
+    const g = c.createRadialGradient(w / 2, h / 2, 1, w / 2, h / 2, w * 0.5);
+    g.addColorStop(0, '#fff8d0'); g.addColorStop(0.5, '#ffd24a'); g.addColorStop(1, 'rgba(255,210,74,0)');
+    c.fillStyle = g;
+    c.fillRect(0, 0, w, h);
+    c.fillStyle = '#5c3a08';
+    c.font = `700 ${Math.round(h * 0.34)}px sans-serif`;
+    c.textAlign = 'center'; c.fillText('✳', w / 2, h * 0.62);
+  },
   bomb(c, w, h) {
     const g = c.createRadialGradient(w * 0.38, h * 0.42, 2, w / 2, h * 0.56, w * 0.48);
     g.addColorStop(0, '#4a4a5c'); g.addColorStop(1, '#14141e');
@@ -206,7 +238,6 @@ const PAINT = {
     c.fillRect(w * 0.42, h * 0.12, w * 0.16, h * 0.14);
     c.strokeStyle = '#c8b088'; c.lineWidth = w * 0.045; c.lineCap = 'round';
     c.beginPath(); c.moveTo(w * 0.5, h * 0.12); c.quadraticCurveTo(w * 0.68, h * 0.02, w * 0.78, h * 0.1); c.stroke();
-    // angry face — it WANTS you to make a mistake
     c.strokeStyle = '#ff5d5d'; c.lineWidth = w * 0.04;
     c.beginPath(); c.moveTo(w * 0.34, h * 0.46); c.lineTo(w * 0.46, h * 0.52); c.stroke();
     c.beginPath(); c.moveTo(w * 0.66, h * 0.46); c.lineTo(w * 0.54, h * 0.52); c.stroke();
@@ -219,7 +250,7 @@ const PAINT = {
 
 // ——— world backdrops: layered silhouettes behind the action ———
 
-function drawLand(scene, cfg, K) {
+function drawLand(scene, cfg, K, world) {
   const W = scene.scale.width, H = scene.scale.height;
   const g = scene.add.graphics().setDepth(-90);
   const silh = (pts, color, alpha) => {
@@ -233,7 +264,6 @@ function drawLand(scene, cfg, K) {
   const rnd = (a, b) => a + Math.random() * (b - a);
   switch (cfg.land) {
     case 'stairs': {
-      // three ridge layers, the front one cut into giant steps
       silh([[0, H * 0.55], [W * 0.3, H * 0.38], [W * 0.62, H * 0.52], [W, H * 0.4]], 0x2a1440, 0.7);
       silh([[0, H * 0.68], [W * 0.4, H * 0.5], [W * 0.78, H * 0.62], [W, H * 0.54]], 0x1c0e30, 0.85);
       const steps = [];
@@ -245,16 +275,18 @@ function drawLand(scene, cfg, K) {
     case 'falls': {
       silh([[0, H * 0.3], [W * 0.16, H * 0.26], [W * 0.2, H], [0, H]], 0x0c2238, 0.9);
       silh([[W, H * 0.24], [W * 0.82, H * 0.3], [W * 0.78, H], [W, H]], 0x0c2238, 0.9);
-      for (const [x, w] of [[W * 0.3, W * 0.1], [W * 0.52, W * 0.14], [W * 0.72, W * 0.08]]) {
-        g.fillStyle(0xbfe8f8, 0.16); g.fillRect(x, 0, w, H);
-        g.fillStyle(0xffffff, 0.1); g.fillRect(x + w * 0.3, 0, w * 0.2, H);
+      for (const [x, w] of [[W * 0.28, W * 0.09], [W * 0.72, W * 0.08]]) {
+        g.fillStyle(0xbfe8f8, 0.14); g.fillRect(x, 0, w, H);
+        g.fillStyle(0xffffff, 0.08); g.fillRect(x + w * 0.3, 0, w * 0.2, H);
       }
+      // the cuttable ribbon itself is a live object, drawn in create()
       break;
     }
     case 'summit': {
       silh([[0, H * 0.62], [W * 0.36, H * 0.24], [W * 0.5, H * 0.3], [W * 0.66, H * 0.2], [W, H * 0.58]], 0x30101a, 0.9);
       const cr = scene.add.image(W * 0.52, H * 0.26, 'fx-dot').setScale(K * 3.2).setTint(0xff6a2c).setBlendMode('ADD').setAlpha(0.7).setDepth(-89);
       scene.tweens.add({ targets: cr, alpha: 0.35, scale: K * 2.6, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+      world.forgeGlow = cr;
       break;
     }
     case 'bamboo': {
@@ -283,7 +315,6 @@ function drawLand(scene, cfg, K) {
     }
     case 'snow': {
       silh([[0, H * 0.6], [W * 0.3, H * 0.42], [W * 0.6, H * 0.56], [W, H * 0.46]], 0x2a3a64, 0.7);
-      // temple roof
       g.fillStyle(0x141c3c, 0.95);
       g.beginPath();
       g.moveTo(W * 0.2, H * 0.66); g.quadraticCurveTo(W * 0.5, H * 0.5, W * 0.8, H * 0.66);
@@ -302,65 +333,112 @@ function drawLand(scene, cfg, K) {
         g.fillStyle(0x4a2c12, 0.9); g.fillRect(x - 10 * K, 0, 6 * K, H);
       }
       g.fillStyle(0x1c0d04, 1); g.fillRect(0, H * 0.9, W, H * 0.1);
+      world.flames = [];
       for (let i = 0; i < 7; i++) {
         const cx = W * (0.08 + i * 0.14);
         const fl = scene.add.image(cx, H * 0.88, 'fx-dot').setScale(K * 0.55).setTint(0xffb43c).setBlendMode('ADD').setDepth(-88);
         scene.tweens.add({ targets: fl, scaleX: K * 0.4, scaleY: K * 0.7, alpha: 0.6, duration: 300 + i * 90, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        world.flames.push(fl);
       }
       break;
     }
+    case 'dragon': {
+      // distant peaks; the live spine is drawn per-frame in update()
+      silh([[0, H * 0.5], [W * 0.3, H * 0.34], [W * 0.6, H * 0.48], [W, H * 0.36]], 0x141c48, 0.7);
+      world.spineGfx = scene.add.graphics().setDepth(-70);
+      break;
+    }
   }
-  // grounding band so objects launch from somewhere real
   g.fillStyle(0x000000, 0.35);
   g.fillRect(0, H * 0.94, W, H * 0.06);
 }
 
-const SIZES = { koi: [72, 44], lantern: [56, 62], scroll: [60, 40], gourd: [44, 58], ingot: [64, 34], coal: [52, 48], bamboo: [40, 84], melon: [58, 58], orb: [56, 56], charm: [42, 58], flake: [54, 54], peach: [52, 52], candle: [36, 66], bomb: [54, 60] };
+const SIZES = {
+  koi: [72, 44], goldkoi: [72, 44], lantern: [56, 62], scroll: [60, 40], gourd: [44, 58],
+  ingot: [64, 34], coal: [52, 48], bamboo: [40, 84], melon: [58, 58], orb: [56, 56],
+  charm: [42, 58], flake: [54, 54], peach: [52, 52], candle: [36, 66], itch: [50, 50], bomb: [54, 60],
+};
+
+const VALUE = { goldkoi: 30, itch: 40 };
 
 export function create(P, ctx) {
   const { api, cfg } = ctx;
   const objs = [];
-  const trail = []; // {x, y, t}
-  let trailGfx, sliceGlow;
+  const halves = [];
+  const debris = [];
+  const trail = [];
+  let trailGfx, sliceGlow, stanceGfx, darkVeil, ribbonGfx;
   let strokeSlices = 0;
   let lastPt = null;
+  let downAt = 0;
   let nextSpawn = 0;
   let t0 = 0;
+  let fever = false;
+  // sheathe stance
+  const stance = { active: false, meter: 1, lastMoveT: 0 };
+  // world-mutation state
+  const world = { darkness: 0.34, ribbonOpen: 0, frozen: 0, nextFreeze: 7000, spineT: 0, itchAt: 0 };
 
-  function tex(scene, kind, K) {
+  const tex = (scene, kind, K) => {
     const [w, h] = SIZES[kind];
     return canvasTex(scene, `dj-${kind}`, w * K, h * K, PAINT[kind]);
-  }
+  };
 
-  function launch(scene, K) {
+  const forgeHot = (scene) => !cfg.forge || Math.sin(scene.time.now / 1200 * Math.PI) > -0.1;
+
+  function spawnObj(scene, K, kind, x, opts = {}) {
     const W = scene.scale.width, H = scene.scale.height;
-    const isBomb = Math.random() < cfg.bombs;
-    const kind = isBomb ? 'bomb' : cfg.objects[Math.floor(Math.random() * cfg.objects.length)];
-    const x = W * (0.15 + Math.random() * 0.7);
     const img = scene.physics.add.image(x, H + 50 * K, tex(scene, kind, K)).setDepth(10);
     img.body.gravity.y = 640 * K;
-    // rise to a peak between 25% and 60% of the canvas
-    const peak = H * (0.4 + Math.random() * 0.35);
+    const peak = H * (opts.peakLo ?? 0.4) + Math.random() * H * 0.3;
     img.setVelocity(
-      (W / 2 - x) * (0.25 + Math.random() * 0.5) + (Math.random() - 0.5) * 60 * K,
-      -Math.sqrt(2 * 640 * K * peak),
+      (W / 2 - x) * (0.25 + Math.random() * 0.5) + (Math.random() - 0.5) * (opts.vxSpread ?? 60) * K,
+      -Math.sqrt(2 * 640 * K * Math.max(H * 0.25, peak)),
     );
     img.setAngularVelocity((Math.random() - 0.5) * 300);
     if (cfg.drift) img.body.velocity.x += (Math.random() - 0.5) * cfg.drift * K;
-    const o = { img, kind, isBomb, r: (SIZES[kind][0] + SIZES[kind][1]) / 4 * K * 1.15, born: scene.time.now };
-    if (isBomb) {
+    const o = {
+      img, kind, isBomb: kind === 'bomb',
+      r: (SIZES[kind][0] + SIZES[kind][1]) / 4 * K * 1.15,
+      born: scene.time.now,
+    };
+    if (o.isBomb) {
       o.fuse = scene.add.particles(0, 0, 'fx-dot', {
         speed: 40, scale: { start: 0.3 * K, end: 0 }, lifespan: 260,
         tint: 0xffd24a, blendMode: 'ADD', frequency: 40,
       }).setDepth(11).startFollow(img, 14 * K, -26 * K);
     }
     objs.push(o);
+    return o;
+  }
+
+  function launch(scene, K) {
+    const W = scene.scale.width;
+    const isBomb = Math.random() < cfg.bombs;
+    const kind = isBomb ? 'bomb' : cfg.objects[Math.floor(Math.random() * cfg.objects.length)];
+    const x = W * (0.15 + Math.random() * 0.7);
+    // the dragon's spine launches from anywhere, at anything
+    if (cfg.spine) spawnObj(scene, K, kind, x, { vxSpread: 260, peakLo: 0.3 });
+    else spawnObj(scene, K, kind, x);
   }
 
   function killObj(scene, o) {
     o.fuse?.destroy();
     o.img.destroy();
-    objs.splice(objs.indexOf(o), 1);
+    const i = objs.indexOf(o);
+    if (i >= 0) objs.splice(i, 1);
+  }
+
+  function freezeHalf(scene, half) {
+    half.body.stop();
+    half.body.enable = false;
+    debris.push(half);
+    const i = halves.indexOf(half);
+    if (i >= 0) halves.splice(i, 1);
+    if (debris.length > 44) {
+      const old = debris.shift();
+      scene.tweens.add({ targets: old, alpha: 0, duration: 900, onComplete: () => old.destroy() });
+    }
   }
 
   function sliceObj(scene, o, dirX, dirY, K) {
@@ -373,31 +451,61 @@ export function create(P, ctx) {
       burst(scene, x, y, 0xff5d3c, { n: 30, speed: 480 * K, scale: 0.8 * K });
       shockRing(scene, x, y, 0xff5d3c, 150 * K);
       flash(scene, 0xff2a1a, 160, 0.5);
-      hitstop(scene, 90, () => shake(scene, 0.028, 260));
+      hitstop(scene, 130, () => shake(scene, 0.028, 260));
       api.haptic([30, 40, 60]);
       api.sfx('log');
       strokeSlices = 0;
       return;
     }
+    // forge law: cold iron does not cut
+    if (cfg.forge && o.kind === 'ingot' && !forgeHot(scene)) {
+      squash(scene, o.img, Math.abs(dirX) > Math.abs(dirY) ? 'x' : 'y');
+      o.img.setTint(0x8890a8);
+      scene.time.delayedCall(180, () => o.img.active && o.img.clearTint());
+      floatScore(scene, x, y - 20 * K, 'cold!', '#8a9ac8', 15 * K);
+      shake(scene, 0.004, 70);
+      api.sfx('tap');
+      return;
+    }
     strokeSlices++;
-    const gain = 10 + (strokeSlices - 1) * 5;
+    let gain = (10 + (strokeSlices - 1) * 5) + (VALUE[o.kind] ?? 0);
+    let label = `+${gain}`;
+    // grove law: a vertical stroke is the honest cut
+    if (cfg.vertical && Math.abs(dirY) > 0.85) {
+      gain = Math.round(gain * 1.5);
+      label = `KIRI +${gain}`;
+    }
     api.score(gain);
     api.haptic(8);
-    api.sfx(strokeSlices >= 3 ? 'objDone' : 'tap');
-    floatScore(scene, x, y - 20 * K, `+${gain}`, '#ffd24a', (20 + Math.min(12, strokeSlices * 3)) * K);
+    api.note(strokeSlices - 1);
+    if (strokeSlices >= 3) api.sfx('objDone');
+    floatScore(scene, x, y - 20 * K, label, VALUE[o.kind] ? '#fff0c8' : '#ffd24a', (20 + Math.min(12, strokeSlices * 3)) * K);
     burst(scene, x, y, accent, { n: 14, speed: 340 * K, scale: 0.55 * K });
-    if (strokeSlices >= 2) shockRing(scene, x, y, accent, 90 * K);
+    collectTo(scene, x, y, scene.scale.width - 30 * K, 20 * K, 0xffd24a, 5);
+    if (strokeSlices >= 2) { shockRing(scene, x, y, accent, 90 * K); hitstop(scene, 40); }
     if (strokeSlices === 3) banner(scene, 'COMBO ×3', '#ffd24a', 30 * K);
     if (strokeSlices >= 4) {
       banner(scene, `COMBO ×${strokeSlices}`, '#ff9a3c', 34 * K);
       flash(scene, 0xfff0c8, 90, 0.3);
       slowmo(scene, 0.35, 420);
+      zoomPunch(scene, 1.07, 240);
       shake(scene, 0.01, 160);
+    }
+    // hall law: every stroke gutters the candles
+    if (cfg.candles) world.darkness = Math.min(0.6, world.darkness + 0.05);
+    // gate law: surviving spirits blink away from a blade that misses them
+    if (cfg.blink) {
+      for (const s of objs) {
+        if (s.kind === 'orb' && s !== o && Math.random() < 0.5) {
+          const nx = scene.scale.width * (0.12 + Math.random() * 0.76);
+          scene.tweens.add({ targets: s.img, alpha: 0, duration: 90, yoyo: true, onYoyo: () => { s.img.x = nx; } });
+        }
+      }
     }
     // split into two spinning halves along the stroke
     const key = o.img.texture.key;
     const tw = o.img.width, th = o.img.height;
-    const px = -dirY, py = dirX; // perpendicular to the slash
+    const px = -dirY, py = dirX;
     for (const side of [-1, 1]) {
       const half = scene.physics.add.image(x, y, key).setDepth(10);
       half.setCrop(side < 0 ? 0 : tw / 2, 0, tw / 2, th);
@@ -407,12 +515,64 @@ export function create(P, ctx) {
         Math.min(o.img.body.velocity.y * 0.4, 0) + py * side * 130 * K - 60 * K,
       );
       half.setAngularVelocity(side * (200 + Math.random() * 220));
-      scene.tweens.add({ targets: half, alpha: 0, delay: 350, duration: 500, onComplete: () => half.destroy() });
+      halves.push(half);
     }
     killObj(scene, o);
   }
 
-  // distance from circle center to the stroke segment
+  function drawCut(scene, dirX, dirY, K) {
+    // the flick out of stance: one cut through everything on the line
+    const W = scene.scale.width, H = scene.scale.height;
+    const cx = lastPt?.x ?? W / 2, cy = lastPt?.y ?? H / 2;
+    const len = Math.hypot(dirX, dirY) || 1;
+    const ux = dirX / len, uy = dirY / len;
+    const hits = [];
+    for (const o of [...objs]) {
+      // distance from object to the infinite line through (cx,cy)
+      const dx = o.img.x - cx, dy = o.img.y - cy;
+      const d = Math.abs(dx * uy - dy * ux);
+      if (d <= o.r + 26 * K) hits.push(o);
+    }
+    // the cut line, drawn as a blade of light
+    const lineGfx = scene.add.graphics().setDepth(45).setBlendMode(P.BlendModes.ADD);
+    lineGfx.lineStyle(20 * K, cfg.accent, 0.3).lineBetween(cx - ux * W * 2, cy - uy * W * 2, cx + ux * W * 2, cy + uy * W * 2);
+    lineGfx.lineStyle(6 * K, cfg.blade, 0.95).lineBetween(cx - ux * W * 2, cy - uy * W * 2, cx + ux * W * 2, cy + uy * W * 2);
+    scene.tweens.add({ targets: lineGfx, alpha: 0, duration: 420, onComplete: () => lineGfx.destroy() });
+    flash(scene, 0xffffff, 110, 0.45);
+    if (hits.length) {
+      hitstop(scene, Math.min(220, 90 + hits.length * 20), () => {
+        shake(scene, 0.012 + hits.length * 0.003, 240);
+        zoomPunch(scene, 1.1, 280);
+      });
+      for (const o of hits) sliceObj(scene, o, ux, uy, K);
+      const gain = hits.length * 15;
+      api.score(gain);
+      glyphBanner(scene, `${hits.length}-FOLD CUT`, '#fff0c8', 32 * K);
+      floatScore(scene, cx, cy - 40 * K, `+${gain}`, '#fff0c8', 30 * K);
+      if (hits.length >= 5) api.sfx('pr');
+      else api.sfx('objDone');
+      api.haptic([12, 30, 12, 30, 12]);
+    } else {
+      api.sfx('tap');
+    }
+  }
+
+  function enterStance(scene) {
+    stance.active = true;
+    scene.time.timeScale = 0.16;
+    scene.tweens.timeScale = 0.16;
+    if (scene.physics?.world) scene.physics.world.timeScale = 1 / 0.16;
+    api.sfx('tap');
+    api.haptic(20);
+  }
+
+  function exitStance(scene) {
+    stance.active = false;
+    scene.time.timeScale = 1;
+    scene.tweens.timeScale = 1;
+    if (scene.physics?.world) scene.physics.world.timeScale = 1;
+  }
+
   function segHit(ax, ay, bx, by, cx, cy, r) {
     const dx = bx - ax, dy = by - ay;
     const len2 = dx * dx + dy * dy || 1;
@@ -424,13 +584,18 @@ export function create(P, ctx) {
   return {
     physics: { default: 'arcade', arcade: { gravity: { x: 0, y: 0 } } },
 
+    fever() { fever = true; },
+
     create() {
       const scene = this;
       const K = unit(scene);
       ensureFx(scene);
       paintSky(scene, cfg.sky);
-      drawLand(scene, cfg, K);
+      drawLand(scene, cfg, K, world);
       ambientMotes(scene, cfg.accent, { alpha: cfg.candles ? 0.3 : 0.5 });
+      bloomCamera(scene);
+      vignette(scene, 0.4, 0.75);
+
       if (cfg.snow) {
         scene.add.particles(0, 0, 'fx-chip', {
           x: { min: 0, max: scene.scale.width }, y: -10,
@@ -448,10 +613,13 @@ export function create(P, ctx) {
         }).setDepth(-30);
       }
       if (cfg.candles) {
-        scene.add.rectangle(0, 0, scene.scale.width, scene.scale.height, 0x08040a, 0.34).setOrigin(0).setDepth(-20);
+        darkVeil = scene.add.rectangle(0, 0, scene.scale.width, scene.scale.height, 0x08040a, world.darkness)
+          .setOrigin(0).setDepth(-20);
       }
+      if (cfg.ribbon) ribbonGfx = scene.add.graphics().setDepth(-60);
 
       trailGfx = scene.add.graphics().setDepth(40).setBlendMode(P.BlendModes.ADD);
+      stanceGfx = scene.add.graphics().setDepth(42).setBlendMode(P.BlendModes.ADD);
       sliceGlow = scene.add.particles(0, 0, 'fx-dot', {
         speed: { min: 20, max: 90 }, scale: { start: 0.4 * K, end: 0 },
         lifespan: 220, tint: cfg.blade, blendMode: 'ADD', frequency: -1,
@@ -460,21 +628,52 @@ export function create(P, ctx) {
       t0 = scene.time.now;
       nextSpawn = scene.time.now + 500;
 
-      scene.input.on('pointerdown', (p) => { lastPt = { x: p.x, y: p.y, t: scene.time.now }; strokeSlices = 0; });
-      scene.input.on('pointerup', () => { lastPt = null; strokeSlices = 0; });
+      scene.input.on('pointerdown', (p) => {
+        lastPt = { x: p.x, y: p.y, t: scene.time.now };
+        downAt = scene.time.now;
+        stance.lastMoveT = scene.time.now;
+        strokeSlices = 0;
+      });
+      scene.input.on('pointerup', () => {
+        if (stance.active) exitStance(scene);
+        lastPt = null;
+        strokeSlices = 0;
+      });
       scene.input.on('pointermove', (p) => {
         if (!lastPt) return;
         const now = scene.time.now;
         const dt = Math.max(1, now - lastPt.t);
         const dx = p.x - lastPt.x, dy = p.y - lastPt.y;
-        const speed = Math.hypot(dx, dy) / dt; // px per ms
+        const dist = Math.hypot(dx, dy);
+        const speed = dist / dt;
         trail.push({ x: p.x, y: p.y, t: now });
+        if (dist > 3) stance.lastMoveT = now;
+        if (stance.active && speed > 0.5 && dist > 14) {
+          // the draw-cut: flick out of the sheathe
+          exitStance(scene);
+          stance.meter = 0;
+          drawCut(scene, dx, dy, unit(scene));
+          lastPt = { x: p.x, y: p.y, t: now };
+          return;
+        }
         if (speed > 0.45) {
           sliceGlow.emitParticleAt(p.x, p.y, 2);
-          const len = Math.hypot(dx, dy) || 1;
+          const len = dist || 1;
+          // waterfall law: the ribbon parts where the blade crosses it
+          if (cfg.ribbon && world.ribbonOpen <= 0) {
+            const rx = scene.scale.width * 0.5;
+            if ((lastPt.x - rx) * (p.x - rx) < 0) {
+              world.ribbonOpen = 2000;
+              const K2 = unit(scene);
+              burst(scene, rx, (lastPt.y + p.y) / 2, 0xbfe8f8, { n: 22, speed: 300 * K2, scale: 0.5 * K2 });
+              spawnObj(scene, K2, 'goldkoi', rx, { vxSpread: 200 });
+              if (Math.random() < 0.6) spawnObj(scene, K2, 'goldkoi', rx, { vxSpread: 200 });
+              api.sfx('objDone');
+            }
+          }
           for (const o of [...objs]) {
             if (segHit(lastPt.x, lastPt.y, p.x, p.y, o.img.x, o.img.y, o.r)) {
-              sliceObj(scene, o, dx / len, dy / len, K);
+              sliceObj(scene, o, dx / len, dy / len, unit(scene));
             }
           }
         }
@@ -482,31 +681,116 @@ export function create(P, ctx) {
       });
     },
 
-    update() {
+    update(t, dtMs) {
       const scene = this;
       const K = unit(scene);
-      const H = scene.scale.height;
+      const W = scene.scale.width, H = scene.scale.height;
       const now = scene.time.now;
 
-      // spawn volleys, ramping up over the rest period
-      if (now >= nextSpawn) {
-        const elapsed = (now - t0) / 1000;
-        const volley = 1 + (elapsed > 18 ? 1 : 0) + (elapsed > 45 ? 1 : 0) + (Math.random() < 0.3 ? 1 : 0);
-        for (let i = 0; i < volley; i++) scene.time.delayedCall(i * 130, () => launch(scene, K));
-        nextSpawn = now + Math.max(560, 1250 - elapsed * 9) / cfg.pace;
+      // ——— sheathe stance ———
+      if (lastPt && !stance.active && stance.meter > 0.25
+        && now - downAt > 260 && now - stance.lastMoveT > 260) {
+        enterStance(scene);
+      }
+      if (stance.active) {
+        stance.meter -= dtMs / 2200;
+        if (stance.meter <= 0) { stance.meter = 0; exitStance(scene); }
+      } else {
+        stance.meter = Math.min(1, stance.meter + dtMs / 6000);
+      }
+      stanceGfx.clear();
+      // stance meter: a thin blade of light along the top of the canvas
+      stanceGfx.fillStyle(cfg.blade, 0.7).fillRect(0, 0, W * stance.meter, 3 * K);
+      if (stance.active && lastPt) {
+        const pulse = 0.5 + 0.3 * Math.sin(now / 90);
+        stanceGfx.lineStyle(2.5 * K, cfg.blade, pulse);
+        stanceGfx.strokeCircle(lastPt.x, lastPt.y, 44 * K + 6 * K * Math.sin(now / 140));
+        stanceGfx.fillStyle(cfg.accent, 0.06).fillRect(0, 0, W, H);
       }
 
-      // cull fallen objects
+      // ——— world clocks ———
+      if (cfg.ribbon) {
+        world.ribbonOpen = Math.max(0, world.ribbonOpen - dtMs);
+        ribbonGfx.clear();
+        const openF = world.ribbonOpen > 0 ? 0.18 : 1;
+        ribbonGfx.fillStyle(0xbfe8f8, 0.2 * openF).fillRect(W * 0.5 - 22 * K, 0, 44 * K, H);
+        ribbonGfx.fillStyle(0xffffff, 0.14 * openF).fillRect(W * 0.5 - 8 * K, 0, 16 * K, H);
+      }
+      if (cfg.candles && darkVeil) {
+        world.darkness = Math.max(0.34, world.darkness - dtMs / 24000);
+        darkVeil.setAlpha(world.darkness);
+      }
+      if (cfg.icetime) {
+        world.nextFreeze -= dtMs;
+        if (world.frozen > 0) {
+          world.frozen -= dtMs;
+          if (world.frozen <= 0) {
+            for (const o of objs) {
+              o.img.body.enable = true;
+              o.img.clearTint();
+            }
+          }
+        } else if (world.nextFreeze <= 0) {
+          world.nextFreeze = 7000;
+          world.frozen = 1400;
+          for (const o of objs) {
+            o.img.body.enable = false;
+            o.img.setTint(0xaadcff);
+          }
+          flash(scene, 0xaadcff, 120, 0.25);
+          api.sfx('tap');
+        }
+      }
+      if (cfg.spine && world.spineGfx) {
+        world.spineT += dtMs / 1000;
+        const g = world.spineGfx;
+        g.clear();
+        g.fillStyle(0x2c3a7c, 0.9);
+        g.beginPath();
+        g.moveTo(0, H);
+        for (let x = 0; x <= W; x += W / 24) {
+          g.lineTo(x, H * 0.9 + Math.sin(world.spineT * 1.4 + x / (W / 6)) * H * 0.035);
+        }
+        g.lineTo(W, H);
+        g.closePath(); g.fillPath();
+        for (let x = W / 24; x < W; x += W / 8) {
+          const y = H * 0.9 + Math.sin(world.spineT * 1.4 + x / (W / 6)) * H * 0.035;
+          g.fillStyle(0x7ad0ff, 0.8);
+          g.fillTriangle(x - 8 * K, y, x, y - 16 * K, x + 8 * K, y);
+        }
+        // the itch-spot rides the spine
+        if (now - world.itchAt > 5000 && !objs.some((o) => o.kind === 'itch')) {
+          world.itchAt = now;
+          const o = spawnObj(scene, K, 'itch', W * (0.2 + Math.random() * 0.6), { peakLo: 0.35 });
+          o.img.setTint(0xffe9a0);
+        }
+      }
+
+      // ——— spawning, ramping over the rest period ———
+      if (now >= nextSpawn) {
+        const elapsed = (now - t0) / 1000;
+        let volley = 1 + (elapsed > 18 ? 1 : 0) + (elapsed > 45 ? 1 : 0) + (Math.random() < 0.3 ? 1 : 0);
+        if (fever) volley += 1;
+        for (let i = 0; i < volley; i++) scene.time.delayedCall(i * 130, () => launch(scene, K));
+        nextSpawn = now + Math.max(560, 1250 - elapsed * 9) / (cfg.pace * (fever ? 1.35 : 1));
+      }
+
+      // ——— housekeeping ———
       for (const o of [...objs]) {
         if ((o.img.y > H + 70 * K && o.img.body.velocity.y > 0) || now - o.born > 9000) killObj(scene, o);
       }
+      for (const half of [...halves]) {
+        if (!half.active) { halves.splice(halves.indexOf(half), 1); continue; }
+        if (half.y > H * 0.92 && half.body.velocity.y > -10) freezeHalf(scene, half);
+        else if (half.y > H + 80 * K) { halves.splice(halves.indexOf(half), 1); half.destroy(); }
+      }
 
-      // blade trail: taper, glow, fade over 160ms
+      // ——— blade trail ———
       while (trail.length && now - trail[0].t > 160) trail.shift();
       trailGfx.clear();
       if (trail.length > 1) {
         for (let i = 1; i < trail.length; i++) {
-          const a = (i / trail.length);
+          const a = i / trail.length;
           trailGfx.lineStyle(14 * K * a, cfg.accent, 0.28 * a);
           trailGfx.lineBetween(trail[i - 1].x, trail[i - 1].y, trail[i].x, trail[i].y);
           trailGfx.lineStyle(5 * K * a, cfg.blade, 0.85 * a);

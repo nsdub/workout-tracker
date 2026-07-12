@@ -172,7 +172,9 @@ let restState = null; // { deadline, total, fired, bar, digits, lock }
 // The arcade loads lazily on the first Play tap — zero boot cost.
 const GAME_UNIVERSES = new Set(['dojo', 'deep', 'park', 'wok', 'atoll', 'yeti']);
 let gameMod = null;
-async function loadGames() {
+// Exported so QA can open the arcade through the exact production path
+// (loading here is what wires gamePopHandled below into app.js's chain).
+export async function loadGames() {
   gameMod ??= await import('./game/overlay.js');
   return gameMod;
 }

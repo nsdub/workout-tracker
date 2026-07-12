@@ -7,9 +7,10 @@
 // (throttled in background, caught up on return) is what ends the game, so
 // "rest over" is always the truth no matter what the render loop did.
 import { $, esc, haptic } from '../util.js';
-import { sfx } from '../audio.js';
+import { sfx, note } from '../audio.js';
 import { toast } from '../components.js';
 import { loadPhaser } from './loader.js';
+import { glyphBanner, goldRush, slowmo } from './fx.js';
 import { gameFor, bestFor, saveBest } from './registry.js';
 
 // Constant availability check — no game modules needed at boot.
@@ -58,7 +59,7 @@ export async function openGame({ deadline }) {
 
   // Claim the cabinet immediately so double-taps and re-entries bounce off,
   // then finish booting asynchronously.
-  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false };
+  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false };
   try { history.pushState({ p3: 'game' }, ''); active.popPushed = true; } catch { /* throttled */ }
   $('#go-quit', el).addEventListener('click', () => closeGame());
 
@@ -82,12 +83,15 @@ export async function openGame({ deadline }) {
   const api = {
     score(delta) {
       if (active !== mine) return mine.score;
+      if (mine.fever && delta > 0) delta *= 2; // GOLD RUSH pays double
       mine.score = Math.max(0, mine.score + delta);
       scoreEl.textContent = mine.score;
       return mine.score;
     },
     sfx,
+    note,
     haptic,
+    timeLeft: () => Math.max(0, deadline - Date.now()),
   };
 
   // While a game is live, any uncaught page error is treated as the game's:
@@ -125,10 +129,30 @@ export async function openGame({ deadline }) {
   } catch (err) { fail(err); return; }
 
   // HUD clock ticks off the same wall-clock deadline as the rest pill.
+  // The last 10 seconds are the GOLD RUSH (double points, molten world)
+  // and the final beat plays in slow motion — the hard stop is the fever,
+  // not the interruption (Peggle's law).
   mine.clock = setInterval(() => {
     if (active !== mine) return;
     timeEl.textContent = hudTime(deadline);
-    if (Date.now() >= deadline) showGameOver();
+    const left = deadline - Date.now();
+    const scene = () => { try { return mine.game.scene.getScene('play'); } catch { return null; } };
+    if (!mine.fever && left <= 10000 && left > 2000) {
+      mine.fever = true;
+      timeEl.classList.add('gold');
+      const s = scene();
+      if (s) {
+        try { glyphBanner(s, 'GOLD RUSH ×2', '#ffd24a', 30); goldRush(s); sceneCfg.fever?.(s); } catch { /* garnish */ }
+      }
+      sfx('objDone');
+      haptic([12, 30, 12]);
+    }
+    if (!mine.slowed && left <= 1300 && left > 0) {
+      mine.slowed = true;
+      const s = scene();
+      if (s) { try { slowmo(s, 0.3, 1250); } catch { /* garnish */ } }
+    }
+    if (left <= 0) showGameOver();
   }, 250);
 
   function showGameOver() {
