@@ -256,8 +256,9 @@ await ok('worldDef resolves saved ids and falls back for unknown/legacy entries'
 });
 
 // ——— the arcade ———
+// Importing the registry under node is itself a test: game modules must be
+// data-clean at import time (Phaser only ever touched inside create()).
 const { GAMES, gameFor, saveBest, bestFor } = await import('../js/game/registry.js');
-const eng = await import('../js/game/engine.js');
 
 await ok('every one of the 48 worlds has a mini-game config', () => {
   for (const [type, U] of Object.entries(UNIVERSES)) {
@@ -283,20 +284,32 @@ await ok('every world lives in exactly one game module', () => {
   assert.equal(seen.size, all.length, 'orphan game configs exist');
   for (const cls of all) assert.ok(seen.has(cls), `${cls} uncovered`);
 });
-await ok('the slingshot owns its three worlds', () => {
-  for (const w of ['atoll-wreck', 'yeti-village', 'dojo-dragon']) {
-    const spec = gameFor(null, w);
-    assert.equal(spec.title, 'Slingshot', `${w} should be Slingshot`);
-    assert.ok(typeof spec.load === 'function', 'slingshot must expose load() for physics');
+await ok('the six mechanics are distinct and every world config can paint its sky', () => {
+  const titles = new Set();
+  for (const [key, mod] of Object.entries(GAMES)) {
+    assert.ok(mod.TITLE, `${key} missing TITLE`);
+    assert.ok(!titles.has(mod.TITLE), `${mod.TITLE} used by two universes`);
+    titles.add(mod.TITLE);
+    assert.equal(typeof mod.create, 'function', `${key} missing create()`);
+    for (const [w, cfg] of Object.entries(mod.WORLDS)) {
+      assert.ok(Array.isArray(cfg.sky) && cfg.sky.length >= 2, `${w} has no sky gradient`);
+      assert.ok(cfg.name, `${w} has no display name`);
+    }
   }
+  assert.equal(titles.size, 6, 'expected exactly six game mechanics');
 });
-await ok('engine math: collisions and clamps', () => {
-  assert.equal(eng.circleHit(0, 0, 5, 8, 0, 4), true);
-  assert.equal(eng.circleHit(0, 0, 5, 10, 0, 4), false);
-  assert.equal(eng.rectHit(0, 0, 10, 10, 9, 9, 5, 5), true);
-  assert.equal(eng.rectHit(0, 0, 10, 10, 11, 0, 5, 5), false);
-  assert.equal(eng.clamp(5, 0, 3), 3);
-  assert.equal(eng.clamp(-2, 0, 3), 0);
+await ok('sw shell carries the whole arcade (engine vendor + every module)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const sw = readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
+  for (const f of [
+    'vendor/phaser.min.js', 'js/game/loader.js', 'js/game/fx.js',
+    'js/game/registry.js', 'js/game/overlay.js',
+    ...Object.keys(GAMES).map((g) => `js/game/games/${g}.js`),
+  ]) {
+    assert.ok(sw.includes(`'${f}'`), `sw.js SHELL is missing ${f} — offline arcade would 404`);
+  }
+  assert.ok(!sw.includes('matter.min.js'), 'stale matter vendor still in the shell');
+  assert.ok(!sw.includes("'js/game/engine.js'"), 'deleted engine still in the shell');
 });
 await ok('best scores persist per world and only improve', () => {
   localStorage.removeItem('p3.gameBests');
