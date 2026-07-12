@@ -251,6 +251,19 @@ export function create(P, ctx) {
     const ship = { pieces, shelf, alive: true, x };
     for (const p of pieces) p.ship = ship;
     ships.push(ship);
+    // wreckage permanence has a budget: past four ships, the oldest dead
+    // one sinks below the waves so Matter never chugs on a long rest
+    if (ships.length > 4) {
+      const old = ships.find((s) => !s.alive);
+      if (old) {
+        ships.splice(ships.indexOf(old), 1);
+        try { scene.matter.world.remove(old.shelf); } catch { /* gone */ }
+        for (const p of old.pieces) {
+          if (!p.img.active) continue;
+          scene.tweens.add({ targets: p.img, y: p.img.y + 120 * K, alpha: 0, duration: 1600, onComplete: () => { try { p.img.destroy(); } catch { /* gone */ } } });
+        }
+      }
+    }
     banner(scene, 'SAILS ON THE HORIZON', '#8ab8dc', 20 * K);
     return ship;
   }
@@ -307,6 +320,9 @@ export function create(P, ctx) {
   }
 
   function fire(scene, K) {
+    // a follow-up shot retires the previous ball — no orphan bodies
+    if (ball?.img.active) { try { ball.img.destroy(); } catch { /* gone */ } }
+    ball = null;
     const c = CANNON(scene);
     const dx = aimAt.x - c.x, dy = aimAt.y - c.y;
     const ang = Math.atan2(dy, dx);

@@ -198,8 +198,13 @@ export function create(P, ctx) {
 
   function buildField(scene, K) {
     const W = scene.scale.width, H = scene.scale.height;
-    for (const p of pegs) { p.img.destroy(); if (p.body) scene.matter.world.remove(p.body); }
-    pegs = [];
+    // the dragon survives every refill — it IS the world
+    for (const p of pegs) {
+      if (p.dragonHead) continue;
+      p.img.destroy();
+      if (p.body) scene.matter.world.remove(p.body);
+    }
+    pegs = pegs.filter((p) => p.dragonHead);
     const cols = 6, rows = Math.ceil(cfg.pegs / cols);
     const x0 = W * 0.12, x1 = W * 0.88;
     const y0 = H * 0.2, y1 = H * 0.66;
@@ -239,7 +244,7 @@ export function create(P, ctx) {
   }
 
   function lightPeg(scene, K, peg, viaCracker = false) {
-    if (peg.lit) return;
+    if (peg.lit || !peg.img.active) return;
     peg.lit = true;
     litThisDrop.push(peg);
     const litKey = canvasTex(scene, 'wk-peglit', PR * 3.4 * K, PR * 3.4 * K, PAINT.pegLit);
@@ -308,9 +313,11 @@ export function create(P, ctx) {
       api.sfx('objDone');
     }
     // the lit lanterns pop, one by one, rising
-    litThisDrop.forEach((p, i) => {
+    const popped = litThisDrop;
+    popped.forEach((p, i) => {
       scene.time.delayedCall(i * 70, () => {
         if (!p.img.active) return;
+        if (p.dragonHead) { p.lit = false; return; } // the dragon only lends its head
         p.spent = true;
         burst(scene, p.img.x, p.img.y, p.kind === 'gold' ? 0xffe9b3 : 0xffc46c, { n: 10, speed: 260 * K, scale: 0.45 * K });
         collectTo(scene, p.img.x, p.img.y, scene.scale.width - 30 * K, 20 * K, 0xffc46c, 4);
@@ -322,10 +329,10 @@ export function create(P, ctx) {
     litThisDrop = [];
     noteStep = 0;
     dropCount++;
-    // a thinning field refills fresh
-    if (pegs.filter((p) => !p.spent).length < 8) {
-      scene.time.delayedCall(litThisDrop.length * 70 + 600, () => buildField(scene, K));
-    }
+    // a thinning field refills fresh, after the pop ceremony finishes
+    scene.time.delayedCall(popped.length * 70 + 600, () => {
+      if (pegs.filter((p) => !p.spent && !p.dragonHead).length < 8) buildField(scene, K);
+    });
   }
 
   return {

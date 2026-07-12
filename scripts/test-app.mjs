@@ -298,6 +298,17 @@ await ok('the six mechanics are distinct and every world config can paint its sk
   }
   assert.equal(titles.size, 6, 'expected exactly six game mechanics');
 });
+await ok('the playable-universe sets in components.js and overlay.js match the registry', async () => {
+  const { readFileSync } = await import('node:fs');
+  for (const file of ['../js/components.js', '../js/game/overlay.js']) {
+    const src = readFileSync(new URL(file, import.meta.url), 'utf8');
+    const m = src.match(/GAME_UNIVERSES = new Set\(\[([^\]]*)\]\)/);
+    assert.ok(m, `${file} lost its GAME_UNIVERSES set`);
+    const set = new Set([...m[1].matchAll(/'([a-z]+)'/g)].map((x) => x[1]));
+    for (const g of Object.keys(GAMES)) assert.ok(set.has(g), `${file} missing universe ${g} — Play button would never appear`);
+    for (const s of set) assert.ok(GAMES[s], `${file} lists ${s} but no game module exists — Play would silently no-op`);
+  }
+});
 await ok('sw shell carries the whole arcade (engine vendor + every module)', async () => {
   const { readFileSync } = await import('node:fs');
   const sw = readFileSync(new URL('../sw.js', import.meta.url), 'utf8');

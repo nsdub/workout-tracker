@@ -224,9 +224,11 @@ export function bloomCamera(scene) {
 }
 
 // Soft darkened edges — instant cinema, one filter pass.
-export function vignette(scene, strength = 0.45, radius = 0.72) {
+export function vignette(scene, strength = 0.3, radius = 0.85) {
   if (!gl(scene)) return;
-  try { scene.cameras.main.filters.internal.addVignette(0.5, 0.5, radius, strength); } catch { /* filter miss */ }
+  // verified on the WebGL renderer: heavier values than this swallow the
+  // whole scene on a phone-shaped canvas
+  try { scene.cameras.main.filters.internal.addVignette(0.5, 0.5, radius, Math.min(strength, 0.32)); } catch { /* filter miss */ }
 }
 
 // Camera zoom-punch: kiss the action, spring back.

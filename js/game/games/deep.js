@@ -482,7 +482,8 @@ export function create(P, ctx) {
               o.img.destroy();
               obstacles.splice(obstacles.indexOf(o), 1);
             } else {
-              // depth thief: bounced UP
+              // depth thief: bounced UP — one-shot, then the jelly is
+              // flung clear so the overlap can't re-trigger every frame
               depth = Math.max(0, depth - 4);
               api.score(-4);
               v = 0;
@@ -493,6 +494,7 @@ export function create(P, ctx) {
               api.haptic([10, 40, 10]);
               api.sfx('log');
               noteStep = 0;
+              o.img.y = player.y - o.h - 60 * K;
             }
           } else if (o.lure) {
             bump(scene, o, K);
@@ -542,7 +544,7 @@ export function create(P, ctx) {
           L.gfx.fillStyle(0xfff4c8, 0.14);
           L.gfx.fillTriangle(bx, by, ex - 60 * K, ey, ex + 60 * K, ey);
           // beam catch
-          if (spotted <= 0 && player.y < ey && player.y > by && Math.abs(player.x - (bx + (ex - bx) * ((player.y - by) / (ey - by || 1)))) < 55 * K) {
+          if (spotted <= 0 && player.y > ey && player.y < by && Math.abs(player.x - (bx + (ex - bx) * ((player.y - by) / (ey - by || 1)))) < 55 * K) {
             spotted = 900;
             floatScore(scene, player.x, player.y - 26 * K, 'SPOTTED', '#fff4c8', 15 * K);
             api.haptic(12);

@@ -159,7 +159,9 @@ export async function openGame({ deadline }) {
     if (active !== mine) return;
     clearInterval(mine.clock);
     mine.clock = null;
-    try { mine.game.scene.pause('play'); } catch { /* already gone */ }
+    // pause AND stop the loop: a hitstop timeout in flight would otherwise
+    // resume the scene behind the results panel and keep scoring
+    try { mine.game.scene.pause('play'); mine.game.loop.stop(); } catch { /* already gone */ }
     const finalScore = mine.score;
     const prevBest = bestFor(worldCls);
     const isRecord = saveBest(worldCls, finalScore);
