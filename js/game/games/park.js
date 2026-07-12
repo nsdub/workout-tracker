@@ -303,23 +303,25 @@ export function create(P, ctx) {
 
       aimGfx = scene.add.graphics().setDepth(30);
       resetStone(scene, K);
+      glyphBanner(scene, 'PULL BACK. RELEASE.', '#dff6ff', 22 * K);
 
+      // Angry-Birds grammar: touch ANYWHERE, pull back (down-left), release.
+      // The vector is relative to your own finger, not to a corner anchor.
       scene.input.on('pointerdown', (p) => {
         if (!stone || stone.flying || stone.dead) return;
         aiming = true;
-        aimAt = { x: p.x + scene.cameras.main.scrollX, y: p.y };
+        aimAt = { sx: p.x, sy: p.y, x: p.x, y: p.y };
       });
       scene.input.on('pointermove', (p) => {
-        if (aiming) aimAt = { x: p.x + scene.cameras.main.scrollX, y: p.y };
+        if (aiming && aimAt) { aimAt.x = p.x; aimAt.y = p.y; }
       });
       scene.input.on('pointerup', () => {
         if (!aiming || !stone || stone.flying) { aiming = false; return; }
         aiming = false;
-        const a = anchor(scene);
-        const dx = a.x - aimAt.x, dy = a.y - aimAt.y;
+        const dx = aimAt.sx - aimAt.x, dy = aimAt.sy - aimAt.y;
+        if (dx < 15 * K) return; // no pull-back — a fidget, not a throw
         const pow = Math.min(Math.hypot(dx, dy), 180 * K);
-        if (pow < 20 * K) return; // a fidget, not a throw
-        const ang = Math.atan2(dy, dx);
+        const ang = Math.max(-1.35, Math.min(-0.06, Math.atan2(dy, dx)));
         const KV = 6.2 * (fever ? 1.06 : 1);
         stone.vx = Math.cos(ang) * pow * KV;
         stone.vy = Math.sin(ang) * pow * KV;
@@ -339,23 +341,26 @@ export function create(P, ctx) {
       const wy = waterY(scene);
       const cam = scene.cameras.main;
 
-      // aim guide
+      // aim guide: the pull-back band under your finger + trajectory dots
       aimGfx.clear();
       if (aiming && aimAt && stone && !stone.flying) {
         const a = anchor(scene);
-        const dx = a.x - aimAt.x, dy = a.y - aimAt.y;
-        const pow = Math.min(Math.hypot(dx, dy), 180 * K);
-        const ang = Math.atan2(dy, dx);
-        const KV = 6.2;
-        let px = a.x, py = a.y, pvx = Math.cos(ang) * pow * KV, pvy = Math.sin(ang) * pow * KV;
-        aimGfx.fillStyle(0xffffff, 0.85);
-        for (let i = 0; i < 14; i++) {
-          px += pvx * 0.05; pvy += 900 * K * 0.05; py += pvy * 0.05;
-          if (py > wy) break;
-          aimGfx.fillCircle(px, py, (4 - i * 0.18) * K);
+        const dx = aimAt.sx - aimAt.x, dy = aimAt.sy - aimAt.y;
+        const scroll = cam.scrollX;
+        aimGfx.lineStyle(4 * K, 0xffffff, 0.4);
+        aimGfx.lineBetween(aimAt.sx + scroll, aimAt.sy, aimAt.x + scroll, aimAt.y);
+        if (dx >= 15 * K) {
+          const pow = Math.min(Math.hypot(dx, dy), 180 * K);
+          const ang = Math.max(-1.35, Math.min(-0.06, Math.atan2(dy, dx)));
+          const KV = 6.2;
+          let px = a.x, py = a.y, pvx = Math.cos(ang) * pow * KV, pvy = Math.sin(ang) * pow * KV;
+          aimGfx.fillStyle(0xffffff, 0.85);
+          for (let i = 0; i < 14; i++) {
+            px += pvx * 0.05; pvy += 900 * K * 0.05; py += pvy * 0.05;
+            if (py > wy) break;
+            aimGfx.fillCircle(px, py, (4 - i * 0.18) * K);
+          }
         }
-        aimGfx.lineStyle(3 * K, 0xffffff, 0.5);
-        aimGfx.lineBetween(a.x, a.y, aimAt.x, aimAt.y);
       }
 
       // bison wander

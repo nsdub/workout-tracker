@@ -437,7 +437,7 @@ export function create(P, ctx) {
         const img = scene.matter.add.image(x, 44 * K, canvasTex(scene, 'wk-dump', 34 * K, 32 * K, PAINT.dumpling), null, {
           shape: 'circle', restitution: cfg.bouncy ? 0.75 : 0.55, friction: 0.002, frictionAir: 0.008, density: 0.0022, label: 'ball',
         }).setDepth(15);
-        ball = { img, born: scene.time.now };
+        ball = { img, born: scene.time.now, lastMove: scene.time.now, prevY: img.y };
         api.sfx('tap');
         api.haptic(6);
         squash(scene, launcher, 'y');
@@ -498,16 +498,24 @@ export function create(P, ctx) {
       // drop resolution
       if (ball) {
         const bx = ball.img.x, by = ball.img.y;
+        const bv = ball.img.body ? Math.hypot(ball.img.body.velocity.x, ball.img.body.velocity.y) : 0;
+        if (bv > 0.6) ball.lastMove = scene.time.now;
         for (const wk of woks) {
-          if (Math.abs(bx - wk.img.x) < wk.w * 0.4 && Math.abs(by - wk.img.y) < 20 * K) {
+          // band + crossing test so a fast fall can't tunnel past the pan
+          const inX = Math.abs(bx - wk.img.x) < wk.w * 0.42;
+          const inBand = Math.abs(by - wk.img.y) < 26 * K;
+          const crossed = ball.prevY <= wk.img.y - 4 * K && by > wk.img.y - 4 * K;
+          if (inX && (inBand || crossed)) {
             burst(scene, bx, by, 0xffd24a, { n: 14, speed: 260 * K, scale: 0.5 * K });
             squash(scene, wk.img, 'y');
             resolveDrop(scene, K, wk.mult, wk.img.x);
             return;
           }
         }
+        ball.prevY = by;
         if (by > H + 30 * K) resolveDrop(scene, K, 1, bx);
-        else if (scene.time.now - ball.born > 14000) resolveDrop(scene, K, 1, bx); // wedged — mercy rule
+        else if (scene.time.now - ball.lastMove > 1400) resolveDrop(scene, K, 1, bx); // resting — bank it
+        else if (scene.time.now - ball.born > 6000) resolveDrop(scene, K, 1, bx); // wedged — mercy rule
       }
     },
   };

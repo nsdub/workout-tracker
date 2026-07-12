@@ -437,7 +437,8 @@ export function create(P, ctx) {
             api.score(10);
             floatScore(scene, player.x, player.y - 24 * K, 'TORN +10', '#7ad48a', 16 * K);
             api.sfx('objDone');
-          } else if (snag <= 0) {
+          } else if (snag <= 0 && !kp.snagged) {
+            kp.snagged = true; // a strand only grabs you once
             snag = 900;
             floatScore(scene, player.x, player.y - 24 * K, 'snagged!', '#7ad48a', 15 * K);
             api.haptic(16);
@@ -516,7 +517,9 @@ export function create(P, ctx) {
             api.sfx('tap');
           } else {
             bump(scene, o, K);
-            o.img.y -= 60 * K; // shove it past so the stun doesn't re-trigger
+            // fling it fully clear of the player: with v at zero nothing
+            // scrolls, so insufficient separation meant an infinite thunk
+            o.img.y = player.y - o.h / 2 - 46 * K;
           }
         } else if (!o.grazed && dy < hh * 1.6 && dx < hw * 1.7 && v > smashV) {
           o.grazed = true;

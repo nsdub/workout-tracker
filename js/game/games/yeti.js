@@ -495,6 +495,21 @@ export function create(P, ctx) {
           if (airT > 0) continue; // sailing over it
           if (th.pin) {
             smashThing(scene, K, th, 12 * auroraMult, 0.02);
+            // pins topple pins: the cluster dominos outward
+            const chain = (from, depth) => {
+              for (const q of things) {
+                if (q.pin && !q.dead && Math.hypot(q.img.x - from.img.x, q.img.y - from.img.y) < 62 * K) {
+                  q.dead = true; // claim now so cascades never loop
+                  scene.time.delayedCall(90 + depth * 70, () => {
+                    if (!q.img.active) return;
+                    q.dead = false;
+                    smashThing(scene, K, q, 8 * auroraMult, 0.01);
+                    chain(q, depth + 1);
+                  });
+                }
+              }
+            };
+            chain(th, 0);
             continue;
           }
           if (size >= th.meta.sizeClass) {

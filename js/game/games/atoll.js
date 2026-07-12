@@ -241,14 +241,14 @@ export function create(P, ctx) {
     add('crate', x - 34 * K, deckY - 45 * K, 30 * K, 30 * K);
     add('keg', x + 34 * K, deckY - 44 * K, 28 * K, 32 * K);
     add('mast', x, deckY - 62 * K, 34 * K, 120 * K);
-    add('captain', x + 4 * K, deckY - 100 * K, 26 * K, 40 * K);
+    const capImg = add('captain', x + 4 * K, deckY - 100 * K, 26 * K, 40 * K);
     if (isFlag && cfg.antenna) {
       // armor wall in front, golden antenna behind
       add('crate', x - 62 * K, deckY - 20 * K, 26 * K, 44 * K, { density: 0.004 });
       add('crate', x - 62 * K, deckY - 62 * K, 26 * K, 40 * K, { density: 0.004 });
       add('antenna', x + 52 * K, deckY - 70 * K, 22 * K, 90 * K, { density: 0.001 });
     }
-    const ship = { pieces, shelf, alive: true, x };
+    const ship = { pieces, shelf, alive: true, x, captain: capImg.body.pieceRef };
     for (const p of pieces) p.ship = ship;
     ships.push(ship);
     // wreckage permanence has a budget: past four ships, the oldest dead
@@ -544,8 +544,7 @@ export function create(P, ctx) {
         let downed = 0;
         for (const piece of ship.pieces) {
           if (!piece.img.active || !piece.img.body) { downed++; continue; }
-          if (!piece.scored && piece.kind !== 'hull' && piece.img.y > sy - 6 * K
-            && Math.abs(piece.img.x - ship.x) > 60 * K + (piece.kind === 'mast' ? 30 * K : 0)) {
+          if (!piece.scored && piece.kind !== 'hull' && piece.img.y > sy - 6 * K) {
             piece.scored = true;
             const pts = pieceKindPts(piece.kind) * mult;
             api.score(pts);
@@ -566,7 +565,8 @@ export function create(P, ctx) {
             } catch { /* gone */ }
           }
         }
-        if (ship.alive && downed >= ship.pieces.length - 1) {
+        // the objective is legible and always reachable: dunk the captain
+        if (ship.alive && (ship.captain.scored || !ship.captain.img.active)) {
           ship.alive = false;
           api.score(50);
           glyphBanner(scene, 'SHIP SILENCED +50', '#ffd24a', 28 * K);

@@ -487,7 +487,7 @@ export function create(P, ctx) {
     if (strokeSlices >= 4) {
       banner(scene, `COMBO ×${strokeSlices}`, '#ff9a3c', 34 * K);
       flash(scene, 0xfff0c8, 90, 0.3);
-      slowmo(scene, 0.35, 420);
+      if (!stance.active) slowmo(scene, 0.35, 420);
       zoomPunch(scene, 1.07, 240);
       shake(scene, 0.01, 160);
     }
@@ -688,8 +688,8 @@ export function create(P, ctx) {
       const now = scene.time.now;
 
       // ——— sheathe stance ———
-      if (lastPt && !stance.active && stance.meter > 0.25
-        && now - downAt > 260 && now - stance.lastMoveT > 260) {
+      if (lastPt && !stance.active && stance.meter >= 0.5 && strokeSlices === 0
+        && now - downAt > 300 && now - stance.lastMoveT > 300) {
         enterStance(scene);
       }
       if (stance.active) {
