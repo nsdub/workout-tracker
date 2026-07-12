@@ -14,6 +14,7 @@ import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, hitstop, slowmo, zoomPunch, collectTo, paintSky,
   ambientMotes, bloomCamera, vignette, squash, unit,
+  celestial, driftClouds,
 } from '../fx.js';
 
 export const TITLE = 'Broadside FM';
@@ -367,6 +368,88 @@ export function create(P, ctx) {
       bloomCamera(scene);
       vignette(scene, 0.4, 0.75);
       ambientMotes(scene, cfg.accent, { alpha: 0.35 });
+
+      // the atoll on the horizon: islands, the volcano lighthouse, palms
+      canvasTex(scene, 'at-isle', W, H, (c) => {
+        // distant island chain
+        c.fillStyle = 'rgba(16,32,48,.55)';
+        for (const [fx, fw, fh] of [[0.16, 0.13, 0.045], [0.42, 0.09, 0.03], [0.9, 0.11, 0.04]]) {
+          c.beginPath();
+          c.ellipse(W * fx, sy - H * fh * 0.4, W * fw, H * fh, 0, Math.PI, 0);
+          c.fill();
+        }
+        // the volcano lighthouse island
+        const vx = W * 0.66, vw = W * 0.17, base = sy - 2;
+        c.fillStyle = 'rgba(22,26,44,.85)';
+        c.beginPath();
+        c.moveTo(vx - vw, base);
+        c.lineTo(vx - vw * 0.24, base - H * 0.13);
+        c.lineTo(vx + vw * 0.24, base - H * 0.13);
+        c.lineTo(vx + vw, base);
+        c.closePath(); c.fill();
+        // tower on the crater rim
+        c.fillStyle = 'rgba(40,32,56,.95)';
+        c.fillRect(vx - W * 0.016, base - H * 0.185, W * 0.032, H * 0.06);
+        c.fillStyle = 'rgba(255,220,140,.95)';
+        c.fillRect(vx - W * 0.02, base - H * 0.198, W * 0.04, H * 0.016);
+        const lg = c.createRadialGradient(vx, base - H * 0.19, 1, vx, base - H * 0.19, W * 0.05);
+        lg.addColorStop(0, 'rgba(255,230,160,.9)'); lg.addColorStop(1, 'rgba(255,210,120,0)');
+        c.fillStyle = lg;
+        c.beginPath(); c.arc(vx, base - H * 0.19, W * 0.05, 0, 7); c.fill();
+        // crater glow
+        const cg = c.createRadialGradient(vx, base - H * 0.13, 1, vx, base - H * 0.13, W * 0.06);
+        cg.addColorStop(0, 'rgba(255,122,60,.6)'); cg.addColorStop(1, 'rgba(255,90,40,0)');
+        c.fillStyle = cg;
+        c.beginPath(); c.arc(vx, base - H * 0.132, W * 0.06, 0, 7); c.fill();
+      });
+      scene.add.image(0, 0, 'at-isle').setOrigin(0).setDepth(-70);
+      // the lighthouse beam, sweeping forever
+      const beamKey = canvasTex(scene, 'at-beam', 220 * K, 26 * K, (c, w, h) => {
+        const g2 = c.createLinearGradient(0, 0, w, 0);
+        g2.addColorStop(0, 'rgba(255,236,180,.85)'); g2.addColorStop(1, 'rgba(255,236,180,0)');
+        c.fillStyle = g2;
+        c.beginPath(); c.moveTo(0, h * 0.4); c.lineTo(w, 0); c.lineTo(w, h); c.lineTo(0, h * 0.6); c.closePath(); c.fill();
+      });
+      const beam = scene.add.image(W * 0.66, sy - H * 0.19, beamKey)
+        .setOrigin(0, 0.5).setBlendMode('ADD').setAlpha(cfg.lava ? 0.8 : 0.45).setDepth(-69);
+      scene.tweens.add({ targets: beam, angle: { from: 150, to: 390 }, duration: 6000, repeat: -1 });
+      celestial(scene, W * 0.2, H * 0.12, 24 * K, cfg.cave ? 0xaef0ff : cfg.storm ? 0x9cb0c8 : 0xfff0c8,
+        { crescent: cfg.cave || cfg.kraken, depth: -88 });
+      driftClouds(scene, {
+        n: cfg.storm ? 4 : 2, tint: cfg.storm ? 0x3c4a5c : 0xffffff,
+        alpha: cfg.storm ? 0.8 : 0.5, yBand: [0.04, 0.22], depth: -76,
+        speed: cfg.storm ? 46 : 9,
+      });
+      // gulls working the wind (they stay home in a hurricane)
+      if (!cfg.storm && !cfg.cave) {
+        const gullKey = canvasTex(scene, 'at-gull', 30 * K, 12 * K, (c, w, h) => {
+          c.strokeStyle = 'rgba(240,248,255,.9)'; c.lineWidth = h * 0.2; c.lineCap = 'round';
+          c.beginPath(); c.moveTo(0, h * 0.7); c.quadraticCurveTo(w * 0.25, 0, w * 0.5, h * 0.6); c.stroke();
+          c.beginPath(); c.moveTo(w * 0.5, h * 0.6); c.quadraticCurveTo(w * 0.75, 0, w, h * 0.7); c.stroke();
+        });
+        for (let i = 0; i < 2; i++) {
+          const gull = scene.add.image(W * (0.3 + i * 0.3), H * (0.16 + i * 0.08), gullKey).setDepth(-68).setAlpha(0.85);
+          scene.tweens.add({ targets: gull, x: gull.x + 60 * K, y: gull.y - 20 * K, duration: 3600 + i * 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+          scene.tweens.add({ targets: gull, scaleY: 0.6, duration: 260, yoyo: true, repeat: -1 });
+        }
+      }
+      // palms leaning over the cannon deck
+      canvasTex(scene, 'at-palm', 110 * K, 150 * K, (c, w, h) => {
+        c.strokeStyle = '#4a3018'; c.lineWidth = w * 0.07; c.lineCap = 'round';
+        c.beginPath(); c.moveTo(w * 0.12, h); c.quadraticCurveTo(w * 0.2, h * 0.4, w * 0.46, h * 0.16); c.stroke();
+        c.fillStyle = '#2c6a3c';
+        for (let i = 0; i < 6; i++) {
+          const a = -0.4 + i * 0.5;
+          c.beginPath();
+          c.ellipse(w * 0.46 + Math.cos(a) * w * 0.2, h * 0.16 + Math.sin(a) * h * 0.1, w * 0.22, h * 0.035, a, 0, 7);
+          c.fill();
+        }
+        c.fillStyle = '#8a5a2a';
+        c.beginPath(); c.arc(w * 0.46, h * 0.19, w * 0.04, 0, 7); c.fill();
+        c.beginPath(); c.arc(w * 0.52, h * 0.22, w * 0.04, 0, 7); c.fill();
+      });
+      const palm = scene.add.image(-6 * K, sy - 12 * K, 'at-palm').setOrigin(0, 1).setDepth(15);
+      scene.tweens.add({ targets: palm, angle: cfg.storm ? 6 : 2.4, duration: cfg.storm ? 900 : 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
       // the sea
       seaGfx = scene.add.graphics().setDepth(8);

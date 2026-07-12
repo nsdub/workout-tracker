@@ -13,6 +13,7 @@ import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, hitstop, slowmo, collectTo, paintSky, ambientMotes,
   bloomCamera, vignette, darknessCone, pointLight, lit, squash, unit,
+  lightShafts,
 } from '../fx.js';
 
 export const TITLE = 'Terminal Velocity';
@@ -169,16 +170,58 @@ const PAINT = {
     c.beginPath(); c.ellipse(w / 2, h / 2, w * 0.16, h * 0.2, 0, 0, 7); c.fill();
   },
   weed(c, w, h) {
-    // backdrop tile: drifting weed + rock columns, tiles vertically
-    c.fillStyle = 'rgba(20,40,36,.5)';
-    for (const [x, ww] of [[w * 0.05, w * 0.06], [w * 0.9, w * 0.08]]) c.fillRect(x, 0, ww, h);
-    c.strokeStyle = 'rgba(60,120,90,.35)'; c.lineWidth = w * 0.015; c.lineCap = 'round';
-    for (let i = 0; i < 6; i++) {
-      const x = w * (0.08 + i * 0.16);
-      c.beginPath(); c.moveTo(x, h);
-      for (let y = h; y > 0; y -= h / 8) c.quadraticCurveTo(x + (y / h * 20 - 10), y - h / 16, x, y - h / 8);
-      c.stroke();
+    // canyon-wall tile (tiles vertically): rock shelves at both flanks,
+    // kelp with leaves in the middle distance, coral sprigs, plankton
+    for (const side of [0, 1]) {
+      const jags = [0.1, 0.16, 0.08, 0.19, 0.12, 0.17, 0.09, 0.15];
+      c.fillStyle = 'rgba(10,24,30,.85)';
+      c.beginPath();
+      c.moveTo(side * w, 0);
+      for (let i = 0; i <= 8; i++) {
+        const y = h * i / 8;
+        const x = side ? w - w * jags[i % 8] : w * jags[i % 8];
+        c.lineTo(x, y);
+      }
+      c.lineTo(side * w, h);
+      c.closePath(); c.fill();
+      c.fillStyle = 'rgba(60,100,110,.25)';
+      for (let i = 0; i < 8; i += 2) {
+        const y = h * i / 8;
+        const x = side ? w - w * jags[i % 8] : w * jags[i % 8];
+        c.beginPath(); c.ellipse(x, y + h * 0.04, w * 0.05, h * 0.012, 0, 0, 7); c.fill();
+      }
     }
+    // kelp forest with leaves
+    for (let i = 0; i < 7; i++) {
+      const x = w * (0.16 + i * 0.11);
+      const sway = (i % 2 ? 1 : -1) * w * 0.03;
+      c.strokeStyle = `rgba(52,${110 + i * 8},86,.5)`; c.lineWidth = w * 0.012; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(x, h);
+      for (let y = h; y > -h * 0.05; y -= h / 7) c.quadraticCurveTo(x + sway * ((y / h) * 2 - 1), y - h / 14, x, y - h / 7);
+      c.stroke();
+      c.fillStyle = `rgba(70,${130 + i * 6},96,.4)`;
+      for (let y = h * 0.9; y > 0; y -= h / 6) {
+        c.beginPath(); c.ellipse(x + sway, y, w * 0.028, h * 0.012, (i + y) % 2 ? 0.7 : -0.7, 0, 7); c.fill();
+      }
+    }
+    // coral sprigs at the shelf lips
+    const corals = [[0.09, 0.22, '#c2454e'], [0.88, 0.55, '#e88a3c'], [0.07, 0.78, '#b03a8c'], [0.91, 0.12, '#3aa88c']];
+    for (const [fx, fy, col] of corals) {
+      c.strokeStyle = col; c.globalAlpha = 0.5; c.lineWidth = w * 0.012; c.lineCap = 'round';
+      for (let b = -1; b <= 1; b++) {
+        c.beginPath();
+        c.moveTo(w * fx, h * fy);
+        c.quadraticCurveTo(w * (fx + b * 0.02), h * (fy - 0.02), w * (fx + b * 0.028), h * (fy - 0.045));
+        c.stroke();
+      }
+      c.globalAlpha = 1;
+    }
+    // plankton dust
+    c.fillStyle = 'rgba(190,232,248,.28)';
+    const dots = [0.13, 0.31, 0.47, 0.66, 0.81, 0.24, 0.58, 0.72, 0.39, 0.9];
+    dots.forEach((fx, i) => {
+      c.beginPath(); c.arc(w * fx, h * ((i * 0.103 + fx * 0.7) % 1), w * 0.004 + (i % 3) * w * 0.002, 0, 7); c.fill();
+    });
   },
 };
 
@@ -301,6 +344,64 @@ export function create(P, ctx) {
         .setOrigin(0).setAlpha(0.75).setDepth(-60).setTileScale(1.6);
 
       ambientMotes(scene, cfg.accent, { alpha: 0.35 });
+
+      // far silhouettes that name the world before a single obstacle spawns
+      canvasTex(scene, 'dp-far', W, H, (c) => {
+        c.globalAlpha = 0.5;
+        if (cfg.obstacles.includes('rib')) {
+          c.strokeStyle = '#9cb4c4'; c.lineCap = 'round';
+          for (let i = 0; i < 4; i++) {
+            c.lineWidth = W * (0.02 - i * 0.003);
+            c.globalAlpha = 0.28 - i * 0.05;
+            c.beginPath(); c.arc(W * 0.5, H * (0.5 + i * 0.16), W * (0.62 - i * 0.07), Math.PI * 1.15, Math.PI * 1.85); c.stroke();
+          }
+        } else if (cfg.searchlights || cfg.lanterns) {
+          c.globalAlpha = 0.4;
+          c.fillStyle = '#0a1620';
+          c.beginPath(); c.ellipse(W * 0.28, H * 0.78, W * 0.3, H * 0.06, -0.12, 0, 7); c.fill();
+          c.beginPath(); c.ellipse(W * 0.74, H * 0.5, W * 0.22, H * 0.045, 0.1, 0, 7); c.fill();
+          c.fillStyle = 'rgba(255,220,150,.5)';
+          for (const [fx, fy] of [[0.2, 0.77], [0.3, 0.78], [0.4, 0.79], [0.68, 0.5], [0.78, 0.505]]) {
+            c.beginPath(); c.arc(W * fx, H * fy, W * 0.008, 0, 7); c.fill();
+          }
+        } else if (cfg.vents) {
+          c.fillStyle = '#180c12';
+          for (const [fx, fw] of [[0.2, 0.1], [0.55, 0.14], [0.85, 0.09]]) {
+            c.beginPath();
+            c.moveTo(W * (fx - fw), H); c.lineTo(W * (fx - fw * 0.3), H * 0.55);
+            c.lineTo(W * (fx + fw * 0.3), H * 0.55); c.lineTo(W * (fx + fw), H);
+            c.closePath(); c.fill();
+          }
+        }
+        c.globalAlpha = 1;
+      });
+      scene.add.image(0, 0, 'dp-far').setOrigin(0).setDepth(-88);
+      if (!cfg.dark) lightShafts(scene, cfg.accent, { n: 3, alpha: 0.1, depth: -84 });
+
+      // a school of small fish minding its own business
+      if (!cfg.dark) {
+        const fishKey = canvasTex(scene, 'dp-fish', 26 * K, 12 * K, (c, w, h) => {
+          c.fillStyle = 'rgba(150,190,210,.75)';
+          c.beginPath(); c.ellipse(w * 0.42, h / 2, w * 0.3, h * 0.34, 0, 0, 7); c.fill();
+          c.beginPath(); c.moveTo(w * 0.66, h / 2); c.lineTo(w * 0.95, h * 0.14); c.lineTo(w * 0.95, h * 0.86); c.closePath(); c.fill();
+        });
+        for (let i = 0; i < 5; i++) {
+          const f = scene.add.image(-40 * K - i * 26 * K, H * 0.5, fishKey).setDepth(-82).setAlpha(0.7);
+          const cross = () => {
+            const fromLeft = Math.random() < 0.5;
+            f.setFlipX(!fromLeft);
+            f.x = fromLeft ? -40 * K : W + 40 * K;
+            f.y = H * (0.2 + Math.random() * 0.55);
+            scene.tweens.add({
+              targets: f, x: fromLeft ? W + 40 * K : -40 * K,
+              y: f.y + (Math.random() - 0.5) * 60 * K,
+              duration: 7000 + Math.random() * 6000, delay: i * 900 + Math.random() * 2000,
+              onComplete: () => f.active && cross(),
+            });
+          };
+          cross();
+        }
+      }
 
       player = scene.add.image(W / 2, H * 0.3, canvasTex(scene, 'dp-bell', 76 * K, 40 * K, PAINT.dumbbell)).setDepth(20);
       lit(player);

@@ -15,6 +15,7 @@ import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, hitstop, slowmo, zoomPunch, collectTo, paintSky,
   ambientMotes, bloomCamera, vignette, squash, unit,
+  celestial, driftClouds,
 } from '../fx.js';
 
 export const TITLE = 'Iaido';
@@ -592,6 +593,27 @@ export function create(P, ctx) {
       ensureFx(scene);
       paintSky(scene, cfg.sky);
       drawLand(scene, cfg, K, world);
+      if (!cfg.candles) {
+        // sun or moon + weather; the sparring hall keeps its candlelight
+        const night = ['dojo-torii', 'dojo-dragon', 'dojo-snow'].includes(ctx.worldCls);
+        celestial(scene, scene.scale.width * (night ? 0.8 : 0.24), scene.scale.height * 0.12,
+          22 * K, night ? 0xe8f2ff : 0xffd24a, { crescent: night, depth: -95 });
+        driftClouds(scene, {
+          n: 2, tint: night ? 0x6a6090 : 0xffe0c0, alpha: night ? 0.4 : 0.55,
+          yBand: [0.05, 0.2], depth: -87,
+        });
+        // valley mist hugging the far ground
+        canvasTex(scene, 'dj-mist', scene.scale.width, Math.ceil(scene.scale.height * 0.12), (c, w, h) => {
+          const g = c.createLinearGradient(0, 0, 0, h);
+          g.addColorStop(0, 'rgba(255,255,255,0)');
+          g.addColorStop(0.55, 'rgba(235,240,250,.16)');
+          g.addColorStop(1, 'rgba(235,240,250,0)');
+          c.fillStyle = g;
+          c.fillRect(0, 0, w, h);
+        });
+        const mist = scene.add.image(0, scene.scale.height * 0.62, 'dj-mist').setOrigin(0).setDepth(-86);
+        scene.tweens.add({ targets: mist, x: -30 * K, duration: 5200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+      }
       ambientMotes(scene, cfg.accent, { alpha: cfg.candles ? 0.3 : 0.5 });
       bloomCamera(scene);
       vignette(scene, 0.4, 0.75);

@@ -14,6 +14,7 @@ import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, slowmo, zoomPunch, collectTo, paintSky, ambientMotes,
   bloomCamera, vignette, squash, unit,
+  celestial, driftClouds,
 } from '../fx.js';
 
 export const TITLE = 'Dim Sum Drop';
@@ -351,15 +352,99 @@ export function create(P, ctx) {
       ambientMotes(scene, cfg.accent, { alpha: 0.4 });
       scene.matter.world.engine.gravity.y = cfg.gravity;
 
-      // market stalls silhouette
-      const g = scene.add.graphics().setDepth(-80);
-      g.fillStyle(0x120818, 0.8);
-      for (let i = 0; i < 5; i++) {
-        const x = W * (i / 5), sw = W / 5;
-        g.fillRect(x + sw * 0.1, H * 0.75 - (30 + (i % 3) * 26) * K, sw * 0.8, H);
-        g.fillStyle(0xffc46c, 0.5);
-        g.fillRect(x + sw * 0.3, H * 0.75 - (16 + (i % 3) * 26) * K, sw * 0.16, 8 * K);
-        g.fillStyle(0x120818, 0.8);
+      const spaceWorld = cfg.gravity < 1 || cfg.bouncy;
+      if (spaceWorld) {
+        // deep space kitchen: starfield, ringed planet, nebula wisps
+        canvasTex(scene, 'wk-space', W, H, (c) => {
+          const st = [0.05, 0.18, 0.31, 0.44, 0.57, 0.66, 0.79, 0.88, 0.12, 0.5, 0.72, 0.95, 0.26, 0.38, 0.61, 0.84];
+          c.fillStyle = 'rgba(255,244,220,.9)';
+          st.forEach((fx, i) => {
+            c.globalAlpha = 0.25 + (i % 4) * 0.2;
+            c.beginPath(); c.arc(W * fx, H * ((fx * 3.7 + i * 0.13) % 0.95), (0.6 + (i % 3) * 0.6) * 2, 0, 7); c.fill();
+          });
+          c.globalAlpha = 1;
+          // nebula wisps
+          for (const [fx, fy, r, col] of [[0.2, 0.3, 0.3, 'rgba(255,138,208,.1)'], [0.75, 0.6, 0.34, 'rgba(122,208,255,.09)'], [0.5, 0.85, 0.4, 'rgba(200,184,255,.08)']]) {
+            const gr = c.createRadialGradient(W * fx, H * fy, 1, W * fx, H * fy, W * r);
+            gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)');
+            c.fillStyle = gr;
+            c.fillRect(0, 0, W, H);
+          }
+          // the ringed planet the market orbits
+          const px = W * 0.82, py = H * 0.2, pr = W * 0.1;
+          const pg = c.createRadialGradient(px - pr * 0.3, py - pr * 0.3, 1, px, py, pr);
+          pg.addColorStop(0, '#e8c8a0'); pg.addColorStop(1, '#a8742c');
+          c.fillStyle = pg;
+          c.beginPath(); c.arc(px, py, pr, 0, 7); c.fill();
+          c.strokeStyle = 'rgba(232,213,174,.7)'; c.lineWidth = pr * 0.14;
+          c.beginPath(); c.ellipse(px, py, pr * 1.7, pr * 0.4, -0.3, 0, 7); c.stroke();
+        });
+        scene.add.image(0, 0, 'wk-space').setOrigin(0).setDepth(-80);
+      } else {
+        // the night market itself: stalls, awnings, signs, steam, moon
+        canvasTex(scene, 'wk-market', W, H, (c) => {
+          for (let i = 0; i < 5; i++) {
+            const x = W * (i / 5), sw = W / 5;
+            const top = H * 0.75 - (30 + (i % 3) * 26) * K;
+            c.fillStyle = 'rgba(16,8,22,.9)';
+            c.fillRect(x + sw * 0.08, top, sw * 0.84, H - top);
+            // striped awning
+            const aw = top - 16 * K;
+            for (let sIdx = 0; sIdx < 6; sIdx++) {
+              c.fillStyle = sIdx % 2 ? 'rgba(194,59,78,.95)' : 'rgba(232,213,174,.95)';
+              c.beginPath();
+              c.moveTo(x + sw * (0.04 + sIdx * 0.153), aw);
+              c.lineTo(x + sw * (0.04 + (sIdx + 1) * 0.153), aw);
+              c.lineTo(x + sw * (0.04 + (sIdx + 1) * 0.153), aw + 12 * K);
+              c.arc(x + sw * (0.04 + (sIdx + 0.5) * 0.153), aw + 12 * K, sw * 0.076, 0, Math.PI);
+              c.closePath(); c.fill();
+            }
+            // glowing sign
+            const gg = c.createRadialGradient(x + sw * 0.5, top + 22 * K, 1, x + sw * 0.5, top + 22 * K, sw * 0.3);
+            gg.addColorStop(0, 'rgba(255,196,108,.7)'); gg.addColorStop(1, 'rgba(255,180,90,0)');
+            c.fillStyle = gg;
+            c.fillRect(x, top, sw, 60 * K);
+            c.fillStyle = i % 2 ? '#ffc46c' : '#ff8ad0';
+            c.font = `700 ${Math.round(13 * K)}px sans-serif`;
+            c.textAlign = 'center';
+            c.fillText(['麵', '湯', '包', '茶', '火'][i], x + sw * 0.5, top + 26 * K);
+          }
+        });
+        scene.add.image(0, 0, 'wk-market').setOrigin(0).setDepth(-80);
+        celestial(scene, W * 0.14, H * 0.1, 26 * K, 0xfff0c8, { depth: -88 });
+        // strings of lanterns swaying above the pegs
+        const lantKey = canvasTex(scene, 'wk-strlant', 22 * K, 28 * K, (c, w, h) => {
+          const g2 = c.createRadialGradient(w / 2, h * 0.5, 1, w / 2, h * 0.5, w * 0.6);
+          g2.addColorStop(0, '#ffd88a'); g2.addColorStop(0.6, '#e8543c'); g2.addColorStop(1, '#a82c20');
+          c.fillStyle = g2;
+          c.beginPath(); c.ellipse(w / 2, h * 0.5, w * 0.42, h * 0.4, 0, 0, 7); c.fill();
+          c.fillStyle = '#3a2410';
+          c.fillRect(w * 0.34, h * 0.02, w * 0.32, h * 0.1);
+          c.fillRect(w * 0.34, h * 0.86, w * 0.32, h * 0.08);
+        });
+        const sg = scene.add.graphics().setDepth(-72);
+        for (const [y0, y1] of [[H * 0.1, H * 0.14], [H * 0.15, H * 0.12]]) {
+          sg.lineStyle(1.5 * K, 0x2c1408, 0.8);
+          sg.beginPath();
+          sg.moveTo(0, y0);
+          sg.lineTo(W * 0.5, Math.max(y0, y1) + 14 * K);
+          sg.lineTo(W, y1);
+          sg.strokePath();
+          for (let i = 1; i < 5; i++) {
+            const lx = W * i / 5;
+            const ly = (lx < W / 2 ? y0 + (Math.max(y0, y1) + 14 * K - y0) * (lx / (W / 2)) : Math.max(y0, y1) + 14 * K + (y1 - Math.max(y0, y1) - 14 * K) * ((lx - W / 2) / (W / 2)));
+            const l = scene.add.image(lx, ly + 14 * K, lantKey).setDepth(-71).setOrigin(0.5, 0.1);
+            scene.tweens.add({ targets: l, angle: (i % 2 ? 5 : -5), duration: 1400 + i * 240, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+          }
+        }
+        // steam rising behind the field
+        for (const fx of [0.22, 0.74]) {
+          scene.add.particles(W * fx, H * 0.76, 'fx-dot', {
+            speedY: { min: -50 * K, max: -20 * K }, speedX: { min: -6 * K, max: 6 * K },
+            scale: { start: 0.7 * K, end: 1.3 * K }, alpha: { start: 0.14, end: 0 },
+            tint: 0xd8c8e8, lifespan: 3200, frequency: 220, advance: 3200,
+          }).setDepth(-70);
+        }
       }
 
       // walls keep the fortune on stage

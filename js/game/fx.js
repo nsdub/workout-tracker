@@ -333,3 +333,88 @@ export function canvasTex(scene, key, w, h, draw) {
 export function unit(scene) {
   return Math.min(scene.scale.width / 400, scene.scale.height / 640);
 }
+
+// ——— shared scenery: pieces every illustrated backdrop leans on ———
+
+// A puffy cumulus painted once; tint per world at the call site.
+export function cloudTex(scene) {
+  return canvasTex(scene, 'fx-cloud', 140, 60, (c, w, h) => {
+    c.fillStyle = 'rgba(255,255,255,.92)';
+    for (const [x, y, r] of [[0.28, 0.62, 0.2], [0.45, 0.45, 0.26], [0.64, 0.55, 0.22], [0.8, 0.66, 0.15], [0.15, 0.7, 0.13]]) {
+      c.beginPath(); c.arc(w * x, h * y, w * r * 0.9, 0, 7); c.fill();
+    }
+    c.fillStyle = 'rgba(200,215,235,.5)';
+    c.beginPath(); c.ellipse(w * 0.5, h * 0.78, w * 0.42, h * 0.16, 0, 0, 7); c.fill();
+  });
+}
+
+// Slow clouds drifting across the sky forever, wrapping at the edge.
+export function driftClouds(scene, opts = {}) {
+  const { n = 3, tint = 0xffffff, alpha = 0.5, yBand = [0.05, 0.28], scaleMin = 0.8, scaleMax = 1.7, depth = -85, speed = 9, scrollFactor = 1 } = opts;
+  const W = scene.scale.width, H = scene.scale.height;
+  const K = unit(scene);
+  const key = cloudTex(scene);
+  for (let i = 0; i < n; i++) {
+    const c = scene.add.image(Math.random() * W, H * (yBand[0] + Math.random() * (yBand[1] - yBand[0])), key)
+      .setTint(tint).setAlpha(alpha * (0.7 + Math.random() * 0.3))
+      .setScale((scaleMin + Math.random() * (scaleMax - scaleMin)) * K)
+      .setDepth(depth).setScrollFactor(scrollFactor);
+    const drift = () => {
+      const dist = W + 200 * K - c.x;
+      scene.tweens.add({
+        targets: c, x: W + 100 * K, duration: Math.max(4000, (dist / (speed * K)) * 1000),
+        onComplete: () => {
+          if (!c.active) return;
+          c.x = -100 * K;
+          c.y = H * (yBand[0] + Math.random() * (yBand[1] - yBand[0]));
+          drift();
+        },
+      });
+    };
+    drift();
+  }
+}
+
+// A sun or moon with a breathing halo.
+export function celestial(scene, x, y, r, color, opts = {}) {
+  const { halo = 3.2, alpha = 0.9, depth = -92, crescent = false, scrollFactor = 1 } = opts;
+  const glowImg = scene.add.image(x, y, 'fx-dot').setTint(color).setBlendMode('ADD')
+    .setScale(r * halo / 32).setAlpha(0.5).setDepth(depth).setScrollFactor(scrollFactor);
+  scene.tweens.add({ targets: glowImg, alpha: 0.3, scale: r * halo * 0.85 / 32, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+  const hex = `#${color.toString(16).padStart(6, '0')}`;
+  const key = canvasTex(scene, `fx-cel-${color}-${crescent ? 'c' : 'f'}`, 64, 64, (c, w, h) => {
+    const g = c.createRadialGradient(w * 0.42, h * 0.4, 1, w / 2, h / 2, w / 2);
+    g.addColorStop(0, '#ffffff'); g.addColorStop(0.55, hex); g.addColorStop(1, hex);
+    c.fillStyle = g;
+    c.beginPath(); c.arc(w / 2, h / 2, w * 0.48, 0, 7); c.fill();
+    if (crescent) {
+      c.globalCompositeOperation = 'destination-out';
+      c.beginPath(); c.arc(w * 0.68, h * 0.4, w * 0.4, 0, 7); c.fill();
+    }
+  });
+  return scene.add.image(x, y, key).setScale(r / 32).setAlpha(alpha).setDepth(depth + 1).setScrollFactor(scrollFactor);
+}
+
+// God rays / light shafts: additive wedges that breathe.
+export function lightShafts(scene, tint, opts = {}) {
+  const { n = 3, alpha = 0.14, depth = -75 } = opts;
+  const W = scene.scale.width, H = scene.scale.height;
+  const key = canvasTex(scene, 'fx-shaft', 90, 512, (c, w, h) => {
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = g;
+    c.beginPath(); c.moveTo(w * 0.3, 0); c.lineTo(w * 0.7, 0); c.lineTo(w, h); c.lineTo(0, h); c.closePath(); c.fill();
+  });
+  for (let i = 0; i < n; i++) {
+    const s = scene.add.image(W * (0.15 + i * 0.35 + Math.random() * 0.1), 0, key)
+      .setOrigin(0.5, 0).setTint(tint).setBlendMode('ADD')
+      .setAlpha(alpha * (0.7 + Math.random() * 0.5))
+      .setAngle((Math.random() - 0.5) * 14)
+      .setDisplaySize(90 * unit(scene) * (0.8 + Math.random()), H * 0.85)
+      .setDepth(depth);
+    scene.tweens.add({
+      targets: s, alpha: alpha * 0.4, duration: 2200 + i * 700,
+      yoyo: true, repeat: -1, ease: 'Sine.easeInOut',
+    });
+  }
+}

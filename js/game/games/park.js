@@ -9,6 +9,7 @@ import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, slowmo, zoomPunch, collectTo, paintSky, ambientMotes,
   bloomCamera, vignette, squash, unit,
+  celestial, driftClouds,
 } from '../fx.js';
 
 export const TITLE = 'Skip Legend';
@@ -222,16 +223,51 @@ export function create(P, ctx) {
       bloomCamera(scene);
       vignette(scene, 0.35, 0.8);
 
-      // far shore + hills (parallax)
-      const hills = scene.add.graphics().setDepth(-80).setScrollFactor(0.25);
-      hills.fillStyle(cfg.night ? 0x1a1436 : 0x4a7a5c, 0.8);
-      hills.beginPath();
-      hills.moveTo(0, H * 0.5);
-      for (let x = 0; x <= WW * 0.4; x += WW * 0.02) {
-        hills.lineTo(x, H * 0.5 - Math.abs(Math.sin(x / (WW * 0.05))) * H * 0.14);
-      }
-      hills.lineTo(WW * 0.4, H); hills.lineTo(0, H);
-      hills.closePath(); hills.fillPath();
+      // painted lakeside panorama, three depths of parallax
+      const PW = Math.ceil(W * 1.8);
+      const dayR = cfg.night ? null : ['rgba(90,140,120,.55)', 'rgba(58,105,88,.8)', 'rgba(34,70,60,.95)'];
+      const nightR = ['rgba(52,42,96,.55)', 'rgba(34,28,70,.8)', 'rgba(18,16,44,.95)'];
+      const ridgeCols = dayR ?? nightR;
+      canvasTex(scene, 'pk-pano', PW, H, (c) => {
+        const jag = [0.5, 0.9, 0.62, 1, 0.45, 0.8, 0.7, 0.95, 0.55, 0.85];
+        ridgeCols.forEach((col, ri) => {
+          const base = H * (0.42 + ri * 0.05);
+          const amp = H * (0.13 - ri * 0.03);
+          c.fillStyle = col;
+          c.beginPath();
+          c.moveTo(0, base);
+          const n = 6 + ri * 2;
+          for (let i = 0; i <= n; i++) {
+            c.lineTo(PW * i / n, base - amp * jag[(i + ri * 2) % jag.length]);
+            if (i < n) c.lineTo(PW * (i + 0.5) / n, base - amp * 0.15);
+          }
+          c.lineTo(PW, H); c.lineTo(0, H);
+          c.closePath(); c.fill();
+        });
+        // treeline on the far shore
+        c.fillStyle = cfg.night ? 'rgba(10,10,30,.95)' : 'rgba(22,50,40,.95)';
+        for (let x = 0; x < PW; x += PW / 90) {
+          const th = H * (0.024 + 0.014 * jag[Math.floor(x / (PW / 90)) % jag.length]);
+          c.beginPath();
+          c.moveTo(x, H * 0.56); c.lineTo(x + PW / 180, H * 0.56 - th); c.lineTo(x + PW / 90, H * 0.56);
+          c.closePath(); c.fill();
+        }
+        c.fillRect(0, H * 0.555, PW, H * 0.015);
+      });
+      scene.add.image(0, 0, 'pk-pano').setOrigin(0).setDepth(-80).setScrollFactor(0.22);
+      celestial(scene, W * 0.72, H * 0.14, 24 * K,
+        cfg.night ? 0xe8f2ff : 0xffe9a0, { crescent: cfg.night, depth: -90, scrollFactor: 0.1 });
+      driftClouds(scene, {
+        n: 3, tint: cfg.night ? 0x5c5480 : 0xffffff, alpha: cfg.night ? 0.35 : 0.6,
+        yBand: [0.05, 0.24], depth: -78, scrollFactor: 0.3,
+      });
+      // glints living on the water
+      scene.add.particles(0, 0, 'fx-dot', {
+        x: { min: 0, max: WW }, y: { min: waterY(scene) + 8 * K, max: H - 20 * K },
+        scale: { start: 0.16 * K, end: 0 }, alpha: { start: 0.55, end: 0 },
+        tint: cfg.night ? 0x8ab8dc : 0xfff0c8, blendMode: 'ADD',
+        lifespan: 1600, frequency: 90, advance: 1600,
+      }).setDepth(7);
 
       // the lake itself, world-wide
       const wy = waterY(scene);
@@ -269,6 +305,19 @@ export function create(P, ctx) {
       // the ranger, mid-throw forever
       scene.add.image(anchor(scene).x - 22 * K, throwerY(scene) + 4 * K,
         canvasTex(scene, 'pk-ranger', 44 * K, 78 * K, PAINT.ranger)).setDepth(19);
+      // cattail reeds in the near foreground
+      canvasTex(scene, 'pk-reeds', 120 * K, 150 * K, (c, w, h) => {
+        for (let i = 0; i < 6; i++) {
+          const x = w * (0.08 + i * 0.16), sway = (i % 2 ? 1 : -1) * w * 0.05;
+          c.strokeStyle = cfg.night ? 'rgba(20,26,50,.9)' : 'rgba(30,60,42,.9)';
+          c.lineWidth = w * 0.025; c.lineCap = 'round';
+          c.beginPath(); c.moveTo(x, h); c.quadraticCurveTo(x + sway, h * 0.5, x + sway * 1.4, h * (0.12 + (i % 3) * 0.1)); c.stroke();
+          c.fillStyle = cfg.night ? 'rgba(40,34,70,.95)' : 'rgba(90,60,30,.95)';
+          c.beginPath(); c.ellipse(x + sway * 1.4, h * (0.1 + (i % 3) * 0.1), w * 0.022, h * 0.055, sway > 0 ? 0.2 : -0.2, 0, 7); c.fill();
+        }
+      });
+      const reeds = scene.add.image(6 * K, H, 'pk-reeds').setOrigin(0, 1).setDepth(26);
+      scene.tweens.add({ targets: reeds, angle: 1.6, duration: 2400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
       // floats across the lake
       const n = Math.round(7 * cfg.density);

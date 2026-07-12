@@ -13,6 +13,7 @@ import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, hitstop, slowmo, zoomPunch, collectTo, paintSky,
   ambientMotes, bloomCamera, vignette, squash, unit,
+  celestial, driftClouds,
 } from '../fx.js';
 
 export const TITLE = 'Yeti Bowl';
@@ -180,6 +181,135 @@ const OBS = {
   chair:   { w: 60, h: 60, sizeClass: 0.8, pts: 16 },
 };
 
+// ——— the mountain itself: a painted world, not a gradient ———
+function drawWorld(scene, cfg, K) {
+  const W = scene.scale.width, H = scene.scale.height;
+  if (cfg.strobe) {
+    // Strobe Grotto: an ice cave with a mirrorball, not a mountainside
+    canvasTex(scene, 'yt-cave', W, H, (c) => {
+      c.fillStyle = 'rgba(16,8,28,.92)';
+      for (const side of [0, 1]) {
+        c.beginPath();
+        c.moveTo(side * W, 0);
+        const sway = [0.16, 0.22, 0.13, 0.24, 0.18, 0.2];
+        for (let i = 0; i <= 5; i++) {
+          const x = side ? W - W * sway[i] : W * sway[i];
+          c.lineTo(x, H * i / 5);
+        }
+        c.lineTo(side * W, H);
+        c.closePath(); c.fill();
+      }
+      // stalactites
+      c.fillStyle = 'rgba(140,208,232,.28)';
+      for (const [fx, fw, fh] of [[0.3, 0.045, 0.12], [0.46, 0.03, 0.08], [0.62, 0.05, 0.15], [0.78, 0.028, 0.07]]) {
+        c.beginPath();
+        c.moveTo(W * (fx - fw), 0); c.lineTo(W * fx, H * fh); c.lineTo(W * (fx + fw), 0);
+        c.closePath(); c.fill();
+      }
+    });
+    scene.add.image(0, 0, 'yt-cave').setOrigin(0).setDepth(-70);
+    // the mirrorball
+    const ball = scene.add.image(W / 2, H * 0.1, canvasTex(scene, 'yt-disco-ball', 56, 56, (c, w, h) => {
+      const g = c.createRadialGradient(w * 0.4, h * 0.4, 2, w / 2, h / 2, w / 2);
+      g.addColorStop(0, '#f0faff'); g.addColorStop(1, '#8ca8c8');
+      c.fillStyle = g;
+      c.beginPath(); c.arc(w / 2, h / 2, w * 0.46, 0, 7); c.fill();
+      c.strokeStyle = 'rgba(40,60,90,.5)'; c.lineWidth = 1.4;
+      for (let i = 1; i < 5; i++) { c.beginPath(); c.moveTo(0, h * i / 5); c.lineTo(w, h * i / 5); c.stroke(); }
+      for (let i = 1; i < 5; i++) { c.beginPath(); c.ellipse(w / 2, h / 2, w * 0.46 * Math.abs(Math.sin(i / 5 * Math.PI)), h * 0.46, 0, 0, 7); c.stroke(); }
+    })).setScale(K).setDepth(-60);
+    scene.add.particles(W / 2, H * 0.1, 'fx-star', {
+      speed: { min: 30 * K, max: 90 * K }, scale: { start: 0.22 * K, end: 0 },
+      tint: [0xff8ad0, 0x7ad0ff, 0xfff0c8], blendMode: 'ADD', lifespan: 900, frequency: 130,
+    }).setDepth(-59);
+    scene.tweens.add({ targets: ball, angle: 360, duration: 9000, repeat: -1 });
+    return;
+  }
+  // ridge ranges: three depths, jagged, snow-capped
+  const peaks = [
+    { y: 0.32, amp: 0.1, col: 'rgba(70,90,140,.55)', cap: 'rgba(235,245,255,.5)', n: 5 },
+    { y: 0.38, amp: 0.085, col: 'rgba(44,60,105,.75)', cap: 'rgba(225,238,252,.65)', n: 6 },
+    { y: 0.44, amp: 0.06, col: 'rgba(26,38,74,.9)', cap: 'rgba(214,230,248,.8)', n: 7 },
+  ];
+  const jag = [0.35, 0.8, 0.5, 1, 0.42, 0.9, 0.6, 0.75, 0.5, 1, 0.65, 0.85];
+  canvasTex(scene, 'yt-range', W, H, (c) => {
+    peaks.forEach((r, ri) => {
+      c.fillStyle = r.col;
+      c.beginPath();
+      c.moveTo(0, H * r.y);
+      const pts = [];
+      for (let i = 0; i <= r.n; i++) {
+        const x = W * i / r.n;
+        const y = H * r.y - H * r.amp * jag[(i + ri * 3) % jag.length];
+        pts.push([x, y]);
+        c.lineTo(x, y);
+        if (i < r.n) c.lineTo(W * (i + 0.5) / r.n, H * r.y + H * 0.01);
+      }
+      c.lineTo(W, H); c.lineTo(0, H);
+      c.closePath(); c.fill();
+      // snowcaps on the summits
+      c.fillStyle = r.cap;
+      for (const [x, y] of pts) {
+        c.beginPath();
+        c.moveTo(x - W * 0.035, y + H * 0.028);
+        c.lineTo(x, y);
+        c.lineTo(x + W * 0.035, y + H * 0.028);
+        c.quadraticCurveTo(x, y + H * 0.02, x - W * 0.035, y + H * 0.028);
+        c.fill();
+      }
+    });
+    // treeline band
+    c.fillStyle = 'rgba(14,24,50,.95)';
+    for (let x = 0; x < W; x += W / 26) {
+      const th = H * (0.028 + 0.016 * jag[Math.floor(x / (W / 26)) % jag.length]);
+      c.beginPath();
+      c.moveTo(x, H * 0.5); c.lineTo(x + W / 52, H * 0.5 - th); c.lineTo(x + W / 26, H * 0.5);
+      c.closePath(); c.fill();
+    }
+    c.fillRect(0, H * 0.495, W, H * 0.02);
+    // village lights along the valley
+    for (let i = 0; i < 9; i++) {
+      const x = W * (0.06 + i * 0.11 + jag[i] * 0.02);
+      const g = c.createRadialGradient(x, H * 0.52, 0, x, H * 0.52, W * 0.02);
+      g.addColorStop(0, 'rgba(255,220,140,.9)'); g.addColorStop(1, 'rgba(255,200,100,0)');
+      c.fillStyle = g;
+      c.beginPath(); c.arc(x, H * 0.52, W * 0.02, 0, 7); c.fill();
+    }
+    // low haze so the slope reads as ground
+    const hz = c.createLinearGradient(0, H * 0.5, 0, H);
+    hz.addColorStop(0, 'rgba(200,220,240,.14)'); hz.addColorStop(1, 'rgba(220,235,250,.03)');
+    c.fillStyle = hz;
+    c.fillRect(0, H * 0.5, W, H * 0.5);
+  });
+  scene.add.image(0, 0, 'yt-range').setOrigin(0).setDepth(-70);
+  celestial(scene, W * 0.78, H * 0.14, 26 * K, 0xe8f2ff, { crescent: true, depth: -88 });
+  driftClouds(scene, { n: 2, tint: 0xbcd0ec, alpha: 0.4, yBand: [0.06, 0.2], depth: -80 });
+  if (cfg.lift) {
+    // the chairlift line crossing the far slope
+    const g = scene.add.graphics().setDepth(-65);
+    g.lineStyle(2 * K, 0x1c2430, 0.8);
+    g.lineBetween(0, H * 0.34, W, H * 0.28);
+    for (const fx of [0.15, 0.45, 0.75]) {
+      g.fillStyle(0x1c2430, 0.85);
+      g.fillRect(W * fx - 3 * K, H * (0.34 - 0.06 * fx) - 2 * K, 6 * K, H * 0.2);
+    }
+  }
+  if (cfg.ice) {
+    const g = scene.add.graphics().setDepth(-64);
+    g.fillStyle(0xaef0ff, 0.12);
+    g.fillRect(0, H * 0.52, W, H * 0.05);
+  }
+  if (cfg.melt) {
+    for (const fx of [0.06, 0.94]) {
+      scene.add.particles(scene.scale.width * fx, H * 0.6, 'fx-dot', {
+        speedY: { min: -60 * K, max: -24 * K }, speedX: { min: -8 * K, max: 8 * K },
+        scale: { start: 0.5 * K, end: 0 }, alpha: { start: 0.3, end: 0 },
+        tint: 0xbfe8dc, lifespan: 2600, frequency: 140, advance: 2600,
+      }).setDepth(-63);
+    }
+  }
+}
+
 export function create(P, ctx) {
   const { api, cfg } = ctx;
   let phase = 'pack';        // pack -> roll
@@ -292,10 +422,7 @@ export function create(P, ctx) {
       vignette(scene, 0.4, 0.78);
       ambientMotes(scene, 0xffffff, { alpha: 0.4 });
 
-      // the slope: a subtle sparkle field that scrolls to sell motion
-      const slope = scene.add.graphics().setDepth(-70);
-      slope.fillStyle(0xffffff, 0.05);
-      slope.fillRect(0, 0, W, H);
+      drawWorld(scene, cfg, K);
       scene.add.particles(0, 0, 'fx-chip', {
         x: { min: 0, max: W }, y: -10,
         speedY: { min: 30 * K, max: 80 * K }, speedX: { min: -14 * K, max: 14 * K },
