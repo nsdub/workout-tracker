@@ -6,15 +6,22 @@ import * as park from './games/park.js';
 import * as wok from './games/wok.js';
 import * as atoll from './games/atoll.js';
 import * as yeti from './games/yeti.js';
+import * as sling from './games/sling.js';
 
-export const GAMES = { dojo, deep, park, wok, atoll, yeti };
+export const GAMES = { dojo, deep, park, wok, atoll, yeti, sling };
+
+// World-first lookup: any world can carry any mechanic (the slingshot lives
+// in three different universes). Each world exists in exactly one module —
+// the coverage test enforces it.
+const WORLD_INDEX = {};
+for (const mod of Object.values(GAMES)) {
+  for (const w of Object.keys(mod.WORLDS)) WORLD_INDEX[w] = mod;
+}
 
 export function gameFor(universeCls, worldCls) {
-  const mod = GAMES[universeCls];
+  const mod = WORLD_INDEX[worldCls];
   if (!mod) return null;
-  const cfg = mod.WORLDS[worldCls];
-  if (!cfg) return null;
-  return { title: mod.TITLE, cfg, create: mod.create };
+  return { title: mod.TITLE, cfg: mod.WORLDS[worldCls], create: mod.create, load: mod.load };
 }
 
 // ——— best scores: local-only, per world ———

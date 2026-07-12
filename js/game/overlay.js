@@ -28,7 +28,7 @@ function hudTime(deadline) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
-export function openGame({ deadline }) {
+export async function openGame({ deadline }) {
   if (active && !active.el.isConnected) active = null; // self-heal a stuck ref
   if (active) return;
   const universe = document.documentElement.dataset.universe;
@@ -86,6 +86,8 @@ export function openGame({ deadline }) {
 
   let inst;
   try {
+    if (spec.load) await spec.load(); // e.g. the slingshot pulls in physics
+    if (!active) return; // closed while loading
     inst = spec.create(engine, api, spec.cfg);
   } catch (err) {
     console.error('game boot failed', err);

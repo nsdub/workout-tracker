@@ -12,7 +12,6 @@ export const WORLDS = {
   'dojo-torii': { name: 'Wisp Cutter', spawnMs: 740, gravity: 220, speed: 0.95, objs: [{ kind: 'wisp', color: '#7ab8ff', r: 14, pts: 10, w: 4 }, { kind: 'petal', color: '#d97a94', r: 14, pts: 6, w: 3 }] },
   'dojo-snow': { name: 'Falling Winter', spawnMs: 620, gravity: 150, speed: 0.9, objs: [{ kind: 'flake', color: '#eef4fa', r: 13, pts: 8, w: 5 }, { kind: 'icicle', color: '#bfe0f2', r: 12, pts: 14, w: 2, fast: true }] },
   'dojo-hall': { name: 'Snuff the Candles', spawnMs: 760, gravity: 0, speed: 1, floaty: true, objs: [{ kind: 'flame', color: '#ffb84d', r: 14, pts: 10, w: 5 }], hazard: { kind: 'lantern', color: '#e05a5a', r: 16, rate: 0.2 } },
-  'dojo-dragon': { name: 'Pearl Chaser', spawnMs: 700, gravity: 340, speed: 1.15, objs: [{ kind: 'pearl', color: '#ffd24a', r: 12, pts: 12, w: 4 }, { kind: 'wisp', color: '#3fae6b', r: 13, pts: 8, w: 3 }] },
 };
 
 export function create(eng, api, cfg) {

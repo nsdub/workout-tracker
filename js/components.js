@@ -242,7 +242,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
       return toast('Not enough rest left for a game', 'ok', 2200);
     }
     const mod = await loadGames();
-    if (restState) mod.openGame({ deadline: restState.deadline });
+    if (restState) await mod.openGame({ deadline: restState.deadline });
   });
 }
 

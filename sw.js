@@ -39,6 +39,8 @@ const SHELL = [
   'js/game/games/wok.js',
   'js/game/games/atoll.js',
   'js/game/games/yeti.js',
+  'js/game/games/sling.js',
+  'vendor/matter.min.js',
   'js/views/session.js',
   'js/views/log.js',
   'js/views/plan.js',

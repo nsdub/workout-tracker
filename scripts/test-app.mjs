@@ -271,11 +271,23 @@ await ok('every one of the 48 worlds has a mini-game config', () => {
     }
   }
 });
-await ok('game modules carry exactly the 8 world keys of their universe', () => {
-  for (const U of Object.values(UNIVERSES)) {
-    const expect = new Set(U.worlds.map((w) => w.cls));
-    const got = new Set(Object.keys(GAMES[U.cls].WORLDS));
-    assert.deepEqual([...got].sort(), [...expect].sort(), `${U.cls} world keys drift`);
+await ok('every world lives in exactly one game module', () => {
+  const seen = new Map();
+  for (const [key, mod] of Object.entries(GAMES)) {
+    for (const w of Object.keys(mod.WORLDS)) {
+      assert.ok(!seen.has(w), `${w} defined in both ${seen.get(w)} and ${key}`);
+      seen.set(w, key);
+    }
+  }
+  const all = Object.values(UNIVERSES).flatMap((U) => U.worlds.map((w) => w.cls));
+  assert.equal(seen.size, all.length, 'orphan game configs exist');
+  for (const cls of all) assert.ok(seen.has(cls), `${cls} uncovered`);
+});
+await ok('the slingshot owns its three worlds', () => {
+  for (const w of ['atoll-wreck', 'yeti-village', 'dojo-dragon']) {
+    const spec = gameFor(null, w);
+    assert.equal(spec.title, 'Slingshot', `${w} should be Slingshot`);
+    assert.ok(typeof spec.load === 'function', 'slingshot must expose load() for physics');
   }
 });
 await ok('engine math: collisions and clamps', () => {

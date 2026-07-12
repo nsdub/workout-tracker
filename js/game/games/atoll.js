@@ -5,7 +5,6 @@ import { TAU, rand, clamp, glow, burst, stepParts, drawParts, popText, stepPops,
 export const TITLE = 'On Air';
 
 export const WORLDS = {
-  'atoll-wreck': { name: 'First Broadcast', speed: 1.4, bandW: 0.16, minW: 0.07 },
   'atoll-light': { name: 'Beam Keeper', speed: 1.1, bandW: 0.15, minW: 0.065, circular: true },
   'atoll-parrots': { name: 'Squawk Signal', speed: 1.5, bandW: 0.16, minW: 0.075, hop: 2.4 },
   'atoll-kraken': { name: 'Dual Decks', speed: 1.35, bandW: 0.17, minW: 0.08, dual: true },

@@ -12,7 +12,6 @@ export const WORLDS = {
   'yeti-icebar': { name: 'Black Ice', speed: 230, turn: 210, gateGap: 134, obstacle: { kind: 'bottle', rate: 0.3 }, slippery: true },
   'yeti-groomer': { name: 'Corduroy Lines', speed: 235, turn: 350, gateGap: 124, obstacle: { kind: 'pylon', rate: 0.25 }, night: true },
   'yeti-aurora': { name: 'Northern Run', speed: 220, turn: 340, gateGap: 126, obstacle: { kind: 'tree', rate: 0.3 }, aurora: true },
-  'yeti-village': { name: 'Cabin Alley', speed: 220, turn: 350, gateGap: 122, obstacle: { kind: 'sled', rate: 0.32 }, sled: true },
 };
 
 export function create(eng, api, cfg) {
