@@ -134,6 +134,24 @@ const PAINT = {
     c.fillStyle = 'rgba(244,250,253,.9)';
     c.beginPath(); c.ellipse(w * 0.55, h * 0.22, w * 0.22, h * 0.08, 0.2, 0, 7); c.fill();
   },
+  boulder(c, w, h) {
+    // a menacing dark crag, snow-capped, clearly too big to plow
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#3a4152'); g.addColorStop(1, '#20252f');
+    c.fillStyle = g;
+    c.beginPath();
+    c.moveTo(w * 0.06, h * 0.94); c.lineTo(w * 0.14, h * 0.42); c.lineTo(w * 0.36, h * 0.16);
+    c.lineTo(w * 0.6, h * 0.08); c.lineTo(w * 0.86, h * 0.34); c.lineTo(w * 0.96, h * 0.7);
+    c.lineTo(w * 0.9, h * 0.94);
+    c.closePath(); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,.4)'; c.lineWidth = w * 0.02;
+    c.beginPath(); c.moveTo(w * 0.4, h * 0.2); c.lineTo(w * 0.5, h * 0.6); c.lineTo(w * 0.38, h * 0.9); c.stroke();
+    c.beginPath(); c.moveTo(w * 0.7, h * 0.3); c.lineTo(w * 0.62, h * 0.7); c.stroke();
+    c.fillStyle = 'rgba(244,250,253,.92)';
+    c.beginPath();
+    c.moveTo(w * 0.36, h * 0.16); c.lineTo(w * 0.6, h * 0.08); c.lineTo(w * 0.86, h * 0.34);
+    c.lineTo(w * 0.66, h * 0.28); c.lineTo(w * 0.5, h * 0.22); c.closePath(); c.fill();
+  },
   pillar(c, w, h) {
     const g = c.createLinearGradient(0, 0, w, 0);
     g.addColorStop(0, '#8cd0e8'); g.addColorStop(0.5, '#d8f0fc'); g.addColorStop(1, '#6ab0d0');
@@ -189,6 +207,10 @@ const OBS = {
   pillar:  { w: 44, h: 110, sizeClass: 0.9, pts: 14 },
   groomer: { w: 120, h: 70, sizeClass: 1.6, pts: 30 },
   chair:   { w: 60, h: 60, sizeClass: 0.8, pts: 16 },
+  // boulder: sizeClass above the ball's hard max (2.0). No matter how fat
+  // you pack, a boulder ALWAYS wipes you — it is the hazard you must steer
+  // around, so a huge ball is never risk-free. Present in every world.
+  boulder: { w: 118, h: 104, sizeClass: 2.4, pts: 0 },
 };
 
 // ——— the mountain itself: a painted world, not a gradient ———
@@ -411,6 +433,11 @@ export function create(P, ctx) {
       for (let i = 0; i < n; i++) {
         const kind = cfg.obstacles[Math.floor(Math.random() * cfg.obstacles.length)];
         addThing(scene, K, kind, W * (0.08 + Math.random() * 0.84), yBase + Math.random() * H * 0.7);
+      }
+      // an unpassable boulder most bands — the wipeout threat a fat ball
+      // still has to respect. Steer around it; plow into it and you pay.
+      if (Math.random() < 0.7) {
+        addThing(scene, K, 'boulder', W * (0.12 + Math.random() * 0.76), yBase + Math.random() * H * 0.6);
       }
       if (cfg.melt) {
         addThing(scene, K, 'pool', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 110, h: 70, pool: true });

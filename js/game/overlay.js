@@ -181,7 +181,8 @@ export async function openGame({ deadline }) {
     mine.sceneCfg = cfg2;
     mine.score = 0; scoreEl.textContent = '0';
     mine.ended = false; mine.phase = 'playing'; mine.openedAt = Date.now();
-    mine.fever = false; mine.slowed = false; timeEl.classList.remove('gold');
+    mine.fever = false; mine.slowed = false; mine.banked = false; mine.result = null;
+    timeEl.classList.remove('gold');
     try {
       mine.game = new Phaser.Game({
         type: Phaser.AUTO,
@@ -236,6 +237,24 @@ export async function openGame({ deadline }) {
     if (left <= 0 && mine.phase === 'playing') timerOver();
   }, 250);
 
+  // Bank the score+medal the INSTANT a run ends — never wait for the
+  // finale/death animation. Otherwise a quit during the ~1s ceremony
+  // (ended===true, panel not up yet) would lose the whole run. Idempotent.
+  function bankRun() {
+    if (mine.banked) return mine.result;
+    mine.banked = true;
+    const finalScore = mine.score;
+    const prevBest = bestFor(worldCls);
+    const prevStars = starsFor(worldCls);
+    const elapsed = Math.max(12, (Date.now() - mine.openedAt) / 1000);
+    const th = spec.stars ?? [5, 10, 16];
+    const rate = finalScore / elapsed;
+    const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
+    const isRecord = saveBest(worldCls, finalScore, stars);
+    mine.result = { finalScore, prevBest, prevStars, stars, isRecord };
+    return mine.result;
+  }
+
   // ——— The two ways a run ends ———
   // TIME: the rest ran out — the celebratory finale (Peggle's law).
   function timerOver() {
@@ -245,7 +264,7 @@ export async function openGame({ deadline }) {
     mine.clock = null;
     mine.ended = true; // freezes api.score — the run is banked as of TIME
     closeHelp(mine);   // rest ran out while reading? The results win.
-    const willRecord = mine.score > bestFor(worldCls);
+    const willRecord = bankRun().isRecord;
 
     // THE FINALE: before the panel, the canvas detonates — a staggered
     // fireworks volley inside the final slow-mo beat. Wall-clock timers,
@@ -284,6 +303,7 @@ export async function openGame({ deadline }) {
     if (active !== mine || mine.phase !== 'playing') return;
     mine.phase = 'dead';
     mine.ended = true;
+    bankRun(); // bank immediately — a quit during the death beat can't lose it
     closeHelp(mine);
     try {
       const scene = mine.game.scene.getScene('play');
@@ -320,16 +340,9 @@ export async function openGame({ deadline }) {
     // teardown and leak the canvas across a restart. Scoring is already
     // frozen by mine.ended, so a stray hitstop resume can't leak points.
     try { mine.game.scene.pause('play'); } catch { /* already gone */ }
-    const finalScore = mine.score;
-    const prevBest = bestFor(worldCls);
-    const prevStars = starsFor(worldCls);
-    // Medals are rate-based (points per second) so a 60s rest and a 240s
-    // rest compete on the same ladder — Angry Birds' three-star law.
-    const elapsed = Math.max(12, (Date.now() - mine.openedAt) / 1000);
-    const th = spec.stars ?? [5, 10, 16];
-    const rate = finalScore / elapsed;
-    const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
-    const isRecord = saveBest(worldCls, finalScore, stars);
+    // the run was already banked at run-end (bankRun) — read, don't re-save,
+    // so the medal/record shown matches exactly what was persisted.
+    const { finalScore, prevBest, prevStars, stars, isRecord } = bankRun();
     const canRetry = died && (deadline - Date.now()) > 7000;
 
     const starRow = [1, 2, 3].map((i) =>

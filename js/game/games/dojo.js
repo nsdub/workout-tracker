@@ -627,7 +627,10 @@ export function create(P, ctx) {
     const ux = dirX / len, uy = dirY / len;
     const hits = [];
     for (const o of [...objs]) {
-      // distance from object to the infinite line through (cx,cy)
+      // the draw-cut is a screen-wide line the player can't aim around
+      // individual objects — so it must NEVER catch a bomb (that would be
+      // an unavoidable life lost on the game's signature reward move).
+      if (o.isBomb) continue;
       const dx = o.img.x - cx, dy = o.img.y - cy;
       const d = Math.abs(dx * uy - dy * ux);
       if (d <= o.r + 26 * K) hits.push(o);
@@ -911,13 +914,17 @@ export function create(P, ctx) {
         api.sfx('tap');
       }
 
-      // ——— spawning, ramping over the whole rest — even the long ones ———
+      // ——— spawning: a MISS costs a life, so one thumb must be able to
+      // reach everything airborne. Hard-cap concurrent must-slice (non-bomb)
+      // objects; the rest wears you down with a faster CADENCE and more
+      // bombs, never an uncoverable wall of simultaneous fruit. ———
       if (started && now >= nextSpawn) {
         const elapsed = (now - t0) / 1000;
-        let volley = 1 + (elapsed > 18 ? 1 : 0) + (elapsed > 45 ? 1 : 0) + (elapsed > 90 ? 1 : 0) + (Math.random() < 0.3 ? 1 : 0);
-        if (fever) volley += 1;
-        for (let i = 0; i < volley; i++) scene.time.delayedCall(i * 130, () => launch(scene, K));
-        nextSpawn = now + Math.max(480, 1250 - elapsed * 9) / (cfg.pace * (fever ? 1.35 : 1));
+        const airborne = objs.reduce((n, o) => n + (o.isBomb ? 0 : 1), 0);
+        const CAP = 3;
+        let volley = Math.min(1 + (Math.random() < 0.4 ? 1 : 0) + (fever ? 1 : 0), Math.max(0, CAP - airborne));
+        for (let i = 0; i < volley; i++) scene.time.delayedCall(i * 150, () => launch(scene, K));
+        nextSpawn = now + Math.max(640, 1200 - elapsed * 5) / (cfg.pace * (fever ? 1.25 : 1));
       }
 
       // ——— housekeeping ———
