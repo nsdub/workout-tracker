@@ -239,7 +239,9 @@ export function create(P, ctx) {
   let noteStep = 0;
   let nextBottleAt = 0;
 
-  const seaY = (scene) => scene.scale.height * 0.74;
+  // tall phones get a raised horizon so the battle fills the screen
+  // instead of hiding in the bottom quarter under a huge empty sky
+  const seaY = (scene) => scene.scale.height * (scene.scale.height > scene.scale.width * 1.45 ? 0.6 : 0.74);
   const CANNON = (scene) => ({ x: 56 * unit(scene), y: seaY(scene) - 36 * unit(scene) });
   const Sleeping = P.Physics.Matter.Matter.Sleeping;
   const doze = (img) => { try { Sleeping.set(img.body, true); } catch { /* canvas */ } };
@@ -249,8 +251,22 @@ export function create(P, ctx) {
     return { crate: 8, mast: 20, keg: 25, captain: 30, antenna: 100 }[kind] ?? 5;
   }
 
+  function shipSlot(scene, K, want) {
+    // fully on-screen (the flagship armor reaches x±62K) and at least
+    // 175K clear of every living ship — boats must never stack
+    const W = scene.scale.width;
+    const lo = W * 0.42, hi = W - 100 * K;
+    let x = Math.max(lo, Math.min(hi, want ?? (lo + Math.random() * (hi - lo))));
+    for (let tries = 0; tries < 8; tries++) {
+      if (ships.every((s) => !s.alive || Math.abs(s.x - x) >= 175 * K)) return x;
+      x = lo + Math.random() * (hi - lo);
+    }
+    return x;
+  }
+
   function buildShip(scene, K, x, isFlag) {
     const W = scene.scale.width;
+    x = shipSlot(scene, K, x);
     const sy = seaY(scene);
     const pieces = [];
     const hullW = 130 * K, hullH = 34 * K;
@@ -441,7 +457,7 @@ export function create(P, ctx) {
           c.fill();
         }
         // the volcano lighthouse island
-        const vx = W * 0.66, vw = W * 0.17, base = sy - 2;
+        const vx = W * 0.28, vw = W * 0.12, base = sy - 2;
         c.fillStyle = 'rgba(22,26,44,.85)';
         c.beginPath();
         c.moveTo(vx - vw, base);
@@ -454,8 +470,8 @@ export function create(P, ctx) {
         c.fillRect(vx - W * 0.016, base - H * 0.185, W * 0.032, H * 0.06);
         c.fillStyle = 'rgba(255,220,140,.95)';
         c.fillRect(vx - W * 0.02, base - H * 0.198, W * 0.04, H * 0.016);
-        const lg = c.createRadialGradient(vx, base - H * 0.19, 1, vx, base - H * 0.19, W * 0.05);
-        lg.addColorStop(0, 'rgba(255,230,160,.9)'); lg.addColorStop(1, 'rgba(255,210,120,0)');
+        const lg = c.createRadialGradient(vx, base - H * 0.19, 1, vx, base - H * 0.19, W * 0.028);
+        lg.addColorStop(0, 'rgba(255,230,160,.55)'); lg.addColorStop(1, 'rgba(255,210,120,0)');
         c.fillStyle = lg;
         c.beginPath(); c.arc(vx, base - H * 0.19, W * 0.05, 0, 7); c.fill();
         // crater glow
@@ -472,9 +488,9 @@ export function create(P, ctx) {
         c.fillStyle = g2;
         c.beginPath(); c.moveTo(0, h * 0.4); c.lineTo(w, 0); c.lineTo(w, h); c.lineTo(0, h * 0.6); c.closePath(); c.fill();
       });
-      const beam = scene.add.image(W * 0.66, sy - H * 0.19, beamKey)
+      const beam = scene.add.image(W * 0.28, sy - H * 0.19, beamKey)
         .setOrigin(0, 0.5).setBlendMode('ADD')
-        .setAlpha((cfg.lava || cfg.cave || cfg.storm) ? 0.65 : 0.14).setDepth(-69);
+        .setAlpha((cfg.lava || cfg.cave || cfg.storm) ? 0.55 : 0.07).setDepth(-69);
       scene.tweens.add({ targets: beam, angle: { from: 150, to: 390 }, duration: 6000, repeat: -1 });
       celestial(scene, W * 0.2, H * 0.12, 24 * K, cfg.cave ? 0xaef0ff : cfg.storm ? 0x9cb0c8 : 0xfff0c8,
         { crescent: cfg.cave || cfg.kraken, depth: -88 });
@@ -548,8 +564,8 @@ export function create(P, ctx) {
       // floor under the whole sea so wreckage never falls out of the world
       scene.matter.add.rectangle(W / 2, H + 30 * K, W * 2, 60 * K, { isStatic: true });
 
-      buildShip(scene, K, W * 0.62, false);
-      buildShip(scene, K, W * 0.88, cfg.antenna);
+      buildShip(scene, K, W * 0.55, false);
+      buildShip(scene, K, W * 0.82, cfg.antenna);
 
       if (cfg.bottles) {
         for (let i = 0; i < 3; i++) {
@@ -782,6 +798,23 @@ export function create(P, ctx) {
         // the objective is legible and always reachable: dunk the captain
         if (ship.alive && (ship.captain.scored || !ship.captain.img.active)) {
           ship.alive = false;
+          // the wreck takes its bow, then sinks beneath the waves so the
+          // sea resets for the next ship — no more stacking graveyards
+          scene.time.delayedCall(2200, () => {
+            if (!ships.includes(ship)) return;
+            ships.splice(ships.indexOf(ship), 1);
+            try { scene.matter.world.remove(ship.shelf); } catch { /* gone */ }
+            for (const p of ship.pieces) {
+              if (!p.img.active) continue;
+              try { if (p.img.body) scene.matter.world.remove(p.img.body); } catch { /* gone */ }
+              burst(scene, p.img.x, Math.max(p.img.y, sy), 0x9cc8ec, { n: 5, speed: 160 * K, scale: 0.4 * K, gravityY: 400 * K });
+              scene.tweens.add({
+                targets: p.img, y: p.img.y + 160 * K, alpha: 0, angle: p.img.angle + 24,
+                duration: 1700, ease: 'Sine.easeIn',
+                onComplete: () => { try { p.img.destroy(); } catch { /* gone */ } },
+              });
+            }
+          });
           api.score(50);
           glyphBanner(scene, 'SHIP SILENCED +50', '#ffd24a', 28 * K);
           zoomPunch(scene, 1.09, 300);

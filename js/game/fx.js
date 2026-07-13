@@ -182,6 +182,10 @@ export function shockRing(scene, x, y, tint, radius = 90) {
 // "+15" that pops, rises and fades. Numbers wear the mono face by law.
 // Overshoot pop + a lazy tilt that rights itself: arcade, not tooltip.
 export function floatScore(scene, x, y, text, color = '#ffd24a', size = 24) {
+  // clamp into the visible canvas — points earned at the edge must be read
+  const margin = size * (0.4 * String(text).length + 1);
+  x = Math.max(margin, Math.min(scene.scale.width - margin, x));
+  y = Math.max(size * 3, Math.min(scene.scale.height - size * 2, y));
   const t = scene.add.text(x, y, text, {
     fontFamily: '"Geist Mono", monospace',
     fontSize: `${Math.round(size)}px`,
