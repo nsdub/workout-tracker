@@ -197,6 +197,29 @@ const PAINT = {
     c.fillStyle = 'rgba(255,255,255,.5)';
     c.beginPath(); c.ellipse(w * 0.4, h * 0.4, w * 0.12, h * 0.06, -0.4, 0, 7); c.fill();
   },
+  mogul(c, w, h) {
+    // a snow KICKER — a launch ramp, deliberately unlike an edible drift:
+    // a hard leading lip and a blue up-chevron say "this throws you"
+    c.fillStyle = '#cddcec';
+    c.beginPath();
+    c.moveTo(0, h); c.lineTo(w * 0.16, h * 0.42);
+    c.quadraticCurveTo(w * 0.5, -h * 0.04, w, h * 0.16);
+    c.lineTo(w, h); c.closePath(); c.fill();
+    // sunlit ramp face
+    c.fillStyle = 'rgba(255,255,255,.92)';
+    c.beginPath();
+    c.moveTo(w * 0.16, h * 0.42); c.quadraticCurveTo(w * 0.5, -h * 0.04, w, h * 0.16);
+    c.lineTo(w, h * 0.36); c.quadraticCurveTo(w * 0.5, h * 0.18, w * 0.22, h * 0.56);
+    c.closePath(); c.fill();
+    // the kicker lip
+    c.strokeStyle = '#7ad0ff'; c.lineWidth = Math.max(2, w * 0.03); c.lineCap = 'round';
+    c.beginPath(); c.moveTo(w * 0.16, h * 0.42); c.quadraticCurveTo(w * 0.5, -h * 0.04, w, h * 0.16); c.stroke();
+    // up-chevron: the "launch" glyph
+    c.strokeStyle = '#3aa0e8'; c.lineWidth = Math.max(2.5, w * 0.05); c.lineJoin = 'round';
+    c.beginPath();
+    c.moveTo(w * 0.34, h * 0.7); c.lineTo(w * 0.5, h * 0.5); c.lineTo(w * 0.66, h * 0.7);
+    c.stroke();
+  },
 };
 
 // obstacle metadata: sizeClass is what the Katamari law compares against
@@ -257,7 +280,192 @@ function drawWorld(scene, cfg, K) {
     scene.tweens.add({ targets: ball, angle: 360, duration: 9000, repeat: -1 });
     return;
   }
-  // ridge ranges: three depths, jagged, snow-capped
+
+  // ——— every remaining world is its OWN place, not a recolored sky ———
+  const groundGrad = (c, top, bot, y0 = 0.52) => {
+    const g = c.createLinearGradient(0, H * y0, 0, H);
+    g.addColorStop(0, top); g.addColorStop(1, bot);
+    c.fillStyle = g; c.fillRect(0, H * y0, W, H * (1 - y0));
+  };
+
+  if (cfg.ice) {
+    // BLACK ICE LAKE — a frozen mirror. Flat horizon, moon streak, shards.
+    canvasTex(scene, 'yt-ice', W, H, (c) => {
+      c.fillStyle = 'rgba(28,44,72,.7)';
+      c.beginPath(); c.moveTo(0, H * 0.5);
+      const sk = [0.4, 0.52, 0.44, 0.54, 0.46];
+      for (let i = 0; i <= 4; i++) c.lineTo(W * i / 4, H * (0.5 - sk[i] * 0.13));
+      c.lineTo(W, H * 0.5); c.closePath(); c.fill();
+      const g = c.createLinearGradient(0, H * 0.5, 0, H);
+      g.addColorStop(0, 'rgba(26,40,60,.92)'); g.addColorStop(0.5, 'rgba(14,22,38,.97)'); g.addColorStop(1, 'rgba(8,12,22,1)');
+      c.fillStyle = g; c.fillRect(0, H * 0.5, W, H * 0.5);
+      const mg = c.createLinearGradient(0, H * 0.5, 0, H);
+      mg.addColorStop(0, 'rgba(174,240,255,.45)'); mg.addColorStop(1, 'rgba(174,240,255,0)');
+      c.fillStyle = mg;
+      c.beginPath(); c.moveTo(W * 0.46, H * 0.5); c.lineTo(W * 0.54, H * 0.5); c.lineTo(W * 0.63, H); c.lineTo(W * 0.37, H); c.closePath(); c.fill();
+      c.strokeStyle = 'rgba(174,240,255,.16)'; c.lineWidth = 1.5;
+      for (let i = 0; i < 7; i++) {
+        let x = W * (0.1 + i * 0.13), y = H * (0.56 + (i % 3) * 0.12);
+        c.beginPath(); c.moveTo(x, y);
+        for (let k = 0; k < 4; k++) { x += (i % 2 ? 1 : -1) * W * 0.08 * (1 + k * 0.4); y += H * 0.05; c.lineTo(x, y); }
+        c.stroke();
+      }
+      c.fillStyle = 'rgba(140,208,232,.5)';
+      for (const [bx, by, bw, bh] of [[0.16, 0.6, 0.05, 0.1], [0.8, 0.66, 0.06, 0.12], [0.5, 0.58, 0.035, 0.07], [0.66, 0.82, 0.05, 0.1]]) {
+        c.beginPath(); c.moveTo(W * bx, H * by); c.lineTo(W * (bx - bw), H * (by + bh)); c.lineTo(W * (bx + bw), H * (by + bh)); c.closePath(); c.fill();
+        c.fillStyle = 'rgba(230,248,255,.6)';
+        c.beginPath(); c.moveTo(W * bx, H * by); c.lineTo(W * (bx + bw * 0.4), H * (by + bh * 0.5)); c.lineTo(W * (bx + bw), H * (by + bh)); c.closePath(); c.fill();
+        c.fillStyle = 'rgba(140,208,232,.5)';
+      }
+    });
+    scene.add.image(0, 0, 'yt-ice').setOrigin(0).setDepth(-70);
+    celestial(scene, W * 0.5, H * 0.2, 30 * K, 0xd8ecff, { depth: -88 });
+    return;
+  }
+
+  if (cfg.melt) {
+    // MELT SPRINGS — a geothermal basin: mineral terraces, steaming pools.
+    canvasTex(scene, 'yt-springs', W, H, (c) => {
+      c.fillStyle = 'rgba(58,90,104,.8)';
+      c.beginPath(); c.moveTo(0, H * 0.5);
+      for (let x = 0; x <= W; x += W / 8) c.lineTo(x, H * (0.34 + 0.055 * Math.sin(x / (W / 8) * 1.3 + 0.6)));
+      c.lineTo(W, H * 0.5); c.closePath(); c.fill();
+      for (let i = 0; i < 4; i++) {
+        c.strokeStyle = `rgba(122,212,200,${0.16 + i * 0.05})`; c.lineWidth = H * 0.018;
+        c.beginPath(); c.ellipse(W * 0.5, H * 0.63, W * (0.28 + i * 0.15), H * (0.045 + i * 0.03), 0, Math.PI, 2 * Math.PI); c.stroke();
+      }
+      groundGrad(c, 'rgba(168,208,216,.16)', 'rgba(120,160,168,.05)', 0.55);
+      for (const [px, py, pw] of [[0.28, 0.72, 0.16], [0.66, 0.8, 0.2], [0.5, 0.66, 0.12]]) {
+        const pg = c.createRadialGradient(W * px, H * py, 1, W * px, H * py, W * pw);
+        pg.addColorStop(0, 'rgba(150,236,220,.65)'); pg.addColorStop(1, 'rgba(58,138,140,0)');
+        c.fillStyle = pg; c.beginPath(); c.ellipse(W * px, H * py, W * pw, H * 0.045, 0, 0, 7); c.fill();
+      }
+    });
+    scene.add.image(0, 0, 'yt-springs').setOrigin(0).setDepth(-70);
+    for (const fx of [0.28, 0.66, 0.5]) {
+      scene.add.particles(W * fx, H * 0.72, 'fx-dot', {
+        speedY: { min: -52 * K, max: -20 * K }, speedX: { min: -10 * K, max: 10 * K },
+        scale: { start: 0.6 * K, end: 0 }, alpha: { start: 0.28, end: 0 },
+        tint: 0xbfe8dc, lifespan: 2800, frequency: 200, advance: 2800,
+      }).setDepth(-63);
+    }
+    return;
+  }
+
+  if (cfg.aurora) {
+    // AURORA DRIFT — deep night: star field, silhouette peaks, sky ribbons.
+    canvasTex(scene, 'yt-aurora-bg', W, H, (c) => {
+      for (let i = 0; i < 90; i++) {
+        const x = ((i * 97) % 100) / 100 * W, y = ((i * 53) % 60) / 100 * H, r = ((i * 31) % 14) / 10 + 0.3;
+        c.fillStyle = `rgba(255,255,255,${0.3 + ((i * 17) % 60) / 100})`;
+        c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+      }
+      c.fillStyle = 'rgba(10,18,32,.92)';
+      c.beginPath(); c.moveTo(0, H * 0.52);
+      const pk = [0.2, 0.42, 0.28, 0.5, 0.34, 0.46, 0.3];
+      for (let i = 0; i <= 6; i++) c.lineTo(W * i / 6, H * (0.52 - pk[i] * 0.2));
+      c.lineTo(W, H); c.lineTo(0, H); c.closePath(); c.fill();
+      groundGrad(c, 'rgba(30,80,80,.18)', 'rgba(20,50,50,.04)', 0.52);
+    });
+    scene.add.image(0, 0, 'yt-aurora-bg').setOrigin(0).setDepth(-72);
+    const rib = scene.add.graphics().setDepth(-68).setBlendMode('ADD');
+    scene.tweens.addCounter({
+      from: 0, to: Math.PI * 2, duration: 13000, repeat: -1,
+      onUpdate: (tw) => {
+        const ph = tw.getValue();
+        rib.clear();
+        for (let b = 0; b < 3; b++) {
+          rib.fillStyle([0x2c6a6c, 0x2c8a5c, 0x3c6a9c][b], 0.12);
+          rib.beginPath(); rib.moveTo(0, H * (0.12 + b * 0.05));
+          for (let x = 0; x <= W; x += W / 16) rib.lineTo(x, H * (0.12 + b * 0.05) + Math.sin(ph + x / (48 * K) + b) * 22 * K);
+          for (let x = W; x >= 0; x -= W / 16) rib.lineTo(x, H * (0.18 + b * 0.05) + Math.sin(ph + x / (48 * K) + b) * 22 * K);
+          rib.closePath(); rib.fillPath();
+        }
+      },
+    });
+    return;
+  }
+
+  if (cfg.groomers) {
+    // GROOMER ALLEY — a machine-carved piste: corduroy lines, a cat depot.
+    canvasTex(scene, 'yt-groomer-bg', W, H, (c) => {
+      c.fillStyle = 'rgba(30,44,72,.82)';
+      c.beginPath(); c.moveTo(0, H * 0.5);
+      const rg = [0.3, 0.5, 0.38, 0.46, 0.34];
+      for (let i = 0; i <= 4; i++) c.lineTo(W * i / 4, H * (0.5 - rg[i] * 0.16));
+      c.lineTo(W, H * 0.5); c.closePath(); c.fill();
+      groundGrad(c, 'rgba(200,220,244,.24)', 'rgba(150,180,214,.08)', 0.5);
+      c.strokeStyle = 'rgba(120,150,190,.2)'; c.lineWidth = 2;
+      for (let i = -6; i < 40; i++) {
+        const y = H * 0.5 + i * H * 0.02;
+        c.beginPath(); c.moveTo(0, y); c.lineTo(W, y + H * 0.05); c.stroke();
+      }
+      c.fillStyle = 'rgba(44,58,84,.92)'; c.fillRect(W * 0.68, H * 0.4, W * 0.18, H * 0.08);
+      c.fillStyle = 'rgba(28,36,52,1)'; c.fillRect(W * 0.66, H * 0.46, W * 0.22, H * 0.03);
+      c.fillStyle = '#ffd24a'; c.fillRect(W * 0.71, H * 0.42, W * 0.03, H * 0.03); c.fillRect(W * 0.78, H * 0.42, W * 0.03, H * 0.03);
+    });
+    scene.add.image(0, 0, 'yt-groomer-bg').setOrigin(0).setDepth(-70);
+    const fg = scene.add.graphics().setDepth(-64);
+    for (const fx of [0.2, 0.5, 0.8]) {
+      fg.fillStyle(0xffd24a, 0.85); fg.fillRect(W * fx, H * 0.5, 2 * K, H * 0.06);
+      fg.fillStyle(0xff6a4a, 0.9); fg.fillTriangle(W * fx + 2 * K, H * 0.5, W * fx + 15 * K, H * 0.512, W * fx + 2 * K, H * 0.53);
+    }
+    return;
+  }
+
+  if (cfg.moguls) {
+    // DOUBLE DIAMOND — sharp black spires and warning signs. Danger reads.
+    canvasTex(scene, 'yt-diamond-bg', W, H, (c) => {
+      const spires = [[0.1, 0.34], [0.32, 0.44], [0.54, 0.3], [0.74, 0.48], [0.92, 0.34]];
+      for (const [sx, ht] of spires) {
+        c.fillStyle = 'rgba(18,24,38,.95)';
+        c.beginPath(); c.moveTo(W * (sx - 0.09), H * 0.5); c.lineTo(W * sx, H * (0.5 - ht)); c.lineTo(W * (sx + 0.09), H * 0.5); c.closePath(); c.fill();
+        c.fillStyle = 'rgba(122,208,255,.28)';
+        c.beginPath(); c.moveTo(W * sx, H * (0.5 - ht)); c.lineTo(W * (sx + 0.025), H * (0.5 - ht * 0.4)); c.lineTo(W * (sx + 0.06), H * 0.5); c.lineTo(W * (sx + 0.09), H * 0.5); c.closePath(); c.fill();
+      }
+      groundGrad(c, 'rgba(24,32,50,.5)', 'rgba(12,18,30,.1)', 0.5);
+      const dia = (cx, cy, s) => { c.beginPath(); c.moveTo(cx, cy - s); c.lineTo(cx + s, cy); c.lineTo(cx, cy + s); c.lineTo(cx - s, cy); c.closePath(); c.fill(); };
+      for (const dx of [0.14, 0.84]) {
+        c.strokeStyle = '#3c4658'; c.lineWidth = Math.max(2, W * 0.006);
+        c.beginPath(); c.moveTo(W * dx, H * 0.55); c.lineTo(W * dx, H * 0.62); c.stroke();
+        c.fillStyle = '#e8ecf2'; c.fillRect(W * (dx - 0.05), H * 0.5, W * 0.1, H * 0.05);
+        const s = W * 0.016;
+        c.fillStyle = '#14141c'; dia(W * (dx - 0.022), H * 0.525, s); dia(W * (dx + 0.022), H * 0.525, s);
+      }
+    });
+    scene.add.image(0, 0, 'yt-diamond-bg').setOrigin(0).setDepth(-70);
+    celestial(scene, W * 0.2, H * 0.16, 20 * K, 0xbcd0ec, { crescent: true, depth: -88 });
+    return;
+  }
+
+  if (cfg.lift) {
+    // CHAIRLIFT RUN — one great mountain face and the lift line over it.
+    canvasTex(scene, 'yt-lift-bg', W, H, (c) => {
+      c.fillStyle = 'rgba(36,52,88,.9)';
+      c.beginPath(); c.moveTo(0, H * 0.5); c.lineTo(W * 0.55, H * 0.12); c.lineTo(W, H * 0.42); c.lineTo(W, H * 0.5); c.closePath(); c.fill();
+      c.fillStyle = 'rgba(230,242,255,.72)';
+      c.beginPath(); c.moveTo(W * 0.55, H * 0.12); c.lineTo(W * 0.44, H * 0.24); c.lineTo(W * 0.5, H * 0.26); c.lineTo(W * 0.58, H * 0.22); c.lineTo(W * 0.66, H * 0.26); c.closePath(); c.fill();
+      c.strokeStyle = 'rgba(20,30,54,.5)'; c.lineWidth = 2;
+      for (let i = 0; i < 5; i++) { c.beginPath(); c.moveTo(W * (0.22 + i * 0.12), H * 0.5); c.lineTo(W * (0.5 + i * 0.03), H * (0.2 + i * 0.045)); c.stroke(); }
+      c.fillStyle = 'rgba(120,72,44,.95)'; c.fillRect(W * 0.06, H * 0.42, W * 0.14, H * 0.09);
+      c.fillStyle = 'rgba(90,52,30,1)'; c.beginPath(); c.moveTo(W * 0.05, H * 0.42); c.lineTo(W * 0.13, H * 0.37); c.lineTo(W * 0.21, H * 0.42); c.closePath(); c.fill();
+      c.fillStyle = '#ffd88a'; c.fillRect(W * 0.09, H * 0.45, W * 0.03, H * 0.03); c.fillRect(W * 0.14, H * 0.45, W * 0.03, H * 0.03);
+      groundGrad(c, 'rgba(214,230,248,.2)', 'rgba(170,195,225,.06)', 0.5);
+    });
+    scene.add.image(0, 0, 'yt-lift-bg').setOrigin(0).setDepth(-70);
+    const g = scene.add.graphics().setDepth(-64);
+    g.lineStyle(2 * K, 0x1c2430, 0.85); g.lineBetween(0, H * 0.3, W, H * 0.22);
+    for (const fx of [0.12, 0.4, 0.68, 0.92]) { g.fillStyle(0x1c2430, 0.9); g.fillRect(W * fx - 2 * K, H * (0.3 - 0.08 * fx) - 2 * K, 4 * K, H * 0.18); }
+    for (const fx of [0.24, 0.52, 0.8]) {
+      const cy = H * (0.3 - 0.08 * fx) + H * 0.05;
+      g.lineStyle(1.5 * K, 0x1c2430, 0.8); g.lineBetween(W * fx, H * (0.3 - 0.08 * fx), W * fx, cy);
+      g.fillStyle(0xc2452e, 0.95); g.fillRect(W * fx - 6 * K, cy, 12 * K, 5 * K);
+    }
+    celestial(scene, W * 0.8, H * 0.14, 22 * K, 0xe8f2ff, { crescent: true, depth: -88 });
+    return;
+  }
+
+  // ridge ranges: three depths, jagged, snow-capped — VILLAGE LANES default
   const peaks = [
     { y: 0.32, amp: 0.1, col: 'rgba(70,90,140,.55)', cap: 'rgba(235,245,255,.5)', n: 5 },
     { y: 0.38, amp: 0.085, col: 'rgba(44,60,105,.75)', cap: 'rgba(225,238,252,.65)', n: 6 },
@@ -341,29 +549,16 @@ function drawWorld(scene, cfg, K) {
   scene.add.image(0, 0, 'yt-field').setOrigin(0).setDepth(-69);
   celestial(scene, W * 0.78, H * 0.14, 26 * K, 0xe8f2ff, { crescent: true, depth: -88 });
   driftClouds(scene, { n: 2, tint: 0xbcd0ec, alpha: 0.4, yBand: [0.06, 0.2], depth: -80 });
-  if (cfg.lift) {
-    // the chairlift line crossing the far slope
-    const g = scene.add.graphics().setDepth(-65);
-    g.lineStyle(2 * K, 0x1c2430, 0.8);
-    g.lineBetween(0, H * 0.34, W, H * 0.28);
-    for (const fx of [0.15, 0.45, 0.75]) {
-      g.fillStyle(0x1c2430, 0.85);
-      g.fillRect(W * fx - 3 * K, H * (0.34 - 0.06 * fx) - 2 * K, 6 * K, H * 0.2);
-    }
-  }
-  if (cfg.ice) {
-    const g = scene.add.graphics().setDepth(-64);
-    g.fillStyle(0xaef0ff, 0.12);
-    g.fillRect(0, H * 0.52, W, H * 0.05);
-  }
-  if (cfg.melt) {
-    for (const fx of [0.06, 0.94]) {
-      scene.add.particles(scene.scale.width * fx, H * 0.6, 'fx-dot', {
-        speedY: { min: -60 * K, max: -24 * K }, speedX: { min: -8 * K, max: 8 * K },
-        scale: { start: 0.5 * K, end: 0 }, alpha: { start: 0.3, end: 0 },
-        tint: 0xbfe8dc, lifespan: 2600, frequency: 140, advance: 2600,
-      }).setDepth(-63);
-    }
+  // Village Lanes: alpine chalets tucked in the valley, warm windows lit
+  const chg = scene.add.graphics().setDepth(-68);
+  for (const [bx, by, s] of [[0.2, 0.5, 22], [0.31, 0.515, 17], [0.72, 0.505, 24], [0.83, 0.52, 17]]) {
+    const x = W * bx, y = H * by, ss = s * K;
+    chg.fillStyle(0x6a4028, 1); chg.fillRect(x - ss, y - ss, ss * 2, ss * 1.1);
+    chg.fillStyle(0xf4fafd, 1);
+    chg.fillTriangle(x - ss * 1.25, y - ss, x, y - ss * 2, x + ss * 1.25, y - ss);
+    chg.fillStyle(0xffd88a, 0.95);
+    chg.fillRect(x - ss * 0.55, y - ss * 0.55, ss * 0.5, ss * 0.5);
+    chg.fillRect(x + ss * 0.1, y - ss * 0.55, ss * 0.5, ss * 0.5);
   }
 }
 
@@ -390,13 +585,29 @@ export function create(P, ctx) {
   let fever = false;
   let noteStep = 0;
   let goldenAt = 0;
+  let goldenCount = 0;      // first golden comes early, guaranteed in a short rest
+  let combo = 0;            // consecutive smashes — an escalating multiplier
+  let lastSmashAt = -9999;
+  let strikeStreak = 0;     // back-to-back village strikes: DOUBLE / TURKEY
+  let mileN = 0;            // checkpoint index — payout ramps with depth
+  let grabDX = 0;           // grab offset so a re-touch never teleports the ball
+  let ballVX = 0, prevBallX = 0, lastMoveAt = -9999; // real-dodge detection
+  let wasAir = false;       // mogul landing beat
+  let poolSfxAt = 0;        // throttle the melt hiss
+  let depthText;
   // three snowballs' worth of runs. Each wipeout — slamming something
   // bigger than you — spends one; the third ends the descent. The fuse
   // waits for your first touch, so an untouched summit never rolls or dies.
   let dead = false;
   let lives = 3;
   let livesGfx;
-  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
+  // The golden snowman is the jackpot, so it must actually appear inside a
+  // 60s rest (the product minimum): the FIRST one seeds early (~7-15s) and
+  // is guaranteed; later ones keep the 12-30s variable-ratio cadence.
+  const goldDelay = () => {
+    if (window.__P3_GOLD_QA) return 2500;
+    return goldenCount === 0 ? 7000 + Math.random() * 8000 : 12000 + Math.random() * 18000;
+  };
   const things = [];         // scrolling world objects { img, kind, meta, x, dead }
   const lanes = [];          // groomer boost lanes { x, w, img }
 
@@ -411,10 +622,10 @@ export function create(P, ctx) {
     return thing;
   }
 
-  function spawnBand(scene, K) {
+  function spawnBand(scene, K, yOff = 0) {
     const W = scene.scale.width, H = scene.scale.height;
     bandCount++;
-    const yBase = H + 60 * K;
+    const yBase = H + 60 * K + yOff;
     if (bandCount % cfg.villageEvery === 0) {
       // THE VILLAGE: seven pins, one greeting
       const cx = W * (0.3 + Math.random() * 0.4);
@@ -429,55 +640,89 @@ export function create(P, ctx) {
           n++;
         }
       }
+      return;
+    }
+    // difficulty rises with how deep the run is: more obstacles, more
+    // boulders as the run goes on — the back half of a long rest bites harder.
+    const elapsed = (scene.time.now - rollT0) / 1000;
+    const ramp = Math.min(1, elapsed / 150);
+    const opening = bandCount <= 2; // first drop is gentle: learn the verb first
+    const n = opening ? 2 : 3 + Math.floor(Math.random() * 3) + Math.floor(ramp * 2);
+    // spread across evenly-spaced lanes so a band never stacks one column
+    for (let i = 0; i < n; i++) {
+      const s = (i + 0.5) / n + (Math.random() - 0.5) * 0.14;
+      const kind = cfg.obstacles[Math.floor(Math.random() * cfg.obstacles.length)];
+      addThing(scene, K, kind, W * Math.max(0.06, Math.min(0.94, s)), yBase + Math.random() * H * 0.7);
+    }
+    // an unpassable boulder most bands (never on the gentle opening) — the
+    // wipeout threat even a maxed ball still has to steer around.
+    if (!opening && Math.random() < 0.55 + ramp * 0.3) {
+      addThing(scene, K, 'boulder', W * (0.12 + Math.random() * 0.76), yBase + Math.random() * H * 0.6);
+    }
+    // drifts keep the mass economy alive AND give a floored ball a way back up
+    if (cfg.melt) {
+      addThing(scene, K, 'pool', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 110, h: 70, pool: true });
+      addThing(scene, K, 'drift', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 70, h: 44, drift: true });
     } else {
-      const n = 3 + Math.floor(Math.random() * 3);
-      for (let i = 0; i < n; i++) {
-        const kind = cfg.obstacles[Math.floor(Math.random() * cfg.obstacles.length)];
-        addThing(scene, K, kind, W * (0.08 + Math.random() * 0.84), yBase + Math.random() * H * 0.7);
+      addThing(scene, K, 'drift', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 64, h: 40, drift: true });
+      if (Math.random() < 0.4) addThing(scene, K, 'drift', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 60, h: 38, drift: true });
+    }
+    if (cfg.moguls) {
+      for (let i = 0; i < 3; i++) {
+        addThing(scene, K, 'mogul', W * (0.12 + Math.random() * 0.76), yBase + Math.random() * H * 0.6, { w: 56, h: 34, mogul: true });
       }
-      // an unpassable boulder most bands — the wipeout threat a fat ball
-      // still has to respect. Steer around it; plow into it and you pay.
-      if (Math.random() < 0.7) {
-        addThing(scene, K, 'boulder', W * (0.12 + Math.random() * 0.76), yBase + Math.random() * H * 0.6);
-      }
-      if (cfg.melt) {
-        addThing(scene, K, 'pool', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 110, h: 70, pool: true });
-        addThing(scene, K, 'drift', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 70, h: 44, drift: true });
-      } else if (Math.random() < 0.4) {
-        addThing(scene, K, 'drift', W * (0.15 + Math.random() * 0.7), yBase + Math.random() * H * 0.5, { w: 64, h: 40, drift: true });
-      }
-      if (cfg.moguls) {
-        for (let i = 0; i < 3; i++) {
-          addThing(scene, K, 'drift', W * (0.12 + Math.random() * 0.76), yBase + Math.random() * H * 0.6, { w: 56, h: 30, mogul: true });
-        }
-      }
-      if (cfg.lift && Math.random() < 0.8) {
-        const px = W * (0.2 + Math.random() * 0.6);
-        addThing(scene, K, 'pillar', px, yBase + H * 0.3, { w: 30, h: 130 });
-        addThing(scene, K, 'chair', px + 50 * K, yBase + H * 0.3 - 40 * K, { chair: true, swingP: Math.random() * 7, anchorX: px + 50 * K });
-      }
-      if (cfg.groomers && Math.random() < 0.8) {
-        addThing(scene, K, 'groomer', Math.random() < 0.5 ? -60 * K : W + 60 * K, yBase + Math.random() * H * 0.5, {
-          groomer: true, vx: (Math.random() < 0.5 ? 1 : -1) * (60 + Math.random() * 40) * K,
-        });
-      }
+    }
+    if (cfg.lift && Math.random() < 0.8) {
+      const px = W * (0.2 + Math.random() * 0.6);
+      addThing(scene, K, 'pillar', px, yBase + H * 0.3, { w: 30, h: 130 });
+      addThing(scene, K, 'chair', px + 50 * K, yBase + H * 0.3 - 40 * K, { chair: true, swingP: Math.random() * 7, anchorX: px + 50 * K });
+    }
+    if (cfg.groomers && Math.random() < 0.8) {
+      addThing(scene, K, 'groomer', Math.random() < 0.5 ? -60 * K : W + 60 * K, yBase + Math.random() * H * 0.5, {
+        groomer: true, vx: (Math.random() < 0.5 ? 1 : -1) * (60 + Math.random() * 40) * K,
+      });
     }
   }
 
+  // Consecutive smashes build a multiplier — a clean streak is worth chasing,
+  // and a wipeout (which resets it) actually stings. Capped so it never runs
+  // away, and it decays after a lull so it rewards SUSTAINED aggression.
+  const comboMult = () => 1 + Math.min(Math.max(0, combo - 1), 14) * 0.06;
+
   function smashThing(scene, K, th, pts, growBy) {
     th.dead = true;
+    combo++;
+    lastSmashAt = scene.time.now;
+    const total = Math.max(1, Math.round(pts * comboMult()));
     burst(scene, th.img.x, th.img.y, cfg.accent, { n: 16, speed: 340 * K, scale: 0.55 * K });
-    api.score(pts);
+    api.score(total);
     api.note(noteStep++);
-    floatScore(scene, th.img.x, th.img.y - 20 * K, `+${pts}`, '#ffd24a', 15 * K);
+    const label = combo >= 3 ? `+${total}  ×${combo}` : `+${total}`;
+    floatScore(scene, th.img.x, th.img.y - 20 * K, label, combo >= 8 ? '#ffe07a' : '#ffd24a', 15 * K);
     shake(scene, 0.007 + size * 0.004, 110);
     hitstop(scene, 35);
     api.haptic(8);
     api.sfx('tap');
+    if (combo === 5 || combo === 10 || combo === 15 || combo === 20) {
+      glyphBanner(scene, `COMBO ×${combo}`, '#ffe07a', 24 * K);
+      api.sfx('objDone');
+    }
     if (growBy) size = Math.min(2, size + growBy);
     // wreckage permanence: it lies where you crushed it
     th.img.setAlpha(0.5).setAngle((Math.random() - 0.5) * 60).setDepth(7);
     th.crushed = true;
+  }
+
+  // Pin topple VISUALS only — the points are banked synchronously at claim
+  // time, so a hard-stop landing mid-cascade never eats the payout.
+  function toppleVisual(scene, K, q, total) {
+    q.dead = true;
+    burst(scene, q.img.x, q.img.y, cfg.accent, { n: 12, speed: 300 * K, scale: 0.5 * K });
+    floatScore(scene, q.img.x, q.img.y - 18 * K, `+${total}`, '#ffd24a', 14 * K);
+    api.sfx('tap');
+    api.haptic(6);
+    q.img.setAlpha(0.5).setAngle((Math.random() - 0.5) * 70).setDepth(7);
+    q.crushed = true;
   }
 
   function loseLife(scene, cause) {
@@ -535,20 +780,34 @@ export function create(P, ctx) {
       }).setDepth(10);
 
       if (cfg.strobe) {
-        darkVeil = scene.add.rectangle(0, 0, W, H, 0x060310, 0.72).setOrigin(0).setDepth(25);
+        // starts near-clear so PACK-phase greed (watching the ball grow) is
+        // never buried; the roll-phase strobe drives the alpha up and down
+        darkVeil = scene.add.rectangle(0, 0, W, H, 0x060310, 0.2).setOrigin(0).setDepth(25);
       }
       if (cfg.aurora) auroraGfx = scene.add.graphics().setDepth(-40);
 
       packGfx = scene.add.graphics().setDepth(30);
       livesGfx = scene.add.graphics().setDepth(33); // above the strobe veil
+      // depth read-out: sustained rolling has a number to beat
+      depthText = scene.add.text(16 * K, 14 * K, '', {
+        fontFamily: 'system-ui, sans-serif', fontStyle: '900',
+        fontSize: `${Math.round(15 * K)}px`, color: '#dff6ff',
+      }).setDepth(33).setAlpha(0.85).setVisible(false);
       // goldenAt seeds on the first update — the scene clock reads ~0 here
       glyphBanner(scene, 'HOLD TO PACK', '#dff6ff', 24 * K);
 
-      scene.input.on('pointerdown', (p) => { steer = p.x; armed = true; });
-      scene.input.on('pointermove', (p) => { steer = p.x; });
+      scene.input.on('pointerdown', (p) => {
+        // grab the ball WHERE it is: re-touching never teleports it
+        grabDX = (phase === 'roll' && ball) ? ball.x - p.x : 0;
+        steer = p.x + grabDX;
+        armed = true;
+      });
+      scene.input.on('pointermove', (p) => { steer = p.x + grabDX; });
       scene.input.on('pointerup', () => {
-        steer = null;
-        if (phase === 'pack' && holdT > 120) startRoll(scene, K);
+        steer = null; grabDX = 0;
+        // ANY release after a real touch launches — a quick tap is a valid
+        // (small, nimble) launch, never a silently-swallowed input
+        if (phase === 'pack' && armed) startRoll(scene, K);
       });
 
       function startRoll(sc, K2) {
@@ -561,8 +820,10 @@ export function create(P, ctx) {
         api.haptic(12);
         glyphBanner(sc, 'ROLL', '#ffffff', 34 * K2);
         penguin.setVisible(true);
-        spawnBand(sc, K2);
-        spawnBand(sc, K2);
+        prevBallX = ball.x; // seed dodge-tracking so frame one isn't a phantom move
+        // two opening bands STAGGERED down the slope — never a stacked wall
+        spawnBand(sc, K2, 0);
+        spawnBand(sc, K2, sc.scale.height * 0.72);
       }
       this._startRoll = startRoll;
     },
@@ -582,6 +843,9 @@ export function create(P, ctx) {
       // ——— PACK phase: greed against the burning slope-light ———
       if (phase === 'pack') {
         packGfx.clear();
+        // keep the strobe grotto legible while the ball grows — the murk
+        // only rises once you're rolling
+        if (cfg.strobe && darkVeil) darkVeil.setAlpha(0.12 + 0.1 * Math.abs(Math.sin(now / 600)));
         if (steer != null) {
           holdT += dtMs;
           size = Math.min(1.7, 0.42 + holdT / 2600);
@@ -613,6 +877,11 @@ export function create(P, ctx) {
         ball.x += (steer - ball.x) * Math.min(1, dt * (airT > 0 ? 9 : iceLerp * massDrag));
       }
       ball.x = Math.max(BALL_R(scene), Math.min(W - BALL_R(scene), ball.x));
+      // track how hard the ball is actually moving — a SWERVE has to be an
+      // EARNED dodge (a real sideways move), not just standing near a hazard
+      ballVX = dt > 0 ? (ball.x - prevBallX) / dt : 0;
+      if (Math.abs(ballVX) > W * 0.35) lastMoveAt = now;
+      prevBallX = ball.x;
 
       // aurora pulse: the world floats, points double
       if (cfg.aurora) {
@@ -655,6 +924,7 @@ export function create(P, ctx) {
 
       // the golden snowman waits somewhere downhill
       if (now >= goldenAt && !things.some((th) => th.golden)) {
+        goldenCount++;
         goldenAt = now + goldDelay();
         const th = addThing(scene, K, 'snowman', W * (0.15 + Math.random() * 0.7), H + 80 * K, { w: 46, h: 62, golden: true });
         th.img.setTint(0xffd24a);
@@ -664,12 +934,14 @@ export function create(P, ctx) {
       // speed follows mass; stun kills it briefly; the slope itself
       // steepens as the run goes on so a long rest keeps escalating
       const rollElapsed = (now - rollT0) / 1000;
+      const densityRamp = Math.min(1, rollElapsed / 150);
       const slopeRamp = 1 + Math.min(0.2, (rollElapsed / 240) * 0.2);
       const target = H * (0.5 + size * 0.22) * (fever ? 1.15 : 1) * floaty * slopeRamp;
       speed += ((stun > 0 ? H * 0.1 : target) - speed) * Math.min(1, dt * 3);
       dist += speed * dt;
       bandDist += speed * dt;
-      if (bandDist > H * 1.2) { bandDist = 0; spawnBand(scene, K); }
+      // bands arrive closer together the deeper you go — the slope tightens
+      if (bandDist > H * (1.2 - 0.3 * densityRamp)) { bandDist = 0; spawnBand(scene, K); }
 
       // ball visuals
       ball.setScale(size * (airT > 0 ? 1.12 : 1));
@@ -680,6 +952,21 @@ export function create(P, ctx) {
       penguin.setAngle(Math.sin(now / 260) * 8);
       spray.emitParticleAt(ball.x - BALL_R(scene) * 0.6, ball.y + BALL_R(scene) * 0.7, Math.ceil(speed / (H * 0.3)));
       spray.emitParticleAt(ball.x + BALL_R(scene) * 0.6, ball.y + BALL_R(scene) * 0.7, Math.ceil(speed / (H * 0.3)));
+
+      // mogul landing beat: a jump needs a touchdown to feel complete
+      if (wasAir && airT <= 0) {
+        burst(scene, ball.x, ball.y + BALL_R(scene), 0xffffff, { n: 12, speed: 220 * K, scale: 0.45 * K });
+        shake(scene, 0.01, 120);
+        squash(scene, ball, 'y');
+        api.sfx('tap');
+        api.haptic(10);
+      }
+      wasAir = airT > 0;
+
+      // running depth read-out: a number to beat over a long rest
+      depthText.setVisible(true).setText(`▼ ${Math.floor((dist / H) * 8)} m`);
+      // combo is for SUSTAINED aggression — it lapses after a lull
+      if (combo > 0 && now - lastSmashAt > 2500) combo = 0;
 
       // snow sheds constantly (the springs shed faster): staying huge is a
       // diet you maintain by eating drifts, not a value you bank at the top
@@ -699,6 +986,8 @@ export function create(P, ctx) {
         }
         if (th.haloImg) th.haloImg.setPosition(th.img.x, th.img.y);
         if (th.img.y < -120 * K) {
+          // a live village pin scrolled past un-bowled: the strike streak breaks
+          if (th.pin && !th.dead && !th.claimed && th.village) strikeStreak = 0;
           th.haloImg?.destroy();
           th.img.destroy();
           things.splice(things.indexOf(th), 1);
@@ -707,9 +996,17 @@ export function create(P, ctx) {
         if (th.pin) {
           villageId = th.village;
           villagePins++;
-          if (th.dead) villageDowned++;
+          if (th.dead || th.claimed) villageDowned++;
         }
-        if (th.dead || th.crushed) continue;
+        if (th.dead || th.crushed || th.claimed) continue;
+
+        // colour-code the load-bearing rule: RED = too big to plow (steer!),
+        // natural = smaller than you, safe to smash. Hysteresis avoids flicker.
+        if (th.meta.sizeClass > 0) {
+          const threat = size < th.meta.sizeClass;
+          if (threat && th._threat !== true) { th._threat = true; th.img.setTint(0xff7a6a); }
+          else if (!threat && size > th.meta.sizeClass + 0.05 && th._threat !== false) { th._threat = false; th.img.clearTint(); }
+        }
 
         const dx = ball.x - th.img.x, dy = ball.y - th.img.y;
         const rx = th.w / 2 + BALL_R(scene) * 0.8, ry = th.h / 2 + BALL_R(scene) * 0.8;
@@ -717,6 +1014,13 @@ export function create(P, ctx) {
           if (th.pool) {
             size = Math.max(0.36, size - dt * 0.5);
             if (Math.random() < dt * 8) burst(scene, ball.x, ball.y + BALL_R(scene), 0x7ad4c8, { n: 3, speed: 120 * K, scale: 0.3 * K });
+            // your core resource is draining — make it LEGIBLE, not silent
+            if (now - poolSfxAt > 620) {
+              poolSfxAt = now;
+              api.sfx('log');
+              api.haptic(6);
+              floatScore(scene, ball.x, ball.y - BALL_R(scene) - 10 * K, 'MELTING', '#7ad4c8', 13 * K);
+            }
             continue;
           }
           if (th.drift && !th.mogul) {
@@ -752,25 +1056,47 @@ export function create(P, ctx) {
             continue;
           }
           if (th.pin) {
-            smashThing(scene, K, th, 10 * auroraMult, 0.02);
-            // pins topple pins — but dominos are a gamble, not a guarantee.
-            // A clip on the edge fells a wing; the reliable STRIKE is a fat
-            // ball plowed straight through the center line
-            const chain = (from, depth) => {
-              for (const q of things) {
-                if (q.pin && !q.dead && Math.random() < 0.65
-                  && Math.hypot(q.img.x - from.img.x, q.img.y - from.img.y) < 58 * K) {
-                  q.dead = true; // claim now so cascades never loop
-                  scene.time.delayedCall(90 + depth * 70, () => {
-                    if (!q.img.active) return;
-                    q.dead = false;
-                    smashThing(scene, K, q, 6 * auroraMult, 0.01);
-                    chain(q, depth + 1);
-                  });
+            // MASS is the whole point of a village: a floored ball can only
+            // nudge a single pin (no strike), while a fat ball bowls a wide,
+            // reliable cascade. Size is a real decision, not a bypass.
+            if (size < 0.7) {
+              th.claimed = true;
+              combo++; lastSmashAt = now;
+              const pts = Math.max(1, Math.round(4 * comboMult())) * auroraMult;
+              api.score(pts);
+              toppleVisual(scene, K, th, pts);
+              floatScore(scene, th.img.x, th.img.y - 34 * K, 'need mass!', '#bcd0ec', 12 * K);
+              continue;
+            }
+            // claim + bank a pin's points SYNCHRONOUSLY (hard-stop safe), and
+            // ripple only the topple visuals. Reach and odds grow with mass.
+            const reach = (46 + size * 26) * K;
+            const prob = Math.min(0.92, 0.5 + size * 0.26);
+            const claim = (q, depth) => {
+              q.claimed = true;
+              combo++; lastSmashAt = now;
+              const base = depth === 0 ? 10 : 6;
+              const total = Math.max(1, Math.round(base * comboMult())) * auroraMult;
+              api.score(total);
+              api.note(noteStep++);
+              if (depth === 0) toppleVisual(scene, K, q, total);
+              else scene.time.delayedCall(80 + depth * 70, () => { if (q.img.active) toppleVisual(scene, K, q, total); });
+            };
+            claim(th, 0);
+            let frontier = [th], depth = 0;
+            while (frontier.length && depth < 6) {
+              const next = [];
+              for (const from of frontier) {
+                for (const q of things) {
+                  if (q.pin && !q.dead && !q.claimed && Math.random() < prob
+                    && Math.hypot(q.img.x - from.img.x, q.img.y - from.img.y) < reach) {
+                    claim(q, depth + 1);
+                    next.push(q);
+                  }
                 }
               }
-            };
-            chain(th, 0);
+              frontier = next; depth++;
+            }
             continue;
           }
           if (size >= th.meta.sizeClass) {
@@ -789,19 +1115,20 @@ export function create(P, ctx) {
             shake(scene, 0.016, 200);
             hitstop(scene, 80, () => {});
             squash(scene, ball, 'x');
-            floatScore(scene, ball.x, ball.y - BALL_R(scene) - 12 * K, 'OOF', '#ff8a9a', 17 * K);
+            floatScore(scene, ball.x, ball.y - BALL_R(scene) - 12 * K, 'TOO BIG!', '#ff8a9a', 17 * K);
             api.haptic([16, 40, 16]);
             api.sfx('log');
-            noteStep = 0;
+            noteStep = 0; combo = 0; strikeStreak = 0; // the streak stings
             th.crushed = true; // it survives; you bounced off it
             th.img.setAlpha(0.9);
             loseLife(scene, 'WIPED OUT');
           }
         } else if (!th.swerved && !th.pin && !th.drift && !th.pool && !th.golden
-          && size < th.meta.sizeClass
-          && Math.abs(dy) < ry * 0.7 && Math.abs(dx) < rx * 1.8) {
-          // shaving past something that would have flattened you pays —
-          // the small-ball slalom line is a real strategy, not a failure
+          && th.meta.sizeClass > 0 && size < th.meta.sizeClass
+          && Math.abs(dy) < ry * 0.7 && Math.abs(dx) < rx * 1.5
+          && now - lastMoveAt < 420) {
+          // an EARNED dodge: you actually STEERED clear of something that
+          // would have flattened you — not just idling near it
           th.swerved = true;
           api.score(6 * auroraMult);
           floatScore(scene, th.img.x, th.img.y - 16 * K, `SWERVE +${6 * auroraMult}`, '#3adcc8', 13 * K);
@@ -809,24 +1136,30 @@ export function create(P, ctx) {
         }
       }
 
-      // village strike ceremony
+      // village strike ceremony — back-to-back strikes ESCALATE (turkey!)
       if (villageId && villagePins === 7 && villageDowned === 7) {
         for (const th of things) if (th.village === villageId) th.village = 0;
-        api.score(50 * auroraMult);
-        glyphBanner(scene, 'VILLAGE STRIKE +50', '#ffd24a', 30 * K);
+        strikeStreak++;
+        const bonus = Math.min(250, 50 * strikeStreak) * auroraMult;
+        api.score(bonus);
+        const tier = strikeStreak >= 4 ? 'TURKEY!' : strikeStreak === 3 ? 'TRIPLE STRIKE'
+          : strikeStreak === 2 ? 'DOUBLE STRIKE' : 'VILLAGE STRIKE';
+        glyphBanner(scene, `${tier} +${bonus}`, strikeStreak >= 3 ? '#ff8ad0' : '#ffd24a', 30 * K);
         slowmo(scene, 0.35, 450);
-        zoomPunch(scene, 1.09, 300);
-        flash(scene, 0xffe9b3, 120, 0.35);
+        zoomPunch(scene, 1.09 + Math.min(0.06, strikeStreak * 0.02), 300);
+        flash(scene, strikeStreak >= 3 ? 0xffd0f0 : 0xffe9b3, 120, 0.35);
         api.sfx('pr');
         api.haptic([16, 40, 16, 40, 16]);
       }
 
-      // milestone dings
+      // checkpoints: the deeper you roll, the more each one is worth
       if (dist > (this._nextMile ?? H * 4)) {
         this._nextMile = (this._nextMile ?? H * 4) + H * 4;
-        api.score(10 * auroraMult);
+        mileN++;
+        const pts = Math.min(60, 10 * mileN) * auroraMult;
+        api.score(pts);
         api.note(noteStep++);
-        floatScore(scene, ball.x, ball.y - BALL_R(scene) - 20 * K, 'checkpoint +10', '#9cc8ec', 13 * K);
+        floatScore(scene, ball.x, ball.y - BALL_R(scene) - 20 * K, `checkpoint +${pts}`, '#9cc8ec', 13 * K);
       }
     },
   };

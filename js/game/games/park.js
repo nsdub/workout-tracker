@@ -16,12 +16,16 @@ export const TITLE = 'Skip Legend';
 // Measured post-tune: identical safe lobs ≈9.5/s; flat threading runs
 // with clean skips, re-armed grazes and rings run well past 14/s.
 export const VERB = 'SKIP!';
-export const STARS = [4, 8, 14];
+// Per-second rate. Raised above what a single lazy flat lob yields: three
+// stars now needs sustained clean chains, grazes and near-misses, not one
+// memorized throw (the per-skip climb soft-caps and the lake tightens over
+// the rest, so a farmed throw pays less and less).
+export const STARS = [6, 12, 18];
 
 export const HELP = {
   goal: 'Skip a stone as far across the lake as you can, throw after throw.',
-  how: 'Pull back with your thumb and release to send the stone. Fast and shallow skims; a perfectly flat entry is a clean skip that pays half again more. Passing close to ducks, buoys and canoes earns a graze bonus on every single throw.',
-  avoid: 'Landing too steep just sinks the stone and ends that throw, but hitting a duck, buoy or canoe square-on scares the local off and costs you a life. Scare off three and the day is over.',
+  how: 'Pull back with your thumb and release to send the stone. Fast and shallow skims; a perfectly flat entry is a clean skip that pays half again more — and the lake demands a flatter line the longer you play. Passing close to ducks, buoys and canoes earns a graze bonus. In the bog, open water sinks you: skip only across the turtle shells (they are landing pads, never a hit).',
+  avoid: 'Landing too steep just sinks the stone and ends that throw. Driving straight into a duck, buoy or canoe scares the local off and costs a life; a glancing clip only ends the throw. Scare off three and the day is over.',
 };
 
 export const WORLDS = {
@@ -102,12 +106,21 @@ const PAINT = {
     c.beginPath(); c.moveTo(w * 0.14, h * 0.38); c.quadraticCurveTo(w * 0.5, h * 0.72, w * 0.86, h * 0.38); c.stroke();
   },
   turtle(c, w, h) {
+    // a warm-lit pad glow so the shell reads against dark-green bog water
+    c.fillStyle = 'rgba(255,232,140,.16)';
+    c.beginPath(); c.ellipse(w * 0.5, h * 0.6, w * 0.46, h * 0.34, 0, 0, 7); c.fill();
     c.fillStyle = '#4a6a2c';
     c.beginPath(); c.ellipse(w * 0.5, h * 0.55, w * 0.36, h * 0.3, 0, 0, 7); c.fill();
-    c.fillStyle = '#6a8a3c';
+    c.fillStyle = '#7aa845';
     c.beginPath(); c.ellipse(w * 0.5, h * 0.5, w * 0.28, h * 0.22, 0, 0, 7); c.fill();
+    // amber shell rim — high contrast so the target pops on sight
+    c.strokeStyle = '#f0c05a'; c.lineWidth = w * 0.055;
+    c.beginPath(); c.ellipse(w * 0.5, h * 0.55, w * 0.36, h * 0.3, 0, 0, 7); c.stroke();
     c.strokeStyle = '#3a5220'; c.lineWidth = w * 0.03;
     c.beginPath(); c.moveTo(w * 0.36, h * 0.36); c.lineTo(w * 0.64, h * 0.64); c.moveTo(w * 0.64, h * 0.36); c.lineTo(w * 0.36, h * 0.64); c.stroke();
+    // specular highlight
+    c.fillStyle = 'rgba(255,255,255,.55)';
+    c.beginPath(); c.ellipse(w * 0.4, h * 0.44, w * 0.08, h * 0.05, -0.5, 0, 7); c.fill();
     c.fillStyle = '#5c7a34';
     c.beginPath(); c.arc(w * 0.86, h * 0.42, w * 0.1, 0, 7); c.fill();
     c.fillStyle = '#1c1208';
@@ -198,6 +211,14 @@ export function create(P, ctx) {
   let golden = null; // { img, halo }
   let goldenAt = 0;
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
+  let t0 = 0;                 // rest-elapsed clock — drives the difficulty ramp
+  let streak = 0;            // cross-throw build: good throws in a row
+  let resetTimer = null;     // pending between-throw re-arm (a tap skips the wait)
+  let windGfx = null;        // pinned wind indicator (wind worlds only)
+  let livesLabel = null;     // caption under the goodwill hearts
+  let livesLostAt = -Infinity, lifeSpentI = -1; // pulse the spent pip on loss
+  // 0 → 1 over the first ~150s of a rest; late throws must be flatter & faster
+  const rampNow = (scene) => Math.min(1, Math.max(0, (scene.time.now - t0) / 150000));
 
   const waterY = (scene) => scene.scale.height * (cfg.cliff ? 0.72 : 0.62);
   const throwerY = (scene) => cfg.cliff ? scene.scale.height * 0.3 : waterY(scene) - 40 * unit(scene);
@@ -208,8 +229,9 @@ export function create(P, ctx) {
     stone = {
       img: scene.add.image(a.x, a.y, canvasTex(scene, 'pk-stone', 30 * K, 24 * K, PAINT.stone)).setDepth(20),
       vx: 0, vy: 0, skips: 0, flying: false, dead: false, sunkAt: 0,
+      banked: 0, chain: 0, lostLife: false,
     };
-    scene.cameras.main.pan(scene.scale.width / 2, scene.scale.height / 2, 500, 'Sine.easeInOut');
+    scene.cameras.main.pan(scene.scale.width / 2, scene.scale.height / 2, 320, 'Sine.easeInOut');
     noteStep = 0;
     // every throw is a fresh slalom: grazes and firefly rings re-arm, so
     // the lake pays for precision on throw twelve like it did on throw one
@@ -221,17 +243,41 @@ export function create(P, ctx) {
     }
   }
 
+  // Distance caps at 50 (was a flat ~60 that any full-power throw maxed) and
+  // is banked continuously below, so it scales with how far you actually got.
+  const distPtsFor = (scene, x) =>
+    Math.floor(Math.max(0, Math.min(1, x / (scene.scale.width * WORLD_SCREENS))) * 50);
+
+  // Credit the positive distance delta every frame the stone advances. The
+  // rest's hard stop is a cash-out (overlay freezes api.score at TIME), so
+  // banking as-we-go means an in-flight throw's distance is already counted.
+  function bankDistance(scene) {
+    if (!stone || stone.dead) return;
+    const dp = distPtsFor(scene, stone.img.x);
+    if (dp > stone.banked) { api.score(dp - stone.banked); stone.banked = dp; }
+  }
+
   function endThrow(scene, K, reason) {
     if (!stone || stone.dead) return;
+    bankDistance(scene);            // flush the last increment before freezing it
     stone.dead = true;
-    const distPts = Math.floor((stone.img.x / (scene.scale.width * WORLD_SCREENS)) * 60);
-    api.score(distPts);
-    const msg = reason === 'end' ? `SHORE! +${distPts}` : `+${distPts} distance`;
+    const distPts = stone.banked;
+    const msg = reason === 'end' ? `SHORE! +${distPts}` : `${distPts} distance`;
     floatScore(scene, stone.img.x, waterY(scene) - 60 * K, msg, '#ffd24a', 18 * K);
     if (stone.skips >= 6) glyphBanner(scene, `${stone.skips} SKIPS`, '#ffd24a', 30 * K);
+    // cross-throw arc: a crossing or a real skip run extends the streak; a
+    // scared local or an early plunk resets it, so the run has something to
+    // protect and chase instead of resetting to identical potential each time.
+    const good = !stone.lostLife && (reason === 'end' || stone.skips >= 4);
+    if (good) {
+      streak++;
+      if (streak >= 2) glyphBanner(scene, `${streak} IN A ROW`, '#3adcc8', 22 * K);
+    } else {
+      streak = 0;
+    }
     const dead = stone;
     scene.tweens.add({ targets: dead.img, alpha: 0, y: dead.img.y + 30 * K, duration: 600, onComplete: () => dead.img.destroy() });
-    scene.time.delayedCall(750, () => resetStone(scene, K));
+    resetTimer = scene.time.delayedCall(360, () => { resetTimer = null; resetStone(scene, K); });
   }
 
   function skipAt(scene, K, x, clean) {
@@ -240,9 +286,12 @@ export function create(P, ctx) {
     burst(scene, x, wy - 4 * K, 0xbfe8f8, { n: clean ? 16 : 10, speed: 200 * K, scale: 0.4 * K, gravityY: 500 * K });
     api.note(noteStep++);
     stone.skips++;
-    // a razor-flat entry is the connoisseur's skip: half again the points
-    let gain = 8 + stone.skips * 4;
+    // a razor-flat entry is the connoisseur's skip: half again the points.
+    // the per-skip climb soft-caps at skip 7 so one endless throw can't farm
+    // the medal; a cross-throw streak adds a modest, skill-earned multiplier.
+    let gain = 8 + Math.min(stone.skips, 7) * 4;
     if (clean) gain = Math.round(gain * 1.5);
+    gain = Math.round(gain * (1 + Math.min(streak, 5) * 0.08));
     api.score(gain);
     floatScore(scene, x, wy - 40 * K, clean ? `CLEAN ×${stone.skips} +${gain}` : `skip ×${stone.skips} +${gain}`,
       clean ? '#fff0c8' : '#dff6ff', (clean ? 17 : 15) * K);
@@ -260,23 +309,40 @@ export function create(P, ctx) {
   function loseLife(scene, K, x, cause) {
     if (dead) return;
     lives = Math.max(0, lives - 1);
-    floatScore(scene, x, waterY(scene) - 72 * K, lives > 0 ? `${lives} LEFT` : 'SCARED OFF', '#ff5d7a', 16 * K);
+    lifeSpentI = lives;               // the pip that just went dark
+    livesLostAt = scene.time.now;     // pulse it on the HUD so the loss registers
+    if (stone) stone.lostLife = true;
+    streak = 0;                       // scaring a local breaks the run
+    // lift the callout well above the honk/plunk cluster so it isn't buried
+    floatScore(scene, x, waterY(scene) - 116 * K, lives > 0 ? `${lives} GOODWILL LEFT` : 'SCARED OFF', '#ff5d7a', 17 * K);
     api.haptic([18, 40, 18]);
     if (lives <= 0) { dead = true; api.die?.(cause); }
   }
 
-  // three skipping-stone pips, top-right, pinned to the screen (the lake
-  // scrolls; the HUD does not). A spent pip goes dark and hollow.
+  // three GOODWILL hearts, top-right, pinned to the screen (the lake scrolls;
+  // the HUD does not). Hearts — not stones — so they never read as ammo. A
+  // spent heart goes dark, and pulses red the instant it is lost.
   function drawLives(scene, K) {
     const W = scene.scale.width;
     livesGfx.clear();
-    const gap = 20 * K, r = 7 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
+    const gap = 22 * K, r = 8 * K, x0 = W - 16 * K - gap * 2, y = 18 * K;
+    const now = scene.time.now;
     for (let i = 0; i < 3; i++) {
       const x = x0 + i * gap, full = i < lives;
-      livesGfx.fillStyle(full ? 0x9aa4ae : 0x000000, full ? 0.95 : 0.25);
-      livesGfx.fillEllipse(x, y, r * 2, r * 1.7);
-      livesGfx.lineStyle(1.4 * K, full ? 0xc8d2dc : 0x68727e, full ? 0.9 : 0.4);
-      livesGfx.strokeEllipse(x, y, r * 2, r * 1.7);
+      if (i === lifeSpentI && now - livesLostAt < 460) {
+        const p = 1 - (now - livesLostAt) / 460;
+        livesGfx.lineStyle(2.4 * K, 0xff5d7a, p);
+        livesGfx.strokeCircle(x, y, r * (1.5 + (1 - p) * 1.3));
+      }
+      const col = full ? 0xff6a7a : 0x3a2530, a = full ? 0.96 : 0.55;
+      const s = r;
+      livesGfx.fillStyle(col, a);
+      livesGfx.fillCircle(x - s * 0.42, y - s * 0.2, s * 0.52);
+      livesGfx.fillCircle(x + s * 0.42, y - s * 0.2, s * 0.52);
+      livesGfx.fillTriangle(x - s * 0.9, y + s * 0.02, x + s * 0.9, y + s * 0.02, x, y + s * 1.02);
+      livesGfx.lineStyle(1.4 * K, full ? 0xffd0d8 : 0x68727e, full ? 0.9 : 0.4);
+      livesGfx.strokeCircle(x - s * 0.42, y - s * 0.2, s * 0.52);
+      livesGfx.strokeCircle(x + s * 0.42, y - s * 0.2, s * 0.52);
     }
   }
 
@@ -420,7 +486,14 @@ export function create(P, ctx) {
         const x = WW * (0.2 + 0.75 * (i / n)) + Math.random() * WW * 0.05;
         const img = scene.add.image(x, wy - fh * 0.3, canvasTex(scene, `pk-${kind}`, fw, fh, PAINT[kind])).setDepth(12);
         scene.tweens.add({ targets: img, y: img.y - 5 * K, duration: 1100 + Math.random() * 600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-        floats.push({ img, kind, w: fw, h: fh, grazed: false, vx: kind === 'bison' ? (Math.random() < 0.5 ? -18 : 18) * K : 0 });
+        // in the bog, turtles are landing pads — ring them so "safe pad" reads
+        // at a glance and they can't be mistaken for the obstacles other worlds
+        // trained you to dodge.
+        if (cfg.bog && kind === 'turtle') {
+          const pad = scene.add.image(x, wy, 'fx-ring').setTint(0xffe08a).setBlendMode('ADD').setScale(0.95 * K).setAlpha(0.55).setDepth(10);
+          scene.tweens.add({ targets: pad, alpha: 0.3, scaleX: pad.scaleX * 1.14, scaleY: pad.scaleY * 1.14, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        }
+        floats.push({ img, kind, w: fw, h: fh, grazed: false, grazeClaims: 0, bounced: false, vx: kind === 'bison' ? (Math.random() < 0.5 ? -18 : 18) * K : 0 });
       }
       if (cfg.rings) {
         for (let i = 0; i < 5; i++) {
@@ -445,14 +518,27 @@ export function create(P, ctx) {
 
       aimGfx = scene.add.graphics().setDepth(30);
       livesGfx = scene.add.graphics().setDepth(31).setScrollFactor(0);
+      livesLabel = scene.add.text(W - 14 * K, 31 * K, 'GOODWILL', {
+        fontFamily: 'system-ui, -apple-system, sans-serif', fontSize: `${9 * K}px`, color: '#c8d2dc',
+      }).setOrigin(1, 0).setDepth(31).setScrollFactor(0).setAlpha(0.7);
+      if (cfg.wind) windGfx = scene.add.graphics().setDepth(31).setScrollFactor(0);
+      t0 = scene.time.now; // ramp clock starts with the run
       // goldenAt seeds on the first update — the scene clock reads ~0 here
       resetStone(scene, K);
       glyphBanner(scene, 'PULL BACK. RELEASE.', '#dff6ff', 22 * K);
+      // the bog reverses the rule every other world taught — call it out
+      if (cfg.bog) scene.time.delayedCall(1500, () => { try { glyphBanner(scene, 'STICK TO THE SHELLS', '#ffe08a', 20 * K); } catch { /* garnish */ } });
 
       // Angry-Birds grammar: touch ANYWHERE, pull back (down-left), release.
       // The vector is relative to your own finger, not to a corner anchor.
       scene.input.on('pointerdown', (p) => {
-        if (!stone || stone.flying || stone.dead) return;
+        if (stone && stone.flying) return;      // a stone is already airborne
+        // between throws: a tap skips the reset wait and re-arms instantly, so
+        // the loop never freezes on a short rest.
+        if (!stone || stone.dead) {
+          if (resetTimer) { resetTimer.remove(false); resetTimer = null; }
+          resetStone(scene, unit(scene));
+        }
         aiming = true;
         aimAt = { sx: p.x, sy: p.y, x: p.x, y: p.y };
       });
@@ -463,7 +549,7 @@ export function create(P, ctx) {
         if (!aiming || !stone || stone.flying) { aiming = false; return; }
         aiming = false;
         const dx = aimAt.sx - aimAt.x, dy = aimAt.sy - aimAt.y;
-        if (dx < 15 * K) return; // no pull-back — a fidget, not a throw
+        if (Math.hypot(dx, dy) < 15 * K) return; // barely moved — a fidget, not a throw
         const pow = Math.min(Math.hypot(dx, dy), 180 * K);
         const ang = Math.max(-1.35, Math.min(-0.06, Math.atan2(dy, dx)));
         const KV = 6.2 * (fever ? 1.06 : 1);
@@ -484,9 +570,24 @@ export function create(P, ctx) {
       const WW = W * WORLD_SCREENS;
       const wy = waterY(scene);
       const cam = scene.cameras.main;
+      const ramp = rampNow(scene); // difficulty term, grows across the rest
       if (!goldenAt) goldenAt = scene.time.now + goldDelay();
 
       drawLives(scene, K); // pinned HUD — drawn every frame, even at anchor
+
+      // wind worlds: a pinned indicator so the drift is telegraphed, not a
+      // silent shove into a float (and wind can never cost a life — below).
+      if (cfg.wind && windGfx) {
+        const w = Math.sin(scene.time.now / 2600) * (1 + 0.7 * ramp);
+        windGfx.clear();
+        const cx = W / 2, cy = 22 * K, dir = w >= 0 ? 1 : -1;
+        const len = 26 * K * Math.min(1.7, Math.abs(w)) + 6 * K;
+        windGfx.lineStyle(3 * K, 0x9fd8ff, 0.7);
+        windGfx.lineBetween(cx - dir * len / 2, cy, cx + dir * len / 2, cy);
+        const tip = cx + dir * len / 2;
+        windGfx.fillStyle(0x9fd8ff, 0.85);
+        windGfx.fillTriangle(tip - dir * 6 * K, cy - 5 * K, tip - dir * 6 * K, cy + 5 * K, tip + dir * 6 * K, cy);
+      }
 
       // aim guide: the pull-back band under your finger + trajectory dots
       aimGfx.clear();
@@ -496,10 +597,10 @@ export function create(P, ctx) {
         const scroll = cam.scrollX;
         aimGfx.lineStyle(4 * K, 0xffffff, 0.4);
         aimGfx.lineBetween(aimAt.sx + scroll, aimAt.sy, aimAt.x + scroll, aimAt.y);
-        if (dx >= 15 * K) {
+        if (Math.hypot(dx, dy) >= 15 * K) {
           const pow = Math.min(Math.hypot(dx, dy), 180 * K);
           const ang = Math.max(-1.35, Math.min(-0.06, Math.atan2(dy, dx)));
-          const KV = 6.2;
+          const KV = 6.2 * (fever ? 1.06 : 1); // match the real fever launch
           let px = a.x, py = a.y, pvx = Math.cos(ang) * pow * KV, pvy = Math.sin(ang) * pow * KV;
           aimGfx.fillStyle(0xffffff, 0.85);
           for (let i = 0; i < 14; i++) {
@@ -532,21 +633,26 @@ export function create(P, ctx) {
       if (!stone || !stone.flying || stone.dead) return;
 
       // ——— ballistics ———
-      const wind = cfg.wind ? Math.sin(scene.time.now / 2600) * 120 * K : 0;
+      const wind = cfg.wind ? Math.sin(scene.time.now / 2600) * 120 * K * (1 + 0.7 * ramp) : 0;
       stone.vx += wind * dt;
       stone.vy += 900 * K * dt;
+      const prevX = stone.img.x; // for the swept wall test below
       stone.img.x += stone.vx * dt;
       stone.img.y += stone.vy * dt;
       stone.img.rotation += 9 * dt;
 
       cam.scrollX += ((stone.img.x - W * 0.4) - cam.scrollX) * Math.min(1, dt * 5);
+      bankDistance(scene); // bank the distance gained this frame — cash-out safe
 
-      // canyon walls: banked ricochets
+      // canyon walls: banked ricochets. A swept test (did the frame cross the
+      // wall plane?) instead of a point-in-band check, so the fast flat throws
+      // the canyon rewards can't tunnel straight through the wall on a frame dip.
       if (cfg.walls) {
         for (let i = 1; i <= 3; i++) {
-          const x = WW * (0.22 + i * 0.19);
+          const wx = WW * (0.22 + i * 0.19) + 17 * K;
           const top = wy - (60 + i * 30) * K;
-          if (stone.img.y < top && Math.abs(stone.img.x - (x + 17 * K)) < 20 * K && stone.vx > 0) {
+          if (stone.vx > 0 && stone.img.y < top && prevX <= wx && stone.img.x >= wx) {
+            stone.img.x = wx - 1; // clamp to the face before the bounce
             stone.vx *= -0.85;
             api.score(8); // the trick shot the canyon exists for finally pays
             burst(scene, stone.img.x, stone.img.y, 0xff9a5c, { n: 10, speed: 220 * K, scale: 0.4 * K });
@@ -577,29 +683,43 @@ export function create(P, ctx) {
         flash(scene, 0xffd24a, 120, 0.3);
         slowmo(scene, 0.35, 320);
         api.sfx('pr');
+        // kill the infinite hover/pulse tweens before destroying the targets,
+        // or they keep writing to detached images for the rest of the session.
+        scene.tweens.killTweensOf(golden.img); scene.tweens.killTweensOf(golden.halo);
         golden.img.destroy(); golden.halo.destroy();
         golden = null;
         goldenAt = scene.time.now + goldDelay();
       }
 
-      // firefly rings
+      // firefly rings — part of the same slalom chain as grazes, so threading
+      // a run of them escalates and celebrates instead of paying a flat +15.
       for (const r of rings) {
         if (!r.hit && Math.abs(stone.img.x - r.img.x) < r.r && Math.abs(stone.img.y - r.img.y) < r.r) {
           r.hit = true;
           r.img.setTint(0xfff0c8);
-          api.score(15);
+          stone.chain += 1;
+          const val = Math.round(15 * (1 + Math.min(stone.chain, 6) * 0.25) * (1 + Math.min(streak, 5) * 0.08));
+          api.score(val);
           api.note(noteStep++);
           collectTo(scene, r.img.x, r.img.y, cam.scrollX + W - 30 * K, 20 * K, 0xffd24a, 8);
-          floatScore(scene, r.img.x, r.img.y - 20 * K, 'RING +15', '#ffd24a', 16 * K);
+          burst(scene, r.img.x, r.img.y, 0xffe08a, { n: 8, speed: 160 * K, scale: 0.35 * K });
+          floatScore(scene, r.img.x, r.img.y - 20 * K, `RING ×${stone.chain} +${val}`, '#ffd24a', 16 * K);
         }
       }
 
-      // floats: graze or honk
+      // floats: bounce, smash, clip or graze
       for (const f of floats) {
         const dx = Math.abs(stone.img.x - f.img.x), dy = Math.abs(stone.img.y - f.img.y);
-        if (dx < f.w * 0.5 && dy < f.h * 0.55) {
-          if (cfg.bouncepads && f.kind === 'bison') {
-            stone.vy = -Math.abs(stone.vy) * 1.05 - 140 * K;
+
+        // meadow bison: a trampoline — fired ONCE per landing, not every frame
+        // the stone dwells inside (which used to compound vy into a launch off
+        // the top of the world). A per-pad flag re-arms when the stone leaves.
+        if (cfg.bouncepads && f.kind === 'bison') {
+          const inBox = dx < f.w * 0.5 && dy < f.h * 0.55;
+          if (inBox && !f.bounced && stone.vy > 0) {
+            f.bounced = true;
+            stone.img.y = f.img.y - f.h * 0.55;         // lift clear so it can't re-enter
+            stone.vy = -Math.abs(stone.vy) * 1.0 - 240 * K; // bounded, not dwell-scaled
             stone.vx *= 1.06;
             squash(scene, f.img, 'y');
             api.score(12);
@@ -607,23 +727,49 @@ export function create(P, ctx) {
             shake(scene, 0.008, 110);
             api.sfx('objDone');
             api.haptic(10);
-          } else {
-            squash(scene, f.img, 'x');
-            floatScore(scene, f.img.x, f.img.y - f.h, f.kind === 'duck' ? 'HONK!' : f.kind === 'turtle' ? 'hmph.' : 'CLONK', '#ff5d7a', 16 * K);
-            shake(scene, 0.01, 130);
-            api.sfx('log');
-            api.haptic([14, 30, 14]);
-            // a local hit square-on is scared off — that costs a life,
-            // unlike an ordinary clean sink, which only ends the throw
-            loseLife(scene, K, f.img.x, 'SCARED OFF');
-            plunk(scene, K);
-            return;
+          } else if (!inBox) {
+            f.bounced = false;
           }
-        } else if (!f.grazed && dx < f.w * 1.1 && dy < f.h * 1.6) {
+          continue;
+        }
+
+        // bog turtles are landing pads, never a hazard — the water logic below
+        // scores a shell landing; hitting one must never cost a life.
+        if (cfg.bog && f.kind === 'turtle') continue;
+
+        if (dx < f.w * 0.3 && dy < f.h * 0.38) {
+          // dead-centre smash — a clear misjudgment (you drove into the local):
+          // scares it off and costs a life. Wind drift can never trigger this.
+          squash(scene, f.img, 'x');
+          floatScore(scene, f.img.x, f.img.y - f.h, f.kind === 'duck' ? 'HONK!' : 'CLONK', '#ff5d7a', 16 * K);
+          shake(scene, 0.01, 130);
+          api.sfx('log');
+          api.haptic([14, 30, 14]);
+          if (!cfg.wind) loseLife(scene, K, f.img.x, 'SCARED OFF');
+          plunk(scene, K);
+          return;
+        } else if (dx < f.w * 0.5 && dy < f.h * 0.5) {
+          // a glancing clip — ends the throw but costs no life. A graze-aimed
+          // shot that tips slightly too close is forgiven, not fatal.
+          squash(scene, f.img, 'x');
+          floatScore(scene, f.img.x, f.img.y - f.h, 'clipped', '#a8b4c0', 14 * K);
+          api.sfx('log');
+          plunk(scene, K);
+          return;
+        } else if (!f.grazed && dx < f.w * 0.9 && dy < f.h * 1.1) {
+          // an honest near-miss. The band is tight (a real close pass), the
+          // value decays as the same local is farmed across throws, and a
+          // slalom chain within a throw escalates the payout and the fanfare.
           f.grazed = true;
-          api.score(5);
-          floatScore(scene, f.img.x, f.img.y - f.h * 1.4, 'GRAZE +5', '#3adcc8', 13 * K);
-          api.sfx('tap');
+          f.grazeClaims += 1;
+          stone.chain += 1;
+          const base = Math.max(1, 5 - (f.grazeClaims - 1));
+          const val = Math.max(1, Math.round(base * (1 + Math.min(stone.chain, 6) * 0.25) * (1 + Math.min(streak, 5) * 0.08)));
+          api.score(val);
+          burst(scene, f.img.x + (stone.img.x > f.img.x ? -1 : 1) * f.w * 0.4, f.img.y, 0x3adcc8, { n: 6, speed: 150 * K, scale: 0.3 * K });
+          floatScore(scene, f.img.x, f.img.y - f.h * 1.4, `GRAZE ×${stone.chain} +${val}`, '#3adcc8', 13 * K);
+          api.note(noteStep++);
+          api.haptic(4);
         }
       }
 
@@ -631,8 +777,10 @@ export function create(P, ctx) {
       if (stone.img.y >= wy && stone.vy > 0) {
         const speed = Math.hypot(stone.vx, stone.vy);
         const angle = Math.atan2(stone.vy, Math.abs(stone.vx)); // radians below horizontal
-        const shallow = angle < 0.42; // ~24°
-        const fast = speed > 300 * K;
+        // the lake demands a flatter, faster line the longer the rest runs, so
+        // a throw at t=200 asks more precision than the same lob at t=5.
+        const shallow = angle < (0.42 - 0.14 * ramp); // ~24° → ~16°
+        const fast = speed > (300 + 120 * ramp) * K;
         // bog law: open water is dead water
         const onPad = cfg.bog && floats.some((f) => f.kind === 'turtle' && Math.abs(stone.img.x - f.img.x) < f.w * 0.9);
         if (cfg.bog && !onPad) {
@@ -640,7 +788,7 @@ export function create(P, ctx) {
           if (stone.vx < 120 * K || !shallow) { plunk(scene, K); return; }
         }
         if (shallow && fast) {
-          const clean = angle < 0.18; // ~10°: the perfect flat entry
+          const clean = angle < (0.18 - 0.06 * ramp); // ~10° → ~7°: the perfect flat entry
           stone.img.y = wy - 1;
           stone.vy = -Math.abs(stone.vy) * (0.62 - angle * 0.35);
           stone.vx *= cfg.bog ? 0.82 : clean ? 0.97 : 0.94;
@@ -675,14 +823,25 @@ export function create(P, ctx) {
         });
       }
 
-      // off the far end: a legend
+      // off the far end: a legend. The game's named win-state gets the game's
+      // biggest aftermath — flash, slow-mo, a shore detonation, shake, punch —
+      // so the crossing reads as the climax, not a quiet +50 line.
       if (stone.img.x > WW - 20 * K) {
-        api.score(50);
-        glyphBanner(scene, 'ACROSS THE LAKE +50', '#ffd24a', 26 * K);
+        const cx = stone.img.x, cy = wy;
+        api.score(25); // distance is already banked continuously; a lean bonus
+        flash(scene, 0xffd24a, 160, 0.4);
+        slowmo(scene, 0.3, 500);
+        shake(scene, 0.014, 220);
+        zoomPunch(scene, 1.07, 360);
+        burst(scene, cx, cy, 0xffd24a, { n: 30, speed: 420 * K, scale: 0.7 * K, gravityY: 400 * K });
+        shockRing(scene, cx, cy, 0xfff0c8, 120 * K);
+        glyphBanner(scene, 'ACROSS THE LAKE +25', '#ffd24a', 28 * K);
         api.sfx('pr');
+        api.haptic([20, 50, 20, 50, 30]);
         endThrow(scene, K, 'end');
+        return;
       }
-      if (stone.img.y > H + 60 * K) endThrow(scene, K, 'sink');
+      if (stone.img.y > H + 60 * K) { endThrow(scene, K, 'sink'); return; }
     },
   };
 }

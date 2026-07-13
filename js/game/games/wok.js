@@ -20,7 +20,7 @@ import {
 export const TITLE = 'Dim Sum Drop';
 // Measured post-tune: random drops ≈10.6/s; cluster-hunting drops with
 // wok catches and SPOTLESS clears reach well past 17/s.
-export const VERB = 'DROP!';
+export const VERB = 'DROP IN A WOK';
 export const STARS = [5, 11, 17];
 
 export const HELP = {
@@ -203,6 +203,13 @@ const PAINT = {
 
 export function create(P, ctx) {
   const { api, cfg } = ctx;
+  // per-world accent, reused for peg rims, backdrop scenery and glyphs so
+  // each world reads as its own place rather than a re-tinted sky
+  const AR = (cfg.accent >> 16) & 255, AG = (cfg.accent >> 8) & 255, AB = cfg.accent & 255;
+  const accentCss = `rgb(${AR},${AG},${AB})`;
+  const accentA = (a) => `rgba(${AR},${AG},${AB},${a})`;
+  const pegTexKey = `wk-peg-${cfg.name}`;   // rim-tinted per world for contrast
+  const goldTexKey = 'wk-gold';
   let pegs = [];             // { img, body, kind, lit, spent, x0 }
   let woks = [];             // { img, body?, dir, speed, mult }
   let ball = null;           // { img, resolveAt }
@@ -226,6 +233,12 @@ export function create(P, ctx) {
   let dead = false;
   let lives = 3;
   let livesGfx;
+  let streakTxt;             // HUD hot-hand indicator
+  let catchStreak = 0;       // consecutive wok catches — a hot hand pays more
+  let spotlessStreak = 0;    // consecutive full-field clears — escalating bonus
+  let missStreak = 0;        // consecutive wasted plates — two in a row = a walkout
+  let seeded = false;        // explicit seed flag (never trust now===0 truthiness)
+  let lastVentFx = 0;
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
 
   const PR = 13;             // peg radius in K units
@@ -235,6 +248,9 @@ export function create(P, ctx) {
     // the dragon survives every refill — it IS the world
     for (const p of pegs) {
       if (p.dragonHead) continue;
+      // kill any infinite (repeat:-1) drift/cracker tween BEFORE the image dies,
+      // or its onUpdate keeps firing forever on a detached body every frame
+      try { scene.tweens.killTweensOf(p.img); } catch { /* none */ }
       p.img.destroy();
       if (p.body) scene.matter.world.remove(p.body);
     }
@@ -253,10 +269,19 @@ export function create(P, ctx) {
         const y = y0 + r / (rows - 1 || 1) * (y1 - y0) + (Math.random() - 0.5) * 10 * K;
         const kind = crackersAt.has(placed) ? 'cracker' : goldensAt.has(placed) ? 'gold' : 'peg';
         const tex = kind === 'cracker' ? canvasTex(scene, 'wk-cracker', 26 * K, 34 * K, PAINT.cracker)
-          : kind === 'gold' ? canvasTex(scene, 'wk-gold', PR * 2.6 * K, PR * 2.6 * K, PAINT.goldpeg)
-            : canvasTex(scene, 'wk-peg', PR * 2.6 * K, PR * 2.6 * K, PAINT.peg);
+          : kind === 'gold' ? canvasTex(scene, goldTexKey, PR * 2.6 * K, PR * 2.6 * K, PAINT.goldpeg)
+            // per-world peg: PAINT.peg plus a bright accent rim so the unlit
+            // targets never vanish into a red/dark sky (contrast + world identity)
+            : canvasTex(scene, pegTexKey, PR * 2.6 * K, PR * 2.6 * K, (c, w, h) => {
+              PAINT.peg(c, w, h);
+              c.strokeStyle = accentA(0.9); c.lineWidth = w * 0.06;
+              c.beginPath(); c.arc(w / 2, h / 2, w * 0.42, 0, 7); c.stroke();
+            });
         const img = scene.add.image(x, y, tex).setDepth(10);
-        const body = scene.matter.add.circle(x, y, PR * K, { isStatic: true, restitution: cfg.bouncy ? 1.05 : 0.55, label: 'peg' });
+        // restitution stays honest (<= 1): a >1 peg injects energy the sim
+        // can never shed, so drops pinball forever instead of settling. Boba
+        // is "criminally bouncy" at 0.98, not perpetual-motion at 1.05.
+        const body = scene.matter.add.circle(x, y, PR * K, { isStatic: true, restitution: cfg.bouncy ? 0.98 : 0.55, label: 'peg' });
         const peg = { img, body, kind, lit: false, x0: x, y0: y };
         body.pegRef = peg;
         if (kind === 'cracker') {
@@ -314,15 +339,22 @@ export function create(P, ctx) {
       banner(scene, `${n} LANTERNS`, '#ffc46c', 26 * K);
       api.sfx('objDone');
     }
-    // dragon head: relights spent pegs
+    // dragon head: relights spent pegs — and you SEE it happen at each peg
     if (peg.dragonHead && dragon) {
       const spent = pegs.filter((q) => q.spent);
-      for (const q of spent.slice(0, 3)) {
+      const revived = spent.slice(0, 3);
+      for (const q of revived) {
         q.spent = false;
         q.lit = false;
         q.img.setAlpha(1);
+        // back to the unlit texture — a revived peg must look catchable again,
+        // not identical to an already-lit one
+        q.img.setTexture(q.kind === 'gold' ? goldTexKey : pegTexKey);
+        burst(scene, q.img.x, q.img.y, 0x7ad0ff, { n: 8, speed: 180 * K, scale: 0.4 * K });
+        shockRing(scene, q.img.x, q.img.y, 0x7ad0ff, 40 * K);
         try { q.body.isSensor = false; } catch { /* gone */ }
       }
+      if (revived.length) { api.sfx('objDone'); api.haptic(6); }
       floatScore(scene, peg.img.x, peg.img.y - 30 * K, 'THE DRAGON PROVIDES', '#7ad0ff', 14 * K);
     }
   }
@@ -330,26 +362,39 @@ export function create(P, ctx) {
   function loseLife(scene, x, cause) {
     if (dead) return;
     lives = Math.max(0, lives - 1);
+    catchStreak = 0; // a walkout snaps the hot hand
     const K = unit(scene);
-    floatScore(scene, x, scene.scale.height * 0.8, lives > 0 ? 'MISSED THE WOK' : 'WALKED OUT', '#ff5d7a', 16 * K);
+    floatScore(scene, x, scene.scale.height * 0.8, lives > 0 ? 'PLATE ON THE FLOOR' : 'WALKED OUT', '#ff5d7a', 16 * K);
     shake(scene, 0.008, 120);
+    flash(scene, 0xff2040, 100, 0.2); // the loss must be seen as well as heard
     api.sfx('log'); // the one negative beat was silent — it needs a thud
     api.haptic([18, 40, 18]);
     if (lives <= 0) { dead = true; api.die?.(cause); }
   }
 
-  // three dumpling pips, top-right — a lost customer's pip goes dark
+  // three seated-customer pips, top-right — a lost customer's seat gets a
+  // hard red cross so the "third walkout closes the kitchen" stakes are
+  // legible at a glance and never read as leftover dumpling ammo
   function drawLives(scene, K) {
     const W = scene.scale.width;
     livesGfx.clear();
-    const gap = 20 * K, r = 7 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
+    const gap = 22 * K, r = 8 * K, x0 = W - 16 * K - gap * 2, y = 18 * K;
     for (let i = 0; i < 3; i++) {
       const x = x0 + i * gap, full = i < lives;
-      livesGfx.fillStyle(full ? 0xffe9b3 : 0x000000, full ? 0.95 : 0.25);
-      livesGfx.fillCircle(x, y, r);
-      livesGfx.lineStyle(1.4 * K, full ? 0xffc46c : 0x6a4a2a, full ? 0.9 : 0.4);
-      livesGfx.strokeCircle(x, y, r);
-      if (full) { livesGfx.lineStyle(1.2 * K, 0xa8783c, 0.6); livesGfx.lineBetween(x - r * 0.4, y - r * 0.3, x + r * 0.4, y - r * 0.3); }
+      if (full) {
+        // a warm, seated customer (dumpling on the plate)
+        livesGfx.fillStyle(0xffe9b3, 0.98); livesGfx.fillCircle(x, y, r);
+        livesGfx.lineStyle(1.8 * K, 0xffc46c, 1); livesGfx.strokeCircle(x, y, r);
+        livesGfx.lineStyle(1.2 * K, 0xa8783c, 0.75); livesGfx.lineBetween(x - r * 0.45, y - r * 0.28, x + r * 0.45, y - r * 0.28);
+      } else {
+        // an empty seat: hollow ring + red cross — unmistakably a LOST slot
+        livesGfx.fillStyle(0x120810, 0.5); livesGfx.fillCircle(x, y, r);
+        livesGfx.lineStyle(2.2 * K, 0xff5d7a, 0.9); livesGfx.strokeCircle(x, y, r);
+        const d = r * 0.5;
+        livesGfx.lineStyle(2 * K, 0xff5d7a, 0.95);
+        livesGfx.lineBetween(x - d, y - d, x + d, y + d);
+        livesGfx.lineBetween(x - d, y + d, x + d, y - d);
+      }
     }
   }
 
@@ -357,22 +402,39 @@ export function create(P, ctx) {
     if (!ball) return;
     const b = ball;
     ball = null;
-    // only a dumpling that falls clean off the bottom past every wok is a
-    // plate on the floor — one customer's patience spent. A wok catch never
-    // costs patience, and a dumpling that merely settles in the pegs (the
-    // resting/wedged mercy rules) is banked, not blamed on the player.
-    // the first drop is a free teach — you learn the catch verb before the
-    // stakes bite, so the fail-state is never front-loaded on a cold thumb
-    if (missed && wokMult <= 1 && dropCount >= 1) loseLife(scene, wokX, 'WALKED OUT');
+    const litCount = litThisDrop.length;
+    // FAIRNESS. This is a physics dropper on a phone between lifting sets, so
+    // a single unlucky clean miss must never end anything. Patience is spent
+    // only on the SECOND wasted plate in a row — repeated whiffing, a clear
+    // player mistake, not one bad bounce. And a "miss" that still lit a fat
+    // cluster (>=4 lanterns) isn't wasted at all: it forgives the streak.
+    // A wok catch never costs patience; the resting/wedged mercy rules pass
+    // missed=false and are banked, not blamed. The first drop is a free teach.
+    if (missed && wokMult <= 1 && dropCount >= 1) {
+      if (litCount >= 4) {
+        missStreak = 0; // a productive near-miss earns a clean slate
+      } else {
+        missStreak++;
+        if (missStreak >= 2) { missStreak = 0; loseLife(scene, wokX, 'WALKED OUT'); }
+        else floatScore(scene, wokX, scene.scale.height * 0.8, 'CLOSE — LAST WARNING', '#ffb86c', 15 * K);
+      }
+    }
     // kill the golden trail BEFORE the dumpling dies: an emitter following
     // a destroyed Matter image crashes the whole cabinet on its next frame
     try { b.trail?.stopFollow(); b.trail?.destroy(); } catch { /* gone */ }
     scene.tweens.add({ targets: b.img, alpha: 0, duration: 250, onComplete: () => { try { b.img.destroy(); } catch { /* gone */ } } });
     const total = litThisDrop.reduce((a, p) => a + (p.gain ?? 10), 0);
+    if (wokMult > 1) {
+      // a caught drop extends the hot hand — consecutive catches escalate the
+      // multiplier so "don't break the chain" is the retention hook, not flat
+      catchStreak++;
+      missStreak = 0;
+    }
     if (wokMult > 1 && litThisDrop.length) {
-      const bonus = total * (wokMult - 1);
+      const streakBoost = 1 + Math.min(catchStreak - 1, 5) * 0.5; // ×1 → ×3.5, capped
+      const bonus = Math.round(total * (wokMult - 1) * streakBoost);
       api.score(bonus);
-      glyphBanner(scene, `WOK CATCH ×${wokMult}`, '#ffd24a', 30 * K);
+      glyphBanner(scene, catchStreak >= 2 ? `WOK CATCH ×${wokMult} — ${catchStreak} IN A ROW` : `WOK CATCH ×${wokMult}`, '#ffd24a', 30 * K);
       floatScore(scene, wokX, scene.scale.height * 0.82, `+${bonus}`, '#ffd24a', 24 * K);
       zoomPunch(scene, 1.08, 260);
       slowmo(scene, 0.4, 350);
@@ -396,20 +458,28 @@ export function create(P, ctx) {
         api.note(Math.min(14, i));
       });
     });
+    // SPOTLESS is decided and BANKED the instant the drop resolves, not in a
+    // delayed callback — so a hard-stop at T-0 can never eat the clean-sweep
+    // bonus. A peg still counts as "on the field" only if it was neither
+    // already spent nor lit by this very drop; consecutive sweeps escalate.
+    const cleared = litCount > 0 && pegs.every((p) => p.dragonHead || p.spent || p.lit);
+    if (cleared) {
+      spotlessStreak = Math.min(spotlessStreak + 1, 4);
+      const sb = 75 * spotlessStreak; // +75 → +300 for a sustained clean sweep
+      api.score(sb);
+      glyphBanner(scene, spotlessStreak >= 2 ? `SPOTLESS ×${spotlessStreak} +${sb}` : `SPOTLESS +${sb}`, '#ffe9a0', 26 * K);
+      flash(scene, 0xffd24a, 110, 0.25);
+      api.sfx('pr');
+    } else {
+      spotlessStreak = 0;
+    }
     litThisDrop = [];
     noteStep = 0;
     dropCount++;
     if (goldenDrop) { goldenDrop = false; goldenAt = scene.time.now + goldDelay(); }
-    // a thinning field refills fresh, after the pop ceremony finishes —
-    // and sweeping the steamer completely clean is worth a ceremony of its own
+    // a thinning field refills fresh, after the pop ceremony finishes
     scene.time.delayedCall(popped.length * 70 + 600, () => {
       const remaining = pegs.filter((p) => !p.spent && !p.dragonHead).length;
-      if (remaining === 0) {
-        api.score(75);
-        glyphBanner(scene, 'SPOTLESS +75', '#ffe9a0', 26 * K);
-        flash(scene, 0xffd24a, 110, 0.25);
-        api.sfx('pr');
-      }
       if (remaining < 8) buildField(scene, K);
     });
   }
@@ -432,8 +502,11 @@ export function create(P, ctx) {
 
       const spaceWorld = cfg.gravity < 1 || cfg.bouncy;
       if (spaceWorld) {
-        // deep space kitchen: starfield, ringed planet, nebula wisps
-        canvasTex(scene, 'wk-space', W, H, (c) => {
+        // deep-space kitchen — but each belt is its OWN sky: a craggy asteroid
+        // field (drift), a great spiral nebula (field), or a milk-tea void of
+        // floating boba pearls (bouncy). Same stars, wholly different place.
+        const skyKey = `wk-space-${cfg.name}`;
+        canvasTex(scene, skyKey, W, H, (c) => {
           const st = [0.05, 0.18, 0.31, 0.44, 0.57, 0.66, 0.79, 0.88, 0.12, 0.5, 0.72, 0.95, 0.26, 0.38, 0.61, 0.84];
           c.fillStyle = 'rgba(255,244,220,.9)';
           st.forEach((fx, i) => {
@@ -441,35 +514,128 @@ export function create(P, ctx) {
             c.beginPath(); c.arc(W * fx, H * ((fx * 3.7 + i * 0.13) % 0.95), (0.6 + (i % 3) * 0.6) * 2, 0, 7); c.fill();
           });
           c.globalAlpha = 1;
-          // nebula wisps
-          for (const [fx, fy, r, col] of [[0.2, 0.3, 0.3, 'rgba(255,138,208,.1)'], [0.75, 0.6, 0.34, 'rgba(122,208,255,.09)'], [0.5, 0.85, 0.4, 'rgba(200,184,255,.08)']]) {
-            const gr = c.createRadialGradient(W * fx, H * fy, 1, W * fx, H * fy, W * r);
-            gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)');
-            c.fillStyle = gr;
-            c.fillRect(0, 0, W, H);
+          if (cfg.field) {
+            // NOODLE NEBULA — a great spiral galaxy with a blazing core
+            const cx = W * 0.5, cy = H * 0.3;
+            for (let a = 0; a < 3; a++) {
+              c.save(); c.translate(cx, cy); c.rotate(a * 2.1);
+              c.strokeStyle = accentA(0.1); c.lineWidth = W * 0.1; c.lineCap = 'round';
+              c.beginPath();
+              for (let t = 0; t < 5; t += 0.2) {
+                const rr = t * W * 0.05, xx = Math.cos(t) * rr, yy = Math.sin(t) * rr * 0.6;
+                t === 0 ? c.moveTo(xx, yy) : c.lineTo(xx, yy);
+              }
+              c.stroke(); c.restore();
+            }
+            const core = c.createRadialGradient(cx, cy, 1, cx, cy, W * 0.17);
+            core.addColorStop(0, 'rgba(255,244,220,.9)'); core.addColorStop(0.4, accentA(0.5)); core.addColorStop(1, 'rgba(0,0,0,0)');
+            c.fillStyle = core; c.beginPath(); c.arc(cx, cy, W * 0.17, 0, 7); c.fill();
+          } else if (cfg.bouncy) {
+            // BOBA VOID — a milk-tea planet and giant translucent tapioca pearls
+            const px = W * 0.8, py = H * 0.18, pr = W * 0.12;
+            const pg = c.createRadialGradient(px - pr * 0.3, py - pr * 0.3, 1, px, py, pr);
+            pg.addColorStop(0, '#f0dcc0'); pg.addColorStop(1, '#b98a5a');
+            c.fillStyle = pg; c.beginPath(); c.arc(px, py, pr, 0, 7); c.fill();
+            for (const [bx, by, br] of [[0.2, 0.24, 0.09], [0.68, 0.44, 0.07], [0.34, 0.54, 0.06], [0.84, 0.64, 0.05], [0.13, 0.46, 0.05]]) {
+              const g2 = c.createRadialGradient(W * bx - W * br * 0.3, H * by - W * br * 0.3, 1, W * bx, H * by, W * br);
+              g2.addColorStop(0, accentA(0.5)); g2.addColorStop(0.7, accentA(0.22)); g2.addColorStop(1, 'rgba(0,0,0,0)');
+              c.fillStyle = g2; c.beginPath(); c.arc(W * bx, H * by, W * br, 0, 7); c.fill();
+              c.fillStyle = 'rgba(30,12,30,.55)'; c.beginPath(); c.arc(W * bx, H * by, W * br * 0.58, 0, 7); c.fill();
+              c.fillStyle = 'rgba(255,255,255,.4)'; c.beginPath(); c.arc(W * bx - W * br * 0.24, H * by - W * br * 0.24, W * br * 0.14, 0, 7); c.fill();
+            }
+          } else {
+            // ASTEROID BELT — a ringed planet and a drift of craggy rocks
+            const px = W * 0.82, py = H * 0.2, pr = W * 0.1;
+            const pg = c.createRadialGradient(px - pr * 0.3, py - pr * 0.3, 1, px, py, pr);
+            pg.addColorStop(0, '#e8c8a0'); pg.addColorStop(1, '#a8742c');
+            c.fillStyle = pg; c.beginPath(); c.arc(px, py, pr, 0, 7); c.fill();
+            c.strokeStyle = 'rgba(232,213,174,.7)'; c.lineWidth = pr * 0.14;
+            c.beginPath(); c.ellipse(px, py, pr * 1.7, pr * 0.4, -0.3, 0, 7); c.stroke();
+            for (let i = 0; i < 9; i++) {
+              const rx = W * (0.1 + i * 0.1), ry = H * (0.34 + ((i * 0.19) % 0.4)), rr = (7 + (i % 3) * 5) * K;
+              c.save(); c.translate(rx, ry); c.rotate(i);
+              c.fillStyle = i % 2 ? 'rgba(120,120,140,.5)' : 'rgba(90,84,110,.5)';
+              c.beginPath();
+              for (let a = 0; a < 7; a++) {
+                const ang = a / 7 * Math.PI * 2, rad = rr * (0.7 + (a % 2) * 0.4);
+                const xx = Math.cos(ang) * rad, yy = Math.sin(ang) * rad;
+                a === 0 ? c.moveTo(xx, yy) : c.lineTo(xx, yy);
+              }
+              c.closePath(); c.fill();
+              c.fillStyle = 'rgba(40,36,54,.5)'; c.beginPath(); c.arc(rr * 0.2, -rr * 0.1, rr * 0.22, 0, 7); c.fill();
+              c.restore();
+            }
           }
-          // the ringed planet the market orbits
-          const px = W * 0.82, py = H * 0.2, pr = W * 0.1;
-          const pg = c.createRadialGradient(px - pr * 0.3, py - pr * 0.3, 1, px, py, pr);
-          pg.addColorStop(0, '#e8c8a0'); pg.addColorStop(1, '#a8742c');
-          c.fillStyle = pg;
-          c.beginPath(); c.arc(px, py, pr, 0, 7); c.fill();
-          c.strokeStyle = 'rgba(232,213,174,.7)'; c.lineWidth = pr * 0.14;
-          c.beginPath(); c.ellipse(px, py, pr * 1.7, pr * 0.4, -0.3, 0, 7); c.stroke();
         });
-        scene.add.image(0, 0, 'wk-space').setOrigin(0).setDepth(-80);
+        scene.add.image(0, 0, skyKey).setOrigin(0).setDepth(-80);
       } else {
-        // the night market itself: stalls, awnings, signs, steam, moon
-        canvasTex(scene, 'wk-market', W, H, (c) => {
+        // the night market — but each stall row fronts a DIFFERENT hero: a
+        // coiling dragon (dragon), a golden torii + shrine bells (bells),
+        // billowing boiler tanks (vents) or hanging firecrackers (crackers).
+        // Plain Steam Alley keeps the bare market. Awnings + signs take the
+        // world accent, and every stall carries its own glyph set.
+        const skyKey = `wk-market-${cfg.name}`;
+        const glyphs = cfg.crackers ? ['爆', '炮', '喜', '福', '火']
+          : cfg.vents ? ['蒸', '氣', '湯', '煙', '鍋']
+            : cfg.dragon ? ['龍', '麵', '雲', '海', '運']
+              : cfg.bells ? ['福', '金', '鐘', '喜', '財']
+                : ['麵', '湯', '包', '茶', '火'];
+        canvasTex(scene, skyKey, W, H, (c) => {
+          // — per-world hero element, painted BEHIND the stalls —
+          if (cfg.dragon) {
+            c.strokeStyle = accentA(0.16); c.lineWidth = W * 0.05; c.lineCap = 'round';
+            c.beginPath();
+            for (let t = 0; t <= 1; t += 0.02) {
+              const xx = W * t, yy = H * (0.16 + Math.sin(t * 9) * 0.09);
+              t === 0 ? c.moveTo(xx, yy) : c.lineTo(xx, yy);
+            }
+            c.stroke();
+            c.fillStyle = accentA(0.26);
+            for (let t = 0; t <= 1; t += 0.06) { c.beginPath(); c.arc(W * t, H * (0.16 + Math.sin(t * 9) * 0.09), W * 0.012, 0, 7); c.fill(); }
+            c.fillStyle = accentA(0.32); c.beginPath(); c.arc(W * 0.02, H * 0.16, W * 0.05, 0, 7); c.fill();
+          } else if (cfg.bells) {
+            const gx = W * 0.5, gy = H * 0.12, gw = W * 0.34;
+            c.fillStyle = accentA(0.85);
+            c.fillRect(gx - gw, gy, gw * 2, 10 * K);
+            c.fillRect(gx - gw * 0.86, gy + 18 * K, gw * 1.72, 7 * K);
+            c.fillRect(gx - gw * 0.7, gy, 11 * K, H * 0.34);
+            c.fillRect(gx + gw * 0.7 - 11 * K, gy, 11 * K, H * 0.34);
+            c.fillStyle = accentA(0.5); c.fillRect(gx - gw, gy - 6 * K, gw * 2, 6 * K);
+          } else if (cfg.vents) {
+            for (const bx of [W * 0.08, W * 0.92]) {
+              const g2 = c.createLinearGradient(bx - 30 * K, 0, bx + 30 * K, 0);
+              g2.addColorStop(0, 'rgba(60,80,88,.8)'); g2.addColorStop(0.5, 'rgba(120,150,150,.85)'); g2.addColorStop(1, 'rgba(48,66,72,.8)');
+              c.fillStyle = g2;
+              c.beginPath(); c.roundRect(bx - 26 * K, H * 0.3, 52 * K, H * 0.42, 14 * K); c.fill();
+              c.fillStyle = accentA(0.5); c.fillRect(bx - 26 * K, H * 0.36, 52 * K, 5 * K); c.fillRect(bx - 26 * K, H * 0.48, 52 * K, 5 * K);
+              const sg2 = c.createRadialGradient(bx, H * 0.28, 1, bx, H * 0.28, 60 * K);
+              sg2.addColorStop(0, accentA(0.28)); sg2.addColorStop(1, 'rgba(0,0,0,0)');
+              c.fillStyle = sg2; c.beginPath(); c.arc(bx, H * 0.28, 60 * K, 0, 7); c.fill();
+            }
+          } else if (cfg.crackers) {
+            for (let s = 0; s < 5; s++) {
+              const lx = W * (0.12 + s * 0.19);
+              c.strokeStyle = 'rgba(60,20,12,.8)'; c.lineWidth = 2 * K;
+              c.beginPath(); c.moveTo(lx, 0); c.lineTo(lx, H * 0.2); c.stroke();
+              for (let k = 0; k < 5; k++) {
+                c.fillStyle = k % 2 ? accentCss : '#e8302c';
+                c.fillRect(lx - 5 * K, H * (0.04 + k * 0.03), 10 * K, 16 * K);
+              }
+            }
+            const eg = c.createLinearGradient(0, H * 0.6, 0, H);
+            eg.addColorStop(0, 'rgba(0,0,0,0)'); eg.addColorStop(1, accentA(0.22));
+            c.fillStyle = eg; c.fillRect(0, H * 0.6, W, H * 0.4);
+          }
+          // — the stalls themselves (all market worlds) —
           for (let i = 0; i < 5; i++) {
             const x = W * (i / 5), sw = W / 5;
             const top = H * 0.75 - (30 + (i % 3) * 26) * K;
             c.fillStyle = 'rgba(16,8,22,.9)';
             c.fillRect(x + sw * 0.08, top, sw * 0.84, H - top);
-            // striped awning
+            // striped awning, accent-tinted per world
             const aw = top - 16 * K;
             for (let sIdx = 0; sIdx < 6; sIdx++) {
-              c.fillStyle = sIdx % 2 ? 'rgba(194,59,78,.95)' : 'rgba(232,213,174,.95)';
+              c.fillStyle = sIdx % 2 ? accentA(0.92) : 'rgba(232,213,174,.95)';
               c.beginPath();
               c.moveTo(x + sw * (0.04 + sIdx * 0.153), aw);
               c.lineTo(x + sw * (0.04 + (sIdx + 1) * 0.153), aw);
@@ -479,17 +645,17 @@ export function create(P, ctx) {
             }
             // glowing sign
             const gg = c.createRadialGradient(x + sw * 0.5, top + 22 * K, 1, x + sw * 0.5, top + 22 * K, sw * 0.3);
-            gg.addColorStop(0, 'rgba(255,196,108,.7)'); gg.addColorStop(1, 'rgba(255,180,90,0)');
+            gg.addColorStop(0, accentA(0.7)); gg.addColorStop(1, accentA(0));
             c.fillStyle = gg;
             c.fillRect(x, top, sw, 60 * K);
-            c.fillStyle = i % 2 ? '#ffc46c' : '#ff8ad0';
+            c.fillStyle = i % 2 ? accentCss : '#ffe9b3';
             c.font = `700 ${Math.round(13 * K)}px sans-serif`;
             c.textAlign = 'center';
-            c.fillText(['麵', '湯', '包', '茶', '火'][i], x + sw * 0.5, top + 26 * K);
+            c.fillText(glyphs[i], x + sw * 0.5, top + 26 * K);
           }
         });
-        scene.add.image(0, 0, 'wk-market').setOrigin(0).setDepth(-80);
-        celestial(scene, W * 0.14, H * 0.1, 26 * K, 0xfff0c8, { depth: -88 });
+        scene.add.image(0, 0, skyKey).setOrigin(0).setDepth(-80);
+        celestial(scene, W * 0.14, H * 0.1, 26 * K, cfg.accent, { depth: -88 });
         // strings of lanterns swaying above the pegs
         const lantKey = canvasTex(scene, 'wk-strlant', 22 * K, 28 * K, (c, w, h) => {
           const g2 = c.createRadialGradient(w / 2, h * 0.5, 1, w / 2, h * 0.5, w * 0.6);
@@ -562,11 +728,23 @@ export function create(P, ctx) {
       for (let i = 0; i < cfg.woks; i++) {
         const small = i === cfg.woks - 1;
         const ww = (small ? 90 : 132) * K;
+        const mult = small ? 3 : 2;
         const laneW = W / cfg.woks;
         const lo = Math.max(ww / 2 + 4 * K, i * laneW);
         const hi = Math.min(W - ww / 2 - 4 * K, (i + 1) * laneW);
-        const img = scene.add.image((lo + hi) / 2, H * 0.9, canvasTex(scene, `wk-pan${small ? 's' : ''}`, ww, 34 * K, PAINT.wokpan)).setDepth(12);
-        woks.push({ img, w: ww, dir: i % 2 ? -1 : 1, speed: (small ? 58 : 40) * K, mult: small ? 3 : 2, lo, hi });
+        // the payout is STAMPED on the pan — choosing which wok to aim for is
+        // the core scoring decision, so it can't stay mystery-meat until after
+        const panTex = canvasTex(scene, `wk-pan${small ? 's' : ''}`, ww, 34 * K, (c, w, h) => {
+          PAINT.wokpan(c, w, h);
+          c.font = `800 ${Math.round(h * 0.4)}px sans-serif`;
+          c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.lineWidth = h * 0.07; c.strokeStyle = 'rgba(16,8,4,.85)';
+          c.strokeText(`×${mult}`, w / 2, h * 0.34);
+          c.fillStyle = small ? '#fff4dc' : '#ffe9b3';
+          c.fillText(`×${mult}`, w / 2, h * 0.34);
+        });
+        const img = scene.add.image((lo + hi) / 2, H * 0.9, panTex).setDepth(12);
+        woks.push({ img, w: ww, dir: i % 2 ? -1 : 1, speed: (small ? 58 : 40) * K, mult, lo, hi });
       }
 
       // the dragon coils through the field
@@ -600,6 +778,11 @@ export function create(P, ctx) {
       // t0/goldenAt seed on the first update — the scene clock reads ~0 here
       aimGfx = scene.add.graphics().setDepth(19);
       livesGfx = scene.add.graphics().setDepth(21);
+      // the hot-hand meter: the streak the player fears breaking, top-center
+      streakTxt = scene.add.text(W / 2, 56 * K, '', {
+        fontFamily: '"Geist Mono", monospace', fontSize: `${Math.round(15 * K)}px`, fontStyle: '800',
+        color: '#ffd24a', stroke: 'rgba(4,6,14,.82)', strokeThickness: 4,
+      }).setOrigin(0.5).setDepth(21);
 
       // collisions: dumpling meets lantern
       scene.matter.world.on('collisionstart', (ev) => {
@@ -628,6 +811,9 @@ export function create(P, ctx) {
         aiming = false;
         if (ball) return;
         const x = Math.max(30 * K, Math.min(W - 30 * K, aimX ?? W / 2));
+        // the dumpling drops from EXACTLY where the basket and guide sit — no
+        // lag, no aim that points one place while the drop lands another
+        launcher.x = x;
         const img = scene.matter.add.image(x, 44 * K, canvasTex(scene, 'wk-dump', 34 * K, 32 * K, PAINT.dumpling), null, {
           shape: 'circle', restitution: cfg.bouncy ? 0.75 : 0.55, friction: 0.002, frictionAir: 0.008, density: 0.0022, label: 'ball',
         }).setDepth(15);
@@ -652,7 +838,9 @@ export function create(P, ctx) {
       const dt = Math.min(dtMs, 64) / 1000;
       const K = unit(scene);
       const W = scene.scale.width, H = scene.scale.height;
-      if (!t0) { t0 = scene.time.now; goldenAt = scene.time.now + goldDelay(); }
+      // explicit seed flag — never infer "unseeded" from now===0 truthiness,
+      // which a frozen/stubbed clock would report and silently kill the timers
+      if (!seeded) { seeded = true; t0 = scene.time.now; goldenAt = scene.time.now + goldDelay(); }
 
       // the golden dumpling announces itself before the next drop
       if (!goldenPending && !goldenDrop && scene.time.now >= goldenAt && goldenAt > 0 && !ball) {
@@ -662,21 +850,27 @@ export function create(P, ctx) {
         api.sfx('objDone');
       }
 
-      // launcher tracks the aim
-      if (aiming && aimX != null) launcher.x += (aimX - launcher.x) * Math.min(1, dt * 12);
+      // launcher SNAPS to the finger (clamped to the drop range) so the basket,
+      // the guide line, and the eventual drop column are always one and the same
+      if (aiming && aimX != null) launcher.x = Math.max(30 * K, Math.min(W - 30 * K, aimX));
       aimGfx.clear();
       if (aiming) {
         aimGfx.lineStyle(2.5 * K, 0xffe9b3, 0.6);
         aimGfx.lineBetween(launcher.x, 40 * K, launcher.x, H * 0.2);
         aimGfx.fillStyle(0xffe9b3, 0.7).fillCircle(launcher.x, H * 0.2, 4 * K);
       }
+      // the hot-hand meter follows the catch streak
+      streakTxt.setText(catchStreak >= 2 ? `${catchStreak}× HOT WOK` : '');
 
-      // woks slide — and pick up pace as the rest wears on, so the catch
-      // stays a read-and-time decision instead of a solved constant
-      const wokRamp = 1 + Math.min(0.5, ((scene.time.now - t0) / 1000 / 240) * 0.5);
+      // woks slide — and pick up pace over the run so difficulty actually
+      // climbs inside a normal 60-90s rest instead of only near the 240s cap
+      const wokRamp = 1 + Math.min(0.5, ((scene.time.now - t0) / 1000 / 100) * 0.5);
       for (const wk of woks) {
         wk.img.x += wk.dir * wk.speed * wokRamp * (fever ? 1.3 : 1) * dt;
-        if (wk.img.x < wk.lo || wk.img.x > wk.hi) { wk.dir *= -1; wk.img.x = Math.max(wk.lo, Math.min(wk.hi, wk.img.x)); }
+        // only reverse when actually heading into the wall, then clamp — an
+        // overshoot from a frame drop can't wedge the pan vibrating off-edge
+        if ((wk.img.x <= wk.lo && wk.dir < 0) || (wk.img.x >= wk.hi && wk.dir > 0)) wk.dir *= -1;
+        wk.img.x = Math.max(wk.lo, Math.min(wk.hi, wk.img.x));
         // pans lean into their travel and breathe — nothing sits dead still
         wk.img.setAngle(wk.dir * 2.2 + Math.sin(scene.time.now / 320 + wk.w) * 1.4);
       }
@@ -705,29 +899,41 @@ export function create(P, ctx) {
           });
         } catch { /* gone */ }
       }
-      // vents shove
+      // vents shove — and you SEE and HEAR the shove hit, not just drift
       if (cfg.vents && ball && ball.img.y > H * 0.34 && ball.img.y < H * 0.58) {
         const dir = ball.img.x < W / 2 ? 1 : -1;
         try { scene.matter.body.applyForce(ball.img.body, ball.img.body.position, { x: dir * 0.0009, y: 0 }); } catch { /* gone */ }
+        if (scene.time.now - lastVentFx > 200) {
+          lastVentFx = scene.time.now;
+          burst(scene, ball.img.x - dir * 12 * K, ball.img.y, 0xbfe8dc, { n: 5, speed: 150 * K, scale: 0.35 * K });
+          api.sfx('tap');
+          api.haptic(3);
+        }
       }
 
       // drop resolution
       if (ball) {
         const bx = ball.img.x, by = ball.img.y;
         const bv = ball.img.body ? Math.hypot(ball.img.body.velocity.x, ball.img.body.velocity.y) : 0;
-        // possession guard: a drifting peg or the dragon's head teleports
-        // INTO a resting dumpling and Matter answers with infinite violence
-        // — clamp any impossible exit speed back to honest physics
-        if (bv > 24 && ball.img.body) {
-          const f = 24 / bv;
+        // possession guard: a drifting peg or the dragon's head can teleport
+        // INTO a resting dumpling and Matter answers with infinite violence.
+        // The cap only exists to catch that teleport explosion — so it sits
+        // well ABOVE any speed honest bounces reach, and higher still in the
+        // bouncy world so it never muzzles that world's intended wildness.
+        const vcap = cfg.bouncy ? 42 : 26;
+        if (bv > vcap && ball.img.body) {
+          const f = vcap / bv;
           try { scene.matter.body.setVelocity(ball.img.body, { x: ball.img.body.velocity.x * f, y: ball.img.body.velocity.y * f }); } catch { /* gone */ }
         }
         if (bv > 0.6) ball.lastMove = scene.time.now;
         for (const wk of woks) {
           // band + crossing test so a fast fall can't tunnel past the pan.
           // The mouth reads generously (a life rides on the catch) so a drop
-          // aimed near a wok lands in it; a real miss falls clear between them
-          const inX = Math.abs(bx - wk.img.x) < wk.w * 0.52;
+          // aimed near a wok lands in it; a real miss falls clear between them.
+          // 3-wok worlds (boba) tighten the mouth so the fail-state keeps teeth
+          // and the shared rate-medal stays comparable to the 2-wok worlds.
+          const catchFrac = cfg.woks >= 3 ? 0.46 : 0.52;
+          const inX = Math.abs(bx - wk.img.x) < wk.w * catchFrac;
           const inBand = Math.abs(by - wk.img.y) < 30 * K;
           const crossed = ball.prevY <= wk.img.y - 4 * K && by > wk.img.y - 4 * K;
           if (inX && (inBand || crossed)) {
@@ -740,7 +946,7 @@ export function create(P, ctx) {
         ball.prevY = by;
         if (by > H + 30 * K) resolveDrop(scene, K, 1, bx, true); // fell clean off the bottom — a real miss
         else if (scene.time.now - ball.lastMove > 1400) resolveDrop(scene, K, 1, bx); // resting — bank it, no blame
-        else if (scene.time.now - ball.born > 6000) resolveDrop(scene, K, 1, bx); // wedged — mercy rule, no blame
+        else if (scene.time.now - ball.born > 3500) resolveDrop(scene, K, 1, bx); // wedged — mercy rule, no blame
       }
 
       drawLives(scene, K);
