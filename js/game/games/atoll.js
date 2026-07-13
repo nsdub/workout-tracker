@@ -194,6 +194,7 @@ export function create(P, ctx) {
   let antennaImg, lamp, seaGfx, pulseGfx, meterGfx;
   let started = false;
   let signal = 100;
+  let dead = false;
   let jamUntil = 0;
   let beatReadyAt = 0;
   let combo = 0;          // DROP meter 0..1
@@ -235,8 +236,9 @@ export function create(P, ctx) {
       x = W * (0.12 + Math.random() * 0.76);
       y = -h * K;
     }
-    // aim a lazy course toward the antenna; speed ramps with elapsed time
-    const base = H * 0.05 * cfg.speed * (1 + Math.min(1, elapsed / 150)) * (fever ? 1.2 : 1);
+    // a real advance toward the antenna; speed ramps with elapsed time so
+    // late waves genuinely threaten to overrun the signal
+    const base = H * 0.088 * cfg.speed * (1 + Math.min(0.9, elapsed / 120)) * (fever ? 1.2 : 1);
     const sp = base * (kind === 'note' ? 1.5 : kind === 'blimp' ? 0.7 : 1);
     const dx = ap.x - x, dy = ap.y - y, d = Math.hypot(dx, dy) || 1;
     vx = (dx / d) * sp; vy = (dy / d) * sp;
@@ -468,24 +470,27 @@ export function create(P, ctx) {
         e.spr.x += e.vx * dt + (cfg.wind ? Math.sin(now / 800 + e.wob) * 40 * K * dt : 0);
         e.spr.y += e.vy * dt;
         e.spr.setAngle(Math.sin(now / 300 + e.wob) * 6);
-        // reached the antenna: cut the signal, cost points, brief jam
+        // reached the antenna: cut the signal, cost points, brief jam.
+        // Signal is your life — let too many through and the station
+        // goes OFF AIR (a real failure state).
         if (Math.hypot(e.spr.x - ap.x, e.spr.y - ap.y) < 46 * K) {
-          signal = Math.max(0, signal - 8);
+          signal = Math.max(0, signal - 15);
           api.score(-6);
           jamUntil = now + 350;
           floatScore(scene, ap.x, ap.y - 60 * K, 'signal −6', '#ff5d7a', 15 * K);
           burst(scene, e.spr.x, e.spr.y, 0xff5d5d, { n: 10, speed: 220 * K, scale: 0.45 * K });
-          shake(scene, 0.01, 130);
+          shake(scene, 0.012, 150);
           api.haptic([12, 30, 12]);
           api.sfx('log');
           e.spr.destroy(); enemies.splice(enemies.indexOf(e), 1);
-          // recover signal slowly so a bad beat is never fatal
+          if (signal <= 0 && !dead) { dead = true; api.die?.('OFF AIR'); }
           continue;
         }
         if (e.spr.y > H + 60 * K) { e.spr.destroy(); enemies.splice(enemies.indexOf(e), 1); }
       }
-      // signal recovers gently — the game is a score chase, never a loss
-      signal = Math.min(100, signal + dt * 3);
+      // signal recovers gently between hits, but never on its own to full
+      // fast enough to make the threat idle — pressure is real
+      signal = Math.min(100, signal + dt * 2.4);
 
       // ——— pulses expand and sweep ———
       for (const pl of [...pulses]) {
@@ -550,6 +555,21 @@ export function create(P, ctx) {
   function drawMeter(scene, K) {
     const W = scene.scale.width, H = scene.scale.height;
     meterGfx.clear();
+    // SIGNAL bar — your life. Empties as jammers get through; at zero the
+    // station goes off air. Green → amber → red as it falls.
+    if (started) {
+      const sw = W * 0.5, sx = W * 0.25, sy = 10 * K;
+      const sig = Math.max(0, signal) / 100;
+      meterGfx.fillStyle(0x14202c, 0.75);
+      meterGfx.fillRoundedRect(sx, sy, sw, 7 * K, 3.5 * K);
+      const col = sig > 0.5 ? 0x5fe89a : sig > 0.25 ? 0xffd24a : 0xff5d5d;
+      meterGfx.fillStyle(col, 0.95);
+      meterGfx.fillRoundedRect(sx, sy, sw * sig, 7 * K, 3.5 * K);
+      if (sig <= 0.25) {
+        meterGfx.lineStyle(1.6 * K, 0xff5d5d, 0.4 + 0.4 * Math.sin(scene.time.now / 120));
+        meterGfx.strokeRoundedRect(sx - 2 * K, sy - 2 * K, sw + 4 * K, 11 * K, 5 * K);
+      }
+    }
     // DROP meter along the bottom edge — fills gold, glows when READY
     const y = H - 8 * K, w = W * 0.6, x0 = W * 0.2;
     meterGfx.fillStyle(0x14202c, 0.7);

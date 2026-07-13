@@ -78,7 +78,7 @@ export async function openGame({ deadline }) {
 
   // Claim the cabinet immediately so double-taps and re-entries bounce off,
   // then finish booting asynchronously.
-  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false, ended: false, helpOpen: false, openedAt: Date.now() };
+  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false, ended: false, helpOpen: false, phase: 'playing', openedAt: Date.now() };
   try { history.pushState({ p3: 'game' }, ''); active.popPushed = true; } catch { /* throttled */ }
   $('#go-quit', el).addEventListener('click', () => closeGame());
 
@@ -134,6 +134,10 @@ export async function openGame({ deadline }) {
     note,
     haptic,
     timeLeft: () => Math.max(0, deadline - Date.now()),
+    // A game calls this when the player runs out of lives — it ends the
+    // run early (a real failure state), banks the score, and offers a
+    // fresh run if rest remains. `cause` is a short themed word.
+    die: (cause) => onDeath(cause),
   };
 
   // While a game is live, any uncaught page error is treated as the game's:
@@ -141,50 +145,64 @@ export async function openGame({ deadline }) {
   mine.errListener = (e) => fail(e.error ?? e.message);
   window.addEventListener('error', mine.errListener);
 
-  let sceneCfg;
-  try {
-    sceneCfg = spec.create(Phaser, { api, cfg: spec.cfg, worldCls });
-  } catch (err) { fail(err); return; }
-  const userCreate = sceneCfg.create;
-  const userUpdate = sceneCfg.update;
-  sceneCfg.key = 'play';
-  sceneCfg.create = function () {
-    try {
-      $('.go-boot', el)?.remove(); // the world is painting — loading line done
-      userCreate?.call(this);
-      // the entry ritual: verb card slams in, input unlocks on the beat
-      if (spec.verb) {
-        this.input.enabled = false;
-        introCard(this, spec.verb, () => {
-          if (active === mine) { try { this.input.enabled = true; } catch { /* gone */ } }
-        });
-      }
-    } catch (err) { fail(err); }
-  };
-  if (userUpdate) {
-    sceneCfg.update = function (t, dt) { try { userUpdate.call(this, t, dt); } catch (err) { fail(err); } };
-  }
-
   const stage = $('#go-stage', el);
   const dpr = Math.min(2, window.devicePixelRatio || 1);
-  try {
-    mine.game = new Phaser.Game({
-      type: Phaser.AUTO,
-      parent: stage,
-      width: Math.max(1, Math.round(stage.clientWidth * dpr)),
-      height: Math.max(1, Math.round(stage.clientHeight * dpr)),
-      scale: { mode: Phaser.Scale.NONE, zoom: 1 / dpr },
-      backgroundColor: '#05070f',
-      banner: false,
-      audio: { noAudio: true }, // the app's own WebAudio does the talking
-      input: { activePointers: 2 },
-      physics: sceneCfg.physics ?? { default: 'arcade' },
-      scene: sceneCfg,
-    });
-    if (typeof window !== 'undefined') window.__p3Game = mine.game; // QA hook
-    // Help opened while Phaser was still booting: honor the pause now.
-    if (mine.helpOpen) { try { mine.game.scene.pause('play'); } catch { /* not up yet */ } }
-  } catch (err) { fail(err); return; }
+
+  // A fresh wrapped scene config each run (Phaser consumes it, and a
+  // restart needs a clean one). The intro verb card only unlocks input
+  // while the run is actually playing.
+  function buildSceneCfg() {
+    const cfg2 = spec.create(Phaser, { api, cfg: spec.cfg, worldCls });
+    const userCreate = cfg2.create;
+    const userUpdate = cfg2.update;
+    cfg2.key = 'play';
+    cfg2.create = function () {
+      try {
+        $('.go-boot', el)?.remove(); // the world is painting — loading line done
+        userCreate?.call(this);
+        if (spec.verb) {
+          this.input.enabled = false;
+          introCard(this, spec.verb, () => {
+            if (active === mine && mine.phase === 'playing') { try { this.input.enabled = true; } catch { /* gone */ } }
+          });
+        }
+      } catch (err) { fail(err); }
+    };
+    if (userUpdate) {
+      cfg2.update = function (t, dt) { try { userUpdate.call(this, t, dt); } catch (err) { fail(err); } };
+    }
+    return cfg2;
+  }
+
+  // Boot (or re-boot) the playfield. Returns false on failure.
+  function startRun() {
+    let cfg2;
+    try { cfg2 = buildSceneCfg(); } catch (err) { fail(err); return false; }
+    mine.sceneCfg = cfg2;
+    mine.score = 0; scoreEl.textContent = '0';
+    mine.ended = false; mine.phase = 'playing'; mine.openedAt = Date.now();
+    mine.fever = false; mine.slowed = false; timeEl.classList.remove('gold');
+    try {
+      mine.game = new Phaser.Game({
+        type: Phaser.AUTO,
+        parent: stage,
+        width: Math.max(1, Math.round(stage.clientWidth * dpr)),
+        height: Math.max(1, Math.round(stage.clientHeight * dpr)),
+        scale: { mode: Phaser.Scale.NONE, zoom: 1 / dpr },
+        backgroundColor: '#05070f',
+        banner: false,
+        audio: { noAudio: true }, // the app's own WebAudio does the talking
+        input: { activePointers: 2 },
+        physics: cfg2.physics ?? { default: 'arcade' },
+        scene: cfg2,
+      });
+      if (typeof window !== 'undefined') window.__p3Game = mine.game; // QA hook
+      if (mine.helpOpen) { try { mine.game.scene.pause('play'); } catch { /* not up yet */ } }
+    } catch (err) { fail(err); return false; }
+    return true;
+  }
+
+  if (!startRun()) return;
 
   // HUD clock ticks off the same wall-clock deadline as the rest pill.
   // The last 10 seconds are the GOLD RUSH (double points, molten world)
@@ -198,53 +216,48 @@ export async function openGame({ deadline }) {
     const left = deadline - Date.now();
     if (tbar) tbar.style.width = `${Math.max(0, Math.min(100, (left / totalMs) * 100))}%`;
     const scene = () => { try { return mine.game.scene.getScene('play'); } catch { return null; } };
-    if (!mine.fever && left <= 10000 && left > 2000) {
+    if (!mine.fever && left <= 10000 && left > 2000 && mine.phase === 'playing') {
       mine.fever = true;
       timeEl.classList.add('gold');
       const s = scene();
       if (s) {
-        try { glyphBanner(s, 'GOLD RUSH ×2', '#ffd24a', 30); goldRush(s); sceneCfg.fever?.(s); } catch { /* garnish */ }
+        try { glyphBanner(s, 'GOLD RUSH ×2', '#ffd24a', 30); goldRush(s); mine.sceneCfg?.fever?.(s); } catch { /* garnish */ }
       }
       sfx('objDone');
       haptic([12, 30, 12]);
     }
-    if (!mine.slowed && left <= 1300 && left > 0) {
+    if (!mine.slowed && left <= 1300 && left > 0 && mine.phase === 'playing') {
       mine.slowed = true;
       const s = scene();
       if (s) { try { slowmo(s, 0.3, 1250); } catch { /* garnish */ } }
     }
-    if (left <= 0) showGameOver();
+    // Once rest can't fit another meaningful run, retire a pending "Go again".
+    if (left <= 7000) el.querySelector('.go-again')?.remove();
+    if (left <= 0 && mine.phase === 'playing') timerOver();
   }, 250);
 
-  function showGameOver() {
-    if (active !== mine) return;
+  // ——— The two ways a run ends ———
+  // TIME: the rest ran out — the celebratory finale (Peggle's law).
+  function timerOver() {
+    if (active !== mine || mine.phase !== 'playing') return;
+    mine.phase = 'over';
     clearInterval(mine.clock);
     mine.clock = null;
     mine.ended = true; // freezes api.score — the run is banked as of TIME
     closeHelp(mine);   // rest ran out while reading? The results win.
-    const finalScore = mine.score;
-    const prevBest = bestFor(worldCls);
-    const prevStars = starsFor(worldCls);
-    // Medals are rate-based (points per second) so a 60s rest and a 240s
-    // rest compete on the same ladder — Angry Birds' three-star law.
-    const elapsed = Math.max(12, (Date.now() - mine.openedAt) / 1000);
-    const th = spec.stars ?? [5, 10, 16];
-    const rate = finalScore / elapsed;
-    const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
-    const isRecord = saveBest(worldCls, finalScore, stars);
+    const willRecord = mine.score > bestFor(worldCls);
 
     // THE FINALE: before the panel, the canvas detonates — a staggered
-    // fireworks volley inside the final slow-mo beat (Peggle's law: the
-    // hard stop IS the fever). Wall-clock timers, because scene time is
-    // running at 0.3x right now.
+    // fireworks volley inside the final slow-mo beat. Wall-clock timers,
+    // because scene time is running at 0.3x right now.
     let finaleMs = 0;
     try {
       const scene = mine.game.scene.getScene('play');
       if (scene?.scene.isActive()) {
         finaleMs = 950;
         const W = scene.scale.width, H = scene.scale.height;
-        const colors = isRecord ? [0xffd24a, 0xfff0c8, 0x3adcc8, 0xff8ad0] : [0xffd24a, 0xfff0c8, 0x3adcc8];
-        for (let i = 0; i < (stars === 3 ? 10 : isRecord ? 8 : 5); i++) {
+        const colors = willRecord ? [0xffd24a, 0xfff0c8, 0x3adcc8, 0xff8ad0] : [0xffd24a, 0xfff0c8, 0x3adcc8];
+        for (let i = 0; i < (willRecord ? 9 : 5); i++) {
           setTimeout(() => {
             if (active !== mine) return;
             try {
@@ -256,49 +269,101 @@ export async function openGame({ deadline }) {
             } catch { /* scene gone */ }
           }, i * 130);
         }
-        flash(scene, isRecord ? 0xffd24a : 0xffffff, 200, 0.4);
+        flash(scene, willRecord ? 0xffd24a : 0xffffff, 200, 0.4);
         zoomPunch(scene, 1.08, 500);
-        glyphBanner(scene, isRecord ? 'NEW RECORD' : 'TIME!', '#ffd24a', 38);
+        glyphBanner(scene, willRecord ? 'NEW RECORD' : 'TIME!', '#ffd24a', 38);
         haptic([12, 40, 12, 40, 20]);
       }
     } catch { /* no scene, straight to the panel */ }
+    setTimeout(() => presentPanel({ died: false, finaleMs }), finaleMs);
+  }
 
-    setTimeout(() => {
-      if (active !== mine) return;
-      // pause AND stop the loop: a hitstop timeout in flight would
-      // otherwise resume the scene behind the panel and keep scoring
-      try { mine.game.scene.pause('play'); mine.game.loop.stop(); } catch { /* already gone */ }
-      const starRow = [1, 2, 3].map((i) =>
-        `<span class="${i <= stars ? 'on' : ''}${i <= stars && i > prevStars ? ' fresh' : ''}" style="animation-delay:${0.25 + i * 0.16}s">★</span>`).join('');
-      // Words wear the body face; only the numerals are mono (house law).
-      const bestShown = isRecord ? prevBest : Math.max(prevBest, finalScore);
-      const bestStars = Math.max(stars, prevStars);
-      el.insertAdjacentHTML('beforeend', `
-        <div class="go-over">
-          <div class="go-over-eyebrow">Rest complete</div>
-          <div class="go-over-title">${isRecord ? 'NEW RECORD' : 'Time’s up'}</div>
-          <div class="go-stars">${starRow}</div>
-          <div class="go-over-score num" id="go-final">0</div>
-          <div class="go-over-best go-best-line">${isRecord ? 'Old best' : 'Best'} <span class="num">${bestShown}</span>${bestStars ? ` · ${'★'.repeat(bestStars)}` : ''} · ${esc(spec.cfg.name)}</div>
-          <button class="btn primary go-back" id="go-back">Back to work</button>
-        </div>`);
-      // the score counts up — earned, not stated
-      const finalEl = $('#go-final', el);
-      const t0 = performance.now();
-      const tick = () => {
-        if (!finalEl.isConnected) return;
-        const f = Math.min(1, (performance.now() - t0) / 900);
-        finalEl.textContent = Math.round(finalScore * (1 - Math.pow(1 - f, 3)));
-        if (f < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      if (isRecord && finalScore > 0) { sfx('pr'); haptic([15, 40, 25]); }
-      else sfx('objDone');
-      // A thumb still mashing the game must not fire the button the frame
-      // it materializes under it — arm it after a beat.
-      const armedAt = Date.now() + 450;
-      $('#go-back', el).addEventListener('click', () => { if (Date.now() >= armedAt) closeGame(); });
-    }, finaleMs);
+  // DEATH: the player ran out of lives mid-run. The scene reddens and the
+  // results come up early — offering a fresh run if the rest still has room.
+  function onDeath(cause) {
+    if (active !== mine || mine.phase !== 'playing') return;
+    mine.phase = 'dead';
+    mine.ended = true;
+    closeHelp(mine);
+    try {
+      const scene = mine.game.scene.getScene('play');
+      if (scene?.scene.isActive()) {
+        const W = scene.scale.width, H = scene.scale.height;
+        flash(scene, 0xff2a1a, 260, 0.55);
+        shockRing(scene, W / 2, H / 2, 0xff5d5d, 240);
+        zoomPunch(scene, 1.06, 380);
+        glyphBanner(scene, cause || 'DOWN', '#ff6a7a', 36);
+        haptic([30, 60, 30, 60, 40]);
+      }
+    } catch { /* no scene */ }
+    sfx('log');
+    setTimeout(() => presentPanel({ died: true, cause: cause || 'You went down' }), 720);
+  }
+
+  function restartRun() {
+    el.querySelector('.go-over')?.remove();
+    try { mine.game?.destroy(true); } catch { /* race */ }
+    mine.game = null;
+    // belt-and-suspenders: never leave a stray canvas for the new run to
+    // stack behind (a dead canvas on top would eat all the pointer input)
+    stage.querySelectorAll('canvas').forEach((c) => c.remove());
+    startRun(); // resets score/phase/openedAt and re-boots the scene
+    sfx('tap');
+    haptic(8);
+  }
+
+  // The shared results panel — celebration or defeat, same anatomy.
+  function presentPanel({ died = false }) {
+    if (active !== mine) return;
+    // Pause the scene (freeze) but leave the loop running: Phaser processes
+    // game.destroy() ON its loop, so stopping it here would strand the
+    // teardown and leak the canvas across a restart. Scoring is already
+    // frozen by mine.ended, so a stray hitstop resume can't leak points.
+    try { mine.game.scene.pause('play'); } catch { /* already gone */ }
+    const finalScore = mine.score;
+    const prevBest = bestFor(worldCls);
+    const prevStars = starsFor(worldCls);
+    // Medals are rate-based (points per second) so a 60s rest and a 240s
+    // rest compete on the same ladder — Angry Birds' three-star law.
+    const elapsed = Math.max(12, (Date.now() - mine.openedAt) / 1000);
+    const th = spec.stars ?? [5, 10, 16];
+    const rate = finalScore / elapsed;
+    const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
+    const isRecord = saveBest(worldCls, finalScore, stars);
+    const canRetry = died && (deadline - Date.now()) > 7000;
+
+    const starRow = [1, 2, 3].map((i) =>
+      `<span class="${i <= stars ? 'on' : ''}${i <= stars && i > prevStars ? ' fresh' : ''}" style="animation-delay:${0.25 + i * 0.16}s">★</span>`).join('');
+    const bestShown = isRecord ? prevBest : Math.max(prevBest, finalScore);
+    const bestStars = Math.max(stars, prevStars);
+    const eyebrow = died ? 'You went down' : 'Rest complete';
+    const title = isRecord ? 'NEW RECORD' : died ? 'Game over' : 'Time’s up';
+    el.insertAdjacentHTML('beforeend', `
+      <div class="go-over${died ? ' died' : ''}">
+        <div class="go-over-eyebrow">${esc(eyebrow)}</div>
+        <div class="go-over-title">${title}</div>
+        <div class="go-stars">${starRow}</div>
+        <div class="go-over-score num" id="go-final">0</div>
+        <div class="go-over-best go-best-line">${isRecord ? 'Old best' : 'Best'} <span class="num">${bestShown}</span>${bestStars ? ` · ${'★'.repeat(bestStars)}` : ''} · ${esc(spec.cfg.name)}</div>
+        ${canRetry ? '<button class="btn primary go-again" id="go-again">Go again</button>' : ''}
+        <button class="btn ${canRetry ? 'quiet' : 'primary'} go-back" id="go-back">Back to work</button>
+      </div>`);
+    // the score counts up — earned, not stated
+    const finalEl = $('#go-final', el);
+    const t0 = performance.now();
+    const tick = () => {
+      if (!finalEl.isConnected) return;
+      const f = Math.min(1, (performance.now() - t0) / 900);
+      finalEl.textContent = Math.round(finalScore * (1 - Math.pow(1 - f, 3)));
+      if (f < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    if (isRecord && finalScore > 0) { sfx('pr'); haptic([15, 40, 25]); }
+    else if (!died) sfx('objDone');
+    // A thumb still mashing must not fire a button the frame it appears.
+    const armedAt = Date.now() + 450;
+    $('#go-back', el).addEventListener('click', () => { if (Date.now() >= armedAt) closeGame(); });
+    $('#go-again', el)?.addEventListener('click', () => { if (Date.now() >= armedAt) restartRun(); });
   }
 }
 

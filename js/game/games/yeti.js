@@ -25,7 +25,7 @@ export const STARS = [12, 24, 36];
 export const HELP = {
   goal: 'Roll the biggest snowball you can down the mountain and flatten the snowman villages.',
   how: 'Hold to pack the snowball while the fuse burns, then release to roll and drag to steer. Anything smaller than you smashes for points, but the ball sheds snow as it rolls, so keep eating white drifts to stay big. A bigger ball hits harder yet steers slower, and a village falls most surely to a fat ball driven through its center.',
-  avoid: 'Hitting something bigger than you stops you cold and shrinks the ball.',
+  avoid: 'Hitting something bigger than you is a wipeout: it stops you cold and shrinks the ball. Three wipeouts end the run, so stay fat on the drifts and steer around anything you cannot flatten.',
 };
 
 export const WORLDS = {
@@ -367,6 +367,12 @@ export function create(P, ctx) {
   let fever = false;
   let noteStep = 0;
   let goldenAt = 0;
+  // three snowballs' worth of runs. Each wipeout — slamming something
+  // bigger than you — spends one; the third ends the descent. The fuse
+  // waits for your first touch, so an untouched summit never rolls or dies.
+  let dead = false;
+  let lives = 3;
+  let livesGfx;
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
   const things = [];         // scrolling world objects { img, kind, meta, x, dead }
   const lanes = [];          // groomer boost lanes { x, w, img }
@@ -446,6 +452,28 @@ export function create(P, ctx) {
     th.crushed = true;
   }
 
+  function loseLife(scene, cause) {
+    if (dead) return;
+    lives = Math.max(0, lives - 1);
+    const K = unit(scene);
+    floatScore(scene, ball.x, ball.y - BALL_R(scene) - 30 * K, lives > 0 ? `${lives} LEFT` : 'WIPED OUT', '#ff8a9a', 16 * K);
+    if (lives <= 0) { dead = true; api.die?.(cause); }
+  }
+
+  // three snowball pips, top-right — a spent run goes dark and hollow
+  function drawLives(scene, K) {
+    const W = scene.scale.width;
+    livesGfx.clear();
+    const gap = 20 * K, r = 7 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
+    for (let i = 0; i < 3; i++) {
+      const x = x0 + i * gap, full = i < lives;
+      livesGfx.fillStyle(full ? 0xffffff : 0x000000, full ? 0.95 : 0.28);
+      livesGfx.fillCircle(x, y, r);
+      livesGfx.lineStyle(1.4 * K, full ? 0x9cc8ec : 0x44608f, full ? 0.9 : 0.4);
+      livesGfx.strokeCircle(x, y, r);
+    }
+  }
+
   return {
     physics: { default: 'arcade', arcade: { gravity: { x: 0, y: 0 } } },
 
@@ -484,6 +512,7 @@ export function create(P, ctx) {
       if (cfg.aurora) auroraGfx = scene.add.graphics().setDepth(-40);
 
       packGfx = scene.add.graphics().setDepth(30);
+      livesGfx = scene.add.graphics().setDepth(33); // above the strobe veil
       // goldenAt seeds on the first update — the scene clock reads ~0 here
       glyphBanner(scene, 'HOLD TO PACK', '#dff6ff', 24 * K);
 
@@ -517,6 +546,8 @@ export function create(P, ctx) {
       const W = scene.scale.width, H = scene.scale.height;
       const now = scene.time.now;
       if (!goldenAt) goldenAt = now + goldDelay();
+
+      drawLives(scene, K); // pinned HUD — drawn in both pack and roll phases
 
       // ——— PACK phase: greed against the burning slope-light ———
       if (phase === 'pack') {
@@ -729,6 +760,7 @@ export function create(P, ctx) {
             noteStep = 0;
             th.crushed = true; // it survives; you bounced off it
             th.img.setAlpha(0.9);
+            loseLife(scene, 'WIPED OUT');
           }
         } else if (!th.swerved && !th.pin && !th.drift && !th.pool && !th.golden
           && size < th.meta.sizeClass

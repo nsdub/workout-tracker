@@ -1283,6 +1283,15 @@ button.rot-cell { color: color-mix(in srgb, var(--c, #8a9ac8) 80%, #fff); border
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4), 0 0 22px rgba(255, 210, 74, 0.18);
   animation: fade-drop .5s var(--ease) .5s backwards, log-breathe 2.4s ease-in-out 1s infinite;
 }
+.go-again {
+  min-width: 240px; max-width: min(340px, 82vw); margin-bottom: 10px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4), 0 0 22px rgba(255, 210, 74, 0.22);
+  animation: fade-drop .5s var(--ease) .4s backwards, log-breathe 2.2s ease-in-out .8s infinite;
+}
+/* Defeat wears a colder face than the celebration. */
+.go-over.died { background: radial-gradient(120% 90% at 50% 30%, rgba(58, 10, 14, 0.82), rgba(10, 6, 10, 0.92)); }
+.go-over.died .go-over-eyebrow { color: #ff6a7a; }
+.go-over.died .go-over-title { color: #ff6a7a; text-shadow: 0 0 26px rgba(255, 90, 100, .45); }
 .rest-pill .play {
   font-family: var(--body); font-weight: 700; font-size: 12px;
   color: #241a04; background: linear-gradient(#ffd24a, #e0a83c);

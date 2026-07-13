@@ -21,7 +21,7 @@ export const STARS = [4, 8, 14];
 export const HELP = {
   goal: 'Skip a stone as far across the lake as you can, throw after throw.',
   how: 'Pull back with your thumb and release to send the stone. Fast and shallow skims; a perfectly flat entry is a clean skip that pays half again more. Passing close to ducks, buoys and canoes earns a graze bonus on every single throw.',
-  avoid: 'Hitting a float square on, or landing too steep, sinks the stone and ends that throw.',
+  avoid: 'Landing too steep just sinks the stone and ends that throw, but hitting a duck, buoy or canoe square-on scares the local off and costs you a life. Scare off three and the day is over.',
 };
 
 export const WORLDS = {
@@ -187,6 +187,12 @@ export function create(P, ctx) {
   let beams = [];            // ufo beams { x, gfx }
   let throwsLeft = Infinity; // score chase, not ammo
   let fever = false;
+  // three throws' worth of goodwill: scaring a local off square-on spends
+  // one, at zero the locals have had enough and the day ends. A clean sink
+  // never costs a life — only a direct hit does.
+  let dead = false;
+  let lives = 3;
+  let livesGfx;
   let mothAt = -Infinity;    // the cryptid rests 40s between assists
   let noteStep = 0;
   let golden = null; // { img, halo }
@@ -249,6 +255,29 @@ export function create(P, ctx) {
     floatScore(scene, stone.img.x, wy - 30 * K, 'plunk', '#8a9ac8', 15 * K);
     api.sfx('log');
     endThrow(scene, K, 'plunk');
+  }
+
+  function loseLife(scene, K, x, cause) {
+    if (dead) return;
+    lives = Math.max(0, lives - 1);
+    floatScore(scene, x, waterY(scene) - 72 * K, lives > 0 ? `${lives} LEFT` : 'SCARED OFF', '#ff5d7a', 16 * K);
+    api.haptic([18, 40, 18]);
+    if (lives <= 0) { dead = true; api.die?.(cause); }
+  }
+
+  // three skipping-stone pips, top-right, pinned to the screen (the lake
+  // scrolls; the HUD does not). A spent pip goes dark and hollow.
+  function drawLives(scene, K) {
+    const W = scene.scale.width;
+    livesGfx.clear();
+    const gap = 20 * K, r = 7 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
+    for (let i = 0; i < 3; i++) {
+      const x = x0 + i * gap, full = i < lives;
+      livesGfx.fillStyle(full ? 0x9aa4ae : 0x000000, full ? 0.95 : 0.25);
+      livesGfx.fillEllipse(x, y, r * 2, r * 1.7);
+      livesGfx.lineStyle(1.4 * K, full ? 0xc8d2dc : 0x68727e, full ? 0.9 : 0.4);
+      livesGfx.strokeEllipse(x, y, r * 2, r * 1.7);
+    }
   }
 
   return {
@@ -415,6 +444,7 @@ export function create(P, ctx) {
       }
 
       aimGfx = scene.add.graphics().setDepth(30);
+      livesGfx = scene.add.graphics().setDepth(31).setScrollFactor(0);
       // goldenAt seeds on the first update — the scene clock reads ~0 here
       resetStone(scene, K);
       glyphBanner(scene, 'PULL BACK. RELEASE.', '#dff6ff', 22 * K);
@@ -455,6 +485,8 @@ export function create(P, ctx) {
       const wy = waterY(scene);
       const cam = scene.cameras.main;
       if (!goldenAt) goldenAt = scene.time.now + goldDelay();
+
+      drawLives(scene, K); // pinned HUD — drawn every frame, even at anchor
 
       // aim guide: the pull-back band under your finger + trajectory dots
       aimGfx.clear();
@@ -581,6 +613,9 @@ export function create(P, ctx) {
             shake(scene, 0.01, 130);
             api.sfx('log');
             api.haptic([14, 30, 14]);
+            // a local hit square-on is scared off — that costs a life,
+            // unlike an ordinary clean sink, which only ends the throw
+            loseLife(scene, K, f.img.x, 'SCARED OFF');
             plunk(scene, K);
             return;
           }

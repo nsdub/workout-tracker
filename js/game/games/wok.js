@@ -26,6 +26,7 @@ export const STARS = [5, 11, 17];
 export const HELP = {
   goal: 'Light as many lantern pegs as you can with every dumpling you drop.',
   how: 'Drag to pick your spot and release to drop the dumpling through the peg field. Each lit peg pays more than the last, and a dumpling caught by a sliding wok multiplies everything you lit that drop, with the small wok paying triple. Clearing every last peg earns a bonus.',
+  avoid: 'A dumpling that lands in no wok is a plate on the floor and a customer losing patience. You have three customers, and the third walkout closes the kitchen.',
 };
 
 export const WORLDS = {
@@ -219,6 +220,12 @@ export function create(P, ctx) {
   let goldenAt = 0;
   let t0 = 0;
   let lastBellAt = 0;
+  // customer patience: three of them. A drop that lands in no wok is a
+  // wasted plate and one lost customer; the third walkout ends the shift.
+  // A wok catch never costs patience.
+  let dead = false;
+  let lives = 3;
+  let livesGfx;
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
 
   const PR = 13;             // peg radius in K units
@@ -320,10 +327,40 @@ export function create(P, ctx) {
     }
   }
 
-  function resolveDrop(scene, K, wokMult, wokX) {
+  function loseLife(scene, x, cause) {
+    if (dead) return;
+    lives = Math.max(0, lives - 1);
+    const K = unit(scene);
+    floatScore(scene, x, scene.scale.height * 0.8, lives > 0 ? 'MISSED THE WOK' : 'WALKED OUT', '#ff5d7a', 16 * K);
+    shake(scene, 0.008, 120);
+    api.haptic([18, 40, 18]);
+    if (lives <= 0) { dead = true; api.die?.(cause); }
+  }
+
+  // three dumpling pips, top-right — a lost customer's pip goes dark
+  function drawLives(scene, K) {
+    const W = scene.scale.width;
+    livesGfx.clear();
+    const gap = 20 * K, r = 7 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
+    for (let i = 0; i < 3; i++) {
+      const x = x0 + i * gap, full = i < lives;
+      livesGfx.fillStyle(full ? 0xffe9b3 : 0x000000, full ? 0.95 : 0.25);
+      livesGfx.fillCircle(x, y, r);
+      livesGfx.lineStyle(1.4 * K, full ? 0xffc46c : 0x6a4a2a, full ? 0.9 : 0.4);
+      livesGfx.strokeCircle(x, y, r);
+      if (full) { livesGfx.lineStyle(1.2 * K, 0xa8783c, 0.6); livesGfx.lineBetween(x - r * 0.4, y - r * 0.3, x + r * 0.4, y - r * 0.3); }
+    }
+  }
+
+  function resolveDrop(scene, K, wokMult, wokX, missed = false) {
     if (!ball) return;
     const b = ball;
     ball = null;
+    // only a dumpling that falls clean off the bottom past every wok is a
+    // plate on the floor — one customer's patience spent. A wok catch never
+    // costs patience, and a dumpling that merely settles in the pegs (the
+    // resting/wedged mercy rules) is banked, not blamed on the player.
+    if (missed && wokMult <= 1) loseLife(scene, wokX, 'WALKED OUT');
     // kill the golden trail BEFORE the dumpling dies: an emitter following
     // a destroyed Matter image crashes the whole cabinet on its next frame
     try { b.trail?.stopFollow(); b.trail?.destroy(); } catch { /* gone */ }
@@ -488,6 +525,21 @@ export function create(P, ctx) {
       // walls keep the fortune on stage
       scene.matter.add.rectangle(-10 * K, H / 2, 20 * K, H * 2, { isStatic: true });
       scene.matter.add.rectangle(W + 10 * K, H / 2, 20 * K, H * 2, { isStatic: true });
+      // counter aprons: angled ledges in the lower corners that funnel a
+      // wall-hugging dumpling back toward the woks instead of letting it die
+      // in a corner the pans can never reach — the catch has to be earnable
+      const apron = (cx, cy, ang) => {
+        scene.matter.add.rectangle(cx, cy, W * 0.2, 12 * K, { isStatic: true, angle: ang, restitution: 0.2, friction: 0.02, label: 'apron' });
+        const g = scene.add.graphics().setDepth(11);
+        g.save(); g.translateCanvas(cx, cy); g.rotateCanvas(ang);
+        g.fillStyle(0x2a1e26, 0.92);
+        g.fillRoundedRect(-W * 0.1, -6 * K, W * 0.2, 12 * K, 5 * K);
+        g.fillStyle(0xffc46c, 0.5);
+        g.fillRoundedRect(-W * 0.1, -6 * K, W * 0.2, 2.5 * K, 2 * K);
+        g.restore();
+      };
+      apron(W * 0.08, H * 0.8, 0.72);
+      apron(W * 0.92, H * 0.8, -0.72);
 
       if (cfg.bells) {
         for (const [bx, by, rot] of [[W * 0.3, H * 0.56, -0.5], [W * 0.7, H * 0.56, 0.5]]) {
@@ -499,12 +551,19 @@ export function create(P, ctx) {
 
       buildField(scene, K);
 
-      // sliding woks
+      // sliding woks — wide and unhurried so a well-aimed drop actually
+      // lands (a life rides on the catch); the small wok stays the leaner,
+      // faster, triple-paying gamble. Each pan patrols its OWN lane so the
+      // pair can never crowd onto one side and leave the other half of the
+      // counter uncatchable.
       for (let i = 0; i < cfg.woks; i++) {
         const small = i === cfg.woks - 1;
-        const ww = (small ? 74 : 110) * K;
-        const img = scene.add.image(W * (0.25 + i * 0.4), H * 0.9, canvasTex(scene, `wk-pan${small ? 's' : ''}`, ww, 34 * K, PAINT.wokpan)).setDepth(12);
-        woks.push({ img, w: ww, dir: i % 2 ? -1 : 1, speed: (small ? 95 : 60) * K, mult: small ? 3 : 2 });
+        const ww = (small ? 90 : 132) * K;
+        const laneW = W / cfg.woks;
+        const lo = Math.max(ww / 2 + 4 * K, i * laneW);
+        const hi = Math.min(W - ww / 2 - 4 * K, (i + 1) * laneW);
+        const img = scene.add.image((lo + hi) / 2, H * 0.9, canvasTex(scene, `wk-pan${small ? 's' : ''}`, ww, 34 * K, PAINT.wokpan)).setDepth(12);
+        woks.push({ img, w: ww, dir: i % 2 ? -1 : 1, speed: (small ? 58 : 40) * K, mult: small ? 3 : 2, lo, hi });
       }
 
       // the dragon coils through the field
@@ -537,6 +596,7 @@ export function create(P, ctx) {
       launcher = scene.add.image(W / 2, 26 * K, canvasTex(scene, 'wk-basket', 60 * K, 40 * K, PAINT.basket)).setDepth(20);
       // t0/goldenAt seed on the first update — the scene clock reads ~0 here
       aimGfx = scene.add.graphics().setDepth(19);
+      livesGfx = scene.add.graphics().setDepth(21);
 
       // collisions: dumpling meets lantern
       scene.matter.world.on('collisionstart', (ev) => {
@@ -613,7 +673,7 @@ export function create(P, ctx) {
       const wokRamp = 1 + Math.min(0.5, ((scene.time.now - t0) / 1000 / 240) * 0.5);
       for (const wk of woks) {
         wk.img.x += wk.dir * wk.speed * wokRamp * (fever ? 1.3 : 1) * dt;
-        if (wk.img.x < wk.w / 2 + 8 * K || wk.img.x > W - wk.w / 2 - 8 * K) wk.dir *= -1;
+        if (wk.img.x < wk.lo || wk.img.x > wk.hi) { wk.dir *= -1; wk.img.x = Math.max(wk.lo, Math.min(wk.hi, wk.img.x)); }
         // pans lean into their travel and breathe — nothing sits dead still
         wk.img.setAngle(wk.dir * 2.2 + Math.sin(scene.time.now / 320 + wk.w) * 1.4);
       }
@@ -661,9 +721,11 @@ export function create(P, ctx) {
         }
         if (bv > 0.6) ball.lastMove = scene.time.now;
         for (const wk of woks) {
-          // band + crossing test so a fast fall can't tunnel past the pan
-          const inX = Math.abs(bx - wk.img.x) < wk.w * 0.42;
-          const inBand = Math.abs(by - wk.img.y) < 26 * K;
+          // band + crossing test so a fast fall can't tunnel past the pan.
+          // The mouth reads generously (a life rides on the catch) so a drop
+          // aimed near a wok lands in it; a real miss falls clear between them
+          const inX = Math.abs(bx - wk.img.x) < wk.w * 0.52;
+          const inBand = Math.abs(by - wk.img.y) < 30 * K;
           const crossed = ball.prevY <= wk.img.y - 4 * K && by > wk.img.y - 4 * K;
           if (inX && (inBand || crossed)) {
             burst(scene, bx, by, 0xffd24a, { n: 14, speed: 260 * K, scale: 0.5 * K });
@@ -673,10 +735,12 @@ export function create(P, ctx) {
           }
         }
         ball.prevY = by;
-        if (by > H + 30 * K) resolveDrop(scene, K, 1, bx);
-        else if (scene.time.now - ball.lastMove > 1400) resolveDrop(scene, K, 1, bx); // resting — bank it
-        else if (scene.time.now - ball.born > 6000) resolveDrop(scene, K, 1, bx); // wedged — mercy rule
+        if (by > H + 30 * K) resolveDrop(scene, K, 1, bx, true); // fell clean off the bottom — a real miss
+        else if (scene.time.now - ball.lastMove > 1400) resolveDrop(scene, K, 1, bx); // resting — bank it, no blame
+        else if (scene.time.now - ball.born > 6000) resolveDrop(scene, K, 1, bx); // wedged — mercy rule, no blame
       }
+
+      drawLives(scene, K);
     },
   };
 }

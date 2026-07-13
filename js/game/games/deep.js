@@ -25,7 +25,7 @@ export const STARS = [8, 15, 24];
 export const HELP = {
   goal: 'Dive as deep as you can, because every fathom down is a point.',
   how: 'Hold to plummet and slide your thumb to steer; release to slow into a drift. At full speed you smash through wooden wreckage for bonus points, and shaving past obstacles without touching them pays a rising near-miss streak.',
-  avoid: 'The red flashing slabs never break: hitting one at speed stops you dead and costs ten fathoms, so weave around them.',
+  avoid: 'Hitting anything you cannot smash dents the hull, and the red flashing slabs never break. Three dents and the dive is over, so keep your speed up and weave around them.',
 };
 
 export const WORLDS = {
@@ -277,6 +277,13 @@ export function create(P, ctx) {
   let grazeStreak = 0;       // consecutive near-misses without a hit
   let t0 = 0;
   let fever = false;
+  // hull integrity: three plates. Every bump or clang — any collision you
+  // could not smash through — spends one; at zero the hull gives and the
+  // dive ends. A brief guard keeps a single wall from spending two at once.
+  let dead = false;
+  let lives = 3;
+  let hullInvuln = 0;
+  let livesGfx;
   const obstacles = [];      // { img, kind, meta, grazed }
   const kelps = [];          // { gfx, x, phase, torn }
   const vents = [];          // { x, w, nextAt, until, col }
@@ -366,6 +373,32 @@ export function create(P, ctx) {
     api.haptic([14, 30, 14]);
     api.sfx('log');
     noteStep = 0;
+    loseLife(scene, 'CRUSHED');
+  }
+
+  function loseLife(scene, cause) {
+    if (dead) return;
+    const now = scene.time.now;
+    if (now < hullInvuln) return; // one plate per impact, never per frame
+    hullInvuln = now + 650;
+    lives = Math.max(0, lives - 1);
+    const K = unit(scene);
+    floatScore(scene, player.x, player.y - 48 * K, lives > 0 ? `HULL ${lives}` : 'HULL BREACH', '#ff8a8a', 16 * K);
+    if (lives <= 0) { dead = true; api.die?.(cause); }
+  }
+
+  // three hull-plate pips, top-right — a spent plate goes dark and hollow
+  function drawLives(scene, K) {
+    const W = scene.scale.width;
+    livesGfx.clear();
+    const gap = 20 * K, w = 13 * K, h = 8 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
+    for (let i = 0; i < 3; i++) {
+      const cx = x0 + i * gap, full = i < lives;
+      livesGfx.fillStyle(full ? 0x8ab8dc : 0x000000, full ? 0.95 : 0.25);
+      livesGfx.fillRoundedRect(cx - w / 2, y - h / 2, w, h, 2 * K);
+      livesGfx.lineStyle(1.4 * K, full ? 0xeaf6ff : 0x6a7690, full ? 0.9 : 0.4);
+      livesGfx.strokeRoundedRect(cx - w / 2, y - h / 2, w, h, 2 * K);
+    }
   }
 
   // armored bedrock: reckless speed pays in fathoms, not just seconds —
@@ -388,6 +421,7 @@ export function create(P, ctx) {
     api.sfx('log');
     noteStep = 0;
     o.img.y = player.y - o.h / 2 - 46 * K;
+    loseLife(scene, 'CRUSHED');
   }
 
   return {
@@ -485,6 +519,8 @@ export function create(P, ctx) {
         scale: { min: 0.5 * K, max: 1.1 * K }, alpha: { start: 0.25, end: 0 },
         tint: 0xbfe8f8, lifespan: 600, frequency: 80, emitting: false,
       }).setDepth(30);
+
+      livesGfx = scene.add.graphics().setDepth(42);
 
       // the void carries its own light
       if (cfg.dark) {
@@ -759,6 +795,8 @@ export function create(P, ctx) {
           }
         }
       }
+
+      drawLives(scene, K);
     },
   };
 }

@@ -28,7 +28,7 @@ export const STARS = [5, 10, 16];
 export const HELP = {
   goal: 'Slice everything the mountain throws and keep your combos flowing.',
   how: 'Swipe across the screen and your stroke cuts whatever it touches. Cuts that land within a moment of each other build a combo that pays more for every slice. Hold your thumb still to sheathe the blade and slow time, then flick to draw-cut through everything on that line.',
-  avoid: 'Never cut a bomb: it takes a slice of your whole score and kills your combo.',
+  avoid: 'Never cut a bomb, and never let an object fall past you uncut. You have three blades: a sliced bomb or a missed object costs one, and losing all three ends the run.',
 };
 
 export const WORLDS = {
@@ -417,6 +417,13 @@ export function create(P, ctx) {
   let goldenAt = 0;
   let t0 = 0;
   let fever = false;
+  // failure state: three blades. A missed object or a sliced bomb spends
+  // one; at zero the run ends. `started` gates every spawn on the first
+  // stroke, so an untouched dojo throws nothing and can never be "missed".
+  let dead = false;
+  let lives = 3;
+  let started = false;
+  let livesGfx;
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
   // sheathe stance
   const stance = { active: false, meter: 1, lastMoveT: 0 };
@@ -477,6 +484,36 @@ export function create(P, ctx) {
     if (i >= 0) objs.splice(i, 1);
   }
 
+  function loseLife(scene, x, y, label, cause) {
+    if (dead) return;
+    lives = Math.max(0, lives - 1);
+    const K = unit(scene);
+    floatScore(scene, x, y, label, '#ff5d5d', 20 * K);
+    shake(scene, 0.011, 150);
+    api.haptic([18, 40, 18]);
+    if (lives <= 0) { dead = true; api.die?.(cause); }
+  }
+
+  // three blade pips, top-right — spent blades gutter to a dark outline
+  function drawLives(scene, K) {
+    const W = scene.scale.width;
+    livesGfx.clear();
+    const gap = 20 * K, r = 7 * K, x0 = W - 18 * K - gap * 2, y = 18 * K;
+    for (let i = 0; i < 3; i++) {
+      const x = x0 + i * gap, full = i < lives;
+      livesGfx.fillStyle(full ? cfg.blade : 0x000000, full ? 0.95 : 0.28);
+      livesGfx.lineStyle(1.6 * K, cfg.accent, full ? 0.9 : 0.35);
+      livesGfx.beginPath();
+      livesGfx.moveTo(x, y - r);
+      livesGfx.lineTo(x + r * 0.55, y);
+      livesGfx.lineTo(x, y + r);
+      livesGfx.lineTo(x - r * 0.55, y);
+      livesGfx.closePath();
+      livesGfx.fillPath();
+      livesGfx.strokePath();
+    }
+  }
+
   function freezeHalf(scene, half) {
     half.body.stop();
     half.body.enable = false;
@@ -506,6 +543,7 @@ export function create(P, ctx) {
       api.haptic([30, 40, 60]);
       api.sfx('log');
       strokeSlices = 0;
+      loseLife(scene, x, y - 30 * K, 'BLADE LOST', 'CUT DOWN');
       return;
     }
     // forge law: cold iron does not cut
@@ -702,6 +740,7 @@ export function create(P, ctx) {
 
       trailGfx = scene.add.graphics().setDepth(40).setBlendMode(P.BlendModes.ADD);
       stanceGfx = scene.add.graphics().setDepth(42).setBlendMode(P.BlendModes.ADD);
+      livesGfx = scene.add.graphics().setDepth(46);
       sliceGlow = scene.add.particles(0, 0, 'fx-dot', {
         speed: { min: 20, max: 90 }, scale: { start: 0.4 * K, end: 0 },
         lifespan: 220, tint: cfg.blade, blendMode: 'ADD', frequency: -1,
@@ -711,6 +750,9 @@ export function create(P, ctx) {
       // clock reads ~0 inside create() but jumps to page-uptime on frame
       // one, which silently expired every timer seeded in create
       scene.input.on('pointerdown', (p) => {
+        // first stroke arms the dojo: the difficulty ramp and every spawn
+        // clock start now, so an idle summit stays empty and safe
+        if (!started) { started = true; t0 = scene.time.now; nextSpawn = scene.time.now + 250; goldenAt = scene.time.now + goldDelay(); }
         lastPt = { x: p.x, y: p.y, t: scene.time.now };
         downAt = scene.time.now;
         stance.lastMoveT = scene.time.now;
@@ -849,7 +891,7 @@ export function create(P, ctx) {
           g.fillTriangle(x - 8 * K, y, x, y - 16 * K, x + 8 * K, y);
         }
         // the itch-spot rides the spine
-        if (now - world.itchAt > 5000 && !objs.some((o) => o.kind === 'itch')) {
+        if (started && now - world.itchAt > 5000 && !objs.some((o) => o.kind === 'itch')) {
           world.itchAt = now;
           const o = spawnObj(scene, K, 'itch', W * (0.2 + Math.random() * 0.6), { peakLo: 0.35 });
           o.img.setTint(0xffe9a0);
@@ -857,7 +899,7 @@ export function create(P, ctx) {
       }
 
       // ——— the golden daruma: rare, slow, worth the greed ———
-      if (now >= goldenAt && !objs.some((o) => o.kind === 'daruma')) {
+      if (started && now >= goldenAt && !objs.some((o) => o.kind === 'daruma')) {
         goldenAt = now + goldDelay();
         const o = spawnObj(scene, K, 'daruma', W * (0.25 + Math.random() * 0.5), { peakLo: 0.5 });
         o.img.body.gravity.y = 320 * K; // floats up lazily — you have time
@@ -870,7 +912,7 @@ export function create(P, ctx) {
       }
 
       // ——— spawning, ramping over the whole rest — even the long ones ———
-      if (now >= nextSpawn) {
+      if (started && now >= nextSpawn) {
         const elapsed = (now - t0) / 1000;
         let volley = 1 + (elapsed > 18 ? 1 : 0) + (elapsed > 45 ? 1 : 0) + (elapsed > 90 ? 1 : 0) + (Math.random() < 0.3 ? 1 : 0);
         if (fever) volley += 1;
@@ -880,7 +922,13 @@ export function create(P, ctx) {
 
       // ——— housekeeping ———
       for (const o of [...objs]) {
-        if ((o.img.y > H + 70 * K && o.img.body.velocity.y > 0) || now - o.born > 9000) killObj(scene, o);
+        const fellPast = o.img.y > H + 70 * K && o.img.body.velocity.y > 0;
+        if (fellPast || now - o.born > 9000) {
+          // a non-bomb that drops off the bottom uncut is a miss — the blade
+          // failed it. Bombs are MEANT to fall away, so they never cost a life.
+          if (fellPast && !o.isBomb) loseLife(scene, o.img.x, H - 40 * K, 'MISS', 'CUT DOWN');
+          killObj(scene, o);
+        }
       }
       for (const half of [...halves]) {
         if (!half.active) { halves.splice(halves.indexOf(half), 1); continue; }
@@ -900,6 +948,8 @@ export function create(P, ctx) {
           trailGfx.lineBetween(trail[i - 1].x, trail[i - 1].y, trail[i].x, trail[i].y);
         }
       }
+
+      drawLives(scene, K);
     },
   };
 }
