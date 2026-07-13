@@ -18,8 +18,15 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Dim Sum Drop';
+// Measured post-tune: random drops ≈10.6/s; cluster-hunting drops with
+// wok catches and SPOTLESS clears reach well past 17/s.
 export const VERB = 'DROP!';
-export const STARS = [5, 9, 14];
+export const STARS = [5, 11, 17];
+
+export const HELP = {
+  goal: 'Light as many lantern pegs as you can with every dumpling you drop.',
+  how: 'Drag to pick your spot and release to drop the dumpling through the peg field. Each lit peg pays more than the last, and a dumpling caught by a sliding wok multiplies everything you lit that drop, with the small wok paying triple. Clearing every last peg earns a bonus.',
+};
 
 export const WORLDS = {
   'wok-alley': {
@@ -86,6 +93,8 @@ const PAINT = {
     c.fillStyle = 'rgba(20,8,4,.7)';
     c.beginPath(); c.arc(w * 0.4, h * 0.44, w * 0.05, 0, 7); c.fill();
     c.beginPath(); c.arc(w * 0.6, h * 0.44, w * 0.05, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(20,8,4,.7)'; c.lineWidth = w * 0.035; c.lineCap = 'round';
+    c.beginPath(); c.arc(w * 0.5, h * 0.52, w * 0.09, 0.4, 2.7); c.stroke();
   },
   pegLit(c, w, h) {
     const halo = c.createRadialGradient(w / 2, h / 2, 1, w / 2, h / 2, w * 0.5);
@@ -128,6 +137,11 @@ const PAINT = {
     c.fillText('福', w / 2, h * 0.62);
   },
   wokpan(c, w, h) {
+    // the catch target must be the warmest thing on screen (Peggle's bucket law)
+    const glow = c.createRadialGradient(w * 0.5, h * 0.3, 1, w * 0.5, h * 0.3, w * 0.5);
+    glow.addColorStop(0, 'rgba(255,196,108,.55)'); glow.addColorStop(1, 'rgba(255,196,108,0)');
+    c.fillStyle = glow;
+    c.beginPath(); c.ellipse(w * 0.5, h * 0.3, w * 0.48, h * 0.42, 0, 0, 7); c.fill();
     const g = c.createLinearGradient(0, 0, 0, h);
     g.addColorStop(0, '#3c424e'); g.addColorStop(1, '#1c2028');
     c.fillStyle = g;
@@ -137,8 +151,12 @@ const PAINT = {
     c.lineTo(w * 0.88, h * 0.08);
     c.quadraticCurveTo(w * 0.5, h * 0.85, w * 0.12, h * 0.08);
     c.closePath(); c.fill();
-    c.strokeStyle = '#5c646e'; c.lineWidth = h * 0.06;
+    c.strokeStyle = '#ffc46c'; c.lineWidth = h * 0.08; c.lineCap = 'round';
     c.beginPath(); c.moveTo(0, h * 0.1); c.quadraticCurveTo(w * 0.5, h * 1.15, w, h * 0.1); c.stroke();
+    // steam wisps rising off the hot lip
+    c.strokeStyle = 'rgba(255,255,255,.3)'; c.lineWidth = h * 0.04;
+    c.beginPath(); c.moveTo(w * 0.34, h * 0.06); c.quadraticCurveTo(w * 0.3, -h * 0.1, w * 0.36, -h * 0.22); c.stroke();
+    c.beginPath(); c.moveTo(w * 0.66, h * 0.06); c.quadraticCurveTo(w * 0.7, -h * 0.08, w * 0.64, -h * 0.2); c.stroke();
   },
   bell(c, w, h) {
     const g = c.createLinearGradient(0, 0, 0, h);
@@ -199,6 +217,8 @@ export function create(P, ctx) {
   let goldenPending = false; // the NEXT drop is golden
   let goldenDrop = false;    // the CURRENT drop is golden (pegs pay double)
   let goldenAt = 0;
+  let t0 = 0;
+  let lastBellAt = 0;
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
 
   const PR = 13;             // peg radius in K units
@@ -304,6 +324,9 @@ export function create(P, ctx) {
     if (!ball) return;
     const b = ball;
     ball = null;
+    // kill the golden trail BEFORE the dumpling dies: an emitter following
+    // a destroyed Matter image crashes the whole cabinet on its next frame
+    try { b.trail?.stopFollow(); b.trail?.destroy(); } catch { /* gone */ }
     scene.tweens.add({ targets: b.img, alpha: 0, duration: 250, onComplete: () => { try { b.img.destroy(); } catch { /* gone */ } } });
     const total = litThisDrop.reduce((a, p) => a + (p.gain ?? 10), 0);
     if (wokMult > 1 && litThisDrop.length) {
@@ -337,9 +360,17 @@ export function create(P, ctx) {
     noteStep = 0;
     dropCount++;
     if (goldenDrop) { goldenDrop = false; goldenAt = scene.time.now + goldDelay(); }
-    // a thinning field refills fresh, after the pop ceremony finishes
+    // a thinning field refills fresh, after the pop ceremony finishes —
+    // and sweeping the steamer completely clean is worth a ceremony of its own
     scene.time.delayedCall(popped.length * 70 + 600, () => {
-      if (pegs.filter((p) => !p.spent && !p.dragonHead).length < 8) buildField(scene, K);
+      const remaining = pegs.filter((p) => !p.spent && !p.dragonHead).length;
+      if (remaining === 0) {
+        api.score(75);
+        glyphBanner(scene, 'SPOTLESS +75', '#ffe9a0', 26 * K);
+        flash(scene, 0xffd24a, 110, 0.25);
+        api.sfx('pr');
+      }
+      if (remaining < 8) buildField(scene, K);
     });
   }
 
@@ -504,7 +535,7 @@ export function create(P, ctx) {
       }
 
       launcher = scene.add.image(W / 2, 26 * K, canvasTex(scene, 'wk-basket', 60 * K, 40 * K, PAINT.basket)).setDepth(20);
-      goldenAt = scene.time.now + goldDelay();
+      // t0/goldenAt seed on the first update — the scene clock reads ~0 here
       aimGfx = scene.add.graphics().setDepth(19);
 
       // collisions: dumpling meets lantern
@@ -516,7 +547,14 @@ export function create(P, ctx) {
             if (!peg.spent) lightPeg(scene, K, peg);
           }
           const isBell = pair.bodyA.label === 'bell' || pair.bodyB.label === 'bell';
-          if (isBell && ball) { api.sfx('tap'); shake(scene, 0.005, 70); }
+          if (isBell && ball && scene.time.now - lastBellAt > 350) {
+            // the bells deflect, but a rung bell still pays its respects
+            lastBellAt = scene.time.now;
+            api.score(3);
+            floatScore(scene, ball.img.x, ball.img.y - 18 * K, 'BONG +3', '#e8c46c', 12 * K);
+            api.sfx('tap');
+            shake(scene, 0.005, 70);
+          }
         }
       });
 
@@ -530,17 +568,16 @@ export function create(P, ctx) {
         const img = scene.matter.add.image(x, 44 * K, canvasTex(scene, 'wk-dump', 34 * K, 32 * K, PAINT.dumpling), null, {
           shape: 'circle', restitution: cfg.bouncy ? 0.75 : 0.55, friction: 0.002, frictionAir: 0.008, density: 0.0022, label: 'ball',
         }).setDepth(15);
+        ball = { img, born: scene.time.now, lastMove: scene.time.now, prevY: img.y };
         if (goldenPending) {
           goldenPending = false;
           goldenDrop = true;
           img.setTint(0xffd24a);
-          const trail = scene.add.particles(0, 0, 'fx-dot', {
+          ball.trail = scene.add.particles(0, 0, 'fx-dot', {
             speed: 26, scale: { start: 0.36 * K, end: 0 }, lifespan: 380,
             tint: 0xffd24a, blendMode: 'ADD', frequency: 40,
           }).setDepth(14).startFollow(img);
-          scene.time.delayedCall(12000, () => trail.destroy());
         }
-        ball = { img, born: scene.time.now, lastMove: scene.time.now, prevY: img.y };
         api.sfx('tap');
         api.haptic(6);
         squash(scene, launcher, 'y');
@@ -552,6 +589,7 @@ export function create(P, ctx) {
       const dt = Math.min(dtMs, 64) / 1000;
       const K = unit(scene);
       const W = scene.scale.width, H = scene.scale.height;
+      if (!t0) { t0 = scene.time.now; goldenAt = scene.time.now + goldDelay(); }
 
       // the golden dumpling announces itself before the next drop
       if (!goldenPending && !goldenDrop && scene.time.now >= goldenAt && goldenAt > 0 && !ball) {
@@ -570,9 +608,11 @@ export function create(P, ctx) {
         aimGfx.fillStyle(0xffe9b3, 0.7).fillCircle(launcher.x, H * 0.2, 4 * K);
       }
 
-      // woks slide
+      // woks slide — and pick up pace as the rest wears on, so the catch
+      // stays a read-and-time decision instead of a solved constant
+      const wokRamp = 1 + Math.min(0.5, ((scene.time.now - t0) / 1000 / 240) * 0.5);
       for (const wk of woks) {
-        wk.img.x += wk.dir * wk.speed * (fever ? 1.3 : 1) * dt;
+        wk.img.x += wk.dir * wk.speed * wokRamp * (fever ? 1.3 : 1) * dt;
         if (wk.img.x < wk.w / 2 + 8 * K || wk.img.x > W - wk.w / 2 - 8 * K) wk.dir *= -1;
         // pans lean into their travel and breathe — nothing sits dead still
         wk.img.setAngle(wk.dir * 2.2 + Math.sin(scene.time.now / 320 + wk.w) * 1.4);
@@ -612,6 +652,13 @@ export function create(P, ctx) {
       if (ball) {
         const bx = ball.img.x, by = ball.img.y;
         const bv = ball.img.body ? Math.hypot(ball.img.body.velocity.x, ball.img.body.velocity.y) : 0;
+        // possession guard: a drifting peg or the dragon's head teleports
+        // INTO a resting dumpling and Matter answers with infinite violence
+        // — clamp any impossible exit speed back to honest physics
+        if (bv > 24 && ball.img.body) {
+          const f = 24 / bv;
+          try { scene.matter.body.setVelocity(ball.img.body, { x: ball.img.body.velocity.x * f, y: ball.img.body.velocity.y * f }); } catch { /* gone */ }
+        }
         if (bv > 0.6) ball.lastMove = scene.time.now;
         for (const wk of woks) {
           // band + crossing test so a fast fall can't tunnel past the pan

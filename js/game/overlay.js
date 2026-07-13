@@ -8,6 +8,7 @@
 // "rest over" is always the truth no matter what the render loop did.
 import { $, esc, haptic } from '../util.js';
 import { sfx, note } from '../audio.js';
+import { store } from '../store.js';
 import { toast } from '../components.js';
 import { loadPhaser } from './loader.js';
 import { glyphBanner, goldRush, slowmo, burst, shockRing, flash, zoomPunch, introCard } from './fx.js';
@@ -25,6 +26,16 @@ let pendingGamePop = false; // our own history.back() in flight — eat its pops
 export function gamePopHandled() {
   if (pendingGamePop) { pendingGamePop = false; return true; }
   if (!active) return false;
+  // Back closes the help panel before it closes the game. The pop just
+  // consumed our history guard, so put it back — the NEXT back must still
+  // reach us instead of navigating the app out from under the cabinet.
+  if (active.helpOpen) {
+    closeHelp(active);
+    if (active.popPushed) {
+      try { history.pushState({ p3: 'game' }, ''); } catch { active.popPushed = false; }
+    }
+    return true;
+  }
   closeGame(true);
   return true;
 }
@@ -40,7 +51,7 @@ export async function openGame({ deadline }) {
   const universe = document.documentElement.dataset.universe;
   const worldCls = document.documentElement.dataset.world;
   const spec = gameFor(universe, worldCls);
-  if (!spec) return;
+  if (!spec) { toast('No game in this world yet'); return; }
 
   const el = document.createElement('div');
   el.className = 'game-overlay';
@@ -51,25 +62,49 @@ export async function openGame({ deadline }) {
         <i>${esc(spec.cfg.name)}</i>
       </span>
       <span class="go-score num" id="go-score">0</span>
-      <span class="go-time num" id="go-time">${hudTime(deadline)}</span>
-      <button class="go-quit" id="go-quit" aria-label="Quit">✕</button>
+      <span class="go-time-stack">
+        <i class="go-time-lbl">Rest</i>
+        <span class="go-time num" id="go-time">${hudTime(deadline)}</span>
+      </span>
+      <span class="go-btns">
+        <button class="go-hbtn go-hit" id="go-help-btn" aria-label="How to play">?</button>
+        <button class="go-hbtn go-hit" id="go-snd" aria-label="Turn sound off">🔊</button>
+        <button class="go-quit go-hit" id="go-quit" aria-label="Quit">✕</button>
+      </span>
       <i class="go-tbar" id="go-tbar"></i>
     </header>
-    <div class="go-stage" id="go-stage"></div>`;
+    <div class="go-stage" id="go-stage"><div class="go-boot">Loading the game…</div></div>`;
   document.body.appendChild(el);
 
   // Claim the cabinet immediately so double-taps and re-entries bounce off,
   // then finish booting asynchronously.
-  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false, openedAt: Date.now() };
+  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false, ended: false, helpOpen: false, openedAt: Date.now() };
   try { history.pushState({ p3: 'game' }, ''); active.popPushed = true; } catch { /* throttled */ }
   $('#go-quit', el).addEventListener('click', () => closeGame());
 
   const mine = active;
+
+  // Sound and help live on the HUD from frame zero — neither needs Phaser.
+  // The sound button flips the SAME switch as the Systems console
+  // (store.settings.sound); audio.js gates every sfx/note on it.
+  const sndBtn = $('#go-snd', el);
+  const paintSnd = () => {
+    sndBtn.textContent = store.settings.sound ? '🔊' : '🔇';
+    sndBtn.setAttribute('aria-label', store.settings.sound ? 'Turn sound off' : 'Turn sound on');
+  };
+  paintSnd();
+  sndBtn.addEventListener('click', () => {
+    store.saveSettings({ sound: !store.settings.sound });
+    paintSnd();
+    haptic(6);
+    sfx('tap'); // audible only when the answer was "on"
+  });
+  $('#go-help-btn', el).addEventListener('click', () => openHelp(mine));
   const fail = (err) => {
     console.error('game crashed', err);
     if (active === mine) {
       closeGame();
-      toast('The game hit a snag — rest timer is untouched', 'bad', 3000);
+      toast('The game hit a snag. Your rest timer is still running.', 'bad', 3000);
     }
   };
 
@@ -83,7 +118,9 @@ export async function openGame({ deadline }) {
   const timeEl = $('#go-time', el);
   const api = {
     score(delta) {
-      if (active !== mine) return mine.score;
+      // After TIME the score is banked: stray hits during the fireworks
+      // can't make the HUD disagree with the panel and the saved best.
+      if (active !== mine || mine.ended) return mine.score;
       if (mine.fever && delta > 0) delta *= 2; // GOLD RUSH pays double
       mine.score = Math.max(0, mine.score + delta);
       scoreEl.textContent = mine.score;
@@ -113,6 +150,7 @@ export async function openGame({ deadline }) {
   sceneCfg.key = 'play';
   sceneCfg.create = function () {
     try {
+      $('.go-boot', el)?.remove(); // the world is painting — loading line done
       userCreate?.call(this);
       // the entry ritual: verb card slams in, input unlocks on the beat
       if (spec.verb) {
@@ -144,6 +182,8 @@ export async function openGame({ deadline }) {
       scene: sceneCfg,
     });
     if (typeof window !== 'undefined') window.__p3Game = mine.game; // QA hook
+    // Help opened while Phaser was still booting: honor the pause now.
+    if (mine.helpOpen) { try { mine.game.scene.pause('play'); } catch { /* not up yet */ } }
   } catch (err) { fail(err); return; }
 
   // HUD clock ticks off the same wall-clock deadline as the rest pill.
@@ -180,6 +220,8 @@ export async function openGame({ deadline }) {
     if (active !== mine) return;
     clearInterval(mine.clock);
     mine.clock = null;
+    mine.ended = true; // freezes api.score — the run is banked as of TIME
+    closeHelp(mine);   // rest ran out while reading? The results win.
     const finalScore = mine.score;
     const prevBest = bestFor(worldCls);
     const prevStars = starsFor(worldCls);
@@ -228,13 +270,16 @@ export async function openGame({ deadline }) {
       try { mine.game.scene.pause('play'); mine.game.loop.stop(); } catch { /* already gone */ }
       const starRow = [1, 2, 3].map((i) =>
         `<span class="${i <= stars ? 'on' : ''}${i <= stars && i > prevStars ? ' fresh' : ''}" style="animation-delay:${0.25 + i * 0.16}s">★</span>`).join('');
+      // Words wear the body face; only the numerals are mono (house law).
+      const bestShown = isRecord ? prevBest : Math.max(prevBest, finalScore);
+      const bestStars = Math.max(stars, prevStars);
       el.insertAdjacentHTML('beforeend', `
         <div class="go-over">
           <div class="go-over-eyebrow">Rest complete</div>
-          <div class="go-over-title">${isRecord ? 'NEW RECORD' : 'Time'}</div>
+          <div class="go-over-title">${isRecord ? 'NEW RECORD' : 'Time’s up'}</div>
           <div class="go-stars">${starRow}</div>
           <div class="go-over-score num" id="go-final">0</div>
-          <div class="go-over-best num">${isRecord ? `Old best ${prevBest}` : `Best ${Math.max(prevBest, finalScore)}`}${Math.max(stars, prevStars) ? ` · ${'★'.repeat(Math.max(stars, prevStars))}` : ''} · ${esc(spec.cfg.name)}</div>
+          <div class="go-over-best go-best-line">${isRecord ? 'Old best' : 'Best'} <span class="num">${bestShown}</span>${bestStars ? ` · ${'★'.repeat(bestStars)}` : ''} · ${esc(spec.cfg.name)}</div>
           <button class="btn primary go-back" id="go-back">Back to work</button>
         </div>`);
       // the score counts up — earned, not stated
@@ -249,17 +294,31 @@ export async function openGame({ deadline }) {
       requestAnimationFrame(tick);
       if (isRecord && finalScore > 0) { sfx('pr'); haptic([15, 40, 25]); }
       else sfx('objDone');
-      $('#go-back', el).addEventListener('click', () => closeGame());
+      // A thumb still mashing the game must not fire the button the frame
+      // it materializes under it — arm it after a beat.
+      const armedAt = Date.now() + 450;
+      $('#go-back', el).addEventListener('click', () => { if (Date.now() >= armedAt) closeGame(); });
     }, finaleMs);
   }
 }
 
 export function closeGame(fromPop = false) {
   if (!active) return;
-  const { el, game, clock, popPushed, errListener } = active;
+  const { el, game, clock, popPushed, errListener, ended, score, worldCls, spec, openedAt } = active;
   active = null;
   if (clock) clearInterval(clock);
   if (errListener) window.removeEventListener('error', errListener);
+  // Quitting mid-game still banks the run, silently — checking the next
+  // exercise never costs the points already earned. Full runs keep the
+  // ceremony; this is bookkeeping only (same rate-based medal ladder).
+  if (!ended && score > 0) {
+    try {
+      const elapsed = Math.max(12, (Date.now() - openedAt) / 1000);
+      const th = spec.stars ?? [5, 10, 16];
+      const rate = score / elapsed;
+      saveBest(worldCls, score, rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0);
+    } catch { /* never block teardown */ }
+  }
   try { game?.destroy(true); } catch { /* double-destroy race */ }
   el.classList.add('out');
   setTimeout(() => el.remove(), 190);
@@ -268,4 +327,45 @@ export function closeGame(fromPop = false) {
     setTimeout(() => { pendingGamePop = false; }, 600);
     try { history.back(); } catch { pendingGamePop = false; }
   }
+}
+
+// ——— How to play ———
+// A frosted card over the canvas: the game's own instructions (each module
+// exports HELP = { goal, how, avoid }) plus the three house rules every
+// game shares. The scene pauses underneath; the wall-clock rest keeps
+// draining — that is the honest deal and the clock in the HUD says so.
+
+function openHelp(inst) {
+  if (!inst || active !== inst || inst.helpOpen || inst.ended) return;
+  inst.helpOpen = true;
+  try { inst.game?.scene.pause('play'); } catch { /* still booting */ }
+  const h = inst.spec.help ?? {};
+  const lines = [h.goal, h.how, h.avoid].filter((s) => typeof s === 'string' && s);
+  const panel = document.createElement('div');
+  panel.className = 'go-help';
+  panel.innerHTML = `
+    <div class="gh-card">
+      <div class="gh-world">${esc(inst.spec.cfg.name)}</div>
+      <div class="gh-title">${esc(inst.spec.title)}</div>
+      ${lines.map((s) => `<p>${esc(s)}</p>`).join('')}
+      <div class="gh-rules">
+        <p>The last ten seconds are the Gold Rush, when every point counts double.</p>
+        <p>The game ends when your rest ends, and your score is saved automatically.</p>
+        <p>You earn stars by scoring quickly, not by playing longer.</p>
+      </div>
+      <button class="btn primary gh-close">Keep playing</button>
+    </div>`;
+  inst.el.appendChild(panel);
+  panel.addEventListener('click', (e) => {
+    if (e.target === panel || e.target.closest('.gh-close')) closeHelp(inst);
+  });
+  sfx('tap');
+  haptic(6);
+}
+
+function closeHelp(inst) {
+  if (!inst?.helpOpen) return;
+  inst.helpOpen = false;
+  inst.el.querySelector('.go-help')?.remove();
+  if (!inst.ended) { try { inst.game?.scene.resume('play'); } catch { /* still booting */ } }
 }

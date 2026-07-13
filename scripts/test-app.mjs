@@ -293,6 +293,8 @@ await ok('the six mechanics are distinct and every world config can paint its sk
     assert.equal(typeof mod.create, 'function', `${key} missing create()`);
     assert.ok(Array.isArray(mod.STARS) && mod.STARS.length === 3, `${key} missing STARS thresholds`);
     assert.ok(typeof mod.VERB === 'string' && mod.VERB.length, `${key} missing its VERB card`);
+    assert.ok(mod.HELP && typeof mod.HELP.goal === 'string' && typeof mod.HELP.how === 'string',
+      `${key} missing HELP instructions (goal/how)`);
     for (const [w, cfg] of Object.entries(mod.WORLDS)) {
       assert.ok(Array.isArray(cfg.sky) && cfg.sky.length >= 2, `${w} has no sky gradient`);
       assert.ok(cfg.name, `${w} has no display name`);

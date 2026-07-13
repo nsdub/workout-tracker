@@ -17,8 +17,16 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Terminal Velocity';
+// Measured post-tune in the richest world (reef): blind full-throttle
+// ≈21/s, armor-weaving hold ≈28/s; leaner worlds run lower.
 export const VERB = 'DIVE!';
-export const STARS = [7, 13, 20];
+export const STARS = [8, 15, 24];
+
+export const HELP = {
+  goal: 'Dive as deep as you can, because every fathom down is a point.',
+  how: 'Hold to plummet and slide your thumb to steer; release to slow into a drift. At full speed you smash through wooden wreckage for bonus points, and shaving past obstacles without touching them pays a rising near-miss streak.',
+  avoid: 'The red flashing slabs never break: hitting one at speed stops you dead and costs ten fathoms, so weave around them.',
+};
 
 export const WORLDS = {
   'deep-vents': {
@@ -71,12 +79,20 @@ const PAINT = {
     bg.addColorStop(0, '#8a96b0'); bg.addColorStop(0.5, '#c8d2e4'); bg.addColorStop(1, '#6a7690');
     c.fillStyle = bg;
     c.fillRect(w * 0.2, h * 0.42, w * 0.6, h * 0.16);
-    // determined little face on the right plate
+    // dark outline + cyan rim-light so the hero pops off the deep
+    c.strokeStyle = 'rgba(6,10,18,.9)'; c.lineWidth = w * 0.02;
+    for (const px of [w * 0.14, w * 0.86]) c.strokeRect(px - w * 0.12, h * 0.06, w * 0.24, h * 0.88);
+    c.strokeRect(w * 0.2, h * 0.42, w * 0.6, h * 0.16);
+    c.strokeStyle = 'rgba(174,240,255,.5)'; c.lineWidth = w * 0.018;
+    for (const px of [w * 0.14, w * 0.86]) {
+      c.beginPath(); c.moveTo(px - w * 0.1, h * 0.09); c.lineTo(px + w * 0.1, h * 0.09); c.stroke();
+    }
+    // determined face, sized to be seen
     c.fillStyle = '#0c1018';
-    c.beginPath(); c.arc(w * 0.82, h * 0.36, w * 0.025, 0, 7); c.fill();
-    c.beginPath(); c.arc(w * 0.9, h * 0.36, w * 0.025, 0, 7); c.fill();
-    c.strokeStyle = '#0c1018'; c.lineWidth = w * 0.02; c.lineCap = 'round';
-    c.beginPath(); c.moveTo(w * 0.8, h * 0.52); c.lineTo(w * 0.92, h * 0.5); c.stroke();
+    c.beginPath(); c.arc(w * 0.8, h * 0.32, w * 0.045, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.92, h * 0.32, w * 0.045, 0, 7); c.fill();
+    c.strokeStyle = '#0c1018'; c.lineWidth = w * 0.035; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(w * 0.78, h * 0.52); c.lineTo(w * 0.94, h * 0.49); c.stroke();
   },
   plate(c, w, h) {
     const g = c.createLinearGradient(0, 0, 0, h);
@@ -87,7 +103,7 @@ const PAINT = {
     c.beginPath(); c.moveTo(w * 0.2, h * 0.2); c.lineTo(w * 0.2, h * 0.8); c.stroke();
     c.beginPath(); c.moveTo(w * 0.55, h * 0.2); c.lineTo(w * 0.55, h * 0.8); c.stroke();
     c.fillStyle = 'rgba(160,200,190,.5)';
-    for (let i = 0; i < 5; i++) { c.beginPath(); c.arc(w * (0.1 + i * 0.2), h * 0.26, h * 0.05, 0, 7); c.fill(); }
+    for (let i = 0; i < 3; i++) { c.beginPath(); c.arc(w * (0.22 + i * 0.28), h * 0.5, h * 0.06, 0, 7); c.fill(); }
   },
   rib(c, w, h) {
     c.strokeStyle = '#d8e2e8'; c.lineWidth = h * 0.34; c.lineCap = 'round';
@@ -249,6 +265,7 @@ export function create(P, ctx) {
   const { api, cfg } = ctx;
   let player, bubbles, speedLines, coneLight, darkMask;
   let holding = false;
+  let touched = false;       // idle law: nothing scores before the first touch
   let steerX = null;
   let v = 0;                 // current descent speed, px/s
   let depth = 0;             // fathoms banked
@@ -257,6 +274,8 @@ export function create(P, ctx) {
   let stun = 0;              // ms of bump-stun left
   let snag = 0;              // kelp snag ms left
   let spotted = 0;           // searchlight cap ms left
+  let grazeStreak = 0;       // consecutive near-misses without a hit
+  let t0 = 0;
   let fever = false;
   const obstacles = [];      // { img, kind, meta, grazed }
   const kelps = [];          // { gfx, x, phase, torn }
@@ -286,7 +305,21 @@ export function create(P, ctx) {
         yoyo: true, repeat: -1, ease: 'Sine.easeInOut',
       });
     }
-    obstacles.push({ img, kind, meta, hp: meta.hp, grazed: false, w, h });
+    // bedrock: past the opening seconds, a growing share of the debris is
+    // armored — no speed smashes it, so full throttle stops being free.
+    // Armored slabs run wide: they are walls you READ and steer around,
+    // not bumps you shrug through
+    const elapsed = (scene.time.now - t0) / 1000;
+    const armored = kind !== 'jelly' && kind !== 'canopy' && elapsed > 6
+      && Math.random() < Math.min(0.45, 0.18 + elapsed / 240);
+    let aw = w;
+    if (armored) {
+      img.setTint(0xff8a8a);
+      img.setScale(1.35, 1);
+      aw = w * 1.35;
+      scene.tweens.add({ targets: img, alpha: 0.72, duration: 320, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    }
+    obstacles.push({ img, kind, meta, hp: meta.hp, grazed: false, w: aw, h, armored });
   }
 
   function spawnAngler(scene, K) {
@@ -324,6 +357,7 @@ export function create(P, ctx) {
   function bump(scene, o, K) {
     stun = 700;
     v = 0;
+    grazeStreak = 0;
     flash(scene, 0x8ab8dc, 100, 0.25);
     shake(scene, 0.008, 120);
     squash(scene, player, 'y');
@@ -332,6 +366,28 @@ export function create(P, ctx) {
     api.haptic([14, 30, 14]);
     api.sfx('log');
     noteStep = 0;
+  }
+
+  // armored bedrock: reckless speed pays in fathoms, not just seconds —
+  // but a slow drift into rock is a scrape, not a catastrophe
+  function clang(scene, o, K) {
+    stun = 1000;
+    const fast = v >= SMASH(scene);
+    v = 0;
+    grazeStreak = 0;
+    const loss = Math.min(depth, fast ? 10 : 3);
+    depth -= loss;
+    if (loss) api.score(-loss);
+    flash(scene, 0xff5d5d, 110, 0.3);
+    shake(scene, 0.016, 200);
+    hitstop(scene, 60);
+    squash(scene, player, 'y');
+    burst(scene, player.x, player.y + 16 * K, 0xff8a8a, { n: 12, speed: 260 * K, scale: 0.45 * K });
+    floatScore(scene, player.x, player.y - 30 * K, `CLANG −${loss}`, '#ff8a8a', 17 * K);
+    api.haptic([18, 40, 18]);
+    api.sfx('log');
+    noteStep = 0;
+    o.img.y = player.y - o.h / 2 - 46 * K;
   }
 
   return {
@@ -455,12 +511,12 @@ export function create(P, ctx) {
         }
       }
 
-      scene.input.on('pointerdown', (p) => { holding = true; steerX = p.x; });
+      scene.input.on('pointerdown', (p) => { holding = true; touched = true; steerX = p.x; });
       scene.input.on('pointermove', (p) => { if (holding) steerX = p.x; });
       scene.input.on('pointerup', () => { holding = false; });
 
-      nextOb = scene.time.now + 900;
-      goldenAt = scene.time.now + goldDelay();
+      // time anchors seed on the first update: the scene clock reads ~0 in
+      // create() but jumps to page-uptime on frame one
     },
 
     update(t, dtMs) {
@@ -471,20 +527,27 @@ export function create(P, ctx) {
       const now = scene.time.now;
       const maxV = MAXV(scene);
       const smashV = SMASH(scene);
+      if (!t0) {
+        t0 = now;
+        nextOb = now + 900;
+        goldenAt = now + goldDelay();
+        for (const vent of vents) vent.nextAt = now + 2000 + Math.random() * 3000;
+      }
 
       // ——— speed model ———
       stun = Math.max(0, stun - dtMs);
       snag = Math.max(0, snag - dtMs);
       spotted = Math.max(0, spotted - dtMs);
       const capped = snag > 0 ? maxV * 0.12 : spotted > 0 ? maxV * 0.22 : maxV;
-      if (stun > 0) v = Math.max(0, v - maxV * 2.2 * dt);
+      if (!touched) v = 0; // the dive starts with YOUR thumb, never by itself
+      else if (stun > 0) v = Math.max(0, v - maxV * 2.2 * dt);
       else if (holding) v = Math.min(capped, v + maxV * 1.4 * dt);
       else v = Math.max(H * 0.12, v - maxV * 0.9 * dt);
 
       // vent boost columns
       for (const vent of vents) {
         if (vent.until > now) {
-          if (Math.abs(player.x - vent.x) < vent.w) {
+          if (touched && Math.abs(player.x - vent.x) < vent.w) {
             v = Math.min(maxV * 1.3, v + maxV * 3 * dt);
           }
         } else if (now > vent.nextAt) {
@@ -553,6 +616,7 @@ export function create(P, ctx) {
           } else if (snag <= 0 && !kp.snagged) {
             kp.snagged = true; // a strand only grabs you once
             snag = 900;
+            grazeStreak = 0;
             floatScore(scene, player.x, player.y - 24 * K, 'snagged!', '#7ad48a', 15 * K);
             api.haptic(16);
             api.sfx('log');
@@ -571,12 +635,14 @@ export function create(P, ctx) {
         obstacles.push({ img, halo, kind: 'pickup', meta: { pts: 75 }, hp: 0, grazed: true, w: 100 * K, h: 40 * K, pickup: true, golden: true });
       }
 
-      // ——— obstacles ———
+      // ——— obstacles (the deep gets denser the longer you're down) ———
       if (now >= nextOb) {
         spawnObstacle(scene, K);
         if (cfg.anglers && Math.random() < 0.5) spawnAngler(scene, K);
         if (cfg.lanterns && Math.random() < 0.6) spawnLantern(scene, K);
-        nextOb = now + (900 + Math.random() * 500) / (cfg.density * (fever ? 1.3 : 1));
+        const elapsed = (now - t0) / 1000;
+        nextOb = now + (900 + Math.random() * 500)
+          / (cfg.density * (fever ? 1.3 : 1) * (1 + Math.min(0.6, elapsed / 150)));
       }
       for (const o of [...obstacles]) {
         o.img.y -= v * dt;
@@ -625,6 +691,7 @@ export function create(P, ctx) {
               api.haptic([10, 40, 10]);
               api.sfx('log');
               noteStep = 0;
+              grazeStreak = 0;
               o.img.y = player.y - o.h - 60 * K;
             }
           } else if (o.lure) {
@@ -632,6 +699,8 @@ export function create(P, ctx) {
             floatScore(scene, o.img.x, o.img.y, 'a LIE', '#aef0ff', 15 * K);
             o.img.destroy();
             obstacles.splice(obstacles.indexOf(o), 1);
+          } else if (o.armored) {
+            clang(scene, o, K);
           } else if (o.hp > 0 && v >= smashV) {
             o.hp--;
             if (o.hp <= 0) smash(scene, o, K);
@@ -651,10 +720,15 @@ export function create(P, ctx) {
             // scrolls, so insufficient separation meant an infinite thunk
             o.img.y = player.y - o.h / 2 - 46 * K;
           }
-        } else if (!o.grazed && dy < hh * 1.6 && dx < hw * 1.7 && v > smashV) {
+        } else if (!o.grazed && !o.pickup && dy < hh * 1.6 && dx < hw * 1.7 && v > smashV) {
+          // threading the gaps at speed is the real skill economy: each
+          // consecutive graze pays more, and armored rock pays a premium
           o.grazed = true;
-          api.score(5);
-          floatScore(scene, player.x + (o.img.x > player.x ? 22 : -22) * K, player.y, 'GRAZE +5', '#3adcc8', 13 * K);
+          grazeStreak++;
+          const gain = Math.min(15, 3 + grazeStreak * 2) + (o.armored ? 4 : 0);
+          api.score(gain);
+          floatScore(scene, player.x + (o.img.x > player.x ? 22 : -22) * K, player.y,
+            `${o.armored ? 'THREAD' : 'GRAZE'} +${gain}`, '#3adcc8', 13 * K);
           api.sfx('tap');
         }
       }

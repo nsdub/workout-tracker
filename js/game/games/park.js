@@ -13,8 +13,16 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Skip Legend';
+// Measured post-tune: identical safe lobs ≈9.5/s; flat threading runs
+// with clean skips, re-armed grazes and rings run well past 14/s.
 export const VERB = 'SKIP!';
-export const STARS = [3, 6, 10];
+export const STARS = [4, 8, 14];
+
+export const HELP = {
+  goal: 'Skip a stone as far across the lake as you can, throw after throw.',
+  how: 'Pull back with your thumb and release to send the stone. Fast and shallow skims; a perfectly flat entry is a clean skip that pays half again more. Passing close to ducks, buoys and canoes earns a graze bonus on every single throw.',
+  avoid: 'Hitting a float square on, or landing too steep, sinks the stone and ends that throw.',
+};
 
 export const WORLDS = {
   'park-trail': {
@@ -119,6 +127,13 @@ const PAINT = {
   ranger(c, w, h) {
     c.fillStyle = '#3a5c40';
     c.fillRect(w * 0.3, h * 0.42, w * 0.4, h * 0.5);
+    // legs and a raised throwing arm — he is the player, not a fence post
+    c.fillStyle = '#2c4430';
+    c.fillRect(w * 0.34, h * 0.78, w * 0.12, h * 0.2);
+    c.fillRect(w * 0.54, h * 0.78, w * 0.12, h * 0.2);
+    c.strokeStyle = '#e8b088'; c.lineWidth = w * 0.11; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(w * 0.64, h * 0.5); c.quadraticCurveTo(w * 0.86, h * 0.38, w * 0.94, h * 0.22); c.stroke();
+    c.beginPath(); c.moveTo(w * 0.36, h * 0.5); c.lineTo(w * 0.24, h * 0.66); c.stroke();
     c.fillStyle = '#e8b088';
     c.beginPath(); c.arc(w * 0.5, h * 0.3, w * 0.2, 0, 7); c.fill();
     c.fillStyle = '#6a4a2a';
@@ -172,7 +187,7 @@ export function create(P, ctx) {
   let beams = [];            // ufo beams { x, gfx }
   let throwsLeft = Infinity; // score chase, not ammo
   let fever = false;
-  let mothUsed = false;
+  let mothAt = -Infinity;    // the cryptid rests 40s between assists
   let noteStep = 0;
   let golden = null; // { img, halo }
   let goldenAt = 0;
@@ -190,6 +205,14 @@ export function create(P, ctx) {
     };
     scene.cameras.main.pan(scene.scale.width / 2, scene.scale.height / 2, 500, 'Sine.easeInOut');
     noteStep = 0;
+    // every throw is a fresh slalom: grazes and firefly rings re-arm, so
+    // the lake pays for precision on throw twelve like it did on throw one
+    for (const f of floats) f.grazed = false;
+    for (const r of rings) {
+      if (!r.hit) continue;
+      r.hit = false;
+      r.img.setTint(0xffd24a);
+    }
   }
 
   function endThrow(scene, K, reason) {
@@ -205,15 +228,18 @@ export function create(P, ctx) {
     scene.time.delayedCall(750, () => resetStone(scene, K));
   }
 
-  function skipAt(scene, K, x) {
+  function skipAt(scene, K, x, clean) {
     const wy = waterY(scene);
-    shockRing(scene, x, wy, 0xdff6ff, (46 + stone.skips * 7) * K);
-    burst(scene, x, wy - 4 * K, 0xbfe8f8, { n: 10, speed: 200 * K, scale: 0.4 * K, gravityY: 500 * K });
+    shockRing(scene, x, wy, clean ? 0xfff0c8 : 0xdff6ff, (46 + stone.skips * 7) * K);
+    burst(scene, x, wy - 4 * K, 0xbfe8f8, { n: clean ? 16 : 10, speed: 200 * K, scale: 0.4 * K, gravityY: 500 * K });
     api.note(noteStep++);
     stone.skips++;
-    const gain = 8 + stone.skips * 4;
+    // a razor-flat entry is the connoisseur's skip: half again the points
+    let gain = 8 + stone.skips * 4;
+    if (clean) gain = Math.round(gain * 1.5);
     api.score(gain);
-    floatScore(scene, x, wy - 40 * K, `skip ×${stone.skips} +${gain}`, '#dff6ff', 15 * K);
+    floatScore(scene, x, wy - 40 * K, clean ? `CLEAN ×${stone.skips} +${gain}` : `skip ×${stone.skips} +${gain}`,
+      clean ? '#fff0c8' : '#dff6ff', (clean ? 17 : 15) * K);
     api.haptic(6);
   }
 
@@ -265,7 +291,9 @@ export function create(P, ctx) {
         // treeline on the far shore
         c.fillStyle = cfg.night ? 'rgba(10,10,30,.95)' : 'rgba(22,50,40,.95)';
         for (let x = 0; x < PW; x += PW / 90) {
-          const th = H * (0.024 + 0.014 * jag[Math.floor(x / (PW / 90)) % jag.length]);
+          const idx = Math.floor(x / (PW / 90));
+          if (idx % 7 === 3) continue; // clearings break the sawtooth
+          const th = H * (0.02 + 0.014 * jag[idx % jag.length] + 0.012 * jag[(idx * 3 + 1) % jag.length]);
           c.beginPath();
           c.moveTo(x, H * 0.56); c.lineTo(x + PW / 180, H * 0.56 - th); c.lineTo(x + PW / 90, H * 0.56);
           c.closePath(); c.fill();
@@ -290,10 +318,28 @@ export function create(P, ctx) {
       // the lake itself, world-wide
       const wy = waterY(scene);
       waterGfx = scene.add.graphics().setDepth(5);
-      waterGfx.fillStyle(cfg.water, 1).fillRect(0, wy, WW, H - wy);
-      waterGfx.fillStyle(0xffffff, 0.08);
-      for (let i = 0; i < 40; i++) {
-        waterGfx.fillRect(Math.random() * WW, wy + Math.random() * (H - wy) * 0.7, (30 + Math.random() * 60) * K, 2 * K);
+      // depth-banded water: horizon mixes toward the sky, deepens toward shore
+      const wCol = cfg.water;
+      const mix = (c1, f) => {
+        const r = (c1 >> 16) & 255, g2 = (c1 >> 8) & 255, b = c1 & 255;
+        return ((Math.round(r * f) & 255) << 16) | ((Math.round(g2 * f) & 255) << 8) | (Math.round(b * f) & 255);
+      };
+      const bands = [[1.45, 0.16], [1.18, 0.22], [1, 0.3], [0.78, 0.32]];
+      let by = wy;
+      for (const [f, hFrac] of bands) {
+        waterGfx.fillStyle(mix(wCol, Math.min(f, 1.9)), 1);
+        waterGfx.fillRect(0, by, WW, (H - wy) * hFrac + 2);
+        by += (H - wy) * hFrac;
+      }
+      // shimmer lives at the waterline, not scattered at random
+      waterGfx.fillStyle(0xffffff, 0.18);
+      for (let i = 0; i < 46; i++) {
+        waterGfx.fillRect(Math.random() * WW, wy + 2 * K + Math.random() * 26 * K, (18 + Math.random() * 50) * K, 1.6 * K);
+      }
+      // soft ridge reflections just below the horizon line
+      waterGfx.fillStyle(cfg.night ? 0x2a2452 : 0x3a6a58, 0.12);
+      for (let i = 0; i < 4; i++) {
+        waterGfx.fillEllipse(WW * (0.12 + i * 0.24), wy + (14 + i * 8) * K, WW * 0.14, 10 * K);
       }
       if (cfg.cliff) {
         const cl = scene.add.graphics().setDepth(6);
@@ -369,7 +415,7 @@ export function create(P, ctx) {
       }
 
       aimGfx = scene.add.graphics().setDepth(30);
-      goldenAt = scene.time.now + goldDelay();
+      // goldenAt seeds on the first update — the scene clock reads ~0 here
       resetStone(scene, K);
       glyphBanner(scene, 'PULL BACK. RELEASE.', '#dff6ff', 22 * K);
 
@@ -408,6 +454,7 @@ export function create(P, ctx) {
       const WW = W * WORLD_SCREENS;
       const wy = waterY(scene);
       const cam = scene.cameras.main;
+      if (!goldenAt) goldenAt = scene.time.now + goldDelay();
 
       // aim guide: the pull-back band under your finger + trajectory dots
       aimGfx.clear();
@@ -469,8 +516,9 @@ export function create(P, ctx) {
           const top = wy - (60 + i * 30) * K;
           if (stone.img.y < top && Math.abs(stone.img.x - (x + 17 * K)) < 20 * K && stone.vx > 0) {
             stone.vx *= -0.85;
+            api.score(8); // the trick shot the canyon exists for finally pays
             burst(scene, stone.img.x, stone.img.y, 0xff9a5c, { n: 10, speed: 220 * K, scale: 0.4 * K });
-            floatScore(scene, stone.img.x, stone.img.y - 20 * K, 'BANK!', '#ff9a5c', 15 * K);
+            floatScore(scene, stone.img.x, stone.img.y - 20 * K, 'BANK +8', '#ff9a5c', 15 * K);
             shake(scene, 0.006, 90);
             api.sfx('tap');
           }
@@ -557,10 +605,11 @@ export function create(P, ctx) {
           if (stone.vx < 120 * K || !shallow) { plunk(scene, K); return; }
         }
         if (shallow && fast) {
+          const clean = angle < 0.18; // ~10°: the perfect flat entry
           stone.img.y = wy - 1;
           stone.vy = -Math.abs(stone.vy) * (0.62 - angle * 0.35);
-          stone.vx *= cfg.bog ? 0.82 : 0.94;
-          skipAt(scene, K, stone.img.x);
+          stone.vx *= cfg.bog ? 0.82 : clean ? 0.97 : 0.94;
+          skipAt(scene, K, stone.img.x, clean);
           if (onPad) {
             api.score(10);
             floatScore(scene, stone.img.x, wy - 56 * K, 'SHELL PAD +10', '#7ad48a', 14 * K);
@@ -571,9 +620,9 @@ export function create(P, ctx) {
         }
       }
 
-      // mothman tail-bat: the lake plays for your team
-      if (cfg.cryptid && !mothUsed && stone.img.x > WW * 0.72 && stone.skips >= 3) {
-        mothUsed = true;
+      // mothman tail-bat: the lake plays for your team (he naps between shows)
+      if (cfg.cryptid && scene.time.now - mothAt > 40000 && stone.img.x > WW * 0.72 && stone.skips >= 3) {
+        mothAt = scene.time.now;
         const moth = scene.add.image(stone.img.x + 60 * K, stone.img.y - 120 * K,
           canvasTex(scene, 'pk-moth', 90 * K, 70 * K, PAINT.moth)).setDepth(25).setScale(0.2);
         scene.tweens.add({ targets: moth, scale: 1, y: stone.img.y - 10 * K, duration: 260, ease: 'Back.easeOut' });

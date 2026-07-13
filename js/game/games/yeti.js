@@ -17,8 +17,16 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Yeti Bowl';
+// Measured post-tune: thoughtless sweeping ≈26/s; deliberate center-line
+// strikes, swerves and drift upkeep are what push past 36/s.
 export const VERB = 'ROLL!';
-export const STARS = [7, 13, 20];
+export const STARS = [12, 24, 36];
+
+export const HELP = {
+  goal: 'Roll the biggest snowball you can down the mountain and flatten the snowman villages.',
+  how: 'Hold to pack the snowball while the fuse burns, then release to roll and drag to steer. Anything smaller than you smashes for points, but the ball sheds snow as it rolls, so keep eating white drifts to stay big. A bigger ball hits harder yet steers slower, and a village falls most surely to a fat ball driven through its center.',
+  avoid: 'Hitting something bigger than you stops you cold and shrinks the ball.',
+};
 
 export const WORLDS = {
   'yeti-village': {
@@ -269,13 +277,16 @@ function drawWorld(scene, cfg, K) {
       c.closePath(); c.fill();
     }
     c.fillRect(0, H * 0.495, W, H * 0.02);
-    // village lights along the valley
-    for (let i = 0; i < 9; i++) {
-      const x = W * (0.06 + i * 0.11 + jag[i] * 0.02);
-      const g = c.createRadialGradient(x, H * 0.52, 0, x, H * 0.52, W * 0.02);
-      g.addColorStop(0, 'rgba(255,220,140,.9)'); g.addColorStop(1, 'rgba(255,200,100,0)');
+    // village lights along the valley — varied, like real windows
+    for (let i = 0; i < 7; i++) {
+      const x = W * (0.06 + i * 0.14 + jag[i] * 0.02);
+      const y = H * (0.52 + (jag[(i + 3) % jag.length] - 0.7) * 0.012);
+      const r = W * (0.012 + jag[(i + 5) % jag.length] * 0.016);
+      const a = 0.5 + jag[(i + 2) % jag.length] * 0.4;
+      const g = c.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, `rgba(255,220,140,${a})`); g.addColorStop(1, 'rgba(255,200,100,0)');
       c.fillStyle = g;
-      c.beginPath(); c.arc(x, H * 0.52, W * 0.02, 0, 7); c.fill();
+      c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
     }
     // low haze so the slope reads as ground
     const hz = c.createLinearGradient(0, H * 0.5, 0, H);
@@ -284,6 +295,28 @@ function drawWorld(scene, cfg, K) {
     c.fillRect(0, H * 0.5, W, H * 0.5);
   });
   scene.add.image(0, 0, 'yt-range').setOrigin(0).setDepth(-70);
+  // the slope itself: a snowfield, not empty sky
+  canvasTex(scene, 'yt-field', W, H, (c) => {
+    const g = c.createLinearGradient(0, H * 0.52, 0, H);
+    g.addColorStop(0, 'rgba(214,230,248,.2)');
+    g.addColorStop(1, 'rgba(170,195,225,.06)');
+    c.fillStyle = g;
+    c.fillRect(0, H * 0.52, W, H * 0.48);
+    c.fillStyle = 'rgba(255,255,255,.06)';
+    const drifts = [[0.2, 0.62, 0.5], [0.7, 0.7, 0.38], [0.4, 0.8, 0.6], [0.85, 0.88, 0.42], [0.15, 0.92, 0.5], [0.55, 0.97, 0.55]];
+    for (const [fx, fy, fw] of drifts) {
+      c.beginPath(); c.ellipse(W * fx, H * fy, W * fw * 0.5, H * 0.02, 0, 0, 7); c.fill();
+    }
+    // faint tracks converging uphill sell the descent
+    c.strokeStyle = 'rgba(140,170,205,.14)'; c.lineWidth = 3;
+    for (const fx of [0.42, 0.58]) {
+      c.beginPath();
+      c.moveTo(W * fx, H * 0.54);
+      c.quadraticCurveTo(W * (fx + (fx < 0.5 ? -0.1 : 0.1)), H * 0.78, W * (fx + (fx < 0.5 ? -0.22 : 0.22)), H);
+      c.stroke();
+    }
+  });
+  scene.add.image(0, 0, 'yt-field').setOrigin(0).setDepth(-69);
   celestial(scene, W * 0.78, H * 0.14, 26 * K, 0xe8f2ff, { crescent: true, depth: -88 });
   driftClouds(scene, { n: 2, tint: 0xbcd0ec, alpha: 0.4, yBand: [0.06, 0.2], depth: -80 });
   if (cfg.lift) {
@@ -318,7 +351,9 @@ export function create(P, ctx) {
   let ball, penguin, shadow, slopeLight, packGfx, spray, darkVeil, auroraGfx;
   let size = 0.42;           // 0.3 .. 2.0 — mass, reach and menace
   let holdT = 0;
+  let armed = false;         // idle law: the fuse waits for your first touch
   let packDeadline = 3400;   // ms of slope-light at the summit
+  let rollT0 = 0;
   let speed = 0;
   let steer = null;
   let stun = 0;
@@ -449,10 +484,10 @@ export function create(P, ctx) {
       if (cfg.aurora) auroraGfx = scene.add.graphics().setDepth(-40);
 
       packGfx = scene.add.graphics().setDepth(30);
-      goldenAt = scene.time.now + goldDelay();
+      // goldenAt seeds on the first update — the scene clock reads ~0 here
       glyphBanner(scene, 'HOLD TO PACK', '#dff6ff', 24 * K);
 
-      scene.input.on('pointerdown', (p) => { steer = p.x; });
+      scene.input.on('pointerdown', (p) => { steer = p.x; armed = true; });
       scene.input.on('pointermove', (p) => { steer = p.x; });
       scene.input.on('pointerup', () => {
         steer = null;
@@ -461,6 +496,7 @@ export function create(P, ctx) {
 
       function startRoll(sc, K2) {
         phase = 'roll';
+        rollT0 = sc.time.now;
         speed = sc.scale.height * (0.5 + size * 0.22);
         flash(sc, 0xffffff, 90, 0.25);
         zoomPunch(sc, 1.06, 220);
@@ -480,6 +516,7 @@ export function create(P, ctx) {
       const K = unit(scene);
       const W = scene.scale.width, H = scene.scale.height;
       const now = scene.time.now;
+      if (!goldenAt) goldenAt = now + goldDelay();
 
       // ——— PACK phase: greed against the burning slope-light ———
       if (phase === 'pack') {
@@ -488,7 +525,9 @@ export function create(P, ctx) {
           holdT += dtMs;
           size = Math.min(1.7, 0.42 + holdT / 2600);
         }
-        packDeadline -= dtMs;
+        // the fuse only burns once you've touched: an untouched summit
+        // waits forever, scores nothing, and rolls nowhere by itself
+        if (armed) packDeadline -= dtMs;
         ball.setScale(size);
         shadow.setScale(size * 1.1, size * 0.4);
         shadow.y = ball.y + BALL_R(scene) * 0.9;
@@ -497,7 +536,7 @@ export function create(P, ctx) {
         packGfx.fillStyle(0xffd24a, 0.8).fillRect(W * 0.1, 40 * K, W * 0.8 * f, 4 * K);
         packGfx.fillStyle(0xffffff, 0.5 + 0.3 * Math.sin(now / 90));
         packGfx.fillCircle(W * 0.1 + W * 0.8 * f, 42 * K, 6 * K);
-        if (packDeadline <= 0) this._startRoll(scene, K);
+        if (armed && packDeadline <= 0) this._startRoll(scene, K);
         return;
       }
 
@@ -505,9 +544,12 @@ export function create(P, ctx) {
       packGfx.clear();
       stun = Math.max(0, stun - dtMs);
       airT = Math.max(0, airT - dtMs);
+      // Katamari's honest bargain: mass smashes more but turns like a
+      // planet — a small nimble ball is the slalom build, not a mistake
+      const massDrag = Math.max(0.5, 1.15 - size * 0.35);
       const iceLerp = cfg.ice ? 1.6 : 7;
       if (steer != null && stun <= 0) {
-        ball.x += (steer - ball.x) * Math.min(1, dt * (airT > 0 ? 9 : iceLerp));
+        ball.x += (steer - ball.x) * Math.min(1, dt * (airT > 0 ? 9 : iceLerp * massDrag));
       }
       ball.x = Math.max(BALL_R(scene), Math.min(W - BALL_R(scene), ball.x));
 
@@ -558,12 +600,15 @@ export function create(P, ctx) {
         th.haloImg = scene.add.image(th.img.x, th.img.y, 'fx-dot').setTint(0xffd24a).setBlendMode('ADD').setScale(2 * K).setAlpha(0.5).setDepth(9);
       }
 
-      // speed follows mass; stun kills it briefly
-      const target = H * (0.5 + size * 0.22) * (fever ? 1.15 : 1) * floaty;
+      // speed follows mass; stun kills it briefly; the slope itself
+      // steepens as the run goes on so a long rest keeps escalating
+      const rollElapsed = (now - rollT0) / 1000;
+      const slopeRamp = 1 + Math.min(0.2, (rollElapsed / 240) * 0.2);
+      const target = H * (0.5 + size * 0.22) * (fever ? 1.15 : 1) * floaty * slopeRamp;
       speed += ((stun > 0 ? H * 0.1 : target) - speed) * Math.min(1, dt * 3);
       dist += speed * dt;
       bandDist += speed * dt;
-      if (bandDist > H * 0.9) { bandDist = 0; spawnBand(scene, K); }
+      if (bandDist > H * 1.2) { bandDist = 0; spawnBand(scene, K); }
 
       // ball visuals
       ball.setScale(size * (airT > 0 ? 1.12 : 1));
@@ -575,8 +620,9 @@ export function create(P, ctx) {
       spray.emitParticleAt(ball.x - BALL_R(scene) * 0.6, ball.y + BALL_R(scene) * 0.7, Math.ceil(speed / (H * 0.3)));
       spray.emitParticleAt(ball.x + BALL_R(scene) * 0.6, ball.y + BALL_R(scene) * 0.7, Math.ceil(speed / (H * 0.3)));
 
-      // melt: the springs taketh
-      if (cfg.melt) size = Math.max(0.36, size - dt * 0.02);
+      // snow sheds constantly (the springs shed faster): staying huge is a
+      // diet you maintain by eating drifts, not a value you bank at the top
+      size = Math.max(0.36, size - dt * (cfg.melt ? 0.035 : 0.014));
 
       // ——— world scroll + collisions ———
       let villagePins = 0, villageDowned = 0, villageId = 0;
@@ -645,16 +691,19 @@ export function create(P, ctx) {
             continue;
           }
           if (th.pin) {
-            smashThing(scene, K, th, 12 * auroraMult, 0.02);
-            // pins topple pins: the cluster dominos outward
+            smashThing(scene, K, th, 10 * auroraMult, 0.02);
+            // pins topple pins — but dominos are a gamble, not a guarantee.
+            // A clip on the edge fells a wing; the reliable STRIKE is a fat
+            // ball plowed straight through the center line
             const chain = (from, depth) => {
               for (const q of things) {
-                if (q.pin && !q.dead && Math.hypot(q.img.x - from.img.x, q.img.y - from.img.y) < 62 * K) {
+                if (q.pin && !q.dead && Math.random() < 0.65
+                  && Math.hypot(q.img.x - from.img.x, q.img.y - from.img.y) < 58 * K) {
                   q.dead = true; // claim now so cascades never loop
                   scene.time.delayedCall(90 + depth * 70, () => {
                     if (!q.img.active) return;
                     q.dead = false;
-                    smashThing(scene, K, q, 8 * auroraMult, 0.01);
+                    smashThing(scene, K, q, 6 * auroraMult, 0.01);
                     chain(q, depth + 1);
                   });
                 }
@@ -664,7 +713,7 @@ export function create(P, ctx) {
             continue;
           }
           if (size >= th.meta.sizeClass) {
-            smashThing(scene, K, th, Math.round(th.meta.pts * (1 + size * 0.4)) * auroraMult, 0.04);
+            smashThing(scene, K, th, Math.round(th.meta.pts * (1 + size * 0.25)) * auroraMult, 0.04);
           } else {
             // bigger than you: the mountain wins this one
             stun = 650;
@@ -681,6 +730,15 @@ export function create(P, ctx) {
             th.crushed = true; // it survives; you bounced off it
             th.img.setAlpha(0.9);
           }
+        } else if (!th.swerved && !th.pin && !th.drift && !th.pool && !th.golden
+          && size < th.meta.sizeClass
+          && Math.abs(dy) < ry * 0.7 && Math.abs(dx) < rx * 1.8) {
+          // shaving past something that would have flattened you pays —
+          // the small-ball slalom line is a real strategy, not a failure
+          th.swerved = true;
+          api.score(6 * auroraMult);
+          floatScore(scene, th.img.x, th.img.y - 16 * K, `SWERVE +${6 * auroraMult}`, '#3adcc8', 13 * K);
+          api.sfx('tap');
         }
       }
 

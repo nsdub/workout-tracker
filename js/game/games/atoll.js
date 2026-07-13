@@ -18,8 +18,15 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Broadside FM';
+// Measured post-tune: middling varied aim ≈15/s once shots land; skims,
+// captain bonks and quick silences push a hot deck past 18/s.
 export const VERB = 'FIRE!';
-export const STARS = [6, 11, 17];
+export const STARS = [6, 12, 18];
+
+export const HELP = {
+  goal: 'Silence the censor ships by putting their captains in the sea.',
+  how: 'Drag to aim the cannon and release to fire. Points come from everything you knock overboard, powder kegs explode in chains, and a hit on the captain himself pays extra. A low flat shot can skim along the wave tops and boosts everything that ball knocks in.',
+};
 
 export const WORLDS = {
   'atoll-wreck': {
@@ -99,8 +106,10 @@ const PAINT = {
     c.moveTo(0, h * 0.1); c.lineTo(w, h * 0.1); c.lineTo(w * 0.86, h * 0.95); c.lineTo(w * 0.14, h * 0.95);
     c.closePath(); c.fill();
     c.strokeStyle = 'rgba(0,0,0,.35)'; c.lineWidth = h * 0.08;
-    c.beginPath(); c.moveTo(w * 0.05, h * 0.36); c.lineTo(w * 0.95, h * 0.36); c.stroke();
-    c.beginPath(); c.moveTo(w * 0.1, h * 0.62); c.lineTo(w * 0.9, h * 0.62); c.stroke();
+    c.beginPath(); c.moveTo(w * 0.05, h * 0.3); c.lineTo(w * 0.95, h * 0.3); c.stroke();
+    c.beginPath(); c.moveTo(w * 0.1, h * 0.72); c.lineTo(w * 0.9, h * 0.72); c.stroke();
+    c.fillStyle = 'rgba(10,20,30,.55)';
+    c.fillRect(w * 0.15, h * 0.86, w * 0.7, h * 0.09);
     c.fillStyle = '#ffd24a';
     for (let i = 0; i < 3; i++) { c.beginPath(); c.arc(w * (0.28 + i * 0.22), h * 0.5, h * 0.07, 0, 7); c.fill(); }
   },
@@ -228,9 +237,13 @@ export function create(P, ctx) {
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
   let fever = false;
   let noteStep = 0;
+  let nextBottleAt = 0;
 
   const seaY = (scene) => scene.scale.height * 0.74;
   const CANNON = (scene) => ({ x: 56 * unit(scene), y: seaY(scene) - 36 * unit(scene) });
+  const Sleeping = P.Physics.Matter.Matter.Sleeping;
+  const doze = (img) => { try { Sleeping.set(img.body, true); } catch { /* canvas */ } };
+  const wake = (img) => { try { Sleeping.set(img.body, false); } catch { /* gone */ } };
 
   function pieceKindPts(kind) {
     return { crate: 8, mast: 20, keg: 25, captain: 30, antenna: 100 }[kind] ?? 5;
@@ -242,31 +255,46 @@ export function create(P, ctx) {
     const pieces = [];
     const hullW = 130 * K, hullH = 34 * K;
     const add = (kind, px, py, w, h, opts = {}) => {
+      // bodyW/bodyH carve a physics body narrower than the art (the mast's
+      // sail is paint, not timber) so stacks stand without hidden overlaps
+      const { bodyW, bodyH, ...matterOpts } = opts;
       const img = scene.matter.add.image(px, py, canvasTex(scene, `at-${kind}`, w, h, PAINT[kind]), null, {
-        friction: 0.6, restitution: 0.1, density: kind === 'mast' ? 0.0012 : 0.002, ...opts,
+        friction: 0.6, restitution: 0.1, density: kind === 'mast' ? 0.0012 : 0.002,
+        ...(bodyW ? { shape: { type: 'rectangle', width: bodyW, height: bodyH ?? h } } : {}),
+        ...matterOpts,
       }).setDepth(12);
       const piece = { img, kind, scored: false, ship: null };
       img.body.pieceRef = piece;
       pieces.push(piece);
+      // ships arrive ASLEEP: nothing moves, scores or topples until a
+      // cannonball (or keg blast) wakes it — idle seas stay glassy
+      doze(img);
       return img;
     };
     // the deck the stack stands on (static shelf just under the hull art)
     const shelf = scene.matter.add.rectangle(x, sy + 6 * K, hullW * 1.05, 12 * K, { isStatic: true, label: 'shelf' });
     add('hull', x, sy - hullH / 2, hullW, hullH);
-    const deckY = sy - hullH - 1;
-    add('crate', x - 34 * K, deckY - 14 * K, 30 * K, 30 * K);
-    add('crate', x + 34 * K, deckY - 14 * K, 30 * K, 30 * K);
-    add('crate', x - 34 * K, deckY - 45 * K, 30 * K, 30 * K);
-    add('keg', x + 34 * K, deckY - 44 * K, 28 * K, 32 * K);
-    add('mast', x, deckY - 62 * K, 34 * K, 120 * K);
-    const capImg = add('captain', x + 4 * K, deckY - 100 * K, 26 * K, 40 * K);
+    // exact-abutting stack math: every piece's bottom sits ON a surface,
+    // every column has clear horizontal daylight — no spawn explosions
+    const deckY = sy - hullH;
     if (isFlag && cfg.antenna) {
-      // armor wall in front, golden antenna behind
-      add('crate', x - 62 * K, deckY - 20 * K, 26 * K, 44 * K, { density: 0.004 });
-      add('crate', x - 62 * K, deckY - 62 * K, 26 * K, 40 * K, { density: 0.004 });
-      add('antenna', x + 52 * K, deckY - 70 * K, 22 * K, 90 * K, { density: 0.001 });
+      // flagship: armor wall forward, captain amidships, the golden
+      // antenna standing aft with a keg at its feet
+      add('crate', x - 42 * K, deckY - 22 * K, 26 * K, 44 * K, { density: 0.004 });
+      add('crate', x - 42 * K, deckY - 64 * K, 26 * K, 40 * K, { density: 0.004 });
+      add('mast', x, deckY - 60 * K, 34 * K, 120 * K, { bodyW: 10 * K });
+      add('captain', x - 19 * K, deckY - 20 * K, 26 * K, 40 * K);
+      add('antenna', x + 31 * K, deckY - 44 * K, 22 * K, 90 * K, { density: 0.001, bodyW: 8 * K, bodyH: 88 * K });
+      add('keg', x + 50 * K, deckY - 16 * K, 28 * K, 32 * K);
+    } else {
+      add('crate', x - 42 * K, deckY - 15 * K, 30 * K, 30 * K);
+      add('crate', x - 42 * K, deckY - 45 * K, 30 * K, 30 * K);
+      add('crate', x + 42 * K, deckY - 15 * K, 30 * K, 30 * K);
+      add('keg', x + 42 * K, deckY - 46 * K, 28 * K, 32 * K);
+      add('mast', x, deckY - 60 * K, 34 * K, 120 * K, { bodyW: 10 * K });
+      add('captain', x + 13 * K, deckY - 20 * K, 26 * K, 40 * K);
     }
-    const ship = { pieces, shelf, alive: true, x, captain: capImg.body.pieceRef };
+    const ship = { pieces, shelf, alive: true, x, captain: pieces.find((p) => p.kind === 'captain') };
     for (const p of pieces) p.ship = ship;
     ships.push(ship);
     // wreckage permanence has a budget: past four ships, the oldest dead
@@ -308,6 +336,7 @@ export function create(P, ctx) {
         const d = Math.hypot(dx, dy);
         if (d < R) {
           const f = 0.05 * (1 - d / R);
+          wake(q.img); // a sleeping stack must feel the blast
           try { scene.matter.body.applyForce(q.img.body, q.img.body.position, { x: (dx / (d || 1)) * f, y: (dy / (d || 1)) * f - f * 0.5 }); } catch { /* gone */ }
           if (q.kind === 'keg' && d < R * 0.7) scene.time.delayedCall(140, () => explodeKeg(scene, K, q));
         }
@@ -325,6 +354,7 @@ export function create(P, ctx) {
     scene.tweens.add({
       targets: parrot, x: target.img.x, y: target.img.y, duration: 480, ease: 'Cubic.easeIn',
       onComplete: () => {
+        wake(target.img);
         try {
           scene.matter.body.applyForce(target.img.body, target.img.body.position, { x: 0.02, y: -0.03 });
         } catch { /* gone */ }
@@ -337,10 +367,23 @@ export function create(P, ctx) {
     });
   }
 
+  function killBall(scene, fade = false) {
+    if (!ball) return;
+    const dead = ball;
+    ball = null;
+    // the trail must die WITH the ball: an emitter following a destroyed
+    // Matter image reads a missing body next frame and crashes the cabinet
+    try { dead.trail?.stopFollow(); dead.trail?.destroy(); } catch { /* gone */ }
+    if (fade) {
+      scene.tweens.add({ targets: dead.img, alpha: 0, duration: 300, onComplete: () => { try { dead.img.destroy(); } catch { /* gone */ } } });
+    } else {
+      try { dead.img.destroy(); } catch { /* gone */ }
+    }
+  }
+
   function fire(scene, K) {
     // a follow-up shot retires the previous ball — no orphan bodies
-    if (ball?.img.active) { try { ball.img.destroy(); } catch { /* gone */ } }
-    ball = null;
+    killBall(scene);
     const c = CANNON(scene);
     const dx = aimAt.x - c.x, dy = aimAt.y - c.y;
     const ang = Math.atan2(dy, dx);
@@ -355,12 +398,11 @@ export function create(P, ctx) {
         shape: 'circle', density: 0.006, restitution: 0.25, friction: 0.4, frictionAir: 0.004, label: 'ball',
       }).setDepth(20);
     try { scene.matter.body.setVelocity(img.body, { x: Math.cos(ang) * speed, y: Math.sin(ang) * speed }); } catch { /* boom */ }
-    ball = { img, lava: isLava, batted: false };
+    ball = { img, lava: isLava, batted: false, skims: 0 };
     if (isLava) {
-      const trail = scene.add.particles(0, 0, 'fx-dot', {
+      ball.trail = scene.add.particles(0, 0, 'fx-dot', {
         speed: 20, scale: { start: 0.4 * K, end: 0 }, tint: 0xff9a3c, blendMode: 'ADD', lifespan: 320, frequency: 24,
       }).setDepth(19).startFollow(img);
-      scene.time.delayedCall(4000, () => trail.destroy());
     }
     // muzzle ceremony: flash, kick, recoil
     burst(scene, c.x + Math.cos(ang) * 52 * K, c.y + Math.sin(ang) * 52 * K, 0xffe9b3, { n: 14, speed: 300 * K, scale: 0.5 * K });
@@ -373,7 +415,8 @@ export function create(P, ctx) {
   }
 
   return {
-    physics: { default: 'matter', matter: { gravity: { x: 0, y: 1 } } },
+    // enableSleeping is the calm-seas law: stacks stay frozen until struck
+    physics: { default: 'matter', matter: { gravity: { x: 0, y: 1 }, enableSleeping: true } },
 
     fever() { fever = true; },
 
@@ -391,8 +434,8 @@ export function create(P, ctx) {
       // the atoll on the horizon: islands, the volcano lighthouse, palms
       canvasTex(scene, 'at-isle', W, H, (c) => {
         // distant island chain
-        c.fillStyle = 'rgba(16,32,48,.55)';
-        for (const [fx, fw, fh] of [[0.16, 0.13, 0.045], [0.42, 0.09, 0.03], [0.9, 0.11, 0.04]]) {
+        c.fillStyle = 'rgba(60,70,110,.35)';
+        for (const [fx, fw, fh] of [[0.16, 0.08, 0.028], [0.42, 0.055, 0.02], [0.9, 0.065, 0.024]]) {
           c.beginPath();
           c.ellipse(W * fx, sy - H * fh * 0.4, W * fw, H * fh, 0, Math.PI, 0);
           c.fill();
@@ -425,12 +468,13 @@ export function create(P, ctx) {
       // the lighthouse beam, sweeping forever
       const beamKey = canvasTex(scene, 'at-beam', 220 * K, 26 * K, (c, w, h) => {
         const g2 = c.createLinearGradient(0, 0, w, 0);
-        g2.addColorStop(0, 'rgba(255,236,180,.85)'); g2.addColorStop(1, 'rgba(255,236,180,0)');
+        g2.addColorStop(0, 'rgba(255,236,180,0)'); g2.addColorStop(0.14, 'rgba(255,236,180,.85)'); g2.addColorStop(1, 'rgba(255,236,180,0)');
         c.fillStyle = g2;
         c.beginPath(); c.moveTo(0, h * 0.4); c.lineTo(w, 0); c.lineTo(w, h); c.lineTo(0, h * 0.6); c.closePath(); c.fill();
       });
       const beam = scene.add.image(W * 0.66, sy - H * 0.19, beamKey)
-        .setOrigin(0, 0.5).setBlendMode('ADD').setAlpha(cfg.lava ? 0.8 : 0.45).setDepth(-69);
+        .setOrigin(0, 0.5).setBlendMode('ADD')
+        .setAlpha((cfg.lava || cfg.cave || cfg.storm) ? 0.65 : 0.14).setDepth(-69);
       scene.tweens.add({ targets: beam, angle: { from: 150, to: 390 }, duration: 6000, repeat: -1 });
       celestial(scene, W * 0.2, H * 0.12, 24 * K, cfg.cave ? 0xaef0ff : cfg.storm ? 0x9cb0c8 : 0xfff0c8,
         { crescent: cfg.cave || cfg.kraken, depth: -88 });
@@ -519,7 +563,7 @@ export function create(P, ctx) {
       }
 
       aimGfx = scene.add.graphics().setDepth(18);
-      goldenAt = scene.time.now + goldDelay();
+      // goldenAt seeds on the first update — the scene clock reads ~0 here
 
       scene.matter.world.on('collisionstart', (ev) => {
         for (const pair of ev.pairs) {
@@ -530,6 +574,14 @@ export function create(P, ctx) {
             const piece = pieceBody.pieceRef;
             if (piece.kind === 'keg') explodeKeg(scene, K, piece);
             else if (ball?.lava) explodeKeg(scene, K, { img: piece.img, exploded: false, scored: piece.scored, kind: 'keg' });
+            // marksman's bonus: the captain is the smallest target on deck
+            if (piece.kind === 'captain' && !piece.bonked) {
+              piece.bonked = true;
+              api.score(20);
+              floatScore(scene, piece.img.x, piece.img.y - 26 * K, 'DIRECT HIT +20', '#ffd24a', 16 * K);
+              api.sfx('objDone');
+              api.haptic(10);
+            }
             if (piece.kind === 'antenna' && !piece.scored) {
               piece.scored = true;
               api.score(100);
@@ -565,6 +617,7 @@ export function create(P, ctx) {
       const W = scene.scale.width, H = scene.scale.height;
       const sy = seaY(scene);
       const now = scene.time.now;
+      if (!goldenAt) { goldenAt = now + goldDelay(); nextBottleAt = now + 15000; }
 
       // living sea
       seaGfx.clear();
@@ -655,7 +708,17 @@ export function create(P, ctx) {
         }
       }
 
-      // bottles
+      // bottles — the bay keeps sending mail, so the pickup never goes dead
+      if (cfg.bottles && now >= nextBottleAt) {
+        nextBottleAt = now + 15000;
+        if (bottles.filter((b) => !b.hit).length < 3) {
+          const img = scene.add.image(W * (0.36 + Math.random() * 0.5), sy + 10 * K,
+            canvasTex(scene, 'at-bottle', 26 * K, 40 * K, PAINT.bottle)).setDepth(10).setAlpha(0);
+          scene.tweens.add({ targets: img, alpha: 1, duration: 600 });
+          scene.tweens.add({ targets: img, y: img.y - 6 * K, angle: 8, duration: 1200 + Math.random() * 400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+          bottles.push({ img, hit: false });
+        }
+      }
       for (const bt of bottles) {
         if (!bt.hit && ball?.img.active && Math.abs(ball.img.x - bt.img.x) < 22 * K && Math.abs(ball.img.y - bt.img.y) < 30 * K) {
           bt.hit = true;
@@ -668,15 +731,35 @@ export function create(P, ctx) {
         }
       }
 
+      // ——— wave skim: the spec's lost art, restored ———
+      // A low flat ball kisses the crest, stays alive toward the far hull,
+      // and everything it knocks in afterwards pays half again more.
+      if (ball?.img.active && ball.img.body) {
+        const bd = ball.img.body;
+        if (bd.velocity.y > 0 && ball.img.y > sy - 6 * K && ball.img.y < sy + 12 * K
+          && Math.abs(bd.velocity.x) > 6 && bd.velocity.y < Math.abs(bd.velocity.x) * 0.55
+          && ball.skims < 4) {
+          ball.skims++;
+          try { scene.matter.body.setVelocity(bd, { x: bd.velocity.x * 0.96, y: -Math.abs(bd.velocity.y) * 0.6 - 2 }); } catch { /* gone */ }
+          api.score(4 * ball.skims);
+          floatScore(scene, ball.img.x, sy - 26 * K, `SKIM ×${ball.skims} +${4 * ball.skims}`, '#9cc8ec', 14 * K);
+          burst(scene, ball.img.x, sy, 0x9cc8ec, { n: 10, speed: 220 * K, scale: 0.45 * K, gravityY: 500 * K });
+          api.note(noteStep++);
+          api.sfx('tap');
+        }
+      }
+
       // pieces knocked into the sea: score once, then float forever
-      const mult = ball?.batted ? 2 : 1;
+      const mult = (ball?.batted ? 2 : 1) * (ball?.skims ? 1.5 : 1);
       for (const ship of ships) {
         let downed = 0;
         for (const piece of ship.pieces) {
           if (!piece.img.active || !piece.img.body) { downed++; continue; }
-          if (!piece.scored && piece.kind !== 'hull' && piece.img.y > sy - 6 * K) {
+          // clearly IN the sea, not merely settled low on deck — pieces can
+          // never score themselves without a shot putting them there
+          if (!piece.scored && piece.kind !== 'hull' && piece.img.y > sy + 8 * K) {
             piece.scored = true;
-            const pts = pieceKindPts(piece.kind) * mult;
+            const pts = Math.round(pieceKindPts(piece.kind) * mult);
             api.score(pts);
             api.note(noteStep++);
             floatScore(scene, piece.img.x, piece.img.y - 24 * K, `${piece.kind === 'captain' ? 'CAPTAIN OVERBOARD ' : ''}+${pts}`, '#ffd24a', piece.kind === 'captain' ? 17 * K : 14 * K, );
@@ -684,13 +767,14 @@ export function create(P, ctx) {
             if (piece.kind === 'captain') api.sfx('objDone');
           }
           if (piece.scored) downed++;
-          // buoyancy: what falls in the water stays in the water
-          if (piece.img.y > sy + 12 * K) {
+          // buoyancy: what falls in the water stays in the water — damped
+          // hard so floaters settle, doze off, and stop jostling the sim
+          if (piece.img.y > sy + 12 * K && !piece.img.body.isSleeping) {
             try {
               scene.matter.body.applyForce(piece.img.body, piece.img.body.position, { x: 0, y: -0.0075 * piece.img.body.mass });
               scene.matter.body.setVelocity(piece.img.body, {
-                x: piece.img.body.velocity.x * 0.96,
-                y: piece.img.body.velocity.y * 0.9,
+                x: piece.img.body.velocity.x * 0.92,
+                y: piece.img.body.velocity.y * 0.86,
               });
             } catch { /* gone */ }
           }
@@ -717,9 +801,7 @@ export function create(P, ctx) {
           if (ball.img.y > sy - 4 * K && ball.img.y < sy + 44 * K) {
             burst(scene, ball.img.x, sy, 0x9cc8ec, { n: 14, speed: 280 * K, scale: 0.55 * K, gravityY: 600 * K });
           }
-          const dead = ball;
-          ball = null;
-          scene.tweens.add({ targets: dead.img, alpha: 0, duration: 300, onComplete: () => { try { dead.img.destroy(); } catch { /* gone */ } } });
+          killBall(scene, true);
         }
       }
     },

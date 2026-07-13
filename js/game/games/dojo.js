@@ -19,9 +19,17 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Iaido';
-// star thresholds: points per second for 1/2/3 stars (rate-based medals)
+// star thresholds: points per second for 1/2/3 stars (rate-based medals).
+// Measured post-tune: blind scribble ≈14/s and decaying (bomb tax),
+// deliberate cutting ≈12–18/s and climbing with the spawn ramp.
 export const VERB = 'SLICE!';
-export const STARS = [6, 11, 17];
+export const STARS = [5, 10, 16];
+
+export const HELP = {
+  goal: 'Slice everything the mountain throws and keep your combos flowing.',
+  how: 'Swipe across the screen and your stroke cuts whatever it touches. Cuts that land within a moment of each other build a combo that pays more for every slice. Hold your thumb still to sheathe the blade and slow time, then flick to draw-cut through everything on that line.',
+  avoid: 'Never cut a bomb: it takes a slice of your whole score and kills your combo.',
+};
 
 export const WORLDS = {
   'dojo-stairs': {
@@ -87,6 +95,11 @@ const PAINT = {
     c.globalCompositeOperation = 'source-over';
   },
   lantern(c, w, h) {
+    // lanterns EMIT light — under-glow first, body over it
+    const ug = c.createRadialGradient(w / 2, h * 0.5, 1, w / 2, h * 0.5, w * 0.62);
+    ug.addColorStop(0, 'rgba(255,176,90,.45)'); ug.addColorStop(1, 'rgba(255,176,90,0)');
+    c.fillStyle = ug;
+    c.fillRect(0, 0, w, h);
     const g = c.createRadialGradient(w / 2, h * 0.5, 2, w / 2, h * 0.5, w * 0.55);
     g.addColorStop(0, '#ffb05a'); g.addColorStop(0.55, '#e8543c'); g.addColorStop(1, '#a82c20');
     c.fillStyle = g;
@@ -287,6 +300,17 @@ function drawLand(scene, cfg, K, world) {
       let sx = -W * 0.05, sy = H * 0.86;
       for (let i = 0; i < 9; i++) { steps.push([sx, sy], [sx + W * 0.13, sy]); sx += W * 0.13; sy -= H * 0.045; }
       silh(steps, 0x120822, 1);
+      // tread edges catch the dusk; tiny lanterns climb with the pilgrims
+      g.lineStyle(2 * K, cfg.accent, 0.18);
+      let tx = -W * 0.05, ty = H * 0.86;
+      for (let i = 0; i < 9; i++) {
+        g.lineBetween(tx, ty, tx + W * 0.13, ty);
+        tx += W * 0.13; ty -= H * 0.045;
+      }
+      for (const [lfx, lfy] of [[0.24, 0.795], [0.5, 0.705], [0.76, 0.615]]) {
+        const lz = scene.add.image(W * lfx, H * lfy, 'fx-dot').setScale(K * 0.4).setTint(0xffb46c).setBlendMode('ADD').setAlpha(0.7).setDepth(-89);
+        scene.tweens.add({ targets: lz, alpha: 0.4, duration: 900 + lfx * 800, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+      }
       break;
     }
     case 'falls': {
@@ -386,6 +410,7 @@ export function create(P, ctx) {
   const trail = [];
   let trailGfx, sliceGlow, stanceGfx, darkVeil, ribbonGfx;
   let strokeSlices = 0;
+  let lastSliceAt = 0;       // combos live in the moment, not in the hold
   let lastPt = null;
   let downAt = 0;
   let nextSpawn = 0;
@@ -433,7 +458,10 @@ export function create(P, ctx) {
 
   function launch(scene, K) {
     const W = scene.scale.width;
-    const isBomb = Math.random() < cfg.bombs;
+    // bombs breed as the rest wears on — greed gets riskier, never safer
+    const elapsed = (scene.time.now - t0) / 1000;
+    const bombP = cfg.bombs > 0 ? Math.min(cfg.bombs + 0.08, cfg.bombs + elapsed * 0.0005) : 0;
+    const isBomb = Math.random() < bombP;
     const kind = isBomb ? 'bomb' : cfg.objects[Math.floor(Math.random() * cfg.objects.length)];
     const x = W * (0.15 + Math.random() * 0.7);
     // the dragon's spine launches from anywhere, at anything
@@ -466,8 +494,11 @@ export function create(P, ctx) {
     const accent = cfg.accent;
     if (o.isBomb) {
       killObj(scene, o);
-      api.score(-30);
-      floatScore(scene, x, y, '-30', '#ff5d5d', 26 * K);
+      // Fruit Ninja's law, translated: a bomb must TERRIFY. It takes a cut
+      // of everything you've built, so wild flailing stops being profitable
+      const cost = Math.min(150, Math.max(30, Math.round(api.score(0) * 0.08)));
+      api.score(-cost);
+      floatScore(scene, x, y, `−${cost}`, '#ff5d5d', 26 * K);
       burst(scene, x, y, 0xff5d3c, { n: 30, speed: 480 * K, scale: 0.8 * K });
       shockRing(scene, x, y, 0xff5d3c, 150 * K);
       flash(scene, 0xff2a1a, 160, 0.5);
@@ -487,8 +518,12 @@ export function create(P, ctx) {
       api.sfx('tap');
       return;
     }
+    // a combo is one burst of the blade: let 700ms pass since the last cut
+    // and the chain is cold, held-down finger or not (anti-scribble law)
+    if (scene.time.now - lastSliceAt > 700) strokeSlices = 0;
+    lastSliceAt = scene.time.now;
     strokeSlices++;
-    let gain = (10 + (strokeSlices - 1) * 5) + (VALUE[o.kind] ?? 0);
+    let gain = (10 + Math.min(7, strokeSlices - 1) * 5) + (VALUE[o.kind] ?? 0);
     let label = `+${gain}`;
     if (o.kind === 'daruma') {
       glyphBanner(scene, 'GOLDEN DARUMA', '#ffe9a0', 28 * K);
@@ -672,10 +707,9 @@ export function create(P, ctx) {
         lifespan: 220, tint: cfg.blade, blendMode: 'ADD', frequency: -1,
       }).setDepth(41);
 
-      t0 = scene.time.now;
-      nextSpawn = scene.time.now + 500;
-      goldenAt = scene.time.now + goldDelay();
-
+      // time anchors are seeded on the FIRST UPDATE, not here: the scene
+      // clock reads ~0 inside create() but jumps to page-uptime on frame
+      // one, which silently expired every timer seeded in create
       scene.input.on('pointerdown', (p) => {
         lastPt = { x: p.x, y: p.y, t: scene.time.now };
         downAt = scene.time.now;
@@ -722,6 +756,13 @@ export function create(P, ctx) {
           for (const o of [...objs]) {
             if (segHit(lastPt.x, lastPt.y, p.x, p.y, o.img.x, o.img.y, o.r)) {
               sliceObj(scene, o, dx / len, dy / len, unit(scene));
+            } else if (o.isBomb && !o.grazed
+              && segHit(lastPt.x, lastPt.y, p.x, p.y, o.img.x, o.img.y, o.r + 30 * unit(scene))) {
+              // the blade passed a whisker from the powder — iron nerves pay
+              o.grazed = true;
+              api.score(5);
+              floatScore(scene, o.img.x, o.img.y - 24 * unit(scene), 'COLD BLOOD +5', '#8ad0ff', 13 * unit(scene));
+              api.sfx('tap');
             }
           }
         }
@@ -734,6 +775,7 @@ export function create(P, ctx) {
       const K = unit(scene);
       const W = scene.scale.width, H = scene.scale.height;
       const now = scene.time.now;
+      if (!t0) { t0 = now; nextSpawn = now + 500; goldenAt = now + goldDelay(); }
 
       // ——— sheathe stance ———
       if (lastPt && !stance.active && stance.meter >= 0.5 && strokeSlices === 0
@@ -827,13 +869,13 @@ export function create(P, ctx) {
         api.sfx('tap');
       }
 
-      // ——— spawning, ramping over the rest period ———
+      // ——— spawning, ramping over the whole rest — even the long ones ———
       if (now >= nextSpawn) {
         const elapsed = (now - t0) / 1000;
-        let volley = 1 + (elapsed > 18 ? 1 : 0) + (elapsed > 45 ? 1 : 0) + (Math.random() < 0.3 ? 1 : 0);
+        let volley = 1 + (elapsed > 18 ? 1 : 0) + (elapsed > 45 ? 1 : 0) + (elapsed > 90 ? 1 : 0) + (Math.random() < 0.3 ? 1 : 0);
         if (fever) volley += 1;
         for (let i = 0; i < volley; i++) scene.time.delayedCall(i * 130, () => launch(scene, K));
-        nextSpawn = now + Math.max(560, 1250 - elapsed * 9) / (cfg.pace * (fever ? 1.35 : 1));
+        nextSpawn = now + Math.max(480, 1250 - elapsed * 9) / (cfg.pace * (fever ? 1.35 : 1));
       }
 
       // ——— housekeeping ———

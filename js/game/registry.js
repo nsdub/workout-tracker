@@ -22,7 +22,7 @@ for (const mod of Object.values(GAMES)) {
 export function gameFor(universeCls, worldCls) {
   const mod = WORLD_INDEX[worldCls];
   if (!mod) return null;
-  return { title: mod.TITLE, verb: mod.VERB, cfg: mod.WORLDS[worldCls], create: mod.create, stars: mod.STARS };
+  return { title: mod.TITLE, verb: mod.VERB, cfg: mod.WORLDS[worldCls], create: mod.create, stars: mod.STARS, help: mod.HELP };
 }
 
 // ——— bests + medals: local-only, per world ———

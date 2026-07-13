@@ -193,7 +193,16 @@ async function acquireWakeLock() {
 function restTick() {
   if (!restState) return;
   const left = Math.max(0, restState.deadline - Date.now());
-  if (left < 15000) document.getElementById('rest-play')?.remove();
+  // Under 15s a game is pointless — the Play chip bows out visibly
+  // (a fade, not a pop) so its exit reads as "time ran down", not a bug.
+  if (left < 15000) {
+    const p = document.getElementById('rest-play');
+    if (p && !p.dataset.gone) {
+      p.dataset.gone = '1';
+      p.classList.add('gone');
+      setTimeout(() => p.remove(), 280);
+    }
+  }
   restState.bar.style.width = `${(left / restState.total) * 100}%`;
   const s = Math.ceil(left / 1000);
   restState.digits.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -219,7 +228,9 @@ export function showRestTimer(seconds, container, label = 'Rest') {
   const el = document.createElement('div');
   el.className = 'rest-pill';
   el.id = 'rest-pill';
-  const playable = GAME_UNIVERSES.has(document.documentElement.dataset.universe);
+  // No Play chip on rests too short to ever start a game (the same 15s
+  // floor the tap guard enforces — rendering it just to fade it is noise).
+  const playable = GAME_UNIVERSES.has(document.documentElement.dataset.universe) && seconds >= 16;
   // the record and medals you set in THIS world stare back at you
   let best = 0, stars = 0;
   try {
@@ -231,7 +242,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     <span class="lbl">${esc(label)}</span>
     <span class="t num" id="rest-t"></span>
     <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
-    ${playable ? `<button class="play" id="rest-play">▶ Play${best ? ` <i class="pb num">${'★'.repeat(stars)}${stars ? ' ' : ''}${best}</i>` : ''}</button>` : ''}
+    ${playable ? `<button class="play" id="rest-play">▶ Play${best ? ` <i class="pb">Best <b class="num">${best}</b>${stars ? ` ${'★'.repeat(stars)}` : ''}</i>` : ''}</button>` : ''}
     <button class="skip">Skip</button>`;
   container.prepend(el);
   const total = seconds * 1000;
