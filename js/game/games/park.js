@@ -197,7 +197,7 @@ export function create(P, ctx) {
   let noteStep = 0;
   let golden = null; // { img, halo }
   let goldenAt = 0;
-  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
 
   const waterY = (scene) => scene.scale.height * (cfg.cliff ? 0.72 : 0.62);
   const throwerY = (scene) => cfg.cliff ? scene.scale.height * 0.3 : waterY(scene) - 40 * unit(scene);

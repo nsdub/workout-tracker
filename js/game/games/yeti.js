@@ -379,6 +379,7 @@ export function create(P, ctx) {
   let speed = 0;
   let steer = null;
   let stun = 0;
+  let wipeInvuln = 0;        // brief immunity after a wipeout — one cluster
   let airT = 0;              // mogul airtime left
   let dist = 0;
   let bandDist = 0;
@@ -395,7 +396,7 @@ export function create(P, ctx) {
   let dead = false;
   let lives = 3;
   let livesGfx;
-  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
   const things = [];         // scrolling world objects { img, kind, meta, x, dead }
   const lanes = [];          // groomer boost lanes { x, w, img }
 
@@ -575,6 +576,8 @@ export function create(P, ctx) {
       if (!goldenAt) goldenAt = now + goldDelay();
 
       drawLives(scene, K); // pinned HUD — drawn in both pack and roll phases
+      if (dead) return;    // freeze the sim under the death ceremony
+      wipeInvuln = Math.max(0, wipeInvuln - dtMs);
 
       // ——— PACK phase: greed against the burning slope-light ———
       if (phase === 'pack') {
@@ -772,8 +775,13 @@ export function create(P, ctx) {
           }
           if (size >= th.meta.sizeClass) {
             smashThing(scene, K, th, Math.round(th.meta.pts * (1 + size * 0.25)) * auroraMult, 0.04);
+          } else if (wipeInvuln > 0) {
+            // still flashing from the last wipeout — plow through, no double hit
+            th.crushed = true; th.img.setAlpha(0.9);
           } else {
-            // bigger than you: the mountain wins this one
+            // bigger than you: the mountain wins this one — and you get a
+            // brief immunity so a cluster can't eat all three lives at once
+            wipeInvuln = 950;
             stun = 650;
             size = Math.max(0.36, size - 0.12);
             burst(scene, ball.x, ball.y, 0xffffff, { n: 20, speed: 320 * K, scale: 0.5 * K });

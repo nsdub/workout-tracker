@@ -424,7 +424,7 @@ export function create(P, ctx) {
   let lives = 3;
   let started = false;
   let livesGfx;
-  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
   // sheathe stance
   const stance = { active: false, meter: 1, lastMoveT: 0 };
   // world-mutation state

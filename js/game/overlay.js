@@ -121,6 +121,10 @@ export async function openGame({ deadline }) {
       // After TIME the score is banked: stray hits during the fireworks
       // can't make the HUD disagree with the panel and the saved best.
       if (active !== mine || mine.ended) return mine.score;
+      // Star medals rate on UNDOUBLED points so a short rest's 10s GOLD RUSH
+      // can't trivially max the stars (the displayed/best score still counts
+      // the double — the fever is a reward, just not a medal shortcut).
+      if (delta > 0) mine.ratePoints = (mine.ratePoints || 0) + delta;
       if (mine.fever && delta > 0) delta *= 2; // GOLD RUSH pays double
       mine.score = Math.max(0, mine.score + delta);
       scoreEl.textContent = mine.score;
@@ -182,6 +186,7 @@ export async function openGame({ deadline }) {
     mine.score = 0; scoreEl.textContent = '0';
     mine.ended = false; mine.phase = 'playing'; mine.openedAt = Date.now();
     mine.fever = false; mine.slowed = false; mine.banked = false; mine.result = null;
+    mine.ratePoints = 0;
     timeEl.classList.remove('gold');
     try {
       mine.game = new Phaser.Game({
@@ -248,7 +253,7 @@ export async function openGame({ deadline }) {
     const prevStars = starsFor(worldCls);
     const elapsed = Math.max(12, (Date.now() - mine.openedAt) / 1000);
     const th = spec.stars ?? [5, 10, 16];
-    const rate = finalScore / elapsed;
+    const rate = (mine.ratePoints ?? finalScore) / elapsed;
     const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
     const isRecord = saveBest(worldCls, finalScore, stars);
     mine.result = { finalScore, prevBest, prevStars, stars, isRecord };

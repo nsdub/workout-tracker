@@ -291,7 +291,7 @@ export function create(P, ctx) {
   let nextOb = 0;
   let goldenAt = 0;
   let layerFar, layerNear;
-  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
 
   const MAXV = (scene) => scene.scale.height * 1.35 * (fever ? 1.15 : 1);
   const SMASH = (scene) => MAXV(scene) * 0.55;
@@ -549,7 +549,12 @@ export function create(P, ctx) {
 
       scene.input.on('pointerdown', (p) => { holding = true; touched = true; steerX = p.x; });
       scene.input.on('pointermove', (p) => { if (holding) steerX = p.x; });
-      scene.input.on('pointerup', () => { holding = false; });
+      // release on ANY end — a touch that lifts off-canvas or is OS-cancelled
+      // must not latch you into an endless forced dive
+      const release = () => { holding = false; };
+      scene.input.on('pointerup', release);
+      scene.input.on('pointerupoutside', release);
+      scene.input.on('gameout', release);
 
       // time anchors seed on the first update: the scene clock reads ~0 in
       // create() but jumps to page-uptime on frame one
@@ -569,6 +574,9 @@ export function create(P, ctx) {
         goldenAt = now + goldDelay();
         for (const vent of vents) vent.nextAt = now + 2000 + Math.random() * 3000;
       }
+      // once the dive is over, freeze the sim — no scoring, no penalties,
+      // no life-draining collisions running under the death ceremony
+      if (dead) return;
 
       // ——— speed model ———
       stun = Math.max(0, stun - dtMs);
@@ -672,7 +680,9 @@ export function create(P, ctx) {
       }
 
       // ——— obstacles (the deep gets denser the longer you're down) ———
-      if (now >= nextOb) {
+      // gated on the first dive: an untouched dumbbell hangs still, so
+      // obstacles can't pile up off-screen and release as a wall on contact
+      if (touched && now >= nextOb) {
         spawnObstacle(scene, K);
         if (cfg.anglers && Math.random() < 0.5) spawnAngler(scene, K);
         if (cfg.lanterns && Math.random() < 0.6) spawnLantern(scene, K);
@@ -745,11 +755,15 @@ export function create(P, ctx) {
               shake(scene, 0.006, 80);
             }
           } else if (o.meta.hp === 0 && cfg.soft) {
-            // market canopies: soft sideways bounce, never a wall
-            v *= 0.55;
-            player.x += (player.x < o.img.x ? -40 : 40) * K;
-            squash(scene, o.img, 'y');
-            api.sfx('tap');
+            // market canopies: ONE soft sideways bounce, never a per-frame
+            // re-trigger that pins you to the wall (the old 'infinite thunk')
+            if (!o.bounced) {
+              o.bounced = true;
+              v *= 0.55;
+              player.x = Math.max(30 * K, Math.min(W - 30 * K, player.x + (player.x < o.img.x ? -1 : 1) * (o.w / 2 + 40 * K)));
+              squash(scene, o.img, 'y');
+              api.sfx('tap');
+            }
           } else {
             bump(scene, o, K);
             // fling it fully clear of the player: with v at zero nothing

@@ -226,7 +226,7 @@ export function create(P, ctx) {
   let dead = false;
   let lives = 3;
   let livesGfx;
-  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
 
   const PR = 13;             // peg radius in K units
 
@@ -333,6 +333,7 @@ export function create(P, ctx) {
     const K = unit(scene);
     floatScore(scene, x, scene.scale.height * 0.8, lives > 0 ? 'MISSED THE WOK' : 'WALKED OUT', '#ff5d7a', 16 * K);
     shake(scene, 0.008, 120);
+    api.sfx('log'); // the one negative beat was silent — it needs a thud
     api.haptic([18, 40, 18]);
     if (lives <= 0) { dead = true; api.die?.(cause); }
   }
@@ -360,7 +361,9 @@ export function create(P, ctx) {
     // plate on the floor — one customer's patience spent. A wok catch never
     // costs patience, and a dumpling that merely settles in the pegs (the
     // resting/wedged mercy rules) is banked, not blamed on the player.
-    if (missed && wokMult <= 1) loseLife(scene, wokX, 'WALKED OUT');
+    // the first drop is a free teach — you learn the catch verb before the
+    // stakes bite, so the fail-state is never front-loaded on a cold thumb
+    if (missed && wokMult <= 1 && dropCount >= 1) loseLife(scene, wokX, 'WALKED OUT');
     // kill the golden trail BEFORE the dumpling dies: an emitter following
     // a destroyed Matter image crashes the whole cabinet on its next frame
     try { b.trail?.stopFollow(); b.trail?.destroy(); } catch { /* gone */ }
