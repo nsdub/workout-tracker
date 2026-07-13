@@ -13,6 +13,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Skip Legend';
+export const VERB = 'SKIP!';
 export const STARS = [3, 6, 10];
 
 export const WORLDS = {

@@ -18,6 +18,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Dim Sum Drop';
+export const VERB = 'DROP!';
 export const STARS = [5, 9, 14];
 
 export const WORLDS = {
@@ -573,6 +574,8 @@ export function create(P, ctx) {
       for (const wk of woks) {
         wk.img.x += wk.dir * wk.speed * (fever ? 1.3 : 1) * dt;
         if (wk.img.x < wk.w / 2 + 8 * K || wk.img.x > W - wk.w / 2 - 8 * K) wk.dir *= -1;
+        // pans lean into their travel and breathe — nothing sits dead still
+        wk.img.setAngle(wk.dir * 2.2 + Math.sin(scene.time.now / 320 + wk.w) * 1.4);
       }
 
       // the dragon coils

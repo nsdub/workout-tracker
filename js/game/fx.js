@@ -48,6 +48,15 @@ export function ensureFx(scene) {
   gfx.destroy();
 }
 
+// The universe's display typeface (the app sets --disp per universe on
+// the root element) — in-canvas words wear the world's own voice.
+export function displayFont() {
+  try {
+    const f = getComputedStyle(document.documentElement).getPropertyValue('--disp').trim();
+    return f || '"Chewy", sans-serif';
+  } catch { return 'sans-serif'; }
+}
+
 // One-shot additive explosion of glow particles.
 export function burst(scene, x, y, tint, opts = {}) {
   const { n = 16, speed = 300, scale = 0.55, life = 550, gravityY = 0, texture = 'fx-dot' } = opts;
@@ -63,6 +72,34 @@ export function burst(scene, x, y, tint, opts = {}) {
   }).setDepth(50);
   e.explode(n);
   scene.time.delayedCall(life + 150, () => e.destroy());
+  // material variety sells the hit: tumbling chips and the odd star
+  // among the glow, falling under gravity like real debris
+  if (n >= 10) {
+    const d = scene.add.particles(x, y, 'fx-chip', {
+      speed: { min: speed * 0.3, max: speed * 0.85 },
+      angle: { min: 0, max: 360 },
+      scale: { start: scale * 0.5, end: scale * 0.12 },
+      rotate: { min: 0, max: 360 },
+      lifespan: { min: life * 0.6, max: life * 1.2 },
+      gravityY: Math.max(gravityY, 340),
+      tint,
+      emitting: false,
+    }).setDepth(50);
+    d.explode(Math.ceil(n * 0.4));
+    const st = scene.add.particles(x, y, 'fx-star', {
+      speed: { min: speed * 0.4, max: speed * 0.9 },
+      angle: { min: 0, max: 360 },
+      scale: { start: scale * 0.45, end: 0 },
+      rotate: { min: -180, max: 180 },
+      lifespan: life,
+      gravityY: gravityY * 0.5,
+      tint: 0xfff0c8,
+      blendMode: 'ADD',
+      emitting: false,
+    }).setDepth(51);
+    st.explode(Math.max(2, Math.round(n * 0.15)));
+    scene.time.delayedCall(life * 1.2 + 150, () => { d.destroy(); st.destroy(); });
+  }
   return e;
 }
 
@@ -96,12 +133,12 @@ export function floatScore(scene, x, y, text, color = '#ffd24a', size = 24) {
 export function banner(scene, text, color = '#ffd24a', size = 34) {
   const W = scene.scale.width, H = scene.scale.height;
   const t = scene.add.text(W / 2, H * 0.30, text, {
-    fontFamily: '"Geist Mono", monospace',
-    fontSize: `${Math.round(size)}px`,
-    fontStyle: '700',
+    fontFamily: displayFont(),
+    fontSize: `${Math.round(size * 1.15)}px`,
     color,
     stroke: 'rgba(4,6,14,.75)',
     strokeThickness: size * 0.24,
+    shadow: { offsetX: 0, offsetY: 3, color: 'rgba(0,0,0,.45)', blur: 8, fill: true },
   }).setOrigin(0.5).setDepth(61).setScale(0.2).setAngle(-4);
   scene.tweens.add({ targets: t, scale: 1, angle: 0, duration: 260, ease: 'Back.easeOut' });
   scene.tweens.add({ targets: t, alpha: 0, y: H * 0.26, delay: 800, duration: 420, onComplete: () => t.destroy() });
@@ -262,18 +299,17 @@ export function glyphBanner(scene, text, color = '#ffd24a', size = 36) {
   const W = scene.scale.width, H = scene.scale.height;
   const glyphs = [...text];
   const style = {
-    fontFamily: '"Geist Mono", monospace', fontSize: `${Math.round(size)}px`, fontStyle: '700',
+    fontFamily: displayFont(), fontSize: `${Math.round(size * 1.15)}px`,
     color, stroke: 'rgba(4,6,14,.75)', strokeThickness: size * 0.22,
+    shadow: { offsetX: 0, offsetY: 3, color: 'rgba(0,0,0,.45)', blur: 8, fill: true },
   };
-  const widths = glyphs.map((ch) => (ch === ' ' ? size * 0.5 : size * 0.62));
+  // measure real glyph widths so any typeface stays centered
+  const objs = glyphs.map((ch) => scene.add.text(0, H * 0.3, ch === ' ' ? ' ' : ch, style)
+    .setOrigin(0.5).setDepth(61).setScale(0).setAlpha(0));
+  const widths = objs.map((o, i) => (glyphs[i] === ' ' ? size * 0.5 : o.width * 0.92));
   const total = widths.reduce((a, b) => a + b, 0);
   let x = W / 2 - total / 2;
-  const objs = glyphs.map((ch, i) => {
-    const t = scene.add.text(x + widths[i] / 2, H * 0.3, ch, style)
-      .setOrigin(0.5).setDepth(61).setScale(0).setAlpha(0);
-    x += widths[i];
-    return t;
-  });
+  objs.forEach((o, i) => { o.x = x + widths[i] / 2; x += widths[i]; });
   scene.tweens.add({
     targets: objs, scale: 1, alpha: 1, duration: 300, ease: 'Back.easeOut',
     delay: scene.tweens.stagger(34, { from: 'center' }),
@@ -281,6 +317,29 @@ export function glyphBanner(scene, text, color = '#ffd24a', size = 36) {
   scene.tweens.add({
     targets: objs, alpha: 0, y: H * 0.26, delay: 1000, duration: 380,
     onComplete: () => objs.forEach((o) => o.destroy()),
+  });
+}
+
+// The entry ritual: never materialize mid-game. Black veil lifts, the
+// world's VERB slams in wearing the universe typeface, input unlocks on
+// the beat. WarioWare's law: one word teaches the whole game.
+export function introCard(scene, verb, onGo) {
+  const W = scene.scale.width, H = scene.scale.height;
+  const K = unit(scene);
+  const veil = scene.add.rectangle(0, 0, W, H, 0x05070f, 1).setOrigin(0).setDepth(90);
+  scene.tweens.add({ targets: veil, alpha: 0, duration: 500, delay: 220, onComplete: () => veil.destroy() });
+  const card = scene.add.text(W / 2, H * 0.42, verb, {
+    fontFamily: displayFont(),
+    fontSize: `${Math.round(58 * K)}px`,
+    color: '#ffffff',
+    stroke: 'rgba(4,6,14,.85)',
+    strokeThickness: 12 * K,
+    shadow: { offsetX: 0, offsetY: 4, color: 'rgba(0,0,0,.5)', blur: 12, fill: true },
+  }).setOrigin(0.5).setDepth(91).setScale(0).setAngle(-7);
+  scene.tweens.add({ targets: card, scale: 1, angle: 0, duration: 360, ease: 'Back.easeOut' });
+  scene.tweens.add({
+    targets: card, scale: 1.5, alpha: 0, delay: 1000, duration: 230, ease: 'Cubic.easeIn',
+    onComplete: () => { card.destroy(); onGo?.(); },
   });
 }
 

@@ -18,6 +18,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Broadside FM';
+export const VERB = 'FIRE!';
 export const STARS = [6, 11, 17];
 
 export const WORLDS = {

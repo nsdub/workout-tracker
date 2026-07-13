@@ -10,7 +10,7 @@ import { $, esc, haptic } from '../util.js';
 import { sfx, note } from '../audio.js';
 import { toast } from '../components.js';
 import { loadPhaser } from './loader.js';
-import { glyphBanner, goldRush, slowmo } from './fx.js';
+import { glyphBanner, goldRush, slowmo, burst, shockRing, flash, zoomPunch, introCard } from './fx.js';
 import { gameFor, bestFor, starsFor, saveBest } from './registry.js';
 
 // Constant availability check — no game modules needed at boot.
@@ -53,6 +53,7 @@ export async function openGame({ deadline }) {
       <span class="go-score num" id="go-score">0</span>
       <span class="go-time num" id="go-time">${hudTime(deadline)}</span>
       <button class="go-quit" id="go-quit" aria-label="Quit">✕</button>
+      <i class="go-tbar" id="go-tbar"></i>
     </header>
     <div class="go-stage" id="go-stage"></div>`;
   document.body.appendChild(el);
@@ -86,6 +87,10 @@ export async function openGame({ deadline }) {
       if (mine.fever && delta > 0) delta *= 2; // GOLD RUSH pays double
       mine.score = Math.max(0, mine.score + delta);
       scoreEl.textContent = mine.score;
+      // the HUD reacts: a score that silently mutates feels dead
+      scoreEl.classList.remove('bump', 'sting');
+      void scoreEl.offsetWidth;
+      scoreEl.classList.add(delta < 0 ? 'sting' : 'bump');
       return mine.score;
     },
     sfx,
@@ -106,7 +111,18 @@ export async function openGame({ deadline }) {
   const userCreate = sceneCfg.create;
   const userUpdate = sceneCfg.update;
   sceneCfg.key = 'play';
-  sceneCfg.create = function () { try { userCreate?.call(this); } catch (err) { fail(err); } };
+  sceneCfg.create = function () {
+    try {
+      userCreate?.call(this);
+      // the entry ritual: verb card slams in, input unlocks on the beat
+      if (spec.verb) {
+        this.input.enabled = false;
+        introCard(this, spec.verb, () => {
+          if (active === mine) { try { this.input.enabled = true; } catch { /* gone */ } }
+        });
+      }
+    } catch (err) { fail(err); }
+  };
   if (userUpdate) {
     sceneCfg.update = function (t, dt) { try { userUpdate.call(this, t, dt); } catch (err) { fail(err); } };
   }
@@ -134,10 +150,13 @@ export async function openGame({ deadline }) {
   // The last 10 seconds are the GOLD RUSH (double points, molten world)
   // and the final beat plays in slow motion — the hard stop is the fever,
   // not the interruption (Peggle's law).
+  const tbar = $('#go-tbar', el);
+  const totalMs = Math.max(1, deadline - mine.openedAt);
   mine.clock = setInterval(() => {
     if (active !== mine) return;
     timeEl.textContent = hudTime(deadline);
     const left = deadline - Date.now();
+    if (tbar) tbar.style.width = `${Math.max(0, Math.min(100, (left / totalMs) * 100))}%`;
     const scene = () => { try { return mine.game.scene.getScene('play'); } catch { return null; } };
     if (!mine.fever && left <= 10000 && left > 2000) {
       mine.fever = true;
@@ -242,7 +261,8 @@ export function closeGame(fromPop = false) {
   if (clock) clearInterval(clock);
   if (errListener) window.removeEventListener('error', errListener);
   try { game?.destroy(true); } catch { /* double-destroy race */ }
-  el.remove();
+  el.classList.add('out');
+  setTimeout(() => el.remove(), 190);
   if (!fromPop && popPushed && history.state?.p3 === 'game') {
     pendingGamePop = true;
     setTimeout(() => { pendingGamePop = false; }, 600);

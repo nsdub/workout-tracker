@@ -20,6 +20,7 @@ import {
 
 export const TITLE = 'Iaido';
 // star thresholds: points per second for 1/2/3 stars (rate-based medals)
+export const VERB = 'SLICE!';
 export const STARS = [6, 11, 17];
 
 export const WORLDS = {

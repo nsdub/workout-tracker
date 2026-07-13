@@ -17,6 +17,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Yeti Bowl';
+export const VERB = 'ROLL!';
 export const STARS = [7, 13, 20];
 
 export const WORLDS = {
