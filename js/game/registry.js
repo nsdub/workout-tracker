@@ -22,10 +22,12 @@ for (const mod of Object.values(GAMES)) {
 export function gameFor(universeCls, worldCls) {
   const mod = WORLD_INDEX[worldCls];
   if (!mod) return null;
-  return { title: mod.TITLE, cfg: mod.WORLDS[worldCls], create: mod.create };
+  return { title: mod.TITLE, cfg: mod.WORLDS[worldCls], create: mod.create, stars: mod.STARS };
 }
 
-// ——— best scores: local-only, per world ———
+// ——— bests + medals: local-only, per world ———
+// Stored value is { s: bestScore, st: bestStars } — legacy plain numbers
+// from earlier builds are read as { s: n, st: 0 }.
 
 const BEST_KEY = 'p3.gameBests';
 
@@ -37,14 +39,24 @@ export function readBests() {
 }
 
 export function bestFor(worldCls) {
-  return readBests()[worldCls] ?? 0;
+  const v = readBests()[worldCls];
+  return (typeof v === 'number' ? v : v?.s) ?? 0;
 }
 
-// Returns true when this score sets a new record.
-export function saveBest(worldCls, score) {
+export function starsFor(worldCls) {
+  const v = readBests()[worldCls];
+  return (typeof v === 'object' && v ? v.st : 0) ?? 0;
+}
+
+// Persists score and medal highs independently; returns true only when
+// the SCORE is a new record (that's what the ceremony celebrates).
+export function saveBest(worldCls, score, stars = 0) {
   const bests = readBests();
-  if (score <= (bests[worldCls] ?? 0)) return false;
-  bests[worldCls] = score;
+  const prevS = bestFor(worldCls);
+  const prevSt = starsFor(worldCls);
+  const record = score > prevS;
+  if (!record && stars <= prevSt) return false;
+  bests[worldCls] = { s: Math.max(score, prevS), st: Math.max(stars, prevSt) };
   try { localStorage.setItem(BEST_KEY, JSON.stringify(bests)); } catch { /* full */ }
-  return true;
+  return record;
 }

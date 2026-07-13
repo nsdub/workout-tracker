@@ -18,6 +18,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Dim Sum Drop';
+export const STARS = [5, 9, 14];
 
 export const WORLDS = {
   'wok-alley': {
@@ -194,6 +195,10 @@ export function create(P, ctx) {
   let fieldRefills = 0;
   let dragon = null;         // { segs: [imgs], t }
   let fever = false;
+  let goldenPending = false; // the NEXT drop is golden
+  let goldenDrop = false;    // the CURRENT drop is golden (pegs pay double)
+  let goldenAt = 0;
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
 
   const PR = 13;             // peg radius in K units
 
@@ -252,7 +257,7 @@ export function create(P, ctx) {
     if (peg.kind !== 'cracker') peg.img.setTexture(litKey);
     squash(scene, peg.img, 'y', 140);
     const n = litThisDrop.length;
-    const gain = (10 + n * 2) * (peg.kind === 'gold' ? 2 : 1);
+    const gain = (10 + n * 2) * (peg.kind === 'gold' ? 2 : 1) * (goldenDrop ? 2 : 1);
     peg.gain = gain;
     api.score(gain);
     api.note(noteStep++);
@@ -330,6 +335,7 @@ export function create(P, ctx) {
     litThisDrop = [];
     noteStep = 0;
     dropCount++;
+    if (goldenDrop) { goldenDrop = false; goldenAt = scene.time.now + goldDelay(); }
     // a thinning field refills fresh, after the pop ceremony finishes
     scene.time.delayedCall(popped.length * 70 + 600, () => {
       if (pegs.filter((p) => !p.spent && !p.dragonHead).length < 8) buildField(scene, K);
@@ -497,6 +503,7 @@ export function create(P, ctx) {
       }
 
       launcher = scene.add.image(W / 2, 26 * K, canvasTex(scene, 'wk-basket', 60 * K, 40 * K, PAINT.basket)).setDepth(20);
+      goldenAt = scene.time.now + goldDelay();
       aimGfx = scene.add.graphics().setDepth(19);
 
       // collisions: dumpling meets lantern
@@ -522,6 +529,16 @@ export function create(P, ctx) {
         const img = scene.matter.add.image(x, 44 * K, canvasTex(scene, 'wk-dump', 34 * K, 32 * K, PAINT.dumpling), null, {
           shape: 'circle', restitution: cfg.bouncy ? 0.75 : 0.55, friction: 0.002, frictionAir: 0.008, density: 0.0022, label: 'ball',
         }).setDepth(15);
+        if (goldenPending) {
+          goldenPending = false;
+          goldenDrop = true;
+          img.setTint(0xffd24a);
+          const trail = scene.add.particles(0, 0, 'fx-dot', {
+            speed: 26, scale: { start: 0.36 * K, end: 0 }, lifespan: 380,
+            tint: 0xffd24a, blendMode: 'ADD', frequency: 40,
+          }).setDepth(14).startFollow(img);
+          scene.time.delayedCall(12000, () => trail.destroy());
+        }
         ball = { img, born: scene.time.now, lastMove: scene.time.now, prevY: img.y };
         api.sfx('tap');
         api.haptic(6);
@@ -534,6 +551,14 @@ export function create(P, ctx) {
       const dt = Math.min(dtMs, 64) / 1000;
       const K = unit(scene);
       const W = scene.scale.width, H = scene.scale.height;
+
+      // the golden dumpling announces itself before the next drop
+      if (!goldenPending && !goldenDrop && scene.time.now >= goldenAt && goldenAt > 0 && !ball) {
+        goldenPending = true;
+        glyphBanner(scene, 'GOLDEN DUMPLING — 2×', '#ffe9a0', 24 * K);
+        squash(scene, launcher, 'y');
+        api.sfx('objDone');
+      }
 
       // launcher tracks the aim
       if (aiming && aimX != null) launcher.x += (aimX - launcher.x) * Math.min(1, dt * 12);

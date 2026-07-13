@@ -13,6 +13,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Skip Legend';
+export const STARS = [3, 6, 10];
 
 export const WORLDS = {
   'park-trail': {
@@ -126,6 +127,19 @@ const PAINT = {
     c.beginPath(); c.arc(w * 0.43, h * 0.28, w * 0.03, 0, 7); c.fill();
     c.beginPath(); c.arc(w * 0.57, h * 0.28, w * 0.03, 0, 7); c.fill();
   },
+  dragonfly(c, w, h) {
+    c.fillStyle = 'rgba(255,240,200,.85)';
+    for (const [rot, oy] of [[-0.5, -0.14], [0.5, 0.14]]) {
+      c.beginPath(); c.ellipse(w * 0.36, h * (0.5 + oy), w * 0.3, h * 0.12, rot, 0, 7); c.fill();
+      c.beginPath(); c.ellipse(w * 0.64, h * (0.5 + oy), w * 0.3, h * 0.12, -rot, 0, 7); c.fill();
+    }
+    const g = c.createLinearGradient(0, 0, w, 0);
+    g.addColorStop(0, '#ffe9a0'); g.addColorStop(1, '#c8892c');
+    c.fillStyle = g;
+    c.beginPath(); c.ellipse(w * 0.5, h * 0.5, w * 0.34, h * 0.08, 0, 0, 7); c.fill();
+    c.fillStyle = '#5c3408';
+    c.beginPath(); c.arc(w * 0.82, h * 0.5, w * 0.07, 0, 7); c.fill();
+  },
   moth(c, w, h) {
     c.fillStyle = 'rgba(30,20,50,.9)';
     c.beginPath(); c.ellipse(w / 2, h * 0.55, w * 0.1, h * 0.3, 0, 0, 7); c.fill();
@@ -159,6 +173,9 @@ export function create(P, ctx) {
   let fever = false;
   let mothUsed = false;
   let noteStep = 0;
+  let golden = null; // { img, halo }
+  let goldenAt = 0;
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
 
   const waterY = (scene) => scene.scale.height * (cfg.cliff ? 0.72 : 0.62);
   const throwerY = (scene) => cfg.cliff ? scene.scale.height * 0.3 : waterY(scene) - 40 * unit(scene);
@@ -351,6 +368,7 @@ export function create(P, ctx) {
       }
 
       aimGfx = scene.add.graphics().setDepth(30);
+      goldenAt = scene.time.now + goldDelay();
       resetStone(scene, K);
       glyphBanner(scene, 'PULL BACK. RELEASE.', '#dff6ff', 22 * K);
 
@@ -412,6 +430,17 @@ export function create(P, ctx) {
         }
       }
 
+      // the golden dragonfly hovers over the far water
+      if (!golden && scene.time.now >= goldenAt) {
+        const gx = WW * (0.35 + Math.random() * 0.45);
+        const gy = wy - (90 + Math.random() * 90) * K;
+        const img = scene.add.image(gx, gy, canvasTex(scene, 'pk-dfly', 52 * K, 30 * K, PAINT.dragonfly)).setDepth(14);
+        const halo = scene.add.image(gx, gy, 'fx-dot').setTint(0xffd24a).setBlendMode('ADD').setScale(1.6 * K).setAlpha(0.5).setDepth(13);
+        scene.tweens.add({ targets: [img, halo], y: gy - 16 * K, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        scene.tweens.add({ targets: img, scaleY: 0.85, duration: 140, yoyo: true, repeat: -1 });
+        golden = { img, halo };
+      }
+
       // bison wander
       for (const f of floats) {
         if (f.vx) {
@@ -456,6 +485,20 @@ export function create(P, ctx) {
           burst(scene, stone.img.x, stone.img.y, 0x7dffb3, { n: 12, speed: 240 * K, scale: 0.5 * K });
           api.sfx('objDone');
         }
+      }
+
+      // golden dragonfly strike
+      if (golden && Math.abs(stone.img.x - golden.img.x) < 34 * K && Math.abs(stone.img.y - golden.img.y) < 30 * K) {
+        api.score(75);
+        glyphBanner(scene, 'GOLDEN DRAGONFLY', '#ffe9a0', 26 * K);
+        collectTo(scene, golden.img.x, golden.img.y, cam.scrollX + W - 30 * K, 20 * K, 0xffd24a, 16);
+        burst(scene, golden.img.x, golden.img.y, 0xffd24a, { n: 22, speed: 340 * K, scale: 0.6 * K });
+        flash(scene, 0xffd24a, 120, 0.3);
+        slowmo(scene, 0.35, 320);
+        api.sfx('pr');
+        golden.img.destroy(); golden.halo.destroy();
+        golden = null;
+        goldenAt = scene.time.now + goldDelay();
       }
 
       // firefly rings

@@ -220,14 +220,18 @@ export function showRestTimer(seconds, container, label = 'Rest') {
   el.className = 'rest-pill';
   el.id = 'rest-pill';
   const playable = GAME_UNIVERSES.has(document.documentElement.dataset.universe);
-  // the record you set in THIS world stares back at you — a score to beat
-  let best = 0;
-  try { best = JSON.parse(localStorage.getItem('p3.gameBests'))?.[document.documentElement.dataset.world] ?? 0; } catch { /* corrupt */ }
+  // the record and medals you set in THIS world stare back at you
+  let best = 0, stars = 0;
+  try {
+    const v = JSON.parse(localStorage.getItem('p3.gameBests'))?.[document.documentElement.dataset.world];
+    best = (typeof v === 'number' ? v : v?.s) ?? 0;
+    stars = (typeof v === 'object' && v ? v.st : 0) ?? 0;
+  } catch { /* corrupt */ }
   el.innerHTML = `
     <span class="lbl">${esc(label)}</span>
     <span class="t num" id="rest-t"></span>
     <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
-    ${playable ? `<button class="play" id="rest-play">▶ Play${best ? ` <i class="pb num">${best}</i>` : ''}</button>` : ''}
+    ${playable ? `<button class="play" id="rest-play">▶ Play${best ? ` <i class="pb num">${'★'.repeat(stars)}${stars ? ' ' : ''}${best}</i>` : ''}</button>` : ''}
     <button class="skip">Skip</button>`;
   container.prepend(el);
   const total = seconds * 1000;

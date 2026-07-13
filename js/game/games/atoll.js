@@ -18,6 +18,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Broadside FM';
+export const STARS = [6, 11, 17];
 
 export const WORLDS = {
   'atoll-wreck': {
@@ -178,6 +179,18 @@ const PAINT = {
     c.fillStyle = g;
     c.beginPath(); c.arc(w * 0.5, h * 0.08, w * 0.3, 0, 7); c.fill();
   },
+  chest(c, w, h) {
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#8a5a2a'); g.addColorStop(1, '#4a2c10');
+    c.fillStyle = g;
+    c.beginPath(); c.roundRect(w * 0.08, h * 0.3, w * 0.84, h * 0.6, w * 0.08); c.fill();
+    c.beginPath(); c.ellipse(w * 0.5, h * 0.32, w * 0.42, h * 0.2, 0, Math.PI, 0); c.fill();
+    c.fillStyle = '#ffd24a';
+    c.fillRect(w * 0.08, h * 0.42, w * 0.84, h * 0.09);
+    c.beginPath(); c.roundRect(w * 0.42, h * 0.4, w * 0.16, h * 0.24, w * 0.04); c.fill();
+    c.fillStyle = '#5c3408';
+    c.beginPath(); c.arc(w * 0.5, h * 0.52, w * 0.035, 0, 7); c.fill();
+  },
   tentacle(c, w, h) {
     const g = c.createLinearGradient(0, 0, 0, h);
     g.addColorStop(0, '#6a3a9c'); g.addColorStop(1, '#3c1c68');
@@ -208,7 +221,10 @@ export function create(P, ctx) {
   let floaters = [];         // wreckage bobbing forever
   let bottles = [];
   let kraken = null;         // { img, phase }
+  let chest = null;          // { img, until }
+  let goldenAt = 0;
   let wind = 0;
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
   let fever = false;
   let noteStep = 0;
 
@@ -502,6 +518,7 @@ export function create(P, ctx) {
       }
 
       aimGfx = scene.add.graphics().setDepth(18);
+      goldenAt = scene.time.now + goldDelay();
 
       scene.matter.world.on('collisionstart', (ev) => {
         for (const pair of ev.pairs) {
@@ -607,6 +624,33 @@ export function create(P, ctx) {
           squash(scene, kraken.img, 'x');
           api.sfx('pr');
           api.haptic([14, 40, 14]);
+        }
+      }
+
+      // the treasure chest surfaces between the hulls, briefly
+      if (!chest && now >= goldenAt) {
+        const cx = W * (0.35 + Math.random() * 0.35);
+        const img = scene.add.image(cx, sy + 8 * K, canvasTex(scene, 'at-chest', 44 * K, 36 * K, PAINT.chest)).setDepth(10);
+        scene.tweens.add({ targets: img, y: img.y - 8 * K, angle: 6, duration: 1100, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        const halo = scene.add.image(cx, sy, 'fx-dot').setTint(0xffd24a).setBlendMode('ADD').setScale(2 * K).setAlpha(0.45).setDepth(9);
+        chest = { img, halo, until: now + 16000 };
+      }
+      if (chest) {
+        chest.halo.setPosition(chest.img.x, chest.img.y);
+        if (ball?.img.active && Math.abs(ball.img.x - chest.img.x) < 30 * K && Math.abs(ball.img.y - chest.img.y) < 30 * K) {
+          api.score(75);
+          glyphBanner(scene, 'TREASURE +75', '#ffe9a0', 28 * K);
+          collectTo(scene, chest.img.x, chest.img.y, W - 30 * K, 20 * K, 0xffd24a, 20);
+          burst(scene, chest.img.x, chest.img.y, 0xffd24a, { n: 26, speed: 380 * K, scale: 0.6 * K, gravityY: 500 * K });
+          flash(scene, 0xffd24a, 130, 0.35);
+          api.sfx('pr');
+          chest.img.destroy(); chest.halo.destroy();
+          chest = null;
+          goldenAt = now + goldDelay();
+        } else if (now > chest.until) {
+          scene.tweens.add({ targets: [chest.img, chest.halo], y: `+=${40 * unit(scene)}`, alpha: 0, duration: 900, onComplete: function () { this.targets.forEach((t) => t.destroy()); } });
+          chest = null;
+          goldenAt = now + goldDelay();
         }
       }
 

@@ -11,7 +11,7 @@ import { sfx, note } from '../audio.js';
 import { toast } from '../components.js';
 import { loadPhaser } from './loader.js';
 import { glyphBanner, goldRush, slowmo } from './fx.js';
-import { gameFor, bestFor, saveBest } from './registry.js';
+import { gameFor, bestFor, starsFor, saveBest } from './registry.js';
 
 // Constant availability check — no game modules needed at boot.
 const GAME_UNIVERSES = new Set(['dojo', 'deep', 'park', 'wok', 'atoll', 'yeti']);
@@ -59,7 +59,7 @@ export async function openGame({ deadline }) {
 
   // Claim the cabinet immediately so double-taps and re-entries bounce off,
   // then finish booting asynchronously.
-  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false };
+  active = { el, game: null, clock: null, score: 0, worldCls, spec, popPushed: false, fever: false, slowed: false, openedAt: Date.now() };
   try { history.pushState({ p3: 'game' }, ''); active.popPushed = true; } catch { /* throttled */ }
   $('#go-quit', el).addEventListener('click', () => closeGame());
 
@@ -163,7 +163,14 @@ export async function openGame({ deadline }) {
     mine.clock = null;
     const finalScore = mine.score;
     const prevBest = bestFor(worldCls);
-    const isRecord = saveBest(worldCls, finalScore);
+    const prevStars = starsFor(worldCls);
+    // Medals are rate-based (points per second) so a 60s rest and a 240s
+    // rest compete on the same ladder — Angry Birds' three-star law.
+    const elapsed = Math.max(12, (Date.now() - mine.openedAt) / 1000);
+    const th = spec.stars ?? [5, 10, 16];
+    const rate = finalScore / elapsed;
+    const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
+    const isRecord = saveBest(worldCls, finalScore, stars);
 
     // THE FINALE: before the panel, the canvas detonates — a staggered
     // fireworks volley inside the final slow-mo beat (Peggle's law: the
@@ -176,7 +183,7 @@ export async function openGame({ deadline }) {
         finaleMs = 950;
         const W = scene.scale.width, H = scene.scale.height;
         const colors = isRecord ? [0xffd24a, 0xfff0c8, 0x3adcc8, 0xff8ad0] : [0xffd24a, 0xfff0c8, 0x3adcc8];
-        for (let i = 0; i < (isRecord ? 8 : 5); i++) {
+        for (let i = 0; i < (stars === 3 ? 10 : isRecord ? 8 : 5); i++) {
           setTimeout(() => {
             if (active !== mine) return;
             try {
@@ -200,12 +207,15 @@ export async function openGame({ deadline }) {
       // pause AND stop the loop: a hitstop timeout in flight would
       // otherwise resume the scene behind the panel and keep scoring
       try { mine.game.scene.pause('play'); mine.game.loop.stop(); } catch { /* already gone */ }
+      const starRow = [1, 2, 3].map((i) =>
+        `<span class="${i <= stars ? 'on' : ''}${i <= stars && i > prevStars ? ' fresh' : ''}" style="animation-delay:${0.25 + i * 0.16}s">★</span>`).join('');
       el.insertAdjacentHTML('beforeend', `
         <div class="go-over">
           <div class="go-over-eyebrow">Rest complete</div>
           <div class="go-over-title">${isRecord ? 'NEW RECORD' : 'Time'}</div>
+          <div class="go-stars">${starRow}</div>
           <div class="go-over-score num" id="go-final">0</div>
-          <div class="go-over-best num">${isRecord ? `Old best ${prevBest}` : `Best ${Math.max(prevBest, finalScore)}`} · ${esc(spec.cfg.name)}</div>
+          <div class="go-over-best num">${isRecord ? `Old best ${prevBest}` : `Best ${Math.max(prevBest, finalScore)}`}${Math.max(stars, prevStars) ? ` · ${'★'.repeat(Math.max(stars, prevStars))}` : ''} · ${esc(spec.cfg.name)}</div>
           <button class="btn primary go-back" id="go-back">Back to work</button>
         </div>`);
       // the score counts up — earned, not stated

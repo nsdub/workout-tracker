@@ -19,6 +19,8 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Iaido';
+// star thresholds: points per second for 1/2/3 stars (rate-based medals)
+export const STARS = [6, 11, 17];
 
 export const WORLDS = {
   'dojo-stairs': {
@@ -189,6 +191,19 @@ const PAINT = {
     c.strokeStyle = '#ffd24a'; c.lineWidth = w * 0.05;
     c.beginPath(); c.arc(w * 0.5, h * 0.08, w * 0.09, 0, 7); c.stroke();
   },
+  daruma(c, w, h) {
+    const g = c.createRadialGradient(w * 0.4, h * 0.4, 2, w / 2, h * 0.55, w * 0.52);
+    g.addColorStop(0, '#ffe9a0'); g.addColorStop(1, '#c8892c');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(w / 2, h * 0.55, w * 0.42, 0, 7); c.fill();
+    c.fillStyle = '#fff3e0';
+    c.beginPath(); c.ellipse(w / 2, h * 0.5, w * 0.26, h * 0.28, 0, 0, 7); c.fill();
+    c.fillStyle = '#1c1208';
+    c.beginPath(); c.arc(w * 0.42, h * 0.44, w * 0.06, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.58, h * 0.44, w * 0.06, 0, 7); c.fill();
+    c.strokeStyle = '#c23b22'; c.lineWidth = w * 0.04;
+    c.beginPath(); c.arc(w * 0.5, h * 0.52, w * 0.1, 0.5, 2.6); c.stroke();
+  },
   flake(c, w, h) {
     c.strokeStyle = '#eaf6ff'; c.lineWidth = w * 0.06; c.lineCap = 'round';
     c.translate(w / 2, h / 2);
@@ -355,12 +370,12 @@ function drawLand(scene, cfg, K, world) {
 }
 
 const SIZES = {
-  koi: [72, 44], goldkoi: [72, 44], lantern: [56, 62], scroll: [60, 40], gourd: [44, 58],
+  daruma: [58, 58], koi: [72, 44], goldkoi: [72, 44], lantern: [56, 62], scroll: [60, 40], gourd: [44, 58],
   ingot: [64, 34], coal: [52, 48], bamboo: [40, 84], melon: [58, 58], orb: [56, 56],
   charm: [42, 58], flake: [54, 54], peach: [52, 52], candle: [36, 66], itch: [50, 50], bomb: [54, 60],
 };
 
-const VALUE = { goldkoi: 30, itch: 40 };
+const VALUE = { goldkoi: 30, itch: 40, daruma: 75 };
 
 export function create(P, ctx) {
   const { api, cfg } = ctx;
@@ -373,8 +388,10 @@ export function create(P, ctx) {
   let lastPt = null;
   let downAt = 0;
   let nextSpawn = 0;
+  let goldenAt = 0;
   let t0 = 0;
   let fever = false;
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
   // sheathe stance
   const stance = { active: false, meter: 1, lastMoveT: 0 };
   // world-mutation state
@@ -425,6 +442,7 @@ export function create(P, ctx) {
 
   function killObj(scene, o) {
     o.fuse?.destroy();
+    o.glow?.destroy();
     o.img.destroy();
     const i = objs.indexOf(o);
     if (i >= 0) objs.splice(i, 1);
@@ -471,6 +489,12 @@ export function create(P, ctx) {
     strokeSlices++;
     let gain = (10 + (strokeSlices - 1) * 5) + (VALUE[o.kind] ?? 0);
     let label = `+${gain}`;
+    if (o.kind === 'daruma') {
+      glyphBanner(scene, 'GOLDEN DARUMA', '#ffe9a0', 28 * K);
+      collectTo(scene, x, y, scene.scale.width - 30 * K, 20 * K, 0xffd24a, 16);
+      flash(scene, 0xffd24a, 120, 0.3);
+      api.sfx('pr');
+    }
     // grove law: a vertical stroke is the honest cut
     if (cfg.vertical && Math.abs(dirY) > 0.85) {
       gain = Math.round(gain * 1.5);
@@ -649,6 +673,7 @@ export function create(P, ctx) {
 
       t0 = scene.time.now;
       nextSpawn = scene.time.now + 500;
+      goldenAt = scene.time.now + goldDelay();
 
       scene.input.on('pointerdown', (p) => {
         lastPt = { x: p.x, y: p.y, t: scene.time.now };
@@ -786,6 +811,19 @@ export function create(P, ctx) {
           const o = spawnObj(scene, K, 'itch', W * (0.2 + Math.random() * 0.6), { peakLo: 0.35 });
           o.img.setTint(0xffe9a0);
         }
+      }
+
+      // ——— the golden daruma: rare, slow, worth the greed ———
+      if (now >= goldenAt && !objs.some((o) => o.kind === 'daruma')) {
+        goldenAt = now + goldDelay();
+        const o = spawnObj(scene, K, 'daruma', W * (0.25 + Math.random() * 0.5), { peakLo: 0.5 });
+        o.img.body.gravity.y = 320 * K; // floats up lazily — you have time
+        o.img.body.velocity.y *= 0.7;
+        o.glow = scene.add.particles(0, 0, 'fx-dot', {
+          speed: 30, scale: { start: 0.4 * K, end: 0 }, lifespan: 400,
+          tint: 0xffd24a, blendMode: 'ADD', frequency: 50,
+        }).setDepth(9).startFollow(o.img);
+        api.sfx('tap');
       }
 
       // ——— spawning, ramping over the rest period ———

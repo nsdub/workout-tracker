@@ -17,6 +17,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Yeti Bowl';
+export const STARS = [7, 13, 20];
 
 export const WORLDS = {
   'yeti-village': {
@@ -329,6 +330,8 @@ export function create(P, ctx) {
   let nextAurora = 6000;
   let fever = false;
   let noteStep = 0;
+  let goldenAt = 0;
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
   const things = [];         // scrolling world objects { img, kind, meta, x, dead }
   const lanes = [];          // groomer boost lanes { x, w, img }
 
@@ -445,6 +448,7 @@ export function create(P, ctx) {
       if (cfg.aurora) auroraGfx = scene.add.graphics().setDepth(-40);
 
       packGfx = scene.add.graphics().setDepth(30);
+      goldenAt = scene.time.now + goldDelay();
       glyphBanner(scene, 'HOLD TO PACK', '#dff6ff', 24 * K);
 
       scene.input.on('pointerdown', (p) => { steer = p.x; });
@@ -545,6 +549,14 @@ export function create(P, ctx) {
         }
       }
 
+      // the golden snowman waits somewhere downhill
+      if (now >= goldenAt && !things.some((th) => th.golden)) {
+        goldenAt = now + goldDelay();
+        const th = addThing(scene, K, 'snowman', W * (0.15 + Math.random() * 0.7), H + 80 * K, { w: 46, h: 62, golden: true });
+        th.img.setTint(0xffd24a);
+        th.haloImg = scene.add.image(th.img.x, th.img.y, 'fx-dot').setTint(0xffd24a).setBlendMode('ADD').setScale(2 * K).setAlpha(0.5).setDepth(9);
+      }
+
       // speed follows mass; stun kills it briefly
       const target = H * (0.5 + size * 0.22) * (fever ? 1.15 : 1) * floaty;
       speed += ((stun > 0 ? H * 0.1 : target) - speed) * Math.min(1, dt * 3);
@@ -577,7 +589,9 @@ export function create(P, ctx) {
           th.img.x = th.anchorX + Math.sin(now / 800 + th.swingP) * 40 * K;
           th.img.setAngle(Math.sin(now / 800 + th.swingP) * 24);
         }
+        if (th.haloImg) th.haloImg.setPosition(th.img.x, th.img.y);
         if (th.img.y < -120 * K) {
+          th.haloImg?.destroy();
           th.img.destroy();
           things.splice(things.indexOf(th), 1);
           continue;
@@ -620,6 +634,15 @@ export function create(P, ctx) {
             continue;
           }
           if (airT > 0) continue; // sailing over it
+          if (th.golden) {
+            th.haloImg?.destroy();
+            smashThing(scene, K, th, 75, 0.06);
+            glyphBanner(scene, 'GOLDEN SNOWMAN', '#ffe9a0', 26 * K);
+            collectTo(scene, th.img.x, th.img.y, W - 30 * K, 20 * K, 0xffd24a, 16);
+            flash(scene, 0xffd24a, 120, 0.3);
+            api.sfx('pr');
+            continue;
+          }
           if (th.pin) {
             smashThing(scene, K, th, 12 * auroraMult, 0.02);
             // pins topple pins: the cluster dominos outward

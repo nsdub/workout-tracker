@@ -291,6 +291,7 @@ await ok('the six mechanics are distinct and every world config can paint its sk
     assert.ok(!titles.has(mod.TITLE), `${mod.TITLE} used by two universes`);
     titles.add(mod.TITLE);
     assert.equal(typeof mod.create, 'function', `${key} missing create()`);
+    assert.ok(Array.isArray(mod.STARS) && mod.STARS.length === 3, `${key} missing STARS thresholds`);
     for (const [w, cfg] of Object.entries(mod.WORLDS)) {
       assert.ok(Array.isArray(cfg.sky) && cfg.sky.length >= 2, `${w} has no sky gradient`);
       assert.ok(cfg.name, `${w} has no display name`);
@@ -332,6 +333,18 @@ await ok('best scores persist per world and only improve', () => {
   assert.equal(bestFor('dojo-stairs'), 150);
   localStorage.setItem('p3.gameBests', '{corrupt');
   assert.equal(bestFor('dojo-stairs'), 0); // corruption never throws
+});
+await ok('star medals persist independently of score records (legacy-safe)', async () => {
+  const { starsFor } = await import('../js/game/registry.js');
+  localStorage.setItem('p3.gameBests', JSON.stringify({ 'deep-void': 200 })); // legacy number
+  assert.equal(bestFor('deep-void'), 200);
+  assert.equal(starsFor('deep-void'), 0);
+  assert.equal(saveBest('deep-void', 150, 2), false); // stars improve, score doesn't -> not a record
+  assert.equal(starsFor('deep-void'), 2);
+  assert.equal(bestFor('deep-void'), 200); // score high water kept
+  assert.equal(saveBest('deep-void', 260, 1), true); // record, stars keep their high
+  assert.equal(bestFor('deep-void'), 260);
+  assert.equal(starsFor('deep-void'), 2);
 });
 
 // ——— release integrity ———

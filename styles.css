@@ -1193,6 +1193,11 @@ button.rot-cell { color: color-mix(in srgb, var(--c, #8a9ac8) 80%, #fff); border
   padding: 24px;
 }
 .go-over-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: #3adcc8; }
+.go-stars { display: flex; gap: 10px; font-size: 34px; line-height: 1; margin: 2px 0; }
+.go-stars span { color: rgba(138, 154, 200, 0.35); transform: scale(0); animation: star-pop .45s var(--spring) forwards; }
+.go-stars span.on { color: #ffd24a; text-shadow: 0 0 18px rgba(255, 210, 74, .65); }
+.go-stars span.fresh { text-shadow: 0 0 26px rgba(255, 210, 74, .95); }
+@keyframes star-pop { from { transform: scale(0) rotate(-40deg); } to { transform: scale(1) rotate(0); } }
 .go-over-title { font-family: var(--disp); font-size: 40px; color: #ffd24a; text-shadow: 0 0 26px rgba(255, 210, 74, .5); animation: title-slam .6s var(--spring) both; }
 .go-over-score { font-size: 64px; font-weight: 700; color: #dfe8ff; line-height: 1; }
 .go-over-best { font-size: 12px; color: #8a9ac8; margin-bottom: 18px; }

@@ -17,6 +17,7 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Terminal Velocity';
+export const STARS = [7, 13, 20];
 
 export const WORLDS = {
   'deep-vents': {
@@ -161,6 +162,13 @@ const PAINT = {
     c.fillStyle = g;
     c.fillRect(0, 0, w, h);
   },
+  goldplate(c, w, h) {
+    PAINT.plate(c, w, h);
+    c.globalCompositeOperation = 'source-atop';
+    c.fillStyle = 'rgba(255,210,74,.6)';
+    c.fillRect(0, 0, w, h);
+    c.globalCompositeOperation = 'source-over';
+  },
   lantern(c, w, h) {
     const g = c.createRadialGradient(w / 2, h / 2, 1, w / 2, h / 2, w * 0.5);
     g.addColorStop(0, '#fff4d0'); g.addColorStop(0.5, '#ffc46c'); g.addColorStop(1, 'rgba(255,180,90,0)');
@@ -254,7 +262,9 @@ export function create(P, ctx) {
   const vents = [];          // { x, w, nextAt, until, col }
   const lights = [];         // searchlights { sub, angle }
   let nextOb = 0;
+  let goldenAt = 0;
   let layerFar, layerNear;
+  const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 30000 + Math.random() * 45000);
 
   const MAXV = (scene) => scene.scale.height * 1.35 * (fever ? 1.15 : 1);
   const SMASH = (scene) => MAXV(scene) * 0.55;
@@ -449,6 +459,7 @@ export function create(P, ctx) {
       scene.input.on('pointerup', () => { holding = false; });
 
       nextOb = scene.time.now + 900;
+      goldenAt = scene.time.now + goldDelay();
     },
 
     update(t, dtMs) {
@@ -549,6 +560,16 @@ export function create(P, ctx) {
         }
       }
 
+      // ——— the golden plate: touch it at any speed ———
+      if (now >= goldenAt && !obstacles.some((o) => o.golden)) {
+        goldenAt = now + goldDelay();
+        const img = scene.add.image(Math.random() * W * 0.7 + W * 0.15, H + 40 * K,
+          canvasTex(scene, 'dp-goldplate', 120 * K, 30 * K, PAINT.goldplate)).setDepth(11);
+        const halo = scene.add.image(img.x, img.y, 'fx-dot').setTint(0xffd24a).setBlendMode('ADD').setScale(2.2 * K).setAlpha(0.5).setDepth(10);
+        scene.tweens.add({ targets: halo, alpha: 0.25, duration: 500, yoyo: true, repeat: -1 });
+        obstacles.push({ img, halo, kind: 'pickup', meta: { pts: 75 }, hp: 0, grazed: true, w: 100 * K, h: 40 * K, pickup: true, golden: true });
+      }
+
       // ——— obstacles ———
       if (now >= nextOb) {
         spawnObstacle(scene, K);
@@ -558,7 +579,9 @@ export function create(P, ctx) {
       }
       for (const o of [...obstacles]) {
         o.img.y -= v * dt;
+        if (o.halo) o.halo.setPosition(o.img.x, o.img.y);
         if (o.img.y < -o.h) {
+          o.halo?.destroy();
           o.img.destroy();
           obstacles.splice(obstacles.indexOf(o), 1);
           continue;
@@ -568,10 +591,15 @@ export function create(P, ctx) {
         if (dx < hw && dy < hh) {
           if (o.pickup) {
             api.score(o.meta.pts);
-            collectTo(scene, o.img.x, o.img.y, W - 30 * K, 20 * K, 0xffc46c, 8);
-            floatScore(scene, o.img.x, o.img.y, `+${o.meta.pts}`, '#ffc46c', 16 * K);
+            collectTo(scene, o.img.x, o.img.y, W - 30 * K, 20 * K, o.golden ? 0xffd24a : 0xffc46c, o.golden ? 18 : 8);
+            floatScore(scene, o.img.x, o.img.y, `+${o.meta.pts}`, o.golden ? '#ffe9a0' : '#ffc46c', (o.golden ? 22 : 16) * K);
+            if (o.golden) {
+              glyphBanner(scene, 'GOLDEN PLATE', '#ffe9a0', 28 * K);
+              flash(scene, 0xffd24a, 120, 0.3);
+              api.sfx('pr');
+            } else api.sfx('tap');
             api.note(noteStep++);
-            api.sfx('tap');
+            o.halo?.destroy();
             o.img.destroy();
             obstacles.splice(obstacles.indexOf(o), 1);
           } else if (o.kind === 'jelly') {
