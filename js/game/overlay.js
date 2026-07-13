@@ -124,8 +124,10 @@ export async function openGame({ deadline }) {
       banner: false,
       audio: { noAudio: true }, // the app's own WebAudio does the talking
       input: { activePointers: 2 },
+      physics: sceneCfg.physics ?? { default: 'arcade' },
       scene: sceneCfg,
     });
+    if (typeof window !== 'undefined') window.__p3Game = mine.game; // QA hook
   } catch (err) { fail(err); return; }
 
   // HUD clock ticks off the same wall-clock deadline as the rest pill.

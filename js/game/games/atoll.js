@@ -328,7 +328,9 @@ export function create(P, ctx) {
     const dx = aimAt.x - c.x, dy = aimAt.y - c.y;
     const ang = Math.atan2(dy, dx);
     const pow = Math.min(Math.hypot(dx, dy), 210 * K) / (210 * K);
-    const speed = (14 + pow * 15) * K;
+    // range scales with canvas WIDTH so the far ship is reachable on any
+    // aspect (K alone tracks the min dimension and fell short on wide views)
+    const speed = (14 + pow * 15) * Math.max(K, scene.scale.width / 430);
     shotCount++;
     const isLava = cfg.lava && shotCount % 3 === 0;
     const img = scene.matter.add.image(c.x + Math.cos(ang) * 40 * K, c.y + Math.sin(ang) * 40 * K,
@@ -569,7 +571,7 @@ export function create(P, ctx) {
         const ang = Math.atan2(dy, dx);
         cannon.setRotation(ang);
         const pow = Math.min(Math.hypot(dx, dy), 210 * K) / (210 * K);
-        const speed = (14 + pow * 15) * K;
+        const speed = (14 + pow * 15) * Math.max(K, W / 430);
         let px = c.x + Math.cos(ang) * 42 * K, py = c.y + Math.sin(ang) * 42 * K;
         let vx = Math.cos(ang) * speed, vy = Math.sin(ang) * speed;
         aimGfx.fillStyle(0xffffff, 0.85);
