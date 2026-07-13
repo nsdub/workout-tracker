@@ -1,0 +1,566 @@
+// BASS DROP — Pirate Radio Atoll. The navy sends jammers to kill your
+// signal; you defend the antenna with the beat. TAP anywhere to drop a
+// pulse — the shockwave rings outward and pops every jammer it reaches,
+// and each pop fires its own smaller pulse, so one well-placed tap can
+// chain across a whole cluster. Land enough pops and the DROP charges:
+// your next tap is a full BASS DROP that clears the screen.
+//
+// This is a rebuild. The old ship-cannon game was deleted at the user's
+// order — it stacked boats and played itself. Nothing here is physics-
+// stacked: every jammer is a kinematic sprite on a path, and the round
+// only comes alive on your first tap, so an untouched screen is silent.
+//
+// Worlds mutate the beat, never just the wallpaper: relay parrots throw
+// fatter chains, the kraken flanks you from two sides, the skull cave
+// echoes your pulses off its walls, the hurricane blows the jammers
+// crosswind, the volcano rains poppable embers, and the treasure antenna
+// spits golden boomboxes worth a fortune.
+import {
+  ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
+  shake, flash, slowmo, zoomPunch, collectTo, paintSky, ambientMotes,
+  bloomCamera, vignette, squash, unit, celestial, driftClouds,
+} from '../fx.js';
+
+export const TITLE = 'Bass Drop';
+export const VERB = 'DROP!';
+// points per second for 1/2/3 stars — a distracted lifter clears bar 1
+// on any competent round; three stars wants sustained chains + drops.
+export const STARS = [7, 13, 21];
+
+export const HELP = {
+  goal: 'Protect your radio antenna by knocking the navy jammers out of the sky before they reach it.',
+  how: 'Tap anywhere to drop a beat. The shockwave rings outward and pops every jammer it reaches, and each pop sends out its own wave — so one good tap into a cluster can chain across the whole screen. Landing pops charges the DROP meter, and when it is full your next tap is a full bass drop that clears everything.',
+  avoid: 'A jammer that reaches your antenna cuts your signal and costs you points.',
+};
+
+export const WORLDS = {
+  'atoll-wreck': {
+    name: 'Cannon Deck', sky: [[0, '#3a8fd9'], [0.55, '#7ac8ec'], [1, '#ffd98a']],
+    accent: 0xff7a4c, sea: 0x1c5c8c, speed: 1, spawn: 1, secondary: 1, goldEvery: [34, 70],
+  },
+  'atoll-light': {
+    name: 'Volcano Lighthouse', sky: [[0, '#2c0c20'], [0.55, '#6e1f3a'], [1, '#e85a3c']],
+    accent: 0xff9a4c, sea: 0x28184c, speed: 1.12, spawn: 1.1, secondary: 1, embers: true, goldEvery: [34, 70],
+  },
+  'atoll-parrots': {
+    name: 'Parrot Congress', sky: [[0, '#0c6a5c'], [0.55, '#3aa88c'], [1, '#ffe9b3']],
+    accent: 0xe83a4e, sea: 0x0c4a44, speed: 1, spawn: 1.05, secondary: 1.5, relay: true, goldEvery: [34, 70],
+  },
+  'atoll-kraken': {
+    name: "Kraken's Turntables", sky: [[0, '#1c0c3c'], [0.55, '#3c2468'], [1, '#8c4a9c']],
+    accent: 0x9c6ee8, sea: 0x140a30, speed: 1.05, spawn: 1.15, secondary: 1, dual: true, kraken: true, goldEvery: [36, 74],
+  },
+  'atoll-bottles': {
+    name: 'Message Bay', sky: [[0, '#2c6a9c'], [0.55, '#6ab8d8'], [1, '#ffe0a0']],
+    accent: 0x3adcc8, sea: 0x1a4a70, speed: 0.95, spawn: 1, secondary: 1, bottles: true, goldEvery: [30, 64],
+  },
+  'atoll-skull': {
+    name: 'Skull Cave Studio', sky: [[0, '#0c0c14'], [0.55, '#1c1c2c'], [1, '#3a3450']],
+    accent: 0xaef0ff, sea: 0x0a0a18, speed: 1, spawn: 1, secondary: 1, echo: true, cave: true, goldEvery: [34, 70],
+  },
+  'atoll-storm': {
+    name: 'Hurricane Dancefloor', sky: [[0, '#141c2c'], [0.55, '#2c3a50'], [1, '#546a84']],
+    accent: 0x8ab8dc, sea: 0x0f1c30, speed: 1.15, spawn: 1.12, secondary: 1, wind: true, goldEvery: [34, 70],
+  },
+  'atoll-antenna': {
+    name: 'Treasure Antenna', sky: [[0, '#1c3444'], [0.55, '#3a6a7c'], [1, '#ffc46c']],
+    accent: 0xffd24a, sea: 0x143444, speed: 1, spawn: 1, secondary: 1, jackpot: true, goldEvery: [18, 38],
+  },
+};
+
+// ——— painters: canvas 2D once, WebGL sprite forever. Faces on everything. ———
+
+const PAINT = {
+  drone(c, w, h) {
+    // navy jammer: dark disc, red signal dish, propeller, a scowl
+    const g = c.createRadialGradient(w * 0.4, h * 0.38, 2, w / 2, h * 0.55, w * 0.5);
+    g.addColorStop(0, '#4a5568'); g.addColorStop(1, '#232a38');
+    c.fillStyle = g;
+    c.beginPath(); c.ellipse(w / 2, h * 0.56, w * 0.4, h * 0.34, 0, 0, 7); c.fill();
+    // propeller
+    c.strokeStyle = '#8894a8'; c.lineWidth = h * 0.05; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(w * 0.2, h * 0.16); c.lineTo(w * 0.8, h * 0.16); c.stroke();
+    c.fillStyle = '#8894a8'; c.fillRect(w * 0.46, h * 0.14, w * 0.08, h * 0.16);
+    // red dish
+    c.fillStyle = '#e83a4e';
+    c.beginPath(); c.moveTo(w * 0.5, h * 0.42); c.lineTo(w * 0.66, h * 0.3); c.lineTo(w * 0.7, h * 0.44); c.closePath(); c.fill();
+    // scowl
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(w * 0.4, h * 0.56, w * 0.05, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.6, h * 0.56, w * 0.05, 0, 7); c.fill();
+    c.fillStyle = '#14141c';
+    c.beginPath(); c.arc(w * 0.4, h * 0.57, w * 0.022, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.6, h * 0.57, w * 0.022, 0, 7); c.fill();
+    c.strokeStyle = '#14141c'; c.lineWidth = w * 0.03;
+    c.beginPath(); c.arc(w * 0.5, h * 0.78, w * 0.1, 3.6, 5.8); c.stroke();
+  },
+  blimp(c, w, h) {
+    // censor blimp: bigger, takes two hits
+    const g = c.createLinearGradient(0, h * 0.2, 0, h * 0.8);
+    g.addColorStop(0, '#5c4a2a'); g.addColorStop(1, '#3a2c14');
+    c.fillStyle = g;
+    c.beginPath(); c.ellipse(w / 2, h * 0.44, w * 0.44, h * 0.3, 0, 0, 7); c.fill();
+    c.fillStyle = '#8a2c2c';
+    c.fillRect(w * 0.28, h * 0.62, w * 0.44, h * 0.16);
+    c.fillStyle = '#ffe9b3';
+    c.font = `700 ${Math.round(h * 0.12)}px sans-serif`;
+    c.textAlign = 'center'; c.fillText('NO', w * 0.5, h * 0.735);
+    c.fillStyle = '#14141c';
+    c.beginPath(); c.arc(w * 0.42, h * 0.42, w * 0.03, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.58, h * 0.42, w * 0.03, 0, 7); c.fill();
+  },
+  note(c, w, h) {
+    // the navy's counter-broadcast — fast little jammer note
+    c.fillStyle = '#c85ad8';
+    c.beginPath(); c.ellipse(w * 0.38, h * 0.66, w * 0.22, h * 0.17, -0.4, 0, 7); c.fill();
+    c.fillRect(w * 0.54, h * 0.2, w * 0.08, h * 0.46);
+    c.beginPath(); c.moveTo(w * 0.54, h * 0.2); c.quadraticCurveTo(w * 0.86, h * 0.24, w * 0.8, h * 0.44);
+    c.lineTo(w * 0.62, h * 0.36); c.closePath(); c.fill();
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(w * 0.33, h * 0.62, w * 0.04, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.44, h * 0.62, w * 0.04, 0, 7); c.fill();
+  },
+  parrot(c, w, h) {
+    c.fillStyle = '#e83a4e';
+    c.beginPath(); c.ellipse(w * 0.46, h * 0.56, w * 0.28, h * 0.34, 0.15, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.6, h * 0.3, w * 0.17, 0, 7); c.fill();
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.moveTo(w * 0.72, h * 0.28); c.lineTo(w * 0.92, h * 0.34); c.lineTo(w * 0.72, h * 0.4); c.closePath(); c.fill();
+    c.fillStyle = '#3a8fd9';
+    c.beginPath(); c.ellipse(w * 0.3, h * 0.62, w * 0.17, h * 0.26, 0.6, 0, 7); c.fill();
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(w * 0.62, h * 0.27, w * 0.05, 0, 7); c.fill();
+    c.fillStyle = '#14141c';
+    c.beginPath(); c.arc(w * 0.63, h * 0.27, w * 0.022, 0, 7); c.fill();
+  },
+  ember(c, w, h) {
+    const g = c.createRadialGradient(w / 2, h / 2, 1, w / 2, h / 2, w * 0.5);
+    g.addColorStop(0, '#fff0c8'); g.addColorStop(0.4, '#ff9a3c'); g.addColorStop(1, 'rgba(226,69,46,0)');
+    c.fillStyle = g;
+    c.fillRect(0, 0, w, h);
+    c.fillStyle = '#5c2408';
+    c.beginPath(); c.arc(w * 0.42, h * 0.48, w * 0.03, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.58, h * 0.48, w * 0.03, 0, 7); c.fill();
+  },
+  bottle(c, w, h) {
+    c.fillStyle = 'rgba(122,216,196,.9)';
+    c.beginPath(); c.roundRect(w * 0.32, h * 0.32, w * 0.36, h * 0.58, w * 0.12); c.fill();
+    c.fillRect(w * 0.42, h * 0.12, w * 0.16, h * 0.24);
+    c.fillStyle = '#8a5a2a'; c.fillRect(w * 0.42, h * 0.06, w * 0.16, h * 0.1);
+    c.fillStyle = '#e8d5ae'; c.fillRect(w * 0.37, h * 0.46, w * 0.26, h * 0.3);
+    c.fillStyle = '#3adcc8';
+    c.beginPath(); c.arc(w * 0.44, h * 0.6, w * 0.03, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.56, h * 0.6, w * 0.03, 0, 7); c.fill();
+  },
+  boombox(c, w, h) {
+    // the golden jackpot — a treasure boombox on the wind
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#ffe9a0'); g.addColorStop(1, '#c8892c');
+    c.fillStyle = g;
+    c.beginPath(); c.roundRect(w * 0.08, h * 0.3, w * 0.84, h * 0.5, w * 0.06); c.fill();
+    c.fillStyle = '#5c3408';
+    c.beginPath(); c.arc(w * 0.32, h * 0.56, w * 0.15, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.68, h * 0.56, w * 0.15, 0, 7); c.fill();
+    c.fillStyle = '#ffe9a0';
+    c.beginPath(); c.arc(w * 0.32, h * 0.56, w * 0.06, 0, 7); c.fill();
+    c.beginPath(); c.arc(w * 0.68, h * 0.56, w * 0.06, 0, 7); c.fill();
+    c.strokeStyle = '#5c3408'; c.lineWidth = w * 0.05; c.lineCap = 'round';
+    c.beginPath(); c.arc(w * 0.5, h * 0.3, w * 0.34, Math.PI, 0); c.stroke();
+  },
+  antenna(c, w, h) {
+    // your radio tower — drawn once, placed at the bottom center
+    c.strokeStyle = '#c8b088'; c.lineWidth = w * 0.06; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(w * 0.5, h); c.lineTo(w * 0.5, h * 0.14); c.stroke();
+    c.lineWidth = w * 0.04;
+    c.beginPath(); c.moveTo(w * 0.5, h * 0.98); c.lineTo(w * 0.18, h); c.moveTo(w * 0.5, h * 0.98); c.lineTo(w * 0.82, h); c.stroke();
+    for (const fy of [0.4, 0.62, 0.82]) {
+      c.beginPath(); c.moveTo(w * 0.36, h * (fy + 0.06)); c.lineTo(w * 0.5, h * fy); c.lineTo(w * 0.64, h * (fy + 0.06)); c.stroke();
+    }
+    // the broadcast lamp on top (glow drawn live in-scene)
+    c.fillStyle = '#fff0c8';
+    c.beginPath(); c.arc(w * 0.5, h * 0.1, w * 0.08, 0, 7); c.fill();
+  },
+};
+
+const SIZES = { drone: [48, 48], blimp: [76, 56], note: [38, 44], parrot: [50, 46], ember: [40, 40], bottle: [34, 48], boombox: [60, 44], antenna: [80, 120] };
+const HP = { drone: 1, blimp: 2, note: 1, parrot: 1, ember: 1 };
+const PTS = { drone: 10, blimp: 18, note: 14, parrot: 12, ember: 8 };
+
+export function create(P, ctx) {
+  const { api, cfg } = ctx;
+  const enemies = [];
+  const pulses = [];      // { x, y, r, maxR, hit:Set, kind:'beat'|'echo'|'bass' }
+  let golden = null;      // { spr, x, y, vx }
+  let antennaImg, lamp, seaGfx, pulseGfx, meterGfx;
+  let started = false;
+  let signal = 100;
+  let jamUntil = 0;
+  let beatReadyAt = 0;
+  let combo = 0;          // DROP meter 0..1
+  let chain = 0;          // pops in the current cascade
+  let chainResetAt = 0;
+  let noteStep = 0;
+  let spawnAt = 0;
+  let goldenAt = 0;
+  let t0 = 0;
+  let fever = false;
+  let krakenPhase = 0, krakenGfx;
+
+  const antennaPos = (scene) => ({ x: scene.scale.width / 2, y: scene.scale.height * 0.9 });
+  const BEAT_CD = 300;    // ms between beats — you can't out-tap the rhythm
+
+  function tex(scene, kind, K) {
+    const [w, h] = SIZES[kind];
+    return canvasTex(scene, `at-${kind}`, w * K, h * K, PAINT[kind]);
+  }
+
+  function spawnEnemy(scene, K) {
+    const W = scene.scale.width, H = scene.scale.height;
+    const elapsed = (scene.time.now - t0) / 1000;
+    // roster widens as the rest wears on
+    const roll = Math.random();
+    let kind = 'drone';
+    if (cfg.relay && roll < 0.5) kind = 'parrot';
+    else if (roll < 0.2 && elapsed > 12) kind = 'blimp';
+    else if (roll < 0.5) kind = 'note';
+    const [w, h] = SIZES[kind];
+    const fromSide = cfg.dual && Math.random() < 0.5;
+    let x, y, vx, vy;
+    const ap = antennaPos(scene);
+    if (fromSide) {
+      const left = Math.random() < 0.5;
+      x = left ? -w * K : W + w * K;
+      y = H * (0.16 + Math.random() * 0.4);
+    } else {
+      x = W * (0.12 + Math.random() * 0.76);
+      y = -h * K;
+    }
+    // aim a lazy course toward the antenna; speed ramps with elapsed time
+    const base = H * 0.05 * cfg.speed * (1 + Math.min(1, elapsed / 150)) * (fever ? 1.2 : 1);
+    const sp = base * (kind === 'note' ? 1.5 : kind === 'blimp' ? 0.7 : 1);
+    const dx = ap.x - x, dy = ap.y - y, d = Math.hypot(dx, dy) || 1;
+    vx = (dx / d) * sp; vy = (dy / d) * sp;
+    const spr = scene.add.image(x, y, tex(scene, kind, K)).setDepth(20);
+    enemies.push({ spr, x, y, vx, vy, kind, hp: HP[kind], r: (w + h) / 4 * K * 0.9, wob: Math.random() * 7 });
+  }
+
+  function spawnGolden(scene, K) {
+    const W = scene.scale.width, H = scene.scale.height;
+    const left = Math.random() < 0.5;
+    const spr = scene.add.image(left ? -40 * K : W + 40 * K, H * (0.2 + Math.random() * 0.3),
+      tex(scene, 'boombox', K)).setDepth(21);
+    const halo = scene.add.image(spr.x, spr.y, 'fx-dot').setTint(0xffd24a).setBlendMode('ADD').setScale(1.8 * K).setAlpha(0.5).setDepth(20);
+    golden = { spr, halo, vx: (left ? 1 : -1) * H * 0.06, r: 30 * K };
+  }
+
+  function firePulse(scene, K, x, y, kind) {
+    const W = scene.scale.width;
+    const maxR = kind === 'bass' ? W * 1.1 : kind === 'secondary' ? 90 * K * cfg.secondary : 150 * K;
+    pulses.push({ x, y, r: 6 * K, maxR, hit: new Set(), kind, born: scene.time.now });
+    if (kind !== 'secondary') {
+      shockRing(scene, x, y, cfg.accent, maxR * 0.7);
+      api.sfx('log');
+    }
+    if (kind === 'bass') {
+      flash(scene, cfg.accent, 140, 0.4);
+      shake(scene, 0.016, 240);
+      zoomPunch(scene, 1.08, 300);
+    }
+    // skull cave: the pulse echoes off the walls a beat later
+    if (cfg.echo && kind === 'beat') {
+      scene.time.delayedCall(220, () => {
+        if (!scene.scene.isActive()) return;
+        for (const ex of [W * 0.06, W * 0.94]) {
+          pulses.push({ x: ex, y, r: 6 * K, maxR: 120 * K, hit: new Set(), kind: 'secondary', born: scene.time.now });
+        }
+      });
+    }
+  }
+
+  function popEnemy(scene, K, e, chainIdx) {
+    const gain = (PTS[e.kind] + Math.min(chainIdx, 12) * 3);
+    api.score(gain);
+    api.note(noteStep = Math.min(noteStep + 1, 14));
+    floatScore(scene, e.spr.x, e.spr.y - 14 * K, `+${gain}`, chainIdx > 2 ? '#fff0c8' : '#ffd24a', (14 + Math.min(10, chainIdx * 2)) * K);
+    burst(scene, e.spr.x, e.spr.y, cfg.accent, { n: 12, speed: 260 * K, scale: 0.5 * K });
+    api.haptic(6);
+    e.spr.destroy();
+    const i = enemies.indexOf(e); if (i >= 0) enemies.splice(i, 1);
+    // the chain: each pop rings its own pulse
+    firePulse(scene, K, e.spr.x, e.spr.y, 'secondary');
+    chain++;
+    chainResetAt = scene.time.now + 260;
+    if (chain === 4) banner(scene, 'CHAIN ×4', '#ffd24a', 26 * K);
+    if (chain === 8) { banner(scene, `CHAIN ×${chain}`, '#ff9a3c', 30 * K); slowmo(scene, 0.4, 320); }
+    if (chain >= 8 && chain % 4 === 0) banner(scene, `CHAIN ×${chain}`, '#ff9a3c', 30 * K);
+    // charge the DROP meter
+    if (combo < 1) {
+      combo = Math.min(1, combo + 0.05);
+      if (combo >= 1) { glyphBanner(scene, 'DROP READY', '#ffd24a', 26 * K); api.sfx('objDone'); }
+    }
+  }
+
+  function hitEnemy(scene, K, e, chainIdx) {
+    e.hp--;
+    if (e.hp <= 0) { popEnemy(scene, K, e, chainIdx); return; }
+    // survived (blimp): flash + shove
+    squash(scene, e.spr, 'x');
+    burst(scene, e.spr.x, e.spr.y, cfg.accent, { n: 5, speed: 160 * K, scale: 0.35 * K });
+    api.sfx('tap');
+  }
+
+  function drop(scene, K, x, y) {
+    started = true;
+    const now = scene.time.now;
+    if (now < beatReadyAt) { // off the beat — a soft dud, no waste of a good tap
+      floatScore(scene, x, y, '·', '#8a9ac8', 12 * K);
+      return;
+    }
+    beatReadyAt = now + BEAT_CD;
+    if (combo >= 1) {
+      combo = 0;
+      glyphBanner(scene, 'BASS DROP', '#ffd24a', 32 * K);
+      firePulse(scene, K, x, y, 'bass');
+      api.sfx('pr');
+      api.haptic([14, 40, 14]);
+    } else {
+      firePulse(scene, K, x, y, 'beat');
+      api.haptic(8);
+    }
+  }
+
+  // ——— backdrop ———
+  function drawBackdrop(scene, K) {
+    const W = scene.scale.width, H = scene.scale.height;
+    paintSky(scene, cfg.sky);
+    bloomCamera(scene);
+    vignette(scene, 0.4, 0.78);
+    // horizon adapts to tall phones so the play space fills the screen
+    const seaY = H * (H > W * 1.45 ? 0.6 : 0.68);
+    scene._seaY = seaY;
+    // a lighthouse island tucked in the far background, out of the lane
+    canvasTex(scene, 'at-isle', W, H, (c) => {
+      c.fillStyle = 'rgba(30,40,66,.5)';
+      c.beginPath(); c.ellipse(W * 0.16, seaY, W * 0.12, H * 0.03, 0, Math.PI, 0); c.fill();
+      const vx = W * 0.16, vw = W * 0.07, base = seaY;
+      c.fillStyle = 'rgba(26,30,50,.8)';
+      c.beginPath();
+      c.moveTo(vx - vw, base); c.lineTo(vx - vw * 0.3, base - H * 0.08);
+      c.lineTo(vx + vw * 0.3, base - H * 0.08); c.lineTo(vx + vw, base); c.closePath(); c.fill();
+      c.fillStyle = 'rgba(255,220,150,.5)';
+      c.fillRect(vx - W * 0.01, base - H * 0.1, W * 0.02, H * 0.02);
+    });
+    scene.add.image(0, 0, 'at-isle').setOrigin(0).setDepth(-70);
+    celestial(scene, W * 0.8, H * 0.14, 22 * K,
+      cfg.cave ? 0xaef0ff : cfg.wind ? 0x9cb0c8 : 0xfff0c8, { crescent: cfg.cave || cfg.kraken, depth: -88 });
+    driftClouds(scene, {
+      n: cfg.wind ? 4 : 2, tint: cfg.wind ? 0x3c4a5c : 0xffffff,
+      alpha: cfg.wind ? 0.7 : 0.45, yBand: [0.04, 0.2], depth: -76, speed: cfg.wind ? 44 : 9,
+    });
+    ambientMotes(scene, cfg.accent, { alpha: 0.35 });
+    if (cfg.embers) {
+      scene.add.particles(0, 0, 'fx-dot', {
+        x: { min: 0, max: W }, y: -10, speedY: { min: 30 * K, max: 80 * K },
+        scale: { start: 0.3 * K, end: 0 }, tint: 0xff7a3c, blendMode: 'ADD',
+        lifespan: 4000, frequency: 320, advance: 4000,
+      }).setDepth(-30);
+    }
+    // the sea
+    seaGfx = scene.add.graphics().setDepth(5);
+    // the radio tower — your ward
+    const ap = antennaPos(scene);
+    scene.add.rectangle(ap.x, ap.y + H * 0.05, W * 1.2, H * 0.12, 0x0c1420, 0.6).setDepth(6);
+    antennaImg = scene.add.image(ap.x, ap.y, tex(scene, 'antenna', K * 1.4)).setOrigin(0.5, 1).setDepth(7);
+    scene._lampY = ap.y - SIZES.antenna[1] * 1.4 * K * 0.9;
+    lamp = scene.add.image(ap.x, scene._lampY, 'fx-dot').setTint(0xff5d5d).setBlendMode('ADD').setScale(1.2 * K).setDepth(8);
+  }
+
+  return {
+    // Arcade physics present but unused for bodies — we move sprites by
+    // hand. Declared so the overlay's physics config is satisfied; nothing
+    // here can be flung by a solver, so nothing can play itself.
+    physics: { default: 'arcade', arcade: { gravity: { x: 0, y: 0 } } },
+
+    fever() { fever = true; },
+
+    create() {
+      const scene = this;
+      const K = unit(scene);
+      const W = scene.scale.width, H = scene.scale.height;
+      ensureFx(scene);
+      drawBackdrop(scene, K);
+      pulseGfx = scene.add.graphics().setDepth(30).setBlendMode(P.BlendModes.ADD);
+      meterGfx = scene.add.graphics().setDepth(40);
+      if (cfg.kraken) krakenGfx = scene.add.graphics().setDepth(9);
+
+      scene.input.on('pointerdown', (p) => drop(scene, K, p.x, p.y));
+
+      // pre-start: a calm sea and a slow "tap to begin" pulse on the lamp.
+      // Timers anchor on the first update (scene.time.now reads ~0 in
+      // create()), and nothing spawns or scores until the first tap.
+    },
+
+    update(t, dtMs) {
+      const scene = this;
+      const dt = Math.min(dtMs, 64) / 1000;
+      const K = unit(scene);
+      const W = scene.scale.width, H = scene.scale.height;
+      const now = scene.time.now;
+      const seaY = scene._seaY ?? H * 0.66;
+      const ap = antennaPos(scene);
+
+      if (!t0) { t0 = now; spawnAt = now + 700; goldenAt = now + cfg.goldEvery[0] * 1000; }
+
+      // living sea
+      seaGfx.clear();
+      seaGfx.fillStyle(cfg.sea, 1);
+      seaGfx.beginPath(); seaGfx.moveTo(0, seaY);
+      for (let x = 0; x <= W; x += W / 16) seaGfx.lineTo(x, seaY + Math.sin(now / 700 + x / (40 * K)) * 4 * K);
+      seaGfx.lineTo(W, H); seaGfx.lineTo(0, H); seaGfx.closePath(); seaGfx.fillPath();
+      seaGfx.fillStyle(0xffffff, 0.06);
+      for (let i = 0; i < 5; i++) seaGfx.fillRect((i * W / 5 + now / 40) % W, seaY + (10 + i * 14) * K, 46 * K, 2 * K);
+
+      // the broadcast lamp: green while signal holds, redder as it drops,
+      // and it breathes faster the more jammers are near
+      const sig = Math.max(0, signal) / 100;
+      lamp.setTint(sig > 0.5 ? 0x5fe89a : sig > 0.25 ? 0xffd24a : 0xff5d5d);
+      lamp.setScale((1 + 0.25 * Math.sin(now / (started ? 300 : 700))) * K * 1.3);
+
+      // ——— pre-start: dead air, nothing advances ———
+      if (!started) { drawPulses(scene, K); return; }
+
+      // ——— spawn ———
+      if (now >= spawnAt) {
+        const elapsed = (now - t0) / 1000;
+        let n = 1 + (Math.random() < 0.3 ? 1 : 0) + (elapsed > 60 ? 1 : 0);
+        if (fever) n += 1;
+        for (let i = 0; i < n; i++) scene.time.delayedCall(i * 120, () => scene.scene.isActive() && spawnEnemy(scene, K));
+        spawnAt = now + Math.max(520, 1400 - elapsed * 5) / (cfg.spawn * (fever ? 1.3 : 1));
+      }
+      // golden boombox
+      if (!golden && now >= goldenAt) spawnGolden(scene, K);
+      if (golden) {
+        golden.spr.x += golden.vx * dt;
+        golden.spr.y += Math.sin(now / 400) * 12 * K * dt;
+        golden.halo.setPosition(golden.spr.x, golden.spr.y);
+        if (golden.spr.x < -60 * K || golden.spr.x > W + 60 * K) {
+          golden.spr.destroy(); golden.halo.destroy(); golden = null;
+          goldenAt = now + cfg.goldEvery[0] * 1000 + Math.random() * (cfg.goldEvery[1] - cfg.goldEvery[0]) * 1000;
+        }
+      }
+
+      // kraken tentacle sweep
+      if (cfg.kraken && krakenGfx) {
+        krakenPhase += dt;
+        krakenGfx.clear();
+        const kx = W / 2 + Math.sin(krakenPhase * 0.6) * W * 0.4;
+        const top = seaY - (Math.sin(krakenPhase * 0.9) * 0.5 + 0.5) * H * 0.3;
+        krakenGfx.fillStyle(0x6a3a9c, 0.85);
+        krakenGfx.beginPath(); krakenGfx.moveTo(kx - 20 * K, seaY);
+        krakenGfx.lineTo(kx - 8 * K, top); krakenGfx.lineTo(kx + 8 * K, top); krakenGfx.lineTo(kx + 20 * K, seaY);
+        krakenGfx.closePath(); krakenGfx.fillPath();
+      }
+
+      // ——— advance enemies ———
+      if (now > chainResetAt) chain = 0;
+      const jammed = now < jamUntil;
+      for (const e of [...enemies]) {
+        e.spr.x += e.vx * dt + (cfg.wind ? Math.sin(now / 800 + e.wob) * 40 * K * dt : 0);
+        e.spr.y += e.vy * dt;
+        e.spr.setAngle(Math.sin(now / 300 + e.wob) * 6);
+        // reached the antenna: cut the signal, cost points, brief jam
+        if (Math.hypot(e.spr.x - ap.x, e.spr.y - ap.y) < 46 * K) {
+          signal = Math.max(0, signal - 8);
+          api.score(-6);
+          jamUntil = now + 350;
+          floatScore(scene, ap.x, ap.y - 60 * K, 'signal −6', '#ff5d7a', 15 * K);
+          burst(scene, e.spr.x, e.spr.y, 0xff5d5d, { n: 10, speed: 220 * K, scale: 0.45 * K });
+          shake(scene, 0.01, 130);
+          api.haptic([12, 30, 12]);
+          api.sfx('log');
+          e.spr.destroy(); enemies.splice(enemies.indexOf(e), 1);
+          // recover signal slowly so a bad beat is never fatal
+          continue;
+        }
+        if (e.spr.y > H + 60 * K) { e.spr.destroy(); enemies.splice(enemies.indexOf(e), 1); }
+      }
+      // signal recovers gently — the game is a score chase, never a loss
+      signal = Math.min(100, signal + dt * 3);
+
+      // ——— pulses expand and sweep ———
+      for (const pl of [...pulses]) {
+        pl.r += (pl.kind === 'bass' ? W * 1.6 : 520 * K) * dt;
+        // sweep enemies the ring front has now reached
+        if (!jammed || pl.kind === 'secondary') {
+          for (const e of [...enemies]) {
+            if (pl.hit.has(e)) continue;
+            const d = Math.hypot(e.spr.x - pl.x, e.spr.y - pl.y);
+            if (d <= pl.r && d <= pl.maxR + e.r) {
+              pl.hit.add(e);
+              hitEnemy(scene, K, e, chain);
+            }
+          }
+          // golden caught by any pulse
+          if (golden && !pl.hit.has('gold')) {
+            const d = Math.hypot(golden.spr.x - pl.x, golden.spr.y - pl.y);
+            if (d <= pl.r && d <= pl.maxR + golden.r) {
+              pl.hit.add('gold');
+              api.score(75);
+              glyphBanner(scene, 'TREASURE +75', '#ffe9a0', 26 * K);
+              collectTo(scene, golden.spr.x, golden.spr.y, W - 30 * K, 20 * K, 0xffd24a, 18);
+              burst(scene, golden.spr.x, golden.spr.y, 0xffd24a, { n: 24, speed: 360 * K, scale: 0.6 * K });
+              flash(scene, 0xffd24a, 120, 0.3);
+              api.sfx('pr');
+              golden.spr.destroy(); golden.halo.destroy(); golden = null;
+              goldenAt = now + cfg.goldEvery[0] * 1000 + Math.random() * (cfg.goldEvery[1] - cfg.goldEvery[0]) * 1000;
+            }
+          }
+        }
+        if (pl.r >= pl.maxR) pulses.splice(pulses.indexOf(pl), 1);
+      }
+
+      drawPulses(scene, K);
+      drawMeter(scene, K);
+    },
+  };
+
+  function drawPulses(scene, K) {
+    pulseGfx.clear();
+    for (const pl of pulses) {
+      const a = Math.max(0, 1 - pl.r / pl.maxR);
+      const col = pl.kind === 'bass' ? 0xffd24a : cfg.accent;
+      pulseGfx.lineStyle((pl.kind === 'bass' ? 10 : 6) * K * (0.4 + a), col, 0.4 + a * 0.5);
+      pulseGfx.strokeCircle(pl.x, pl.y, pl.r);
+      if (pl.kind !== 'secondary') {
+        pulseGfx.lineStyle(2 * K, 0xffffff, a * 0.5);
+        pulseGfx.strokeCircle(pl.x, pl.y, pl.r);
+      }
+    }
+    // beat-cooldown ring on the antenna so readiness is legible
+    const ap = antennaPos(scene);
+    const cd = Math.max(0, beatReadyAt - scene.time.now) / BEAT_CD;
+    if (cd > 0) {
+      pulseGfx.lineStyle(3 * K, cfg.accent, 0.5);
+      pulseGfx.beginPath();
+      pulseGfx.arc(ap.x, scene._lampY ?? ap.y - 150 * K, 16 * K, -Math.PI / 2, -Math.PI / 2 + (1 - cd) * Math.PI * 2);
+      pulseGfx.strokePath();
+    }
+  }
+
+  function drawMeter(scene, K) {
+    const W = scene.scale.width, H = scene.scale.height;
+    meterGfx.clear();
+    // DROP meter along the bottom edge — fills gold, glows when READY
+    const y = H - 8 * K, w = W * 0.6, x0 = W * 0.2;
+    meterGfx.fillStyle(0x14202c, 0.7);
+    meterGfx.fillRoundedRect(x0, y - 3 * K, w, 6 * K, 3 * K);
+    const full = combo >= 1;
+    meterGfx.fillStyle(full ? 0xffd24a : cfg.accent, full ? 0.95 : 0.8);
+    meterGfx.fillRoundedRect(x0, y - 3 * K, w * combo, 6 * K, 3 * K);
+    if (full) {
+      const pulse = 0.4 + 0.3 * Math.sin(scene.time.now / 160);
+      meterGfx.lineStyle(2 * K, 0xfff0c8, pulse);
+      meterGfx.strokeRoundedRect(x0 - 2 * K, y - 5 * K, w + 4 * K, 10 * K, 5 * K);
+    }
+  }
+}

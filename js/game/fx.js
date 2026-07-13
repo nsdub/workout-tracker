@@ -212,6 +212,9 @@ export function banner(scene, text, color = '#ffd24a', size = 34) {
     strokeThickness: size * 0.28,
     shadow: { offsetX: 0, offsetY: 4, color: 'rgba(0,0,0,.5)', blur: 10, fill: true },
   }).setOrigin(0.5).setDepth(61).setScale(0.2).setAngle(-4);
+  // fit to the screen — a banner that runs off both edges is a bug, not drama
+  const maxW = W * 0.9;
+  if (t.width > maxW) t.setFontSize(Math.max(12, Math.floor(size * 1.15 * maxW / t.width)));
   scene.tweens.add({ targets: t, scale: 1, angle: 0, duration: 260, ease: 'Back.easeOut' });
   scene.tweens.add({ targets: t, alpha: 0, y: H * 0.26, scale: 1.08, delay: 800, duration: 420, ease: 'Cubic.easeIn', onComplete: () => t.destroy() });
 }
@@ -423,7 +426,16 @@ export function glyphBanner(scene, text, color = '#ffd24a', size = 36) {
     .setOrigin(0.5).setDepth(61).setScale(0).setAlpha(0)
     .setAngle((Math.random() - 0.5) * 22));
   const widths = objs.map((o, i) => (glyphs[i] === ' ' ? size * 0.5 : o.width * 0.92));
-  const total = widths.reduce((a, b) => a + b, 0);
+  let total = widths.reduce((a, b) => a + b, 0);
+  // shrink to fit the screen so a long banner never runs off both edges
+  const maxW = W * 0.9;
+  if (total > maxW) {
+    const fit = maxW / total;
+    const px = Math.max(11, Math.floor(size * 1.15 * fit));
+    objs.forEach((o) => o.setFontSize(px));
+    for (let i = 0; i < widths.length; i++) widths[i] *= fit;
+    total *= fit;
+  }
   let x = W / 2 - total / 2;
   objs.forEach((o, i) => { o.x = x + widths[i] / 2; x += widths[i]; });
   scene.tweens.add({
