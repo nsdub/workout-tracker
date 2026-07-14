@@ -1,0 +1,156 @@
+{
+  "date": "2026-07-13",
+  "session_type": "PullB",
+  "phase": "calibration",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 115,
+          "reps": 8,
+          "at": 1783985552806
+        },
+        {
+          "weight": 135,
+          "reps": 8,
+          "at": 1783985680140
+        },
+        {
+          "weight": 145,
+          "reps": 8,
+          "at": 1783985798761
+        },
+        {
+          "weight": 145,
+          "reps": 8,
+          "at": 1783985937160
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 112.5,
+          "reps": 10,
+          "at": 1783986122137
+        },
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1783986260800
+        },
+        {
+          "weight": 112.5,
+          "reps": 10,
+          "at": 1783986430922
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 13,
+          "at": 1783986561275
+        },
+        {
+          "weight": 37.5,
+          "reps": 12,
+          "at": 1783986682741
+        },
+        {
+          "weight": 30,
+          "reps": 12,
+          "at": 1783986796250
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 14,
+          "at": 1783986918852
+        },
+        {
+          "weight": 60,
+          "reps": 14,
+          "at": 1783987026462
+        },
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1783987141558
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 20,
+          "reps": 10,
+          "at": 1783987268957
+        },
+        {
+          "weight": 20,
+          "reps": 10,
+          "at": 1783987385272
+        },
+        {
+          "weight": 20,
+          "reps": 10,
+          "at": 1783987503145
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 32.5,
+          "reps": 12,
+          "at": 1783987661682
+        },
+        {
+          "weight": 32.5,
+          "reps": 12,
+          "at": 1783987758522
+        },
+        {
+          "weight": 32.5,
+          "reps": 12,
+          "at": 1783987881424
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 22.5,
+          "reps": 15,
+          "at": 1783987983028
+        },
+        {
+          "weight": 22.5,
+          "reps": 15,
+          "at": 1783988085793
+        }
+      ]
+    }
+  ],
+  "world": "kraken"
+}
