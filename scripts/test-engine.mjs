@@ -50,12 +50,25 @@ ok('empty history starts at PushA', () => {
 
 // ——— Prescriptions ———
 const calib = E.phaseForDate(plan, '2026-07-15');
-ok('calibration: seed −10% rounded to 2.5 (185 → 167.5)', () => {
+ok('calibration: 90% rounded DOWN to the program grid, never off it (185 → 165)', () => {
   const rx = E.prescribe(plan, history, 'PushA', slot('PushA', 'smith-incline-press'), calib);
   assert.equal(rx.basis, 'calibration');
   assert.equal(rx.sets.length, 4);
-  assert.equal(rx.sets[0].weight, 167.5);
+  // 185 × 0.9 = 166.5 → floored to the 5 lb upper grid = 165. NEVER 167.5
+  // (that rounded UP, above 90%, onto a 2.5 grid the program never uses).
+  assert.equal(rx.sets[0].weight, 165);
   assert.equal(rx.sets[0].reps, 6);
+});
+ok('calibration: cables/machines land on real, loadable weights (no 27.5 / 72.5)', () => {
+  const w = (id) => E.prescribe(plan, history, 'PushA', slot('PushA', id), calib).sets[0].weight;
+  assert.equal(w('machine-chest-press'), 190);        // 193.5 → 190 (≤90%), not 192.5
+  assert.equal(w('cable-crossover-low-high'), 25);    // 27 → 25, not 27.5
+  assert.equal(w('rope-pushdown'), 70);               // 72 → 70, not 72.5
+  assert.equal(w('cable-lateral-raise'), 10);         // 11.25 → 10, not 12.5 (which was 100% of the seed)
+});
+ok('calibration: lower lifts round down to the 10 lb grid (240 → 210)', () => {
+  const rx = E.prescribe(plan, history, 'LegsA', slot('LegsA', 'leg-press-low'), calib);
+  assert.equal(rx.sets[0].weight, 210);               // 240 × 0.9 = 216 → floored to 10 = 210, not 215
 });
 ok('calibration: null seed → verify', () => {
   const rx = E.prescribe(plan, history, 'PullA', slot('PullA', 'lat-pulldown-wide'), calib);
@@ -129,6 +142,14 @@ ok('deload: −20% load, ~60% sets (4 → 2)', () => {
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), deload);
   assert.equal(rx.basis, 'deload');
   assert.equal(rx.sets.length, 2);
+  assert.equal(rx.sets[0].weight, 160);
+});
+ok('deload: rounds DOWN, never up past the 80% target (205 → 160)', () => {
+  const h = [...history, mkEntry('2026-08-10', 'PushA', 'smith-incline-press', [
+    { weight: 205, reps: 8 }, { weight: 205, reps: 8 }, { weight: 205, reps: 8 }, { weight: 205, reps: 8 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), deload);
+  // 205 × 0.8 = 164 → floored to 5 = 160. The old 2.5-grid gave 165, ABOVE the 80% target.
   assert.equal(rx.sets[0].weight, 160);
 });
 ok('meso 2 progresses off meso 1, skipping the deload entry', () => {

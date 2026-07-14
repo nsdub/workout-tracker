@@ -197,8 +197,8 @@ const BASIS = {
   repeat: (x) => `Repeat <span class="num">${fmtW(x.prevTop)}</span> lb`,
   hold: (x) => `Prep — hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
   seed: (x) => x.prev ? `New program — seed weight (older logs shown for reference)` : `First run — seed weight`,
-  calibration: (x) => `Seed <span class="num">${fmtW(x.prevTop)}</span> at 90%`,
-  deload: (x) => `80% of <span class="num">${fmtW(x.prevTop)}</span>`,
+  calibration: (x) => `90% of <span class="num">${fmtW(x.prevTop)}</span>, rounded down`,
+  deload: (x) => `80% of <span class="num">${fmtW(x.prevTop)}</span>, rounded down`,
   verify: (x) => esc(x.note || 'Verify weight'),
   bodyweight: () => `Bodyweight`,
 };

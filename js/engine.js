@@ -5,6 +5,16 @@ export function roundLoad(w) {
   return Math.round(w / 2.5) * 2.5;
 }
 
+// Back-off weeks (calibration 90%, deload 80%) must never round UP past their
+// target and must land on the program's OWN increment grid — 5 lb upper /
+// 10 lb lower — so every prescribed weight is actually loadable (a rope stack
+// has no 72.5, a cable no 27.5). Rounds the reduced load DOWN to that
+// increment; a loaded lift is never dropped below a single increment.
+export function backoffLoad(w, inc) {
+  if (!(inc > 0)) return roundLoad(w); // no known increment → legacy 2.5 grid
+  return Math.max(inc, Math.floor(w / inc) * inc);
+}
+
 export function exMeta(plan, id) {
   return plan.exercises[id] || { name: id };
 }
@@ -134,7 +144,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
 
   if (phase?.type === 'calibration') {
     if (slot.seed == null) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
-    return { sets: mk(roundLoad(slot.seed * (phase.loadFactor ?? 0.9)), slot.repMin), basis: 'calibration', prevTop: slot.seed };
+    return { sets: mk(backoffLoad(slot.seed * (phase.loadFactor ?? 0.9), inc), slot.repMin), basis: 'calibration', prevTop: slot.seed };
   }
 
   const fence = { sinceDate: calibrationStart(plan), skipPhases: phase?.type === 'deload' ? [] : deloadPhaseIds(plan) };
@@ -145,7 +155,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
     if (!baseSets) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
     const sets = Array.from({ length: nSets }, (_, i) => {
       const src = baseSets[Math.min(i, baseSets.length - 1)];
-      return { weight: roundLoad(src.weight * (phase.loadFactor ?? 0.8)), reps: slot.repMin };
+      return { weight: backoffLoad(src.weight * (phase.loadFactor ?? 0.8), inc), reps: slot.repMin };
     });
     return { sets, basis: 'deload', prevTop: topSet(baseSets)?.weight ?? null };
   }
