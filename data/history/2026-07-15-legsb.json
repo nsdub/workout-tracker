@@ -1,0 +1,172 @@
+{
+  "date": "2026-07-15",
+  "session_type": "LegsB",
+  "phase": "calibration",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1784150717220
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1784150836459
+        },
+        {
+          "weight": 205,
+          "reps": 8,
+          "at": 1784151049772
+        },
+        {
+          "weight": 205,
+          "reps": 7,
+          "at": 1784151221237
+        }
+      ]
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1784151397460
+        },
+        {
+          "weight": 160,
+          "reps": 10,
+          "at": 1784151557999
+        },
+        {
+          "weight": 160,
+          "reps": 10,
+          "at": 1784151717370
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1784151830236
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1784151963061
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1784152094672
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1784152231990
+        },
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1784152348684
+        },
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1784152507190
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1784152652569
+        },
+        {
+          "weight": 127.5,
+          "reps": 12,
+          "at": 1784152808091
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Standing Calf Raise",
+      "sets": [
+        {
+          "weight": 200,
+          "reps": 12,
+          "at": 1784152945154
+        },
+        {
+          "weight": 240,
+          "reps": 14,
+          "at": 1784153061187
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1784153168548
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 12,
+          "at": 1784153275294
+        },
+        {
+          "weight": 45,
+          "reps": 12,
+          "at": 1784153405698
+        },
+        {
+          "weight": 45,
+          "reps": 12,
+          "at": 1784153539679
+        }
+      ]
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 60,
+          "at": 1784153754441
+        },
+        {
+          "weight": 0,
+          "reps": 60,
+          "at": 1784153823566
+        }
+      ]
+    }
+  ],
+  "world": "chairlift"
+}
