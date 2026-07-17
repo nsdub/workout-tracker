@@ -47,6 +47,12 @@ function write(key, value) {
 
 const listeners = new Set();
 
+// Monotonic identity for queue items. queuedAt (Date.now()) can collide when
+// two saves land in the same millisecond, and "same path + same timestamp"
+// must never mistake an unsent replacement for the item that just uploaded.
+// Seeded past any persisted items below so a reload can't reuse a live seq.
+let seq = 0;
+
 // Defaults are MERGED over stored settings so adding a field can never
 // crash an install whose persisted blob predates it.
 const SETTINGS_DEFAULTS = {
@@ -139,7 +145,7 @@ export const store = {
 
   enqueue(path, content) {
     this.queue = this.queue.filter((q) => q.path !== path);
-    this.queue.push({ path, content, attempts: 0, queuedAt: Date.now() });
+    this.queue.push({ path, content, attempts: 0, queuedAt: Date.now(), seq: ++seq });
     write(KEYS.queue, this.queue);
     this.emit(true);
   },
@@ -155,7 +161,7 @@ export const store = {
   // same path — and a later re-save replaces the delete, in queue order.
   enqueueDelete(path) {
     this.queue = this.queue.filter((q) => q.path !== path);
-    this.queue.push({ path, op: 'delete', attempts: 0, queuedAt: Date.now() });
+    this.queue.push({ path, op: 'delete', attempts: 0, queuedAt: Date.now(), seq: ++seq });
     write(KEYS.queue, this.queue);
     this.emit(true);
   },
@@ -170,8 +176,13 @@ export const store = {
     this.emit();
   },
 
-  markAttempt(path, error) {
-    const item = this.queue.find((q) => q.path === path);
+  // Record a failed upload against the EXACT item that was attempted — never
+  // by path alone. If a re-save replaced the item mid-flight, the old op's
+  // failure belongs to nobody: the replacement was never sent and must not
+  // inherit attempts, backoff, or a red dot it didn't earn.
+  markAttempt(attempted, error) {
+    const item = this.queue.find((q) => q.path === attempted.path
+      && q.queuedAt === attempted.queuedAt && q.seq === attempted.seq);
     if (item) { item.attempts += 1; item.lastError = String(error); item.lastAttemptAt = Date.now(); }
     write(KEYS.queue, this.queue);
     this.emit(true);
@@ -192,6 +203,9 @@ export const store = {
   // draw: a night that never happened shouldn't burn a world from the pool.
   pruneDraft() {
     if (!this.draft) return null;
+    // A reopened night is a deliberate act on a REAL past entry — it is
+    // never stale, and its world came from the entry, not a fresh draw.
+    if (this.draft.reopened) return null;
     const dirty = this.draft.exercises?.some((x) => x.sets.some((s) => s.done));
     if (this.draft.date !== todayStr() && !dirty) {
       const dropped = this.draft;
@@ -202,6 +216,11 @@ export const store = {
   },
 
   syncStatus() {
+    // A failed LOCAL write outranks the token gate: on a token-less install
+    // the entry may exist only in memory, and that dot must still go red —
+    // 'off' here would be exactly the silent loss write() promises never to tell.
+    if (this.meta.lastErrorAt && this.meta.lastErrorAt > (this.meta.lastSync || 0)
+      && String(this.meta.lastError).startsWith('Local save failed')) return 'failed';
     if (!this.settings.token) return 'off';
     // an expired token must never show a green dot: pull failures count
     if (this.meta.lastErrorAt && this.meta.lastErrorAt > (this.meta.lastSync || 0)) return 'failed';
@@ -229,3 +248,6 @@ export const store = {
 };
 
 globalThis.__p3Haptics = store.settings.haptics;
+
+// Seed the seq counter past everything the persisted queue already holds.
+seq = store.queue.reduce((m, q) => Math.max(m, q.seq || 0), seq);

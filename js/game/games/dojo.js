@@ -469,8 +469,10 @@ export function create(P, ctx) {
   // SHIPPED cadence is 12–30s, and the first jackpot is also seeded against
   // the rest remaining (see armFirst) so short rests still get a real chase.
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
-  // sheathe stance
-  const stance = { active: false, meter: 1, lastMoveT: 0 };
+  // sheathe stance. heldMs accumulates in update() (frame dt, not Date.now),
+  // so a paused scene — the help sheet — adds nothing; pendingMs is the
+  // time-credit parked by exitStance for drawCut to cash in on a landed hit.
+  const stance = { active: false, meter: 1, lastMoveT: 0, heldMs: 0, pendingMs: 0 };
   // world-mutation state (itchAt seeded deep-negative: first spark flies as
   // soon as the spine world arms, not five game-seconds later)
   const world = { darkness: 0.34, ribbonOpen: 0, frozen: 0, nextFreeze: 7000, spineT: 0, itchAt: -9e9, nextKoi: 0 };
@@ -480,7 +482,11 @@ export function create(P, ctx) {
     return canvasTex(scene, `dj-${kind}`, w * K, h * K, PAINT[kind]);
   };
 
-  const forgeHot = (scene) => !cfg.forge || Math.sin(scene.time.now / 1200 * Math.PI) > -0.1;
+  // the bellows run on gameNow, not the wall clock: under the sheathe (or
+  // combo slow-mo) the whole economy dilates, and a glowing ingot read before
+  // sheathing must still be glowing when the draw-cut lands — the world holds
+  // its breath as one body, forge included
+  const forgeHot = () => !cfg.forge || Math.sin(gameNow / 1200 * Math.PI) > -0.1;
 
   function spawnObj(scene, K, kind, x, opts = {}) {
     const W = scene.scale.width, H = scene.scale.height;
@@ -604,7 +610,7 @@ export function create(P, ctx) {
       return;
     }
     // forge law: cold iron does not cut
-    if (cfg.forge && o.kind === 'ingot' && !forgeHot(scene)) {
+    if (cfg.forge && o.kind === 'ingot' && !forgeHot()) {
       squash(scene, o.img, Math.abs(dirX) > Math.abs(dirY) ? 'x' : 'y');
       o.img.setTint(0x8890a8);
       scene.time.delayedCall(180, () => o.img.active && o.img.clearTint());
@@ -771,7 +777,13 @@ export function create(P, ctx) {
     lineGfx.lineStyle(6 * K, cfg.blade, 0.95).lineBetween(cx - ux * reach, cy - uy * reach, cx + ux * reach, cy + uy * reach);
     scene.tweens.add({ targets: lineGfx, alpha: 0, duration: 420, onComplete: () => lineGfx.destroy() });
     flash(scene, 0xffffff, 110, 0.45);
+    // the sheathe's parked time-credit cashes out only on a landed cut: a
+    // whiffed flick (or a COLD BLOOD graze alone) forfeits it, so the stance
+    // is rated as the move it paid for, never as free window shrinkage
+    const held = stance.pendingMs;
+    stance.pendingMs = 0;
     if (hits.length) {
+      if (held > 0) api.excludeMs?.(held);
       hitstop(scene, Math.min(220, 90 + hits.length * 20), () => {
         shake(scene, 0.012 + hits.length * 0.003, 240);
         zoomPunch(scene, 1.1, 280);
@@ -790,7 +802,13 @@ export function create(P, ctx) {
 
   function enterStance(scene) {
     stance.active = true;
-    stance.inAt = Date.now();
+    stance.heldMs = 0;
+    // take the clock: a combo slow-mo fired moments ago still has a pending
+    // wall-clock restore timer — bump its generation and clear it, or it
+    // fires mid-stance and snaps the world to full speed while the blade is
+    // sheathed and cannot slice (a MISS the player could do nothing about)
+    scene._slowmoGen = (scene._slowmoGen || 0) + 1;
+    clearTimeout(scene._slowmoTimer);
     scene.time.timeScale = 0.16;
     scene.tweens.timeScale = 0.16;
     if (scene.physics?.world) scene.physics.world.timeScale = 1 / 0.16;
@@ -801,10 +819,20 @@ export function create(P, ctx) {
   function exitStance(scene, opts = {}) {
     const wasActive = stance.active;
     stance.active = false;
-    // sheathed seconds are stance, not scoreable time: hand the wall-clock
-    // spent at 0.16× back to the medal window so the flagship move is never
-    // rate-negative (the cabinet subtracts reported ms before rating)
-    if (wasActive) api.excludeMs?.(Math.max(0, Date.now() - (stance.inAt || Date.now())));
+    // sheathed seconds are stance, not scoreable time — but the medal window
+    // only gets them back when the sheathe PAYS: the credit is parked here
+    // and drawCut hands it to the cabinet iff the flick lands a hit. A stance
+    // that drains out, or a lifted finger, counts against the clock, so a
+    // parked thumb auto-cycling the sheathe can't launder AFK time into
+    // rated-window credit. heldMs came from update()'s frame dt, so time
+    // spent with the help sheet open mid-stance (scene paused, and already
+    // settled into the cabinet's pausedMs) is never subtracted twice.
+    if (wasActive && opts.toDraw) stance.pendingMs = stance.heldMs;
+    stance.heldMs = 0;
+    // own the clock on the way out too: no stale slow-mo timer may outlive
+    // the stance and re-fire after full speed is restored
+    scene._slowmoGen = (scene._slowmoGen || 0) + 1;
+    clearTimeout(scene._slowmoTimer);
     scene.time.timeScale = 1;
     scene.tweens.timeScale = 1;
     if (scene.physics?.world) scene.physics.world.timeScale = 1;
@@ -889,8 +917,28 @@ export function create(P, ctx) {
         }).setDepth(-30);
       }
       if (cfg.candles) {
-        darkVeil = scene.add.rectangle(0, 0, scene.scale.width, scene.scale.height, 0x08040a, world.darkness)
-          .setOrigin(0).setDepth(-20);
+        // hall law, made mechanical: the veil sits ABOVE the objects (depth
+        // 20, under the trail/HUD at 40+) with a soft lantern-hole punched
+        // out of its center that tracks the blade — so guttering the candles
+        // genuinely costs visibility on targets outside your pool of light.
+        // The texture is 2×2 screens of dark with the hole cut at the middle;
+        // moving the image moves the hole (renderer-safe on Canvas and WebGL
+        // alike — no WebGL-only bitmap masks). Darkness still caps at 0.6, so
+        // a target outside the light dims hard but is never a never-saw-it
+        // blade loss.
+        const W0 = scene.scale.width, H0 = scene.scale.height, hr = 170 * K;
+        canvasTex(scene, 'dj-veil', W0 * 2, H0 * 2, (c, w, h) => {
+          c.fillStyle = '#08040a';
+          c.fillRect(0, 0, w, h);
+          const hole = c.createRadialGradient(w / 2, h / 2, hr * 0.4, w / 2, h / 2, hr);
+          hole.addColorStop(0, 'rgba(0,0,0,1)');
+          hole.addColorStop(1, 'rgba(0,0,0,0)');
+          c.globalCompositeOperation = 'destination-out';
+          c.fillStyle = hole;
+          c.fillRect(0, 0, w, h);
+          c.globalCompositeOperation = 'source-over';
+        });
+        darkVeil = scene.add.image(W0 / 2, H0 * 0.55, 'dj-veil').setDepth(20).setAlpha(world.darkness);
       }
       if (cfg.ribbon) ribbonGfx = scene.add.graphics().setDepth(-60);
 
@@ -971,13 +1019,16 @@ export function create(P, ctx) {
           return;
         }
 
-        // anti-scribble: ONE sharp reversal is a deliberate Z-stroke through a
-        // cluster and keeps the chain; TWO inside half a second is frantic
-        // back-and-forth and breaks it — and the break ANNOUNCES itself, so
-        // the rule can be learned by feel instead of by reading source code
+        // anti-scribble: a REVERSAL is a true back-track — the stroke folding
+        // onto itself past ~139° (dot < -0.75) — so the ~135° corners of a
+        // deliberate Z-stroke through a cluster never register, no matter how
+        // fast the Z is drawn. ONE back-track is a flourish and keeps the
+        // chain; TWO inside half a second is frantic jitter and breaks it —
+        // and the break ANNOUNCES itself, so the rule can be learned by feel
+        // instead of by reading source code
         if (dist > 6) {
           const ndir = { x: dx / dist, y: dy / dist };
-          if (lastMoveDir && (ndir.x * lastMoveDir.x + ndir.y * lastMoveDir.y) < -0.35) {
+          if (lastMoveDir && (ndir.x * lastMoveDir.x + ndir.y * lastMoveDir.y) < -0.75) {
             if (now - revAt < 500) {
               if (strokeSlices >= 2) {
                 floatScore(scene, px, py - 26 * unit(scene), 'CHAIN BROKEN', '#ff5d5d', 14 * unit(scene));
@@ -1048,7 +1099,12 @@ export function create(P, ctx) {
       if (!started) {
         if (gameNow >= teaserAt && !objs.length) {
           teaserAt = gameNow + 4200;
-          spawnObj(scene, K, cfg.objects[0], W * (0.3 + Math.random() * 0.4), { peakLo: 0.55, vxSpread: 30 });
+          const tz = spawnObj(scene, K, cfg.objects[0], W * (0.3 + Math.random() * 0.4), { peakLo: 0.55, vxSpread: 30 });
+          // the welcome mat is free FOREVER, not just pre-start: the first
+          // tap arms the dojo while this lob is still airborne, and the arm
+          // must not retroactively turn the teach prop into a blade-costing
+          // MISS when it lands two seconds later
+          tz.teaser = true;
         }
         if (gameNow >= ghostAt) {
           ghostAt = gameNow + 2600;
@@ -1066,6 +1122,7 @@ export function create(P, ctx) {
         enterStance(scene);
       }
       if (stance.active) {
+        stance.heldMs += dtMs; // frame dt: a paused (help-sheet) scene adds nothing
         stance.meter -= dtMs / 2200;
         if (stance.meter <= 0) { stance.meter = 0; exitStance(scene); }
       } else {
@@ -1109,6 +1166,9 @@ export function create(P, ctx) {
       if (cfg.candles && darkVeil) {
         world.darkness = Math.max(0.34, world.darkness - dtMs / 24000);
         darkVeil.setAlpha(world.darkness);
+        // the lantern-hole follows the blade; between strokes the light
+        // lingers where the blade last was — never a sudden blackout
+        if (lastPt) darkVeil.setPosition(lastPt.x, lastPt.y);
       }
       // gated on `started`: an untouched snow world must NOT strobe blue and
       // ding every 7s while the phone sits face-up between sets (idle law)
@@ -1143,7 +1203,7 @@ export function create(P, ctx) {
       // in real time so the strike window is readable BEFORE you commit — not
       // a 'cold!' message after a wasted swipe already broke your combo.
       if (cfg.forge) {
-        const hot = forgeHot(scene);
+        const hot = forgeHot();
         for (const o of objs) {
           if (o.kind === 'ingot') { if (hot) o.img.clearTint(); else o.img.setTint(0x6a7290); }
         }
@@ -1215,13 +1275,15 @@ export function create(P, ctx) {
         const fellPast = o.img.y > H + 70 * K && o.img.body.velocity.y > 0;
         if (fellPast || gameNow - o.born > 9000) {
           // a non-bomb dropped uncut is a miss — but NOT before the first
-          // stroke arms the dojo (pre-start teaser lobs are free), NOT during
-          // the GOLD RUSH payoff burst (the player can't slow that torrent and
-          // it must never end the run it exists to reward), and NOT once the
-          // player has clearly stepped away (no input for 2s — set the phone
-          // down to grab water). Bombs are MEANT to fall away: never a blade.
+          // stroke arms the dojo, NOT the pre-start teaser lob itself (tagged
+          // at spawn: arming the dojo while it's mid-flight must not make the
+          // welcome mat cost a blade), NOT during the GOLD RUSH payoff burst
+          // (the player can't slow that torrent and it must never end the run
+          // it exists to reward), and NOT once the player has clearly stepped
+          // away (no input for 2s — set the phone down to grab water). Bombs
+          // are MEANT to fall away: never a blade.
           const engaged = now - lastInputAt < 2000;
-          if (started && fellPast && !o.isBomb && !fever && engaged) loseLife(scene, o.img.x, H - 40 * K, 'MISS', 'CUT DOWN');
+          if (started && fellPast && !o.isBomb && !o.teaser && !fever && engaged) loseLife(scene, o.img.x, H - 40 * K, 'MISS', 'CUT DOWN');
           killObj(scene, o);
         }
       }

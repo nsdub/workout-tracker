@@ -240,6 +240,8 @@ let restHideTO = null; // any pending timer owned by the pill lifecycle (wake-lo
                        // release after overtime) — hideRestTimer clears it so a
                        // stale timeout can never execute against a NEW pill
 let restState = null;  // { deadline, total, fired, bar, digits, lbl, overLabel, lock }
+let wakeLockPending = false; // one wake-lock request in flight at a time — a
+                             // parallel grant would orphan the earlier sentinel
 
 // The arcade warms up on idle once a game universe is on stage (see below) —
 // boot cost moved to idle time, not first paint and not the first Play tap.
@@ -298,7 +300,17 @@ function updateTotem() {
 async function acquireWakeLock() {
   try {
     if (!restState || !navigator.wakeLock) return;
-    const lock = await navigator.wakeLock.request('screen');
+    // One sentinel, ever. A second acquire while one is held (or one is
+    // mid-request) would overwrite restState.lock and orphan the earlier
+    // grant — a lock nothing references, nothing can release, and that pins
+    // the screen awake until the page hides.
+    if (restState.lock && !restState.lock.released) return;
+    if (wakeLockPending) return;
+    wakeLockPending = true;
+    let lock;
+    try {
+      lock = await navigator.wakeLock.request('screen');
+    } finally { wakeLockPending = false; }
     // The rest may have ended (hideRestTimer ran and nulled restState) while
     // this request was in flight. If so, adopt nothing and release it now —
     // otherwise the screen is held awake indefinitely while the app stays
@@ -306,13 +318,16 @@ async function acquireWakeLock() {
     if (restState) {
       restState.lock = lock;
       // The OS can yank the lock while we're frontmost (thermal, low battery).
-      // Re-arm — but only while the countdown is live and the page visible, and
-      // only via a successful new lock, so a grant-then-yank platform can't
-      // spin us in a tight loop.
+      // Re-arm — but only on behalf of the rest that OWNS this lock. If this
+      // release lands after a new pill took over (logging a set mid-rest
+      // replaces the pill, which acquires its own lock), re-acquiring here
+      // would double-lock the NEW rest and orphan a sentinel — so the
+      // identity check gates everything, including the re-arm.
       lock.addEventListener('release', () => {
-        if (restState?.lock === lock) restState.lock = null;
+        if (restState?.lock !== lock) return;
+        restState.lock = null;
         updateTotem();
-        if (restState && !restState.fired && document.visibilityState === 'visible') acquireWakeLock();
+        if (!restState.fired && document.visibilityState === 'visible') acquireWakeLock();
       });
     } else lock.release?.().catch?.(() => {});
     updateTotem();

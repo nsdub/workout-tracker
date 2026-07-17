@@ -61,6 +61,17 @@ const OPPORTUNITY = {
   yeti: (c) => (c.aurora ? 1.25 : 1) * (c.ice ? 0.75 : 1) * (c.melt ? 0.9 : 1) * (c.moguls ? 1.1 : 1) * (3 / (c.villageEvery ?? 3)) ** 0.3,
 };
 
+// Normalization basis. Mean-normalizing assumes the base tuple was tuned for
+// the game's AVERAGE world — true for the four games measured in a standard
+// config, but by their own headers dojo priced its ladder against the global
+// three-airborne CAP (~15 raw/s, every world) and deep measured in its
+// RICHEST world (reef, ≈28/s hold). Dividing those by a sub-1 mean lifted
+// their richest bars to or past the measured ceilings (reef gold 29 vs ≈28/s,
+// falls 14 vs the ~15/s cap) — a 3★ no play could reach. Ceiling-tuned games
+// normalize by their MAX opportunity instead: the richest world keeps its
+// designer-priced bar and leaner worlds scale down proportionally.
+const CEILING_TUNED = new Set(['dojo', 'deep']);
+
 // Precompute the adjusted tuple for every world once (the module graph is
 // static). Falls back silently to the base tuple for anything unexpected.
 const WORLD_STARS = {};
@@ -74,8 +85,14 @@ for (const [game, mod] of Object.entries(GAMES)) {
     return Number.isFinite(o) && o > 0 ? o : 1;
   });
   const mean = scores.reduce((a, b) => a + b, 0) / (scores.length || 1) || 1;
+  const basis = CEILING_TUNED.has(game) ? Math.max(...scores) : mean;
   entries.forEach(([w], i) => {
-    const mult = clampMul(scores[i] / mean, 0.72, 1.35);
+    // Upward clamp 1.15 (was 1.35): an opportunity knob is an estimate, and a
+    // rich world's bar overshooting its true extra supply recreates the very
+    // unreachable-gold defect this calibration exists to kill. The downward
+    // clamp stays generous — a too-easy gold is a lesser sin than an
+    // impossible one.
+    const mult = clampMul(scores[i] / basis, 0.72, 1.15);
     const t = base.map((b) => Math.max(1, Math.round(b * mult)));
     // keep the ladder strictly ascending after rounding
     for (let k = 1; k < t.length; k++) if (t[k] <= t[k - 1]) t[k] = t[k - 1] + 1;

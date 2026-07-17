@@ -190,9 +190,12 @@ const FLOAT_H = { duck: 34, buoy: 52, canoe: 34, turtle: 36, bison: 72 };
 
 export function create(P, ctx) {
   const { api, cfg } = ctx;
-  // 3 screens: a max flat skim-run and a full-power lob both genuinely reach
-  // the far shore, so ACROSS THE LAKE is a climax a great throw can earn in
-  // every world — not a mirage only the gimmick worlds could touch.
+  // 3 screens: a max flat skim-run (hops + hydroplane run-out) genuinely
+  // reaches the far shore, so ACROSS THE LAKE is a climax a great throw can
+  // earn in every world — not a mirage only the gimmick worlds could touch.
+  // But only a throw that WORKED the surface may claim it: the crossing gate
+  // below requires skips or a hydroplane, so a memorized max lob that clears
+  // the line mid-air pays nothing but its distance.
   const WORLD_SCREENS = 3;
   let stone = null;          // { img, vx, vy, skips, dist, dead }
   let aiming = false;
@@ -228,12 +231,14 @@ export function create(P, ctx) {
   // Every popup prints what the HUD actually gained. api.score applies the
   // cabinet's combo/GOLD RUSH multipliers and returns the new total, so the
   // delta against our mirror IS the applied value — the world and the counter
-  // finally tell the same story.
+  // finally tell the same story. After TIME the cabinet freezes the score and
+  // applied reads 0: callers skip their popup then, so the finale can't print
+  // points the scoreboard never banked (the old raw-gain fallback did).
   function scoreApplied(gain) {
     const total = api.score(gain);
     const applied = total - hudTotal;
     hudTotal = total;
-    return applied > 0 ? applied : gain; // banked-run tail: fall back to raw
+    return applied;
   }
 
   const waterY = (scene) => scene.scale.height * (cfg.cliff ? 0.72 : 0.62);
@@ -313,7 +318,7 @@ export function create(P, ctx) {
     if (clean) gain = Math.round(gain * 1.5);
     gain = Math.round(gain * (1 + Math.min(streak, 5) * 0.08));
     const paid = scoreApplied(gain);
-    floatScore(scene, x, wy - 40 * K, clean ? `CLEAN ×${stone.skips} +${paid}` : `skip ×${stone.skips} +${paid}`,
+    if (paid) floatScore(scene, x, wy - 40 * K, clean ? `CLEAN ×${stone.skips} +${paid}` : `skip ×${stone.skips} +${paid}`,
       clean ? '#fff0c8' : '#dff6ff', (clean ? 17 : 15) * K);
     api.haptic(6);
   }
@@ -740,7 +745,7 @@ export function create(P, ctx) {
               const bg = stone.banks === 0 ? 40 : 10;
               stone.banks++;
               const paid = scoreApplied(bg);
-              floatScore(scene, stone.img.x, stone.img.y - 20 * K, `BANK +${paid}`, '#ff9a5c', 15 * K);
+              if (paid) floatScore(scene, stone.img.x, stone.img.y - 20 * K, `BANK +${paid}`, '#ff9a5c', 15 * K);
             } else {
               floatScore(scene, stone.img.x, stone.img.y - 20 * K, 'CLANG', '#c88a6c', 13 * K);
             }
@@ -755,7 +760,7 @@ export function create(P, ctx) {
         if (Math.abs(stone.img.x - b.x) < b.halfW && stone.img.y < wy - 8 * K && stone.vy > 0) {
           stone.vy = -Math.abs(stone.vy) * 0.55 - 240 * K;
           const paid = scoreApplied(10);
-          floatScore(scene, stone.img.x, stone.img.y, `ABDUCTED +${paid}`, '#7dffb3', 15 * K);
+          if (paid) floatScore(scene, stone.img.x, stone.img.y, `ABDUCTED +${paid}`, '#7dffb3', 15 * K);
           burst(scene, stone.img.x, stone.img.y, 0x7dffb3, { n: 12, speed: 240 * K, scale: 0.5 * K });
           api.sfx('objDone');
         }
@@ -764,7 +769,7 @@ export function create(P, ctx) {
       // golden dragonfly strike
       if (golden && Math.abs(stone.img.x - golden.img.x) < 34 * K && Math.abs(stone.img.y - golden.img.y) < 30 * K) {
         const paid = scoreApplied(75);
-        glyphBanner(scene, `GOLDEN DRAGONFLY +${paid}`, '#ffe9a0', 26 * K);
+        if (paid) glyphBanner(scene, `GOLDEN DRAGONFLY +${paid}`, '#ffe9a0', 26 * K);
         collectTo(scene, golden.img.x, golden.img.y, cam.scrollX + W - 30 * K, 20 * K, 0xffd24a, 16);
         burst(scene, golden.img.x, golden.img.y, 0xffd24a, { n: 22, speed: 340 * K, scale: 0.6 * K });
         flash(scene, 0xffd24a, 120, 0.3);
@@ -790,7 +795,7 @@ export function create(P, ctx) {
           api.note(noteStep++);
           collectTo(scene, r.img.x, r.img.y, cam.scrollX + W - 30 * K, 20 * K, 0xffd24a, 8);
           burst(scene, r.img.x, r.img.y, 0xffe08a, { n: 8, speed: 160 * K, scale: 0.35 * K });
-          floatScore(scene, r.img.x, r.img.y - 20 * K, `RING ×${stone.chain} +${paid}`, '#ffd24a', 16 * K);
+          if (paid) floatScore(scene, r.img.x, r.img.y - 20 * K, `RING ×${stone.chain} +${paid}`, '#ffd24a', 16 * K);
         }
       }
 
@@ -810,7 +815,7 @@ export function create(P, ctx) {
             stone.vx *= 1.06;
             squash(scene, f.img, 'y');
             const paid = scoreApplied(12);
-            floatScore(scene, f.img.x, f.img.y - f.h, `OFF THE BISON +${paid}`, '#e8d5ae', 15 * K);
+            if (paid) floatScore(scene, f.img.x, f.img.y - f.h, `OFF THE BISON +${paid}`, '#e8d5ae', 15 * K);
             shake(scene, 0.008, 110);
             api.sfx('objDone');
             api.haptic(10);
@@ -865,7 +870,7 @@ export function create(P, ctx) {
           const val = Math.max(1, Math.round(base * (1 + Math.min(stone.chain, 6) * 0.25) * (1 + Math.min(streak, 5) * 0.08)));
           const paid = scoreApplied(val);
           burst(scene, f.img.x + (stone.img.x > f.img.x ? -1 : 1) * f.w * 0.4, f.img.y, 0x3adcc8, { n: 6, speed: 150 * K, scale: 0.3 * K });
-          floatScore(scene, f.img.x, f.img.y - f.h * 1.4, `GRAZE ×${stone.chain} +${paid}`, '#3adcc8', 13 * K);
+          if (paid) floatScore(scene, f.img.x, f.img.y - f.h * 1.4, `GRAZE ×${stone.chain} +${paid}`, '#3adcc8', 13 * K);
           api.note(noteStep++);
           api.haptic(4);
         }
@@ -879,8 +884,12 @@ export function create(P, ctx) {
         // a throw at t=200 asks more precision than the same lob at t=5. On
         // the cliff the stone falls half a screen before it ever touches
         // water, so the gate widens to match the drop — the taught rule (fast
-        // and flat) must actually work from up there.
-        const shallow = angle < ((cfg.cliff ? 0.78 : 0.42) - 0.14 * ramp);
+        // and flat) must actually work from up there. The cliff's ramp term is
+        // FLOORED at 0.68: the drop sets a geometric entry-angle minimum of
+        // ~0.63 rad that no skill can flatten (the flattest max-power throw
+        // still falls 0.42H), so ramping below that would re-deny every skim
+        // late in a long rest — the exact wall this gate exists to remove.
+        const shallow = angle < (cfg.cliff ? Math.max(0.68, 0.78 - 0.14 * ramp) : 0.42 - 0.14 * ramp);
         const fast = speed > (300 + 120 * ramp) * K;
         // bog law, now absolute: open water is dead water, every time — the
         // rule the banner teaches is the rule the water enforces.
@@ -905,7 +914,7 @@ export function create(P, ctx) {
           }
           if (onPad) {
             const paid = scoreApplied(10);
-            floatScore(scene, stone.img.x, wy - 56 * K, `SHELL PAD +${paid}`, '#7ad48a', 14 * K);
+            if (paid) floatScore(scene, stone.img.x, wy - 56 * K, `SHELL PAD +${paid}`, '#7ad48a', 14 * K);
           }
         } else {
           plunk(scene, K, shallow ? 'TOO SLOW' : 'TOO STEEP');
@@ -925,7 +934,8 @@ export function create(P, ctx) {
           slowmo(scene, 0.3, 500);
           flash(scene, 0xffd24a, 140, 0.4);
           shake(scene, 0.014, 220);
-          glyphBanner(scene, `MOTHMAN ASSIST +${scoreApplied(40)}`, '#ffd24a', 28 * K);
+          const mothPaid = scoreApplied(40);
+          if (mothPaid) glyphBanner(scene, `MOTHMAN ASSIST +${mothPaid}`, '#ffd24a', 28 * K);
           api.sfx('pr');
           api.haptic([16, 40, 16, 40, 16]);
           scene.tweens.add({ targets: moth, alpha: 0, y: moth.y - 200 * K, duration: 900, onComplete: () => moth.destroy() });
@@ -934,8 +944,12 @@ export function create(P, ctx) {
 
       // off the far end: a legend. The game's named win-state gets the game's
       // biggest aftermath — flash, slow-mo, a shore detonation, shake, punch —
-      // so the crossing reads as the climax, not a quiet +50 line.
-      if (stone.img.x > WW - 20 * K) {
+      // so the crossing reads as the climax, not a quiet +50 line. The gate:
+      // ACROSS THE LAKE is a skimming feat, not an artillery table. Only a
+      // stone that engaged the water (a skip, or a hydroplane run-out) claims
+      // the shore; a pure ballistic lob that sails over the line just flies
+      // on and splashes TOO STEEP on the far water like any other lob.
+      if (stone.img.x > WW - 20 * K && (stone.skips > 0 || stone.hydro)) {
         const cx = stone.img.x, cy = wy;
         const paid = scoreApplied(25); // distance already banked; a lean bonus
         flash(scene, 0xffd24a, 160, 0.4);
@@ -944,7 +958,7 @@ export function create(P, ctx) {
         zoomPunch(scene, 1.07, 360);
         burst(scene, cx, cy, 0xffd24a, { n: 30, speed: 420 * K, scale: 0.7 * K, gravityY: 400 * K });
         shockRing(scene, cx, cy, 0xfff0c8, 120 * K);
-        glyphBanner(scene, `ACROSS THE LAKE +${paid}`, '#ffd24a', 28 * K);
+        if (paid) glyphBanner(scene, `ACROSS THE LAKE +${paid}`, '#ffd24a', 28 * K);
         api.sfx('pr');
         api.haptic([20, 50, 20, 50, 30]);
         endThrow(scene, K, 'end');

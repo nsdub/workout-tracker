@@ -680,17 +680,28 @@ export function create(P, ctx) {
     // wipeout threat even a maxed ball still has to steer around.
     if (!opening && Math.random() < 0.55 + ramp * 0.3) {
       let bx = W * (0.12 + Math.random() * 0.76);
-      // fairness corridor: where steering is slow (black ice) or the slope is
-      // dense, a crag never surfaces dead ahead — it spawns off your line by
-      // at least the dodge you can actually make, on the side with room.
-      if ((cfg.ice || ramp > 0.6) && ball && Math.abs(bx - ball.x) < W * 0.3) {
-        bx = ball.x + (ball.x < W / 2 ? 1 : -1) * W * 0.35;
+      // fairness corridor: where steering is slow (black ice) or the slope
+      // is dense, a crag never surfaces EXACTLY dead-center. The corridor is
+      // tight — trigger 0.2W, offset 0.25W — because the ball's collision
+      // half-width runs up to ~0.26W at max size: a displaced crag still
+      // grazes (or clips) a fat line-holder, so a centered spawn always
+      // demands a real, warned swerve, never a free pass. (The old 0.3W/
+      // 0.35W corridor out-cleared the hitbox entirely and made a boulder
+      // that never touched a stationary ball — the difficulty floor the
+      // boulder exists to provide was gone.)
+      if ((cfg.ice || ramp > 0.6) && ball && Math.abs(bx - ball.x) < W * 0.2) {
+        bx = ball.x + (ball.x < W / 2 ? 1 : -1) * W * 0.25;
       }
       const by = yBase + Math.random() * H * 0.6;
       addThing(scene, K, 'boulder', bx, by);
-      // the mountain groans first: a snow-crack opens a full breath ahead of
-      // the crag, at its exact line — the warning you steer away from
-      const warn = addThing(scene, K, 'crack', bx, Math.max(H * 0.62, by - H * 1.05), { w: 96, h: 40, warning: true });
+      // the mountain groans first: a snow-crack opens a fixed scroll-lead
+      // ahead of the crag, at its exact line — the warning you steer away
+      // from. Far crags' cracks (the 0.68H lead fits) scroll in from below
+      // like everything else; near crags' cracks surface at 0.62H (geometry
+      // allows nothing earlier) and FADE in, so nothing pops into existence.
+      const warn = addThing(scene, K, 'crack', bx, Math.max(H * 0.62, by - H * 0.68), {
+        w: 96, h: 40, warning: true, bornAt: scene.time.now,
+      });
       warn.img.setDepth(6);
     }
     // drifts keep the mass economy alive AND give a floored ball a way back up
@@ -1031,7 +1042,9 @@ export function create(P, ctx) {
             api.haptic(6);
             shake(scene, 0.004, 140);
           }
-          th.img.setAlpha(0.55 + 0.35 * Math.sin(now / 120)); // urgent pulse
+          // urgent pulse, scaled by a 250ms fade-in so a crack that spawns
+          // inside the viewport materializes instead of popping
+          th.img.setAlpha(Math.min(1, (now - (th.bornAt ?? now)) / 250) * (0.55 + 0.35 * Math.sin(now / 120)));
           continue;
         }
         if (th.pin) {

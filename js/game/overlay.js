@@ -150,6 +150,10 @@ export async function openGame({ deadline }) {
   // fresh request. No history juggling — the guard pushed at open still
   // covers the card, so a back-gesture during the jam closes the cabinet.
   const bootJamCard = () => new Promise((res) => {
+    // A quit (✕ or back-gesture) while the card sits must settle this promise
+    // too, or the awaiting openGame frame — and the detached overlay DOM it
+    // closes over — leaks forever. closeGame resolves it with false.
+    mine.jamResolve = res;
     let boot = $('.go-boot', el);
     if (!boot) {
       boot = document.createElement('div');
@@ -183,6 +187,7 @@ export async function openGame({ deadline }) {
       console.error('game engine failed to arrive', err);
       if (active !== mine) return; // closed while the engine loaded
       const again = await bootJamCard();
+      mine.jamResolve = null; // settled — nothing left for closeGame to release
       if (active !== mine) return; // closed while the jam card sat
       if (!again) { closeGame(); return; }
     }
@@ -311,7 +316,14 @@ export async function openGame({ deadline }) {
   // better to close a healthy game than wedge a broken one.
   mine.errListener = (e) => {
     const src = e?.filename || '';
-    if (src && !/js\/game\/|vendor\/phaser/.test(src)) return;
+    if (src && !/js\/game\/|vendor\/phaser/.test(src)) {
+      // Safari (notably iOS) can pin an error escaping a rAF/event callback
+      // on the PAGE URL rather than the throwing script. Before dismissing a
+      // crash as someone else's, let the stack testify: any js/game/ or
+      // Phaser frame in it makes the wreck ours to tear down.
+      const stack = String(e?.error?.stack || '');
+      if (!/js\/game\/|phaser/i.test(stack)) return;
+    }
     fail(e.error ?? e.message);
   };
   window.addEventListener('error', mine.errListener);
@@ -582,8 +594,8 @@ export async function openGame({ deadline }) {
     mine.ended = true;
     mine.combo = 0;
     hideBadges();
+    closeHelp(mine); // settle a live help pause FIRST so the rate math counts it (mirrors timerOver)
     bankRun(); // bank immediately — a quit during the death beat can't lose it
-    closeHelp(mine);
     try {
       const scene = mine.game.scene.getScene('play');
       if (scene) {
@@ -699,8 +711,11 @@ export async function openGame({ deadline }) {
 
 export function closeGame(fromPop = false) {
   if (!active) return;
-  const { el, game, clock, popPushed, errListener, ended, score, ratePoints, worldCls, universe, spec, totalMs, openedAt, excludedMs, pausedMs, helpOpen, helpAt } = active;
+  const { el, game, clock, popPushed, errListener, jamResolve, ended, score, ratePoints, worldCls, universe, spec, totalMs, openedAt, excludedMs, pausedMs, helpOpen, helpAt } = active;
   active = null;
+  // A jam card still waiting for a button? Settle its promise so the
+  // suspended openGame frame can exit instead of leaking its closure.
+  jamResolve?.(false);
   // Clear QA hooks so a poller can't drive/inspect a destroyed instance.
   try {
     if (typeof window !== 'undefined') { window.__p3Game = null; window.__p3Kill = null; window.__p3TimeUp = null; }

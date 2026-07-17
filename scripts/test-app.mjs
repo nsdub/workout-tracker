@@ -203,6 +203,25 @@ await ok('a failing localStorage write goes red, and the entry still makes the q
   store.meta.lastError = null; store.meta.lastErrorAt = null;
 });
 
+await ok('a failing localStorage write goes red even before a token exists', () => {
+  store.queue = []; store.history = [];
+  const prevToken = store.settings.token;
+  store.settings.token = ''; // pre-setup install (or a cleared token)
+  store.meta.lastError = null; store.meta.lastErrorAt = null; store.meta.lastSync = null;
+  const realSet = localStorage.setItem;
+  localStorage.setItem = () => { throw new Error('QuotaExceededError'); };
+  try {
+    store.upsertEntry({ date: '2026-07-10', session_type: 'PullA', exercises: [] });
+  } finally {
+    localStorage.setItem = realSet;
+  }
+  assert.equal(store.syncStatus(), 'failed', "'off' must never mask a local save failure");
+  assert.ok(store.syncError()?.includes('Local save failed'), 'the drawer names the real blocker');
+  store.settings.token = prevToken;
+  store.queue = []; store.history = [];
+  store.meta.lastError = null; store.meta.lastErrorAt = null;
+});
+
 // ——— sync: flushQueue ———
 await ok('flushQueue uploads and dequeues on success', async () => {
   store.settings.token = 't';
@@ -249,6 +268,53 @@ await ok('INVARIANT: re-save during in-flight upload is never lost', async () =>
   assert.equal(store.queue[0].content.v, 2);
   store.queue = [];
 });
+await ok('INVARIANT: a same-millisecond re-save is never lost (seq breaks the queuedAt tie)', async () => {
+  store.queue = [];
+  const realNow = Date.now;
+  const frozen = realNow();
+  Date.now = () => frozen; // both saves land inside one millisecond
+  try {
+    store.enqueue('data/history/ms.json', { v: 1 });
+    let releasePut;
+    const gate = new Promise((r) => { releasePut = r; });
+    fetchImpl = async (url, opts = {}) => {
+      if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+      await gate;
+      return resJson({ content: { sha: 's1' } });
+    };
+    const flight = flushQueue();
+    await sleep(5);
+    store.enqueue('data/history/ms.json', { v: 2 }); // identical queuedAt to v1
+    releasePut();
+    await flight;
+    assert.equal(store.queue.length, 1, 'an equal timestamp must not dequeue the unsent replacement');
+    assert.equal(store.queue[0].content.v, 2);
+  } finally {
+    Date.now = realNow;
+  }
+  store.queue = [];
+});
+await ok('a failed upload never blames the replacement queued mid-flight', async () => {
+  store.queue = [];
+  store.enqueue('data/history/m.json', { v: 1 });
+  let releasePut;
+  const gate = new Promise((r) => { releasePut = r; });
+  fetchImpl = async (url, opts = {}) => {
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    await gate;
+    return resJson({ message: 'boom' }, 500); // the OLD op fails after the re-save
+  };
+  const flight = flushQueue();
+  await sleep(5);
+  store.enqueue('data/history/m.json', { v: 2 }); // replacement, never attempted
+  releasePut();
+  await flight;
+  assert.equal(store.queue.length, 1);
+  assert.equal(store.queue[0].content.v, 2);
+  assert.equal(store.queue[0].attempts, 0, 'the fresh item must not inherit the dead op’s backoff');
+  assert.equal(store.queue[0].lastError, undefined);
+  store.queue = [];
+});
 await ok("every API request bypasses the HTTP cache (cache: 'no-store')", async () => {
   store.settings.token = 't';
   store.queue = [];
@@ -279,6 +345,33 @@ await ok('force flush ignores the backoff window (user-initiated sync)', async (
   assert.equal(puts, 0);
   await flushQueue({ force: true }); // a deliberate tap punches through
   assert.equal(puts, 1);
+  assert.equal(store.queue.length, 0);
+});
+await ok('a force flush during an in-flight background flush is queued, not swallowed', async () => {
+  store.settings.token = 't';
+  store.queue = [];
+  store.enqueue('data/history/bg.json', { v: 1 });
+  store.enqueue('data/history/stuck.json', { v: 1 });
+  store.queue[1].attempts = 2;
+  store.queue[1].lastAttemptAt = Date.now(); // deep in backoff: only force sends it
+  let releasePut;
+  const gate = new Promise((r) => { releasePut = r; });
+  const puts = [];
+  fetchImpl = async (url, opts = {}) => {
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    puts.push(url);
+    if (url.includes('bg.json')) await gate;
+    return resJson({ content: { sha: 's' } });
+  };
+  const background = flushQueue(); // holds the reentrancy lock across the gated PUT
+  await sleep(5);
+  const forced = flushQueue({ force: true }); // user taps Sync mid-flight
+  await sleep(5);
+  assert.equal(puts.some((u) => u.includes('stuck.json')), false, 'the forced pass waits for the lock');
+  releasePut();
+  await background;
+  await forced;
+  assert.ok(puts.some((u) => u.includes('stuck.json')), 'the deliberate tap ultimately punched through the backoff');
   assert.equal(store.queue.length, 0);
 });
 await ok('a queued delete lands via the DELETE endpoint with a fresh sha', async () => {
@@ -313,6 +406,57 @@ await ok('a queued delete lands via the DELETE endpoint with a fresh sha', async
   };
   await flushQueue();
   assert.equal(store.queue.length, 0, 'an already-gone file dequeues cleanly');
+  store.queue = []; store.history = [];
+});
+await ok('INVARIANT: a re-log replaces a queued delete — flush PUTs and never DELETEs', async () => {
+  store.settings.token = 't';
+  store.queue = []; store.history = [];
+  const entry = { date: '2026-07-04', session_type: 'LegsB', exercises: [] };
+  store.upsertEntry(entry, { enqueue: false });
+  store.deleteEntry(store.history[0]); // queued delete...
+  store.upsertEntry(entry); // ...then the user re-logs the same night
+  assert.equal(store.queue.length, 1, 'the write replaced the delete — one item per path');
+  assert.equal(store.queue[0].op, undefined);
+  const methods = [];
+  fetchImpl = async (url, opts = {}) => {
+    methods.push(opts.method || 'GET');
+    if (opts.method === 'DELETE') throw new Error('DELETE must not fire for a replaced delete');
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    return resJson({ content: { sha: 's' } });
+  };
+  await flushQueue();
+  assert.ok(methods.includes('PUT'), 'the night was re-uploaded');
+  assert.ok(!methods.includes('DELETE'));
+  assert.equal(store.queue.length, 0);
+  store.queue = []; store.history = [];
+});
+await ok('INVARIANT: a delete queued during an in-flight upload survives and lands', async () => {
+  store.queue = []; store.history = [];
+  const entry = { date: '2026-07-07', session_type: 'PushB', exercises: [] };
+  store.upsertEntry(entry); // queues the write
+  let releasePut;
+  const gate = new Promise((r) => { releasePut = r; });
+  fetchImpl = async (url, opts = {}) => {
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    await gate;
+    return resJson({ content: { sha: 's-write' } });
+  };
+  const flight = flushQueue();
+  await sleep(5);
+  store.deleteEntry(entry); // the user deletes the night while its upload hangs
+  releasePut();
+  await flight;
+  assert.equal(store.queue.length, 1, 'the delete must survive the old upload completing');
+  assert.equal(store.queue[0].op, 'delete');
+  const calls = [];
+  fetchImpl = async (url, opts = {}) => {
+    calls.push(opts.method || 'GET');
+    if ((opts.method || 'GET') === 'GET') return resJson({ sha: 'live', content: b64({}) });
+    return resJson({ commit: { sha: 'c' } });
+  };
+  await flushQueue();
+  assert.ok(calls.includes('DELETE'), 'the second flush issues the DELETE');
+  assert.equal(store.queue.length, 0);
   store.queue = []; store.history = [];
 });
 await ok('a flush where nothing uploads does not advance lastSync', async () => {
@@ -384,6 +528,70 @@ await ok('INVARIANT: an entry enqueued MID-pull is never overwritten by remote',
   assert.equal(store.queue.length, 1, 'the fresh entry stays queued for upload');
   store.queue = [];
   store.history = [];
+});
+await ok("pullRemote bypasses the HTTP cache on every request (plan, listing, file)", async () => {
+  store.settings.token = 't';
+  store.queue = []; store.history = []; store.remoteIndex = {};
+  const caches = [];
+  fetchImpl = async (url, opts = {}) => {
+    caches.push(opts.cache);
+    if (url.includes('data/plan.json')) return resJson({}, 404);
+    if (url.endsWith('/contents/data/history?ref=main')) return resJson([{ name: '2026-07-20-pusha.json', sha: 'R' }]);
+    if (url.includes('2026-07-20-pusha.json')) return resJson({ content: b64({ date: '2026-07-20', session_type: 'PushA', exercises: [] }), sha: 'R' });
+    return resJson({}, 404);
+  };
+  await pullRemote();
+  assert.equal(caches.length, 3, 'expected the plan GET, the listing, and one file GET');
+  assert.ok(caches.every((c) => c === 'no-store'),
+    "GitHub's 60s HTTP cache must never serve a stale sha or file body to a pull");
+  store.history = []; store.remoteIndex = {};
+});
+await ok('INVARIANT: a pull racing a flush never reverts the flushed remote index', async () => {
+  // app.js fires flushQueue() and pullRemote() together on every foregrounding
+  // — the pull must not resurrect a just-deleted path or shadow a fresh sha.
+  store.settings.token = 't';
+  store.queue = []; store.history = [];
+  const delPath = 'data/history/2026-07-01-pusha.json';
+  const upPath = 'data/history/2026-07-02-pulla.json';
+  store.remoteIndex = { [delPath]: 'sha-d-old' };
+  store.enqueue(upPath, { date: '2026-07-02', session_type: 'PullA', exercises: [] });
+  store.enqueueDelete(delPath);
+  let releaseFlush; const flushGate = new Promise((r) => { releaseFlush = r; });
+  let releasePull; const pullGate = new Promise((r) => { releasePull = r; });
+  let dDeleted = false;
+  fetchImpl = async (url, opts = {}) => {
+    const method = opts.method || 'GET';
+    if (method === 'PUT') { await flushGate; return resJson({ content: { sha: 'sha-u-new' } }); }
+    if (method === 'DELETE') { dDeleted = true; return resJson({ commit: { sha: 'c' } }); }
+    if (url.includes('data/plan.json')) return resJson({}, 404);
+    if (url.endsWith('/contents/data/history?ref=main')) {
+      // listing fetched BEFORE the delete lands: it still shows the doomed file
+      return resJson([
+        { name: '2026-07-01-pusha.json', sha: 'sha-d-old' },
+        { name: '2026-07-03-legsa.json', sha: 'sha-g' },
+      ]);
+    }
+    if (url.includes('2026-07-01-pusha.json')) {
+      return dDeleted ? resJson({}, 404) : resJson({ sha: 'sha-d-old', content: b64({}) });
+    }
+    if (url.includes('2026-07-03-legsa.json')) {
+      await pullGate; // hold the pull open until the flush has fully landed
+      return resJson({ content: b64({ date: '2026-07-03', session_type: 'LegsA', exercises: [] }), sha: 'sha-g' });
+    }
+    return resJson({}, 404);
+  };
+  const flush = flushQueue();
+  const pull = pullRemote(); // concurrent, exactly like the foregrounding path
+  await sleep(5); // pull is parked mid-loop; flush is parked on its PUT
+  releaseFlush();
+  await flush; // the flush lands: index gains sha-u-new, loses the deleted path
+  releasePull();
+  await pull; // the pull finishes AFTER — it must not undo any of that
+  assert.equal(store.remoteIndex[upPath], 'sha-u-new', 'pull reverted the freshly uploaded sha');
+  assert.ok(!(delPath in store.remoteIndex), 'pull resurrected a deleted path in the remote index');
+  assert.equal(store.remoteIndex['data/history/2026-07-03-legsa.json'], 'sha-g', 'the pulled file still merged');
+  assert.equal(store.queue.length, 0);
+  store.queue = []; store.history = []; store.remoteIndex = {};
 });
 
 // ——— importer ———
@@ -554,6 +762,25 @@ await ok('star medals persist independently of score records (legacy-safe)', asy
   assert.equal(saveBest('deep-void', 260, 1), true); // record, stars keep their high
   assert.equal(bestFor('deep-void'), 260);
   assert.equal(starsFor('deep-void'), 2);
+});
+await ok('career ledger counts each run once (agg: skips accrue) and self-heals old 2x data', async () => {
+  const { readStats } = await import('../js/game/registry.js');
+  // Migration: an un-flagged ledger (written while saveBest double-accrued)
+  // reads back halved exactly once — best is a max and is never touched.
+  localStorage.setItem('p3.gameStats', JSON.stringify({ plays: 8, score: 400, best: 90, day: 1, streak: 1, streakBest: 1 }));
+  let s = readStats();
+  assert.equal(s.plays, 4);
+  assert.equal(s.score, 200);
+  assert.equal(s.best, 90);
+  assert.equal(readStats().plays, 4); // v:2 stamped — a second read must not halve again
+  // A banked run persists per-world AND under the 'agg:' game ceiling; only
+  // the per-world write may feed the ledger, or every run counts double.
+  localStorage.removeItem('p3.gameBests');
+  saveBest('atoll-wreck', 50, 1);
+  saveBest('agg:atoll', 50, 1);
+  s = readStats();
+  assert.equal(s.plays, 5);
+  assert.equal(s.score, 250);
 });
 
 // ——— release integrity ———

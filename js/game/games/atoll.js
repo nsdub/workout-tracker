@@ -12,8 +12,9 @@
 // (the beat is audible — a tick every beat, brighter every fourth — and
 // graded: the closer to dead centre, the bigger the pulse and the faster
 // the DROP charges; an off-beat tap still fires a small defensive pulse
-// so a tired thumb is never ignored, and a pulse that pops NOTHING is
-// STATIC and resets your chain, so blanket-mashing bleeds what it farms).
+// so a tired thumb is never ignored, but it zeroes the ON-BEAT STREAK the
+// DROP charge escalates on, and a truly empty pulse is STATIC — so
+// blanket-mashing charges strictly slower than playing the beat).
 //
 // This is a rebuild. The old ship-cannon game was deleted at the user's
 // order — it stacked boats and played itself. Nothing here is physics-
@@ -229,6 +230,7 @@ export function create(P, ctx) {
   let lastTapAt = -1e9;
   let combo = 0;          // DROP meter 0..1
   let chain = 0;          // pops in the current cascade
+  let beatStreak = 0;     // consecutive ON-BEAT taps — the DROP charge escalator
   let chainResetAt = 0;
   let spawnAt = 0;
   let goldenAt = 0;
@@ -341,8 +343,12 @@ export function create(P, ctx) {
       : kind === 'secondary' ? 82 * K * cfg.secondary
       : 125 * K;
     // q = beat quality of the originating tap (1 = dead centre); cascades
-    // inherit it so a perfect tap's whole chain charges the DROP faster
-    pulses.push({ x, y, r: 6 * K, maxR, hit: new Set(), kind, charges: !!opts.charges, q: opts.q ?? 1, born: scene.time.now });
+    // inherit it so a perfect tap's whole chain charges the DROP faster.
+    // aimed = an enemy was inbound within reach when the pulse was born —
+    // anticipating a wave is play, not mash, so an aimed whiff is never STATIC
+    const aimed = kind === 'beat'
+      && enemies.some((e) => Math.hypot(e.spr.x - x, e.spr.y - y) <= maxR + 150 * K);
+    pulses.push({ x, y, r: 6 * K, maxR, hit: new Set(), kind, charges: !!opts.charges, q: opts.q ?? 1, aimed, born: scene.time.now });
     if (kind === 'secondary') return;
     const col = kind === 'bass' ? 0xffd24a : onBeat ? cfg.accent : 0x8a9ac8;
     shockRing(scene, x, y, col, maxR * 0.7);
@@ -399,11 +405,16 @@ export function create(P, ctx) {
     if (chain === 8) { banner(scene, `CHAIN ${chain}`, '#ff9a3c', 30 * K); slowmo(scene, 0.4, 320); }
     if (chain >= 8 && chain % 4 === 0) banner(scene, `CHAIN ${chain}`, '#ff9a3c', 30 * K);
     // charge the DROP meter — ONLY from earned on-beat offense, never from
-    // the bass drop's own kills (so the ultimate can't self-rearm), faster
-    // when the streak is hot, and scaled by how CLEAN the tap's timing was
+    // the bass drop's own kills (so the ultimate can't self-rearm). BEAT
+    // QUALITY dominates: charge scales with q² (an edge-of-window graze
+    // charges almost nothing) and escalates with the ON-BEAT TAP STREAK,
+    // not the pop chain — the pop chain rewarded sub-beat mash cadence
+    // (260ms reset < 520ms beat, so only mashers kept it hot), while the
+    // streak is zeroed by every off-beat tap, so blanket-mash charges
+    // strictly slower than deliberate beat play (sim: ~5× slower).
     if (earns && combo < 1) {
-      const cleanness = 0.55 + 0.45 * (pl?.q ?? 1);
-      combo = Math.min(1, combo + (0.04 + Math.min(chainIdx, 10) * 0.006) * cleanness);
+      const q = pl?.q ?? 1;
+      combo = Math.min(1, combo + (0.04 + Math.min(beatStreak, 10) * 0.006) * q * q);
       if (combo >= 1) { glyphBanner(scene, 'DROP READY — TAP THE LAMP', '#ffd24a', 22 * K); api.sfx('objDone'); }
     }
   }
@@ -493,13 +504,16 @@ export function create(P, ctx) {
       // graded, not binary: a dead-centre tap fires the full 125K wave and
       // charges fastest; an edge-of-window tap visibly fires a smaller one
       const q = 1 - toBeat / HIT_WINDOW;
+      beatStreak = Math.min(10, beatStreak + 1);
       firePulse(scene, K, x, y, 'beat', { maxR: (96 + 29 * q) * K, charges: true, onBeat: true, q });
       floatScore(scene, x, y - 10 * K, q > 0.66 ? 'PERFECT' : 'ON BEAT', q > 0.66 ? '#fff0c8' : '#ffe9a0', (12 + 4 * q) * K);
       api.haptic(9);
     } else {
       // off-beat still fires a real (smaller) pulse right under the thumb,
       // so panic-tapping always defends — and the judgment TEACHES: EARLY /
-      // LATE tells you which way to lean into the next beat
+      // LATE tells you which way to lean into the next beat. It also zeroes
+      // the on-beat streak: defense is free, but it never farms the DROP
+      beatStreak = 0;
       firePulse(scene, K, x, y, 'beat', { maxR: 84 * K, charges: false, onBeat: false });
       floatScore(scene, x, y - 6 * K, frac < 0.5 ? 'LATE' : 'EARLY', '#8a9ac8', 11 * K);
       api.haptic(3);
@@ -932,11 +946,18 @@ export function create(P, ctx) {
         if (pl.r >= pl.maxR) {
           pulses.splice(pulses.indexOf(pl), 1);
           // whiff cost: a player-fired pulse that swept NOTHING is static on
-          // the air — it kills the live chain, so blanket-mashing bleeds the
-          // very bonus it tries to farm. (The opening tap gets grace: there
-          // is nothing to hit before the first spawns arrive.)
-          if (pl.kind === 'beat' && pl.hit.size === 0 && now - t0 > 1500) {
+          // the air — it kills the live chain, zeroes the on-beat streak and
+          // bleeds a little DROP charge. Three graces keep the cost aimed at
+          // mash, never at play: the opening tap (nothing to hit before the
+          // first spawns), an AIMED tap (an enemy was inbound near the pulse
+          // at birth — anticipating a wave is skill, not spam), and a whiff
+          // while any other pulse is still sweeping (a defensive tap must
+          // never cancel a live cascade's chain out from under it).
+          if (pl.kind === 'beat' && pl.hit.size === 0 && now - t0 > 1500
+            && !pl.aimed && !pulses.some((p) => p.kind !== 'bass')) {
             chain = 0;
+            beatStreak = 0;
+            combo = Math.max(0, combo - 0.05);
             floatScore(scene, pl.x, pl.y, 'STATIC', '#6a7690', 11 * K);
           }
         }
@@ -952,6 +973,11 @@ export function create(P, ctx) {
     for (const pl of pulses) {
       const a = Math.max(0, 1 - pl.r / pl.maxR);
       const col = pl.kind === 'bass' ? 0xffd24a : cfg.accent;
+      // collisions use the full swept DISC, so the drawing owns up to it: a
+      // faint interior wash matches the generous hitbox instead of lying
+      // with a bare ring while enemies pop 'inside' it
+      pulseGfx.fillStyle(col, 0.06);
+      pulseGfx.fillCircle(pl.x, pl.y, pl.r);
       pulseGfx.lineStyle((pl.kind === 'bass' ? 10 : 6) * K * (0.4 + a), col, 0.4 + a * 0.5);
       pulseGfx.strokeCircle(pl.x, pl.y, pl.r);
       if (pl.kind !== 'secondary') {

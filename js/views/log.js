@@ -4,10 +4,10 @@
 import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins, haptic } from '../util.js';
 import { sfx } from '../audio.js';
 import { store } from '../store.js';
-import { topSet } from '../engine.js';
+import { topSet, increment } from '../engine.js';
 import { confirmSheet, toast, ICONS } from '../components.js';
 import { flushQueue } from '../github.js';
-import { applyWorld, UNIVERSES, worldDef } from '../worlds.js';
+import { applyWorld, UNIVERSES, worldDef, returnWorld } from '../worlds.js';
 // stats.js is the light half of the arcade — pure localStorage readers, no
 // game modules attached. The registry itself (which drags all six game
 // modules in) is dynamic-imported inside renderWorlds, keeping the arcade a
@@ -237,6 +237,12 @@ function renderDetail() {
       confirmLabel: 'Re-open it',
       danger: !!dirty,
       onConfirm() {
+        // Stomping a clean in-progress draft hands its unseen world back to
+        // the deck (same rule as switchSession) — reopening must not burn the
+        // draw. A reopened prev is exempt: its world was already trained.
+        const prev = store.draft;
+        const prevDirty = prev?.exercises?.some((x) => x.sets.some((s) => s.done));
+        if (prev?.world && !prevDirty && !prev.reopened) returnWorld(prev.session_type, prev.world);
         store.saveDraft(draftFromEntry(entry));
         resetDrill();
         toast('Night re-opened — it’s on the Lift screen');
@@ -276,7 +282,9 @@ function draftFromEntry(entry) {
       rest: slot?.rest || 90,
       basis: 'verify', prevTop: null,
       note: 'Re-opened from the Atlas — these are the night’s saved numbers',
-      bump: 0, pct: null, stalled: false, inc: 2.5, adhoc: !slot,
+      // inc drives the numpad's ± stepper: resolve the real per-exercise grid
+      // (5/10 lb on the barbells) exactly like buildDraft, never a flat 2.5.
+      bump: 0, pct: null, stalled: false, inc: (slot && increment(store.plan, slot.id)) || 2.5, adhoc: !slot,
       sets: x.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: true, ...(s.at ? { at: s.at } : {}) })),
     };
   });
@@ -285,6 +293,9 @@ function draftFromEntry(entry) {
     world: entry.world ?? null,
     phase: entry.phase ?? null, week: entry.week ?? null,
     startedAt: entry.startedAt ?? null,
+    // The banked duration rides along: re-finishing must keep it rather than
+    // recompute across the reopen gap (startedAt is days old by then).
+    origMins: entry.mins ?? null,
     bodyweight: entry.bodyweight ?? null, notes: entry.notes ?? '',
     reopened: true, // the Lift screen skips its "resume or start fresh?" prompt
     exercises,

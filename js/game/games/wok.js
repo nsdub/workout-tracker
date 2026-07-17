@@ -252,18 +252,25 @@ export function create(P, ctx) {
   // ×3 at 16, chain decays after 1.6s idle) and doubles it again during GOLD
   // RUSH before the HUD adds it — so the popups must show that SAME applied
   // number or the scoreboard climbs 2-3× faster than the floats and reads as
-  // haunted. bank() mirrors the cabinet math (overlay.js api.score), announces
-  // the chain tier as an in-world event, and returns what the HUD really got.
-  let comboN = 0, comboAt = 0, comboTier = 1;
+  // haunted. bank() differences api.score's running total against a local
+  // mirror, so what it returns is EXACTLY what the HUD banked — multipliers,
+  // GOLD RUSH, and the post-TIME freeze included (frozen ⇒ 0, and callers
+  // skip the popup: the world stops printing points the instant the
+  // scoreboard stops counting them). Recomputing the cabinet math by hand
+  // drifted whenever the fever mirror missed a beat; the diff cannot. The
+  // comboN mirror survives only to announce the chain tier as an event.
+  let comboN = 0, comboAt = 0, comboTier = 1, hudTotal = 0;
   function bank(scene, K, gain) {
     const now = Date.now();
     if (now - comboAt > 1600) comboN = 0;
     comboN++; comboAt = now;
     const cm = comboN >= 16 ? 3 : comboN >= 6 ? 2 : 1;
-    if (cm > comboTier) { glyphBanner(scene, `CHAIN ×${cm}`, '#ffe9a0', 22 * K); api.sfx('objDone'); }
+    const total = api.score(gain);
+    const applied = total - hudTotal;
+    hudTotal = total;
+    if (applied > 0 && cm > comboTier) { glyphBanner(scene, `CHAIN ×${cm}`, '#ffe9a0', 22 * K); api.sfx('objDone'); }
     comboTier = cm;
-    api.score(gain);
-    return gain * cm * (fever ? 2 : 1);
+    return applied;
   }
 
   function buildField(scene, K) {
@@ -347,7 +354,7 @@ export function create(P, ctx) {
     const shown = bank(scene, K, gain);
     api.note(noteStep++);
     api.haptic(4);
-    floatScore(scene, peg.img.x, peg.img.y - 20 * K, `+${shown}`, peg.kind === 'gold' ? '#ffe9b3' : '#ffc46c', 13 * K);
+    if (shown) floatScore(scene, peg.img.x, peg.img.y - 20 * K, `+${shown}`, peg.kind === 'gold' ? '#ffe9b3' : '#ffc46c', 13 * K);
     if (peg.kind === 'cracker') {
       // BANG: light the neighborhood, kick the dumpling
       peg.img.setTint(0xff5d3c);
@@ -384,7 +391,10 @@ export function create(P, ctx) {
         q.lit = false;
         q.img.setAlpha(1);
         // back to its TRUE unlit texture — a revived peg must look catchable
-        // again, and a revived cracker must still look like a thing that bangs
+        // again, and a revived cracker must still look like a thing that bangs.
+        // setTexture does not clear tint, so a once-detonated cracker would
+        // keep its red bang-flash and read as spent while armed — clear it.
+        q.img.clearTint();
         q.img.setTexture(q.kind === 'gold' ? goldTexKey : q.kind === 'cracker' ? 'wk-cracker' : pegTexKey);
         burst(scene, q.img.x, q.img.y, 0x7ad0ff, { n: 8, speed: 180 * K, scale: 0.4 * K });
         shockRing(scene, q.img.x, q.img.y, 0x7ad0ff, 40 * K);
@@ -456,7 +466,9 @@ export function create(P, ctx) {
     // cluster (>=4 lanterns) isn't wasted at all: it forgives the streak.
     // A wok catch never costs patience; the resting/wedged mercy rules pass
     // missed=false and are banked, not blamed. The first drop is a free teach.
-    if (missed && wokMult <= 1 && dropCount >= 1) {
+    // A drop fired into a bare field (refill still pending) is banked too —
+    // the kitchen chose not to rebuild yet; that is never the player's plate.
+    if (missed && wokMult <= 1 && dropCount >= 1 && !b.fieldEmpty) {
       if (litCount >= 4) {
         missStreak = 0; // a productive near-miss earns a clean slate
       } else {
@@ -485,8 +497,10 @@ export function create(P, ctx) {
       const streakBoost = 1 + Math.min(catchStreak - 1, 5) * 0.5; // ×1 → ×3.5, capped
       const bonus = Math.round(total * (wokMult - 1) * streakBoost);
       const shown = bank(scene, K, bonus);
-      glyphBanner(scene, catchStreak >= 2 ? `WOK CATCH ×${wokMult} — ${catchStreak} IN A ROW` : `WOK CATCH ×${wokMult}`, '#ffd24a', 30 * K);
-      floatScore(scene, wokX, scene.scale.height * 0.82, `+${shown}`, '#ffd24a', 24 * K);
+      if (shown) {
+        glyphBanner(scene, catchStreak >= 2 ? `WOK CATCH ×${wokMult} — ${catchStreak} IN A ROW` : `WOK CATCH ×${wokMult}`, '#ffd24a', 30 * K);
+        floatScore(scene, wokX, scene.scale.height * 0.82, `+${shown}`, '#ffd24a', 24 * K);
+      }
       zoomPunch(scene, 1.08, 260);
       slowmo(scene, 0.4, 350);
       api.sfx('pr');
@@ -520,7 +534,7 @@ export function create(P, ctx) {
       spotlessStreak = Math.min(spotlessStreak + 1, 4);
       const sb = 75 * spotlessStreak; // +75 → +300 for a sustained clean sweep
       const shown = bank(scene, K, sb);
-      glyphBanner(scene, spotlessStreak >= 2 ? `SPOTLESS ×${spotlessStreak} +${shown}` : `SPOTLESS +${shown}`, '#ffe9a0', 26 * K);
+      if (shown) glyphBanner(scene, spotlessStreak >= 2 ? `SPOTLESS ×${spotlessStreak} +${shown}` : `SPOTLESS +${shown}`, '#ffe9a0', 26 * K);
       flash(scene, 0xffd24a, 110, 0.25);
       api.sfx('pr');
     } else {
@@ -530,6 +544,10 @@ export function create(P, ctx) {
     noteStep = 0;
     dropCount++;
     if (goldenDrop) { goldenDrop = false; goldenAt = scene.time.now + goldDelay(); }
+    // a refill deferred under this drop is owed NOW: pointerdown re-arms the
+    // moment ball nulls, so waiting for the delayed sweep-check would open a
+    // window where the next dumpling falls through a bare all-sensor field
+    if (needsRefill && !ball) { needsRefill = false; buildField(scene, K); }
     // the field refills only when every lantern is truly spent — the last few
     // pay double (see lightPeg) so the tail is a hunt, not a wait — and NEVER
     // under a live drop: rebuilding 20+ static bodies around a dumpling in
@@ -861,7 +879,7 @@ export function create(P, ctx) {
             // the bells deflect, but a rung bell still pays its respects
             lastBellAt = scene.time.now;
             const shown = bank(scene, K, 3);
-            floatScore(scene, ball.img.x, ball.img.y - 18 * K, `BONG +${shown}`, '#e8c46c', 12 * K);
+            if (shown) floatScore(scene, ball.img.x, ball.img.y - 18 * K, `BONG +${shown}`, '#e8c46c', 12 * K);
             api.sfx('tap');
             shake(scene, 0.005, 70);
           }
@@ -881,7 +899,14 @@ export function create(P, ctx) {
         const img = scene.matter.add.image(x, 44 * K, canvasTex(scene, 'wk-dump', 34 * K, 32 * K, PAINT.dumpling), null, {
           shape: 'circle', restitution: cfg.bouncy ? 0.75 : 0.55, friction: 0.002, frictionAir: 0.008, density: 0.0022, label: 'ball',
         }).setDepth(15);
-        ball = { img, born: scene.time.now, lastMove: scene.time.now, prevY: img.y };
+        // A drop can launch the instant the last one resolves — sometimes into
+        // a fully swept field whose refill is still pending (the rebuild check
+        // runs on a delay). Remember that the field was bare at launch: a
+        // dumpling with nothing to light must never be charged a walkout for
+        // lighting nothing. Lit-but-not-yet-popped pegs count as bare too —
+        // they can't relight.
+        const bare = !pegs.some((q) => !q.spent && !q.lit && !q.dragonHead);
+        ball = { img, born: scene.time.now, lastMove: scene.time.now, prevY: img.y, fieldEmpty: bare };
         if (goldenPending) {
           goldenPending = false;
           goldenDrop = true;

@@ -95,42 +95,64 @@ export async function checkConnection() {
 // user tapping Sync: it skips ONLY the backoff window — the reentrancy
 // guard and the token/online checks always hold, or a double-tap would race
 // two PUT loops against the same sha.
+let flushInFlight = null;
+
 export async function flushQueue({ force = false } = {}) {
-  if (store.syncing || !store.settings.token || !navigator.onLine) return;
+  if (store.syncing) {
+    // A background flush holds the lock. A background caller just yields —
+    // but a user-initiated force must not silently evaporate: wait for the
+    // in-flight pass to settle, then run the forced pass for real, so the
+    // deliberate tap always punches through the backoff it came to punch.
+    if (force && flushInFlight) {
+      await flushInFlight.catch(() => {});
+      return flushQueue({ force: true });
+    }
+    return;
+  }
+  if (!store.settings.token || !navigator.onLine) return;
   if (!store.queue.length) return;
   store.syncing = true;
   store.emit(true);
-  let uploaded = 0;
-  try {
-    for (const item of [...store.queue]) {
-      // exponential backoff: a failing item must not spam the API forever
-      if (!force && item.attempts > 0 && Date.now() - (item.lastAttemptAt || 0) < Math.min(2 ** item.attempts * 30000, 3600000)) continue;
-      try {
-        const label = item.path.replace(/^data\/(history\/)?/, '').replace(/\.json$/, '');
-        if (item.op === 'delete') {
-          await deleteFile(item.path, `remove: ${label}`);
-          delete store.remoteIndex[item.path];
-          store.setRemoteIndex(store.remoteIndex);
-        } else {
-          const sha = await putFile(item.path, item.content, `log: ${label}`);
-          store.remoteIndex[item.path] = sha;
-          store.setRemoteIndex(store.remoteIndex);
+  const pass = (async () => {
+    let uploaded = 0;
+    try {
+      for (const item of [...store.queue]) {
+        // exponential backoff: a failing item must not spam the API forever
+        if (!force && item.attempts > 0 && Date.now() - (item.lastAttemptAt || 0) < Math.min(2 ** item.attempts * 30000, 3600000)) continue;
+        try {
+          const label = item.path.replace(/^data\/(history\/)?/, '').replace(/\.json$/, '');
+          if (item.op === 'delete') {
+            await deleteFile(item.path, `remove: ${label}`);
+            delete store.remoteIndex[item.path];
+            store.setRemoteIndex(store.remoteIndex);
+          } else {
+            const sha = await putFile(item.path, item.content, `log: ${label}`);
+            store.remoteIndex[item.path] = sha;
+            store.setRemoteIndex(store.remoteIndex);
+          }
+          // Only dequeue what we actually uploaded — a re-save during the PUT
+          // replaces the queue item, and that newer write must survive. seq
+          // breaks the tie when both saves land in the same millisecond.
+          const current = store.queue.find((q) => q.path === item.path);
+          if (current && current.queuedAt === item.queuedAt && current.seq === item.seq) store.dequeue(item.path);
+          uploaded += 1;
+        } catch (err) {
+          store.markAttempt(item, err.message || err);
         }
-        // Only dequeue what we actually uploaded — a re-save during the PUT
-        // replaces the queue item, and that newer write must survive.
-        const current = store.queue.find((q) => q.path === item.path);
-        if (current && current.queuedAt === item.queuedAt) store.dequeue(item.path);
-        uploaded += 1;
-      } catch (err) {
-        store.markAttempt(item.path, err.message || err);
       }
+      // lastSync only moves on real progress: an all-fail flush must never
+      // mask an older pull error in syncStatus.
+      if (uploaded) store.setMeta({ lastSync: Date.now() });
+    } finally {
+      store.syncing = false;
+      store.emit();
     }
-    // lastSync only moves on real progress: an all-fail flush must never
-    // mask an older pull error in syncStatus.
-    if (uploaded) store.setMeta({ lastSync: Date.now() });
+  })();
+  flushInFlight = pass;
+  try {
+    await pass;
   } finally {
-    store.syncing = false;
-    store.emit();
+    if (flushInFlight === pass) flushInFlight = null;
   }
 }
 
@@ -149,23 +171,28 @@ export async function pullRemote() {
       if (JSON.stringify(plan.content) !== JSON.stringify(store.plan)) store.setPlan(plan.content);
     }
     const files = await listDir('data/history');
-    const index = { ...store.remoteIndex };
     let changed = false;
     for (const f of files) {
       if (!f.name.endsWith('.json')) continue;
       const path = `data/history/${f.name}`;
-      if (queuedNow(path) || index[path] === f.sha) { index[path] = f.sha; continue; }
+      // Queued paths get NO index write at all: a concurrent flush may be
+      // deleting or re-uploading this very file, and recording the listing's
+      // pre-flush sha here would resurrect a deleted path (permanently — the
+      // next listing won't show it) or shadow the fresh upload's sha.
+      if (queuedNow(path) || store.remoteIndex[path] === f.sha) continue;
       const file = await getFile(path);
       // re-check after the fetch: the entry may have been queued mid-flight
-      if (queuedNow(path)) { index[path] = f.sha; continue; }
+      if (queuedNow(path)) continue;
       if (file) {
         // quiet per-file merge; one emit below (first sync is ~50 files)
         store.upsertEntry(file.content, { enqueue: false, quiet: true });
-        index[path] = f.sha;
+        store.remoteIndex[path] = f.sha;
         changed = true;
       }
     }
-    store.setRemoteIndex(index);
+    // Persist the LIVE index — never a start-of-pull snapshot, which would
+    // revert every sha a concurrent flushQueue landed while we awaited.
+    store.setRemoteIndex(store.remoteIndex);
     store.setMeta({ lastSync: Date.now(), lastError: null, lastErrorAt: null });
     if (changed) store.emit();
     else store.emit(true);

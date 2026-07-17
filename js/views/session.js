@@ -162,13 +162,18 @@ export async function handleSeedFile(e) {
 function ensureDraft(today, phaseInfo) {
   const d = store.draft;
   const dirty = d?.exercises?.some((x) => x.sets.some((s) => s.done));
-  if (d && (d.date === today || dirty)) {
+  // A reopened night (d.reopened) is an editing session over a BANKED entry:
+  // it survives regardless of date or cleanliness — un-logging every set is a
+  // legitimate mid-edit state, not abandonment — and it must never refund its
+  // world, which came from the entry (already trained), not a fresh draw.
+  if (d && (d.date === today || dirty || d.reopened)) {
     // Migration: pre-fix builds auto-drafted the NEXT session dated today the
     // moment tonight was banked. Such a draft — clean, not deliberately
     // started, sitting on top of a banked night — is reclaimed: refund its
     // unseen world and show the banked hero instead. Deliberate double-day
-    // drafts carry d.deliberate and are never reclaimed.
-    if (!dirty && !d.deliberate && store.history.some((e) => e.date === today)) {
+    // drafts carry d.deliberate; reopened drafts carry d.reopened — neither
+    // is ever reclaimed.
+    if (!dirty && !d.deliberate && !d.reopened && store.history.some((e) => e.date === today)) {
       if (d.world) returnWorld(d.session_type, d.world);
       store.clearDraft();
       return null;
@@ -176,8 +181,10 @@ function ensureDraft(today, phaseInfo) {
     return d.session_type;
   }
   // Date rolled over a clean draft: that world was drawn but never trained —
-  // put it back on top of the deck before drawing again.
-  if (d?.world && !dirty) returnWorld(d.session_type, d.world);
+  // put it back on top of the deck before drawing again. (Reopened drafts
+  // can't reach here — the branch above keeps them — but the guard stays:
+  // their world WAS trained and must never re-enter the pool.)
+  if (d?.world && !dirty && !d.reopened) returnWorld(d.session_type, d.world);
   // Tonight already banked and no work in progress: do NOT auto-build the
   // next rotation session dated today — that swapped the world behind the
   // results overlay, burned a pool draw the user never saw, and made the app
@@ -281,10 +288,12 @@ function switchSession(type) {
   const phaseInfo = engine.phaseForDate(store.plan, today, store.settings.phaseOverride);
   hideRestTimer();
   // Leaving a clean draft returns its unseen world to the pool — switching
-  // universes back and forth must not burn through the deck.
+  // universes back and forth must not burn through the deck. A reopened
+  // draft's world is exempt even when clean: it came from a banked entry
+  // (already trained), and refunding it would deal it out twice.
   const prev = store.draft;
   const prevDirty = prev?.exercises?.some((x) => x.sets.some((s) => s.done));
-  if (prev?.world && !prevDirty) returnWorld(prev.session_type, prev.world);
+  if (prev?.world && !prevDirty && !prev.reopened) returnWorld(prev.session_type, prev.world);
   // Swapping the day is an explicit choice — never reclaimed as "banked"
   // even when tonight already has a logged entry.
   store.saveDraft({ ...buildDraft(today, type, phaseInfo), deliberate: true });
@@ -325,7 +334,12 @@ function renderWorldScreen(draft, phaseInfo) {
   const session = store.plan.sessions[draft.session_type];
   const isNext = engine.rotationNext(store.plan, store.history) === draft.session_type;
   const phase = phaseInfo.phase;
-  const missionNo = store.history.length + 1;
+  // A reopened night REPLACES its banked entry, so the header wears that
+  // night's original chronological number — never history.length + 1, which
+  // would claim a new night the re-finish never creates (finishSession makes
+  // the same call on the results card).
+  const replacing = store.history.findIndex((e) => store.entryPath(e) === store.entryPath(draft));
+  const missionNo = replacing === -1 ? store.history.length + 1 : replacing + 1;
   const x = draft.exercises[focusIdx];
   const curIdx = x.sets.findIndex((s) => !s.done && !s.skipped);
   const cur = curIdx === -1 ? null : x.sets[curIdx];
@@ -677,6 +691,10 @@ function logSet(x, s, U) {
 
   const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done && !q.skipped).length, 0);
   if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'), U.copy.rest);
+  // The night's last set has nothing to rest FOR: retire any live pill (and
+  // its wake lock + badge) instead of letting it flip to overtime and nag
+  // beside the finish bar about a set that doesn't exist.
+  else if (remaining === 0) hideRestTimer();
   if (finishedObjective && remaining > 0) {
     if (!s.pr) sfx('objDone');
     flashCard(`${U.copy.objDone}!`, x.name, () => {
@@ -701,6 +719,11 @@ function unlogSet(x, s) {
       label: 'UNDO',
       fn() {
         if (s.done) return; // already re-logged by hand — don't stomp fresh state
+        // The draft can be gone (or rebuilt) by the time UNDO lands — finish,
+        // session switch, start-fresh. `s` would then be a dead object: bail
+        // unless it still lives in the CURRENT draft, or saveDraft persists
+        // the wrong thing (including null) while claiming a restore.
+        if (!store.draft?.exercises?.some((ex) => ex.sets.includes(s))) return;
         Object.assign(s, snap);
         store.saveDraft(store.draft);
         haptic(8);
@@ -943,9 +966,32 @@ function finishSession() {
   // True wall-clock duration from the draft's birth; pre-deploy drafts fall
   // back to the first logged set. sessionMins guards stale resumed drafts.
   const startedAt = d.startedAt ?? (ats.length ? Math.min(...ats) : null);
-  const mins = sessionMins(startedAt, ats);
+  // A reopened night keeps the duration it was banked with: its startedAt is
+  // days old, and a re-logged set stamps a fresh `at` beside the originals,
+  // so a recompute here can span the reopen gap and write a multi-day mins.
+  // The set span is trusted only when it still reads like a single night.
+  let mins;
+  if (d.reopened) {
+    const span = sessionMins(null, ats);
+    mins = d.origMins ?? (span && span <= 360 ? span : null);
+  } else {
+    mins = sessionMins(startedAt, ats);
+  }
+
+  const entry = { date: d.date, session_type: d.session_type, phase: d.phase, week: d.week, exercises };
+  if (d.world) entry.world = d.world;
+  if (d.bodyweight) entry.bodyweight = d.bodyweight;
+  if (d.notes) entry.notes = d.notes;
+  if (mins) entry.mins = mins;
+  if (startedAt) entry.startedAt = startedAt;
+  const path = store.entryPath(entry);
+  // Read BEFORE upsertEntry banks tonight — and honestly: re-finishing a
+  // reopened night REPLACES its entry (same date + session type), so that
+  // night keeps its original chronological number. Only a genuinely new
+  // entry grows the count.
+  const replaceIdx = store.history.findIndex((e) => store.entryPath(e) === path);
   const stats = {
-    night: store.history.length + 1, // read BEFORE upsertEntry banks tonight
+    night: replaceIdx === -1 ? store.history.length + 1 : replaceIdx + 1,
     mins,
     sets: exercises.reduce((n, x) => n + x.sets.length, 0),
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),
@@ -954,16 +1000,8 @@ function finishSession() {
     title: U.copy.results,
     world: W ? `${W.name} · ${U.name}` : U.name,
     delivered: U.copy.delivered ?? NEUTRAL_COPY.delivered,
-    path: null,
+    path,
   };
-
-  const entry = { date: d.date, session_type: d.session_type, phase: d.phase, week: d.week, exercises };
-  if (d.world) entry.world = d.world;
-  if (d.bodyweight) entry.bodyweight = d.bodyweight;
-  if (d.notes) entry.notes = d.notes;
-  if (mins) entry.mins = mins;
-  if (startedAt) entry.startedAt = startedAt;
-  stats.path = store.entryPath(entry);
 
   store.clearDraft();
   // quiet: the results ceremony owns the screen — the world rebuild waits for

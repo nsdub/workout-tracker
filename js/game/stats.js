@@ -33,7 +33,11 @@ export function starsFor(worldCls) {
 // read BEFORE the save against the run's stars to celebrate a medal upgrade,
 // so a mid-score run that unlocks a higher medal still gets its moment.
 export function saveBest(worldCls, score, stars = 0) {
-  accrue(score); // fold every played run into the lifetime ledger, always
+  // The cabinet persists every run TWICE — under its world and under the
+  // game-wide 'agg:' ceiling. Only the per-world write feeds the career
+  // ledger, or each run would count double (it did once; see the v2
+  // migration in readStats).
+  if (!/^agg:/.test(worldCls)) accrue(score); // fold every played run into the lifetime ledger, once
   const bests = readBests();
   const prevS = bestFor(worldCls);
   const prevSt = starsFor(worldCls);
@@ -57,7 +61,20 @@ const localDay = () => Math.floor((Date.now() - new Date().getTimezoneOffset() *
 export function readStats() {
   try {
     const s = JSON.parse(localStorage.getItem(STATS_KEY));
-    if (s && typeof s === 'object') return { ...EMPTY_STATS, ...s };
+    if (s && typeof s === 'object') {
+      // v2 self-heal: before saveBest grew its 'agg:' guard, every scored run
+      // accrued twice (per-world + game-ceiling write) for the ledger's whole
+      // life, so plays and score sit at exactly 2x. Halve once, stamp v:2 so
+      // fresh single-counted data is never halved again. best is a max and
+      // the streak day-stamp is idempotent — both were never inflated.
+      if (s.v !== 2 && s.plays > 0) {
+        s.plays = Math.round(s.plays / 2);
+        s.score = Math.round((s.score || 0) / 2);
+        s.v = 2;
+        try { localStorage.setItem(STATS_KEY, JSON.stringify({ ...EMPTY_STATS, ...s })); } catch { /* best-effort */ }
+      }
+      return { ...EMPTY_STATS, ...s };
+    }
   } catch { /* corruption reads as a fresh ledger */ }
   return { ...EMPTY_STATS };
 }
@@ -77,6 +94,7 @@ function accrue(score) {
       : 1;                           // a day (or more) was missed: reset
     const run = Math.round(score);
     localStorage.setItem(STATS_KEY, JSON.stringify({
+      v: 2, // single-count era (see the migration in readStats)
       plays: s.plays + 1,
       score: s.score + run,
       best: Math.max(s.best, run),
