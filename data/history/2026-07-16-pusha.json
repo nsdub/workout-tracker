@@ -1,0 +1,146 @@
+{
+  "date": "2026-07-16",
+  "session_type": "PushA",
+  "phase": "calibration",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 8,
+          "at": 1784253499001
+        },
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1784253615773
+        },
+        {
+          "weight": 165,
+          "reps": 6,
+          "at": 1784253723376
+        },
+        {
+          "weight": 170,
+          "reps": 6,
+          "at": 1784253860985
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1784253990067
+        },
+        {
+          "weight": 142.5,
+          "reps": 8,
+          "at": 1784254062452
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1784254185022
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 14,
+          "reps": 12,
+          "at": 1784254302897
+        },
+        {
+          "weight": 15.5,
+          "reps": 12,
+          "at": 1784254406723
+        },
+        {
+          "weight": 15.5,
+          "reps": 12,
+          "at": 1784254528500
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 8,
+          "at": 1784254639864
+        },
+        {
+          "weight": 35,
+          "reps": 8,
+          "at": 1784254750449
+        },
+        {
+          "weight": 35,
+          "reps": 9,
+          "at": 1784254817133
+        }
+      ]
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10.5,
+          "reps": 10,
+          "at": 1784254940868
+        },
+        {
+          "weight": 7.5,
+          "reps": 10,
+          "at": 1784255052090
+        },
+        {
+          "weight": 7.5,
+          "reps": 11,
+          "at": 1784255128709
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 15,
+          "at": 1784255226616
+        },
+        {
+          "weight": 47.5,
+          "reps": 13,
+          "at": 1784255315154
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 57.5,
+          "reps": 12,
+          "at": 1784255519490
+        }
+      ]
+    }
+  ],
+  "world": "summit"
+}
