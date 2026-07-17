@@ -1,6 +1,7 @@
 // YETI BOWL — Yeti Mountain. At the summit, HOLD to pack the snowball:
-// it grows while the slope-light burns down (greed against time).
-// Release and you're rolling — drag steers, and Katamari law governs:
+// it grows while the slope-light burns down — release any time, or let
+// the fuse launch you. A quick tap is a nimble build, a full hold is mass.
+// Rolling, drag steers, and Katamari law governs:
 // smaller than you smashes and feeds you, bigger than you bounces you.
 // Every stretch of mountain ends in a snowman village arranged, of
 // course, as bowling pins. A penguin rides on top, judging silently.
@@ -17,16 +18,17 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Yeti Bowl';
-// Measured post-tune: thoughtless sweeping ≈26/s; deliberate center-line
-// strikes, swerves and drift upkeep are what push past 36/s.
+// Re-anchored after the internal combo multiplier was removed (the cabinet
+// chain pill is now the only multiplier): raw points run ~20% leaner, so
+// thoughtless sweeping ≈22/s and deliberate strike play pushes past 30/s.
 export const VERB = 'ROLL!';
 export const GESTURE = 'Hold to grow';
-export const STARS = [12, 24, 36];
+export const STARS = [10, 20, 30];
 
 export const HELP = {
   goal: 'Roll the biggest snowball you can down the mountain and flatten the snowman villages.',
-  how: 'Hold to pack the snowball while the fuse burns, then release to roll and drag to steer. Anything smaller than you smashes for points, but the ball sheds snow as it rolls, so keep eating white drifts to stay big. A bigger ball hits harder yet steers slower, and a village falls most surely to a fat ball driven through its center.',
-  avoid: 'Hitting something bigger than you is a wipeout: it stops you cold and shrinks the ball. Three wipeouts end the run, so stay fat on the drifts and steer around anything you cannot flatten.',
+  how: 'Hold to pack the snowball while the fuse burns, then release to roll and drag to steer. Anything smaller than you smashes for points, but the ball sheds snow as it rolls, so keep eating white drifts to stay big. A bigger ball hits harder yet rolls FASTER and steers slower, and a village falls most surely to a fat ball driven through its center.',
+  avoid: 'Hitting something bigger than you is a wipeout: it stops you cold and shrinks the ball. Three wipeouts end the run. The dark stone crags are bigger than any snowball ever gets — the snow cracks open in their path a moment before they arrive, so read the crack and steer clear.',
 };
 
 export const WORLDS = {
@@ -220,6 +222,23 @@ const PAINT = {
     c.beginPath();
     c.moveTo(w * 0.34, h * 0.7); c.lineTo(w * 0.5, h * 0.5); c.lineTo(w * 0.66, h * 0.7);
     c.stroke();
+  },
+  crack(c, w, h) {
+    // the mountain groans before the crag: a fissure splits the snow where
+    // a boulder is about to surface — the warning you steer away from
+    c.strokeStyle = 'rgba(255,122,106,.45)'; c.lineWidth = w * 0.07; c.lineCap = 'round'; c.lineJoin = 'round';
+    c.beginPath();
+    c.moveTo(w * 0.04, h * 0.55); c.lineTo(w * 0.2, h * 0.4); c.lineTo(w * 0.34, h * 0.62);
+    c.lineTo(w * 0.5, h * 0.3); c.lineTo(w * 0.66, h * 0.6); c.lineTo(w * 0.8, h * 0.42); c.lineTo(w * 0.96, h * 0.52);
+    c.stroke();
+    c.strokeStyle = 'rgba(20,26,40,.9)'; c.lineWidth = w * 0.03;
+    c.beginPath();
+    c.moveTo(w * 0.04, h * 0.55); c.lineTo(w * 0.2, h * 0.4); c.lineTo(w * 0.34, h * 0.62);
+    c.lineTo(w * 0.5, h * 0.3); c.lineTo(w * 0.66, h * 0.6); c.lineTo(w * 0.8, h * 0.42); c.lineTo(w * 0.96, h * 0.52);
+    c.stroke();
+    c.lineWidth = w * 0.018;
+    c.beginPath(); c.moveTo(w * 0.34, h * 0.62); c.lineTo(w * 0.28, h * 0.9); c.stroke();
+    c.beginPath(); c.moveTo(w * 0.5, h * 0.3); c.lineTo(w * 0.56, h * 0.06); c.stroke();
   },
 };
 
@@ -570,7 +589,10 @@ export function create(P, ctx) {
   let size = 0.42;           // 0.3 .. 2.0 — mass, reach and menace
   let holdT = 0;
   let armed = false;         // idle law: the fuse waits for your first touch
-  let packDeadline = 3400;   // ms of slope-light at the summit
+  const PACK_FUSE = 2800;    // ms of slope-light at the summit — a short
+                             // ceremony, not a tax on the medal clock
+  let packDeadline = PACK_FUSE;
+  let packTaught = false;    // the HOLD TO PACK banner waits for the intro card
   let rollT0 = 0;
   let speed = 0;
   let steer = null;
@@ -587,21 +609,20 @@ export function create(P, ctx) {
   let noteStep = 0;
   let goldenAt = 0;
   let goldenCount = 0;      // first golden comes early, guaranteed in a short rest
-  let combo = 0;            // consecutive smashes — an escalating multiplier
-  let lastSmashAt = -9999;
   let strikeStreak = 0;     // back-to-back village strikes: DOUBLE / TURKEY
+  const villageEscapes = {}; // live pins that scrolled away, per village
   let mileN = 0;            // checkpoint index — payout ramps with depth
   let grabDX = 0;           // grab offset so a re-touch never teleports the ball
   let ballVX = 0, prevBallX = 0, lastMoveAt = -9999; // real-dodge detection
   let wasAir = false;       // mogul landing beat
   let poolSfxAt = 0;        // throttle the melt hiss
   let depthText;
-  // three snowballs' worth of runs. Each wipeout — slamming something
-  // bigger than you — spends one; the third ends the descent. The fuse
-  // waits for your first touch, so an untouched summit never rolls or dies.
+  // three snowballs' worth of runs, shown as the cabinet's hearts. Each
+  // wipeout — slamming something bigger than you — spends one; the third
+  // ends the descent. The fuse waits for your first touch, so an untouched
+  // summit never rolls or dies.
   let dead = false;
   let lives = 3;
-  let livesGfx;
   // The golden snowman is the jackpot, so it must actually appear inside a
   // 60s rest (the product minimum): the FIRST one seeds early (~7-15s) and
   // is guaranteed; later ones keep the 12-30s variable-ratio cadence.
@@ -658,7 +679,19 @@ export function create(P, ctx) {
     // an unpassable boulder most bands (never on the gentle opening) — the
     // wipeout threat even a maxed ball still has to steer around.
     if (!opening && Math.random() < 0.55 + ramp * 0.3) {
-      addThing(scene, K, 'boulder', W * (0.12 + Math.random() * 0.76), yBase + Math.random() * H * 0.6);
+      let bx = W * (0.12 + Math.random() * 0.76);
+      // fairness corridor: where steering is slow (black ice) or the slope is
+      // dense, a crag never surfaces dead ahead — it spawns off your line by
+      // at least the dodge you can actually make, on the side with room.
+      if ((cfg.ice || ramp > 0.6) && ball && Math.abs(bx - ball.x) < W * 0.3) {
+        bx = ball.x + (ball.x < W / 2 ? 1 : -1) * W * 0.35;
+      }
+      const by = yBase + Math.random() * H * 0.6;
+      addThing(scene, K, 'boulder', bx, by);
+      // the mountain groans first: a snow-crack opens a full breath ahead of
+      // the crag, at its exact line — the warning you steer away from
+      const warn = addThing(scene, K, 'crack', bx, Math.max(H * 0.62, by - H * 1.05), { w: 96, h: 40, warning: true });
+      warn.img.setDepth(6);
     }
     // drifts keep the mass economy alive AND give a floored ball a way back up
     if (cfg.melt) {
@@ -685,29 +718,20 @@ export function create(P, ctx) {
     }
   }
 
-  // Consecutive smashes build a multiplier — a clean streak is worth chasing,
-  // and a wipeout (which resets it) actually stings. Capped so it never runs
-  // away, and it decays after a lull so it rewards SUSTAINED aggression.
-  const comboMult = () => 1 + Math.min(Math.max(0, combo - 1), 14) * 0.06;
-
+  // ONE multiplier truth: the cabinet's chain pill. Yeti banks raw points
+  // and lets the cabinet's own combo (it counts every scoring hit) do all
+  // the multiplying — so the ×2/×3 pill is never contradicted by a label.
   function smashThing(scene, K, th, pts, growBy) {
     th.dead = true;
-    combo++;
-    lastSmashAt = scene.time.now;
-    const total = Math.max(1, Math.round(pts * comboMult()));
+    const total = Math.max(1, Math.round(pts));
     burst(scene, th.img.x, th.img.y, cfg.accent, { n: 16, speed: 340 * K, scale: 0.55 * K });
     api.score(total);
     api.note(noteStep++);
-    const label = combo >= 3 ? `+${total}  ×${combo}` : `+${total}`;
-    floatScore(scene, th.img.x, th.img.y - 20 * K, label, combo >= 8 ? '#ffe07a' : '#ffd24a', 15 * K);
+    floatScore(scene, th.img.x, th.img.y - 20 * K, `+${total}`, '#ffd24a', 15 * K);
     shake(scene, 0.007 + size * 0.004, 110);
     hitstop(scene, 35);
     api.haptic(8);
     api.sfx('tap');
-    if (combo === 5 || combo === 10 || combo === 15 || combo === 20) {
-      glyphBanner(scene, `COMBO ×${combo}`, '#ffe07a', 24 * K);
-      api.sfx('objDone');
-    }
     if (growBy) size = Math.min(2, size + growBy);
     // wreckage permanence: it lies where you crushed it
     th.img.setAlpha(0.5).setAngle((Math.random() - 0.5) * 60).setDepth(7);
@@ -729,23 +753,10 @@ export function create(P, ctx) {
   function loseLife(scene, cause) {
     if (dead) return;
     lives = Math.max(0, lives - 1);
+    api.lives(lives); // the cabinet's hearts are the one true lives display
     const K = unit(scene);
     floatScore(scene, ball.x, ball.y - BALL_R(scene) - 30 * K, lives > 0 ? `${lives} LEFT` : 'WIPED OUT', '#ff8a9a', 16 * K);
     if (lives <= 0) { dead = true; api.die?.(cause); }
-  }
-
-  // three snowball pips, top-right — a spent run goes dark and hollow
-  function drawLives(scene, K) {
-    const W = scene.scale.width;
-    livesGfx.clear();
-    const gap = 20 * K, r = 7 * K, x0 = W - 16 * K - gap * 2, y = 16 * K;
-    for (let i = 0; i < 3; i++) {
-      const x = x0 + i * gap, full = i < lives;
-      livesGfx.fillStyle(full ? 0xffffff : 0x000000, full ? 0.95 : 0.28);
-      livesGfx.fillCircle(x, y, r);
-      livesGfx.lineStyle(1.4 * K, full ? 0x9cc8ec : 0x44608f, full ? 0.9 : 0.4);
-      livesGfx.strokeCircle(x, y, r);
-    }
   }
 
   return {
@@ -788,14 +799,14 @@ export function create(P, ctx) {
       if (cfg.aurora) auroraGfx = scene.add.graphics().setDepth(-40);
 
       packGfx = scene.add.graphics().setDepth(30);
-      livesGfx = scene.add.graphics().setDepth(33); // above the strobe veil
+      api.lives(3); // hearts in the cabinet HUD from frame one
       // depth read-out: sustained rolling has a number to beat
       depthText = scene.add.text(16 * K, 14 * K, '', {
         fontFamily: 'system-ui, sans-serif', fontStyle: '900',
         fontSize: `${Math.round(15 * K)}px`, color: '#dff6ff',
       }).setDepth(33).setAlpha(0.85).setVisible(false);
-      // goldenAt seeds on the first update — the scene clock reads ~0 here
-      glyphBanner(scene, 'HOLD TO PACK', '#dff6ff', 24 * K);
+      // (the HOLD TO PACK banner fires on the first pack-phase update frame,
+      // AFTER the intro card releases input — a teach beat nobody can miss)
 
       scene.input.on('pointerdown', (p) => {
         // grab the ball WHERE it is: re-touching never teleports it
@@ -814,7 +825,7 @@ export function create(P, ctx) {
       function startRoll(sc, K2) {
         phase = 'roll';
         rollT0 = sc.time.now;
-        speed = sc.scale.height * (0.5 + size * 0.22);
+        speed = sc.scale.height * (0.5 + size * 0.15);
         flash(sc, 0xffffff, 90, 0.25);
         zoomPunch(sc, 1.06, 220);
         api.sfx('objDone');
@@ -837,19 +848,24 @@ export function create(P, ctx) {
       const now = scene.time.now;
       if (!goldenAt) goldenAt = now + goldDelay();
 
-      drawLives(scene, K); // pinned HUD — drawn in both pack and roll phases
       if (dead) return;    // freeze the sim under the death ceremony
       wipeInvuln = Math.max(0, wipeInvuln - dtMs);
 
-      // ——— PACK phase: greed against the burning slope-light ———
+      // ——— PACK phase: choose your build while the slope-light burns ———
       if (phase === 'pack') {
         packGfx.clear();
+        // the teach beat fires HERE — the first frame the player can act on
+        // it — because the intro card freezes update but not the tweens
+        if (!packTaught) {
+          packTaught = true;
+          glyphBanner(scene, 'HOLD TO PACK', '#dff6ff', 24 * K);
+        }
         // keep the strobe grotto legible while the ball grows — the murk
         // only rises once you're rolling
         if (cfg.strobe && darkVeil) darkVeil.setAlpha(0.12 + 0.1 * Math.abs(Math.sin(now / 600)));
         if (steer != null) {
           holdT += dtMs;
-          size = Math.min(1.7, 0.42 + holdT / 2600);
+          size = Math.min(1.7, 0.42 + holdT / 2100);
         }
         // the fuse only burns once you've touched: an untouched summit
         // waits forever, scores nothing, and rolls nowhere by itself
@@ -858,7 +874,7 @@ export function create(P, ctx) {
         shadow.setScale(size * 1.1, size * 0.4);
         shadow.y = ball.y + BALL_R(scene) * 0.9;
         // slope light: a burning fuse across the summit
-        const f = Math.max(0, packDeadline / 3400);
+        const f = Math.max(0, packDeadline / PACK_FUSE);
         packGfx.fillStyle(0xffd24a, 0.8).fillRect(W * 0.1, 40 * K, W * 0.8 * f, 4 * K);
         packGfx.fillStyle(0xffffff, 0.5 + 0.3 * Math.sin(now / 90));
         packGfx.fillCircle(W * 0.1 + W * 0.8 * f, 42 * K, 6 * K);
@@ -871,9 +887,11 @@ export function create(P, ctx) {
       stun = Math.max(0, stun - dtMs);
       airT = Math.max(0, airT - dtMs);
       // Katamari's honest bargain: mass smashes more but turns like a
-      // planet — a small nimble ball is the slalom build, not a mistake
-      const massDrag = Math.max(0.5, 1.15 - size * 0.35);
-      const iceLerp = cfg.ice ? 1.6 : 7;
+      // planet — a small nimble ball is the slalom build, not a mistake.
+      // Both floors are set so a warned boulder is ALWAYS humanly dodgeable,
+      // even fat on black ice: slippery must never mean helpless.
+      const massDrag = Math.max(0.65, 1.15 - size * 0.35);
+      const iceLerp = cfg.ice ? 3.2 : 7;
       if (steer != null && stun <= 0) {
         ball.x += (steer - ball.x) * Math.min(1, dt * (airT > 0 ? 9 : iceLerp * massDrag));
       }
@@ -937,7 +955,9 @@ export function create(P, ctx) {
       const rollElapsed = (now - rollT0) / 1000;
       const densityRamp = Math.min(1, rollElapsed / 150);
       const slopeRamp = 1 + Math.min(0.2, (rollElapsed / 240) * 0.2);
-      const target = H * (0.5 + size * 0.22) * (fever ? 1.15 : 1) * floaty * slopeRamp;
+      // size still buys speed, but capped: a fat ball must never outrun the
+      // one-band boulder warning it depends on
+      const target = H * (0.5 + size * 0.15) * (fever ? 1.15 : 1) * floaty * slopeRamp;
       speed += ((stun > 0 ? H * 0.1 : target) - speed) * Math.min(1, dt * 3);
       dist += speed * dt;
       bandDist += speed * dt;
@@ -966,12 +986,11 @@ export function create(P, ctx) {
 
       // running depth read-out: a number to beat over a long rest
       depthText.setVisible(true).setText(`▼ ${Math.floor((dist / H) * 8)} m`);
-      // combo is for SUSTAINED aggression — it lapses after a lull
-      if (combo > 0 && now - lastSmashAt > 2500) combo = 0;
 
-      // snow sheds constantly (the springs shed faster): staying huge is a
-      // diet you maintain by eating drifts, not a value you bank at the top
-      size = Math.max(0.36, size - dt * (cfg.melt ? 0.035 : 0.014));
+      // snow sheds for real (the springs shed faster): staying huge is a
+      // diet you maintain by eating drifts, not a value you bank at the top —
+      // shed is tuned so skipping drifts genuinely slims you within a band
+      size = Math.max(0.36, size - dt * (cfg.melt ? 0.08 : 0.05));
 
       // ——— world scroll + collisions ———
       let villagePins = 0, villageDowned = 0, villageId = 0;
@@ -987,11 +1006,32 @@ export function create(P, ctx) {
         }
         if (th.haloImg) th.haloImg.setPosition(th.img.x, th.img.y);
         if (th.img.y < -120 * K) {
-          // a live village pin scrolled past un-bowled: the strike streak breaks
-          if (th.pin && !th.dead && !th.claimed && th.village) strikeStreak = 0;
+          // live pins scrolling past un-bowled: one straggler is forgiven,
+          // but when MOST of a village escapes, the streak breaks — and it
+          // breaks OUT LOUD, never silently
+          if (th.pin && !th.dead && !th.claimed && th.village) {
+            const esc = (villageEscapes[th.village] = (villageEscapes[th.village] || 0) + 1);
+            if (esc >= 4 && strikeStreak > 0) {
+              strikeStreak = 0;
+              floatScore(scene, W / 2, 70 * K, 'STRIKE STREAK BROKEN', '#ff8a9a', 15 * K);
+              api.sfx('log');
+            }
+          }
           th.haloImg?.destroy();
           th.img.destroy();
           things.splice(things.indexOf(th), 1);
+          continue;
+        }
+        if (th.warning) {
+          // the crack surfaces: a low groan and a shudder the moment it
+          // enters view — you hear the boulder coming before you see it
+          if (!th.rumbled && th.img.y < H) {
+            th.rumbled = true;
+            api.sfx('log');
+            api.haptic(6);
+            shake(scene, 0.004, 140);
+          }
+          th.img.setAlpha(0.55 + 0.35 * Math.sin(now / 120)); // urgent pulse
           continue;
         }
         if (th.pin) {
@@ -1028,7 +1068,7 @@ export function create(P, ctx) {
             th.dead = true;
             size = Math.min(2, size + 0.1);
             burst(scene, th.img.x, th.img.y, 0xffffff, { n: 12, speed: 240 * K, scale: 0.5 * K });
-            floatScore(scene, th.img.x, th.img.y - 16 * K, 'packed +6', '#dff6ff', 13 * K);
+            floatScore(scene, th.img.x, th.img.y - 16 * K, `packed +${6 * auroraMult}`, '#dff6ff', 13 * K);
             api.score(6 * auroraMult);
             squash(scene, ball, 'y');
             th.img.destroy();
@@ -1040,7 +1080,7 @@ export function create(P, ctx) {
             if (airT <= 0) {
               airT = 620;
               api.score(8 * auroraMult);
-              floatScore(scene, ball.x, ball.y - BALL_R(scene) - 14 * K, 'AIR +8', '#7ad0ff', 15 * K);
+              floatScore(scene, ball.x, ball.y - BALL_R(scene) - 14 * K, `AIR +${8 * auroraMult}`, '#7ad0ff', 15 * K);
               api.sfx('tap');
               api.haptic(8);
             }
@@ -1049,7 +1089,8 @@ export function create(P, ctx) {
           if (airT > 0) continue; // sailing over it
           if (th.golden) {
             th.haloImg?.destroy();
-            smashThing(scene, K, th, 75, 0.06);
+            // the jackpot honors the aurora too — no payout ignores the pulse
+            smashThing(scene, K, th, 75 * auroraMult, 0.06);
             glyphBanner(scene, 'GOLDEN SNOWMAN', '#ffe9a0', 26 * K);
             collectTo(scene, th.img.x, th.img.y, W - 30 * K, 20 * K, 0xffd24a, 16);
             flash(scene, 0xffd24a, 120, 0.3);
@@ -1062,8 +1103,7 @@ export function create(P, ctx) {
             // reliable cascade. Size is a real decision, not a bypass.
             if (size < 0.7) {
               th.claimed = true;
-              combo++; lastSmashAt = now;
-              const pts = Math.max(1, Math.round(4 * comboMult())) * auroraMult;
+              const pts = 4 * auroraMult;
               api.score(pts);
               toppleVisual(scene, K, th, pts);
               floatScore(scene, th.img.x, th.img.y - 34 * K, 'need mass!', '#bcd0ec', 12 * K);
@@ -1075,9 +1115,8 @@ export function create(P, ctx) {
             const prob = Math.min(0.92, 0.5 + size * 0.26);
             const claim = (q, depth) => {
               q.claimed = true;
-              combo++; lastSmashAt = now;
               const base = depth === 0 ? 10 : 6;
-              const total = Math.max(1, Math.round(base * comboMult())) * auroraMult;
+              const total = base * auroraMult;
               api.score(total);
               api.note(noteStep++);
               if (depth === 0) toppleVisual(scene, K, q, total);
@@ -1101,7 +1140,7 @@ export function create(P, ctx) {
             continue;
           }
           if (size >= th.meta.sizeClass) {
-            smashThing(scene, K, th, Math.round(th.meta.pts * (1 + size * 0.25)) * auroraMult, 0.04);
+            smashThing(scene, K, th, Math.round(th.meta.pts * (1 + size * 0.25)) * auroraMult, 0.02);
           } else if (wipeInvuln > 0) {
             // still flashing from the last wipeout — plow through, no double hit
             th.crushed = true; th.img.setAlpha(0.9);
@@ -1119,7 +1158,7 @@ export function create(P, ctx) {
             floatScore(scene, ball.x, ball.y - BALL_R(scene) - 12 * K, 'TOO BIG!', '#ff8a9a', 17 * K);
             api.haptic([16, 40, 16]);
             api.sfx('log');
-            noteStep = 0; combo = 0; strikeStreak = 0; // the streak stings
+            noteStep = 0; strikeStreak = 0; // the streak stings
             th.crushed = true; // it survives; you bounced off it
             th.img.setAlpha(0.9);
             loseLife(scene, 'WIPED OUT');

@@ -13,20 +13,19 @@ import {
 } from '../fx.js';
 
 export const TITLE = 'Skip Legend';
-// Measured post-tune: identical safe lobs ≈9.5/s; flat threading runs
-// with clean skips, re-armed grazes and rings run well past 14/s.
 export const VERB = 'SKIP!';
 export const GESTURE = 'Pull back, release';
-// Per-second rate. Raised above what a single lazy flat lob yields: three
-// stars now needs sustained clean chains, grazes and near-misses, not one
-// memorized throw (the per-skip climb soft-caps and the lake tightens over
-// the rest, so a farmed throw pays less and less).
-export const STARS = [6, 12, 18];
+// Per-second rate for the hydroplane-era economy: a skim's hop flattens out
+// after a few skips and the stone slides into a distance-only run-out, so no
+// single memorized throw can machine-gun the bar. Sloppy lobs bank distance
+// (~1 star); three stars is sustained flat clean chains threaded through
+// grazes, rings and full crossings, throw after throw.
+export const STARS = [6, 14, 22];
 
 export const HELP = {
   goal: 'Skip a stone as far across the lake as you can, throw after throw.',
-  how: 'Pull back with your thumb and release to send the stone. Fast and shallow skims; a perfectly flat entry is a clean skip that pays half again more — and the lake demands a flatter line the longer you play. Passing close to ducks, buoys and canoes earns a graze bonus. In the bog, open water sinks you: skip only across the turtle shells (they are landing pads, never a hit).',
-  avoid: 'Landing too steep just sinks the stone and ends that throw. Driving straight into a duck, buoy or canoe scares the local off and costs a life; a glancing clip only ends the throw. Scare off three and the day is over.',
+  how: 'Pull back with your thumb and release to send the stone (a forward swipe is ignored — the stone only listens to a real pull). Fast and shallow skims; a perfectly flat entry is a clean skip that pays half again more — and the lake demands a flatter line the longer you play. When the hops flatten out completely the stone hydroplanes: it slides on, banking distance, but the skipping is done. Passing close to ducks, buoys and canoes earns a graze bonus, and reaching the far shore is the big one. In the bog, open water ALWAYS sinks the stone: land only on the turtle shells (they are pads, never a hit).',
+  avoid: 'A sunk stone tells you why — TOO STEEP means flatten your pull, TOO SLOW means pull harder. Diving down into a duck, buoy or canoe scares the local off and costs a life; a low skimming plow or a glancing clip only ends the throw, and an arrow at the screen edge warns you what is floating ahead. Scare off three locals and the day is over.',
 };
 
 export const WORLDS = {
@@ -191,7 +190,10 @@ const FLOAT_H = { duck: 34, buoy: 52, canoe: 34, turtle: 36, bison: 72 };
 
 export function create(P, ctx) {
   const { api, cfg } = ctx;
-  const WORLD_SCREENS = 4;
+  // 3 screens: a max flat skim-run and a full-power lob both genuinely reach
+  // the far shore, so ACROSS THE LAKE is a climax a great throw can earn in
+  // every world — not a mirage only the gimmick worlds could touch.
+  const WORLD_SCREENS = 3;
   let stone = null;          // { img, vx, vy, skips, dist, dead }
   let aiming = false;
   let aimAt = null;
@@ -216,10 +218,23 @@ export function create(P, ctx) {
   let streak = 0;            // cross-throw build: good throws in a row
   let resetTimer = null;     // pending between-throw re-arm (a tap skips the wait)
   let windGfx = null;        // pinned wind indicator (wind worlds only)
+  let warnGfx = null;        // pinned edge arrow: a local floats just offscreen
   let livesLabel = null;     // caption under the goodwill hearts
   let livesLostAt = -Infinity, lifeSpentI = -1; // pulse the spent pip on loss
+  let hudTotal = 0;          // mirror of the cabinet's displayed score
   // 0 → 1 over the first ~150s of a rest; late throws must be flatter & faster
   const rampNow = (scene) => Math.min(1, Math.max(0, (scene.time.now - t0) / 150000));
+
+  // Every popup prints what the HUD actually gained. api.score applies the
+  // cabinet's combo/GOLD RUSH multipliers and returns the new total, so the
+  // delta against our mirror IS the applied value — the world and the counter
+  // finally tell the same story.
+  function scoreApplied(gain) {
+    const total = api.score(gain);
+    const applied = total - hudTotal;
+    hudTotal = total;
+    return applied > 0 ? applied : gain; // banked-run tail: fall back to raw
+  }
 
   const waterY = (scene) => scene.scale.height * (cfg.cliff ? 0.72 : 0.62);
   const throwerY = (scene) => cfg.cliff ? scene.scale.height * 0.3 : waterY(scene) - 40 * unit(scene);
@@ -230,13 +245,17 @@ export function create(P, ctx) {
     stone = {
       img: scene.add.image(a.x, a.y, canvasTex(scene, 'pk-stone', 30 * K, 24 * K, PAINT.stone)).setDepth(20),
       vx: 0, vy: 0, skips: 0, flying: false, dead: false, sunkAt: 0,
-      banked: 0, chain: 0, lostLife: false,
+      banked: 0, chain: 0, lostLife: false, banks: 0,
+      hydro: false, warned: false,      // run-out state + one honk per throw
+      windDrift: 0, driftV: 0,          // position the WIND owns, not the player
     };
     scene.cameras.main.pan(scene.scale.width / 2, scene.scale.height / 2, 320, 'Sine.easeInOut');
     noteStep = 0;
     // every throw is a fresh slalom: grazes and firefly rings re-arm, so
-    // the lake pays for precision on throw twelve like it did on throw one
-    for (const f of floats) f.grazed = false;
+    // the lake pays for precision on throw twelve like it did on throw one.
+    // A rested local also forgets one claim, so grazing stays worth aiming at
+    // instead of decaying to pocket change by throw five.
+    for (const f of floats) { f.grazed = false; f.grazeClaims = Math.max(0, (f.grazeClaims || 0) - 1); }
     for (const r of rings) {
       if (!r.hit) continue;
       r.hit = false;
@@ -255,7 +274,7 @@ export function create(P, ctx) {
   function bankDistance(scene) {
     if (!stone || stone.dead) return;
     const dp = distPtsFor(scene, stone.img.x);
-    if (dp > stone.banked) { api.score(dp - stone.banked); stone.banked = dp; }
+    if (dp > stone.banked) { scoreApplied(dp - stone.banked); stone.banked = dp; }
   }
 
   function endThrow(scene, K, reason) {
@@ -293,16 +312,20 @@ export function create(P, ctx) {
     let gain = 8 + Math.min(stone.skips, 7) * 4;
     if (clean) gain = Math.round(gain * 1.5);
     gain = Math.round(gain * (1 + Math.min(streak, 5) * 0.08));
-    api.score(gain);
-    floatScore(scene, x, wy - 40 * K, clean ? `CLEAN ×${stone.skips} +${gain}` : `skip ×${stone.skips} +${gain}`,
+    const paid = scoreApplied(gain);
+    floatScore(scene, x, wy - 40 * K, clean ? `CLEAN ×${stone.skips} +${paid}` : `skip ×${stone.skips} +${paid}`,
       clean ? '#fff0c8' : '#dff6ff', (clean ? 17 : 15) * K);
     api.haptic(6);
   }
 
-  function plunk(scene, K) {
+  // A sunk stone names its killer: TOO STEEP means flatten the pull, TOO SLOW
+  // means pull harder, OPEN WATER means you missed the shells. Opposite
+  // corrections deserve opposite feedback — 'plunk' taught nothing. Collision
+  // ends pass false: their branch already said what happened.
+  function plunk(scene, K, reason) {
     const wy = waterY(scene);
     burst(scene, stone.img.x, wy, 0x9cc8ec, { n: 18, speed: 300 * K, scale: 0.55 * K, gravityY: 700 * K });
-    floatScore(scene, stone.img.x, wy - 30 * K, 'plunk', '#8a9ac8', 15 * K);
+    if (reason !== false) floatScore(scene, stone.img.x, wy - 30 * K, reason || 'plunk', '#8a9ac8', 15 * K);
     api.sfx('log');
     endThrow(scene, K, 'plunk');
   }
@@ -316,6 +339,7 @@ export function create(P, ctx) {
     streak = 0;                       // scaring a local breaks the run
     // lift the callout well above the honk/plunk cluster so it isn't buried
     floatScore(scene, x, waterY(scene) - 116 * K, lives > 0 ? `${lives} GOODWILL LEFT` : 'SCARED OFF', '#ff5d7a', 17 * K);
+    api.lives(lives); // the cabinet badge stays the canonical count
     api.haptic([18, 40, 18]);
     if (lives <= 0) { dead = true; api.die?.(cause); }
   }
@@ -523,6 +547,8 @@ export function create(P, ctx) {
         fontFamily: 'system-ui, -apple-system, sans-serif', fontSize: `${9 * K}px`, color: '#c8d2dc',
       }).setOrigin(1, 0).setDepth(31).setScrollFactor(0).setAlpha(0.7);
       if (cfg.wind) windGfx = scene.add.graphics().setDepth(31).setScrollFactor(0);
+      warnGfx = scene.add.graphics().setDepth(31).setScrollFactor(0);
+      api.lives(lives); // hearts are world-flavor; the cabinet badge is canon
       t0 = scene.time.now; // ramp clock starts with the run
       // goldenAt seeds on the first update — the scene clock reads ~0 here
       resetStone(scene, K);
@@ -551,8 +577,13 @@ export function create(P, ctx) {
         aiming = false;
         const dx = aimAt.sx - aimAt.x, dy = aimAt.sy - aimAt.y;
         if (Math.hypot(dx, dy) < 15 * K) return; // barely moved — a fidget, not a throw
+        // the gesture we teach is the gesture we accept: a forward or upward
+        // swipe used to clamp into the PERFECT flat max throw. Now only a real
+        // pull-back (into the down-left quadrant, with slack) launches.
+        const raw = Math.atan2(dy, dx);
+        if (raw < -1.5 || raw > 0.35) return; // a stray swipe, not a pull
         const pow = Math.min(Math.hypot(dx, dy), 180 * K);
-        const ang = Math.max(-1.35, Math.min(-0.06, Math.atan2(dy, dx)));
+        const ang = Math.max(-1.35, Math.min(-0.06, raw));
         const KV = 6.2 * (fever ? 1.06 : 1);
         stone.vx = Math.cos(ang) * pow * KV;
         stone.vy = Math.sin(ang) * pow * KV;
@@ -598,14 +629,20 @@ export function create(P, ctx) {
         const scroll = cam.scrollX;
         aimGfx.lineStyle(4 * K, 0xffffff, 0.4);
         aimGfx.lineBetween(aimAt.sx + scroll, aimAt.sy, aimAt.x + scroll, aimAt.y);
-        if (Math.hypot(dx, dy) >= 15 * K) {
+        const rawAim = Math.atan2(dy, dx);
+        // dots only for a drag release would actually accept — a forward swipe
+        // previews nothing because it throws nothing
+        if (Math.hypot(dx, dy) >= 15 * K && rawAim >= -1.5 && rawAim <= 0.35) {
           const pow = Math.min(Math.hypot(dx, dy), 180 * K);
-          const ang = Math.max(-1.35, Math.min(-0.06, Math.atan2(dy, dx)));
+          const ang = Math.max(-1.35, Math.min(-0.06, rawAim));
           const KV = 6.2 * (fever ? 1.06 : 1); // match the real fever launch
+          // the preview flies the same air as the stone: wind included, so the
+          // dots draw the path the throw will actually take
+          const windAcc = cfg.wind ? Math.sin(scene.time.now / 2600) * 120 * K * (1 + 0.7 * ramp) : 0;
           let px = a.x, py = a.y, pvx = Math.cos(ang) * pow * KV, pvy = Math.sin(ang) * pow * KV;
           aimGfx.fillStyle(0xffffff, 0.85);
           for (let i = 0; i < 14; i++) {
-            px += pvx * 0.05; pvy += 900 * K * 0.05; py += pvy * 0.05;
+            pvx += windAcc * 0.05; px += pvx * 0.05; pvy += 900 * K * 0.05; py += pvy * 0.05;
             if (py > wy) break;
             aimGfx.fillCircle(px, py, (4 - i * 0.18) * K);
           }
@@ -631,16 +668,53 @@ export function create(P, ctx) {
         }
       }
 
+      // heads-up arrow: the throw was aimed looking at screen one, so a local
+      // waiting three screens downrange gets telegraphed at the screen edge
+      // (with one honk) — a hit ahead should never be a spawn-dice ambush.
+      warnGfx.clear();
+      if (stone && stone.flying && !stone.dead) {
+        const edge = cam.scrollX + W;
+        const hazard = floats.find((f) =>
+          !(cfg.bog && f.kind === 'turtle') && !(cfg.bouncepads && f.kind === 'bison') &&
+          f.img.x > edge && f.img.x < stone.img.x + W * 1.2);
+        if (hazard) {
+          const ay = hazard.img.y;
+          warnGfx.fillStyle(0xff5d7a, 0.9);
+          warnGfx.fillTriangle(W - 6 * K, ay, W - 24 * K, ay - 9 * K, W - 24 * K, ay + 9 * K);
+          if (!stone.warned) { stone.warned = true; api.sfx('log'); }
+        }
+      }
+
       if (!stone || !stone.flying || stone.dead) return;
 
       // ——— ballistics ———
       const wind = cfg.wind ? Math.sin(scene.time.now / 2600) * 120 * K * (1 + 0.7 * ramp) : 0;
-      stone.vx += wind * dt;
-      stone.vy += 900 * K * dt;
       const prevX = stone.img.x; // for the swept wall test below
-      stone.img.x += stone.vx * dt;
-      stone.img.y += stone.vy * dt;
-      stone.img.rotation += 9 * dt;
+      if (stone.hydro) {
+        // hydroplane run-out: the hops flattened into a slide. The stone hugs
+        // the surface bleeding speed, banks distance only, and settles when it
+        // drops below skimming pace — no more skips, no more machine-gun tail.
+        stone.img.y = wy - 1;
+        stone.vy = 0;
+        stone.vx *= Math.exp(-1.5 * dt);
+        stone.img.x += stone.vx * dt;
+        stone.img.rotation += 14 * dt;
+        if (Math.random() < 0.5) burst(scene, stone.img.x, wy, 0xbfe8f8, { n: 1, speed: 90 * K, scale: 0.25 * K, gravityY: 500 * K });
+        // the bog's law holds even mid-slide: open water swallows the stone
+        const overPad = !cfg.bog || floats.some((f) => f.kind === 'turtle' && Math.abs(stone.img.x - f.img.x) < f.w * 0.9);
+        if (!overPad) { plunk(scene, K, 'OPEN WATER'); return; }
+        if (stone.vx < (300 + 120 * ramp) * K) { endThrow(scene, K, 'washout'); return; }
+      } else {
+        stone.vx += wind * dt;
+        // the wind's share of the drift, tracked so a gust that shoved the
+        // stone into a local can be forgiven where a bad aim would not be
+        stone.driftV += wind * dt;
+        stone.windDrift += stone.driftV * dt;
+        stone.vy += 900 * K * dt;
+        stone.img.x += stone.vx * dt;
+        stone.img.y += stone.vy * dt;
+        stone.img.rotation += 9 * dt;
+      }
 
       cam.scrollX += ((stone.img.x - W * 0.4) - cam.scrollX) * Math.min(1, dt * 5);
       bankDistance(scene); // bank the distance gained this frame — cash-out safe
@@ -652,12 +726,24 @@ export function create(P, ctx) {
         for (let i = 1; i <= 3; i++) {
           const wx = WW * (0.22 + i * 0.19) + 17 * K;
           const top = wy - (60 + i * 30) * K;
-          if (stone.vx > 0 && stone.img.y < top && prevX <= wx && stone.img.x >= wx) {
-            stone.img.x = wx - 1; // clamp to the face before the bounce
+          if (stone.img.y < top && ((stone.vx > 0 && prevX <= wx && stone.img.x >= wx) || (stone.vx < 0 && prevX >= wx && stone.img.x <= wx))) {
+            const rightward = stone.vx > 0;
+            stone.img.x = rightward ? wx - 1 : wx + 1; // clamp to the struck face
             stone.vx *= -0.85;
-            api.score(8); // the trick shot the canyon exists for finally pays
+            // a bank throws the stone UP as well as back, so the ricochet
+            // extends the flight instead of killing the run for pocket change.
+            stone.vy = -Math.abs(stone.vy) * 0.5 - 200 * K;
             burst(scene, stone.img.x, stone.img.y, 0xff9a5c, { n: 10, speed: 220 * K, scale: 0.4 * K });
-            floatScore(scene, stone.img.x, stone.img.y - 20 * K, 'BANK +8', '#ff9a5c', 15 * K);
+            if (rightward) {
+              // the trick shot pays like one — first bank big, replays small,
+              // so wall ping-pong can't farm the canyon
+              const bg = stone.banks === 0 ? 40 : 10;
+              stone.banks++;
+              const paid = scoreApplied(bg);
+              floatScore(scene, stone.img.x, stone.img.y - 20 * K, `BANK +${paid}`, '#ff9a5c', 15 * K);
+            } else {
+              floatScore(scene, stone.img.x, stone.img.y - 20 * K, 'CLANG', '#c88a6c', 13 * K);
+            }
             shake(scene, 0.006, 90);
             api.sfx('tap');
           }
@@ -668,8 +754,8 @@ export function create(P, ctx) {
       for (const b of beams) {
         if (Math.abs(stone.img.x - b.x) < b.halfW && stone.img.y < wy - 8 * K && stone.vy > 0) {
           stone.vy = -Math.abs(stone.vy) * 0.55 - 240 * K;
-          api.score(10);
-          floatScore(scene, stone.img.x, stone.img.y, 'ABDUCTED +10', '#7dffb3', 15 * K);
+          const paid = scoreApplied(10);
+          floatScore(scene, stone.img.x, stone.img.y, `ABDUCTED +${paid}`, '#7dffb3', 15 * K);
           burst(scene, stone.img.x, stone.img.y, 0x7dffb3, { n: 12, speed: 240 * K, scale: 0.5 * K });
           api.sfx('objDone');
         }
@@ -677,8 +763,8 @@ export function create(P, ctx) {
 
       // golden dragonfly strike
       if (golden && Math.abs(stone.img.x - golden.img.x) < 34 * K && Math.abs(stone.img.y - golden.img.y) < 30 * K) {
-        api.score(75);
-        glyphBanner(scene, 'GOLDEN DRAGONFLY', '#ffe9a0', 26 * K);
+        const paid = scoreApplied(75);
+        glyphBanner(scene, `GOLDEN DRAGONFLY +${paid}`, '#ffe9a0', 26 * K);
         collectTo(scene, golden.img.x, golden.img.y, cam.scrollX + W - 30 * K, 20 * K, 0xffd24a, 16);
         burst(scene, golden.img.x, golden.img.y, 0xffd24a, { n: 22, speed: 340 * K, scale: 0.6 * K });
         flash(scene, 0xffd24a, 120, 0.3);
@@ -700,11 +786,11 @@ export function create(P, ctx) {
           r.img.setTint(0xfff0c8);
           stone.chain += 1;
           const val = Math.round(15 * (1 + Math.min(stone.chain, 6) * 0.25) * (1 + Math.min(streak, 5) * 0.08));
-          api.score(val);
+          const paid = scoreApplied(val);
           api.note(noteStep++);
           collectTo(scene, r.img.x, r.img.y, cam.scrollX + W - 30 * K, 20 * K, 0xffd24a, 8);
           burst(scene, r.img.x, r.img.y, 0xffe08a, { n: 8, speed: 160 * K, scale: 0.35 * K });
-          floatScore(scene, r.img.x, r.img.y - 20 * K, `RING ×${stone.chain} +${val}`, '#ffd24a', 16 * K);
+          floatScore(scene, r.img.x, r.img.y - 20 * K, `RING ×${stone.chain} +${paid}`, '#ffd24a', 16 * K);
         }
       }
 
@@ -723,8 +809,8 @@ export function create(P, ctx) {
             stone.vy = -Math.abs(stone.vy) * 1.0 - 240 * K; // bounded, not dwell-scaled
             stone.vx *= 1.06;
             squash(scene, f.img, 'y');
-            api.score(12);
-            floatScore(scene, f.img.x, f.img.y - f.h, 'OFF THE BISON +12', '#e8d5ae', 15 * K);
+            const paid = scoreApplied(12);
+            floatScore(scene, f.img.x, f.img.y - f.h, `OFF THE BISON +${paid}`, '#e8d5ae', 15 * K);
             shake(scene, 0.008, 110);
             api.sfx('objDone');
             api.haptic(10);
@@ -739,15 +825,24 @@ export function create(P, ctx) {
         if (cfg.bog && f.kind === 'turtle') continue;
 
         if (dx < f.w * 0.3 && dy < f.h * 0.38) {
-          // dead-centre smash — a clear misjudgment (you drove into the local):
-          // scares it off and costs a life. Wind drift can never trigger this.
+          // dead-centre hit. Only a DESCENDING dive costs a life — that is the
+          // aimed mistake the player owns. A skimming stone that plows a local
+          // it could never see (aimed on screen one, spawned on screen three)
+          // ends the throw like a clip, no goodwill spent. A gust that shoved
+          // the stone more than half a float off its line is forgiven too.
+          const dove = stone.vy > 140 * K && !stone.hydro;
+          const windBlown = Math.abs(stone.windDrift) > f.w * 0.5;
           squash(scene, f.img, 'x');
-          floatScore(scene, f.img.x, f.img.y - f.h, f.kind === 'duck' ? 'HONK!' : 'CLONK', '#ff5d7a', 16 * K);
           shake(scene, 0.01, 130);
           api.sfx('log');
           api.haptic([14, 30, 14]);
-          if (!cfg.wind) loseLife(scene, K, f.img.x, 'SCARED OFF');
-          plunk(scene, K);
+          if (dove && !windBlown) {
+            floatScore(scene, f.img.x, f.img.y - f.h, f.kind === 'duck' ? 'HONK!' : 'CLONK', '#ff5d7a', 16 * K);
+            loseLife(scene, K, f.img.x, 'SCARED OFF');
+          } else {
+            floatScore(scene, f.img.x, f.img.y - f.h, 'plowed', '#a8b4c0', 14 * K);
+          }
+          plunk(scene, K, false);
           return;
         } else if (dx < f.w * 0.5 && dy < f.h * 0.5) {
           // a glancing clip — ends the throw but costs no life. A graze-aimed
@@ -755,51 +850,65 @@ export function create(P, ctx) {
           squash(scene, f.img, 'x');
           floatScore(scene, f.img.x, f.img.y - f.h, 'clipped', '#a8b4c0', 14 * K);
           api.sfx('log');
-          plunk(scene, K);
+          plunk(scene, K, false);
           return;
         } else if (!f.grazed && dx < f.w * 0.9 && dy < f.h * 1.1) {
-          // an honest near-miss. The band is tight (a real close pass), the
-          // value decays as the same local is farmed across throws, and a
-          // slalom chain within a throw escalates the payout and the fanfare.
+          // an honest near-miss that PAYS like the skill verb it is: the base
+          // starts rich, decays a point per repeat claim (floor 5, and claims
+          // ease off between throws), and a slalom chain within a throw
+          // escalates the payout and the fanfare. Threading the locals must
+          // live in the same league as mindless flat skipping.
           f.grazed = true;
           f.grazeClaims += 1;
           stone.chain += 1;
-          const base = Math.max(1, 5 - (f.grazeClaims - 1));
+          const base = Math.max(5, 15 - (f.grazeClaims - 1));
           const val = Math.max(1, Math.round(base * (1 + Math.min(stone.chain, 6) * 0.25) * (1 + Math.min(streak, 5) * 0.08)));
-          api.score(val);
+          const paid = scoreApplied(val);
           burst(scene, f.img.x + (stone.img.x > f.img.x ? -1 : 1) * f.w * 0.4, f.img.y, 0x3adcc8, { n: 6, speed: 150 * K, scale: 0.3 * K });
-          floatScore(scene, f.img.x, f.img.y - f.h * 1.4, `GRAZE ×${stone.chain} +${val}`, '#3adcc8', 13 * K);
+          floatScore(scene, f.img.x, f.img.y - f.h * 1.4, `GRAZE ×${stone.chain} +${paid}`, '#3adcc8', 13 * K);
           api.note(noteStep++);
           api.haptic(4);
         }
       }
 
       // ——— the water: skim or sink ———
-      if (stone.img.y >= wy && stone.vy > 0) {
+      if (!stone.hydro && stone.img.y >= wy && stone.vy > 0) {
         const speed = Math.hypot(stone.vx, stone.vy);
         const angle = Math.atan2(stone.vy, Math.abs(stone.vx)); // radians below horizontal
         // the lake demands a flatter, faster line the longer the rest runs, so
-        // a throw at t=200 asks more precision than the same lob at t=5.
-        const shallow = angle < (0.42 - 0.14 * ramp); // ~24° → ~16°
+        // a throw at t=200 asks more precision than the same lob at t=5. On
+        // the cliff the stone falls half a screen before it ever touches
+        // water, so the gate widens to match the drop — the taught rule (fast
+        // and flat) must actually work from up there.
+        const shallow = angle < ((cfg.cliff ? 0.78 : 0.42) - 0.14 * ramp);
         const fast = speed > (300 + 120 * ramp) * K;
-        // bog law: open water is dead water
+        // bog law, now absolute: open water is dead water, every time — the
+        // rule the banner teaches is the rule the water enforces.
         const onPad = cfg.bog && floats.some((f) => f.kind === 'turtle' && Math.abs(stone.img.x - f.img.x) < f.w * 0.9);
-        if (cfg.bog && !onPad) {
-          stone.vx *= 0.55;
-          if (stone.vx < 120 * K || !shallow) { plunk(scene, K); return; }
-        }
+        if (cfg.bog && !onPad) { plunk(scene, K, 'OPEN WATER'); return; }
         if (shallow && fast) {
-          const clean = angle < (0.18 - 0.06 * ramp); // ~10° → ~7°: the perfect flat entry
+          const clean = angle < ((cfg.cliff ? 0.3 : 0.18) - 0.06 * ramp); // the perfect flat entry
           stone.img.y = wy - 1;
           stone.vy = -Math.abs(stone.vy) * (0.62 - angle * 0.35);
           stone.vx *= cfg.bog ? 0.82 : clean ? 0.97 : 0.94;
-          skipAt(scene, K, stone.img.x, clean);
+          // when the next hop would be a sub-200ms stutter (or the ladder is
+          // simply spent), the skim becomes a hydroplane run-out instead of a
+          // frame-rate-dependent machine-gun of micro-skips.
+          if (Math.abs(stone.vy) < 90 * K || stone.skips >= 9) {
+            stone.hydro = true;
+            stone.vy = 0;
+            floatScore(scene, stone.img.x, wy - 40 * K,
+              stone.skips >= 9 ? 'MAX SKIPS! HYDROPLANE' : 'HYDROPLANE', '#9fd8ff', 15 * K);
+            api.sfx('tap');
+          } else {
+            skipAt(scene, K, stone.img.x, clean);
+          }
           if (onPad) {
-            api.score(10);
-            floatScore(scene, stone.img.x, wy - 56 * K, 'SHELL PAD +10', '#7ad48a', 14 * K);
+            const paid = scoreApplied(10);
+            floatScore(scene, stone.img.x, wy - 56 * K, `SHELL PAD +${paid}`, '#7ad48a', 14 * K);
           }
         } else {
-          plunk(scene, K);
+          plunk(scene, K, shallow ? 'TOO SLOW' : 'TOO STEEP');
           return;
         }
       }
@@ -816,8 +925,7 @@ export function create(P, ctx) {
           slowmo(scene, 0.3, 500);
           flash(scene, 0xffd24a, 140, 0.4);
           shake(scene, 0.014, 220);
-          glyphBanner(scene, 'MOTHMAN ASSIST', '#ffd24a', 28 * K);
-          api.score(40);
+          glyphBanner(scene, `MOTHMAN ASSIST +${scoreApplied(40)}`, '#ffd24a', 28 * K);
           api.sfx('pr');
           api.haptic([16, 40, 16, 40, 16]);
           scene.tweens.add({ targets: moth, alpha: 0, y: moth.y - 200 * K, duration: 900, onComplete: () => moth.destroy() });
@@ -829,14 +937,14 @@ export function create(P, ctx) {
       // so the crossing reads as the climax, not a quiet +50 line.
       if (stone.img.x > WW - 20 * K) {
         const cx = stone.img.x, cy = wy;
-        api.score(25); // distance is already banked continuously; a lean bonus
+        const paid = scoreApplied(25); // distance already banked; a lean bonus
         flash(scene, 0xffd24a, 160, 0.4);
         slowmo(scene, 0.3, 500);
         shake(scene, 0.014, 220);
         zoomPunch(scene, 1.07, 360);
         burst(scene, cx, cy, 0xffd24a, { n: 30, speed: 420 * K, scale: 0.7 * K, gravityY: 400 * K });
         shockRing(scene, cx, cy, 0xfff0c8, 120 * K);
-        glyphBanner(scene, 'ACROSS THE LAKE +25', '#ffd24a', 28 * K);
+        glyphBanner(scene, `ACROSS THE LAKE +${paid}`, '#ffd24a', 28 * K);
         api.sfx('pr');
         api.haptic([20, 50, 20, 50, 30]);
         endThrow(scene, K, 'end');

@@ -26,6 +26,11 @@ export function gameAvailable() {
 const RETRY_MIN_MS = 15000;   // below this, a retry is retired
 const RETRY_OFFER_MS = 18000; // only offered above this
 
+// The same floor the Play chip enforces (components.js GAME_FLOOR_MS): the
+// engine can take real seconds to arrive on gym cell, so the floor is
+// re-checked AFTER Phaser resolves — never boot a three-second run.
+const GAME_FLOOR_MS = 20000;
+
 // Lifetime ledger — the one thing that only ever grows. Every run adds to a
 // permanent career total the player watches climb across hundreds of sets.
 const LIFE_KEY = 'p3.gameLife';
@@ -110,7 +115,7 @@ export async function openGame({ deadline }) {
 
   // Claim the cabinet immediately so double-taps and re-entries bounce off,
   // then finish booting asynchronously.
-  active = { el, game: null, clock: null, score: 0, worldCls, universe, spec, popPushed: false, fever: false, slowed: false, ended: false, helpOpen: false, phase: 'playing', openedAt: Date.now(), totalMs: Math.max(1, deadline - Date.now()), ratePoints: 0, combo: 0, comboAt: 0, livesShown: null, verbSeen: false };
+  active = { el, game: null, clock: null, score: 0, worldCls, universe, spec, popPushed: false, fever: false, slowed: false, ended: false, helpOpen: false, helpAt: null, phase: 'playing', openedAt: Date.now(), totalMs: Math.max(1, deadline - Date.now()), ratePoints: 0, combo: 0, comboAt: 0, excludedMs: 0, pausedMs: 0, livesShown: null, verbSeen: false };
   try { history.pushState({ p3: 'game' }, ''); active.popPushed = true; } catch { /* throttled */ }
   $('#go-quit', el).addEventListener('click', () => closeGame());
 
@@ -140,11 +145,57 @@ export async function openGame({ deadline }) {
     }
   };
 
+  // A jammed engine load gets an in-overlay retry card, not a teardown: the
+  // loader un-poisons its cache on timeout/error, so "Try again" is a real
+  // fresh request. No history juggling — the guard pushed at open still
+  // covers the card, so a back-gesture during the jam closes the cabinet.
+  const bootJamCard = () => new Promise((res) => {
+    let boot = $('.go-boot', el);
+    if (!boot) {
+      boot = document.createElement('div');
+      boot.className = 'go-boot';
+      $('#go-stage', el).appendChild(boot);
+    }
+    boot.style.animation = 'none'; // an interactive card must not pulse
+    boot.innerHTML = `
+      <b style="display:block;font-size:17px;margin-bottom:6px">The cabinet jammed.</b>
+      <span style="display:block;opacity:.75;margin-bottom:16px">The game engine never arrived — likely a bad signal.</span>
+      <span style="display:flex;gap:10px;justify-content:center;pointer-events:auto">
+        <button class="btn primary go-hit" id="go-jam-retry">Try again</button>
+        <button class="btn quiet go-hit" id="go-jam-back">Back to rest</button>
+      </span>`;
+    $('#go-jam-retry', boot).addEventListener('click', () => {
+      boot.style.animation = '';
+      boot.textContent = 'Loading the game…';
+      sfx('tap');
+      haptic(6);
+      res(true);
+    });
+    $('#go-jam-back', boot).addEventListener('click', () => res(false));
+  });
+
   let Phaser;
-  try {
-    Phaser = await loadPhaser();
-  } catch (err) { fail(err); return; }
+  for (;;) {
+    try {
+      Phaser = await loadPhaser();
+      break;
+    } catch (err) {
+      console.error('game engine failed to arrive', err);
+      if (active !== mine) return; // closed while the engine loaded
+      const again = await bootJamCard();
+      if (active !== mine) return; // closed while the jam card sat
+      if (!again) { closeGame(); return; }
+    }
+  }
   if (active !== mine) return; // closed while the engine loaded
+
+  // The floor was checked at tap time, but the engine load ate real rest —
+  // re-check before booting so a slow arrival can't start a 3-second run.
+  if (deadline - Date.now() < GAME_FLOOR_MS) {
+    closeGame();
+    toast('Not enough rest left to play — back to work', 'bad', 2600);
+    return;
+  }
 
   const scoreEl = $('#go-score', el);
   const timeEl = $('#go-time', el);
@@ -192,27 +243,47 @@ export async function openGame({ deadline }) {
   }
 
   const api = {
-    score(delta) {
+    // opts (both default true, both optional — legacy callers unchanged):
+    //   combo: false → a steady drip (deep's depth ticks) that banks and
+    //     rates but never inflates the chain — only fever multiplies it.
+    //   rated: false → display garnish (jackpot excess): multiplies and
+    //     shows, but never touches the medal math.
+    // Returns the running TOTAL (deep differences consecutive returns for
+    // truthful floaters); the post-multiplier delta the HUD just banked is
+    // exposed on api.lastApplied for games that want to print it.
+    score(delta, opts) {
       // After a run ends the score is banked: stray hits during the fireworks
       // or death beat can't make the HUD disagree with the panel/saved best.
       if (active !== mine || mine.ended) return mine.score;
+      const rated = !(opts && opts.rated === false);
+      const chain = !(opts && opts.combo === false);
+      let applied = delta;
       if (delta > 0) {
         // Medals rate on RAW skill points (below): the combo/GOLD RUSH
         // multipliers are a display reward, never a medal shortcut.
-        mine.ratePoints = (mine.ratePoints || 0) + delta;
+        if (rated) mine.ratePoints = (mine.ratePoints || 0) + delta;
         const now = Date.now();
         if (now - (mine.comboAt || 0) > 1600) mine.combo = 0; // chain decayed
-        mine.combo = (mine.combo || 0) + 1;
-        mine.comboAt = now;
-        const cm = mine.combo >= 16 ? 3 : mine.combo >= 6 ? 2 : 1; // skill combo
-        delta *= cm;
-        if (mine.fever) delta *= 2; // GOLD RUSH stacks on top of the combo
+        if (rated && chain) { mine.combo = (mine.combo || 0) + 1; mine.comboAt = now; }
+        const cm = chain ? (mine.combo >= 16 ? 3 : mine.combo >= 6 ? 2 : 1) : 1; // skill combo
+        applied = delta * cm * (mine.fever ? 2 : 1); // GOLD RUSH stacks on top
       } else if (delta < 0) {
         mine.combo = 0; // a miss breaks the chain
       }
-      mine.score = Math.max(0, mine.score + delta);
-      if (delta !== 0) scheduleHudPaint(delta < 0 ? -1 : 1);
+      mine.score = Math.max(0, mine.score + applied);
+      api.lastApplied = applied;
+      if (applied !== 0) scheduleHudPaint(applied < 0 ? -1 : 1);
       return mine.score;
+    },
+    lastApplied: 0,
+    // Wall-clock a game spent in a scoring-impossible stance (dojo's sheathe
+    // slow-time) — subtracted from the medal window so mastery of a stance
+    // mechanic doesn't read as a slow scoring rate.
+    excludeMs(ms) {
+      if (active !== mine || mine.ended) return;
+      if (typeof ms === 'number' && Number.isFinite(ms) && ms > 0) {
+        mine.excludedMs = (mine.excludedMs || 0) + ms;
+      }
     },
     sfx,
     note,
@@ -233,9 +304,16 @@ export async function openGame({ deadline }) {
     die: (cause) => onDeath(cause),
   };
 
-  // While a game is live, any uncaught page error is treated as the game's:
-  // tear the cabinet down rather than risk a wedged fullscreen layer.
-  mine.errListener = (e) => fail(e.error ?? e.message);
+  // While a game is live, an uncaught error from the CABINET'S OWN files
+  // (js/game/*, the Phaser vendor) tears it down rather than risk a wedged
+  // fullscreen layer. An unrelated app error (sync, views) must not kill a
+  // healthy run mid-boot. An error with no filename is treated as ours —
+  // better to close a healthy game than wedge a broken one.
+  mine.errListener = (e) => {
+    const src = e?.filename || '';
+    if (src && !/js\/game\/|vendor\/phaser/.test(src)) return;
+    fail(e.error ?? e.message);
+  };
   window.addEventListener('error', mine.errListener);
 
   // QA determinism hooks: drive the two run-ending paths on demand without a
@@ -270,6 +348,12 @@ export async function openGame({ deadline }) {
           this.input.enabled = false;
           introCard(this, spec.verb, () => {
             mine.introLock = false;
+            // The medal clock starts when the thumb goes free: engine boot
+            // plus the input-locked teach card must not drain the rated
+            // window and quietly raise every game's per-second star bar.
+            mine.openedAt = Date.now();
+            mine.totalMs = Math.max(1, deadline - mine.openedAt);
+            if (mine.helpAt) mine.helpAt = Date.now(); // help open over the card: no double credit
             if (active === mine && mine.phase === 'playing') { try { this.input.enabled = true; } catch { /* gone */ } }
           }, spec.gesture);
         }
@@ -295,6 +379,7 @@ export async function openGame({ deadline }) {
     mine.totalMs = Math.max(1, deadline - mine.openedAt); // this run's rest window
     mine.fever = false; mine.slowed = false; mine.banked = false; mine.result = null;
     mine.ratePoints = 0; mine.combo = 0; mine.comboAt = 0; mine.introLock = false;
+    mine.excludedMs = 0; mine.pausedMs = 0; mine.helpAt = mine.helpOpen ? Date.now() : null;
     mine.livesShown = null; mine.endSoundPlayed = false;
     timeEl.classList.remove('gold');
     if (badgesEl) badgesEl.style.display = '';
@@ -394,7 +479,10 @@ export async function openGame({ deadline }) {
     // a fast suicidal burst then "Go again", or an early quit right after a
     // lucky spike, can't out-rate a run that sustained skill across the whole
     // rest — and a 60s rest gets no shortcut over a 240s one (same ladder).
-    const windowSec = Math.max(12, (mine.totalMs ?? (Date.now() - mine.openedAt)) / 1000);
+    // Time the player COULDN'T score — the help sheet (scene paused) and a
+    // game's declared no-score stance — comes off the denominator.
+    const deadMs = (mine.excludedMs || 0) + (mine.pausedMs || 0);
+    const windowSec = Math.max(12, ((mine.totalMs ?? (Date.now() - mine.openedAt)) - deadMs) / 1000);
     const th = spec.stars ?? [5, 10, 16];
     const rate = (mine.ratePoints ?? finalScore) / windowSec;
     const stars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
@@ -611,7 +699,7 @@ export async function openGame({ deadline }) {
 
 export function closeGame(fromPop = false) {
   if (!active) return;
-  const { el, game, clock, popPushed, errListener, ended, score, ratePoints, worldCls, universe, spec, totalMs, openedAt } = active;
+  const { el, game, clock, popPushed, errListener, ended, score, ratePoints, worldCls, universe, spec, totalMs, openedAt, excludedMs, pausedMs, helpOpen, helpAt } = active;
   active = null;
   // Clear QA hooks so a poller can't drive/inspect a destroyed instance.
   try {
@@ -625,7 +713,10 @@ export function closeGame(fromPop = false) {
   // bankRun: raw points over the full rest window, so a quit can't inflate).
   if (!ended && score > 0) {
     try {
-      const windowSec = Math.max(12, (totalMs ?? (Date.now() - openedAt)) / 1000);
+      // Same dead-time subtraction as bankRun — a help sheet still open at
+      // quit time settles its pause here, since closeHelp never runs.
+      const deadMs = (excludedMs || 0) + (pausedMs || 0) + (helpOpen && helpAt ? Math.max(0, Date.now() - helpAt) : 0);
+      const windowSec = Math.max(12, ((totalMs ?? (Date.now() - openedAt)) - deadMs) / 1000);
       const th = spec.stars ?? [5, 10, 16];
       const rate = (ratePoints ?? score) / windowSec;
       const qStars = rate >= th[2] ? 3 : rate >= th[1] ? 2 : rate >= th[0] ? 1 : 0;
@@ -653,8 +744,11 @@ export function closeGame(fromPop = false) {
 function openHelp(inst) {
   if (!inst || active !== inst || inst.helpOpen || inst.ended) return;
   inst.helpOpen = true;
+  inst.helpAt = Date.now(); // the medal clock holds its breath while the player reads
   try { inst.game?.scene.pause('play'); } catch { /* still booting */ }
-  const h = inst.spec.help ?? {};
+  // World-aware HELP: a module may export a function of the world cfg so the
+  // avoid-list names exactly the hazards THIS world contains.
+  const h = (typeof inst.spec.help === 'function' ? inst.spec.help(inst.spec.cfg) : inst.spec.help) ?? {};
   const lines = [h.goal, h.how, h.avoid].filter((s) => typeof s === 'string' && s);
   const panel = document.createElement('div');
   panel.className = 'go-help';
@@ -667,7 +761,7 @@ function openHelp(inst) {
         <p>The last ten seconds are the Gold Rush, when every point counts double.</p>
         <p>Chain scores without missing to build a combo multiplier — your points climb faster.</p>
         <p>The game ends when your rest ends, and your score is saved automatically.</p>
-        <p>You earn stars by scoring quickly, not by playing longer.</p>
+        <p>You earn stars by scoring quickly, not by playing longer — stars judge your base points each second, and the multipliers sweeten your score, not your stars.</p>
       </div>
       <button class="btn primary gh-close">Keep playing</button>
     </div>`;
@@ -682,6 +776,13 @@ function openHelp(inst) {
 function closeHelp(inst) {
   if (!inst?.helpOpen) return;
   inst.helpOpen = false;
+  // Settle the pause into the medal window: reading the rules must not read
+  // as a slow scoring rate. (timerOver closes help before it banks, so the
+  // rate math always sees the settled number.)
+  if (inst.helpAt) {
+    inst.pausedMs = (inst.pausedMs || 0) + Math.max(0, Date.now() - inst.helpAt);
+    inst.helpAt = null;
+  }
   inst.el.querySelector('.go-help')?.remove();
   if (!inst.ended) { try { inst.game?.scene.resume('play'); } catch { /* still booting */ } }
 }

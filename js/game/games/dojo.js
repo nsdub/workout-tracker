@@ -20,17 +20,17 @@ import {
 
 export const TITLE = 'Iaido';
 // star thresholds: UNDOUBLED points per second for 1/2/3 stars (rate-based
-// medals). Runs now end on death (three blades), so a medal reflects
-// deliberate survival, not a full-timer scribble: a sharp direction reversal
-// inside one drag resets the combo, so frantic back-and-forth breaks its own
-// chain and the ladder rewards clean, chained cutting over scribbling.
+// medals). Runs end on death (three blades), so a medal reflects deliberate
+// survival. Supply is CAP-bound (3 airborne cuttables, ~2.3s flight): perfect
+// play tops out near ~15 raw pts/s, so 12 demands mastery and 16 demanded a
+// miracle — the ladder must live below the ceiling the spawner can feed.
 export const VERB = 'SLICE!';
 export const GESTURE = 'Swipe to slice';
-export const STARS = [5, 10, 16];
+export const STARS = [3, 7, 12];
 
 export const HELP = {
-  goal: 'Slice everything the mountain throws and keep your combos flowing.',
-  how: 'Swipe across the screen and your stroke cuts whatever it touches. Cuts that land within a moment of each other build a combo that pays more for every slice. Hold your thumb still — once the charge bar along the top edge is at least half-full — to sheathe the blade and slow time, then flick to draw-cut through everything on that line.',
+  goal: 'Slice everything the mountain throws and keep your chains flowing.',
+  how: 'Swipe across the screen and your stroke cuts whatever it touches. Cuts that land within a moment of each other build a chain that pays more for every slice — smooth strokes keep the chain, frantic scribbling breaks it. The CHAIN banner counts your cuts; the ×2 pill by your score is the payout multiplier fast chains earn. Hold your thumb still — once the charge bar along the top edge is at least half-full — to sheathe the blade and slow time, then flick to draw-cut through everything on that line: a draw-cut pays double for every object it crosses.',
   avoid: 'Never cut a bomb, and never let an object fall past you uncut. You have three blades: a sliced bomb or a missed object costs one, and losing all three ends the run.',
 };
 
@@ -439,13 +439,21 @@ export function create(P, ctx) {
   const trail = [];
   let trailGfx, sliceGlow, stanceGfx, darkVeil, ribbonGfx;
   let strokeSlices = 0;
-  let lastSliceAt = 0;       // combos live in the moment, not in the hold
   let lastPt = null;
   let downAt = 0;
   let nextSpawn = 0;
   let goldenAt = 0;
-  let t0 = 0;
+  let t0 = -1;
   let fever = false;
+  // ONE clock for the scoring economy. gameNow accumulates dtMs scaled by the
+  // live timeScale, so the sheathe stance and combo slow-mo dilate the combo
+  // window and the spawn cadence together — dilated seconds are free, never a
+  // tax. (Wall-clock scene.time.now stays for input timing and mercy windows.)
+  let gameNow = 0;
+  let comboAge = 1e9;        // game-time ms since the last cut; starts cold
+  let revAt = 0;             // first in-drag reversal — two inside 500ms is a scribble
+  let teaserAt = 0;          // next pre-start teaser lob (game time)
+  let ghostAt = 2000;        // next pre-start ghost-swipe hint (game time)
   // failure state: three blades. A missed object or a sliced bomb spends
   // one; at zero the run ends. `started` gates every spawn on the first
   // stroke, so an untouched dojo throws nothing and can never be "missed".
@@ -463,8 +471,9 @@ export function create(P, ctx) {
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
   // sheathe stance
   const stance = { active: false, meter: 1, lastMoveT: 0 };
-  // world-mutation state
-  const world = { darkness: 0.34, ribbonOpen: 0, frozen: 0, nextFreeze: 7000, spineT: 0, itchAt: 0, nextKoi: 0 };
+  // world-mutation state (itchAt seeded deep-negative: first spark flies as
+  // soon as the spine world arms, not five game-seconds later)
+  const world = { darkness: 0.34, ribbonOpen: 0, frozen: 0, nextFreeze: 7000, spineT: 0, itchAt: -9e9, nextKoi: 0 };
 
   const tex = (scene, kind, K) => {
     const [w, h] = SIZES[kind];
@@ -487,7 +496,7 @@ export function create(P, ctx) {
     const o = {
       img, kind, isBomb: kind === 'bomb',
       r: (SIZES[kind][0] + SIZES[kind][1]) / 4 * K * 1.15,
-      born: scene.time.now,
+      born: gameNow,
     };
     if (o.isBomb) {
       o.fuse = scene.add.particles(0, 0, 'fx-dot', {
@@ -502,7 +511,7 @@ export function create(P, ctx) {
   function launch(scene, K) {
     const W = scene.scale.width;
     // bombs breed as the rest wears on — greed gets riskier, never safer
-    const elapsed = (scene.time.now - t0) / 1000;
+    const elapsed = (gameNow - t0) / 1000;
     // the opening is a bomb-free grace: teach the SLICE verb before the first
     // life-costing hazard, then ramp the powder in over a few seconds and keep
     // it climbing across a long rest so late play never coasts.
@@ -581,11 +590,9 @@ export function create(P, ctx) {
     const accent = cfg.accent;
     if (o.isBomb) {
       killObj(scene, o);
-      // Fruit Ninja's law, translated: a bomb must TERRIFY. It takes a cut
-      // of everything you've built, so wild flailing stops being profitable
-      const cost = Math.min(150, Math.max(30, Math.round(api.score(0) * 0.08)));
-      api.score(-cost);
-      floatScore(scene, x, y, `−${cost}`, '#ff5d5d', 26 * K);
+      // one price, stated up front: a bomb costs a blade — a third of the
+      // run. The terror is the ceremony and the guttering pip, not a second
+      // hidden fine skimmed off the score mid-hitstop.
       burst(scene, x, y, 0xff5d3c, { n: 30, speed: 480 * K, scale: 0.8 * K });
       shockRing(scene, x, y, 0xff5d3c, 150 * K);
       flash(scene, 0xff2a1a, 160, 0.5);
@@ -606,24 +613,24 @@ export function create(P, ctx) {
       api.sfx('tap');
       return;
     }
-    // a combo is one burst of the blade: let 700ms pass since the last cut
-    // and the chain is cold, held-down finger or not (anti-scribble law)
-    if (scene.time.now - lastSliceAt > 700) strokeSlices = 0;
-    lastSliceAt = scene.time.now;
+    // a chain is one burst of the blade: let 700 GAME-time ms pass since the
+    // last cut and it goes cold, held-down finger or not. Game time, not wall
+    // time — slow motion (the combo's own reward, and the sheathe) must never
+    // eat the chain it just earned.
+    if (comboAge > 700) strokeSlices = 0;
+    comboAge = 0;
     strokeSlices++;
     // per-cut reward keeps climbing to ×12 (was capped at ×8 while the banner
     // kept escalating); milestone bonuses below reward the longest streaks.
     let gain = (10 + Math.min(11, strokeSlices - 1) * 5) + (VALUE[o.kind] ?? 0);
-    let label = `+${gain}`;
+    let kiri = false;
     // score sink sits top-LEFT (by the score readout), clear of the top-right
     // blade pips so collect sparks never bury how many lives remain
     const sinkX = 30 * K, sinkY = 20 * K;
     if (o.kind === 'daruma') {
-      // the jackpot scales with the run so it never goes trivial late — the
-      // bomb penalty already scales, so the greed has to stay worth it
+      // the jackpot scales with the run so it never goes trivial late
       const boon = Math.min(140, Math.round(api.score(0) * 0.06));
       gain += boon;
-      label = `+${gain}`;
       glyphBanner(scene, 'GOLDEN DARUMA', '#ffe9a0', 28 * K);
       collectTo(scene, x, y, sinkX, sinkY, 0xffd24a, 16);
       flash(scene, 0xffd24a, 120, 0.3);
@@ -644,8 +651,12 @@ export function create(P, ctx) {
     // grove law: a vertical stroke is the honest cut
     if (cfg.vertical && Math.abs(dirY) > 0.85) {
       gain = Math.round(gain * 1.5);
-      label = `KIRI +${gain}`;
+      kiri = true;
     }
+    // stance dividend: a draw-cut pays DOUBLE on every object it crosses, so
+    // the seconds spent sheathed buy more than mashing those seconds could
+    if (opts.mult) gain = Math.round(gain * opts.mult);
+    const label = `${kiri ? 'KIRI ' : ''}+${gain}`;
     api.score(gain);
     api.haptic(8);
     api.note(strokeSlices - 1);
@@ -654,8 +665,9 @@ export function create(P, ctx) {
     burst(scene, x, y, accent, { n: 14, speed: 340 * K, scale: 0.55 * K });
     collectTo(scene, x, y, sinkX, sinkY, 0xffd24a, 5);
     if (strokeSlices >= 2) { shockRing(scene, x, y, accent, 90 * K); hitstop(scene, 40); }
-    // milestone bonuses so the strongest streaks keep paying past the ×12 cap
-    if (strokeSlices === 8 || strokeSlices === 12 || strokeSlices === 16) {
+    // milestone bonuses at chains a human thumb can actually reach: a
+    // draw-cut through three plus a follow-up swipe lands the first one
+    if (strokeSlices === 4 || strokeSlices === 6 || strokeSlices === 8) {
       const milestone = strokeSlices * 8;
       api.score(milestone);
       floatScore(scene, x, y - 46 * K, `STREAK +${milestone}`, '#ffe9a0', 22 * K);
@@ -665,10 +677,12 @@ export function create(P, ctx) {
     // gate keeps a fast multi-slice from stacking banners/slowmo into a strobe
     if (!opts.fromDraw) {
       const nowFx = scene.time.now;
+      // 'CHAIN N' counts cuts — the × glyph belongs to the HUD multiplier
+      // pill alone, so only ONE number on screen ever claims to multiply
       if (strokeSlices === 3 && nowFx - lastComboFx > 180) {
-        banner(scene, 'COMBO ×3', '#ffd24a', 30 * K); lastComboFx = nowFx;
+        banner(scene, 'CHAIN 3', '#ffd24a', 30 * K); lastComboFx = nowFx;
       } else if (strokeSlices >= 4 && nowFx - lastComboFx > 180) {
-        banner(scene, `COMBO ×${strokeSlices}`, '#ff9a3c', 34 * K);
+        banner(scene, `CHAIN ${strokeSlices}`, '#ff9a3c', 34 * K);
         flash(scene, 0xfff0c8, 90, 0.3);
         if (!stance.active) slowmo(scene, 0.35, 420);
         zoomPunch(scene, 1.07, 240);
@@ -676,13 +690,31 @@ export function create(P, ctx) {
         lastComboFx = nowFx;
       }
     }
-    // hall law: every stroke gutters the candles
-    if (cfg.candles) world.darkness = Math.min(0.6, world.darkness + 0.05);
-    // gate law: surviving spirits blink away from a blade that misses them
+    // hall law: every stroke gutters the candles — the backdrop dims AND the
+    // flames themselves choke for a beat (tint, not tween: their idle flicker
+    // tweens keep running underneath without a fight)
+    if (cfg.candles) {
+      world.darkness = Math.min(0.6, world.darkness + 0.05);
+      for (const fl of world.flames ?? []) {
+        fl.setTint(0x8a4410);
+        scene.time.delayedCall(150, () => fl.active && fl.clearTint());
+      }
+    }
+    // gate law: surviving spirits blink away from a blade that misses them —
+    // but only spirits still RISING and high enough to chase (a spirit low
+    // and falling teleporting to knee height across the screen is an
+    // unreachable miss the player's correct slice manufactured), and only a
+    // dodge-length hop, streaked so it reads as the spirit dodging the blade
     if (cfg.blink) {
+      const W2 = scene.scale.width, H2 = scene.scale.height;
       for (const s of objs) {
-        if (s.kind === 'orb' && s !== o && Math.random() < 0.5) {
-          const nx = scene.scale.width * (0.12 + Math.random() * 0.76);
+        if (s.kind === 'orb' && s !== o && Math.random() < 0.5
+          && s.img.y < H2 * 0.45 && s.img.body.velocity.y < 0) {
+          const hop = (0.12 + Math.random() * 0.18) * W2 * (Math.random() < 0.5 ? -1 : 1);
+          const nx = Math.max(W2 * 0.12, Math.min(W2 * 0.88, s.img.x + hop));
+          const gs = scene.add.graphics().setDepth(9).setBlendMode(P.BlendModes.ADD);
+          gs.lineStyle(3 * K, 0x9affc2, 0.7).lineBetween(s.img.x, s.img.y, nx, s.img.y);
+          scene.tweens.add({ targets: gs, alpha: 0, duration: 260, onComplete: () => gs.destroy() });
           scene.tweens.add({ targets: s.img, alpha: 0, duration: 90, yoyo: true, onYoyo: () => { s.img.x = nx; } });
         }
       }
@@ -717,10 +749,20 @@ export function create(P, ctx) {
     const reach = Math.max(W, H) * 0.62; // how far the cut travels each way
     const hits = [];
     for (const o of [...objs]) {
-      if (o.isBomb) continue;
       const dx = o.img.x - cx, dy = o.img.y - cy;
       const perp = Math.abs(dx * uy - dy * ux);   // off the line
       const along = Math.abs(dx * ux + dy * uy);  // along the line
+      if (o.isBomb) {
+        // COLD BLOOD: an AIMED line shaving the powder is nerve, and pays as
+        // style — a wild swipe brushing a bomb under a thumb is just luck,
+        // so the graze bonus lives here and only here
+        if (!o.grazed && perp <= o.r + 30 * K && along <= reach + o.r) {
+          o.grazed = true;
+          api.score(5);
+          floatScore(scene, o.img.x, o.img.y - 24 * K, 'COLD BLOOD +5', '#8ad0ff', 13 * K);
+        }
+        continue;
+      }
       if (perp <= o.r + 26 * K && along <= reach + o.r) hits.push(o);
     }
     // the cut line, drawn as a blade of light (bounded to its reach)
@@ -734,11 +776,9 @@ export function create(P, ctx) {
         shake(scene, 0.012 + hits.length * 0.003, 240);
         zoomPunch(scene, 1.1, 280);
       });
-      // the per-object combo the loop pays IS the multi-hit reward; a modest
-      // fold flourish sits on top (no full flat double-count of every object)
-      for (const o of hits) sliceObj(scene, o, ux, uy, K, { fromDraw: true });
-      const gain = hits.length >= 2 ? hits.length * 8 : 0;
-      if (gain) { api.score(gain); floatScore(scene, cx, cy - 40 * K, `+${gain}`, '#fff0c8', 30 * K); }
+      // every object on the line pays DOUBLE (mult 2 through sliceObj): the
+      // sheathe's stillness has to out-earn the mashing it replaced
+      for (const o of hits) sliceObj(scene, o, ux, uy, K, { fromDraw: true, mult: 2 });
       if (hits.length >= 2) glyphBanner(scene, `${hits.length}-FOLD CUT`, '#fff0c8', 32 * K);
       if (hits.length >= 5) api.sfx('pr');
       else api.sfx('objDone');
@@ -750,6 +790,7 @@ export function create(P, ctx) {
 
   function enterStance(scene) {
     stance.active = true;
+    stance.inAt = Date.now();
     scene.time.timeScale = 0.16;
     scene.tweens.timeScale = 0.16;
     if (scene.physics?.world) scene.physics.world.timeScale = 1 / 0.16;
@@ -760,6 +801,10 @@ export function create(P, ctx) {
   function exitStance(scene, opts = {}) {
     const wasActive = stance.active;
     stance.active = false;
+    // sheathed seconds are stance, not scoreable time: hand the wall-clock
+    // spent at 0.16× back to the medal window so the flagship move is never
+    // rate-negative (the cabinet subtracts reported ms before rating)
+    if (wasActive) api.excludeMs?.(Math.max(0, Date.now() - (stance.inAt || Date.now())));
     scene.time.timeScale = 1;
     scene.tweens.timeScale = 1;
     if (scene.physics?.world) scene.physics.world.timeScale = 1;
@@ -866,10 +911,10 @@ export function create(P, ctx) {
       const armFirst = () => {
         if (started) return;
         started = true;
-        t0 = scene.time.now;
-        nextSpawn = scene.time.now + 250;
+        t0 = gameNow;
+        nextSpawn = gameNow + 250;
         const cap = (api.timeLeft?.() ?? 999000) * 0.4;
-        goldenAt = scene.time.now + Math.min(goldDelay(), Math.max(3000, cap));
+        goldenAt = gameNow + Math.min(goldDelay(), Math.max(3000, cap));
       };
       // cleanup shared by every stroke-ending path (clean lift, release
       // outside the canvas, OS touch-cancel, or backgrounding to log a set):
@@ -888,6 +933,7 @@ export function create(P, ctx) {
         downAt = scene.time.now;
         stance.lastMoveT = scene.time.now;
         lastMoveDir = null;
+        revAt = 0;
       });
       scene.input.on('pointerup', endStroke);
       scene.input.on('pointerupoutside', endStroke);
@@ -925,11 +971,22 @@ export function create(P, ctx) {
           return;
         }
 
-        // anti-scribble: a sharp direction reversal inside one drag breaks the
-        // chain, so frantic back-and-forth can't hold a permanently-maxed combo
+        // anti-scribble: ONE sharp reversal is a deliberate Z-stroke through a
+        // cluster and keeps the chain; TWO inside half a second is frantic
+        // back-and-forth and breaks it — and the break ANNOUNCES itself, so
+        // the rule can be learned by feel instead of by reading source code
         if (dist > 6) {
           const ndir = { x: dx / dist, y: dy / dist };
-          if (lastMoveDir && (ndir.x * lastMoveDir.x + ndir.y * lastMoveDir.y) < -0.35) strokeSlices = 0;
+          if (lastMoveDir && (ndir.x * lastMoveDir.x + ndir.y * lastMoveDir.y) < -0.35) {
+            if (now - revAt < 500) {
+              if (strokeSlices >= 2) {
+                floatScore(scene, px, py - 26 * unit(scene), 'CHAIN BROKEN', '#ff5d5d', 14 * unit(scene));
+                api.sfx('tap');
+              }
+              strokeSlices = 0;
+              revAt = 0;
+            } else revAt = now;
+          }
           lastMoveDir = ndir;
         }
 
@@ -951,16 +1008,12 @@ export function create(P, ctx) {
               api.sfx('objDone');
             }
           }
+          // (no graze bonus here: paying +5 for a wild swipe that happens to
+          // brush powder coached proximity to the one instant-blade-loss
+          // object — COLD BLOOD now lives in drawCut, where the line is aimed)
           for (const o of [...objs]) {
             if (segHit(lastPt.x, lastPt.y, px, py, o.img.x, o.img.y, o.r)) {
               sliceObj(scene, o, dx / len, dy / len, unit(scene));
-            } else if (o.isBomb && !o.grazed
-              && segHit(lastPt.x, lastPt.y, px, py, o.img.x, o.img.y, o.r + 30 * unit(scene))) {
-              // the blade passed a whisker from the powder — iron nerves pay
-              o.grazed = true;
-              api.score(5);
-              floatScore(scene, o.img.x, o.img.y - 24 * unit(scene), 'COLD BLOOD +5', '#8ad0ff', 13 * unit(scene));
-              api.sfx('tap');
             }
           }
         }
@@ -973,14 +1026,39 @@ export function create(P, ctx) {
       const K = unit(scene);
       const W = scene.scale.width, H = scene.scale.height;
       const now = scene.time.now;
-      if (!t0) { t0 = now; nextSpawn = now + 500; goldenAt = now + goldDelay(); }
+      // the economy's one clock: dtMs scaled by the live timeScale, so the
+      // sheathe and combo slow-mo dilate combos and cadence together — the
+      // world holds its breath as one body, and slow beats cost nothing
+      const ts = scene.time.timeScale || 1;
+      gameNow += dtMs * ts;
+      comboAge += dtMs * ts;
+      if (t0 < 0) { t0 = gameNow; nextSpawn = gameNow + 500; goldenAt = gameNow + goldDelay(); }
 
       // recover from an interrupted touch that stranded the sheathe slow-mo
       if (stance.active && !lastPt) exitStance(scene, { quiet: true });
-      // the combo cools on its OWN 700ms clock (not on lift), so a chain can
-      // bridge quick separate swipes but a genuine pause ends it — and a
-      // cooled combo lets the sheathe arm again after a burst of cutting
-      if (strokeSlices > 0 && now - lastSliceAt > 700) strokeSlices = 0;
+      // the combo cools on its OWN 700ms game-time clock (not on lift), so a
+      // chain can bridge quick separate swipes but a genuine pause ends it —
+      // and a cooled combo lets the sheathe arm again after a burst of cutting
+      if (strokeSlices > 0 && comboAge > 700) strokeSlices = 0;
+
+      // pre-start teach: the intro card promised SLICE, so give the hand
+      // something to slice. One slow harmless lob at a time (misses cost
+      // nothing until the first real stroke arms the dojo), plus a spectral
+      // 'do this' swipe streak every couple of seconds through the live trail
+      if (!started) {
+        if (gameNow >= teaserAt && !objs.length) {
+          teaserAt = gameNow + 4200;
+          spawnObj(scene, K, cfg.objects[0], W * (0.3 + Math.random() * 0.4), { peakLo: 0.55, vxSpread: 30 });
+        }
+        if (gameNow >= ghostAt) {
+          ghostAt = gameNow + 2600;
+          const p = { x: W * 0.2, y: H * 0.62 };
+          scene.tweens.add({
+            targets: p, x: W * 0.8, y: H * 0.38, duration: 420, ease: 'Sine.easeOut',
+            onUpdate: () => trail.push({ x: p.x, y: p.y, t: scene.time.now }),
+          });
+        }
+      }
 
       // ——— sheathe stance ———
       if (lastPt && !stance.active && stance.meter >= 0.5 && strokeSlices === 0
@@ -1090,8 +1168,8 @@ export function create(P, ctx) {
         }
         // the itch-spot rides the spine — a haloed 'hit me' treasure so its
         // high value reads on sight (and it announces itself on the cut, below)
-        if (started && now - world.itchAt > 5000 && !objs.some((o) => o.kind === 'itch')) {
-          world.itchAt = now;
+        if (started && gameNow - world.itchAt > 5000 && !objs.some((o) => o.kind === 'itch')) {
+          world.itchAt = gameNow;
           const o = spawnObj(scene, K, 'itch', W * (0.2 + Math.random() * 0.6), { peakLo: 0.35 });
           o.img.setTint(0xffe9a0);
           o.glow = scene.add.particles(0, 0, 'fx-dot', {
@@ -1102,8 +1180,8 @@ export function create(P, ctx) {
       }
 
       // ——— the golden daruma: rare, slow, worth the greed ———
-      if (started && now >= goldenAt && !objs.some((o) => o.kind === 'daruma')) {
-        goldenAt = now + goldDelay();
+      if (started && gameNow >= goldenAt && !objs.some((o) => o.kind === 'daruma')) {
+        goldenAt = gameNow + goldDelay();
         const o = spawnObj(scene, K, 'daruma', W * (0.25 + Math.random() * 0.5), { peakLo: 0.5 });
         o.img.body.gravity.y = 320 * K; // floats up lazily — you have time
         o.img.body.velocity.y *= 0.7;
@@ -1118,8 +1196,8 @@ export function create(P, ctx) {
       // reach everything airborne. Hard-cap concurrent must-slice (non-bomb)
       // objects; the rest wears you down with a faster CADENCE and more
       // bombs, never an uncoverable wall of simultaneous fruit. ———
-      if (started && now >= nextSpawn) {
-        const elapsed = (now - t0) / 1000;
+      if (started && gameNow >= nextSpawn) {
+        const elapsed = (gameNow - t0) / 1000;
         // CAP bounds the must-slice objects to what one thumb can clear, so
         // escalation comes from a tighter CADENCE + more bombs, never a wall
         // of simultaneous fruit no single thumb could ever cover.
@@ -1129,20 +1207,21 @@ export function create(P, ctx) {
         for (let i = 0; i < volley; i++) scene.time.delayedCall(i * 150, () => launch(scene, K));
         // cadence keeps tightening past the old 90s knee toward a 600ms floor
         // so a long (240s) rest keeps building instead of coasting flat
-        nextSpawn = now + Math.max(600, 1180 - elapsed * 4) / (cfg.pace * (fever ? 1.25 : 1));
+        nextSpawn = gameNow + Math.max(600, 1180 - elapsed * 4) / (cfg.pace * (fever ? 1.25 : 1));
       }
 
       // ——— housekeeping ———
       for (const o of [...objs]) {
         const fellPast = o.img.y > H + 70 * K && o.img.body.velocity.y > 0;
-        if (fellPast || now - o.born > 9000) {
-          // a non-bomb dropped uncut is a miss — but NOT during the GOLD RUSH
-          // payoff burst (the player can't slow that torrent and it must never
-          // end the run it exists to reward), and NOT once the player has
-          // clearly stepped away (no input for 2s — set the phone down to grab
-          // water). Bombs are MEANT to fall away, so they never cost a blade.
+        if (fellPast || gameNow - o.born > 9000) {
+          // a non-bomb dropped uncut is a miss — but NOT before the first
+          // stroke arms the dojo (pre-start teaser lobs are free), NOT during
+          // the GOLD RUSH payoff burst (the player can't slow that torrent and
+          // it must never end the run it exists to reward), and NOT once the
+          // player has clearly stepped away (no input for 2s — set the phone
+          // down to grab water). Bombs are MEANT to fall away: never a blade.
           const engaged = now - lastInputAt < 2000;
-          if (fellPast && !o.isBomb && !fever && engaged) loseLife(scene, o.img.x, H - 40 * K, 'MISS', 'CUT DOWN');
+          if (started && fellPast && !o.isBomb && !fever && engaged) loseLife(scene, o.img.x, H - 40 * K, 'MISS', 'CUT DOWN');
           killObj(scene, o);
         }
       }

@@ -26,8 +26,8 @@ export const STARS = [5, 11, 17];
 
 export const HELP = {
   goal: 'Light as many lantern pegs as you can with every dumpling you drop.',
-  how: 'Drag to pick your spot and release to drop the dumpling through the peg field. Each lit peg pays more than the last, and a dumpling caught by a sliding wok multiplies everything you lit that drop, with the small wok paying triple. Clearing every last peg earns a bonus.',
-  avoid: 'A dumpling that lands in no wok is a plate on the floor and a customer losing patience. You have three customers, and the third walkout closes the kitchen.',
+  how: 'Drag to pick your spot and release to drop the dumpling through the peg field. Each lit peg pays more than the last, and a dumpling caught by a sliding wok multiplies everything you lit that drop, with the small wok paying triple. The last few lanterns on a field pay double, and clearing every last one earns a SPOTLESS bonus before a fresh field arrives.',
+  avoid: 'Miss every wok twice in a row and a customer walks out — three walkouts close the kitchen. A miss that still lit four lanterns is forgiven, and a wok catch wipes the slate. A dumpling that comes to rest without reaching a wok is simply banked, no harm done.',
 };
 
 export const WORLDS = {
@@ -228,9 +228,10 @@ export function create(P, ctx) {
   let goldenAt = 0;
   let t0 = 0;
   let lastBellAt = 0;
-  // customer patience: three of them. A drop that lands in no wok is a
-  // wasted plate and one lost customer; the third walkout ends the shift.
-  // A wok catch never costs patience.
+  // customer patience: three of them. TWO wasted plates in a row cost one
+  // customer (a miss that lit four lanterns is forgiven, a banked drop that
+  // lit two clears the slate); the third walkout ends the shift. A wok
+  // catch never costs patience.
   let dead = false;
   let lives = 3;
   let livesGfx;
@@ -240,9 +241,30 @@ export function create(P, ctx) {
   let missStreak = 0;        // consecutive wasted plates — two in a row = a walkout
   let seeded = false;        // explicit seed flag (never trust now===0 truthiness)
   let lastVentFx = 0;
+  let lastCallOn = false;    // the field's final lanterns pay double
+  let needsRefill = false;   // a sweep finished under a live drop — rebuild later
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
 
   const PR = 13;             // peg radius in K units
+
+  // ——— the honest ledger ———
+  // The cabinet multiplies every gain by its skill-combo tier (×2 at 6 hits,
+  // ×3 at 16, chain decays after 1.6s idle) and doubles it again during GOLD
+  // RUSH before the HUD adds it — so the popups must show that SAME applied
+  // number or the scoreboard climbs 2-3× faster than the floats and reads as
+  // haunted. bank() mirrors the cabinet math (overlay.js api.score), announces
+  // the chain tier as an in-world event, and returns what the HUD really got.
+  let comboN = 0, comboAt = 0, comboTier = 1;
+  function bank(scene, K, gain) {
+    const now = Date.now();
+    if (now - comboAt > 1600) comboN = 0;
+    comboN++; comboAt = now;
+    const cm = comboN >= 16 ? 3 : comboN >= 6 ? 2 : 1;
+    if (cm > comboTier) { glyphBanner(scene, `CHAIN ×${cm}`, '#ffe9a0', 22 * K); api.sfx('objDone'); }
+    comboTier = cm;
+    api.score(gain);
+    return gain * cm * (fever ? 2 : 1);
+  }
 
   function buildField(scene, K) {
     const W = scene.scale.width, H = scene.scale.height;
@@ -302,6 +324,7 @@ export function create(P, ctx) {
         placed++;
       }
     }
+    lastCallOn = false; // a fresh steamer resets the last-lantern frenzy
     if (fieldRefills > 0) glyphBanner(scene, 'FRESH STEAMER', '#ffc46c', 26 * K);
     fieldRefills++;
   }
@@ -312,14 +335,19 @@ export function create(P, ctx) {
     litThisDrop.push(peg);
     const litKey = canvasTex(scene, 'wk-peglit', PR * 3.4 * K, PR * 3.4 * K, PAINT.pegLit);
     if (peg.kind !== 'cracker') peg.img.setTexture(litKey);
+    if (ball) ball.lastLitAt = scene.time.now; // live progress — the mercy clock resets
     squash(scene, peg.img, 'y', 140);
     const n = litThisDrop.length;
-    const gain = (10 + n * 2) * (peg.kind === 'gold' ? 2 : 1) * (goldenDrop ? 2 : 1);
+    // the barren tail is a climax, not a chore: once the field is down to its
+    // last five lanterns, every light pays double until the fresh steamer
+    const lastCall = pegs.filter((q) => !q.spent && !q.dragonHead).length <= 5;
+    if (lastCall && !lastCallOn) { lastCallOn = true; glyphBanner(scene, 'LAST LANTERNS ×2', '#ffe9a0', 24 * K); }
+    const gain = (10 + n * 2) * (peg.kind === 'gold' ? 2 : 1) * (goldenDrop ? 2 : 1) * (lastCall ? 2 : 1);
     peg.gain = gain;
-    api.score(gain);
+    const shown = bank(scene, K, gain);
     api.note(noteStep++);
     api.haptic(4);
-    floatScore(scene, peg.img.x, peg.img.y - 20 * K, `+${gain}`, peg.kind === 'gold' ? '#ffe9b3' : '#ffc46c', 13 * K);
+    floatScore(scene, peg.img.x, peg.img.y - 20 * K, `+${shown}`, peg.kind === 'gold' ? '#ffe9b3' : '#ffc46c', 13 * K);
     if (peg.kind === 'cracker') {
       // BANG: light the neighborhood, kick the dumpling
       peg.img.setTint(0xff5d3c);
@@ -329,9 +357,13 @@ export function create(P, ctx) {
       flash(scene, 0xff7a3c, 90, 0.3);
       api.sfx('objDone');
       const R = 95 * K;
+      // chain lights belong to THIS drop only: if the drop resolves before the
+      // fuse burns down, the late bang no-ops instead of leaking pegs (and
+      // their points) into the next shot's lit list
+      const stamp = dropCount;
       for (const q of pegs) {
         if (!q.lit && Math.hypot(q.img.x - peg.img.x, q.img.y - peg.img.y) < R) {
-          scene.time.delayedCall(70 + Math.random() * 120, () => lightPeg(scene, K, q, true));
+          scene.time.delayedCall(70 + Math.random() * 120, () => { if (dropCount === stamp) lightPeg(scene, K, q, true); });
         }
       }
       if (ball) {
@@ -351,9 +383,9 @@ export function create(P, ctx) {
         q.spent = false;
         q.lit = false;
         q.img.setAlpha(1);
-        // back to the unlit texture — a revived peg must look catchable again,
-        // not identical to an already-lit one
-        q.img.setTexture(q.kind === 'gold' ? goldTexKey : pegTexKey);
+        // back to its TRUE unlit texture — a revived peg must look catchable
+        // again, and a revived cracker must still look like a thing that bangs
+        q.img.setTexture(q.kind === 'gold' ? goldTexKey : q.kind === 'cracker' ? 'wk-cracker' : pegTexKey);
         burst(scene, q.img.x, q.img.y, 0x7ad0ff, { n: 8, speed: 180 * K, scale: 0.4 * K });
         shockRing(scene, q.img.x, q.img.y, 0x7ad0ff, 40 * K);
         try { q.body.isSensor = false; } catch { /* gone */ }
@@ -368,7 +400,9 @@ export function create(P, ctx) {
     lives = Math.max(0, lives - 1);
     catchStreak = 0; // a walkout snaps the hot hand
     const K = unit(scene);
-    floatScore(scene, x, scene.scale.height * 0.8, lives > 0 ? 'PLATE ON THE FLOOR' : 'WALKED OUT', '#ff5d7a', 16 * K);
+    // every life loss uses the SAME words as the pips and the help sheet —
+    // one metaphor, one-to-one, no 'plate' language for a customer event
+    floatScore(scene, x, scene.scale.height * 0.8, lives > 0 ? 'A CUSTOMER WALKED OUT' : 'THE LAST CUSTOMER WALKED OUT', '#ff5d7a', 16 * K);
     shake(scene, 0.008, 120);
     flash(scene, 0xff2040, 100, 0.2); // the loss must be seen as well as heard
     api.sfx('log'); // the one negative beat was silent — it needs a thud
@@ -390,6 +424,14 @@ export function create(P, ctx) {
         livesGfx.fillStyle(0xffe9b3, 0.98); livesGfx.fillCircle(x, y, r);
         livesGfx.lineStyle(1.8 * K, 0xffc46c, 1); livesGfx.strokeCircle(x, y, r);
         livesGfx.lineStyle(1.2 * K, 0xa8783c, 0.75); livesGfx.lineBetween(x - r * 0.45, y - r * 0.28, x + r * 0.45, y - r * 0.28);
+        // LAST WARNING armed: the next customer to walk pulses amber until a
+        // productive drop clears the slate — the warning is world-state you
+        // can read at any time, not a toast that vanished a minute ago
+        if (missStreak === 1 && i === lives - 1) {
+          const pulse = 0.5 + 0.5 * Math.sin(scene.time.now / 130);
+          livesGfx.lineStyle(2.4 * K, 0xffb86c, 0.35 + 0.6 * pulse);
+          livesGfx.strokeCircle(x, y, r + 3.2 * K);
+        }
       } else {
         // an empty seat: hollow ring + red cross — unmistakably a LOST slot
         livesGfx.fillStyle(0x120810, 0.5); livesGfx.fillCircle(x, y, r);
@@ -423,6 +465,11 @@ export function create(P, ctx) {
         else floatScore(scene, wokX, scene.scale.height * 0.8, 'CLOSE — LAST WARNING', '#ffb86c', 15 * K);
       }
     }
+    // a banked (no-blame) drop that still lit a pair of lanterns clears the
+    // armed warning too — the grudge is for whiffing, not for physics that
+    // paid out but never found a pan. Without this, LAST WARNING stays armed
+    // through minutes of productive play and detonates on ancient history.
+    if (!missed && wokMult <= 1 && litCount >= 2) missStreak = 0;
     // kill the golden trail BEFORE the dumpling dies: an emitter following
     // a destroyed Matter image crashes the whole cabinet on its next frame
     try { b.trail?.stopFollow(); b.trail?.destroy(); } catch { /* gone */ }
@@ -437,9 +484,9 @@ export function create(P, ctx) {
     if (wokMult > 1 && litThisDrop.length) {
       const streakBoost = 1 + Math.min(catchStreak - 1, 5) * 0.5; // ×1 → ×3.5, capped
       const bonus = Math.round(total * (wokMult - 1) * streakBoost);
-      api.score(bonus);
+      const shown = bank(scene, K, bonus);
       glyphBanner(scene, catchStreak >= 2 ? `WOK CATCH ×${wokMult} — ${catchStreak} IN A ROW` : `WOK CATCH ×${wokMult}`, '#ffd24a', 30 * K);
-      floatScore(scene, wokX, scene.scale.height * 0.82, `+${bonus}`, '#ffd24a', 24 * K);
+      floatScore(scene, wokX, scene.scale.height * 0.82, `+${shown}`, '#ffd24a', 24 * K);
       zoomPunch(scene, 1.08, 260);
       slowmo(scene, 0.4, 350);
       api.sfx('pr');
@@ -453,7 +500,9 @@ export function create(P, ctx) {
     popped.forEach((p, i) => {
       scene.time.delayedCall(i * 70, () => {
         if (!p.img.active) return;
-        if (p.dragonHead) { p.lit = false; return; } // the dragon only lends its head
+        // the dragon only lends its head — and gets its FACE back, not the
+        // generic lit-lantern mask, so the re-hittable star stays recognizable
+        if (p.dragonHead) { p.lit = false; p.img.setTexture('wk-dhead'); return; }
         p.spent = true;
         burst(scene, p.img.x, p.img.y, p.kind === 'gold' ? 0xffe9b3 : 0xffc46c, { n: 10, speed: 260 * K, scale: 0.45 * K });
         collectTo(scene, p.img.x, p.img.y, scene.scale.width - 30 * K, 20 * K, 0xffc46c, 4);
@@ -470,8 +519,8 @@ export function create(P, ctx) {
     if (cleared) {
       spotlessStreak = Math.min(spotlessStreak + 1, 4);
       const sb = 75 * spotlessStreak; // +75 → +300 for a sustained clean sweep
-      api.score(sb);
-      glyphBanner(scene, spotlessStreak >= 2 ? `SPOTLESS ×${spotlessStreak} +${sb}` : `SPOTLESS +${sb}`, '#ffe9a0', 26 * K);
+      const shown = bank(scene, K, sb);
+      glyphBanner(scene, spotlessStreak >= 2 ? `SPOTLESS ×${spotlessStreak} +${shown}` : `SPOTLESS +${shown}`, '#ffe9a0', 26 * K);
       flash(scene, 0xffd24a, 110, 0.25);
       api.sfx('pr');
     } else {
@@ -481,10 +530,16 @@ export function create(P, ctx) {
     noteStep = 0;
     dropCount++;
     if (goldenDrop) { goldenDrop = false; goldenAt = scene.time.now + goldDelay(); }
-    // a thinning field refills fresh, after the pop ceremony finishes
+    // the field refills only when every lantern is truly spent — the last few
+    // pay double (see lightPeg) so the tail is a hunt, not a wait — and NEVER
+    // under a live drop: rebuilding 20+ static bodies around a dumpling in
+    // flight rewrites the shot's fate with an explosion the player didn't cause
     scene.time.delayedCall(popped.length * 70 + 600, () => {
       const remaining = pegs.filter((p) => !p.spent && !p.dragonHead).length;
-      if (remaining < 8) buildField(scene, K);
+      if (remaining > 0 && !needsRefill) return;
+      if (ball) { needsRefill = true; return; } // defer until the drop banks
+      needsRefill = false;
+      buildField(scene, K);
     });
   }
 
@@ -805,8 +860,8 @@ export function create(P, ctx) {
           if (isBell && ball && scene.time.now - lastBellAt > 350) {
             // the bells deflect, but a rung bell still pays its respects
             lastBellAt = scene.time.now;
-            api.score(3);
-            floatScore(scene, ball.img.x, ball.img.y - 18 * K, 'BONG +3', '#e8c46c', 12 * K);
+            const shown = bank(scene, K, 3);
+            floatScore(scene, ball.img.x, ball.img.y - 18 * K, `BONG +${shown}`, '#e8c46c', 12 * K);
             api.sfx('tap');
             shake(scene, 0.005, 70);
           }
@@ -875,7 +930,10 @@ export function create(P, ctx) {
       // climbs inside a normal 60-90s rest instead of only near the 240s cap
       const wokRamp = 1 + Math.min(0.5, ((scene.time.now - t0) / 1000 / 100) * 0.5);
       for (const wk of woks) {
-        wk.img.x += wk.dir * wk.speed * wokRamp * (fever ? 1.3 : 1) * dt;
+        // GOLD RUSH is the fever, not the interruption: the kitchen opens
+        // every burner FOR you — pans ease off and mouths widen (catchFrac
+        // below) during the exact window when every point pays double
+        wk.img.x += wk.dir * wk.speed * wokRamp * (fever ? 0.85 : 1) * dt;
         // only reverse when actually heading into the wall, then clamp — an
         // overshoot from a frame drop can't wedge the pan vibrating off-edge
         if ((wk.img.x <= wk.lo && wk.dir < 0) || (wk.img.x >= wk.hi && wk.dir > 0)) wk.dir *= -1;
@@ -949,7 +1007,8 @@ export function create(P, ctx) {
           // aimed near a wok lands in it; a real miss falls clear between them.
           // 3-wok worlds (boba) tighten the mouth so the fail-state keeps teeth
           // and the shared rate-medal stays comparable to the 2-wok worlds.
-          const catchFrac = cfg.woks >= 3 ? 0.46 : 0.52;
+          // GOLD RUSH widens every mouth: the finale is generosity, not a test.
+          const catchFrac = (cfg.woks >= 3 ? 0.46 : 0.52) + (fever ? 0.04 : 0);
           const inX = Math.abs(bx - wk.img.x) < wk.w * catchFrac;
           const inBand = Math.abs(by - wk.img.y) < 30 * K;
           const crossed = ball.prevY <= wk.img.y - 4 * K && by > wk.img.y - 4 * K;
@@ -961,9 +1020,23 @@ export function create(P, ctx) {
           }
         }
         ball.prevY = by;
+        // MERCY RULES. A stuck dumpling must never wedge the game — but a
+        // LIVE one must never be eaten mid-cascade either: the richest drops
+        // are exactly the long ones, so the old flat 3.5s cap punished correct
+        // play (and structurally denied the catch in low-gravity and boba
+        // worlds, where honest flights run far longer). Resolution now waits
+        // for actual stall — no new lantern lit for 2.5s AND nearly stopped —
+        // with an absolute ceiling scaled by the world's own physics. Both
+        // mercies announce themselves so a banked drop reads as a rule.
+        const idleFor = scene.time.now - Math.max(ball.lastLitAt ?? 0, ball.born);
+        const flightCap = 3500 / Math.sqrt(cfg.gravity || 1) + (cfg.bouncy ? 2500 : 0);
         if (by > H + 30 * K) resolveDrop(scene, K, 1, bx, true); // fell clean off the bottom — a real miss
-        else if (scene.time.now - ball.lastMove > 1400) resolveDrop(scene, K, 1, bx); // resting — bank it, no blame
-        else if (scene.time.now - ball.born > 3500) resolveDrop(scene, K, 1, bx); // wedged — mercy rule, no blame
+        else if ((scene.time.now - ball.lastMove > 1400 && by > H * 0.66) // resting below the field
+          || (idleFor > 2500 && bv < 1.2)                                // stalled: no progress, no speed
+          || (scene.time.now - ball.born > flightCap)) {                 // hard ceiling, world-scaled
+          floatScore(scene, bx, by - 24 * K, 'BANKED — no wok', '#bfe8dc', 13 * K);
+          resolveDrop(scene, K, 1, bx); // banked, not blamed
+        }
       }
 
       drawLives(scene, K);

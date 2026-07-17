@@ -1,5 +1,5 @@
-// The arcade's card catalog: world → game module, plus best-score
-// persistence. Game modules export data-only WORLDS at the top level and
+// The arcade's card catalog: world → game module, plus the trophy room
+// (re-exported from stats.js). Game modules export data-only WORLDS at the top level and
 // only touch Phaser inside create(), so this whole graph stays importable
 // under node for the test suite.
 import * as dojo from './games/dojo.js';
@@ -35,19 +35,30 @@ const clampMul = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 // the knob the game's own designer tuned. Ambiguous knobs stay neutral (1) so
 // a wrong guess can never make calibration worse than the old flat tuple.
 const OPPORTUNITY = {
-  // more targets on screen (pace) lifts the reachable rate; bombs are pure
-  // hazard that suppresses safe scoring.
-  dojo: (c) => (c.pace ?? 1) * (1 - 1.4 * (c.bombs ?? 0)),
-  // density here is OBSTACLE density — thicker water means shallower dives.
-  deep: (c) => 1 / (c.density ?? 1),
-  // density is OBSTACLE density too — a packed slalom skips far less.
-  park: (c) => 1 / (c.density ?? 1),
-  // more spawns feed longer chains; faster jammers are harder to catch.
-  atoll: (c) => (c.spawn ?? 1) / (c.speed ?? 1),
-  // gravity's effect on pachinko yield genuinely cuts both ways — stay neutral.
-  wok: () => 1,
-  // no per-world difficulty knobs at all — uniform.
-  yeti: () => 1,
+  // throughput is CAP-bound (three airborne cuttables), so pace never lifts
+  // the reachable rate — only bombs suppress it, by taxing free swiping.
+  dojo: (c) => 1 - 1.4 * (c.bombs ?? 0),
+  // obstacles are deep's point SOURCE (smash points + graze chains), so
+  // thicker water pays MORE; the snare hazards (kelp, jellies, patrol
+  // lights, the dark) tax what a diver can actually collect.
+  deep: (c) => (0.6 + 0.4 * (c.density ?? 1)) * ((c.kelp || c.jellies || c.searchlights || c.dark) ? 0.85 : 1),
+  // open water: density is obstacle density, a packed slalom skips less.
+  // In the bog it counts turtle PADS — the only safe landings — so it ADDS
+  // opportunity. Rings and beams add scoring surface; a cliff launch
+  // suppresses the reachable rate even with the skim gate scaled for it.
+  park: (c) => (c.bog ? (c.density ?? 1) : 1 / (c.density ?? 1)) * (c.rings ? 1.2 : 1) * (c.beams ? 1.15 : 1) * (c.cliff ? 0.7 : 1),
+  // more spawns feed longer chains; faster jammers are harder to catch; a
+  // hot golden cadence with a jackpot on top is real income the bar must
+  // price in (52 is the mean of the standard [34,70] goldEvery band).
+  atoll: (c) => ((c.spawn ?? 1) / (c.speed ?? 1)) * (52 / (((c.goldEvery?.[0] ?? 34) + (c.goldEvery?.[1] ?? 70)) / 2)) * (c.jackpot ? 1.25 : 1),
+  // low gravity does NOT cut both ways — it stretches every drop cycle, so
+  // fewer drops land per rest. Three wide pans make catches near-automatic;
+  // bouncy pegs, golden lanterns and crackers all add yield.
+  wok: (c) => Math.sqrt(c.gravity ?? 1) * ((c.woks ?? 0) >= 3 ? 1.2 : 1) * (c.bouncy ? 1.15 : 1) * (c.golden ? 1.1 : 1) * (c.crackers ? 1.1 : 1),
+  // the boolean flags ARE difficulty knobs: aurora doubles points about a
+  // quarter of the time, ice quarters steering, melt sheds mass faster,
+  // moguls pay extra air, and a denser village cadence feeds more gates.
+  yeti: (c) => (c.aurora ? 1.25 : 1) * (c.ice ? 0.75 : 1) * (c.melt ? 0.9 : 1) * (c.moguls ? 1.1 : 1) * (3 / (c.villageEvery ?? 3)) ** 0.3,
 };
 
 // Precompute the adjusted tuple for every world once (the module graph is
@@ -87,85 +98,9 @@ export function gameFor(universeCls, worldCls) {
   };
 }
 
-// ——— bests + medals: local-only, per world ———
-// Stored value is { s: bestScore, st: bestStars } — legacy plain numbers
-// from earlier builds are read as { s: n, st: 0 }.
-
-const BEST_KEY = 'p3.gameBests';
-
-export function readBests() {
-  try {
-    const b = JSON.parse(localStorage.getItem(BEST_KEY));
-    return b && typeof b === 'object' ? b : {};
-  } catch { return {}; }
-}
-
-export function bestFor(worldCls) {
-  const v = readBests()[worldCls];
-  return (typeof v === 'number' ? v : v?.s) ?? 0;
-}
-
-export function starsFor(worldCls) {
-  const v = readBests()[worldCls];
-  return (typeof v === 'object' && v ? v.st : 0) ?? 0;
-}
-
-// Persists score and medal highs independently; returns true only when the
-// SCORE is a new record (that's the ceremony's score-PR trigger). A new medal
-// TIER is not signalled through this return — the caller compares starsFor()
-// read BEFORE the save against the run's stars to celebrate a medal upgrade,
-// so a mid-score run that unlocks a higher medal still gets its moment.
-export function saveBest(worldCls, score, stars = 0) {
-  accrue(score); // fold every played run into the lifetime ledger, always
-  const bests = readBests();
-  const prevS = bestFor(worldCls);
-  const prevSt = starsFor(worldCls);
-  const record = score > prevS;
-  if (!record && stars <= prevSt) return false;
-  bests[worldCls] = { s: Math.max(score, prevS), st: Math.max(stars, prevSt) };
-  try { localStorage.setItem(BEST_KEY, JSON.stringify(bests)); } catch { /* full */ }
-  return record;
-}
-
-// ——— lifetime ledger + daily streak ———
-// An app used every workout, day after day, needs a number that grows. Beside
-// the per-world bests we keep one tiny career record plus a consecutive-day
-// streak, so repeat sessions visibly accumulate (surfaced on the pill/atlas).
-const STATS_KEY = 'p3.gameStats';
-const DAY_MS = 86400000;
-const EMPTY_STATS = { plays: 0, score: 0, best: 0, day: 0, streak: 0, streakBest: 0 };
-// local-midnight day index, so a streak flips over at the player's midnight
-const localDay = () => Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / DAY_MS);
-
-export function readStats() {
-  try {
-    const s = JSON.parse(localStorage.getItem(STATS_KEY));
-    if (s && typeof s === 'object') return { ...EMPTY_STATS, ...s };
-  } catch { /* corruption reads as a fresh ledger */ }
-  return { ...EMPTY_STATS };
-}
-
-// Fold one completed run into the career ledger. Guarded so a bad write can
-// never disturb the best-score contract, and gated on score>0 so an untouched
-// idle rest changes nothing at all (IDLE LAW). Called once per scored run.
-function accrue(score) {
-  if (!(score > 0)) return;
-  try {
-    const s = readStats();
-    const day = localDay();
-    const gap = day - s.day;
-    const streak = !s.day ? 1        // first run ever
-      : gap === 0 ? s.streak         // same day: hold the streak
-      : gap === 1 ? s.streak + 1     // next day: extend it
-      : 1;                           // a day (or more) was missed: reset
-    const run = Math.round(score);
-    localStorage.setItem(STATS_KEY, JSON.stringify({
-      plays: s.plays + 1,
-      score: s.score + run,
-      best: Math.max(s.best, run),
-      day,
-      streak,
-      streakBest: Math.max(s.streakBest, streak),
-    }));
-  } catch { /* the ledger is best-effort; never block a save */ }
-}
+// ——— bests + medals + career ledger ———
+// The trophy room lives in stats.js (pure localStorage, zero game imports)
+// so views can read medals without hauling six game engines across the
+// import boundary. Re-exported here so overlay, tests, and older callers
+// keep one stable address for the whole arcade.
+export { readBests, bestFor, starsFor, saveBest, readStats } from './stats.js';

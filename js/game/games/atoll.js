@@ -5,13 +5,15 @@
 // chain across a whole cluster. Land enough ON-BEAT pops and the DROP
 // charges: your next tap is a full BASS DROP that clears the screen.
 //
-// Two real skills, not one mash: AIM (the pulse is small, jammers arrive
-// spread and in moving clusters, and popping near your tap's centre pays
-// a bonus, so where you tap matters) and TIMING (a tap that lands on the
-// beat — watch the ring collapse onto the lamp — fires a bigger pulse and
-// charges the DROP; an off-beat tap still fires a small defensive pulse so
-// a tired thumb is never ignored, it just earns less). Mashing one spot
-// survives but scores near the floor; medals live above it.
+// Two real skills, not one mash: AIM (Missile-Command logic — pops HIGH
+// in the sky pay a big altitude bonus, pops in the panic zone hugging the
+// antenna pay half and never charge the DROP, so intercepting early and
+// far is the paid skill and lamp-camping scores the floor) and TIMING
+// (the beat is audible — a tick every beat, brighter every fourth — and
+// graded: the closer to dead centre, the bigger the pulse and the faster
+// the DROP charges; an off-beat tap still fires a small defensive pulse
+// so a tired thumb is never ignored, and a pulse that pops NOTHING is
+// STATIC and resets your chain, so blanket-mashing bleeds what it farms).
 //
 // This is a rebuild. The old ship-cannon game was deleted at the user's
 // order — it stacked boats and played itself. Nothing here is physics-
@@ -21,9 +23,10 @@
 // Worlds mutate the beat, never just the wallpaper: the volcano rains
 // poppable embers, relay parrots throw fatter chains AND still field the
 // fast notes and heavy censor-blimps, the kraken flanks you from two
-// sides, the skull cave echoes your pulses off its walls, the hurricane
-// blows the jammers crosswind, Message Bay drifts you healing bottles,
-// and the treasure antenna spits golden boomboxes worth a real fortune.
+// sides AND sends a tentacle you can parry for points, the skull cave
+// echoes your pulses off its walls, the hurricane blows the jammers
+// crosswind, Message Bay drifts you healing bottles, and the treasure
+// antenna spits golden boomboxes worth a real (but bounded) fortune.
 import {
   ensureFx, canvasTex, burst, shockRing, floatScore, banner, glyphBanner,
   shake, flash, slowmo, zoomPunch, collectTo, paintSky, ambientMotes,
@@ -32,16 +35,18 @@ import {
 
 export const TITLE = 'Bass Drop';
 export const VERB = 'DROP!';
-export const GESTURE = 'Tap on the beat';
+export const GESTURE = 'Pop the jammers before they reach your antenna';
 // points per second for 1/2/3 stars — a distracted lifter clears bar 1
-// on any competent round; three stars wants sustained on-beat chains,
-// centred taps, and cashed drops.
-export const STARS = [7, 13, 21];
+// on any competent round; three stars wants sustained on-beat chains and
+// high interceptions. Tuned to the SUPPLY: early-run spawns cap perfect
+// play near ~18-21 raw pts/s on a 60s rest, so 3★ sits at two-thirds of
+// that ceiling instead of exactly on it.
+export const STARS = [6, 11, 17];
 
 export const HELP = {
   goal: 'Protect your radio antenna by knocking the navy jammers out of the sky before they reach it.',
-  how: 'Tap ON THE BEAT — watch the gold ring collapse onto the antenna lamp — to drop a big shockwave. It rings outward and pops every jammer it touches, and each pop sends out its own wave, so one tap aimed into a cluster chains across the screen. On-beat pops charge the DROP meter; when it is full your next tap is a full bass drop that clears everything. Off-beat taps still fire a small pulse, so panic-tapping always defends — it just scores less.',
-  avoid: 'Every jammer that reaches your antenna cuts your SIGNAL bar. Let the signal empty and your station goes OFF AIR and the run ends early — so keep the sky clear.',
+  how: 'Tap ON THE BEAT — listen for the tick and watch the gold ring collapse onto the antenna lamp — to drop a bigger shockwave. The closer to the beat, the bigger the wave. Every pop fires its own smaller wave, so one tap aimed into a cluster chains across the screen. Popping jammers HIGH in the sky pays a big bonus; pops right next to your antenna pay half and never charge the DROP meter. When the meter is full, tap the glowing antenna lamp to unleash a bass drop that clears everything.',
+  avoid: 'Every jammer that reaches your antenna cuts your SIGNAL bar — let it empty and your station goes OFF AIR and the run ends early. And do not mash blindly: a pulse that pops nothing is STATIC and resets your chain.',
 };
 
 export const WORLDS = {
@@ -232,12 +237,15 @@ export function create(P, ctx) {
   let t0 = 0;
   let fever = false;
   let krakenPhase = 0, krakenGfx;
+  let krakenReach = 0, krakenStunUntil = 0, krakenTip = null;
+  let lastBeatN = -1;     // metronome edge detector — tick lands once per beat
+  let startHint = null;   // 'TAP TO GO ON AIR' — the pre-start invitation
 
   const antennaPos = (scene) => ({ x: scene.scale.width / 2, y: scene.scale.height * 0.9 });
   // the beat: a shared external metronome, NOT a self-resetting personal
   // cooldown — 'on beat' is something you sync to, so timing is a real skill
   const BEAT_MS = 520;        // ~115 BPM
-  const HIT_WINDOW = 125;     // ±ms around a beat that counts as on-beat
+  const HIT_WINDOW = 80;      // ±ms around a beat that counts as on-beat (~31% duty — timing is a real skill, not a coin flip)
   const TAP_DEBOUNCE = 130;   // physical debounce only; never eats a real beat tap
   const MAX_ENEMIES = 22;
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -332,7 +340,9 @@ export function create(P, ctx) {
       : kind === 'bass' ? W * 1.1
       : kind === 'secondary' ? 82 * K * cfg.secondary
       : 125 * K;
-    pulses.push({ x, y, r: 6 * K, maxR, hit: new Set(), kind, charges: !!opts.charges, born: scene.time.now });
+    // q = beat quality of the originating tap (1 = dead centre); cascades
+    // inherit it so a perfect tap's whole chain charges the DROP faster
+    pulses.push({ x, y, r: 6 * K, maxR, hit: new Set(), kind, charges: !!opts.charges, q: opts.q ?? 1, born: scene.time.now });
     if (kind === 'secondary') return;
     const col = kind === 'bass' ? 0xffd24a : onBeat ? cfg.accent : 0x8a9ac8;
     shockRing(scene, x, y, col, maxR * 0.7);
@@ -355,45 +365,57 @@ export function create(P, ctx) {
 
   function popEnemy(scene, K, e, chainIdx, pl) {
     const ex = e.spr.x, ey = e.spr.y;
+    const H = scene.scale.height;
+    const ap = antennaPos(scene);
     let gain = PTS[e.kind] + Math.min(chainIdx, 12) * 3;
-    // placement reward: popping near the pulse's own centre pays a bonus,
-    // so aiming into the heart of a cluster beats blanket-tapping one spot
-    if (pl) {
-      const d = Math.hypot(ex - pl.x, ey - pl.y);
-      const near = 1 - Math.min(1, d / (pl.maxR || 1));
-      gain += Math.round(PTS[e.kind] * 0.5 * near * near);
-    }
+    // placement reward, Missile-Command logic: killing EARLY and FAR is the
+    // paid skill. Pops high in the sky pay a big bonus; pops in the panic
+    // zone hugging the antenna pay half and never charge the DROP — the
+    // lamp-camp stays a legitimate last-ditch defense that scores the floor.
+    const inPanic = Math.hypot(ex - ap.x, ey - ap.y) < 120 * K;
+    const high = !inPanic && ey < H * 0.55;
+    if (inPanic) gain = Math.max(1, Math.round(gain * 0.5));
+    else if (high) gain = Math.round(gain * 1.6);
     api.score(gain);
     // the note climbs with the LIVE chain and resets when the cascade ends,
     // so each fresh chain sings up the scale again instead of flat-lining
     api.note(Math.min(1 + chainIdx, 14));
-    floatScore(scene, ex, ey - 14 * K, `+${gain}`, chainIdx > 2 ? '#fff0c8' : '#ffd24a', (14 + Math.min(10, chainIdx * 2)) * K);
+    floatScore(scene, ex, ey - 14 * K,
+      high ? `HIGH +${gain}` : `+${gain}`,
+      inPanic ? '#8a9ac8' : high ? '#aef0ff' : chainIdx > 2 ? '#fff0c8' : '#ffd24a',
+      (14 + (high ? 3 : 0) + Math.min(10, chainIdx * 2)) * K);
     burst(scene, ex, ey, cfg.accent, { n: 12, speed: 260 * K, scale: 0.5 * K });
     api.haptic(6);
     destroyEnemy(e);
     // the chain: each pop rings its own pulse, inheriting whether the
-    // originating tap was earned (on-beat, non-bass) so cascades stay honest
-    const earns = pl ? pl.charges : false;
-    firePulse(scene, K, ex, ey, 'secondary', { charges: earns });
+    // originating tap was earned (on-beat, non-bass) so cascades stay
+    // honest — and panic-zone pops pass no charge downstream either
+    const earns = (pl ? pl.charges : false) && !inPanic;
+    firePulse(scene, K, ex, ey, 'secondary', { charges: earns, q: pl?.q });
     chain++;
     chainResetAt = scene.time.now + 260;
-    if (chain === 4) banner(scene, 'CHAIN ×4', '#ffd24a', 26 * K);
-    if (chain === 8) { banner(scene, `CHAIN ×${chain}`, '#ff9a3c', 30 * K); slowmo(scene, 0.4, 320); }
-    if (chain >= 8 && chain % 4 === 0) banner(scene, `CHAIN ×${chain}`, '#ff9a3c', 30 * K);
+    // counts, not multipliers — the overlay's ×2/×3 pill owns the '×'
+    if (chain === 4) banner(scene, 'CHAIN 4', '#ffd24a', 26 * K);
+    if (chain === 8) { banner(scene, `CHAIN ${chain}`, '#ff9a3c', 30 * K); slowmo(scene, 0.4, 320); }
+    if (chain >= 8 && chain % 4 === 0) banner(scene, `CHAIN ${chain}`, '#ff9a3c', 30 * K);
     // charge the DROP meter — ONLY from earned on-beat offense, never from
-    // the bass drop's own kills (so the ultimate can't self-rearm), and
-    // faster when the streak is hot so chaining accelerates the next drop
+    // the bass drop's own kills (so the ultimate can't self-rearm), faster
+    // when the streak is hot, and scaled by how CLEAN the tap's timing was
     if (earns && combo < 1) {
-      combo = Math.min(1, combo + 0.04 + Math.min(chainIdx, 10) * 0.006);
-      if (combo >= 1) { glyphBanner(scene, 'DROP READY', '#ffd24a', 26 * K); api.sfx('objDone'); }
+      const cleanness = 0.55 + 0.45 * (pl?.q ?? 1);
+      combo = Math.min(1, combo + (0.04 + Math.min(chainIdx, 10) * 0.006) * cleanness);
+      if (combo >= 1) { glyphBanner(scene, 'DROP READY — TAP THE LAMP', '#ffd24a', 22 * K); api.sfx('objDone'); }
     }
   }
 
   function hitEnemy(scene, K, e, chainIdx, pl) {
     e.hp--;
     if (e.hp <= 0) { popEnemy(scene, K, e, chainIdx, pl); return; }
-    // survived (blimp): flash + shove
+    // survived (blimp): it WEARS the damage — scorched tint and a listing
+    // tilt that persist, so a wounded blimp never reads as a whiffed pulse
     squash(scene, e.spr, 'x');
+    e.spr.setTint(0x9a6a44);
+    e.tilt = 13;
     burst(scene, e.spr.x, e.spr.y, cfg.accent, { n: 5, speed: 160 * K, scale: 0.35 * K });
     api.sfx('tap');
   }
@@ -401,14 +423,16 @@ export function create(P, ctx) {
   function catchGolden(scene, K, pl) {
     const W = scene.scale.width;
     const gx = golden.spr.x, gy = golden.spr.y;
-    // variable-ratio tiers so there is a real near-miss/big-hit thrill,
-    // scaled by the live chain, and the Treasure world spikes it further
+    // variable-ratio tiers keep the near-miss/big-hit thrill, but the
+    // ceiling is BOUNDED: one lucky catch can flavour a run, never buy the
+    // medal (the star ladder rates raw points, and ~490 max on a 60s rest
+    // is a treat, not a third of the 3★ bar)
     const tier = Math.random();
-    let base = tier < 0.6 ? 60 : tier < 0.9 ? 150 : 320;
-    if (cfg.jackpot) base = Math.round(base * (Math.random() < 0.35 ? 3 : 1.7));
-    const val = Math.round(base * (1 + Math.min(chain, 12) * 0.12));
+    let base = tier < 0.6 ? 60 : tier < 0.9 ? 110 : 180;
+    if (cfg.jackpot) base = Math.round(base * (Math.random() < 0.35 ? 1.7 : 1.3));
+    const val = Math.round(base * (1 + Math.min(chain, 12) * 0.05));
     api.score(val);
-    const big = val >= 400;
+    const big = val >= 300;
     glyphBanner(scene, `TREASURE +${val}`, big ? '#fff0c8' : '#ffe9a0', (24 + Math.min(14, val / 40)) * K);
     if (big) { flash(scene, 0xffd24a, 170, 0.42); shake(scene, 0.014, 220); slowmo(scene, 0.5, 260); }
     collectTo(scene, gx, gy, W - 30 * K, 20 * K, 0xffd24a, 18);
@@ -444,27 +468,40 @@ export function create(P, ctx) {
       goldenAt = now + cfg.goldEvery[0] * 1000;
       if (cfg.bottles) bottleAt = now + 3500;
       if (cfg.wind) stormFlashAt = now + 4000;
+      if (startHint) {
+        const h = startHint; startHint = null;
+        scene.tweens.add({ targets: h, alpha: 0, y: h.y - 18 * K, duration: 320, onComplete: () => h.destroy() });
+      }
     }
-    const { onBeat } = beatInfo(now);
-    // charged: unleash the bass drop on ANY tap so a tired thumb never
-    // loses a meter it worked for (and the timer auto-cashes it at GOLD RUSH)
+    const { onBeat, toBeat, frac } = beatInfo(now);
+    // charged: the bass is a DECISION — only a tap on the glowing lamp
+    // spends it, so the player chooses the wave to drop it into. Normal
+    // taps keep firing normal pulses, and the GOLD RUSH auto-cash (fever)
+    // still guarantees an earned meter is never lost to the clock.
     if (combo >= 1) {
-      combo = 0;
-      glyphBanner(scene, 'BASS DROP', '#ffd24a', 32 * K);
-      firePulse(scene, K, x, y, 'bass', { charges: false, onBeat: true });
-      api.haptic([14, 40, 14]);
-      return;
+      const ap = antennaPos(scene);
+      const lampY = scene._lampY ?? ap.y - 120 * K;
+      if (Math.hypot(x - ap.x, y - lampY) <= 110 * K) {
+        combo = 0;
+        glyphBanner(scene, 'BASS DROP', '#ffd24a', 32 * K);
+        firePulse(scene, K, x, y, 'bass', { charges: false, onBeat: true });
+        api.haptic([14, 40, 14]);
+        return;
+      }
     }
     if (onBeat) {
-      firePulse(scene, K, x, y, 'beat', { maxR: 125 * K, charges: true, onBeat: true });
-      floatScore(scene, x, y - 10 * K, 'ON BEAT', '#ffe9a0', 13 * K);
+      // graded, not binary: a dead-centre tap fires the full 125K wave and
+      // charges fastest; an edge-of-window tap visibly fires a smaller one
+      const q = 1 - toBeat / HIT_WINDOW;
+      firePulse(scene, K, x, y, 'beat', { maxR: (96 + 29 * q) * K, charges: true, onBeat: true, q });
+      floatScore(scene, x, y - 10 * K, q > 0.66 ? 'PERFECT' : 'ON BEAT', q > 0.66 ? '#fff0c8' : '#ffe9a0', (12 + 4 * q) * K);
       api.haptic(9);
     } else {
-      // off-beat still fires a real (smaller) pulse right under the thumb, so
-      // panic-tapping always defends — it just earns no chain-meter, so
-      // timing pays without the input ever feeling ignored
+      // off-beat still fires a real (smaller) pulse right under the thumb,
+      // so panic-tapping always defends — and the judgment TEACHES: EARLY /
+      // LATE tells you which way to lean into the next beat
       firePulse(scene, K, x, y, 'beat', { maxR: 84 * K, charges: false, onBeat: false });
-      floatScore(scene, x, y - 6 * K, '·', '#8a9ac8', 12 * K);
+      floatScore(scene, x, y - 6 * K, frac < 0.5 ? 'LATE' : 'EARLY', '#8a9ac8', 11 * K);
       api.haptic(3);
     }
   }
@@ -610,9 +647,11 @@ export function create(P, ctx) {
     });
     ambientMotes(scene, cfg.accent, { alpha: 0.35 });
     if (cfg.embers) {
+      // ash, not embers: dull smoke-red so the falling garnish can never be
+      // mistaken for the bright-faced poppable ember ENEMY
       scene.add.particles(0, 0, 'fx-dot', {
         x: { min: 0, max: W }, y: -10, speedY: { min: 30 * K, max: 80 * K },
-        scale: { start: 0.3 * K, end: 0 }, tint: 0xff7a3c, blendMode: 'ADD',
+        scale: { start: 0.3 * K, end: 0 }, tint: 0x5c2a22, alpha: 0.5,
         lifespan: 4000, frequency: 320, advance: 4000,
       }).setDepth(-30);
     }
@@ -662,6 +701,32 @@ export function create(P, ctx) {
       api.haptic([14, 40, 14]);
     },
 
+    // The hard stop resolves in-flight payoff: every pulse still expanding
+    // when TIME lands sweeps to its full radius and pays out, so the final
+    // on-beat tap of the GOLD RUSH — the climax — never scores zero.
+    timeUp(scene) {
+      if (!started || dead) return;
+      const K = unit(scene);
+      for (const pl of [...pulses]) {
+        pl.r = pl.maxR;
+        for (const e of [...enemies]) {
+          if (pl.hit.has(e)) continue;
+          if (Math.hypot(e.spr.x - pl.x, e.spr.y - pl.y) <= pl.maxR + e.r) {
+            pl.hit.add(e);
+            hitEnemy(scene, K, e, chain, pl);
+          }
+        }
+        if (golden && !pl.hit.has('gold')
+          && Math.hypot(golden.spr.x - pl.x, golden.spr.y - pl.y) <= pl.maxR + golden.r) {
+          pl.hit.add('gold'); catchGolden(scene, K, pl);
+        }
+        for (const b of [...bottles]) {
+          if (pl.hit.has(b)) continue;
+          if (Math.hypot(b.spr.x - pl.x, b.spr.y - pl.y) <= pl.maxR + b.r) { pl.hit.add(b); catchBottle(scene, K, b); }
+        }
+      }
+    },
+
     create() {
       const scene = this;
       gameScene = scene;
@@ -675,9 +740,14 @@ export function create(P, ctx) {
 
       scene.input.on('pointerdown', (p) => drop(scene, K, p.x, p.y));
 
-      // pre-start: a calm sea and a slow "tap to begin" pulse on the lamp.
-      // Timers anchor on the first TAP (in drop), and nothing spawns or
-      // scores until then, so an untouched screen stays silent.
+      // pre-start: a calm sea, a slow pulse on the lamp, and WORDS — the
+      // invitation is spelled out so the first tap is never a guess. Timers
+      // anchor on the first TAP (in drop), and nothing spawns or scores
+      // until then, so an untouched screen stays silent.
+      startHint = scene.add.text(W / 2, (scene._lampY ?? H * 0.7) - 46 * K, 'TAP TO GO ON AIR', {
+        fontFamily: 'sans-serif', fontStyle: 'bold', fontSize: `${Math.round(15 * K)}px`, color: '#ffe9a0',
+      }).setOrigin(0.5).setDepth(42).setStroke('#1a0e08', 4 * K);
+      scene.tweens.add({ targets: startHint, alpha: { from: 1, to: 0.5 }, yoyo: true, repeat: -1, duration: 620 });
     },
 
     update(t, dtMs) {
@@ -700,11 +770,17 @@ export function create(P, ctx) {
       for (let i = 0; i < 5; i++) seaGfx.fillRect((i * W / 5 + now / 40) % W, seaY + (10 + i * 14) * K, 46 * K, 2 * K);
 
       // the broadcast lamp: green while signal holds, redder as it drops.
-      // Once playing it PULSES ON THE BEAT so the lamp is your metronome.
+      // Once playing it PULSES ON THE BEAT so the lamp is your metronome —
+      // and while the DROP is charged it burns gold: THIS is the button.
       const sig = Math.max(0, signal) / 100;
-      lamp.setTint(sig > 0.5 ? 0x5fe89a : sig > 0.25 ? 0xffd24a : 0xff5d5d);
-      const beatPop = started ? 0.35 * Math.max(0, 1 - bi.toBeat / HIT_WINDOW) : 0.12 * Math.sin(now / 700);
-      lamp.setScale((1 + beatPop) * K * 1.3);
+      if (combo >= 1) {
+        lamp.setTint(0xffd24a);
+        lamp.setScale((1.3 + 0.3 * Math.sin(now / 120)) * K * 1.3);
+      } else {
+        lamp.setTint(sig > 0.5 ? 0x5fe89a : sig > 0.25 ? 0xffd24a : 0xff5d5d);
+        const beatPop = started ? 0.35 * Math.max(0, 1 - bi.toBeat / HIT_WINDOW) : 0.12 * Math.sin(now / 700);
+        lamp.setScale((1 + beatPop) * K * 1.3);
+      }
 
       // ——— dead: freeze the sim entirely so nothing runs behind the death
       // screen (the overlay draws the OFF AIR result on top) ———
@@ -712,6 +788,15 @@ export function create(P, ctx) {
 
       // ——— pre-start: dead air, nothing advances ———
       if (!started) { drawPulses(scene, K); drawMeter(scene, K); return; }
+
+      // the metronome you can HEAR: a soft tick every beat, a brighter
+      // tock every fourth — the timing skill is finally learnable with the
+      // eyes up on the sky. Gated by the same mute as every other cue.
+      const beatN = Math.floor(now / BEAT_MS);
+      if (beatN !== lastBeatN) {
+        lastBeatN = beatN;
+        if (beatN % 4 === 0) api.note(4, 0.12); else api.sfx('tap');
+      }
 
       // ——— spawn ———
       if (now >= spawnAt) {
@@ -752,18 +837,24 @@ export function create(P, ctx) {
         b.spr.setAngle(Math.sin(now / 600 + b.spr.x / 80) * 8);
         if (b.spr.x < -50 * K || b.spr.x > W + 50 * K) { b.spr.destroy(); bottles.splice(bottles.indexOf(b), 1); }
       }
-      // hurricane lightning — decorative flash
-      if (cfg.wind && now >= stormFlashAt) {
+      // hurricane lightning — garnish, but it lands ON THE BEAT GRID, so
+      // even the storm teaches the metronome
+      if (cfg.wind && now >= stormFlashAt && bi.toBeat <= 40) {
         stormFlashAt = now + 5000 + Math.random() * 6000;
         flash(scene, 0xdfe8ff, 110, 0.22);
       }
 
-      // kraken tentacle sweep
+      // kraken tentacle sweep — and it PLAYS: a pulse that touches the
+      // raised tip parries it for points and sends it diving (no decoration
+      // masquerading as a mechanic in the world named after it)
       if (cfg.kraken && krakenGfx) {
         krakenPhase += dt;
+        const target = now < krakenStunUntil ? 0 : Math.sin(krakenPhase * 0.9) * 0.5 + 0.5;
+        krakenReach += (target - krakenReach) * Math.min(1, dt * 5);
         krakenGfx.clear();
         const kx = W / 2 + Math.sin(krakenPhase * 0.6) * W * 0.4;
-        const top = seaY - (Math.sin(krakenPhase * 0.9) * 0.5 + 0.5) * H * 0.3;
+        const top = seaY - krakenReach * H * 0.3;
+        krakenTip = krakenReach > 0.18 ? { x: kx, y: top } : null;
         krakenGfx.fillStyle(0x6a3a9c, 0.85);
         krakenGfx.beginPath(); krakenGfx.moveTo(kx - 20 * K, seaY);
         krakenGfx.lineTo(kx - 8 * K, top); krakenGfx.lineTo(kx + 8 * K, top); krakenGfx.lineTo(kx + 20 * K, seaY);
@@ -775,7 +866,9 @@ export function create(P, ctx) {
       for (const e of [...enemies]) {
         e.spr.x += e.vx * dt + Math.sin(now / 650 + e.wob) * e.drift * K * dt;
         e.spr.y += e.vy * dt;
-        e.spr.setAngle(Math.sin(now / 300 + e.wob) * 6);
+        // the wobble rides the BEAT GRID, so the whole sky breathes in time
+        // where the eyes already are — the metronome lives in the aim zone
+        e.spr.setAngle(Math.sin(bi.frac * Math.PI * 2 + e.wob * 0.3) * 6 + (e.tilt || 0));
         if (e.glow) e.glow.setPosition(e.spr.x, e.spr.y);
         // reached the antenna: cut the signal, cost points. Signal is your
         // life — let too many through and the station goes OFF AIR.
@@ -824,7 +917,29 @@ export function create(P, ctx) {
             if (d <= pl.r && d <= pl.maxR + b.r) { pl.hit.add(b); catchBottle(scene, K, b); }
           }
         }
-        if (pl.r >= pl.maxR) pulses.splice(pulses.indexOf(pl), 1);
+        // kraken parry: sweep the raised tentacle tip for points + a dive
+        if (krakenTip && now >= krakenStunUntil && !pl.hit.has('kraken')) {
+          const d = Math.hypot(krakenTip.x - pl.x, krakenTip.y - pl.y);
+          if (d <= pl.r && d <= pl.maxR + 26 * K) {
+            pl.hit.add('kraken');
+            krakenStunUntil = now + 2600;
+            api.score(15);
+            floatScore(scene, krakenTip.x, krakenTip.y - 12 * K, 'PARRY +15', '#c9a6ff', 15 * K);
+            burst(scene, krakenTip.x, krakenTip.y, 0x9c6ee8, { n: 12, speed: 240 * K, scale: 0.45 * K });
+            api.sfx('objDone'); api.haptic(8);
+          }
+        }
+        if (pl.r >= pl.maxR) {
+          pulses.splice(pulses.indexOf(pl), 1);
+          // whiff cost: a player-fired pulse that swept NOTHING is static on
+          // the air — it kills the live chain, so blanket-mashing bleeds the
+          // very bonus it tries to farm. (The opening tap gets grace: there
+          // is nothing to hit before the first spawns arrive.)
+          if (pl.kind === 'beat' && pl.hit.size === 0 && now - t0 > 1500) {
+            chain = 0;
+            floatScore(scene, pl.x, pl.y, 'STATIC', '#6a7690', 11 * K);
+          }
+        }
       }
 
       drawPulses(scene, K);
@@ -860,9 +975,11 @@ export function create(P, ctx) {
   function drawMeter(scene, K) {
     const W = scene.scale.width, H = scene.scale.height;
     meterGfx.clear();
-    // SIGNAL bar — your life. Empties as jammers get through; at zero the
-    // station goes off air. Green → amber → red as it falls.
-    if (started) {
+    // SIGNAL bar — your life, visible from frame ONE (full and green before
+    // the first tap, so the resource you defend is legible before it is
+    // ever threatened). Empties as jammers get through; at zero the station
+    // goes off air. Green → amber → red as it falls.
+    {
       const sw = W * 0.5, sx = W * 0.25, sy = 12 * K;
       const sig = Math.max(0, signal) / 100;
       meterGfx.fillStyle(0x14202c, 0.75);

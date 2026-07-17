@@ -23,11 +23,27 @@ export const VERB = 'DIVE!';
 export const GESTURE = 'Hold to dive';
 export const STARS = [8, 15, 24];
 
-export const HELP = {
+// HELP is world-aware: call it with a world cfg and the avoid text names
+// exactly the hazards THIS deep contains (jellies, lures, kelp, beams).
+// The cabinet may still read plain {goal, how, avoid} props — a generic
+// fallback is carried on the function itself so nothing breaks before the
+// cabinet learns to call it.
+export const HELP = (cfg = {}) => ({
   goal: 'Dive as deep as you can, because every fathom down is a point.',
-  how: 'Hold to plummet and slide your thumb to steer; ease off the glass to slow into a safe drift. At full speed you smash through wreckage, but shaving past obstacles without touching them pays a rising thread chain that is worth far more.',
-  avoid: 'Slamming into anything solid you cannot smash dents the hull, and the striped armored slabs never break — three dents ends the dive. Some deeps also snag or spotlight you, bleeding your speed. Lift your thumb to drift and you are always safe.',
-};
+  how: 'Hold to plummet and slide your thumb to steer; ease off the glass to slow into a safe drift. Above the green line on the left speed gauge you smash through wreckage, but shaving past obstacles without touching them pays a rising thread chain that is worth far more.',
+  avoid: [
+    'Slamming into anything solid you cannot smash dents the hull, and the striped armored slabs never break — three dents ends the dive.',
+    cfg.vents ? 'The glowing vent columns are a gift: ride one and it slams you down past top speed.' : '',
+    cfg.lanterns ? 'The warm hanging lanterns are free treasure — brush through them.' : '',
+    cfg.kelp ? 'Kelp strands snag you to a crawl unless you tear through them above the green smash line.' : '',
+    cfg.jellies ? 'Jellies bounce you back and steal four fathoms unless you pierce them above the pink line at the top of the gauge — and a slow bump while holding dents the hull.' : '',
+    cfg.searchlights ? 'Patrol searchlights that catch you cut your speed to a crawl for a moment — steer out of the beams.' : '',
+    cfg.anglers ? 'Some lights down here are anglerfish lures: a steady warm glow is treasure, a cold flicker is teeth.' : '',
+    !cfg.name ? 'Some deeps also snag, spotlight, or lie to you — each world fights differently.' : '',
+    'Lift your thumb to drift and you are always safe.',
+  ].filter(Boolean).join(' '),
+});
+Object.assign(HELP, HELP({}));
 
 export const WORLDS = {
   'deep-vents': {
@@ -187,6 +203,27 @@ const PAINT = {
     g.addColorStop(0, '#fff8d0'); g.addColorStop(0.4, '#aef0ff'); g.addColorStop(1, 'rgba(138,208,255,0)');
     c.fillStyle = g;
     c.fillRect(0, 0, w, h);
+  },
+  // the fish behind the lie: a black gape rimmed with needle teeth and one
+  // dead pale eye, fading in only at approach range so the tell arrives
+  // BEFORE the bite
+  anglerjaw(c, w, h) {
+    c.fillStyle = 'rgba(6,10,18,.95)';
+    c.beginPath();
+    c.moveTo(w * 0.5, h * 0.5);
+    c.arc(w * 0.5, h * 0.5, w * 0.44, 0.35, Math.PI * 2 - 0.35);
+    c.closePath(); c.fill();
+    c.fillStyle = 'rgba(225,242,252,.85)';
+    for (const s of [-1, 1]) {
+      for (let i = 0; i < 3; i++) {
+        const bx = w * (0.6 + i * 0.11), by = h * 0.5 + s * w * (0.1 + i * 0.05);
+        c.beginPath();
+        c.moveTo(bx, by); c.lineTo(bx + w * 0.055, by + s * w * 0.02); c.lineTo(bx + w * 0.02, by + s * w * 0.095);
+        c.closePath(); c.fill();
+      }
+    }
+    c.fillStyle = 'rgba(180,210,225,.6)';
+    c.beginPath(); c.arc(w * 0.32, h * 0.3, w * 0.05, 0, 7); c.fill();
   },
   goldplate(c, w, h) {
     PAINT.plate(c, w, h);
@@ -425,7 +462,29 @@ export function create(P, ctx) {
   let nextOb = 0;
   let goldenAt = 0;
   let layerFar, layerNear;
+  let lastForcedStop = -1e9; // when the game itself last killed your speed
+  let lureLessonPaid = false; // the first angler bite stuns but never dents
   const goldDelay = () => (window.__P3_GOLD_QA ? 2500 : 12000 + Math.random() * 18000);
+
+  // ——— honest arithmetic ———
+  // The cabinet multiplies every gain (combo, GOLD RUSH) before banking, so
+  // a float that prints the sticker price contradicts the scoreboard.
+  // Differencing the returned running total is the one read that stays
+  // truthful whatever the cabinet's math becomes.
+  let banked = 0;
+  function scorePts(delta, opts) {
+    const total = api.score(delta, opts);
+    if (typeof total !== 'number') return delta; // stale cabinet: trust the sticker
+    const got = total - banked;
+    banked = total;
+    return got;
+  }
+  // '+15 ×3' when the bank multiplied it, plain '+15' when it did not
+  function fmtGain(raw, got) {
+    if (got <= 0 || got === raw) return `+${raw}`;
+    const m = got / raw;
+    return Number.isInteger(m) ? `+${raw} ×${m}` : `+${got}`;
+  }
 
   const MAXV = (scene) => scene.scale.height * 1.35 * (fever ? 1.15 : 1);
   const SMASH = (scene) => MAXV(scene) * 0.55;
@@ -461,11 +520,12 @@ export function create(P, ctx) {
       img.setScale(1.35, 1);
       aw = w * 1.35;
       scene.tweens.add({ targets: img, alpha: 0.72, duration: 320, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-      // scale-pulse (color-independent) + a striped hazard badge so the
-      // 'never smash this' cue survives the red/pink reef world
-      scene.tweens.add({ targets: img, scaleX: 1.5, duration: 300, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+      // the striped hazard badge carries the attention pulse; the slab
+      // itself holds still so the drawn edge IS the hitbox — near-miss
+      // threading is this game's premium skill and must stay trustworthy
       mark = scene.add.image(x, H + h, canvasTex(scene, 'dp-armormark', 44, 20, PAINT.armormark))
         .setDepth(12).setDisplaySize(Math.min(aw * 0.8, 70 * K), 22 * K);
+      scene.tweens.add({ targets: mark, alpha: 0.45, duration: 320, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
     }
     obstacles.push({ img, kind, meta, hp: meta.hp, grazed: false, w: aw, h, armored, mark });
   }
@@ -473,16 +533,24 @@ export function create(P, ctx) {
   function spawnAngler(scene, K) {
     const W = scene.scale.width, H = scene.scale.height;
     const x = Math.random() * W * 0.8 + W * 0.1;
+    // the lie has a tell: a lure flickers cold and NERVOUS (driven per-frame
+    // in update) while a real lantern breathes a steady warm pulse — and at
+    // approach range the jaw behind the light fades in. Glow-means-collect
+    // grammar is honored by giving the trap a different voice, not by
+    // punishing the player for having learned it.
     const img = scene.add.image(x, H + 40 * K, canvasTex(scene, 'dp-angler', 56 * K, 56 * K, PAINT.angler))
       .setDepth(9).setBlendMode('ADD');
-    scene.tweens.add({ targets: img, alpha: 0.55, duration: 500, yoyo: true, repeat: -1 });
-    obstacles.push({ img, kind: 'angler', meta: { pts: 0 }, hp: 1, grazed: false, w: 30 * K, h: 30 * K, lure: true });
+    const jaw = scene.add.image(x, H + 40 * K, canvasTex(scene, 'dp-anglerjaw', 90 * K, 90 * K, PAINT.anglerjaw))
+      .setDepth(8).setAlpha(0);
+    obstacles.push({ img, kind: 'angler', meta: { pts: 0 }, hp: 1, grazed: false, w: 30 * K, h: 30 * K, lure: true, mark: jaw, seed: Math.random() * 7 });
   }
 
   function spawnLantern(scene, K) {
     const W = scene.scale.width, H = scene.scale.height;
     const img = scene.add.image(Math.random() * W * 0.84 + W * 0.08, H + 30 * K,
       canvasTex(scene, 'dp-lant', 48 * K, 48 * K, PAINT.lantern)).setDepth(9).setBlendMode('ADD');
+    // the steady warm breath that a lying lure can never fake
+    scene.tweens.add({ targets: img, alpha: 0.8, duration: 1100, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
     obstacles.push({ img, kind: 'pickup', meta: { pts: 7 }, hp: 0, grazed: true, w: 34 * K, h: 34 * K, pickup: true });
   }
 
@@ -509,8 +577,8 @@ export function create(P, ctx) {
     // the higher-EV line, not mindless plowing. Already-grazed obstacles
     // pay only once (no graze+smash double-count).
     if (!o.grazed) {
-      api.score(o.meta.pts);
-      floatScore(scene, x, y - 20 * K, `+${o.meta.pts}`, '#ffd24a', 22 * K);
+      const got = scorePts(o.meta.pts);
+      floatScore(scene, x, y - 20 * K, fmtGain(o.meta.pts, got), '#ffd24a', 22 * K);
     } else {
       floatScore(scene, x, y - 20 * K, 'SMASH', '#ffd24a', 18 * K);
     }
@@ -525,17 +593,21 @@ export function create(P, ctx) {
   }
 
   function bump(scene, o, K) {
-    stun = 700;
+    // the HELP promise is law: with the thumb lifted a collision is a soft
+    // thunk — no long stun, no chain loss, and loseLife never fires
+    const soft = !holding;
+    stun = soft ? 300 : 700;
     v = 0;
-    grazeStreak = 0;
-    flash(scene, 0x8ab8dc, 100, 0.25);
-    shake(scene, 0.008, 120);
+    lastForcedStop = scene.time.now;
+    if (!soft) grazeStreak = 0;
+    flash(scene, 0x8ab8dc, 100, soft ? 0.15 : 0.25);
+    shake(scene, soft ? 0.004 : 0.008, 120);
     squash(scene, player, 'y');
     scene.tweens.add({ targets: o.img, x: o.img.x + (player.x < o.img.x ? 14 : -14) * K, duration: 90, yoyo: true, ease: 'Sine.easeInOut' });
     floatScore(scene, player.x, player.y - 30 * K, 'thunk', '#8a9ac8', 15 * K);
-    api.haptic([14, 30, 14]);
+    api.haptic(soft ? 8 : [14, 30, 14]);
     api.sfx('log');
-    noteStep = 0;
+    if (!soft) noteStep = 0;
     loseLife(scene, 'CRUSHED');
   }
 
@@ -549,6 +621,7 @@ export function create(P, ctx) {
     if (now < hullInvuln) return; // one plate per impact, never per frame
     hullInvuln = now + 650;
     lives = Math.max(0, lives - 1);
+    api.lives?.(lives); // themed pips stay, but the cabinet badge tells the same truth
     hullFlash = now + 420;
     const K = unit(scene);
     floatScore(scene, player.x, player.y - 48 * K, lives > 0 ? `HULL ${lives}` : 'HULL BREACH', '#ff8a8a', 16 * K);
@@ -585,13 +658,27 @@ export function create(P, ctx) {
   // armored bedrock: reckless speed pays in fathoms, not just seconds —
   // but a slow drift into rock is a scrape, not a catastrophe
   function clang(scene, o, K) {
+    lastForcedStop = scene.time.now;
+    if (!holding) {
+      // drift-law: rock scraped while coasting is a thunk, not a fine —
+      // no fathoms lost, chain intact, only a heartbeat of stun
+      stun = Math.max(stun, 300);
+      v = 0;
+      shake(scene, 0.005, 100);
+      squash(scene, player, 'y');
+      floatScore(scene, player.x, player.y - 30 * K, 'thunk', '#8a9ac8', 15 * K);
+      api.haptic(8);
+      api.sfx('log');
+      o.img.y = player.y - o.h / 2 - 46 * K;
+      return;
+    }
     stun = 1000;
     const fast = v >= SMASH(scene);
     v = 0;
     grazeStreak = 0;
     const loss = Math.min(depth, fast ? 10 : 3);
     depth -= loss;
-    if (loss) api.score(-loss);
+    if (loss) scorePts(-loss);
     flash(scene, 0xff5d5d, 110, 0.3);
     shake(scene, 0.016, 200);
     hitstop(scene, 60);
@@ -729,6 +816,7 @@ export function create(P, ctx) {
       }).setDepth(30);
 
       livesGfx = scene.add.graphics().setDepth(42);
+      api.lives?.(lives); // the cabinet's always-visible lives badge starts truthful
       hullTxt = scene.add.text(0, 0, 'HULL', {
         fontFamily: 'monospace', fontSize: `${9 * K}px`, color: '#8ab8dc', fontStyle: 'bold',
       }).setOrigin(1, 0.5).setDepth(42).setAlpha(0.85);
@@ -875,7 +963,10 @@ export function create(P, ctx) {
       while (depthAcc >= 1) {
         depthAcc -= 1;
         depth++;
-        api.score(1);
+        // the metronomic fathom tick asks the cabinet NOT to feed the combo
+        // pill — chaining should mean grazes and smashes, not 'currently
+        // falling'. (The option is ignored by older cabinets; harmless.)
+        scorePts(1, { combo: false });
         if (depth % 10 === 0) {
           api.note(noteStep++);
           floatScore(scene, player.x, player.y - 34 * K, `${depth} fathoms`, '#8ad0ff', 15 * K);
@@ -919,17 +1010,20 @@ export function create(P, ctx) {
           if (v >= smashV) {
             kp.torn = true;
             burst(scene, player.x, player.y, 0x7ad48a, { n: 14, speed: 280 * K, scale: 0.5 * K });
-            api.score(10);
-            floatScore(scene, player.x, player.y - 24 * K, 'TORN +10', '#7ad48a', 16 * K);
+            const got = scorePts(10);
+            floatScore(scene, player.x, player.y - 24 * K, `TORN ${fmtGain(10, got)}`, '#7ad48a', 16 * K);
             // the tear-through is a skill flex — give it a tactile beat, not
             // less feedback than a mistake
             shake(scene, 0.006, 90);
             squash(scene, player, 'x');
             api.haptic(10);
             api.sfx('objDone');
-          } else if (snag <= 0 && !kp.snagged) {
+          } else if (holding && snag <= 0 && !kp.snagged) {
+            // drift-law: a lifted thumb slips past kelp untouched — the
+            // strand stays live for the next real dive through it
             kp.snagged = true; // a strand only grabs you once
             snag = 900;
+            lastForcedStop = now + 900; // spin-up grace runs from snag release
             grazeStreak = 0;
             // the near-stop is the signature deep-kelp hazard — register it
             // with the same impact vocabulary as a bump, or it reads as a bug
@@ -979,6 +1073,17 @@ export function create(P, ctx) {
         o.img.y -= v * dt;
         if (o.halo) o.halo.setPosition(o.img.x, o.img.y);
         if (o.mark) o.mark.setPosition(o.img.x, o.img.y);
+        // the lure's voice: a cold, nervous, irregular flicker no honest
+        // lantern has — and the jaw resolves out of the dark at approach
+        // range, so the tell lands BEFORE the bite
+        if (o.lure) {
+          o.img.setAlpha(0.32 + 0.38 * Math.abs(Math.sin(now / 76 + o.seed * 9)) - (Math.random() < 0.1 ? 0.2 : 0));
+          if (o.mark) {
+            const near = 1 - Math.min(1, Math.max(0,
+              (Math.hypot(player.x - o.img.x, player.y - o.img.y) - H * 0.08) / (H * 0.17)));
+            o.mark.setAlpha(near * 0.9);
+          }
+        }
         if (o.img.y < -o.h) {
           destroyObstacle(scene, o);
           continue;
@@ -992,11 +1097,11 @@ export function create(P, ctx) {
         if (dx < hw && crossed) {
           if (o.pickup) {
             const pts = o.golden ? (o.tier + grazeStreak * 10) : o.meta.pts;
-            api.score(pts);
+            const got = scorePts(pts);
             collectTo(scene, o.img.x, o.img.y, W - 30 * K, 20 * K, o.golden ? 0xffd24a : 0xffc46c, o.golden ? 18 : 8);
-            floatScore(scene, o.img.x, o.img.y, `+${pts}`, o.golden ? '#ffe9a0' : '#ffc46c', (o.golden ? 22 : 16) * K);
+            floatScore(scene, o.img.x, o.img.y, fmtGain(pts, got), o.golden ? '#ffe9a0' : '#ffc46c', (o.golden ? 22 : 16) * K);
             if (o.golden) {
-              glyphBanner(scene, `GOLDEN PLATE +${pts}`, '#ffe9a0', 28 * K);
+              glyphBanner(scene, `GOLDEN PLATE ${fmtGain(pts, got)}`, '#ffe9a0', 28 * K);
               flash(scene, 0xffd24a, 120, 0.3);
               api.haptic([8, 16, 24]);
               api.sfx('pr');
@@ -1006,8 +1111,8 @@ export function create(P, ctx) {
           } else if (o.kind === 'jelly') {
             if (v >= maxV * 0.9) {
               slowmo(scene, 0.35, 320);
-              api.score(o.meta.pts);
-              floatScore(scene, o.img.x, o.img.y, `PIERCED +${o.meta.pts}`, '#ff8ad0', 18 * K);
+              const got = scorePts(o.meta.pts);
+              floatScore(scene, o.img.x, o.img.y, `PIERCED ${fmtGain(o.meta.pts, got)}`, '#ff8ad0', 18 * K);
               burst(scene, o.img.x, o.img.y, 0xff8ad0, { n: 24, speed: 380 * K, scale: 0.6 * K });
               // the pierce is the skill flex — give it a tactile beat too
               shake(scene, 0.01, 120);
@@ -1018,26 +1123,51 @@ export function create(P, ctx) {
             } else {
               // depth thief: bounced UP — one-shot, then the jelly is
               // flung clear so the overlap can't re-trigger every frame. A
-              // LAZY bonk (below smash speed, thumb down) also dents the hull
-              // so the jellyfield has a real, reachable fail-state — but the
-              // idle-safe guard in loseLife keeps a drifting player safe.
-              const lazy = v < smashV;
-              depth = Math.max(0, depth - 4);
-              api.score(-4);
+              // LAZY bonk still dents the hull so the jellyfield has a real
+              // fail-state — but only for a genuinely lazy dive: thumb down,
+              // below smash speed, AND past the spin-up grace. A jelly met
+              // within 1.2s of the game itself zeroing your speed (or while
+              // snagged/spotlit) can never cost a plate for holding — that
+              // was the one taught verb and the only way forward.
+              const lazy = holding && v < smashV
+                && now - lastForcedStop > 1200 && snag <= 0 && spotted <= 0;
+              const soft = !holding; // drift-law: coasting into a jelly is free
+              lastForcedStop = now;
               v = 0;
-              stun = 500;
+              stun = soft ? 300 : 500;
+              if (!soft) {
+                depth = Math.max(0, depth - 4);
+                scorePts(-4);
+                grazeStreak = 0;
+                noteStep = 0;
+              }
               squash(scene, o.img, 'y');
               squash(scene, player, 'y');
-              floatScore(scene, player.x, player.y - 26 * K, 'boing −4', '#ff8ad0', 16 * K);
-              api.haptic([10, 40, 10]);
+              floatScore(scene, player.x, player.y - 26 * K, soft ? 'boing' : 'boing −4', '#ff8ad0', 16 * K);
+              api.haptic(soft ? 8 : [10, 40, 10]);
               api.sfx('log');
-              noteStep = 0;
-              grazeStreak = 0;
               o.img.y = player.y - o.h - 60 * K;
               if (lazy) loseLife(scene, 'CRUSHED');
             }
           } else if (o.lure) {
-            bump(scene, o, K);
+            if (holding && !lureLessonPaid) {
+              // the first bite is a lesson, not a tax: full stop, zero hull.
+              // Every later bite pays the full bump — the tell was taught.
+              lureLessonPaid = true;
+              lastForcedStop = now;
+              stun = 700;
+              v = 0;
+              grazeStreak = 0;
+              flash(scene, 0x8ab8dc, 100, 0.25);
+              shake(scene, 0.008, 120);
+              squash(scene, player, 'y');
+              glyphBanner(scene, 'THAT LIGHT LIED', '#aef0ff', 26 * K);
+              api.haptic([14, 30, 14]);
+              api.sfx('log');
+              noteStep = 0;
+            } else {
+              bump(scene, o, K);
+            }
             floatScore(scene, o.img.x, o.img.y, 'a LIE', '#aef0ff', 15 * K);
             destroyObstacle(scene, o);
           } else if (o.armored) {
@@ -1073,12 +1203,12 @@ export function create(P, ctx) {
           o.grazed = true;
           grazeStreak++;
           const gain = Math.min(30, 3 + grazeStreak * 2) + (o.armored ? 4 : 0);
-          api.score(gain);
+          const got = scorePts(gain);
           floatScore(scene, player.x + (o.img.x > player.x ? 22 : -22) * K, player.y,
-            `${o.armored ? 'THREAD' : 'GRAZE'} +${gain}`, '#3adcc8', 13 * K);
+            `${o.armored ? 'THREAD' : 'GRAZE'} ${fmtGain(gain, got)}`, '#3adcc8', 13 * K);
           api.sfx('tap');
           if (grazeStreak % 10 === 0) {
-            api.score(25);
+            scorePts(25);
             glyphBanner(scene, `${grazeStreak} THREAD CHAIN`, '#3adcc8', 26 * K);
             api.haptic([6, 16, 6]);
             api.sfx('pr');
@@ -1107,6 +1237,7 @@ export function create(P, ctx) {
           // just a label, or the near-halt reads as a frozen thumb
           if (spotted <= 0 && player.y > ey && player.y < by && Math.abs(player.x - (bx + (ex - bx) * ((player.y - by) / (ey - by || 1)))) < 55 * K) {
             spotted = 900;
+            lastForcedStop = now + 900; // spin-up grace runs from beam release
             flash(scene, 0xfff4c8, 120, 0.3);
             shake(scene, 0.01, 140);
             L.gfx.fillStyle(0xfff4c8, 0.32);
