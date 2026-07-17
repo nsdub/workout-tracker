@@ -15,6 +15,15 @@ export function backoffLoad(w, inc) {
   return Math.max(inc, Math.floor(w / inc) * inc);
 }
 
+// The grid snap means "90%" is almost never 90% — 185 × 0.9 lands at 165,
+// which is really 89%. One place computes both the weight and the ratio it
+// actually is, so every label downstream can tell the truth instead of
+// asserting the nominal target.
+export function backoffInfo(base, factor, inc) {
+  const weight = backoffLoad(base * factor, inc);
+  return { weight, pct: Math.round((weight / base) * 100) };
+}
+
 export function exMeta(plan, id) {
   return plan.exercises[id] || { name: id };
 }
@@ -22,6 +31,10 @@ export function exMeta(plan, id) {
 export function increment(plan, id) {
   const meta = exMeta(plan, id);
   if (meta.bodyweight) return 0;
+  // A lift that lives on its own grid — 2.5 lb dumbbell steps, a fractional
+  // cable stack — can say so per-exercise; the upper/lower rule is only the
+  // default, not a law of the gym.
+  if (typeof meta.increment === 'number' && meta.increment > 0) return meta.increment;
   return plan.rules.progression.lowerExercises.includes(id)
     ? plan.rules.progression.lowerIncrement
     : plan.rules.progression.upperIncrement;
@@ -138,13 +151,16 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
 
   if (meta.bodyweight) {
     const last = lastPerformance(history, sessionType, slot.id, { sinceDate: calibrationStart(plan) });
-    const reps = last ? clamp(last.ex.sets[0].reps, slot.repMin, slot.repMax) : slot.repMin;
+    // Anchor on the BEST set of the last visit, not whichever happened to be
+    // logged first — a 9,8,10 day proved 10, and that's the bar to hold.
+    const reps = last ? clamp(topSet(last.ex.sets)?.reps ?? slot.repMin, slot.repMin, slot.repMax) : slot.repMin;
     return { sets: mk(0, reps), basis: 'bodyweight', prevTop: null };
   }
 
   if (phase?.type === 'calibration') {
     if (slot.seed == null) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
-    return { sets: mk(backoffLoad(slot.seed * (phase.loadFactor ?? 0.9), inc), slot.repMin), basis: 'calibration', prevTop: slot.seed };
+    const bo = backoffInfo(slot.seed, phase.loadFactor ?? 0.9, inc);
+    return { sets: mk(bo.weight, slot.repMin), basis: 'calibration', prevTop: slot.seed, pct: bo.pct };
   }
 
   const fence = { sinceDate: calibrationStart(plan), skipPhases: phase?.type === 'deload' ? [] : deloadPhaseIds(plan) };
@@ -153,11 +169,15 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
   if (phase?.type === 'deload') {
     const baseSets = last ? last.ex.sets : slot.seed != null ? mk(slot.seed, slot.repMin) : null;
     if (!baseSets) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
+    const factor = phase.loadFactor ?? 0.8;
     const sets = Array.from({ length: nSets }, (_, i) => {
       const src = baseSets[Math.min(i, baseSets.length - 1)];
-      return { weight: backoffLoad(src.weight * (phase.loadFactor ?? 0.8), inc), reps: slot.repMin };
+      return { weight: backoffInfo(src.weight, factor, inc).weight, reps: slot.repMin };
     });
-    return { sets, basis: 'deload', prevTop: topSet(baseSets)?.weight ?? null };
+    // pct describes the TOP set — a ramped base means every set carries its
+    // own ratio, and the headline should match the heaviest bar of the day.
+    const top = topSet(baseSets);
+    return { sets, basis: 'deload', prevTop: top?.weight ?? null, pct: top ? backoffInfo(top.weight, factor, inc).pct : null };
   }
 
   if (!last) {
@@ -170,17 +190,25 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
   // Progression needs every prescribed set, not just every logged one —
   // 2-of-4 sets at the top of the range is an unfinished session, not a trigger.
   const grow = phase?.type !== 'prep' && prev.length >= slot.sets && progressionMet(prev, slot.repMax);
-  // Smashing the ceiling by 2+ reps on every set earns a double jump;
-  // and progressing out of calibration returns at least to the seed —
-  // the -10% week must never sandbag the meso.
-  const jump = grow && prev.every((s) => s.reps >= slot.repMax + 2) ? inc * 2 : inc;
+  // Smashing the ceiling by 2+ reps on every set earns a double jump — but
+  // only on compounds. +10 on a deadlift is ~4%; +10 on a curl is a form
+  // breakdown waiting to happen, so isolation lifts take the single step no
+  // matter how loud the rep surplus.
+  const jump = grow && meta.compound === true && prev.every((s) => s.reps >= slot.repMax + 2) ? inc * 2 : inc;
   const lastPhase = plan.phases.find((p) => p.id === last.entry.phase);
   const fromCalibration = lastPhase?.type === 'calibration';
+  // Progressing out of calibration returns at least to the seed — the -10%
+  // week must never sandbag the meso. But the seed is only owed if the
+  // calibration top actually landed at its reduced ask: a lift that came in
+  // far under (20 against a 25 ask, seed 30) hasn't earned a teleport to a
+  // weight it never touched — it climbs one honest jump from where it stands.
+  const seedEarned = fromCalibration && slot.seed != null && prevTop != null
+    && prevTop >= backoffLoad(slot.seed * (lastPhase.loadFactor ?? 0.9), inc);
   const sets = Array.from({ length: nSets }, (_, i) => {
     const src = prev[Math.min(i, prev.length - 1)];
     if (!grow) return { weight: src.weight, reps: clamp(src.reps, slot.repMin, slot.repMax) };
     let w = src.weight + jump;
-    if (fromCalibration && slot.seed != null) w = Math.max(w, slot.seed);
+    if (seedEarned) w = Math.max(w, slot.seed);
     return { weight: w, reps: slot.repMin };
   });
   return {
@@ -201,14 +229,29 @@ export function isStalled(plan, history, sessionType, slot) {
   if (perfs.length < 3) return false;
   const recent = perfs.slice(-4);
   const tops = recent.map((p) => topSet(p.ex.sets) ?? { weight: 0, reps: 0 });
+  // Progress means beating the best the window has already seen — weight up,
+  // or reps up at that same best weight. Merely climbing back to a weight
+  // already lifted (100 → 95 → 100 → 95) is the same ground twice, not
+  // progress, so the adjacent up-tick doesn't count.
+  let best = tops[0];
   let increased = false;
   for (let i = 1; i < tops.length; i++) {
-    // weight up, or reps up at the same weight — both are progress
-    if (tops[i].weight > tops[i - 1].weight) increased = true;
-    else if (tops[i].weight === tops[i - 1].weight && tops[i].reps > tops[i - 1].reps) increased = true;
+    const t = tops[i];
+    if (t.weight > best.weight || (t.weight === best.weight && t.reps > best.reps)) {
+      increased = true;
+      best = t;
+    }
   }
-  const newest = recent[recent.length - 1];
-  return !increased && !progressionMet(newest.ex.sets, slot.repMax);
+  if (increased) return false;
+  // A trigger that keeps firing while the bar never moves is not a lift on
+  // the verge of progress — it's a lift going nowhere with the light stuck
+  // green. Fixed rep slots (15/15) meet the trigger every single session, so
+  // without this check the flag could never fire on them at all.
+  const run = recent.slice(-3);
+  const runTops = tops.slice(-3);
+  const trapped = runTops.every((t) => t.weight === runTops[0].weight)
+    && run.every((p) => progressionMet(p.ex.sets, slot.repMax));
+  return trapped || !progressionMet(recent[recent.length - 1].ex.sets, slot.repMax);
 }
 
 export function stalledLifts(plan, history) {
@@ -249,7 +292,15 @@ export function isRepPR(history, exId, weight, reps) {
 
 // ——— Input validation (warn, never block) ———
 
-export function validateSet(plan, history, exId, weight, reps) {
+// Back-off phases lift light ON PURPOSE; reading their history (or judging
+// their inputs) at face value is how a deload poisons a month of averages.
+const loadFactorOf = (phase) => {
+  if (phase?.type === 'deload') return phase.loadFactor ?? 0.8;
+  if (phase?.type === 'calibration') return phase.loadFactor ?? 0.9;
+  return 1;
+};
+
+export function validateSet(plan, history, exId, weight, reps, { phase = null, prescribed = null } = {}) {
   const warnings = [];
   const meta = exMeta(plan, exId);
   if (reps > (plan.rules.validation.maxReps ?? 30)) {
@@ -258,23 +309,40 @@ export function validateSet(plan, history, exId, weight, reps) {
   if (!meta.bodyweight && (weight === 0 || weight == null)) {
     warnings.push({ code: 'zero', msg: 'Weight is 0 on a loaded exercise' });
   }
-  if (weight > 0 && !meta.bodyweight) {
+  // A weight the engine itself prescribed cannot be a typo — the app never
+  // second-guesses its own ask, whatever the history looks like. (Legacy
+  // imports can't be normalized away — per-hand vs per-pair logging, gym
+  // changes — so this immunity is the only guard that always holds.)
+  const rxImmune = prescribed != null && weight === prescribed;
+  if (weight > 0 && !meta.bodyweight && !rxImmune) {
     const tops = [];
     const sorted = sortedHistory(history);
     for (let i = sorted.length - 1; i >= 0 && tops.length < (plan.rules.validation.trailingSessions ?? 5); i--) {
-      const ex = sorted[i].exercises.find((x) => x.id === exId);
+      const e = sorted[i];
+      const ex = e.exercises.find((x) => x.id === exId);
       const t = ex && topSet(ex.sets);
-      if (t) tops.push(t.weight);
+      // each top set is read through ITS OWN phase's factor, so a 140 lb
+      // deload single stands in the average as the 175 lb lift it represents;
+      // legacy/unknown phases pass through at face value.
+      if (t) tops.push(t.weight / loadFactorOf(plan.phases.find((q) => q.id === e.phase)));
     }
     if (tops.length >= 3) {
       const avg = tops.reduce((a, b) => a + b, 0) / tops.length;
-      const dev = Math.abs(weight - avg) / avg;
+      // ...and the expectation bends to the CURRENT phase: in a deload week
+      // the right weight IS 20% lighter, so that's the yardstick.
+      const factor = loadFactorOf(phase);
+      const expect = avg * factor;
+      const dev = Math.abs(weight - expect) / expect;
       if (dev > (plan.rules.validation.deviationPct ?? 25) / 100) {
-        // show percent against the SAME rounded average we display, so the
+        // show percent against the SAME rounded number we display, so the
         // arithmetic in the message checks out by hand
-        const avgShown = Math.round(avg);
-        const pct = Math.round((Math.abs(weight - avgShown) / avgShown) * 100);
-        warnings.push({ code: 'dev', msg: `${pct}% ${weight < avgShown ? 'lighter' : 'heavier'} than your recent top sets (avg ${avgShown} lb)` });
+        const expShown = Math.round(expect);
+        const pct = Math.round((Math.abs(weight - expShown) / expShown) * 100);
+        const dir = weight < expShown ? 'lighter' : 'heavier';
+        const msg = factor === 1
+          ? `${pct}% ${dir} than your recent top sets (avg ${expShown} lb)`
+          : `${pct}% ${dir} than expected for ${phase.type} (~${expShown} lb = ${Math.round(factor * 100)}% of your ${Math.round(avg)} lb average)`;
+        warnings.push({ code: 'dev', msg });
       }
     }
   }

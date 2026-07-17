@@ -203,6 +203,8 @@ ok('290×1 would be a PR, 285 is not', () => {
 
 // ——— Validation ———
 ok('>25% deviation from trailing average warns, with user-checkable math', () => {
+  // no options: legacy entries normalize at factor 1 and no phase scales the
+  // expectation, so the classic build-phase wording (and math) must hold.
   const warns = E.validateSet(plan, history, 'deadlift', 150, 5);
   const m = warns.find((w) => w.code === 'dev')?.msg ?? '';
   const [, pct, dir, avg] = m.match(/(\d+)% (lighter|heavier) than your recent top sets \(avg (\d+) lb\)/) ?? [];
@@ -249,6 +251,126 @@ ok('rep PR at a held weight is detected; matching reps are not', () => {
   assert.equal(E.isRepPR(history, 'deadlift', 255, 7), true);  // best at 255 is 6
   assert.equal(E.isRepPR(history, 'deadlift', 255, 6), false);
   assert.equal(E.isRepPR(history, 'deadlift', 999, 5), false); // never lifted
+});
+
+// ——— Honest % math (backoffInfo + phase-aware validation) ———
+const mkSets = (w, r, count = 3) => Array.from({ length: count }, () => ({ weight: w, reps: r }));
+// a plausible meso 1: four PushA visits climbing 175 → 180
+const meso1Push = [
+  mkEntry('2026-07-23', 'PushA', 'smith-incline-press', mkSets(175, 8, 4)),
+  mkEntry('2026-07-30', 'PushA', 'smith-incline-press', mkSets(175, 8, 4)),
+  mkEntry('2026-08-06', 'PushA', 'smith-incline-press', mkSets(180, 8, 4)),
+  mkEntry('2026-08-13', 'PushA', 'smith-incline-press', mkSets(180, 8, 4)),
+];
+
+ok('backoffInfo reports the post-grid ratio, not the nominal target', () => {
+  assert.deepEqual(E.backoffInfo(255, 0.9, 10), { weight: 220, pct: 86 }); // "90%" that is really 86
+  assert.deepEqual(E.backoffInfo(35, 0.9, 5), { weight: 30, pct: 86 });
+  assert.deepEqual(E.backoffInfo(180, 0.8, 5), { weight: 140, pct: 78 }); // "80%" that is really 78
+  assert.deepEqual(E.backoffInfo(205, 0.8, 10), { weight: 160, pct: 78 });
+});
+ok('prescribe surfaces the real pct alongside the back-off weight', () => {
+  const rx = E.prescribe(plan, history, 'PushA', slot('PushA', 'smith-incline-press'), calib);
+  assert.equal(rx.sets[0].weight, 165);
+  assert.equal(rx.pct, 89); // 165/185 — the label must never claim "90%"
+  const h = [...history, mkEntry('2026-08-10', 'PushA', 'smith-incline-press', mkSets(180, 8, 4))];
+  const drx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), deload);
+  assert.equal(drx.sets[0].weight, 140);
+  assert.equal(drx.pct, 78); // 140/180, measured on the top set
+});
+ok("deload: the app's own 80% weight never trips the deviation warning", () => {
+  const h = [...history, ...meso1Push];
+  const { phase } = E.phaseForDate(plan, '2026-08-17');
+  const warns = E.validateSet(plan, h, 'smith-incline-press', 140, 6, { phase });
+  assert.equal(warns.some((w) => w.code === 'dev'), false);
+  // small weights are where the grid floor bites hardest: incline-db-curl
+  // history sits flat at 30, the deload ask is 20 — 33% off the raw average
+  // and screaming, but dead-on for a −20% week measured honestly.
+  const curl = E.validateSet(plan, history, 'incline-db-curl', 20, 6, { phase });
+  assert.equal(curl.some((w) => w.code === 'dev'), false);
+});
+ok('deload: a genuine typo still warns, with honest recomputable numbers', () => {
+  const h = [...history, ...meso1Push];
+  const { phase } = E.phaseForDate(plan, '2026-08-17');
+  const warns = E.validateSet(plan, h, 'smith-incline-press', 40, 6, { phase });
+  const m = warns.find((w) => w.code === 'dev')?.msg ?? '';
+  const [, pct, dir, exp] = m.match(/(\d+)% (lighter|heavier) than expected for deload \(~(\d+) lb = 80% of your (\d+) lb average\)/) ?? [];
+  assert.ok(pct, `dev message malformed: ${m}`);
+  assert.equal(dir, 'lighter');
+  assert.equal(Number(pct), Math.round(Math.abs(40 - Number(exp)) / Number(exp) * 100), 'shown % must recompute from the shown lb figure');
+  const heavy = E.validateSet(plan, h, 'smith-incline-press', 400, 6, { phase });
+  assert.ok(heavy.find((w) => w.code === 'dev')?.msg.includes('heavier'));
+});
+ok('week after deload: deload entries are normalized, not averaged raw', () => {
+  const h = [...history, ...meso1Push,
+    mkEntry('2026-08-17', 'PushA', 'smith-incline-press', mkSets(140, 6, 2), 'deload1')];
+  const { phase } = E.phaseForDate(plan, '2026-08-24');
+  const warns = E.validateSet(plan, h, 'smith-incline-press', 185, 6, { phase });
+  assert.equal(warns.some((w) => w.code === 'dev'), false);
+});
+ok("calibration entries are normalized into meso 1's baseline", () => {
+  const h = [...history,
+    mkEntry('2026-07-14', 'PushA', 'smith-incline-press', mkSets(165, 6, 4), 'calibration'),
+    mkEntry('2026-07-16', 'PushA', 'smith-incline-press', mkSets(165, 6, 4), 'calibration'),
+    mkEntry('2026-07-18', 'PushA', 'smith-incline-press', mkSets(165, 6, 4), 'calibration')];
+  const warns = E.validateSet(plan, h, 'smith-incline-press', 185, 8, { phase: meso.phase });
+  assert.equal(warns.some((w) => w.code === 'dev'), false);
+});
+ok('a weight equal to the prescription never warns (db-curl real-data regression)', () => {
+  // legacy db-curl tops run 65–70 lb (per-pair logging); the calibration ask
+  // from the 35 lb seed is 30 lb — a "54% lighter" screamer without immunity.
+  const rx = E.prescribe(plan, history, 'PullA', slot('PullA', 'db-curl'), calib);
+  assert.equal(rx.sets[0].weight, 30);
+  const bare = E.validateSet(plan, history, 'db-curl', 30, 10, { phase: calib.phase });
+  assert.equal(bare.some((w) => w.code === 'dev'), true, 'unfenceable legacy data still deviates');
+  const warns = E.validateSet(plan, history, 'db-curl', 30, 10, { phase: calib.phase, prescribed: rx.sets[0].weight });
+  assert.equal(warns.some((w) => w.code === 'dev'), false, 'the app never second-guesses its own ask');
+});
+
+// ——— Trainer-audit progression guards ———
+ok('a per-exercise increment override wins over the upper/lower rule', () => {
+  const p = { ...plan, exercises: { ...plan.exercises, 'db-fly': { name: 'DB Fly', increment: 2.5 } } };
+  assert.equal(E.increment(p, 'db-fly'), 2.5);
+  assert.equal(E.increment(plan, 'db-curl'), 5);   // defaults untouched
+  assert.equal(E.increment(plan, 'deadlift'), 10);
+});
+ok('calibration exit: a top far under the reduced ask never teleports to the seed', () => {
+  // real shape: incline-db-curl seed 30, calibration ask 25, lifter managed 20
+  const h = [...history, mkEntry('2026-07-16', 'PullB', 'incline-db-curl', mkSets(20, 10, 3), 'calibration')];
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'incline-db-curl'), E.phaseForDate(plan, '2026-07-21'));
+  assert.equal(rx.basis, 'progress');
+  assert.equal(rx.sets[0].weight, 25); // 20 + 5, never seed 30 (+50% overnight)
+});
+ok('calibration exit: face-pulls at 22.5 climb to 27.5, not the 40 lb seed', () => {
+  const h = [...history, mkEntry('2026-07-15', 'PushA', 'face-pulls', mkSets(22.5, 15, 2), 'calibration')];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), E.phaseForDate(plan, '2026-07-21'));
+  assert.equal(rx.sets[0].weight, 27.5); // a +78% jump is a typo, not a program
+});
+ok('isolation lifts never double-jump, whatever the rep surplus', () => {
+  // compound branch is pinned by the machine-chest-press double-jump test above
+  const h = [...history, mkEntry('2026-07-21', 'PullA', 'db-curl', mkSets(35, 12, 3))];
+  const rx = E.prescribe(plan, h, 'PullA', slot('PullA', 'db-curl'), meso);
+  assert.equal(rx.basis, 'progress');
+  assert.equal(rx.sets[0].weight, 40); // +5, never +10 on a curl
+});
+ok('oscillating back to an old weight is a stall, not progress', () => {
+  const swing = (d, w) => mkEntry(d, 'PushA', 'machine-chest-press', mkSets(w, 8, 3));
+  const h = [...history, swing('2026-07-21', 200), swing('2026-07-28', 195), swing('2026-08-04', 200), swing('2026-08-11', 195)];
+  assert.equal(E.isStalled(plan, h, 'PushA', slot('PushA', 'machine-chest-press')), true);
+});
+ok('a trigger met for 3 flat sessions is a stall (fixed rep slots can trap)', () => {
+  // face-pulls 15/15: progressionMet fires every visit, weight never moves
+  const fp = (d) => mkEntry(d, 'PushA', 'face-pulls', mkSets(40, 15, 2));
+  const h = [...history, fp('2026-07-21'), fp('2026-07-28'), fp('2026-08-04')];
+  assert.equal(E.isStalled(plan, h, 'PushA', slot('PushA', 'face-pulls')), true);
+});
+ok('bodyweight prescription anchors on the best set, not the first (9,8,10 → 10)', () => {
+  const h = [...history, mkEntry('2026-07-22', 'PushB', 'assisted-dips', [
+    { weight: 0, reps: 9 }, { weight: 0, reps: 8 }, { weight: 0, reps: 10 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushB', slot('PushB', 'assisted-dips'), meso);
+  assert.equal(rx.basis, 'bodyweight');
+  assert.equal(rx.sets[0].reps, 10);
 });
 
 console.log(`\n${n} engine tests passed`);
