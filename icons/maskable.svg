@@ -1,44 +1,98 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <radialGradient id="mbg" cx=".5" cy=".42" r=".8">
-      <stop offset="0" stop-color="#ffd24a"/>
-      <stop offset=".55" stop-color="#ff8a3c"/>
-      <stop offset="1" stop-color="#e8484f"/>
+    <radialGradient id="void" cx=".5" cy=".38" r=".95">
+      <stop offset="0" stop-color="#3b1a5e"/>
+      <stop offset=".45" stop-color="#241040"/>
+      <stop offset="1" stop-color="#0c0620"/>
     </radialGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffe9a8"/>
+      <stop offset=".5" stop-color="#ffd24a"/>
+      <stop offset="1" stop-color="#e8a03c"/>
+    </linearGradient>
+    <radialGradient id="redp" cx=".38" cy=".32" r=".9">
+      <stop offset="0" stop-color="#ff9a7c"/>
+      <stop offset=".55" stop-color="#ff5d4c"/>
+      <stop offset="1" stop-color="#b32642"/>
+    </radialGradient>
+    <radialGradient id="tealp" cx=".4" cy=".3" r=".95">
+      <stop offset="0" stop-color="#8af0e0"/>
+      <stop offset=".55" stop-color="#3adcc8"/>
+      <stop offset="1" stop-color="#0e7d86"/>
+    </radialGradient>
+    <radialGradient id="neb1" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ff4fa0" stop-opacity=".33"/>
+      <stop offset="1" stop-color="#ff4fa0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="neb2" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#3adcc8" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#3adcc8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffd24a" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#ffd24a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="comet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".9"/>
+    </linearGradient>
   </defs>
-  <rect width="512" height="512" fill="url(#mbg)"/>
-  <g transform="translate(256 256) scale(0.76) translate(-256 -256)">
-  <!-- rays -->
-  <g stroke="#ffffff" stroke-width="16" stroke-linecap="round" opacity=".35">
-    <path d="M256 44v40M256 428v40M68 256h40M404 256h40M120 120l28 28M364 364l28 28M392 120l-28 28M148 364l-28 28"/>
+<rect width="512" height="512" fill="url(#void)"/>
+<g transform="translate(56.32 56.32) scale(0.78)">
+
+  <rect width="512" height="512" fill="url(#void)"/>
+  <ellipse cx="130" cy="150" rx="200" ry="150" fill="url(#neb1)"/>
+  <ellipse cx="400" cy="390" rx="220" ry="170" fill="url(#neb2)"/>
+
+  <!-- starfield -->
+  <g fill="#fff">
+    <circle cx="58" cy="84" r="3.4"/><circle cx="146" cy="46" r="2.2" opacity=".7"/>
+    <circle cx="243" cy="60" r="2.8" opacity=".9"/><circle cx="340" cy="38" r="2.1" opacity=".6"/>
+    <circle cx="452" cy="88" r="3.1"/><circle cx="483" cy="180" r="2.2" opacity=".7"/>
+    <circle cx="36" cy="220" r="2.4" opacity=".8"/><circle cx="70" cy="330" r="2" opacity=".55"/>
+    <circle cx="30" cy="432" r="3.2"/><circle cx="140" cy="470" r="2.3" opacity=".7"/>
+    <circle cx="256" cy="448" r="2" opacity=".55"/><circle cx="415" cy="470" r="2.9" opacity=".85"/>
+    <circle cx="474" cy="330" r="2.3" opacity=".6"/><circle cx="380" cy="140" r="2" opacity=".5"/>
   </g>
-  <!-- barbell -->
-  <g stroke="#3a2440" stroke-linecap="round">
-    <path d="M116 168h280" stroke-width="26"/>
+
+  <!-- comet: tapered streak -->
+  <g transform="rotate(-26 400 92)">
+    <polygon points="308,88 404,80 404,96" fill="url(#comet)"/>
+    <circle cx="404" cy="88" r="11" fill="#fff"/>
+    <circle cx="404" cy="88" r="18" fill="#fff" opacity=".25"/>
   </g>
-  <rect x="118" y="118" width="52" height="100" rx="14" fill="#3a2440"/>
-  <rect x="342" y="118" width="52" height="100" rx="14" fill="#3a2440"/>
-  <!-- buddy -->
-  <circle cx="256" cy="300" r="132" fill="#ff5d6a" stroke="#ffffff" stroke-width="14"/>
-  <ellipse cx="214" cy="242" rx="52" ry="22" fill="#ffffff" opacity=".25" transform="rotate(-18 214 242)"/>
-  <!-- sweatband -->
-  <path d="M148 246q108-64 216 0l-8-42q-100-52-200 0z" fill="#59c9a5" stroke="#ffffff" stroke-width="9"/>
-  <!-- arms up gripping the bar -->
-  <path d="M170 282C120 250 118 204 140 180" fill="none" stroke="#ff5d6a" stroke-width="34" stroke-linecap="round"/>
-  <path d="M342 282c50-32 52-78 30-102" fill="none" stroke="#ff5d6a" stroke-width="34" stroke-linecap="round"/>
-  <circle cx="142" cy="176" r="28" fill="#ff8a94" stroke="#ffffff" stroke-width="9"/>
-  <circle cx="370" cy="176" r="28" fill="#ff8a94" stroke="#ffffff" stroke-width="9"/>
-  <!-- star eyes -->
-  <g fill="#3a2440">
-    <path d="M212 288l7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z"/>
-    <path d="M300 288l7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z"/>
+
+  <!-- barbell, tilted like it's mid-rep across the cosmos -->
+  <g transform="rotate(-16 256 262)">
+    <ellipse cx="256" cy="262" rx="225" ry="98" fill="url(#glow)" opacity=".55"/>
+    <!-- bar -->
+    <rect x="58" y="242" width="396" height="40" rx="20" fill="url(#bar)"/>
+    <rect x="74" y="250" width="364" height="9" rx="4.5" fill="#fff" opacity=".45"/>
+    <!-- left plate: ringed coral planet -->
+    <g>
+      <circle cx="104" cy="262" r="86" fill="url(#redp)" stroke="#ffe9d8" stroke-width="9"/>
+      <circle cx="80" cy="234" r="15" fill="#b32642" opacity=".8"/>
+      <circle cx="122" cy="294" r="11" fill="#b32642" opacity=".7"/>
+      <circle cx="132" cy="232" r="7.5" fill="#ffd0b0" opacity=".8"/>
+      <ellipse cx="104" cy="266" rx="122" ry="28" fill="none" stroke="#ffd24a" stroke-width="13" opacity=".95" transform="rotate(-14 104 266)"/>
+    </g>
+    <!-- right plate: banded teal planet -->
+    <g>
+      <circle cx="408" cy="262" r="86" fill="url(#tealp)" stroke="#dffcf6" stroke-width="9"/>
+      <path d="M328 242q80-28 160 6" fill="none" stroke="#0e7d86" stroke-width="14" opacity=".75"/>
+      <path d="M330 288q78 26 156-4" fill="none" stroke="#0e7d86" stroke-width="11" opacity=".6"/>
+      <circle cx="382" cy="230" r="10" fill="#dffcf6" opacity=".8"/>
+    </g>
   </g>
-  <!-- huge grin + tongue -->
-  <path d="M204 348q52 44 104 0-6 50-52 50t-52-50z" fill="#5b1f2a"/>
-  <path d="M214 352q42 16 84 0l-5 13q-37 12-74 0z" fill="#ffffff"/>
-  <ellipse cx="256" cy="386" rx="20" ry="11" fill="#ff8a94"/>
-  <!-- sweat + sparkle -->
-  <path d="M396 262c11 16 17 25 17 34a17 17 0 1 1-34 0c0-9 6-18 17-34z" fill="#7dd3fc" stroke="#ffffff" stroke-width="7"/>
-  <path d="M108 330l6 16 16 6-16 6-6 16-6-16-16-6 16-6z" fill="#ffffff" opacity=".9"/>
+
+  <!-- six universe stars, one per world-type, arcing under the bar -->
+  <g transform="translate(0 2)">
+    <path d="M112 426l7 16 16 7-16 7-7 16-7-16-16-7 16-7z" fill="#ff6a4c"/>
+    <path d="M170 450l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#3adcc8"/>
+    <path d="M227 463l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#7ad48a"/>
+    <path d="M285 463l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#ff9a5c"/>
+    <path d="M342 450l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#ffd24a"/>
+    <path d="M400 426l7 16 16 7-16 7-7 16-7-16-16-7 16-7z" fill="#5cb8ff"/>
+  </g>
 </g>
 </svg>
