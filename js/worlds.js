@@ -168,7 +168,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Strike', rest: 'Meditate', results: 'Training complete',
       objDone: 'Form complete', pr: 'THE MOUNTAIN BOWS', finish: 'Descend the stairs',
-      trophyNote: 'Tap a scroll to unlearn it',
+      trophyNote: 'Tap a scroll to un-log that set',
       restOver: 'Sensei waits', awake: '🏮', delivered: 'Carved into the mountain',
     },
     worlds: [
@@ -400,7 +400,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Descend', rest: 'Decompression', results: 'Back from the deep',
       objDone: 'Depth reached', pr: 'THE LEVIATHAN STIRS', finish: 'Surface',
-      trophyNote: 'Tap a depth marker to rise',
+      trophyNote: 'Tap a depth marker to un-log that set',
       restOver: 'Resurface', awake: '💡', delivered: 'Etched on the trench wall',
     },
     worlds: [
@@ -612,7 +612,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Sighting!', rest: 'Trail break', results: 'Case closed',
       objDone: 'Trail cleared', pr: 'CONFIRMED SIGHTING', finish: 'File the report',
-      trophyNote: 'Tap a photo to redact it',
+      trophyNote: 'Tap a photo to un-log that set',
       restOver: 'Back on the trail', awake: '🔥', delivered: 'Filed at ranger HQ',
     },
     worlds: [
@@ -887,7 +887,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Wok toss', rest: 'Simmer', results: 'Kitchen closed',
       objDone: 'Order up', pr: 'THE DRAGON APPROVES', finish: 'Last call',
-      trophyNote: 'Tap a ticket to refire it',
+      trophyNote: 'Tap a ticket to un-log that set',
       restOver: 'Back to the wok', awake: '♨️', delivered: 'Posted to the kitchen rail',
     },
     worlds: [
@@ -1149,7 +1149,7 @@ export const UNIVERSES = {
     copy: {
       log: 'On air', rest: 'Dead air', results: 'Off the air',
       objDone: 'Track played', pr: 'HEARD ON THE MAINLAND', finish: 'Sign off',
-      trophyNote: 'Tap a record to scratch it',
+      trophyNote: 'Tap a record to un-log that set',
       restOver: 'Back on air', awake: '🔴', delivered: 'Beamed to the mainland',
     },
     worlds: [
@@ -1441,7 +1441,7 @@ export const UNIVERSES = {
     copy: {
       log: 'Send it', rest: 'Lodge break', results: 'Après-ski',
       objDone: 'Run cleared', pr: 'AVALANCHE!', finish: 'Last run',
-      trophyNote: 'Tap a lift ticket to refund it',
+      trophyNote: 'Tap a lift ticket to un-log that set',
       restOver: 'Lift’s leaving', awake: '🪩', delivered: 'Posted in the lodge',
     },
     worlds: [

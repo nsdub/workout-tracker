@@ -4,13 +4,14 @@ import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins } from '../util.js
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
-import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay } from '../components.js';
+import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
 
 let root = null;
 let focusIdx = null;
 let lastLogAt = 0;
+let freshEdit = null;      // { field, at } — numpad confirm replays val-pop on the card
 let resumeAsked = false;
 let announceWorld = false; // set when a fresh draft lands in a new world
 let navDir = null;         // 'next' | 'prev' — card slide direction
@@ -22,6 +23,9 @@ export function render(el) {
   const today = todayStr();
   const phaseInfo = engine.phaseForDate(store.plan, today, store.settings.phaseOverride);
   ensureDraft(today, phaseInfo);
+  // Tonight is already in the books and nothing is in progress: the night is
+  // BANKED. No auto-built tomorrow-dated-today draft, no burned world draw.
+  if (!store.draft) return renderBanked(today, phaseInfo);
   if (!store.draft.world) { // drafts from before the universes knew about worlds
     store.draft.world = pickWorld(store.draft.session_type);
     store.saveDraft(store.draft);
@@ -39,7 +43,7 @@ export function render(el) {
       if (root?.classList.contains('active')) flashCard(`TONIGHT: ${W.name}`, U.name, () => {});
     }, 350);
   }
-  if (store.draft.date !== today && !resumeAsked) {
+  if (store.draft.date !== today && !resumeAsked && !store.draft.reopened) {
     resumeAsked = true;
     setTimeout(() => confirmSheet({
       title: `Finish ${fmtDate(store.draft.date)}, or start fresh?`,
@@ -82,9 +86,13 @@ function trainStreak(history, today) {
 
 function renderSetup() {
   root.onclick = null;
+  // The first screen is a mission poster, not blank paper: Cinzel wordmark,
+  // gold underline, two star-with-face crew members from the cosmos.
+  const starface = (size) => `<svg width="${size}" height="${size}" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 1 L18.7 10.4 L28.5 11 L20.9 17.4 L23.4 27 L15 21.6 L6.6 27 L9.1 17.4 L1.5 11 L11.3 10.4 Z" fill="#ffd24a" stroke="#c2822c" stroke-width="1.4"/><circle cx="12" cy="13.4" r="1.5" fill="#2a1a08"/><circle cx="18" cy="13.4" r="1.5" fill="#2a1a08"/><path d="M12.6 17 q2.4 1.8 4.8 0" stroke="#2a1a08" stroke-width="1.2" fill="none"/></svg>`;
   root.innerHTML = `
     <div class="empty"><div class="card-e">
-      <h3>Protocol</h3>
+      <div class="su-stars">${starface(30)}${starface(22)}</div>
+      <div class="su-poster">PROTOCOL</div>
       <p>Your training data lives in the workout-tracker repo on GitHub. Connect once and the show starts.</p>
       <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
         <button class="btn primary" id="su-connect">Connect GitHub</button>
@@ -154,15 +162,75 @@ export async function handleSeedFile(e) {
 function ensureDraft(today, phaseInfo) {
   const d = store.draft;
   const dirty = d?.exercises?.some((x) => x.sets.some((s) => s.done));
-  if (d && (d.date === today || dirty)) return d.session_type;
+  if (d && (d.date === today || dirty)) {
+    // Migration: pre-fix builds auto-drafted the NEXT session dated today the
+    // moment tonight was banked. Such a draft — clean, not deliberately
+    // started, sitting on top of a banked night — is reclaimed: refund its
+    // unseen world and show the banked hero instead. Deliberate double-day
+    // drafts carry d.deliberate and are never reclaimed.
+    if (!dirty && !d.deliberate && store.history.some((e) => e.date === today)) {
+      if (d.world) returnWorld(d.session_type, d.world);
+      store.clearDraft();
+      return null;
+    }
+    return d.session_type;
+  }
   // Date rolled over a clean draft: that world was drawn but never trained —
   // put it back on top of the deck before drawing again.
   if (d?.world && !dirty) returnWorld(d.session_type, d.world);
+  // Tonight already banked and no work in progress: do NOT auto-build the
+  // next rotation session dated today — that swapped the world behind the
+  // results overlay, burned a pool draw the user never saw, and made the app
+  // answer "what do I do today?" with tomorrow's session. The next draft
+  // (with its world draw + visible reveal) waits for an explicit start.
+  if (store.history.some((e) => e.date === today)) {
+    if (d) store.clearDraft(); // the stale clean draft's world was refunded above
+    return null;
+  }
   const type = engine.rotationNext(store.plan, store.history);
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
   announceWorld = true;
   return type;
+}
+
+// ——— Night banked: tonight is in the books; tomorrow waits ———
+
+function renderBanked(today, phaseInfo) {
+  const entry = [...store.history].reverse().find((e) => e.date === today);
+  const U = universeOf(entry.session_type);
+  const W = worldDef(entry.session_type, entry.world ?? null);
+  applyWorld(entry.session_type, entry.world ?? null);
+  // The conquered world stays on stage; entrance plays once, then holds still.
+  const worldKey = `banked:${entry.session_type}:${entry.world ?? ''}`;
+  root.classList.toggle('no-entrance', worldKey === lastWorldKey);
+  lastWorldKey = worldKey;
+  const sessionName = store.plan.sessions[entry.session_type]?.name ?? entry.session_type;
+  const nextType = engine.rotationNext(store.plan, store.history);
+  const nextName = store.plan.sessions[nextType]?.name ?? nextType;
+  root.onclick = null;
+  root.innerHTML = `
+    <header class="world-head">
+      <div class="world-name">${esc(W?.name ?? U?.name ?? sessionName)}</div>
+      <div class="mission-line">${esc(U?.name ?? '')} — night ${store.history.length} banked · ${fmtDate(today)}</div>
+    </header>
+    <section class="objective banked-hero">
+      <div class="bk-stamp">Night banked</div>
+      <div class="bk-big">${esc(sessionName)} is in the books.</div>
+      <div class="bk-next">Next up: <b>${esc(nextName)}</b> — tomorrow.</div>
+      <button class="btn quiet" id="bk-start">Start it now anyway</button>
+    </section>`;
+  $('#bk-start', root).addEventListener('click', () => {
+    // Double-days stay possible — but only by explicit request, so the world
+    // draw and its TONIGHT reveal happen where the user can actually see them.
+    // `deliberate` keeps ensureDraft's banked reclaim off this draft.
+    store.saveDraft({ ...buildDraft(today, nextType, phaseInfo), deliberate: true });
+    focusIdx = null;
+    announceWorld = true;
+    render(root);
+    renderDock();
+  });
+  renderDock(); // no draft → the finish bar clears itself
 }
 
 function buildDraft(date, sessionType, phaseInfo) {
@@ -217,7 +285,9 @@ function switchSession(type) {
   const prev = store.draft;
   const prevDirty = prev?.exercises?.some((x) => x.sets.some((s) => s.done));
   if (prev?.world && !prevDirty) returnWorld(prev.session_type, prev.world);
-  store.saveDraft(buildDraft(today, type, phaseInfo));
+  // Swapping the day is an explicit choice — never reclaimed as "banked"
+  // even when tonight already has a logged entry.
+  store.saveDraft({ ...buildDraft(today, type, phaseInfo), deliberate: true });
   focusIdx = null;
   announceWorld = true;
   render(root);
@@ -278,16 +348,24 @@ function renderWorldScreen(draft, phaseInfo) {
   // wait one tap away in the briefing (priority: resuming > streak >
   // off-rotation > back-off week).
   const noticeList = [
-    draft.date !== todayStr() ? { k: 'resume', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
-    streak >= 6 ? { k: 'streak', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
-    isNext ? null : { k: 'offrot', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
-    phase?.type === 'deload' ? { k: 'deload', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
-    phase?.type === 'calibration' ? { k: 'cal', txt: 'Calibration week — seeds at ~90%, snapped to the weight grid' } : null,
+    draft.date !== todayStr() ? { k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
+    streak >= 6 ? { k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
+    isNext ? null : { k: 'offrot', ic: 'compass', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
+    phase?.type === 'deload' ? { k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
+    phase?.type === 'calibration' ? { k: 'cal', ic: 'gauge', txt: 'Calibration week — seeds at ~90%, snapped to the weight grid' } : null,
   ].filter(Boolean);
   const topNotice = noticeList[0];
 
   const repRange = `${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}`;
   const repUnitTxt = x.repUnit === 'sec' ? 'sec' : 'reps';
+
+  // The moment of earning survives .no-entrance: the set logged (or un-skip
+  // restored) within the last ~1.5s renders as .fresh, and the CSS replays its
+  // pop even though the rest of the stage holds still. The `at` timestamp the
+  // engine already stamps on logged sets is the whole mechanism.
+  const nowMs = Date.now();
+  const isFresh = (s) => (s.at && nowMs - s.at < 1500) || (s.unskippedAt && nowMs - s.unskippedAt < 1500);
+  const freshField = freshEdit && nowMs - freshEdit.at < 1500 ? freshEdit.field : null;
 
   root.innerHTML = `
     <header class="world-head">
@@ -296,6 +374,7 @@ function renderWorldScreen(draft, phaseInfo) {
     </header>
     ${topNotice ? `
     <div class="notice" id="notice-bar" role="button" tabindex="0">
+      <span class="n-ic" aria-hidden="true">${ICONS[topNotice.ic] ?? ''}</span>
       <span class="n-txt">${esc(topNotice.txt)}</span>
       ${noticeList.length > 1 ? `<span class="n-more">+${noticeList.length - 1}</span>` : ''}
       ${topNotice.k === 'resume' ? `<button id="resume-discard">Discard</button>` : ''}
@@ -304,10 +383,10 @@ function renderWorldScreen(draft, phaseInfo) {
     <section class="objective ${navDir === 'next' ? 'slide-next' : navDir === 'prev' ? 'slide-prev' : ''}">
       ${frameExtras}
       <div class="obj-top">
-        <button class="count" id="open-brief">Act <b>${focusIdx + 1}</b> of ${draft.exercises.length}</button>
+        <button class="count" id="open-brief">Act <b>${focusIdx + 1}</b> of ${draft.exercises.length}<span class="dn">▾</span></button>
         <div class="obj-pg">
-          <button class="pg" id="pg-prev" ${focusIdx === 0 ? 'disabled' : ''}>◀</button>
-          <button class="pg" id="pg-next" ${focusIdx === draft.exercises.length - 1 ? 'disabled' : ''}>▶</button>
+          <button class="pg" id="pg-prev" aria-label="previous act" ${focusIdx === 0 ? 'disabled' : ''}>${ICONS.chevL}</button>
+          <button class="pg" id="pg-next" aria-label="next act" ${focusIdx === draft.exercises.length - 1 ? 'disabled' : ''}>${ICONS.chevR}</button>
         </div>
       </div>
       <h1 class="obj-name"><button id="open-howto" data-ex="${esc(x.id)}">${esc(x.name)}<span class="qm">?</span></button></h1>
@@ -325,29 +404,30 @@ function renderWorldScreen(draft, phaseInfo) {
       ${x.sets.some((s) => s.done) ? `
         <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
         <div class="trophies">
-          ${x.sets.map((s, si) => s.done ? `<button class="trophy" data-si="${si}"><span class="num">${fmtW(s.weight)}×${s.reps}</span>${s.pr ? ' ★' : ''}</button>` : '').join('')}
+          ${x.sets.map((s, si) => s.done ? `<button class="trophy${isFresh(s) ? ' fresh' : ''}" data-si="${si}"><span class="num">${fmtW(s.weight)}×${s.reps}${s.pr ? ' ★' : ''}</span><span class="tb">↩ tap again to take back</span></button>` : '').join('')}
         </div>` : ''}
 
-      ${lastWarned ? `<div class="warnbox">⚠ ${esc(lastWarned.warn)}<button class="dismiss" id="warn-dismiss">✕</button></div>` : ''}
+      ${lastWarned ? `<div class="warnbox">${ICONS.warn} ${esc(lastWarned.warn)}<button class="dismiss" id="warn-dismiss" aria-label="dismiss warning">${ICONS.close}</button></div>` : ''}
 
       ${cur ? `
       <div class="console" id="console">
         <div class="striker"></div>
         <div class="c-target"><b>Set ${curIdx + 1} of ${x.sets.length}</b> · target ${repRange} ${repUnitTxt}</div>
         <div class="c-vals">
-          <button class="g-val" id="g-w">${cur.weight == null ? '—' : fmtW(cur.weight)}<u>lb</u></button>
+          <button class="g-val${freshField === 'weight' ? ' fresh' : ''}" id="g-w">${cur.weight == null ? '—' : fmtW(cur.weight)}<u>lb</u></button>
           <span class="c-x">×</span>
-          <button class="g-val" id="g-r">${cur.reps}<u>${x.repUnit === 'sec' ? 'sec' : 'reps'}</u></button>
+          <button class="g-val${freshField === 'reps' ? ' fresh' : ''}" id="g-r">${cur.reps}<u>${x.repUnit === 'sec' ? 'sec' : 'reps'}</u></button>
         </div>
         <button class="g-log" id="g-log">${esc(U.copy.log)}</button>
         <button class="g-skip" id="g-skip">Skip this set</button>
         <div class="set-pips" id="set-pips">
-          ${x.sets.map((s, si) => `<i class="pip ${s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : ''}" data-si="${si}"></i>`).join('')}
+          ${x.sets.map((s, si) => `<i class="pip ${s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : ''}${isFresh(s) ? ' fresh' : ''}" data-si="${si}" style="--i:${si}"></i>`).join('')}
         </div>
+        ${x.sets.some((s) => s.skipped) ? `<div class="basis-line unskip-hint">${x.sets.filter((s) => s.skipped).length} skipped — tap a crossed pip to bring one back</div>` : ''}
       </div>` : `
       <div class="obj-done">
         <div class="big">${esc(U.copy.objDone)}!</div>
-        ${x.sets.some((q) => q.skipped) ? `<div class="basis-line">${x.sets.filter((q) => q.skipped).length} skipped — tap a crossed pip below to bring one back</div><div class="set-pips" id="set-pips">${x.sets.map((q, si) => `<i class="pip ${q.done ? 'done' : q.skipped ? 'skip' : ''}" data-si="${si}"></i>`).join('')}</div>` : ''}
+        ${x.sets.some((q) => q.skipped) ? `<div class="basis-line">${x.sets.filter((q) => q.skipped).length} skipped — tap a crossed pip below to bring one back</div><div class="set-pips" id="set-pips">${x.sets.map((q, si) => `<i class="pip ${q.done ? 'done' : q.skipped ? 'skip' : ''}${isFresh(q) ? ' fresh' : ''}" data-si="${si}" style="--i:${si}"></i>`).join('')}</div>` : ''}
         ${focusIdx < draft.exercises.length - 1 ? `<button class="btn primary" id="od-next">Next act</button>` : `<div class="basis-line">Every act cleared — ${esc(U.copy.finish.toLowerCase())} below</div>`}
       </div>`}
     </section>
@@ -385,6 +465,9 @@ function wire(draft, x, curIdx, noticeList = []) {
   const paginate = (target, dir) => {
     const d = dir ?? (target > focusIdx ? 'next' : 'prev');
     navDir = d;
+    haptic(4);
+    sfx('nav'); // the card flick speaks in the world's voice
+
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     root.querySelector('.objective-ghost')?.remove(); // rapid taps: one ghost max
     const old = reduced ? null : root.querySelector('.objective');
@@ -410,18 +493,78 @@ function wire(draft, x, curIdx, noticeList = []) {
   };
   $('#pg-prev', root)?.addEventListener('click', () => paginate(focusIdx - 1, 'prev'));
   $('#pg-next', root)?.addEventListener('click', () => paginate(focusIdx + 1, 'next'));
+  // Horizontal swipe on the whole card = prev/next act — the reachable,
+  // game-like alternative to the top-right pagers (flicking the case file /
+  // scroll / order ticket; the dual-card slide sells the physics). 64px
+  // travel, 2:1 axis dominance, and never from a touch that started on a
+  // button or the sideways-scrolling trophy shelf.
+  const objEl = root.querySelector('.objective');
+  if (objEl) {
+    let sx = 0, sy = 0, swipeDead = false;
+    objEl.addEventListener('touchstart', (e) => {
+      swipeDead = !!e.target.closest('button, .trophies');
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+    }, { passive: true });
+    objEl.addEventListener('touchend', (e) => {
+      if (swipeDead) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      if (Math.abs(dx) < 64 || Math.abs(dx) < 2 * Math.abs(dy)) return;
+      const target = focusIdx + (dx < 0 ? 1 : -1);
+      if (target < 0 || target >= draft.exercises.length) return;
+      paginate(target, dx < 0 ? 'next' : 'prev');
+    }, { passive: true });
+  }
   $('#od-next', root)?.addEventListener('click', () => paginate(defaultFocus(store.draft), 'next'));
   root.querySelectorAll('.odot').forEach((d) => d.addEventListener('click', () => {
     const t = Number(d.dataset.oi);
     if (t !== focusIdx) paginate(t);
   }));
-  root.querySelectorAll('.trophy').forEach((t) => t.addEventListener('click', () => unlogSet(x, x.sets[Number(t.dataset.si)])));
+  // Two-step un-log: a trophy is a banked set — the costliest accidental tap
+  // in the app. First tap arms the chip (wobble + plain-English "tap again"),
+  // second tap within 2s takes it back; unlogSet's UNDO toast still covers
+  // the true accident. Two-step prevents, undo recovers.
+  root.querySelectorAll('.trophy').forEach((t) => t.addEventListener('click', () => {
+    if (t.dataset.armed) {
+      clearTimeout(Number(t.dataset.armed));
+      unlogSet(x, x.sets[Number(t.dataset.si)]);
+      return;
+    }
+    root.querySelectorAll('.trophy.armed').forEach((o) => {
+      o.classList.remove('armed');
+      clearTimeout(Number(o.dataset.armed));
+      delete o.dataset.armed;
+    });
+    haptic(5);
+    sfx('tap');
+    t.classList.add('armed');
+    t.dataset.armed = String(setTimeout(() => {
+      t.classList.remove('armed');
+      delete t.dataset.armed;
+    }, 2000));
+  }));
   $('#set-pips', root)?.addEventListener('click', (e) => {
-    const pip = e.target.closest('.pip.skip');
+    // The drawn pips stay tiny and world-styled (6px-wide dojo tallies,
+    // dumplings, chairlift chairs) — the whole padded row is the touch strip,
+    // and any tap inside it restores the nearest skipped pip within 28px.
+    let pip = e.target.closest('.pip.skip');
+    if (!pip) {
+      let bestD = 29;
+      for (const p of e.currentTarget.querySelectorAll('.pip.skip')) {
+        const r = p.getBoundingClientRect();
+        const d = Math.abs(e.clientX - (r.left + r.width / 2));
+        if (d < bestD) { bestD = d; pip = p; }
+      }
+    }
     if (!pip) return;
-    x.sets[Number(pip.dataset.si)].skipped = false;
+    const restored = x.sets[Number(pip.dataset.si)];
+    restored.skipped = false;
+    restored.unskippedAt = Date.now(); // the restored pip pops back in (.fresh)
     store.saveDraft(store.draft);
     haptic(6);
+    sfx('tap');
     render(root);
     renderDock();
   });
@@ -452,17 +595,29 @@ function wire(draft, x, curIdx, noticeList = []) {
 
 function editValue(x, s, si, field) {
   const isW = field === 'weight';
+  const repTxt = x.repMin === x.repMax ? `${x.repMin}` : `${x.repMin}–${x.repMax}`;
+  const unitTxt = x.repUnit === 'sec' ? 'seconds' : 'reps';
   numpadSheet({
     title: `${x.name} — set ${si + 1}`,
-    sub: isW ? `weight / target ${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}` : (x.repUnit === 'sec' ? 'seconds' : 'reps'),
+    // Plain English on the cascade: a weight edit writes forward, and the
+    // user gets told so BEFORE and AFTER (the toast below), never silently.
+    sub: isW ? `target ${repTxt} ${unitTxt} — this weight applies to this and the remaining sets` : unitTxt,
     value: isW ? s.weight ?? 0 : s.reps,
     unit: isW ? 'lb' : (x.repUnit === 'sec' ? 's' : ''),
     step: isW ? x.inc : 1,
     decimals: isW,
     max: isW ? 2000 : 999,
     onConfirm(v) {
-      if (isW) { for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) x.sets[j].weight = v; }
-      else s.reps = Math.round(v);
+      if (isW) {
+        const hit = [];
+        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = v; hit.push(j + 1); }
+        toast(hit.length > 1
+          ? `Weight set for sets ${hit[0]}–${hit[hit.length - 1]}`
+          : `Weight set for set ${hit[0] ?? si + 1}`);
+      } else s.reps = Math.round(v);
+      // the confirmed number pops back on the card — the .fresh mechanism
+      // replays val-pop through .no-entrance
+      freshEdit = { field, at: Date.now() };
       store.saveDraft(store.draft);
       render(root);
     },
@@ -505,7 +660,9 @@ function logSet(x, s, U) {
   if (anchor) {
     const r = anchor.getBoundingClientRect();
     // scroll only if the console left the viewport — never yank a stable page
-    if (r.top < 0 || r.bottom > window.innerHeight - 140) anchor.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (r.top < 0 || r.bottom > window.innerHeight - 140) {
+      anchor.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
   }
   const consoleEl = document.getElementById('console');
   consoleEl?.classList.add('struck');
@@ -534,9 +691,25 @@ function logSet(x, s, U) {
 }
 
 function unlogSet(x, s) {
+  // Snapshot the recomputed flags BEFORE clearing: weight/reps survive an
+  // un-log anyway, but pr/warn state is engine output worth an explicit undo.
+  const snap = { done: s.done, pr: s.pr, repPr: s.repPr, warn: s.warn, warnDismissed: s.warnDismissed };
   s.done = false; s.pr = false; s.repPr = false; s.warn = null;
   store.saveDraft(store.draft);
-  toast('Took it back');
+  toast('Set un-logged', 'ok', 5000, {
+    action: {
+      label: 'UNDO',
+      fn() {
+        if (s.done) return; // already re-logged by hand — don't stomp fresh state
+        Object.assign(s, snap);
+        store.saveDraft(store.draft);
+        haptic(8);
+        sfx('log');
+        render(root);
+        renderDock();
+      },
+    },
+  });
   haptic(8);
   sfx('tap');
   render(root);
@@ -710,7 +883,18 @@ export function renderDock() {
   if (bar) {
     // update in place so the fill visibly glides — rebuilding the node
     // every set killed the width transition
-    bar.querySelector('.xp-head .num').textContent = `${done}/${total}`;
+    const n = bar.querySelector('.xp-head .num');
+    const txt = `${done}/${total}`;
+    if (n.textContent !== txt) {
+      n.textContent = txt;
+      // the tally pops when it changes — a banked set visibly lands in the bar
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        n.animate(
+          [{ transform: 'scale(1.5)', color: 'var(--acc)' }, { transform: 'scale(1)' }],
+          { duration: 250, easing: 'cubic-bezier(.34,1.56,.64,1)' },
+        );
+      }
+    }
     bar.querySelector('.xp-track i').style.width = `${pct}%`;
     bar.querySelector('#finish-btn').textContent = U.copy.finish;
     return;
@@ -719,6 +903,9 @@ export function renderDock() {
   bar.id = 'finish-bar';
   bar.className = 'finish-bar';
   dock.appendChild(bar);
+  // the first banked set of the night deserves an audible arrival — but only
+  // mid-session (userActivation), never on a cold boot resuming an old draft
+  if (navigator.userActivation?.isActive) sfx('nav');
   bar.innerHTML = `
     <span class="xp">
       <span class="xp-head"><span>Tonight</span><span class="num">${done}/${total}</span></span>
@@ -758,6 +945,7 @@ function finishSession() {
   const startedAt = d.startedAt ?? (ats.length ? Math.min(...ats) : null);
   const mins = sessionMins(startedAt, ats);
   const stats = {
+    night: store.history.length + 1, // read BEFORE upsertEntry banks tonight
     mins,
     sets: exercises.reduce((n, x) => n + x.sets.length, 0),
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),
@@ -804,19 +992,44 @@ function showResults(stats) {
   el.className = 'results';
   el.innerHTML = `
     <div class="rs-card">
-      <div class="rs-k">${esc(stats.world)}</div>
+      <div class="rs-k rs-eyebrow">Night ${stats.night} — ${esc(stats.world)}</div>
       <div class="rs-n">${esc(stats.title)}</div>
       <div class="rs-grid">
-        <div class="rs-stat rs-time"><b class="num">${stats.mins ?? '—'}</b><i>minutes in the world</i></div>
-        <div class="rs-stat"><b class="num">${stats.sets}</b><i>${stats.sets === 1 ? 'set' : 'sets'}</i></div>
-        <div class="rs-stat"><b class="num">${stats.tonnage.toLocaleString()}</b><i>lb moved</i></div>
-        <div class="rs-stat"><b class="num">${stats.acts}</b><i>${stats.acts === 1 ? 'act' : 'acts'}</i></div>
-        <div class="rs-stat ${stats.prs ? 'pr' : ''}"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i></div>
+        <div class="rs-stat rs-time" style="animation-delay:.12s"><b class="num">${stats.mins ?? '—'}</b><i>minutes in the world</i></div>
+        <div class="rs-stat" style="animation-delay:.24s"><b class="num">${stats.sets}</b><i>${stats.sets === 1 ? 'set' : 'sets'}</i></div>
+        <div class="rs-stat" style="animation-delay:.36s"><b class="num" id="rs-ton">${stats.tonnage.toLocaleString()}</b><i>lb moved</i></div>
+        <div class="rs-stat" style="animation-delay:.48s"><b class="num">${stats.acts}</b><i>${stats.acts === 1 ? 'act' : 'acts'}</i></div>
+        <div class="rs-stat ${stats.prs ? 'pr' : ''}" style="animation-delay:.6s"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i>${stats.prs ? '<span class="rs-star s1" aria-hidden="true">★</span><span class="rs-star s2" aria-hidden="true">★</span>' : ''}</div>
       </div>
       <button class="btn primary" id="rs-go">Take a bow</button>
+      <button class="btn quiet rs-atlas" id="rs-atlas">See tonight’s star in the Atlas</button>
       <div class="rs-sync" id="rs-sync"></div>
     </div>`;
   document.body.appendChild(el);
+
+  // CHOREOGRAPHY — the nightly climax finally outranks the arcade game-over:
+  // stats stagger in (val-pop, inline delays), the tonnage number counts up
+  // as its cell lands, the card bursts after the slam (gold-heavy when PRs
+  // fell), and a PR night gets a second sting when the records cell pops.
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tonEl = el.querySelector('#rs-ton');
+  if (tonEl && !reduced && stats.tonnage > 0) {
+    const t0 = performance.now();
+    const dur = 700;
+    const tick = (t) => {
+      if (!el.isConnected) return; // dismissed mid-count
+      const p = Math.min(1, (t - t0) / dur);
+      const eased = 1 - (1 - p) ** 3;
+      tonEl.textContent = Math.round(stats.tonnage * eased).toLocaleString();
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    tonEl.textContent = '0';
+    setTimeout(() => requestAnimationFrame(tick), 380); // when its cell lands
+  }
+  setTimeout(() => {
+    if (el.isConnected) burstAt(el.querySelector('.rs-card'), { pr: stats.prs > 0 });
+  }, 550);
+  if (stats.prs > 0) setTimeout(() => { if (el.isConnected) sfx('pr'); }, 600);
 
   // LIVE save confirmation: the sync line tracks the queue while the card is
   // up — uploading, then the universe's own "delivered" moment, or the plain
@@ -860,6 +1073,14 @@ function showResults(stats) {
     renderDock();
   };
   el.querySelector('#rs-go').addEventListener('click', dismiss);
+  // The star you just earned, one tap away: close the ceremony and drill the
+  // Atlas straight into tonight's entry (app.js owns the tab switch).
+  el.querySelector('#rs-atlas').addEventListener('click', () => {
+    unsub();
+    el.remove();
+    focusIdx = null;
+    window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'history', entryPath: stats.path } }));
+  });
   el.addEventListener('click', (e) => {
     if (e.target.closest('#rs-fix')) { dismiss(); connectSheet(); }
   });

@@ -150,6 +150,26 @@ export const store = {
     this.emit(true);
   },
 
+  // Queue a remote deletion (op:'delete'): flushQueue turns it into a
+  // Contents API DELETE with a fresh sha. Replaces any queued write for the
+  // same path — and a later re-save replaces the delete, in queue order.
+  enqueueDelete(path) {
+    this.queue = this.queue.filter((q) => q.path !== path);
+    this.queue.push({ path, op: 'delete', attempts: 0, queuedAt: Date.now() });
+    write(KEYS.queue, this.queue);
+    this.emit(true);
+  },
+
+  // Remove a banked night everywhere: local history now, the repo via the
+  // sync queue. Same enqueue-first discipline as upsertEntry.
+  deleteEntry(entry) {
+    const path = this.entryPath(entry);
+    this.enqueueDelete(path);
+    this.history = this.history.filter((e) => this.entryPath(e) !== path);
+    write(KEYS.history, this.history);
+    this.emit();
+  },
+
   markAttempt(path, error) {
     const item = this.queue.find((q) => q.path === path);
     if (item) { item.attempts += 1; item.lastError = String(error); item.lastAttemptAt = Date.now(); }

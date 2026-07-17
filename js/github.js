@@ -65,6 +65,16 @@ export async function putFile(filePath, content, message) {
   return res.content.sha;
 }
 
+// Mirror of putFile's sha-refresh, pointed at the DELETE endpoint. A 404 on
+// the sha lookup means the file is already gone — which IS the goal state of
+// a delete, so it succeeds silently instead of erroring.
+export async function deleteFile(filePath, message) {
+  const { branch } = store.settings;
+  const existing = await gh(`${repoPath(filePath)}?ref=${branch}`);
+  if (!existing) return;
+  await gh(repoPath(filePath), { method: 'DELETE', body: JSON.stringify({ message, branch, sha: existing.sha }) });
+}
+
 export async function listDir(dirPath) {
   const { branch } = store.settings;
   const data = await gh(`${repoPath(dirPath)}?ref=${branch}`);
@@ -96,9 +106,16 @@ export async function flushQueue({ force = false } = {}) {
       // exponential backoff: a failing item must not spam the API forever
       if (!force && item.attempts > 0 && Date.now() - (item.lastAttemptAt || 0) < Math.min(2 ** item.attempts * 30000, 3600000)) continue;
       try {
-        const sha = await putFile(item.path, item.content, `log: ${item.path.replace(/^data\/(history\/)?/, '').replace(/\.json$/, '')}`);
-        store.remoteIndex[item.path] = sha;
-        store.setRemoteIndex(store.remoteIndex);
+        const label = item.path.replace(/^data\/(history\/)?/, '').replace(/\.json$/, '');
+        if (item.op === 'delete') {
+          await deleteFile(item.path, `remove: ${label}`);
+          delete store.remoteIndex[item.path];
+          store.setRemoteIndex(store.remoteIndex);
+        } else {
+          const sha = await putFile(item.path, item.content, `log: ${label}`);
+          store.remoteIndex[item.path] = sha;
+          store.setRemoteIndex(store.remoteIndex);
+        }
         // Only dequeue what we actually uploaded — a re-save during the PUT
         // replaces the queue item, and that newer write must survive.
         const current = store.queue.find((q) => q.path === item.path);

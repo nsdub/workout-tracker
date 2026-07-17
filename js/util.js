@@ -71,9 +71,46 @@ export function syncErrorHint(raw) {
   return s.slice(0, 120);
 }
 
+// iOS Safari/PWA has no navigator.vibrate — but since 17.4, toggling a
+// switch-style checkbox fires the system haptic. A hidden label+input pair,
+// created once on first use, is the whole trick.
+let hapticSwitch = null;
+function makeHapticSwitch() {
+  if (typeof document === 'undefined' || !document.body) return null;
+  const label = document.createElement('label');
+  label.setAttribute('aria-hidden', 'true');
+  label.style.cssText = 'position:fixed;top:-99px;left:-99px;width:1px;height:1px;opacity:0;pointer-events:none;';
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.setAttribute('switch', '');
+  input.tabIndex = -1;
+  label.appendChild(input);
+  document.body.appendChild(label);
+  hapticSwitch = label;
+  return label;
+}
+
 export function haptic(pattern = 10) {
   if (globalThis.__p3Haptics === false) return;
-  try { navigator.vibrate?.(pattern); } catch { /* unsupported */ }
+  try {
+    // Android / anything with the real API: unchanged.
+    if (navigator.vibrate) { navigator.vibrate(pattern); return; }
+    // iOS fallback — only inside a real user gesture (background timer ticks
+    // must never throw or fire ghost haptics), capped at 3 pulses so a long
+    // celebration pattern doesn't machine-gun the Taptic engine.
+    if (!navigator.userActivation?.isActive) return;
+    const el = hapticSwitch ?? makeHapticSwitch();
+    if (!el) return;
+    const arr = Array.isArray(pattern) ? pattern : [pattern];
+    let at = 0;
+    let fired = 0;
+    for (let i = 0; i < arr.length && fired < 3; i += 2) {
+      if (at === 0) el.click();
+      else setTimeout(() => { try { el.click(); } catch { /* gone */ } }, at);
+      fired += 1;
+      at += (Number(arr[i]) || 0) + (Number(arr[i + 1]) || 0);
+    }
+  } catch { /* unsupported */ }
 }
 
 export function debounce(fn, ms) {

@@ -1,5 +1,7 @@
 // The sound of each universe, synthesized live in WebAudio. No files.
-// Every pack answers the same five cues: log, objDone, pr, restDone, finish.
+// Every pack answers the same five cues: log, objDone, pr, restDone, finish —
+// plus a navigation voice (open / close / nav): sub-120ms, quiet, spoken in
+// each world's own instrument so even a sheet-slide stays in character.
 // v2 kernel: everything plays into one mastered room — a gentle glue
 // compressor plus a procedurally-built convolution reverb — so cues sound
 // like instruments recorded in a space, not oscillators wired to a jack.
@@ -294,6 +296,10 @@ const PACKS = {
       [392, 523, 587, 784].forEach((f, i) =>
         bell(c, { t: 0.55 + i * 0.13 + jit(), freq: f, dur: 0.9, vol: 0.1, ratio: 3.01, index: 1.8, bright: 0.06, send: 0.45 }));
     },
+    // wood-block ticks; the close is a low door-thump
+    open: (c) => { hiss(c, { dur: 0.012, vol: 0.07, freq: 2600, q: 2, send: 0.02 }); thock(c, { freq: 820, drop: 1.12, dur: 0.06, vol: 0.1, send: 0.05, click: 0 }); },
+    close: (c) => { sub(c, { freq: 130, vol: 0.12, dur: 0.09, drop: 0.7 }); hiss(c, { dur: 0.01, vol: 0.04, freq: 1400, q: 1.5, send: 0.02 }); },
+    nav: (c) => { hiss(c, { dur: 0.01, vol: 0.06, freq: 2400, q: 2, send: 0.02 }); thock(c, { freq: 660, drop: 1.1, dur: 0.05, vol: 0.09, send: 0.03, click: 0 }); },
   },
   // The Deep: sonar in a cathedral of water, whale song, abyssal pressure.
   deep: {
@@ -318,6 +324,10 @@ const PACKS = {
       glide(c, { t: 0.2, from: 130, to: 260, dur: 1.2, vol: 0.14, vib: 14, vibHz: 4, send: 0.55 });
       bell(c, { t: 0.9, freq: 1319, dur: 1.2, vol: 0.09, ratio: 1.5, index: 0.4, bright: 0.03, send: 0.7 });
     },
+    // soft sonar blips — up-blip in, down-blip out
+    open: (c) => bell(c, { freq: 988, dur: 0.11, vol: 0.09, ratio: 1.5, index: 0.4, bright: 0.02, send: 0.3 }),
+    close: (c) => bell(c, { freq: 740, dur: 0.1, vol: 0.08, ratio: 1.5, index: 0.35, bright: 0.02, send: 0.25 }),
+    nav: (c) => bell(c, { freq: 1175, dur: 0.08, vol: 0.08, ratio: 1.5, index: 0.35, bright: 0.02, send: 0.2 }),
   },
   // Cryptid National Park: camera shutter, walkie-talkie, something howling.
   park: {
@@ -346,6 +356,10 @@ const PACKS = {
       whoosh(c, { t: 0.5, dur: 0.7, vol: 0.05, freq: 400, to: 1400, send: 0.3 });
       glide(c, { t: 0.75, from: 587, to: 494, dur: 0.7, vol: 0.06, vib: 20, vibHz: 4.5, send: 0.6 }); // one last distant hoot
     },
+    // walkie squelch — keyed mic in, un-keyed out
+    open: (c) => { hiss(c, { dur: 0.045, vol: 0.08, freq: 1900, q: 4, send: 0.05 }); thock(c, { t: 0.03, freq: 1150, drop: 1.08, dur: 0.05, vol: 0.07, send: 0.04, click: 0 }); },
+    close: (c) => { hiss(c, { dur: 0.04, vol: 0.07, freq: 1500, q: 4, send: 0.04 }); thock(c, { freq: 620, drop: 1.1, dur: 0.05, vol: 0.06, send: 0.03, click: 0 }); },
+    nav: (c) => hiss(c, { dur: 0.035, vol: 0.08, freq: 2100, q: 3.5, send: 0.04 }),
   },
   // The Noodle Cosmos: wok steel, oil sizzle, the order bell.
   wok: {
@@ -375,6 +389,10 @@ const PACKS = {
       hiss(c, { t: 0.4, dur: 0.7, vol: 0.05, freq: 5000, to: 2600, q: 0.7, send: 0.1 });
       sub(c, { t: 0.62, freq: 78, vol: 0.3, dur: 0.3 });
     },
+    // chopstick ticks on the pass rail
+    open: (c) => { hiss(c, { dur: 0.012, vol: 0.09, freq: 3200, q: 1.8, send: 0.02 }); thock(c, { freq: 1150, drop: 1.08, dur: 0.045, vol: 0.08, send: 0.03, click: 0 }); },
+    close: (c) => { hiss(c, { dur: 0.012, vol: 0.07, freq: 2400, q: 1.8, send: 0.02 }); thock(c, { freq: 820, drop: 1.08, dur: 0.045, vol: 0.07, send: 0.03, click: 0 }); },
+    nav: (c) => [0, 0.045].forEach((t) => hiss(c, { t, dur: 0.01, vol: 0.07, freq: 3000, q: 2, send: 0.02 })),
   },
   // Pirate Radio Atoll: warm dial blips, vinyl dust, the air-horn of victory.
   atoll: {
@@ -404,6 +422,10 @@ const PACKS = {
       swell(c, { t: 0.85, freqs: [233, 466], dur: 0.4, vol: 0.12, atk: 0.012, open: 12, send: 0.25 }); // one last horn
       crackle(c, 0, 1.2, 0.04);
     },
+    // dial clicks with a little tape wow
+    open: (c) => { thock(c, { freq: 640, drop: 1.22, dur: 0.07, vol: 0.1, send: 0.05, click: 0.3, wow: 6 }); crackle(c, 0, 0.08, 0.025); },
+    close: (c) => thock(c, { freq: 460, drop: 1.18, dur: 0.06, vol: 0.09, send: 0.04, click: 0.25, wow: 6 }),
+    nav: (c) => thock(c, { freq: 560, drop: 1.15, dur: 0.05, vol: 0.09, send: 0.03, click: 0.4, wow: 5 }),
   },
   // Yeti Ski Resort: powder in stereo, cowbell, and après-ski disco.
   yeti: {
@@ -433,6 +455,10 @@ const PACKS = {
       [0.15, 0.45].forEach((t, i) => swell(c, { t, freqs: i ? [440, 554, 659] : [392, 494, 587], dur: 0.13, vol: 0.14, atk: 0.008, open: 12, send: 0.18 }));
       whoosh(c, { t: 0.55, dur: 0.5, vol: 0.1, freq: 600, to: 3200, send: 0.25 });
     },
+    // snow-crunch bursts — a boot stepping in, out, and along
+    open: (c) => hiss(c, { dur: 0.09, vol: 0.1, freq: 1000, to: 420, q: 0.8, atk: 0.004, send: 0.05 }),
+    close: (c) => hiss(c, { dur: 0.07, vol: 0.09, freq: 700, to: 300, q: 0.8, atk: 0.004, send: 0.04 }),
+    nav: (c) => hiss(c, { dur: 0.05, vol: 0.09, freq: 1200, to: 550, q: 1, atk: 0.003, send: 0.03 }),
   },
 };
 
@@ -454,6 +480,10 @@ const NEUTRAL = {
     [523, 659, 784, 1047].forEach((f, i) => keys(c, { t: i * 0.12 + jit(), freq: f, vol: 0.13 }));
     swell(c, { t: 0.36, freqs: [262, 392, 523], dur: 0.8, vol: 0.1, atk: 0.08, send: 0.35 });
   },
+  // navigation voice: modern round pops — never a beep
+  open: (c) => thock(c, { freq: 620, drop: 1.35, dur: 0.09, vol: 0.1, send: 0.05, click: 0.3 }),
+  close: (c) => thock(c, { freq: 430, drop: 1.25, dur: 0.08, vol: 0.09, send: 0.04, click: 0.2 }),
+  nav: (c) => thock(c, { freq: 540, drop: 1.2, dur: 0.06, vol: 0.08, send: 0.03, click: 0.3 }),
 };
 
 // The tap: a soft, nearly-dry tick. Feels like a key, not a beep.

@@ -1,11 +1,11 @@
 // Boot, tabs, status tag, sync lifecycle, auto-update.
-import { $, todayStr, syncErrorHint } from './util.js';
+import { $, todayStr, syncErrorHint, haptic } from './util.js';
 import { store } from './store.js';
 import * as worlds from './worlds.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
 import { toast, sheetPopHandled, gamePopHandled } from './components.js';
-import { initAudio } from './audio.js';
+import { initAudio, sfx } from './audio.js';
 import * as session from './views/session.js';
 import * as log from './views/log.js';
 import * as board from './views/plan.js';
@@ -26,24 +26,52 @@ function renderStatus() {
     const info = phaseForDate(store.plan, todayStr(), store.settings.phaseOverride);
     phaseTxt = info.phase ? `${info.phase.name} · W${info.week}` : `starts ${store.plan.phases[0].start.slice(5).replace('-', '/')}`;
   }
-  el.innerHTML = `
-    <button class="tag" id="phase-tag">${phaseTxt}</button>
-    <button class="sync ${store.syncStatus()}" id="sync-tag" aria-label="sync"><i></i></button>`;
-  $('#phase-tag').onclick = () => { if (store.plan) board.phaseOverrideSheet(phaseForDate(store.plan, todayStr(), store.settings.phaseOverride)); };
-  $('#sync-tag').onclick = async () => {
-    if (!store.settings.token) return toast('No token yet — Systems console on the Mission deck', 'bad');
-    if (!navigator.onLine) return toast('Offline. Writes are queued.');
-    toast('Syncing…');
-    await flushQueue({ force: true }); // a deliberate tap outranks the backoff clock
-    await pullRemote();
-    if (store.syncStatus() === 'synced') return toast('All caught up', 'ok');
-    // name the real blocker — "still pending" is only for the patient cases
-    toast(syncErrorHint(store.syncError()) ?? 'Still pending, will retry', 'bad');
-  };
+  // Built ONCE, then updated in place — rebuilding innerHTML on every store
+  // notification reset the pending-blink phase and re-attached listeners.
+  if (!el.dataset.built) {
+    el.dataset.built = '1';
+    el.innerHTML = `
+      <button class="tag" id="phase-tag"></button>
+      <button class="sync" id="sync-tag" aria-label="sync"><i></i></button>`;
+    $('#phase-tag').onclick = () => { if (store.plan) board.phaseOverrideSheet(phaseForDate(store.plan, todayStr(), store.settings.phaseOverride)); };
+    $('#sync-tag').onclick = async () => {
+      // No token → open the connect sheet right here, not a toast pointing at a
+      // control two hops away at the bottom of the Mission deck.
+      if (!store.settings.token) return session.connectSheet();
+      if (!navigator.onLine) return toast('Offline. Writes are queued.');
+      toast('Syncing…');
+      await flushQueue({ force: true }); // a deliberate tap outranks the backoff clock
+      await pullRemote();
+      if (store.syncStatus() === 'synced') return toast('All caught up', 'ok');
+      // name the real blocker — "still pending" is only for the patient cases
+      toast(syncErrorHint(store.syncError()) ?? 'Still pending, will retry', 'bad');
+    };
+  }
+  const tag = $('#phase-tag');
+  if (tag.textContent !== phaseTxt) tag.textContent = phaseTxt;
+  const syncBtn = $('#sync-tag');
+  const status = store.syncStatus();
+  const prev = syncBtn.dataset.st || '';
+  if (prev !== status) {
+    syncBtn.className = `sync ${status}`;
+    syncBtn.dataset.st = status;
+    // the moment your night lands in GitHub: the lamp pops green
+    if (prev === 'pending' && status === 'synced' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      syncBtn.querySelector('i')?.animate(
+        [{ transform: 'scale(1.8)' }, { transform: 'scale(1)' }],
+        { duration: 300, easing: 'cubic-bezier(.34,1.56,.64,1)' },
+      );
+    }
+  }
 }
 
 function switchTab(tab) {
   if (tab === active) return;
+  // .booted gates the view-in slide and tab-boing so the boot paint stays
+  // still — only a real user switch animates
+  document.body.classList.add('booted');
+  sfx('nav');
+  haptic(4);
   $(`#view-${active}`).classList.remove('active');
   if (active === 'history') log.resetDrill(); // leave the Atlas with no drill leftovers
   active = tab;
@@ -60,6 +88,16 @@ function switchTab(tab) {
 $('#tabbar').addEventListener('click', (e) => {
   const tab = e.target.closest('.tab');
   if (tab) switchTab(tab.dataset.tab);
+});
+
+// Cross-view navigation: modules dispatch (results card → tonight's Atlas
+// star, Atlas re-open → the Lift screen), the tab owner routes. An event, not
+// an export, so the views never import the entry module back (no cycle).
+window.addEventListener('p3:nav', (e) => {
+  const { tab, entryPath } = e.detail || {};
+  if (entryPath) log.openEntry(entryPath);
+  if (tab && tab !== active) switchTab(tab);
+  else renderActive();
 });
 
 store.sub((quiet) => {

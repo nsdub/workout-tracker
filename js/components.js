@@ -11,6 +11,26 @@ const uniCopy = () => COPY_BY_CLS[document.documentElement.dataset.universe] ?? 
 
 const sheetRoot = () => $('#sheet-root');
 
+// ——— Drawn iconography ———
+// Every mark the app shows is drawn in the cut-out line language — no Unicode
+// glyph whose rendering the OS owns (the tabbar rule, applied at small scale).
+// currentColor everywhere a context tints it; fixed paint only on characters
+// (the sleeping moon stays gold in every sky).
+export const ICONS = {
+  chevL: `<svg class="ic" width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M10.4 2 L4.2 7.5 L10.4 13 Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+  chevR: `<svg class="ic" width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.6 2 L10.8 7.5 L4.6 13 Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+  close: `<svg class="ic" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.6 2.8 L11.4 11.4 M11.2 2.4 L2.4 11.2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>`,
+  backspace: `<svg class="ic" width="23" height="16" viewBox="0 0 23 16" aria-hidden="true"><path d="M7.4 1.6 h12.6 a1.6 1.6 0 0 1 1.6 1.6 v9.6 a1.6 1.6 0 0 1 -1.6 1.6 H7.4 L1.6 8 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 5.4 l5.2 5.2 M16.2 5.4 L11 10.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  play: `<svg class="ic" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M1.8 1.4 L9.8 6 L1.8 10.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`,
+  moon: `<svg class="ic" width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M12.6 1.7 A7.7 7.7 0 1 0 16.6 11.5 A6.3 6.3 0 0 1 12.6 1.7 Z" fill="#ffd24a" stroke="#c2822c" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.9 8.1 q1 1 2 0" stroke="#7a5210" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M8.3 11.4 q.9 .7 1.8 0" stroke="#7a5210" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>`,
+  snowflake: `<svg class="ic" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"><path d="M8 1.4 V14.6 M2.3 4.7 L13.7 11.3 M13.7 4.7 L2.3 11.3"/><path d="M6.4 2.6 L8 4.2 L9.6 2.6 M6.4 13.4 L8 11.8 L9.6 13.4"/></g></svg>`,
+  compass: `<svg class="ic" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.9 5.1 L8.9 8.9 L5.1 10.9 L7.1 7.1 Z" fill="currentColor"/></svg>`,
+  hourglass: `<svg class="ic" width="13" height="15" viewBox="0 0 14 16" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"><path d="M2.4 1.6 h9.2 M2.4 14.4 h9.2"/><path d="M3.4 1.6 c0 4.2 7.2 4.4 7.2 6.4 c0 2 -7.2 2.2 -7.2 6.4 M10.6 1.6 c0 4.2 -7.2 4.4 -7.2 6.4 c0 2 7.2 2.2 7.2 6.4"/></g></svg>`,
+  gauge: `<svg class="ic" width="16" height="11" viewBox="0 0 18 12" aria-hidden="true"><path d="M2 10.6 a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M9 10.6 L12.6 5.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10.6" r="1.4" fill="currentColor"/></svg>`,
+  beam: `<svg class="ic" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 12.4 V4.8 M2.8 7.6 L6 4.4 L9.2 7.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11 h1.6 M8.4 11 h1.6 M4.4 13.2 h3.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".6"/></svg>`,
+  warn: `<svg class="ic" width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M9 1.6 L16.8 14.2 H1.2 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 6 v3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="12" r="1.1" fill="currentColor"/></svg>`,
+};
+
 let cleanupTimer = null;
 let backEats = 0;
 let backPending = false;
@@ -19,6 +39,7 @@ let pendingPush = false;
 function internalClose(fromPop) {
   const root = sheetRoot();
   if (!root.classList.contains('open')) return;
+  sfx('close');
   const mySheet = root.querySelector('.sheet');
   root.classList.remove('open');
   clearTimeout(cleanupTimer);
@@ -65,6 +86,15 @@ export function openSheet(html, { onOpen } = {}) {
   root.innerHTML = `<div class="scrim"></div><div class="sheet" role="dialog">${html}</div>`;
   void root.offsetHeight;
   root.classList.add('open');
+  // the clipboard announces itself in the world's voice and lands in the hand
+  sfx('open');
+  haptic(4);
+  // Overflow is signalled by the paper's own bottom fade (CSS .can-scroll),
+  // never a UA scrollbar — only when the content genuinely scrolls.
+  const sheetEl = root.querySelector('.sheet');
+  requestAnimationFrame(() => {
+    if (root.contains(sheetEl)) sheetEl.classList.toggle('can-scroll', sheetEl.scrollHeight > sheetEl.clientHeight + 4);
+  });
   if (backPending) pendingPush = true;
   else { try { history.pushState({ p3: 'sheet' }, ''); } catch { /* throttled */ } }
   let closed = false;
@@ -90,19 +120,31 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
       ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button class="np-key" data-k="${n}">${n}</button>`).join('')}
       <button class="np-key fn" data-k="."${decimals ? '' : ' disabled'}>.</button>
       <button class="np-key" data-k="0">0</button>
-      <button class="np-key fn" data-k="del">⌫</button>
+      <button class="np-key fn" data-k="del" aria-label="delete">${ICONS.backspace}</button>
     </div>
     <button class="btn primary" id="np-ok">Lock it in</button>`, {
     onOpen(sheet, close) {
       const display = $('#np-v', sheet);
       const render = () => { display.textContent = typing ? (buffer || '0') : fmtW(current); };
+      // every keystroke lands: the value physically reacts (scale pulse) and
+      // ticks in the world's tap voice — steppers hit harder than digits
+      const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const pulse = (big) => {
+        if (reduced()) return;
+        display.parentElement?.animate(
+          big
+            ? [{ transform: 'scale(1.14)', color: 'var(--acc)' }, { transform: 'scale(1)' }]
+            : [{ transform: 'scale(1.08)' }, { transform: 'scale(1)' }],
+          { duration: big ? 160 : 110, easing: big ? 'cubic-bezier(.2,.9,.3,1.3)' : 'ease-out' },
+        );
+      };
       sheet.addEventListener('click', (e) => {
         const stepBtn = e.target.closest('.np-step');
         const key = e.target.closest('.np-key');
         if (stepBtn) {
           if (typing) { current = parseFloat(buffer || '0'); typing = false; }
           current = Math.min(max, Math.max(min, +(current + step * Number(stepBtn.dataset.d)).toFixed(2)));
-          haptic(5); render();
+          haptic(5); sfx('tap'); render(); pulse(true);
         } else if (key && !key.disabled) {
           const k = key.dataset.k;
           if (!typing) { typing = true; buffer = ''; }
@@ -110,7 +152,7 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
           else if (k === '.') { if (!buffer.includes('.')) buffer = (buffer || '0') + '.'; }
           else if (buffer.replace('.', '').length < 6) buffer += k;
           // Whisper on throwaway keystrokes — the impact belongs to the commit.
-          haptic(2); render();
+          haptic(2); sfx('tap'); render(); pulse(false);
         } else if (e.target.closest('#np-ok')) {
           const v = typing ? parseFloat(buffer || '0') : current;
           // Locking in the working weight is the decisive beat: punctuate it
@@ -163,13 +205,27 @@ export function confirmSheet({ title, body = '', confirmLabel = 'Confirm', dange
   });
 }
 
-export function toast(msg, kind = 'ok', ms = 2400) {
+// Optional { action: { label, fn } } adds a tappable button (e.g. UNDO) —
+// the one interactive element on an otherwise pass-through toast layer.
+export function toast(msg, kind = 'ok', ms = 2400, { action } = {}) {
   const root = $('#toast-root');
   const el = document.createElement('div');
   el.className = `toast ${kind === 'ok' ? '' : kind}`;
   el.textContent = msg;
+  const dismiss = () => { el.classList.add('out'); setTimeout(() => el.remove(), 220); };
+  const out = setTimeout(dismiss, ms);
+  if (action) {
+    const btn = document.createElement('button');
+    btn.className = 't-act';
+    btn.textContent = action.label;
+    btn.addEventListener('click', () => {
+      clearTimeout(out);
+      dismiss();
+      action.fn?.();
+    });
+    el.appendChild(btn);
+  }
   root.appendChild(el);
-  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 220); }, ms);
 }
 
 // ——— Cooldown (world names it: Intermission, Commercial break…) ———
@@ -266,7 +322,7 @@ async function acquireWakeLock() {
 // Under the game floor a session is all intro and no ramp — the Play chip
 // first flips to a legible "closed" sign, THEN bows out (a fade, not a pop),
 // so its exit reads as "time ran down" instead of "the button broke".
-function retireChip(msg = '▶ Closed — under 0:20 left') {
+function retireChip(msg = `${ICONS.play} Closed — under 0:20 left`) {
   const p = document.getElementById('rest-play');
   if (!p || p.dataset.gone) return;
   p.dataset.gone = '1'; // authoritative: the chip never resurrects past this
@@ -280,6 +336,30 @@ function retireChip(msg = '▶ Closed — under 0:20 left') {
   }, 1500);
 }
 
+// The bell must survive a muted phone: a full-screen world-accent flash +
+// tabbar glow announce rest-done visually. Web Animations (not CSS keyframes)
+// on purpose — the global reduced-motion clamp kills CSS animation, but this
+// is a state cue, not decoration, so reduced motion gets a short 200ms
+// opacity blink instead of nothing (the CSS swaps the radial for a solid).
+function showRestDoneFlash() {
+  document.querySelector('.rest-done-flash')?.remove();
+  const f = document.createElement('div');
+  f.className = 'rest-done-flash';
+  document.body.appendChild(f);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const anim = f.animate(
+    [{ opacity: 0 }, { opacity: 1, offset: reduced ? 0.3 : 0.18 }, { opacity: 0 }],
+    { duration: reduced ? 200 : 700, easing: reduced ? 'linear' : 'ease-out' },
+  );
+  anim.onfinish = () => f.remove();
+  setTimeout(() => f.remove(), 1200); // belt and braces: never leave a stale layer
+  const tb = document.getElementById('tabbar');
+  if (tb) {
+    tb.classList.add('rest-done-glow');
+    setTimeout(() => tb.classList.remove('rest-done-glow'), 1600);
+  }
+}
+
 function restTick() {
   if (!restState) return;
   const now = Date.now();
@@ -289,6 +369,17 @@ function restTick() {
     restState.bar.style.width = `${(left / restState.total) * 100}%`;
     const s = Math.ceil(left / 1000);
     restState.digits.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    // ENDGAME: the last 10s go hot (accent digits, red bar) and the final 3
+    // whole seconds tick audibly — the bell lands as a resolved countdown,
+    // not an ambush. Visible-tab only; each boundary speaks once.
+    if (s <= 10 && !restState.ending) {
+      restState.ending = true;
+      document.getElementById('rest-pill')?.classList.add('ending');
+    }
+    if (s <= 3 && restState.lastTickSec !== s && document.visibilityState === 'visible') {
+      restState.lastTickSec = s;
+      sfx('tap');
+    }
     restRAF = requestAnimationFrame(restTick);
     return;
   }
@@ -302,6 +393,8 @@ function restTick() {
     // phone was pocketed, the ding lands the instant the room wakes (or on
     // the first tap back) instead of dying silently against a suspended ctx.
     flushWhenRunning('restDone');
+    showRestDoneFlash();
+    document.getElementById('rest-pill')?.classList.remove('ending');
     document.getElementById('rest-pill')?.classList.add('overtime');
     if (restState.lbl) restState.lbl.textContent = restState.overLabel;
     restState.bar.style.width = '0%';
@@ -386,7 +479,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     <span class="lbl" id="rest-lbl">${esc(label)}</span>
     <span class="t num" id="rest-t"></span>
     <span class="rbar"><i id="rest-bar" style="width:100%"></i></span>
-    ${playable ? `<button class="play" id="rest-play"><span class="play-lbl">▶ Play</span>${pbChip}${collChip}</button>` : ''}
+    ${playable ? `<button class="play" id="rest-play"><span class="play-lbl">${ICONS.play} Play</span>${pbChip}${collChip}</button>` : ''}
     <button class="skip">Skip</button>`;
   container.prepend(el);
   const total = seconds * 1000;
@@ -399,6 +492,8 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     lbl: el.querySelector('#rest-lbl'),
     overLabel: copy.restOver ?? NEUTRAL_COPY.restOver,
     lock: null,
+    ending: false,      // last-10s hot state applied once
+    lastTickSec: null,  // final-3s tick fires once per whole second
   };
   acquireWakeLock();
   restRAF = requestAnimationFrame(restTick);
@@ -410,7 +505,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
       toast('I keep your screen lit while you rest — if you pocket the phone, iPhone silences me until you look back.', 'ok', 5200);
     }
   } catch { /* private mode — the tip just repeats */ }
-  el.querySelector('.skip').addEventListener('click', hideRestTimer);
+  el.querySelector('.skip').addEventListener('click', () => { haptic(6); sfx('tap'); hideRestTimer(); });
   const playBtn = el.querySelector('#rest-play');
   playBtn?.addEventListener('click', async () => {
     if (!restState || restState.deadline - Date.now() < GAME_FLOOR_MS) {
@@ -427,8 +522,8 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     haptic(8);
     sfx('log');
     const lbl = playBtn.querySelector('.play-lbl');
-    const restore = lbl ? lbl.textContent : '';
-    if (lbl) lbl.textContent = '▶ Loading…';
+    const restore = lbl ? lbl.innerHTML : '';
+    if (lbl) lbl.innerHTML = `${ICONS.play} Loading…`;
     playBtn.style.opacity = '0.72';
     playBtn.setAttribute('aria-busy', 'true');
     try {
@@ -457,7 +552,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
       delete playBtn.dataset.loading;
       playBtn.removeAttribute('aria-busy');
       playBtn.style.opacity = '';
-      if (lbl) lbl.textContent = restore;
+      if (lbl) lbl.innerHTML = restore;
     }
   });
 }
@@ -480,7 +575,12 @@ export function hideRestTimer() {
 // ——— World-flavored moments ———
 
 export function flashCard(title, name, then) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return then?.();
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Information parity: the announcement ("TONIGHT: <world>", "act
+    // cleared") still lands under reduced motion — as a static toast.
+    toast(`${title} — ${name}`, 'ok', 1800);
+    return then?.();
+  }
   const el = document.createElement('div');
   el.className = 'obj-flash';
   el.innerHTML = `<div class="of-card"><div class="of-t">${esc(title)}</div><div class="of-n">${esc(name)}</div></div>`;

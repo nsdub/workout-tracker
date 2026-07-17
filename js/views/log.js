@@ -1,9 +1,12 @@
 // THE ATLAS — zoom out of the worlds and into the cosmos they float in.
 // Every finished night is a planet on a winding star-path; months are
 // sectors; PR nights wear a crown. Lifts are charted as constellations.
-import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins } from '../util.js';
+import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins, haptic } from '../util.js';
+import { sfx } from '../audio.js';
 import { store } from '../store.js';
 import { topSet } from '../engine.js';
+import { confirmSheet, toast, ICONS } from '../components.js';
+import { flushQueue } from '../github.js';
 import { applyWorld, UNIVERSES, worldDef } from '../worlds.js';
 // stats.js is the light half of the arcade — pure localStorage readers, no
 // game modules attached. The registry itself (which drags all six game
@@ -69,14 +72,27 @@ export function resetDrill() {
   state.exId = null;
 }
 
+// Aim the Atlas at one entry WITHOUT rendering — the results card's "see
+// tonight's star" path: app.js calls this, then switches the tab (which
+// renders). Pushes the drill history entry so the back gesture still works.
+export function openEntry(path) {
+  state.tab = 'sessions';
+  state.exId = null;
+  state.entryPath = path;
+  try { window.history.pushState({ p3: 'drill' }, ''); } catch { /* throttled */ }
+}
+
 function drillIn(patch) {
   Object.assign(state, patch);
+  sfx('open');
+  haptic(4);
   try { window.history.pushState({ p3: 'drill' }, ''); } catch { /* throttled */ }
   render(root);
   root.scrollTop = 0;
 }
 
 function backOut() {
+  sfx('close');
   try { window.history.back(); } catch { popBack(); }
   setTimeout(() => { if (state.entryPath || state.exId) popBack(); }, 250);
 }
@@ -99,8 +115,20 @@ function renderEmpty() {
   // arcade-only, so a player who has only tapped through rest-games must
   // still be able to reach it. Without the seg here, Worlds was unreachable
   // until the first night was charted.
+  // Uncharted space is a scene, not blank paper: a cut-out telescope aimed at
+  // three dim question-mark stars that blink (same fiction as the tabbar).
+  const qstar = (x, y, r, fs, d) => `<g class="qstar" style="--d:${d}s"><circle cx="${x}" cy="${y}" r="${r}" fill="#dfe8ff"/><text x="${x + 6}" y="${y + 6}" font-family="Cinzel,serif" font-size="${fs}" fill="#8a9ac8">?</text></g>`;
+  const art = `
+    <svg class="emp-art" width="150" height="88" viewBox="0 0 150 88" aria-hidden="true">
+      ${qstar(108, 12, 2.4, 14, 2.6)}${qstar(84, 30, 1.8, 11, 3.4)}${qstar(130, 34, 1.6, 10, 4.2)}
+      <path d="M42 64 L28 84 M46 64 L46 84 M50 64 L64 84" stroke="#8a9ac8" stroke-width="3" stroke-linecap="round"/>
+      <g transform="rotate(-28 46 58)">
+        <rect x="20" y="52" width="46" height="12" rx="5" fill="#8f6fdc" stroke="#dfe8ff" stroke-width="1.6"/>
+        <rect x="62" y="49.5" width="12" height="17" rx="3" fill="#ffd24a" stroke="#dfe8ff" stroke-width="1.6"/>
+      </g>
+    </svg>`;
   root.innerHTML = segHtml()
-    + `<div class="empty"><div class="card-e"><h3>Uncharted space</h3><p>Finish a night in any world and its star gets charted here. Tap <b>Worlds</b> to see the rest-game universes you've discovered.</p></div></div>`;
+    + `<div class="empty"><div class="card-e">${art}<h3>Uncharted space</h3><p>Finish a night in any world and its star gets charted here. Tap <b>Worlds</b> to see the rest-game universes you've discovered.</p></div></div>`;
   wireSeg();
 }
 
@@ -118,6 +146,7 @@ function wireSeg() {
   root.querySelector('.seg').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-t]');
     if (!btn) return;
+    if (btn.dataset.t !== state.tab) { sfx('nav'); haptic(4); }
     state.tab = btn.dataset.t;
     state.entryPath = null; state.exId = null;
     render(root);
@@ -129,7 +158,7 @@ function renderList() {
   const entries = [...store.history].sort((a, b) => b.date.localeCompare(a.date));
   const queued = new Set(store.queue.map((q) => q.path));
   let lastMonth = '';
-  const rows = entries.map((e) => {
+  const rows = entries.map((e, ri) => {
     const path = store.entryPath(e);
     const sets = e.exercises.reduce((n, x) => n + x.sets.length, 0);
     const tonnage = Math.round(e.exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + (s.weight || 0) * s.reps, 0), 0));
@@ -143,12 +172,12 @@ function renderList() {
     const name = store.plan?.sessions[e.session_type]?.name ?? e.session_type;
     const world = (e.world && worldDef(e.session_type, e.world)?.name) || UNIVERSES[e.session_type]?.name || '';
     return `${sector}
-      <button class="star-node" data-path="${esc(path)}" style="--c:${SWATCH[e.session_type] ?? '#8a9ac8'}">
+      <button class="star-node" data-path="${esc(path)}" style="--c:${SWATCH[e.session_type] ?? '#8a9ac8'};--i:${Math.min(ri, 12)}">
         <span class="planet"><b class="num">${mon}<u>${day}</u></b></span>
         <span class="sn-info">
           <span class="sn-name">${esc(name)}</span>
           <span class="sn-world">${esc(world)}</span>
-          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${mins ? ` · ${mins} min` : ''}${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' · ⇡ Beaming up' : ''}</span>
+          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${mins ? ` · ${mins} min` : ''}${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ` · <span class="beaming">${ICONS.beam} Beaming up</span>` : ''}</span>
         </span>
       </button>`;
   }).join('');
@@ -190,8 +219,76 @@ function renderDetail() {
         </div>`;
       }).join('')}
       ${entry.notes ? `<div class="d-ex"><div class="n">Field notes</div><div style="font-family:var(--mono);font-size:12px;color:var(--ink)">${esc(entry.notes)}</div></div>` : ''}
+      <div class="db-actions">
+        <button class="btn quiet" id="db-reopen">Re-open this night</button>
+        <button class="btn quiet danger-ghost" id="db-remove">Remove from the chart</button>
+      </div>
     </div>`;
   $('#back', root).addEventListener('click', backOut);
+  // A wrongly-logged night is fixable IN the app: re-open it as a draft
+  // (re-finishing replaces the saved night — upsertEntry keys on date+type),
+  // or delete it locally and queue the repo deletion. Both confirm-gated in
+  // plain English.
+  $('#db-reopen', root).addEventListener('click', () => {
+    const dirty = store.draft?.exercises?.some((x) => x.sets.some((s) => s.done));
+    confirmSheet({
+      title: 'Re-open this night?',
+      body: `Loads it back onto the Lift screen with every set editable. Re-finishing there replaces this saved night.${dirty ? ' <b>The workout currently in progress on the Lift screen will be dropped.</b>' : ''}`,
+      confirmLabel: 'Re-open it',
+      danger: !!dirty,
+      onConfirm() {
+        store.saveDraft(draftFromEntry(entry));
+        resetDrill();
+        toast('Night re-opened — it’s on the Lift screen');
+        window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'today' } }));
+      },
+    });
+  });
+  $('#db-remove', root).addEventListener('click', () => {
+    confirmSheet({
+      title: 'Remove this night from the chart?',
+      body: store.settings.token
+        ? 'Deletes this night from this phone AND from GitHub. There is no undo.'
+        : 'Deletes this night from this phone. There is no undo.',
+      confirmLabel: 'Remove it', danger: true,
+      onConfirm() {
+        store.deleteEntry(entry);
+        flushQueue();
+        resetDrill();
+        toast(store.settings.token ? 'Night removed — deleting it from GitHub too' : 'Night removed from this phone');
+        if (root) { render(root); root.scrollTop = 0; }
+      },
+    });
+  });
+}
+
+// Rebuild a Lift-screen draft from a banked entry: every set comes back done
+// (with its timestamp), weights editable via the trophies/un-log flow. Slot
+// metadata rehydrates from the plan where it still exists.
+function draftFromEntry(entry) {
+  const session = store.plan?.sessions[entry.session_type];
+  const exercises = entry.exercises.map((x) => {
+    const slot = session?.exercises.find((s) => s.id === x.id);
+    return {
+      prev: null,
+      id: x.id, name: x.name,
+      repMin: slot?.repMin ?? 8, repMax: slot?.repMax ?? 12, repUnit: slot?.repUnit || null,
+      rest: slot?.rest || 90,
+      basis: 'verify', prevTop: null,
+      note: 'Re-opened from the Atlas — these are the night’s saved numbers',
+      bump: 0, pct: null, stalled: false, inc: 2.5, adhoc: !slot,
+      sets: x.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: true, ...(s.at ? { at: s.at } : {}) })),
+    };
+  });
+  return {
+    date: entry.date, session_type: entry.session_type,
+    world: entry.world ?? null,
+    phase: entry.phase ?? null, week: entry.week ?? null,
+    startedAt: entry.startedAt ?? null,
+    bodyweight: entry.bodyweight ?? null, notes: entry.notes ?? '',
+    reopened: true, // the Lift screen skips its "resume or start fresh?" prompt
+    exercises,
+  };
 }
 
 function renderLiftList() {
@@ -267,7 +364,9 @@ function renderWorlds() {
   // sail back to Nights/Lifts.
   if (!discovered && !(stats.plays > 0)) {
     root.innerHTML = segHtml()
-      + `<div class="empty"><div class="card-e"><h3>No worlds discovered yet</h3>`
+      + `<div class="empty"><div class="card-e">`
+      + `<span class="wc-q big" style="--c:#8a9ac8">?</span>`
+      + `<h3>No worlds discovered yet</h3>`
       + `<p>Play a rest-game between sets and each world you visit gets charted here.</p></div></div>`;
     wireSeg();
     return;
@@ -290,15 +389,15 @@ function renderWorlds() {
     </div>`;
 
   const sectors = groups.map((g) => {
-    const tiles = g.worlds.map((w) => {
+    const tiles = g.worlds.map((w, wi) => {
       if (!w.found) {
-        return `<div class="wc-tile locked" style="--c:${g.u.hue}">
+        return `<div class="wc-tile locked" style="--c:${g.u.hue};--i:${wi}">
           <span class="wc-q">?</span>
           <span class="wc-tname dim">???</span>
         </div>`;
       }
       const acc = accCss(w.cfg.accent);
-      return `<div class="wc-tile found${w.stars >= 3 ? ' gold' : ''}" style="--c:${acc};--sky:${skyCss(w.cfg.sky)}">
+      return `<div class="wc-tile found${w.stars >= 3 ? ' gold' : ''}" style="--c:${acc};--sky:${skyCss(w.cfg.sky)};--i:${wi}">
         <span class="wc-tname">${esc(w.cfg.name || 'Unknown')}</span>
         <span class="wc-stars">${starPips(w.stars)}</span>
         <span class="wc-best num">${w.best}</span>
@@ -312,8 +411,17 @@ function renderWorlds() {
       <div class="wc-grid">${tiles}</div>`;
   }).join('');
 
-  root.innerHTML = segHtml() + `<div class="wc-wrap">${hero}${sectors}</div>`;
+  // NEW MEDAL CELEBRATION: the album remembers how many medals it showed last
+  // time — coming back with more makes every lit star re-pop (staggered) and
+  // plays the finish fanfare once. Grinding across worlds is celebrated HERE.
+  let lastMedals = 0;
+  try { lastMedals = Number(localStorage.getItem('p3.lastMedals')) || 0; } catch { /* private mode */ }
+  const newMedals = medals > lastMedals;
+  try { localStorage.setItem('p3.lastMedals', String(medals)); } catch { /* private mode */ }
+
+  root.innerHTML = segHtml() + `<div class="wc-wrap${newMedals ? ' medal-party' : ''}">${hero}${sectors}</div>`;
   wireSeg();
+  if (newMedals) sfx('finish');
 }
 
 function renderChart() {

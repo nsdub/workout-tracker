@@ -281,6 +281,40 @@ await ok('force flush ignores the backoff window (user-initiated sync)', async (
   assert.equal(puts, 1);
   assert.equal(store.queue.length, 0);
 });
+await ok('a queued delete lands via the DELETE endpoint with a fresh sha', async () => {
+  store.settings.token = 't';
+  store.queue = []; store.history = [];
+  store.upsertEntry({ date: '2026-07-05', session_type: 'PushA', exercises: [] }, { enqueue: false });
+  const entry = store.history[0];
+  store.remoteIndex = { 'data/history/2026-07-05-pusha.json': 'sha-stale' };
+  store.deleteEntry(entry);
+  assert.equal(store.history.length, 0, 'the night leaves local history immediately');
+  assert.equal(store.queue.length, 1);
+  assert.equal(store.queue[0].op, 'delete');
+  assert.equal(store.syncStatus(), 'pending', 'a queued delete shows as pending sync');
+  const calls = [];
+  fetchImpl = async (url, opts = {}) => {
+    calls.push({ url, method: opts.method || 'GET', body: opts.body ? JSON.parse(opts.body) : null });
+    if ((opts.method || 'GET') === 'GET') return resJson({ sha: 'sha-live', content: b64({}) });
+    return resJson({ content: null, commit: { sha: 'c1' } });
+  };
+  await flushQueue();
+  assert.equal(store.queue.length, 0, 'the delete left the queue after landing');
+  const del = calls.find((c) => c.method === 'DELETE');
+  assert.ok(del, 'a DELETE request was made');
+  assert.equal(del.body.sha, 'sha-live', 'the delete refreshed and sent the LIVE sha, not the stale index one');
+  assert.ok(!('data/history/2026-07-05-pusha.json' in store.remoteIndex), 'the remote index forgets the file');
+  // deleting a file the remote never had (or already lost) is a success, not an error
+  store.deleteEntry({ date: '2026-07-06', session_type: 'PullA', exercises: [] });
+  fetchImpl = async (url, opts = {}) => {
+    calls.push({ url, method: opts.method || 'GET' });
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    throw new Error('DELETE must not fire when the file is already gone');
+  };
+  await flushQueue();
+  assert.equal(store.queue.length, 0, 'an already-gone file dequeues cleanly');
+  store.queue = []; store.history = [];
+});
 await ok('a flush where nothing uploads does not advance lastSync', async () => {
   store.queue = [];
   store.enqueue('data/history/g.json', { v: 1 });

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1a0b10">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,9 +22,31 @@
       <section class="view" id="view-plan" data-view="plan"></section>
     </main>
     <nav class="tabbar" id="tabbar">
-      <button class="tab" data-tab="today"><span class="t-face">💪</span><span>Lift</span></button>
-      <button class="tab" data-tab="history"><span class="t-face">🪐</span><span>Atlas</span></button>
-      <button class="tab" data-tab="plan"><span class="t-face">🔭</span><span>Mission</span></button>
+      <button class="tab" data-tab="today"><span class="t-face" aria-hidden="true"><!-- the dumbbell creature -->
+        <svg viewBox="0 0 28 28"><g class="tfi">
+          <rect x="1.6" y="8.2" width="5.8" height="11.6" rx="2" fill="#ff8a5c" stroke="#241408" stroke-width="1.6"/>
+          <rect x="20.6" y="8.2" width="5.8" height="11.6" rx="2" fill="#ff8a5c" stroke="#241408" stroke-width="1.6"/>
+          <rect x="7" y="11.2" width="14" height="5.6" rx="2.8" fill="#ffd24a" stroke="#241408" stroke-width="1.6"/>
+          <g class="tf-eyes"><circle cx="12" cy="13.5" r="1.15" fill="#241408"/><circle cx="16" cy="13.5" r="1.15" fill="#241408"/></g>
+          <path d="M12.5 15.3 q1.5 1.3 3 0" stroke="#241408" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </g></svg></span><span>Lift</span></button>
+      <button class="tab" data-tab="history"><span class="t-face" aria-hidden="true"><!-- the ringed planet -->
+        <svg viewBox="0 0 28 28"><g class="tfi">
+          <defs><radialGradient id="tf-pl" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ffe9a3"/><stop offset=".55" stop-color="#ffb84d"/><stop offset="1" stop-color="#c86a2c"/></radialGradient></defs>
+          <circle cx="14" cy="13.4" r="8" fill="url(#tf-pl)" stroke="#241408" stroke-width="1.6"/>
+          <g class="tf-eyes"><circle cx="11.3" cy="11.4" r="1.2" fill="#241408"/><circle cx="16.7" cy="11.4" r="1.2" fill="#241408"/></g>
+          <path d="M11.5 14 q2.5 2.1 5 0" stroke="#241408" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="14" cy="16.6" rx="12.4" ry="3.9" fill="none" stroke="#8fd8ff" stroke-width="1.8" transform="rotate(-14 14 16.6)"/>
+        </g></svg></span><span>Atlas</span></button>
+      <button class="tab" data-tab="plan"><span class="t-face" aria-hidden="true"><!-- the telescope, lens blinking -->
+        <svg viewBox="0 0 28 28"><g class="tfi">
+          <path d="M13 15.5 L7 26 M14 15.5 L14 26 M15 15.5 L21 26" stroke="#241408" stroke-width="1.9" stroke-linecap="round"/>
+          <g transform="rotate(-26 14 11)">
+            <rect x="3.4" y="8.2" width="17" height="5.6" rx="2.2" fill="#8f6fdc" stroke="#241408" stroke-width="1.6"/>
+            <rect x="19" y="7.2" width="5.6" height="7.6" rx="1.8" fill="#ffd24a" stroke="#241408" stroke-width="1.6"/>
+            <circle class="tf-eyes" cx="21.8" cy="11" r="1.5" fill="#241408"/>
+          </g>
+        </g></svg></span><span>Mission</span></button>
     </nav>
     <div class="dock" id="dock"></div>
     <div class="hud-status" id="hud-status"></div>

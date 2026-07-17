@@ -5,7 +5,7 @@ import { $, esc, fmtW, todayStr, fmtDate, daysBetween, weekKey, haptic, syncErro
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
-import { optionSheet, confirmSheet, openSheet, toast } from '../components.js';
+import { optionSheet, confirmSheet, openSheet, toast, ICONS } from '../components.js';
 import { connectSheet, handleSeedFile, howtoSheet } from './session.js';
 import { applyWorld, UNIVERSES } from '../worlds.js';
 import { sfx } from '../audio.js';
@@ -23,7 +23,9 @@ export function render(el) {
     root.innerHTML = `
       <div class="space-title">Mission Control</div>
       <div class="empty"><div class="card-e">
-        <h3>No mission loaded</h3><p>Connect the repo or import the seed bundle and the whole campaign lights up.</p>
+        <div class="su-stars"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 1 L18.7 10.4 L28.5 11 L20.9 17.4 L23.4 27 L15 21.6 L6.6 27 L9.1 17.4 L1.5 11 L11.3 10.4 Z" fill="#ffd24a" stroke="#c2822c" stroke-width="1.4"/><circle cx="12" cy="13.4" r="1.5" fill="#2a1a08"/><circle cx="18" cy="13.4" r="1.5" fill="#2a1a08"/><path d="M12.6 17 q2.4 1.8 4.8 0" stroke="#2a1a08" stroke-width="1.2" fill="none"/></svg></div>
+        <div class="su-poster" style="font-size:22px">No mission loaded</div>
+        <p>Connect the repo or import the seed bundle and the whole campaign lights up.</p>
         <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
           <button class="btn primary" id="p-connect">Connect GitHub</button>
           <button class="btn quiet" id="p-import">Import seed bundle</button>
@@ -128,12 +130,21 @@ function weekAhead(plan, next, today) {
     dt.setDate(dt.getDate() + offset);
     return dt.toLocaleDateString('en-US', { weekday: 'long' });
   };
+  // Honest "Today": once tonight is banked, rotationNext has already advanced
+  // past it — so say what was DONE today, dimmed, and start the rotation rows
+  // at Tomorrow instead of relabeling tomorrow's session "Today".
+  const doneToday = [...store.history].reverse().find((e) => e.date === today);
+  if (doneToday) {
+    const t = doneToday.session_type;
+    rows.push(`<div class="wk-row done" style="--c:${UNIVERSES[t]?.swatch ?? '#8a9ac8'}"><span class="wk-day">Today</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span><span class="wk-done">✓ done</span></div>`);
+    d = 1;
+  }
   while (rows.length < 7) {
     const t = plan.rotation[idx];
     rows.push(`<div class="wk-row" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span></div>`);
     if (idx === plan.rotation.length - 1 && rows.length < 7) {
       d++;
-      rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">🌙 rest day</span></div>`);
+      rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${ICONS.moon} rest day</span></div>`);
     }
     idx = (idx + 1) % plan.rotation.length;
     d++;
