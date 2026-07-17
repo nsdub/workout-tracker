@@ -44,6 +44,17 @@
   /* one panel border shared by sheet + toast + rest-pill so the three
      surfaces always wear the same universe frame */
   --panel-border: 2.5px solid var(--ink);
+  /* ——— the motion grammar: per-universe physics tokens. The universe skins
+     re-tune these (dojo strikes, the deep drifts, yeti bounces) so the same
+     shared keyframes move differently in every world: press/land easing,
+     card-slide duration, idle-breathe amplitude, strike amplitude, and the
+     arc a sliding card travels on ——— */
+  --m-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --m-dur: 0.38s;
+  --m-float: 1.03;
+  --m-quake: 1;
+  --m-drop: 0px;
+  --m-tilt: 2.5deg;
 }
 
 /* Designed focus: keyboard/switch-control focus wears each world's accent
@@ -435,6 +446,11 @@ svg.ic { vertical-align: -2px; }
    OS takes it back — an honest little lamp, per universe */
 .rest-pill .totem { font-size: 16px; line-height: 1; filter: grayscale(1) opacity(0.4); transition: filter 300ms var(--ease); }
 .rest-pill .totem.lit { filter: none; animation: rest-glow 2.2s ease-in-out infinite; }
+/* ENDGAME: the last 10 seconds go hot — accent digits pulsing over a red
+   bar — while restTick speaks the final three seconds aloud, so the bell
+   lands as a resolved countdown instead of an ambush */
+.rest-pill.ending .t { color: var(--acc); animation: log-breathe .8s ease-in-out infinite; }
+.rest-pill.ending .rbar i { background: #b3492f; }
 /* OVERTIME: rest is done, the pill stays up counting +m:ss until the next
    set is logged or Skip — a pulsing hot state, not a vanishing act */
 @keyframes overtime-hot { 0%, 100% { box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.3) } 50% { box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.3), 0 0 18px color-mix(in srgb, var(--acc) 65%, transparent) } }
@@ -488,7 +504,10 @@ svg.ic { vertical-align: -2px; }
 }
 .sheet-root.open { pointer-events: auto; }
 .sheet-root.open .scrim { opacity: 1; }
-.sheet-root.open .sheet { transform: none; }
+/* the clipboard lands in the hand with a hint of bounce (open only) and
+   leaves crisply on the base 240ms ease — internalClose's 260ms cleanup
+   timer still covers the close */
+.sheet-root.open .sheet { transform: none; transition: transform 300ms cubic-bezier(.32, 1.18, .35, 1); }
 .sheet h2 { font-family: var(--disp); font-size: 22px; }
 .sheet .sub { font-family: var(--body); font-size: 12px; color: var(--ink2); margin-bottom: 12px; }
 .card { background: var(--paper2); border: 2px solid var(--line); border-radius: var(--r-2); margin-bottom: 10px; overflow: hidden; }
@@ -621,17 +640,26 @@ svg.ic { vertical-align: -2px; }
 .rs-eyebrow::after { transform: scaleX(-1); }
 .rs-n { font-family: var(--disp); font-size: 40px; line-height: 1; color: var(--acc); margin: 4px 0 16px; }
 .rs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 16px; }
-.rs-stat { background: var(--paper2); border: 2px solid var(--line); border-radius: var(--r-2); padding: 12px 6px; }
+/* NIGHTLY CHOREOGRAPHY: the cells stagger in on val-pop (inline delays from
+   showResults), the tonnage counts up as its cell lands, and a record night
+   pins two gold stars on the records cell right as the +600ms PR sting hits */
+.rs-stat { position: relative; background: var(--paper2); border: 2px solid var(--line); border-radius: var(--r-2); padding: 12px 6px; animation: val-pop .45s var(--spring) backwards; }
 .rs-stat b { display: block; font-family: var(--mono); font-size: 27px; }
 .rs-stat i { font-style: normal; font-family: var(--mono); font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink2); }
 .rs-stat.pr b { color: var(--acc); }
+.rs-star { position: absolute; font-size: 15px; color: #ffd24a; text-shadow: 0 0 12px rgba(255, 210, 74, .85); pointer-events: none; animation: star-pop .5s var(--spring) backwards; }
+.rs-star.s1 { top: -9px; right: -5px; animation-delay: .68s; }
+.rs-star.s2 { bottom: -7px; left: -7px; font-size: 11px; rotate: -14deg; animation-delay: .84s; }
 /* the elapsed-time banner: always present, full width, the headline stat */
 .rs-stat.rs-time { grid-column: 1 / -1; border-color: var(--acc); padding: 10px 6px; }
 .rs-stat.rs-time b { font-size: 34px; color: var(--acc); }
 :root[data-universe="deep"] .rs-stat.rs-time { border-color: #38dcc8; box-shadow: inset 0 0 20px rgba(56, 220, 200, 0.12); }
 :root[data-universe="deep"] .rs-stat.rs-time b { color: #38dcc8; text-shadow: 0 0 14px rgba(56, 220, 200, 0.55); }
+/* 'Take a bow' arrives after the stats land, then breathes like every other
+   primary verb in the app (mirrors the arcade's .go-back) */
+.rs-card .btn.primary { animation: fade-drop .5s var(--ease) .65s backwards, log-breathe 2.4s ease-in-out 1.4s infinite; }
 /* the road to the star you just earned */
-.rs-card .rs-atlas { margin-top: 9px; min-height: 46px; font-size: 15px; }
+.rs-card .rs-atlas { margin-top: 9px; min-height: 46px; font-size: 15px; animation: fade-drop .5s var(--ease) .78s backwards; }
 /* LIVE save confirmation: uploading → the universe's delivered moment → or
    the plain-English failure in red with a way to fix it */
 .rs-sync { font-family: var(--mono); font-size: 11px; color: var(--ink2); margin-top: 10px; min-height: 15px; }
@@ -687,10 +715,33 @@ svg.ic { vertical-align: -2px; }
 @keyframes sprayfade { 0% { transform: scale(.4); opacity: .9 } 100% { transform: scale(1.7) translateY(-14px); opacity: 0 } }
 @keyframes shoot { 0%, 82% { opacity: 0; transform: translate(0, 0) rotate(18deg) } 84% { opacity: 1 } 92%, 100% { opacity: 0; transform: translate(190px, 64px) rotate(18deg) } }
 
-/* every world reacts to a record: panels quake, the scene surges */
+/* every world reacts to a record: panels quake, the scene SURGES — a generic
+   flare (brightness/saturation spike, soft return) plus one signature
+   reaction per universe, so a PR in the Dojo and a PR in the Deep read as
+   two different natural disasters. #scene-front carries .scene too, so the
+   flare hits both sprite layers. */
+@keyframes quake-hard { 0%, 100% { transform: translate(0, 0) } 20% { transform: translate(-6px, 4px) rotate(-.7deg) } 45% { transform: translate(6px, -4px) rotate(.7deg) } 70% { transform: translate(-4px, -2px) } }
+@keyframes pr-flash { 0% { opacity: 0 } 7% { opacity: 1 } 20% { opacity: .15 } 30% { opacity: .7 } 55% { opacity: .1 } 100% { opacity: 0 } }
 :root.pr-moment .objective { animation: quake 500ms ease-in-out 2; }
-:root.pr-moment .scene { filter: brightness(1.3) saturate(1.35); }
-.scene { transition: filter 400ms; }
+.scene { transition: filter .25s ease-out; }
+:root.pr-moment .scene { filter: brightness(1.22) saturate(1.35); }
+/* dojo: the temple takes the hit — a harder quake, a red flash off the volcano */
+:root[data-universe="dojo"].pr-moment .objective { animation: quake-hard 420ms ease-in-out 3; }
+:root[data-universe="dojo"].pr-moment #scene::after { content: ''; position: absolute; inset: 0; background: radial-gradient(90% 70% at 50% 42%, rgba(194, 59, 34, 0.55), transparent 74%); animation: pr-flash 2.6s ease-out both; }
+/* deep: pressure wobble instead of a quake, and the water column boils */
+:root[data-universe="deep"].pr-moment .objective { animation: breathe .6s ease-in-out 4; }
+:root[data-universe="deep"].pr-moment .sp.bubble { animation-duration: 2s; }
+/* park: whatever is out there stops hiding */
+:root[data-universe="park"].pr-moment .sp.redeyes { animation: none; opacity: 1; }
+/* wok: the whole line sizzles — oil jitter on the ticket, embers surging */
+:root[data-universe="wok"].pr-moment .console { animation: shiver .12s linear 8; }
+:root[data-universe="wok"].pr-moment .sp.ember { animation-duration: 2.4s; }
+/* atoll: the tuning needle slams to the top of the dial (its own 600ms
+   spring transition carries it there and back when the moment ends) */
+:root[data-universe="atoll"].pr-moment .freq .needle { left: 93% !important; }
+/* yeti: snow flurry + the whole resort rattles */
+:root[data-universe="yeti"].pr-moment .sp.snow { opacity: 1; animation-duration: 2.4s; }
+:root[data-universe="yeti"].pr-moment .tabbar { animation: strike-quake .45s var(--ease) 2; }
 
 /* scenery layers: bottom-anchored full-bleed svg bands (painted in worlds.js) */
 .scene .fx.L { left: 0; right: 0; bottom: 0; height: var(--h); }
@@ -1295,11 +1346,11 @@ svg.ic { vertical-align: -2px; }
 @keyframes fade-drop { from { opacity: 0; translate: 0 -10px } to { opacity: 1; translate: 0 0 } }
 @keyframes panel-in { 0% { opacity: 0; translate: 0 30px; scale: .95 } 100% { opacity: 1; translate: 0 0; scale: 1 } }
 @keyframes val-pop { 0% { opacity: 0; scale: .6 } 70% { scale: 1.08 } 100% { opacity: 1; scale: 1 } }
-@keyframes log-breathe { 0%, 100% { scale: 1; filter: brightness(1) } 50% { scale: 1.03; filter: brightness(1.12) } }
+@keyframes log-breathe { 0%, 100% { scale: 1; filter: brightness(1) } 50% { scale: var(--m-float, 1.03); filter: brightness(1.12) } }
 @keyframes pip-hop { 0%, 100% { translate: 0 0 } 50% { translate: 0 -5px } }
 @keyframes pip-pop { 0% { scale: 0 } 70% { scale: 1.35 } 100% { scale: 1 } }
 @keyframes odot-throb { 0%, 100% { scale: 1 } 50% { scale: 1.22 } }
-@keyframes strike-quake { 0%, 100% { translate: 0 0 } 20% { translate: -4px 2px } 45% { translate: 4px -3px } 70% { translate: -3px -1px } }
+@keyframes strike-quake { 0%, 100% { translate: 0 0 } 20% { translate: calc(-4px * var(--m-quake, 1)) calc(2px * var(--m-quake, 1)) } 45% { translate: calc(4px * var(--m-quake, 1)) calc(-3px * var(--m-quake, 1)) } 70% { translate: calc(-3px * var(--m-quake, 1)) calc(-1px * var(--m-quake, 1)) } }
 @keyframes trophy-dangle { 0% { rotate: -2.2deg } 100% { rotate: 2.6deg } }
 @keyframes notice-in { from { opacity: 0; translate: -14px 0 } to { opacity: 1; translate: 0 0 } }
 @keyframes rest-glow { 0%, 100% { filter: brightness(1) } 50% { filter: brightness(1.18) } }
@@ -1307,7 +1358,7 @@ svg.ic { vertical-align: -2px; }
 .world-name { animation: title-slam .65s var(--spring) both; }
 .mission-line { animation: fade-drop .5s .05s var(--ease) both; }
 .notice { animation: notice-in .4s var(--ease) both; }
-.objective { animation: panel-in .55s .08s var(--spring) both; }
+.objective { animation: panel-in .55s .08s var(--m-snap) both; }
 .obj-dots { animation: fade-drop .5s .26s var(--ease) both; }
 .g-val { animation: val-pop .45s var(--spring) both; }
 .g-log { animation: log-breathe 2.8s ease-in-out .9s infinite; }
@@ -1320,32 +1371,81 @@ svg.ic { vertical-align: -2px; }
 .rest-pill { animation: dock-in .3s var(--ease), rest-glow 2.2s ease-in-out infinite; }
 .obj-done .big { animation: title-slam .6s var(--spring) both; }
 
+/* ——— per-universe motion physics: the same bones, six different bodies.
+   Most of it rides the :root tokens above; park and yeti swap the entrance
+   keyframe itself (wrapped in :where() so their overrides stay at base
+   specificity and the .no-entrance kills below still win the cascade). */
+@keyframes panel-in-flicker { /* park: the flashlight finds the case file */
+  0% { opacity: 0; translate: 0 30px; scale: .95 }
+  38% { opacity: 1; translate: 0 0; scale: 1 }
+  46% { opacity: .25 }
+  54% { opacity: 1 }
+  62% { opacity: .45 }
+  70%, 100% { opacity: 1; translate: 0 0; scale: 1 }
+}
+@keyframes panel-in-rubber { /* yeti: the lodge board lands rubbery */
+  0% { opacity: 0; translate: 0 30px; scale: .9 1.08 }
+  45% { opacity: 1; translate: 0 0; scale: 1.06 .92 }
+  72% { scale: .94 1.07 }
+  100% { opacity: 1; translate: 0 0; scale: 1 }
+}
+@keyframes vinyl-wobble { 0%, 100% { rotate: -1.2deg } 50% { rotate: 1.2deg } }
+:root[data-universe="dojo"] { --m-snap: cubic-bezier(.6, -.28, .2, 1.3); --m-dur: .22s; --m-quake: 1.5; } /* a strike, not a glide */
+:root[data-universe="deep"] { --m-snap: ease-out; --m-dur: .5s; --m-float: 1.05; --m-drop: 12px; --m-tilt: 1deg; } /* buoyant: everything drifts */
+:where(:root[data-universe="deep"]) .g-log { animation-duration: 4s; } /* slower, deeper breath at depth */
+:where(:root[data-universe="park"]) .objective { animation-name: panel-in-flicker; }
+:where(:root[data-universe="wok"]) .console.struck { animation: shiver .12s linear 3; } /* logging sizzles the ticket — oil, not tectonics */
+:root[data-universe="atoll"] .g-log { animation: log-breathe 2.8s ease-in-out .9s infinite, vinyl-wobble 3.2s ease-in-out infinite; } /* the play button is a record on the platter */
+:root[data-universe="atoll"] .pip.done:not(.fresh) { animation-fill-mode: backwards; animation-delay: calc(var(--i, 0) * 60ms); } /* dial LEDs light left-to-right */
+:root[data-universe="yeti"] { --m-snap: cubic-bezier(.34, 1.8, .5, 1); }
+:where(:root[data-universe="yeti"]) .objective { animation-name: panel-in-rubber; }
+
 /* internal re-renders (pagination, set logging) keep the stage still —
    entrance choreography belongs to entering a world, not to every tap */
 .no-entrance .world-name, .no-entrance .mission-line,
 .no-entrance .obj-dots, .no-entrance .notice { animation: none; }
 .no-entrance .objective { animation: none; }
-.no-entrance .pip.done { animation: none; }
-.no-entrance .trophy { animation: trophy-dangle 2.8s ease-in-out infinite alternate; }
+.no-entrance .pip.done:not(.fresh) { animation: none; }
+.no-entrance .trophy:not(.fresh) { animation: trophy-dangle 2.8s ease-in-out infinite alternate; }
 /* the giant numbers and the DONE slam ride the card during pagination /
    set-log re-renders — no independent opacity pops after the card lands */
-.no-entrance .g-val, .no-entrance .obj-done .big { animation: none; }
+.no-entrance .g-val:not(.fresh), .no-entrance .obj-done .big { animation: none; }
+/* THE MOMENT OF EARNING SURVIVES THE STILL STAGE: whatever was logged,
+   un-skipped, or numpad-edited in the last ~1.5s renders as .fresh
+   (session.js reads the set's own `at` timestamp) — its pop replays while
+   everything around it holds perfectly still. */
+.no-entrance .pip.done.fresh { animation: pip-pop .4s var(--spring); }
+.no-entrance .trophy.fresh { animation: trophy-in .4s var(--spring) backwards, trophy-dangle 2.8s ease-in-out infinite alternate; }
+.no-entrance .g-val.fresh { animation: val-pop .45s var(--spring); }
+
+/* tab switches: the incoming view slides up while the tapped character
+   boings awake. Gated behind body.booted (set inside switchTab only) so the
+   boot paint stays perfectly still. tab-boing animates `transform` on
+   purpose: it overrides the .t-face resting transform during play and lands
+   exactly on scale(1.28) rotate(-7deg) — the .tf-eyes blink underneath is a
+   separate element and keeps its own animation. */
+@keyframes view-in { from { opacity: 0; translate: 0 10px } }
+body.booted .view.active { animation: view-in .26s var(--ease); }
+@keyframes tab-boing { 0% { transform: scale(.7) } 55% { transform: scale(1.45) rotate(-10deg) } 100% { transform: scale(1.28) rotate(-7deg) } }
+body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 
 /* the card glides between exercises — dual-card: the outgoing ghost exits one
    way while the incoming card slides in from the other. NO opacity keyframes:
    travel does all the work, so there is never a blank frame where the world
    shows through an absent panel. */
-@keyframes card-next { from { translate: 108% 0; rotate: 2.5deg } to { translate: 0 0; rotate: 0deg } }
-@keyframes card-prev { from { translate: -108% 0; rotate: -2.5deg } to { translate: 0 0; rotate: 0deg } }
-@keyframes card-out-next { to { translate: -108% 0; rotate: -2.5deg } }
-@keyframes card-out-prev { to { translate: 108% 0; rotate: 2.5deg } }
-.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next .38s var(--spring) both; }
-.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev .38s var(--spring) both; }
+/* the slide's whole physics rides the tokens: dojo flicks the scroll in
+   .22s on an overshoot bezier; the Deep drifts it .5s on a 12px sinking arc */
+@keyframes card-next { from { translate: 108% var(--m-drop, 0px); rotate: var(--m-tilt, 2.5deg) } to { translate: 0 0; rotate: 0deg } }
+@keyframes card-prev { from { translate: -108% var(--m-drop, 0px); rotate: calc(var(--m-tilt, 2.5deg) * -1) } to { translate: 0 0; rotate: 0deg } }
+@keyframes card-out-next { to { translate: -108% var(--m-drop, 0px); rotate: calc(var(--m-tilt, 2.5deg) * -1) } }
+@keyframes card-out-prev { to { translate: 108% var(--m-drop, 0px); rotate: var(--m-tilt, 2.5deg) } }
+.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next var(--m-dur) var(--m-snap) both; }
+.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev var(--m-dur) var(--m-snap) both; }
 /* the detached outgoing card: inert, blur-free (two live backdrop-filters
    overlapping for 380ms is an iOS jank machine), gone in ≤500ms */
 .objective-ghost { will-change: translate; backdrop-filter: none; -webkit-backdrop-filter: none; }
-.objective-ghost.ghost-out-next { animation: card-out-next .38s var(--spring) both; }
-.objective-ghost.ghost-out-prev { animation: card-out-prev .38s var(--spring) both; }
+.objective-ghost.ghost-out-next { animation: card-out-next var(--m-dur) var(--m-snap) both; }
+.objective-ghost.ghost-out-prev { animation: card-out-prev var(--m-dur) var(--m-snap) both; }
 
 
 /* ═══════════ THE COSMOS: THE ATLAS + MISSION CONTROL ═══════════
@@ -1405,6 +1505,10 @@ svg.ic { vertical-align: -2px; }
 .star-node {
   position: relative; display: flex; gap: 16px; align-items: center; text-align: left;
   width: 100%; margin: 0 0 18px; padding: 4px 8px 4px 2px;
+  /* the chart draws itself: nights land one after another (renderList caps
+     --i at 12 so deep history doesn't stall the fold) */
+  animation: fade-drop .4s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
 }
 .star-node .sn-info { min-width: 0; }
 .sn-name, .sn-world, .sn-meta { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1413,14 +1517,22 @@ svg.ic { vertical-align: -2px; }
   display: grid; place-items: center;
   background: radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--c) 45%, #fff), var(--c) 56%, color-mix(in srgb, var(--c) 50%, #000));
   box-shadow: 0 0 20px color-mix(in srgb, var(--c) 55%, transparent), inset -5px -7px 14px rgba(0, 0, 0, 0.4);
+  /* idle life: every planet breathes, every dashed orbit ring turns at its
+     own pace (--i staggers the periods so no two spin in lockstep) */
+  animation: breathe 6s ease-in-out infinite;
 }
-.planet::after { content: ''; position: absolute; inset: -7px; border: 1.4px solid color-mix(in srgb, var(--c) 40%, transparent); border-radius: 50%; }
+.planet::after {
+  content: ''; position: absolute; inset: -7px; border: 1.4px dashed color-mix(in srgb, var(--c) 40%, transparent); border-radius: 50%;
+  animation: spin calc(20s + var(--i, 0) * 3s) linear infinite;
+}
 .planet b { font-size: 10.5px; letter-spacing: .06em; color: rgba(255, 255, 255, 0.95); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55); display: grid; text-align: center; line-height: 1.02; }
 .planet b u { text-decoration: none; font-size: 18px; font-weight: 700; }
 .planet.big { width: 66px; height: 66px; }
 .sn-name { font-family: var(--disp); font-size: 16px; display: block; color: var(--ink); }
 .sn-world { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--c); margin: 3px 0; text-shadow: 0 0 12px color-mix(in srgb, var(--c) 50%, transparent); }
 .sn-meta { display: block; font-size: 10.5px; color: var(--ink2); }
+/* queued for upload: the beam-up marker blinks until the star lands in GitHub */
+.sn-meta .beaming { color: var(--acc2); animation: blink 1.8s ease-in-out infinite; }
 .path-end { position: relative; z-index: 2; display: flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: #8a9ac8; padding-top: 4px; }
 .path-end i { width: 10px; height: 10px; border-radius: 50%; background: #8a9ac8; margin-left: 26px; box-shadow: 0 0 12px rgba(138, 154, 200, 0.9); flex: none; }
 
@@ -1431,6 +1543,8 @@ svg.ic { vertical-align: -2px; }
   box-shadow: var(--shadow-glass);
   backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
   color: var(--ink);
+  /* drill-in reads as arriving somewhere, not an innerHTML cut */
+  animation: panel-in .4s var(--spring) both;
 }
 .debrief .back { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--acc2); padding: 8px 8px 8px 0; }
 .db-head { display: flex; gap: 14px; align-items: center; margin: 6px 0 10px; }
@@ -1456,7 +1570,9 @@ svg.ic { vertical-align: -2px; }
 }
 .lc-orbit { position: relative; width: 40px; height: 40px; flex: none; }
 .lc-orbit::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c) 50%, #fff), var(--c)); box-shadow: 0 0 12px color-mix(in srgb, var(--c) 55%, transparent); }
-.lc-orbit i { position: absolute; inset: -2px; border: 1.2px dashed color-mix(in srgb, var(--c) 55%, transparent); border-radius: 50%; animation: spin 10s linear infinite; }
+.lc-orbit i { position: absolute; inset: -2px; border: 1.2px dashed color-mix(in srgb, var(--c) 55%, transparent); border-radius: 50%; animation: spin 8s linear infinite; }
+/* the satellite: a moon riding the spinning ring, so the orbit actually orbits */
+.lc-orbit i::after { content: ''; position: absolute; top: -3px; left: 50%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 70%, transparent); }
 .lc-name { font-family: var(--disp); font-size: 15px; display: block; }
 .lc-meta { font-size: 10.5px; color: var(--ink2); }
 .lc-end { margin-left: auto; color: var(--ink2); font-family: var(--mono); }
@@ -1465,6 +1581,7 @@ svg.ic { vertical-align: -2px; }
   position: relative; z-index: 2; margin: 0 2px 14px; padding: 14px 10px 6px;
   background: rgba(16, 26, 54, 0.82); border: 1px solid rgba(138, 154, 200, 0.35); border-radius: var(--r-3);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--ink);
+  animation: panel-in .4s var(--spring) .06s both;
 }
 .chart-box svg { width: 100%; height: auto; display: block; }
 .chart-meta { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10.5px; color: var(--ink2); padding: 8px 8px 10px; }
@@ -1514,6 +1631,9 @@ svg.ic { vertical-align: -2px; }
   min-height: 92px; border-radius: var(--r-2); padding: 9px 9px 8px;
   display: flex; flex-direction: column; gap: 5px;
   border: 1px solid rgba(138, 154, 200, 0.22);
+  /* the album deals itself out, sector by sector (--i per tile) */
+  animation: fade-drop .35s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
 }
 /* discovered: the world's own sky, darkened so text sits on top, accent glow */
 .wc-tile.found {
@@ -1534,6 +1654,17 @@ svg.ic { vertical-align: -2px; }
   content: '★'; position: absolute; top: 6px; right: 8px; font-size: 11px; color: #ffd24a;
   text-shadow: 0 0 10px rgba(255, 210, 74, 0.9);
 }
+/* the glint: a slow specular sweep across mastered gold, like light moving
+   over a foil sticker (the tile's overflow:hidden clips the pass) */
+@keyframes specular-sweep { 0%, 55% { transform: translateX(-80%) } 90%, 100% { transform: translateX(80%) } }
+.wc-tile.gold::before {
+  content: ''; position: absolute; inset: -30% -60%; pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, .32) 50%, transparent 58%);
+  animation: specular-sweep 4s ease-in-out infinite;
+}
+/* NEW MEDALS SINCE LAST VISIT (renderWorlds compares p3.lastMedals): every
+   lit star re-pops in a stagger while the finish fanfare plays once */
+.medal-party .wc-stars span.on { display: inline-block; animation: star-pop .45s var(--spring) backwards; animation-delay: calc(var(--i, 0) * 60ms + .2s); }
 /* locked: a dim mystery slot, no name spoiler, still holds its place */
 .wc-tile.locked { background: repeating-linear-gradient(135deg, rgba(16, 26, 54, 0.7) 0 8px, rgba(12, 20, 42, 0.7) 8px 16px); align-items: center; justify-content: center; }
 .wc-q { font-family: 'Cinzel', serif; font-size: 30px; color: color-mix(in srgb, var(--c) 34%, rgba(138, 154, 200, 0.5)); text-shadow: 0 0 14px color-mix(in srgb, var(--c) 30%, transparent); }
