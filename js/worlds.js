@@ -169,6 +169,7 @@ export const UNIVERSES = {
       log: 'Strike', rest: 'Meditate', results: 'Training complete',
       objDone: 'Form complete', pr: 'THE MOUNTAIN BOWS', finish: 'Descend the stairs',
       trophyNote: 'Tap a scroll to unlearn it',
+      restOver: 'Sensei waits', awake: '🏮', delivered: 'Carved into the mountain',
     },
     worlds: [
       {
@@ -400,6 +401,7 @@ export const UNIVERSES = {
       log: 'Descend', rest: 'Decompression', results: 'Back from the deep',
       objDone: 'Depth reached', pr: 'THE LEVIATHAN STIRS', finish: 'Surface',
       trophyNote: 'Tap a depth marker to rise',
+      restOver: 'Resurface', awake: '💡', delivered: 'Etched on the trench wall',
     },
     worlds: [
       {
@@ -611,6 +613,7 @@ export const UNIVERSES = {
       log: 'Sighting!', rest: 'Trail break', results: 'Case closed',
       objDone: 'Trail cleared', pr: 'CONFIRMED SIGHTING', finish: 'File the report',
       trophyNote: 'Tap a photo to redact it',
+      restOver: 'Back on the trail', awake: '🔥', delivered: 'Filed at ranger HQ',
     },
     worlds: [
       {
@@ -885,6 +888,7 @@ export const UNIVERSES = {
       log: 'Wok toss', rest: 'Simmer', results: 'Kitchen closed',
       objDone: 'Order up', pr: 'THE DRAGON APPROVES', finish: 'Last call',
       trophyNote: 'Tap a ticket to refire it',
+      restOver: 'Back to the wok', awake: '♨️', delivered: 'Posted to the kitchen rail',
     },
     worlds: [
       {
@@ -1146,6 +1150,7 @@ export const UNIVERSES = {
       log: 'On air', rest: 'Dead air', results: 'Off the air',
       objDone: 'Track played', pr: 'HEARD ON THE MAINLAND', finish: 'Sign off',
       trophyNote: 'Tap a record to scratch it',
+      restOver: 'Back on air', awake: '🔴', delivered: 'Beamed to the mainland',
     },
     worlds: [
       {
@@ -1437,6 +1442,7 @@ export const UNIVERSES = {
       log: 'Send it', rest: 'Lodge break', results: 'Après-ski',
       objDone: 'Run cleared', pr: 'AVALANCHE!', finish: 'Last run',
       trophyNote: 'Tap a lift ticket to refund it',
+      restOver: 'Lift’s leaving', awake: '🪩', delivered: 'Posted in the lodge',
     },
     worlds: [
       {
@@ -1751,6 +1757,12 @@ export const SPACES = {
   cb: { cls: 'cb', name: 'Mission Control', scene: cosmos },
 };
 
+// Voice of last resort: any surface that needs universe copy while standing
+// outside a universe (the cosmos, a half-built draft) speaks plain English.
+export const NEUTRAL_COPY = {
+  restOver: 'Rest over', awake: '🔆', delivered: 'Delivered to GitHub',
+};
+
 // ——— world pool: no repeats until a universe is exhausted, and a fresh
 // shuffle never opens with the world you just left ———
 
@@ -1781,6 +1793,22 @@ export function pickWorld(sessionType) {
   pools[sessionType] = entry;
   try { localStorage.setItem(POOL_KEY, JSON.stringify(pools)); } catch { /* full */ }
   return id;
+}
+
+// A drawn world that was never trained goes back on TOP of the deck — a clean
+// discard (date rollover, universe switch) must not burn the draw, or the
+// no-repeats promise quietly skips worlds the user never saw.
+export function returnWorld(sessionType, worldId) {
+  const U = UNIVERSES[sessionType];
+  if (!U || !worldId || !U.worlds.some((w) => w.id === worldId)) return;
+  const pools = readPools();
+  let entry = pools[sessionType];
+  if (Array.isArray(entry)) entry = { pool: entry, last: null }; // pre-v16 shape
+  if (!entry || typeof entry !== 'object' || !Array.isArray(entry.pool)) entry = { pool: [], last: null };
+  if (!entry.pool.includes(worldId)) entry.pool.unshift(worldId);
+  if (entry.last === worldId) entry.last = null;
+  pools[sessionType] = entry;
+  try { localStorage.setItem(POOL_KEY, JSON.stringify(pools)); } catch { /* full */ }
 }
 
 export function universeOf(sessionType) {

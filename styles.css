@@ -55,6 +55,8 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .views { flex: 1; position: relative; overflow: hidden; z-index: 2; }
 .view {
   position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  /* the card slide parks cards at ±108% — those must never mint a sideways scroll */
+  overflow-x: hidden;
   padding: calc(14px + env(safe-area-inset-top, 0px)) 14px calc(var(--tabbar-h) + 214px);
   visibility: hidden;
 }
@@ -98,9 +100,9 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   display: flex; gap: 6px; align-items: center;
 }
 .hud-status .tag {
-  font-family: 'Special Elite', serif; font-size: 10.5px; letter-spacing: 0.06em;
+  font-family: 'Special Elite', serif; font-size: 9.5px; letter-spacing: 0.04em;
   background: var(--paper); color: var(--ink);
-  padding: 7px 10px 6px; border-radius: 3px;
+  padding: 5px 8px 4px; border-radius: 3px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   transform: rotate(2deg);
   position: relative;
@@ -127,35 +129,39 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 /* ═══════════ SESSION SCREEN (shared bones, world skins) ═══════════ */
 
-.world-head { position: relative; z-index: 2; padding: 4px 4px 12px; max-width: calc(100% - 132px); }
-.uni-name { font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; opacity: .8; margin-bottom: 3px; }
+/* One marquee band, hard height budget (~84px): a single ellipsized
+   world-name (row 1, padded clear of the fixed hud tags) over one merged
+   mono line (row 2, full width — it clears the tags vertically). The
+   head-tools live in the briefing sheet now. */
+.world-head { position: relative; z-index: 2; padding: 2px 4px 10px; }
 .world-name {
-  font-family: var(--disp); font-size: 30px; line-height: 1.02; color: var(--chrome);
+  font-family: var(--disp); font-size: clamp(17px, 5.5vw, 26px); line-height: 1.15; color: var(--chrome);
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  padding-right: 128px; /* the hanging phase tag + sync lamp */
 }
-.mission-line { font-family: var(--mono); font-size: 11px; opacity: 0.85; margin-top: 6px; }
-.head-tools { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
-.tool {
-  font-family: var(--mono); font-size: 11px;
-  background: var(--paper); color: var(--ink);
-  padding: 11px 12px; border-radius: 4px;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
-  transform: rotate(-1deg); min-height: 40px;
-}
-.tool:nth-child(2) { transform: rotate(1.2deg); }
-.tool:nth-child(3) { transform: rotate(-0.6deg); }
-.tool:active { transform: scale(0.94); }
+.mission-line { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; opacity: 0.85; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* ONE notice at a time, one line, 44px — tap it for the full briefing */
 .notice {
   position: relative; z-index: 2;
   font-family: var(--body); font-size: 13px; font-weight: 600;
   background: var(--paper); color: var(--ink);
   border-left: 6px solid var(--acc);
-  padding: 10px 12px; margin: 0 2px 10px;
+  padding: 10px 12px; margin: 0 2px 10px; min-height: 44px;
   box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.25);
   display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  cursor: pointer;
 }
-.notice button { color: var(--acc); font-family: inherit; font-size: 12px; padding: 8px; margin: -8px; }
+.notice .n-txt { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.notice .n-more {
+  flex: none; font-family: var(--mono); font-size: 11px;
+  background: var(--acc); color: var(--paper);
+  padding: 3px 8px; border-radius: 12px;
+}
+.notice button { color: var(--acc); font-family: inherit; font-size: 12px; padding: 8px; margin: -8px; flex: none; }
+/* full-sentence rows inside the briefing sheet */
+.opt.notice-full { font-family: var(--body); font-size: 13.5px; font-weight: 600; line-height: 1.45; pointer-events: none; }
 
 /* The objective panel — frosted material: the world shows THROUGH it.
    Each universe reskins it completely below. */
@@ -169,7 +175,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   -webkit-backdrop-filter: blur(9px) saturate(1.2);
 }
 .notice { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.obj-top { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; color: var(--ink2); }
+.obj-top { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 13px; color: var(--ink2); }
 .obj-top .count b { color: var(--ink); font-weight: 700; }
 .obj-top .count { padding: 14px 14px 14px 0; margin: -12px 0; }
 .obj-pg { display: flex; gap: 6px; }
@@ -177,8 +183,13 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .pg:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.35); }
 .pg[disabled] { opacity: 0.25; }
 
-.obj-name { font-family: var(--disp); font-size: 31px; line-height: 1.02; color: var(--ink); margin: 8px 0 2px; }
-.obj-name button { font: inherit; color: inherit; text-align: left; display: inline; padding: 6px 0; margin: -6px 0; }
+.obj-name { font-family: var(--disp); font-size: clamp(20px, 6.5vw, 31px); line-height: 1.05; color: var(--ink); margin: 8px 0 2px; }
+/* two lines max — the full name always lives in the field-guide sheet */
+.obj-name button {
+  font: inherit; color: inherit; text-align: left; padding: 6px 0; margin: -6px 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  max-width: 100%;
+}
 .obj-name .qm {
   display: inline-grid; place-items: center; width: 22px; height: 22px; margin-left: 8px; vertical-align: middle;
   background: var(--acc); color: var(--paper); border-radius: 50%;
@@ -187,26 +198,28 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 .obj-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 4px 0 10px; }
 .chipper {
-  font-family: var(--mono); font-size: 11px;
+  font-family: var(--mono); font-size: 13px;
   background: var(--ink); color: var(--paper);
   padding: 4px 9px; border-radius: 3px; transform: rotate(-1deg);
 }
 .chipper.warn { background: var(--acc); }
 
+/* LAST + basis merged into one two-line block — half the vertical spend */
 .last-strip {
   font-family: var(--mono); font-size: 13px; color: var(--ink);
   background: var(--paper2);
   border: 1.5px dashed var(--ink2);
-  padding: 8px 10px; margin-bottom: 6px;
-  display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;
+  padding: 7px 10px; margin-bottom: 8px;
 }
+.last-strip .ls-r { display: flex; gap: 8px; align-items: baseline; min-width: 0; white-space: nowrap; overflow: hidden; }
 .last-strip b { font-family: var(--disp); font-size: 12px; color: var(--acc); }
-.last-strip .d { font-size: 10px; color: var(--ink2); }
-.basis-line { font-family: var(--body); font-size: 12.5px; color: var(--ink2); min-height: 15px; margin-bottom: 8px; }
+.last-strip .d { font-size: 11px; color: var(--ink2); }
+.last-strip .basis-line { margin: 3px 0 0; min-height: 0; }
+.basis-line { font-family: var(--body); font-size: 13px; color: var(--ink2); min-height: 15px; margin-bottom: 8px; }
 .basis-line .up { color: var(--acc); font-weight: 600; }
 
 .warnbox { font-family: var(--body); font-weight: 600;
-  font-family: var(--mono); font-size: 11.5px; color: #7a1f12;
+  font-family: var(--mono); font-size: 13px; color: #7a1f12;
   background: #f3c9b8; border: 2px solid #b3492f;
   padding: 8px 10px; margin-bottom: 8px; border-radius: 4px;
   display: flex; gap: 8px; align-items: center;
@@ -214,9 +227,18 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 .warnbox .dismiss { margin-left: auto; padding: 10px 12px; margin: -10px -10px; font-size: 14px; }
 
-/* Trophies (world-shaped in skins) */
-.trophies { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 4px; }
+/* Trophies (world-shaped in skins) — a FIXED-height shelf that scrolls
+   sideways: banking sets can never grow the card and push the console off
+   the first screen. */
+.trophies {
+  display: flex; flex-wrap: nowrap; gap: 8px; margin: 4px 0 4px;
+  height: 54px; align-items: center;
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.trophies::-webkit-scrollbar { display: none; }
 .trophy {
+  flex: none;
   font-family: var(--mono); font-size: 12.5px;
   background: var(--acc); color: var(--paper);
   padding: 12px 13px; border-radius: 4px; min-height: 42px;
@@ -224,12 +246,16 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   animation: trophy-in 350ms var(--spring);
 }
 @keyframes trophy-in { from { transform: scale(0.4) rotate(-14deg); opacity: 0 } to { transform: none; opacity: 1 } }
-.trophy-note { font-family: var(--body); font-size: 11px; color: var(--ink2); margin-bottom: 4px; }
+.trophy-note { font-family: var(--body); font-size: 13px; color: var(--ink2); margin-bottom: 2px; }
 
 /* The console: current set, giant, thumb-first */
 .console { text-align: center; padding-top: 8px; position: relative; }
-.set-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink2); }
-.g-skip { display: block; margin: 10px auto 0; font-family: var(--body); font-weight: 600; font-size: 12px; color: var(--ink2); padding: 10px 20px; border-radius: 22px; border: 1.4px dashed var(--line); }
+/* THE prescription, IN the console, big and legible — the number the user
+   needs mid-set is never an 11px decoration again. Each universe dresses it
+   as an in-world object below. */
+.c-target { font-family: var(--mono); font-size: 15px; color: var(--ink); letter-spacing: .02em; margin-bottom: 2px; }
+.c-target b { font-weight: 600; }
+.g-skip { display: block; margin: 10px auto 0; font-family: var(--body); font-weight: 600; font-size: 13px; color: var(--ink2); padding: 10px 20px; border-radius: 22px; border: 1.4px dashed var(--line); }
 .g-skip:active { transform: scale(.95); }
 .pip.skip { position: relative; opacity: .45; background: transparent; }
 .pip.skip::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%; height: 2px; margin-top: -1px; background: var(--ink2); rotate: -24deg; }
@@ -240,7 +266,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   padding: 2px 8px; border-radius: 8px;
 }
 .g-val:active { background: rgba(0, 0, 0, 0.08); }
-.g-val u { text-decoration: none; font-size: 12px; letter-spacing: 0.14em; color: var(--ink2); margin-left: 3px; }
+.g-val u { text-decoration: none; font-size: 13px; letter-spacing: 0.14em; color: var(--ink2); margin-left: 3px; }
 .c-x { font-family: var(--mono); font-size: 22px; color: var(--ink2); }
 .g-log {
   display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -303,6 +329,16 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .rest-pill .rbar { flex: 1; height: 10px; background: var(--paper2); border: 2px solid var(--ink2); border-radius: 6px; overflow: hidden; }
 .rest-pill .rbar i { display: block; height: 100%; background: var(--acc); }
 .rest-pill .skip { font-family: var(--mono); font-size: 11px; padding: 14px 12px; margin: -12px -8px; color: var(--ink2); }
+/* the awake totem: lit while we hold the screen wake lock, doused when the
+   OS takes it back — an honest little lamp, per universe */
+.rest-pill .totem { font-size: 16px; line-height: 1; filter: grayscale(1) opacity(0.4); transition: filter 300ms var(--ease); }
+.rest-pill .totem.lit { filter: none; animation: rest-glow 2.2s ease-in-out infinite; }
+/* OVERTIME: rest is done, the pill stays up counting +m:ss until the next
+   set is logged or Skip — a pulsing hot state, not a vanishing act */
+@keyframes overtime-hot { 0%, 100% { box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.3) } 50% { box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.3), 0 0 18px color-mix(in srgb, var(--acc) 65%, transparent) } }
+.rest-pill.overtime { animation: overtime-hot 1.1s ease-in-out infinite; border: 2px solid var(--acc); }
+.rest-pill.overtime .t { color: var(--acc); animation: blink 1.1s ease-in-out infinite; }
+.rest-pill.overtime .lbl { text-transform: uppercase; letter-spacing: .04em; }
 .finish-bar {
   display: flex; align-items: center; gap: 12px;
   background: var(--paper); color: var(--ink);
@@ -438,7 +474,24 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .rs-stat b { display: block; font-family: var(--mono); font-size: 27px; }
 .rs-stat i { font-style: normal; font-family: var(--mono); font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink2); }
 .rs-stat.pr b { color: var(--acc); }
-.rs-sync { font-family: var(--mono); font-size: 10px; color: var(--ink2); margin-top: 10px; }
+/* the elapsed-time banner: always present, full width, the headline stat */
+.rs-stat.rs-time { grid-column: 1 / -1; border-color: var(--acc); padding: 10px 6px; }
+.rs-stat.rs-time b { font-size: 34px; color: var(--acc); }
+:root[data-universe="deep"] .rs-stat.rs-time { border-color: #38dcc8; box-shadow: inset 0 0 20px rgba(56, 220, 200, 0.12); }
+:root[data-universe="deep"] .rs-stat.rs-time b { color: #38dcc8; text-shadow: 0 0 14px rgba(56, 220, 200, 0.55); }
+/* LIVE save confirmation: uploading → the universe's delivered moment → or
+   the plain-English failure in red with a way to fix it */
+.rs-sync { font-family: var(--mono); font-size: 11px; color: var(--ink2); margin-top: 10px; min-height: 15px; }
+.rs-sync.up { animation: blink 1.4s ease-in-out infinite; }
+.rs-sync.ok { color: var(--acc); font-family: var(--disp); font-size: 14px; animation: title-slam .5s var(--spring) both; }
+.rs-sync.bad { color: #b3492f; font-family: var(--body); font-weight: 600; font-size: 12px; }
+:root[data-universe="deep"] .rs-sync.bad { color: #ff8f5c; }
+.rs-sync .rs-fix {
+  display: inline-block; margin-left: 6px; padding: 6px 12px;
+  font-family: var(--body); font-weight: 700; font-size: 12px;
+  background: #b3492f; color: #fff; border-radius: 14px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
 
 .burst-p { position: fixed; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 60; }
 
@@ -587,7 +640,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 :root[data-universe="deep"] {
   --bg: #04121c;
-  --paper: #0a2433; --paper2: #0e3044; --ink: #bfeee6; --ink2: #5c9a92;
+  --paper: #0a2433; --paper2: #0e3044; --ink: #bfeee6; --ink2: #8fd8cc;
   --acc: #38dcc8; --acc2: #ff8f5c; --chrome: #bfeee6;
   --disp: 'Cinzel', serif;
   --line: rgba(56, 220, 200, 0.22);
@@ -606,7 +659,6 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   box-shadow: 0 0 22px rgba(56, 220, 200, 0.35), 0 6px 0 #7a5024;
 }
 :root[data-universe="deep"] .trophy { background: transparent; border: 2px solid #38dcc8; color: #bfeee6; border-radius: 40px; }
-:root[data-universe="deep"] .tool { background: #0a2433; color: #8fd8cc; border: 1px solid #1c5c52; box-shadow: none; }
 :root[data-universe="deep"] .pip { background: #0a2433; border-color: #1c5c52; }
 :root[data-universe="deep"] .pip.done { background: #38dcc8; border-color: #38dcc8; }
 :root[data-universe="deep"] .last-strip { background: rgba(56, 220, 200, 0.08); border-color: #1c5c52; color: #9fe8dc; }
@@ -619,20 +671,20 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 :root[data-universe="park"] {
   --bg: #14231a;
-  --paper: #f2e8d0; --paper2: #e6d8ba; --ink: #33291a; --ink2: #7a6a48;
+  --paper: #f2e8d0; --paper2: #e6d8ba; --ink: #33291a; --ink2: #5c4c30;
   --acc: #b3492f; --acc2: #2f6b46; --chrome: #e8dcc0;
   --disp: 'Special Elite', serif;
 }
 :root[data-universe="park"] .app { background: linear-gradient(#22331f, #14231a 60%, #0e1811); }
 :root[data-universe="park"] .objective {
-  border-radius: 2px; border: 2px solid #b8a878; padding-top: 30px;
+  border-radius: 2px; border: 2px solid #b8a878; padding-top: 18px;
   box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.45);
   background: rgba(242, 232, 208, 0.86) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><circle cx='30' cy='40' r='.9' fill='%23a89468' opacity='.5'/><circle cx='90' cy='88' r='.7' fill='%23a89468' opacity='.4'/></svg>");
 }
 :root[data-universe="park"] .objective::before {
   content: 'CASE FILE — DO NOT DISCLOSE'; position: absolute; top: 0; left: 0; right: 0;
-  font-family: var(--mono); font-size: 9px; letter-spacing: .28em; text-align: center;
-  color: #f2e8d0; background: #4a3c24; padding: 5px 0;
+  font-family: var(--mono); font-size: 8px; letter-spacing: .26em; text-align: center;
+  color: #f2e8d0; background: #4a3c24; padding: 2px 0; line-height: 1;
 }
 :root[data-universe="park"] .obj-name { text-transform: uppercase; }
 :root[data-universe="park"] .g-log {
@@ -665,7 +717,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 :root[data-universe="atoll"] {
   --bg: #1c4050;
-  --paper: #f4e4c4; --paper2: #e8d4a8; --ink: #3a2a14; --ink2: #85653a;
+  --paper: #f4e4c4; --paper2: #e8d4a8; --ink: #3a2a14; --ink2: #5c4420;
   --acc: #c04828; --acc2: #1c6b8a; --chrome: #ffe8c4;
   --disp: 'Rye', serif;
 }
@@ -677,7 +729,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-universe="atoll"] .g-log {
   background: radial-gradient(circle at 50% 34%, #e06038, #b33a1c 74%);
-  border: 4px solid #4a3014; border-radius: 50%; width: 152px; min-height: 152px; margin: 0 auto;
+  border: 4px solid #4a3014; border-radius: 50%; width: 118px; min-height: 118px; margin: 0 auto;
   text-transform: uppercase; letter-spacing: .1em;
   box-shadow: 0 0 0 5px #d9bc8a, 0 7px 0 #2a1a0a, 0 12px 24px rgba(0, 0, 0, 0.4);
 }
@@ -686,7 +738,7 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 :root[data-universe="yeti"] {
   --bg: #bfe0f2;
-  --paper: #fbfdff; --paper2: #e8f1f8; --ink: #1c3348; --ink2: #5c7a92;
+  --paper: #fbfdff; --paper2: #e8f1f8; --ink: #1c3348; --ink2: #3c5a74;
   --acc: #e0447a; --acc2: #3a8fd9; --chrome: #14304a;
   --disp: 'Chewy', system-ui;
 }
@@ -792,13 +844,15 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 /* ═══════════ THE MACHINES: each universe's console is a different object ═══════════ */
 
 /* DOJO — a hanging scroll between wooden rollers; sets are brush tallies */
-:root[data-universe="dojo"] .objective { margin-top: 18px; margin-bottom: 18px; overflow: visible; }
+:root[data-universe="dojo"] .objective { margin-top: 12px; margin-bottom: 12px; overflow: visible; }
 :root[data-universe="dojo"] .objective::before, :root[data-universe="dojo"] .objective::after {
-  content: ''; position: absolute; left: -16px; right: -16px; height: 20px; border-radius: 10px;
-  background: linear-gradient(#a06a34, #58341a 70%); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 -4px 0 #40200c, inset 0 3px 0 #c98a4c;
+  content: ''; position: absolute; left: -16px; right: -16px; height: 16px; border-radius: 8px;
+  background: linear-gradient(#a06a34, #58341a 70%); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 -3px 0 #40200c, inset 0 2px 0 #c98a4c;
 }
-:root[data-universe="dojo"] .objective::before { top: -13px; }
-:root[data-universe="dojo"] .objective::after { bottom: -13px; }
+:root[data-universe="dojo"] .objective::before { top: -10px; }
+:root[data-universe="dojo"] .objective::after { bottom: -10px; }
+/* the target is a brush-tally caption under the scroll's red seal line */
+:root[data-universe="dojo"] .c-target { display: inline-block; border-bottom: 3px solid #b3361e; padding: 0 10px 4px; }
 :root[data-universe="dojo"] .obj-name { position: relative; padding-right: 44px; }
 :root[data-universe="dojo"] .obj-name::after {
   content: ''; position: absolute; right: 0; top: 2px; width: 34px; height: 34px; border-radius: 6px;
@@ -810,20 +864,25 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="dojo"] .pip.cur { background: #7a5a40; }
 
 /* DEEP — porthole console with rivets and a live depth gauge */
-:root[data-universe="deep"] .objective { padding-left: 42px; }
+:root[data-universe="deep"] .objective { padding-left: 30px; }
 .depth-rail {
-  position: absolute; left: 11px; top: 18px; bottom: 18px; width: 17px; border-radius: 9px;
+  position: absolute; left: 8px; top: 18px; bottom: 18px; width: 12px; border-radius: 7px;
   background: repeating-linear-gradient(0deg, transparent 0 10%, rgba(56, 220, 200, 0.55) 10% 11.5%), rgba(4, 18, 28, 0.65);
   border: 1px solid #1c5c52;
 }
 .depth-rail .dmark {
-  position: absolute; left: -6px; width: 28px; height: 11px; border-radius: 5px;
+  position: absolute; left: -5px; width: 22px; height: 10px; border-radius: 5px;
   background: linear-gradient(#ffb37a, #ff8f5c); box-shadow: 0 0 12px rgba(255, 143, 92, 0.85);
   transition: top 600ms var(--spring);
 }
+/* the target glows like a gauge readout on the porthole glass */
+:root[data-universe="deep"] .c-target {
+  display: inline-block; color: #dffaf4; text-shadow: 0 0 12px rgba(56, 220, 200, 0.5);
+  background: rgba(4, 18, 28, 0.6); border: 1px solid #1c5c52; border-radius: 6px; padding: 3px 12px;
+}
 :root[data-universe="deep"] .console {
   border: 5px solid #c9884a; border-radius: 24px; background: rgba(5, 22, 32, 0.55);
-  box-shadow: inset 0 0 26px rgba(56, 220, 200, 0.14), 0 6px 14px rgba(0, 0, 0, 0.35); padding: 14px 10px 12px;
+  box-shadow: inset 0 0 26px rgba(56, 220, 200, 0.14), 0 6px 14px rgba(0, 0, 0, 0.35); padding: 10px 10px 10px;
   background-image: radial-gradient(circle 4px at 14px 14px, #c9884a 4px, transparent 5px), radial-gradient(circle 4px at calc(100% - 14px) 14px, #c9884a 4px, transparent 5px), radial-gradient(circle 4px at 14px calc(100% - 14px), #c9884a 4px, transparent 5px), radial-gradient(circle 4px at calc(100% - 14px) calc(100% - 14px), #c9884a 4px, transparent 5px);
 }
 :root[data-universe="deep"] .pip { border-radius: 50%; border: 2px solid #38dcc8; background: transparent; }
@@ -837,8 +896,8 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-universe="park"] .obj-name { position: relative; }
 :root[data-universe="park"] .obj-name button {
-  background: #fff; padding: 10px 14px 16px; border: 1px solid #d8ccb0;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25); rotate: -1.4deg; margin: 4px 0 6px;
+  background: #fff; padding: 6px 10px 10px; border: 1px solid #d8ccb0;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25); rotate: -1.4deg; margin: 2px 0 4px;
 }
 :root[data-universe="park"] .obj-name::before {
   content: ''; position: absolute; left: -8px; top: -10px; width: 16px; height: 34px; z-index: 2;
@@ -846,16 +905,24 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 }
 :root[data-universe="park"] .pip { background: radial-gradient(circle at 40% 35%, #fff, #d8ccb0); border: 2px solid #8a7a58; }
 :root[data-universe="park"] .pip.done { background: #33291a; border-color: #33291a; }
-:root[data-universe="park"] .g-log { overflow: visible; margin-top: 34px; position: relative; }
+:root[data-universe="park"] .g-log { overflow: visible; margin-top: 18px; position: relative; }
 :root[data-universe="park"] .g-log::before {
-  content: ''; position: absolute; left: 50%; top: -28px; width: 38px; height: 28px; margin-left: -19px;
-  border-radius: 12px 12px 5px 5px; background: linear-gradient(#8a5a3a, #5a3a22);
+  content: ''; position: absolute; left: 50%; top: -16px; width: 32px; height: 16px; margin-left: -16px;
+  border-radius: 10px 10px 4px 4px; background: linear-gradient(#8a5a3a, #5a3a22);
   box-shadow: inset 0 -3px 0 #40281a;
 }
+/* the target is stamped on the case file in red ranger ink */
+:root[data-universe="park"] .c-target {
+  display: inline-block; color: #b3492f; border: 2.5px solid #b3492f; border-radius: 4px;
+  padding: 2px 10px; transform: rotate(-1.6deg); text-transform: uppercase;
+  font-weight: 600; letter-spacing: .06em;
+}
 
-/* WOK — an order ticket torn off the rail; sets are dumplings in a steamer */
+/* WOK — an order ticket torn off the rail; sets are dumplings in a steamer.
+   The scallops are drawn by the mask, not the padding — the holes only need
+   8px of clearance, not 28. */
 :root[data-universe="wok"] .objective {
-  padding-top: 28px; padding-bottom: 32px;
+  padding-top: 18px; padding-bottom: 22px;
   -webkit-mask: radial-gradient(circle 8px at 8px 0, transparent 97%, #000) 0 0 / 16px 16px repeat-x, radial-gradient(circle 8px at 8px 100%, transparent 97%, #000) 0 100% / 16px 16px repeat-x, linear-gradient(#000, #000) 0 8px / 100% calc(100% - 16px) no-repeat;
   mask: radial-gradient(circle 8px at 8px 0, transparent 97%, #000) 0 0 / 16px 16px repeat-x, radial-gradient(circle 8px at 8px 100%, transparent 97%, #000) 0 100% / 16px 16px repeat-x, linear-gradient(#000, #000) 0 8px / 100% calc(100% - 16px) no-repeat;
 }
@@ -867,17 +934,32 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="wok"] .pip.done { opacity: 1; background: #f6ead0; box-shadow: inset 0 -3px 0 #d9b88a; }
 :root[data-universe="wok"] .pip.done::before { content: ''; position: absolute; left: 5px; top: 7px; width: 2.6px; height: 2.6px; border-radius: 50%; background: #4a3218; box-shadow: 6px 0 0 #4a3218; }
 :root[data-universe="wok"] .pip.cur { opacity: .7; }
-
-/* ATOLL — a wooden radio cabinet: tuning needle + speaker grille */
-.freq {
-  position: relative; height: 24px; margin: 2px 0 12px; border-radius: 7px; overflow: hidden;
-  background: linear-gradient(#241c14, #3a2c1c); border: 2px solid #4a3014;
+/* the target is a line item punched on the order ticket */
+:root[data-universe="wok"] .c-target {
+  display: block; border-top: 2px dashed #c98a4c; border-bottom: 2px dashed #c98a4c;
+  padding: 5px 0; text-transform: uppercase; letter-spacing: .05em;
 }
-.freq::before { content: ''; position: absolute; inset: 4px 7px; background: repeating-linear-gradient(90deg, rgba(255, 232, 196, 0.6) 0 2px, transparent 2px 13px); }
+
+/* ATOLL — a wooden radio cabinet: tuning needle + speaker grille.
+   The tuning window is now MOUNTED INTO the cabinet's top rail (absolute, zero
+   layout height) — the dial still sweeps as sets bank, it just stopped
+   charging rent. */
+.freq {
+  position: absolute; top: -2px; left: 16%; right: 16%; height: 17px;
+  margin: 0; border-radius: 0 0 7px 7px; overflow: hidden; pointer-events: none; z-index: 1;
+  background: linear-gradient(#241c14, #3a2c1c); border: 2px solid #4a3014; border-top-width: 0;
+}
+.freq::before { content: ''; position: absolute; inset: 3px 7px; background: repeating-linear-gradient(90deg, rgba(255, 232, 196, 0.6) 0 2px, transparent 2px 13px); }
 .freq .needle { position: absolute; top: 0; bottom: 0; width: 3.4px; background: #ff5d3c; box-shadow: 0 0 9px rgba(255, 93, 60, 0.95); transition: left 600ms var(--spring); }
-:root[data-universe="atoll"] .objective { padding-bottom: 34px; }
+:root[data-universe="atoll"] .objective { padding-bottom: 22px; }
 :root[data-universe="atoll"] .objective { background-image: radial-gradient(circle 1.6px at 4px 4px, rgba(74, 48, 20, 0.5) 1.6px, transparent 2.4px); background-size: 9px 8px; background-position: 0 calc(100% - 4px); background-repeat: repeat-x; }
 :root[data-universe="atoll"] .pip { border-radius: 2px; width: 9px; height: 16px; }
+/* the target is engraved on a brass frequency plate under the dial */
+:root[data-universe="atoll"] .c-target {
+  display: inline-block; background: linear-gradient(#d9bc8a, #c9a869); color: #3a2a14;
+  border: 2px solid #4a3014; border-radius: 4px; padding: 3px 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(42, 26, 10, 0.4);
+}
 
 /* YETI — sets are chairs riding the lift cable */
 :root[data-universe="yeti"] .set-pips { position: relative; padding-top: 10px; gap: 14px; }
@@ -886,6 +968,11 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 :root[data-universe="yeti"] .pip::before { content: ''; position: absolute; top: -8px; left: 50%; width: 2.6px; height: 9px; margin-left: -1.3px; background: #4a3a2a; }
 :root[data-universe="yeti"] .pip.done { background: #e0447a; }
 :root[data-universe="yeti"] .pip.cur { background: #3a8fd9; }
+/* the target rides a blue trail sign planted at the top of the run */
+:root[data-universe="yeti"] .c-target {
+  display: inline-block; background: #3a8fd9; color: #fff; border-radius: 9px;
+  padding: 4px 14px; box-shadow: 0 3px 0 #1c4a7a; transform: rotate(-1deg);
+}
 
 /* ═══════════ THE MOTION LAYER: everything is alive ═══════════ */
 /* independent transform props (scale/rotate/translate) so universe skins'
@@ -900,17 +987,11 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 @keyframes odot-throb { 0%, 100% { scale: 1 } 50% { scale: 1.22 } }
 @keyframes strike-quake { 0%, 100% { translate: 0 0 } 20% { translate: -4px 2px } 45% { translate: 4px -3px } 70% { translate: -3px -1px } }
 @keyframes trophy-dangle { 0% { rotate: -2.2deg } 100% { rotate: 2.6deg } }
-@keyframes tool-drop { from { opacity: 0; translate: 0 -12px } to { opacity: 1; translate: 0 0 } }
 @keyframes notice-in { from { opacity: 0; translate: -14px 0 } to { opacity: 1; translate: 0 0 } }
 @keyframes rest-glow { 0%, 100% { filter: brightness(1) } 50% { filter: brightness(1.18) } }
 
-.uni-name { animation: fade-drop .5s .05s var(--ease) both; }
 .world-name { animation: title-slam .65s var(--spring) both; }
-.mission-line { animation: fade-drop .5s .18s var(--ease) both; }
-.head-tools .tool { animation: tool-drop .45s var(--ease) both; }
-.head-tools .tool:nth-child(2) { animation-delay: .08s; }
-.head-tools .tool:nth-child(3) { animation-delay: .16s; }
-.head-tools .tool:nth-child(4) { animation-delay: .24s; }
+.mission-line { animation: fade-drop .5s .05s var(--ease) both; }
 .notice { animation: notice-in .4s var(--ease) both; }
 .objective { animation: panel-in .55s .08s var(--spring) both; }
 .obj-dots { animation: fade-drop .5s .26s var(--ease) both; }
@@ -927,17 +1008,30 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 
 /* internal re-renders (pagination, set logging) keep the stage still —
    entrance choreography belongs to entering a world, not to every tap */
-.no-entrance .uni-name, .no-entrance .world-name, .no-entrance .mission-line,
-.no-entrance .head-tools .tool, .no-entrance .obj-dots, .no-entrance .notice { animation: none; }
+.no-entrance .world-name, .no-entrance .mission-line,
+.no-entrance .obj-dots, .no-entrance .notice { animation: none; }
 .no-entrance .objective { animation: none; }
 .no-entrance .pip.done { animation: none; }
 .no-entrance .trophy { animation: trophy-dangle 2.8s ease-in-out infinite alternate; }
+/* the giant numbers and the DONE slam ride the card during pagination /
+   set-log re-renders — no independent opacity pops after the card lands */
+.no-entrance .g-val, .no-entrance .obj-done .big { animation: none; }
 
-/* the card itself glides between exercises */
-@keyframes card-next { from { opacity: 0; translate: 64px 0; rotate: .8deg } to { opacity: 1; translate: 0 0; rotate: 0deg } }
-@keyframes card-prev { from { opacity: 0; translate: -64px 0; rotate: -.8deg } to { opacity: 1; translate: 0 0; rotate: 0deg } }
-.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next .32s var(--ease) both; }
-.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev .32s var(--ease) both; }
+/* the card glides between exercises — dual-card: the outgoing ghost exits one
+   way while the incoming card slides in from the other. NO opacity keyframes:
+   travel does all the work, so there is never a blank frame where the world
+   shows through an absent panel. */
+@keyframes card-next { from { translate: 108% 0; rotate: 2.5deg } to { translate: 0 0; rotate: 0deg } }
+@keyframes card-prev { from { translate: -108% 0; rotate: -2.5deg } to { translate: 0 0; rotate: 0deg } }
+@keyframes card-out-next { to { translate: -108% 0; rotate: -2.5deg } }
+@keyframes card-out-prev { to { translate: 108% 0; rotate: 2.5deg } }
+.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next .38s var(--spring) both; }
+.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev .38s var(--spring) both; }
+/* the detached outgoing card: inert, blur-free (two live backdrop-filters
+   overlapping for 380ms is an iOS jank machine), gone in ≤500ms */
+.objective-ghost { will-change: translate; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.objective-ghost.ghost-out-next { animation: card-out-next .38s var(--spring) both; }
+.objective-ghost.ghost-out-prev { animation: card-out-prev .38s var(--spring) both; }
 
 
 /* ═══════════ THE COSMOS: THE ATLAS + MISSION CONTROL ═══════════
@@ -1419,7 +1513,12 @@ button.rot-cell { color: color-mix(in srgb, var(--c, #8a9ac8) 80%, #fff); border
 /* The results best-line: words in the body face, numerals stay mono. */
 .go-best-line { font-family: var(--body); }
 
-/* The Play chip fades out when rest drops under the 15s floor. */
+/* Under the floor the chip first flips to a legible CLOSED sign for ~1.5s,
+   then fades — its exit reads as "time ran down", never "the button died". */
+.rest-pill .play.closing {
+  background: linear-gradient(#b8a878, #96864f); color: #3a3010;
+  box-shadow: none; animation: none; pointer-events: none;
+}
 .rest-pill .play.gone {
   opacity: 0; transform: scale(0.85); pointer-events: none;
   transition: opacity .26s var(--ease), transform .26s var(--ease);

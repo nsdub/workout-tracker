@@ -1,11 +1,11 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, haptic } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
 import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay } from '../components.js';
-import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld } from '../worlds.js';
+import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
 
 let root = null;
@@ -27,11 +27,17 @@ export function render(el) {
     store.saveDraft(store.draft);
   }
   applyWorld(store.draft.session_type, store.draft.world);
-  if (announceWorld) {
+  // Don't burn the world reveal under the results overlay: a quiet re-render
+  // mid-ceremony (sync emit) leaves the flag set for the take-a-bow re-render.
+  if (announceWorld && !document.querySelector('.results')) {
     announceWorld = false;
     const U = universeOf(store.draft.session_type);
     const W = worldDef(store.draft.session_type, store.draft.world);
-    if (U && W) setTimeout(() => flashCard(`TONIGHT: ${W.name}`, U.name, () => {}), 350);
+    if (U && W) setTimeout(() => {
+      // Only flash if Tonight is still the tab on stage — a cross-tab reveal
+      // over the Atlas is noise, not ceremony.
+      if (root?.classList.contains('active')) flashCard(`TONIGHT: ${W.name}`, U.name, () => {});
+    }, 350);
   }
   if (store.draft.date !== today && !resumeAsked) {
     resumeAsked = true;
@@ -40,7 +46,7 @@ export function render(el) {
       body: 'You have logged sets from a previous day. "Never mind" keeps finishing that night.',
       confirmLabel: 'Start tonight fresh',
       danger: true,
-      onConfirm() { store.clearDraft(); focusIdx = null; render(root); renderDock(); },
+      onConfirm() { hideRestTimer(); store.clearDraft(); focusIdx = null; render(root); renderDock(); },
     }), 300);
   }
   const n = store.draft.exercises.length;
@@ -60,13 +66,15 @@ function defaultFocus(d) {
   return i === -1 ? Math.max(0, d.exercises.length - 1) : i;
 }
 
-// consecutive training days ending yesterday (tonight isn't banked yet)
+// consecutive training days ending yesterday (tonight isn't banked yet).
+// todayStr formats in LOCAL time — toISOString would walk UTC dates and
+// miscount the streak for any evening lifter west of Greenwich.
 function trainStreak(history, today) {
   const days = new Set(history.map((e) => e.date));
   const d = new Date(today + 'T12:00:00');
   let n = 0;
   d.setDate(d.getDate() - 1);
-  while (days.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  while (days.has(todayStr(d))) { n++; d.setDate(d.getDate() - 1); }
   return n;
 }
 
@@ -113,7 +121,9 @@ export function connectSheet() {
           close();
           toast('Connected');
           await pullRemote();
-          await flushQueue();
+          // A fresh token means the user just FIXED something — flush now,
+          // ignoring any backoff window earned by the dead token.
+          try { await flushQueue({ force: true }); } catch { await flushQueue(); }
           toast(store.plan ? 'Plan loaded' : 'Repo has no plan yet — import the seed bundle', store.plan ? 'ok' : 'bad', 3200);
         } catch (err) {
           store.saveSettings(prior); // never keep a token GitHub rejected
@@ -145,6 +155,9 @@ function ensureDraft(today, phaseInfo) {
   const d = store.draft;
   const dirty = d?.exercises?.some((x) => x.sets.some((s) => s.done));
   if (d && (d.date === today || dirty)) return d.session_type;
+  // Date rolled over a clean draft: that world was drawn but never trained —
+  // put it back on top of the deck before drawing again.
+  if (d?.world && !dirty) returnWorld(d.session_type, d.world);
   const type = engine.rotationNext(store.plan, store.history);
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
@@ -157,25 +170,40 @@ function buildDraft(date, sessionType, phaseInfo) {
   const exercises = session.exercises.map((slot) => {
     const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo);
     const last = engine.lastPerformance(store.history, sessionType, slot.id, {});
-    return {
-      prev: last ? {
+    let prev = null;
+    if (last) {
+      // The card shows only the top set + count (vertical budget); the full
+      // set-by-set history stays reachable in the field guide sheet.
+      const all = last.ex.sets.map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`);
+      const top = last.ex.sets.reduce((a, b) => ((b.weight ?? 0) > (a.weight ?? 0) ? b : a), last.ex.sets[0]);
+      prev = {
         date: last.entry.date,
-        sets: last.ex.sets.map((s) => `${fmtW(s.weight)}×${s.reps}`).join('  '),
+        sets: top ? `${fmtW(top.weight)}×${Number(top.reps) || 0}${all.length > 1 ? ` +${all.length - 1} more` : ''}` : '',
+        setsAll: all.join('  '),
         tag: store.plan.phases.find((p) => p.id === last.entry.phase)?.type === 'deload' ? 'deload' : null,
-      } : null,
+      };
+    }
+    return {
+      prev,
       id: slot.id,
       name: engine.exMeta(store.plan, slot.id).name,
       repMin: slot.repMin, repMax: slot.repMax, repUnit: slot.repUnit || null,
       rest: slot.rest || 90,
       basis: rx.basis, prevTop: rx.prevTop, note: rx.note || null, bump: rx.increment || 0,
+      // the true post-grid percentage the engine computed (calibration/deload) —
+      // labels state THIS, never a nominal 90/80 the rounding already broke
+      pct: rx.pct ?? null,
       stalled: engine.isStalled(store.plan, store.history, sessionType, slot),
       inc: engine.increment(store.plan, slot.id) || 2.5,
-      sets: rx.sets.map((s) => ({ weight: s.weight, reps: s.reps, done: false })),
+      // rxWeight: the engine's own prescription, kept per set so validateSet
+      // can grant it immunity — the app never second-guesses its own numbers
+      sets: rx.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: false })),
     };
   });
   return {
     date, session_type: sessionType, world: pickWorld(sessionType),
     phase: phaseInfo.phase?.id ?? null, week: phaseInfo.week,
+    startedAt: Date.now(),
     bodyweight: null, notes: '', exercises,
   };
 }
@@ -184,6 +212,11 @@ function switchSession(type) {
   const today = todayStr();
   const phaseInfo = engine.phaseForDate(store.plan, today, store.settings.phaseOverride);
   hideRestTimer();
+  // Leaving a clean draft returns its unseen world to the pool — switching
+  // universes back and forth must not burn through the deck.
+  const prev = store.draft;
+  const prevDirty = prev?.exercises?.some((x) => x.sets.some((s) => s.done));
+  if (prev?.world && !prevDirty) returnWorld(prev.session_type, prev.world);
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
   announceWorld = true;
@@ -192,13 +225,26 @@ function switchSession(type) {
 
 // ——— The world screen ———
 
+// Top prescribed weight for this exercise — old persisted drafts may predate
+// rxWeight, so fall back to the working weight.
+const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0));
+
 const BASIS = {
   progress: (x) => `<span class="num">${fmtW(x.prevTop)}</span> <span class="up">→ <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb — every set hit the top</span>`,
   repeat: (x) => `Repeat <span class="num">${fmtW(x.prevTop)}</span> lb`,
   hold: (x) => `Prep — hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
   seed: (x) => x.prev ? `New program — seed weight (older logs shown for reference)` : `First run — seed weight`,
-  calibration: (x) => `90% of <span class="num">${fmtW(x.prevTop)}</span>, rounded down`,
-  deload: (x) => `80% of <span class="num">${fmtW(x.prevTop)}</span>, rounded down`,
+  // Calibration/deload state the TRUE computed numbers. The grid snap makes a
+  // fixed "90%"/"80%" a lie almost every time — say the real ratio, and name
+  // the snap so the math is hand-checkable.
+  calibration: (x) => !x.prevTop ? `Calibration — seed minus 10%`
+    : x.pct != null
+      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of seed <span class="num">${fmtW(x.prevTop)}</span> — target 90%, snapped down to the ${x.inc} lb grid`
+      : `Target 90% of seed <span class="num">${fmtW(x.prevTop)}</span>, snapped down to the ${x.inc} lb grid`,
+  deload: (x) => !x.prevTop ? `Deload — lighter on purpose`
+    : x.pct != null
+      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of <span class="num">${fmtW(x.prevTop)}</span> — target 80%, snapped down to the ${x.inc} lb grid`
+      : `Target 80% of <span class="num">${fmtW(x.prevTop)}</span>, snapped down to the ${x.inc} lb grid`,
   verify: (x) => esc(x.note || 'Verify weight'),
   bodyweight: () => `Bodyweight`,
 };
@@ -228,22 +274,32 @@ function renderWorldScreen(draft, phaseInfo) {
       ? `<div class="freq"><i class="needle" style="left:${(5 + exPct * 0.88).toFixed(1)}%"></i></div>`
       : '';
 
+  // ONE notice on screen — the single most important thing tonight; the rest
+  // wait one tap away in the briefing (priority: resuming > streak >
+  // off-rotation > back-off week).
+  const noticeList = [
+    draft.date !== todayStr() ? { k: 'resume', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
+    streak >= 6 ? { k: 'streak', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
+    isNext ? null : { k: 'offrot', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
+    phase?.type === 'deload' ? { k: 'deload', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
+    phase?.type === 'calibration' ? { k: 'cal', txt: 'Calibration week — seeds at ~90%, snapped to the weight grid' } : null,
+  ].filter(Boolean);
+  const topNotice = noticeList[0];
+
+  const repRange = `${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}`;
+  const repUnitTxt = x.repUnit === 'sec' ? 'sec' : 'reps';
+
   root.innerHTML = `
     <header class="world-head">
-      <div class="uni-name">${esc(U.name)}</div>
       <div class="world-name">${esc(W.name)}</div>
-      <div class="mission-line">${esc(session.name)} — night ${missionNo} — ${fmtDate(draft.date)}</div>
-      <div class="head-tools">
-        <button class="tool" id="chip-bw">BW ${draft.bodyweight ? fmtW(draft.bodyweight) : '—'}</button>
-        <button class="tool" id="chip-notes">${draft.notes ? 'Note ●' : 'Note +'}</button>
-        <button class="tool" id="switch-session">Swap day</button>
-      </div>
+      <div class="mission-line">${esc(U.name)} — ${esc(session.name)} · night ${missionNo} · ${fmtDate(draft.date)}</div>
     </header>
-    ${isNext ? '' : `<div class="notice">Off the rotation tonight — allowed. Days get pushed, never skipped.</div>`}
-    ${streak >= 6 ? `<div class="notice">${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.</div>` : ''}
-    ${draft.date !== todayStr() ? `<div class="notice"><span>Resuming ${fmtDate(draft.date)}</span><button id="resume-discard">Discard</button></div>` : ''}
-    ${phase?.type === 'deload' ? `<div class="notice">Deload week — 80% load, 60% sets, 4+ RIR</div>` : ''}
-    ${phase?.type === 'calibration' ? `<div class="notice">Calibration week — seeds at 90%</div>` : ''}
+    ${topNotice ? `
+    <div class="notice" id="notice-bar" role="button" tabindex="0">
+      <span class="n-txt">${esc(topNotice.txt)}</span>
+      ${noticeList.length > 1 ? `<span class="n-more">+${noticeList.length - 1}</span>` : ''}
+      ${topNotice.k === 'resume' ? `<button id="resume-discard">Discard</button>` : ''}
+    </div>` : ''}
 
     <section class="objective ${navDir === 'next' ? 'slide-next' : navDir === 'prev' ? 'slide-prev' : ''}">
       ${frameExtras}
@@ -256,12 +312,15 @@ function renderWorldScreen(draft, phaseInfo) {
       </div>
       <h1 class="obj-name"><button id="open-howto" data-ex="${esc(x.id)}">${esc(x.name)}<span class="qm">?</span></button></h1>
       <div class="obj-meta">
-        <span class="chipper">${x.sets.length} × ${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}${x.repUnit === 'sec' ? 's' : ''}</span>
+        <span class="chipper">${x.sets.length} × ${repRange}${x.repUnit === 'sec' ? 's' : ''}</span>
         ${x.stalled ? '<span class="chipper warn">stalled</span>' : ''}
         ${x.basis === 'verify' ? '<span class="chipper warn">verify</span>' : ''}
       </div>
-      ${x.prev ? `<div class="last-strip"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span><span class="num">${x.prev.sets}</span></div>` : ''}
-      <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
+      ${x.prev ? `
+      <div class="last-strip">
+        <div class="ls-r"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span><span class="num">${esc(x.prev.sets)}</span></div>
+        <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
+      </div>` : `<div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>`}
 
       ${x.sets.some((s) => s.done) ? `
         <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
@@ -274,7 +333,7 @@ function renderWorldScreen(draft, phaseInfo) {
       ${cur ? `
       <div class="console" id="console">
         <div class="striker"></div>
-        <div class="set-label">set ${curIdx + 1} of ${x.sets.length}</div>
+        <div class="c-target"><b>Set ${curIdx + 1} of ${x.sets.length}</b> · target ${repRange} ${repUnitTxt}</div>
         <div class="c-vals">
           <button class="g-val" id="g-w">${cur.weight == null ? '—' : fmtW(cur.weight)}<u>lb</u></button>
           <span class="c-x">×</span>
@@ -300,31 +359,54 @@ function renderWorldScreen(draft, phaseInfo) {
       }).join('')}
     </div>`;
 
-  wire(draft, x, curIdx);
+  wire(draft, x, curIdx, noticeList);
 }
 
-function wire(draft, x, curIdx) {
+function wire(draft, x, curIdx, noticeList = []) {
   root.onclick = null;
   const U = universeOf(draft.session_type);
   $('#open-brief', root).addEventListener('click', briefingSheet);
-  $('#chip-bw', root).addEventListener('click', bodyweightSheet);
-  $('#chip-notes', root).addEventListener('click', notesSheet);
-  $('#switch-session', root).addEventListener('click', switchSheet);
   $('#open-howto', root).addEventListener('click', (e) => howtoSheet(e.currentTarget.dataset.ex));
+  $('#notice-bar', root)?.addEventListener('click', (e) => {
+    if (e.target.closest('#resume-discard')) return; // Discard owns its tap
+    noticesSheet(noticeList);
+  });
   $('#resume-discard', root)?.addEventListener('click', () => {
     confirmSheet({
       title: `Discard ${fmtDate(draft.date)}?`,
       body: 'Its logged sets are dropped and today starts fresh.',
       confirmLabel: 'Discard', danger: true,
-      onConfirm() { store.clearDraft(); focusIdx = null; render(root); renderDock(); },
+      onConfirm() { hideRestTimer(); store.clearDraft(); focusIdx = null; render(root); renderDock(); },
     });
   });
+  // Dual-card slide: the outgoing card is cloned-in-place as a ghost that
+  // exits while the fresh card slides in — travel does all the work, no
+  // opacity blink, both cards stay opaque the whole .38s.
   const paginate = (target, dir) => {
-    navDir = dir ?? (target > focusIdx ? 'next' : 'prev');
+    const d = dir ?? (target > focusIdx ? 'next' : 'prev');
+    navDir = d;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.querySelector('.objective-ghost')?.remove(); // rapid taps: one ghost max
+    const old = reduced ? null : root.querySelector('.objective');
+    // .view is the offsetParent (position:absolute), so these are layout
+    // coords in the scroll container — MUST be read before render() detaches it
+    const pos = old ? { top: old.offsetTop, left: old.offsetLeft, width: old.offsetWidth } : null;
     focusIdx = target;
     const st = root.scrollTop;
-    render(root);
+    render(root); // fresh card gets slide-next/prev from navDir
     root.scrollTop = st;
+    if (old) {
+      old.classList.remove('slide-next', 'slide-prev');
+      old.classList.add('objective-ghost', d === 'next' ? 'ghost-out-next' : 'ghost-out-prev');
+      old.setAttribute('aria-hidden', 'true');
+      // no duplicate ids while both cards exist — $('#…') must never hit the ghost
+      old.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
+      Object.assign(old.style, { position: 'absolute', top: pos.top + 'px', left: pos.left + 'px', width: pos.width + 'px', margin: '0', zIndex: '3', pointerEvents: 'none' });
+      root.appendChild(old);
+      const kill = () => old.remove();
+      old.addEventListener('animationend', kill, { once: true });
+      setTimeout(kill, 500); // fallback if animationend is swallowed (tab hidden)
+    }
   };
   $('#pg-prev', root)?.addEventListener('click', () => paginate(focusIdx - 1, 'prev'));
   $('#pg-next', root)?.addEventListener('click', () => paginate(focusIdx + 1, 'next'));
@@ -403,7 +485,11 @@ function logSet(x, s, U) {
   const bestBefore = Math.max(engine.allTimeBest(store.history, x.id)?.weight ?? 0, draftBest(x.id));
   s.done = true;
   s.at = Date.now();
-  const warnings = engine.validateSet(store.plan, store.history, x.id, s.weight ?? 0, s.reps);
+  // Hand validateSet the context it needs to be fair: the current phase (a
+  // deload weight is light ON PURPOSE) and the engine's own prescription
+  // (the app must never call its own number a typo).
+  const phase = store.plan.phases.find((p) => p.id === store.draft.phase) ?? null;
+  const warnings = engine.validateSet(store.plan, store.history, x.id, s.weight ?? 0, s.reps, { phase, prescribed: s.rxWeight ?? null });
   s.warn = warnings.length ? warnings.map((w) => w.msg).join(' — ') : null;
   s.warnDismissed = false;
   s.pr = !warnings.length && !x.adhoc && s.reps >= 1 && bestBefore > 0 && (s.weight ?? 0) > bestBefore;
@@ -436,7 +522,13 @@ function logSet(x, s, U) {
   if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'), U.copy.rest);
   if (finishedObjective && remaining > 0) {
     if (!s.pr) sfx('objDone');
-    flashCard(`${U.copy.objDone}!`, x.name, () => { focusIdx = defaultFocus(store.draft); render(root); });
+    flashCard(`${U.copy.objDone}!`, x.name, () => {
+      focusIdx = defaultFocus(store.draft);
+      // The flash lands ~1s later — if the user already switched tabs, update
+      // state only; rendering here would stomp the other view's world.
+      if (!root.classList.contains('active')) return;
+      render(root);
+    });
   }
   renderDock();
 }
@@ -455,14 +547,31 @@ function unlogSet(x, s) {
 
 export function howtoSheet(exId) {
   const meta = store.plan?.exercises[exId];
-  const name = meta?.name ?? store.draft?.exercises.find((x) => x.id === exId)?.name ?? exId;
+  const ex = store.draft?.exercises.find((x) => x.id === exId);
+  const name = meta?.name ?? ex?.name ?? exId;
   openSheet(`
     <h2>${esc(name)}</h2>
+    ${ex?.prev ? `<div class="sub">Last time · ${fmtDate(ex.prev.date)}${ex.prev.tag ? ` · ${esc(ex.prev.tag)}` : ''} — <span class="num">${esc(ex.prev.setsAll ?? ex.prev.sets)}</span></div>` : ''}
     ${meta?.howto
       ? `<div class="howto">${meta.howto.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`
       : `<div class="howto"><p>No field guide for this one.</p></div>`}
     <button class="btn quiet" id="ht-close" style="margin-top:12px">Close</button>`, {
     onOpen(sheet, close) { $('#ht-close', sheet).addEventListener('click', close); },
+  });
+}
+
+// Every active notice, in full plain-English sentences — the bar on the world
+// screen shows only the loudest one, this is where the rest live.
+function noticesSheet(list) {
+  if (!list.length) return;
+  openSheet(`
+    <h2>Tonight’s briefing</h2>
+    <div class="sub">${list.length === 1 ? 'One thing to know' : `${list.length} things to know`}</div>
+    <div class="opt-list">
+      ${list.map((n) => `<div class="opt notice-full">${esc(n.txt)}</div>`).join('')}
+    </div>
+    <button class="btn quiet" id="nt-close" style="margin-top:10px">Close</button>`, {
+    onOpen(sheet, close) { $('#nt-close', sheet).addEventListener('click', close); },
   });
 }
 
@@ -477,13 +586,22 @@ function briefingSheet() {
         return `<button class="opt ${i === focusIdx ? 'selected' : ''}" data-oi="${i}">${esc(e.name)}<span class="hint num">${dn}/${e.sets.length}</span></button>`;
       }).join('')}
     </div>
-    <button class="btn quiet" id="brief-add" style="margin-top:8px">+ Sneak one in</button>`, {
+    <button class="btn quiet" id="brief-add" style="margin-top:8px">+ Sneak one in</button>
+    <div class="sub" style="margin:14px 0 6px">Tonight’s kit</div>
+    <div class="opt-list">
+      <button class="opt" id="chip-bw">Bodyweight<span class="hint num">${d.bodyweight ? `${fmtW(d.bodyweight)} lb` : 'log it'}</span></button>
+      <button class="opt" id="chip-notes">Field notes<span class="hint">${d.notes ? '●' : '+'}</span></button>
+      <button class="opt" id="switch-session">Swap the day<span class="hint">${esc(store.plan.sessions[d.session_type].name)}</span></button>
+    </div>`, {
     onOpen(sheet, close) {
       sheet.addEventListener('click', (e) => {
-        const opt = e.target.closest('.opt');
+        const opt = e.target.closest('.opt[data-oi]');
         if (opt) { close(); const t = Number(opt.dataset.oi); navDir = t >= focusIdx ? 'next' : 'prev'; focusIdx = t; render(root); }
       });
       $('#brief-add', sheet).addEventListener('click', () => { close(); addExerciseSheet(); });
+      $('#chip-bw', sheet).addEventListener('click', () => { close(); bodyweightSheet(); });
+      $('#chip-notes', sheet).addEventListener('click', () => { close(); notesSheet(); });
+      $('#switch-session', sheet).addEventListener('click', () => { close(); switchSheet(); });
     },
   });
 }
@@ -635,7 +753,10 @@ function finishSession() {
   if (!exercises.length) return toast('Nothing logged yet', 'bad');
 
   const ats = exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
-  const mins = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
+  // True wall-clock duration from the draft's birth; pre-deploy drafts fall
+  // back to the first logged set. sessionMins guards stale resumed drafts.
+  const startedAt = d.startedAt ?? (ats.length ? Math.min(...ats) : null);
+  const mins = sessionMins(startedAt, ats);
   const stats = {
     mins,
     sets: exercises.reduce((n, x) => n + x.sets.length, 0),
@@ -644,21 +765,37 @@ function finishSession() {
     acts: exercises.length,
     title: U.copy.results,
     world: W ? `${W.name} · ${U.name}` : U.name,
+    delivered: U.copy.delivered ?? NEUTRAL_COPY.delivered,
+    path: null,
   };
 
   const entry = { date: d.date, session_type: d.session_type, phase: d.phase, week: d.week, exercises };
   if (d.world) entry.world = d.world;
   if (d.bodyweight) entry.bodyweight = d.bodyweight;
   if (d.notes) entry.notes = d.notes;
+  if (mins) entry.mins = mins;
+  if (startedAt) entry.startedAt = startedAt;
+  stats.path = store.entryPath(entry);
 
   store.clearDraft();
-  store.upsertEntry(entry);
+  // quiet: the results ceremony owns the screen — the world rebuild waits for
+  // the take-a-bow tap instead of tearing the stage mid-fanfare.
+  store.upsertEntry(entry, { quiet: true });
   clearDock();
   hideRestTimer();
   haptic([10, 60, 20, 60, 30]);
   sfx('finish');
   flushQueue();
   showResults(stats);
+}
+
+// Plain-English cause for a failed upload; the raw GitHub error is for repos,
+// not for people standing in a gym.
+function syncReason(msg = '') {
+  if (/401|403|Bad credentials/i.test(msg)) return 'GitHub rejected the token';
+  if (/404/.test(msg)) return 'Repo not found — check the name';
+  if (/fetch|network|load failed/i.test(msg)) return 'The connection dropped mid-upload';
+  return String(msg).replace(/^GitHub \d+:\s*/, '').slice(0, 80) || 'Upload hit a snag';
 }
 
 function showResults(stats) {
@@ -670,19 +807,60 @@ function showResults(stats) {
       <div class="rs-k">${esc(stats.world)}</div>
       <div class="rs-n">${esc(stats.title)}</div>
       <div class="rs-grid">
+        <div class="rs-stat rs-time"><b class="num">${stats.mins ?? '—'}</b><i>minutes in the world</i></div>
         <div class="rs-stat"><b class="num">${stats.sets}</b><i>${stats.sets === 1 ? 'set' : 'sets'}</i></div>
         <div class="rs-stat"><b class="num">${stats.tonnage.toLocaleString()}</b><i>lb moved</i></div>
-        <div class="rs-stat"><b class="num">${stats.mins ?? stats.acts}</b><i>${stats.mins ? 'minutes' : stats.acts === 1 ? 'act' : 'acts'}</i></div>
+        <div class="rs-stat"><b class="num">${stats.acts}</b><i>${stats.acts === 1 ? 'act' : 'acts'}</i></div>
         <div class="rs-stat ${stats.prs ? 'pr' : ''}"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i></div>
       </div>
       <button class="btn primary" id="rs-go">Take a bow</button>
-      <div class="rs-sync">${navigator.onLine && store.settings.token ? 'Uploading to GitHub' : 'Saved offline — syncs later'}</div>
+      <div class="rs-sync" id="rs-sync"></div>
     </div>`;
   document.body.appendChild(el);
-  el.querySelector('#rs-go').addEventListener('click', () => {
+
+  // LIVE save confirmation: the sync line tracks the queue while the card is
+  // up — uploading, then the universe's own "delivered" moment, or the plain
+  // failure reason in red with a way to fix it.
+  const renderSync = () => {
+    const box = el.querySelector('#rs-sync');
+    if (!box) return;
+    if (!store.settings.token) {
+      box.className = 'rs-sync';
+      box.textContent = 'Saved on this phone — connect GitHub on the Mission deck to back it up';
+      return;
+    }
+    const q = store.queue.find((it) => it.path === stats.path);
+    if (!q) {
+      box.className = 'rs-sync ok';
+      box.textContent = `✓ ${stats.delivered}`;
+      return;
+    }
+    if (!navigator.onLine) {
+      box.className = 'rs-sync';
+      box.textContent = 'Saved offline — uploads the moment the signal returns';
+      return;
+    }
+    if (q.attempts > 0) {
+      box.className = 'rs-sync bad';
+      const fixable = /401|403|Bad credentials/i.test(q.lastError || '');
+      box.innerHTML = `${esc(syncReason(q.lastError))} — kept safe on this phone, retrying${fixable ? ' <button class="rs-fix" id="rs-fix">Fix token</button>' : ''}`;
+      return;
+    }
+    box.className = 'rs-sync up';
+    box.textContent = 'Uploading to GitHub…';
+  };
+  const unsub = store.sub(renderSync);
+  renderSync();
+
+  const dismiss = () => {
+    unsub();
     el.remove();
     focusIdx = null;
     render(root);
     renderDock();
+  };
+  el.querySelector('#rs-go').addEventListener('click', dismiss);
+  el.addEventListener('click', (e) => {
+    if (e.target.closest('#rs-fix')) { dismiss(); connectSheet(); }
   });
 }

@@ -474,6 +474,36 @@ export function sfx(cue) {
   } catch { /* audio is garnish, never break the set log */ }
 }
 
+// The one cue that must survive a locked phone. iOS suspends the context on
+// screen-lock and often refuses resume outside a gesture — so if the room is
+// asleep, stash the cue and fire it the instant the context wakes (statechange
+// after resume, or the user's first tap back). Freshness window: a ding is a
+// "now" signal — never play one more than 15s stale. Used ONLY by the rest
+// timer; every other cue keeps plain sfx().
+let pendingCue = null;
+let flushTapHooked = false;
+let flushStateHooked = null; // the ctx instance carrying our statechange listener
+export function flushWhenRunning(cue) {
+  const c = ac();
+  if (c && c.state === 'running') return sfx(cue);
+  pendingCue = { cue, at: Date.now() };
+  const tryFlush = () => {
+    if (pendingCue && Date.now() - pendingCue.at > 15000) pendingCue = null;
+    if (!pendingCue || !ctx || ctx.state !== 'running') return;
+    const held = pendingCue;
+    pendingCue = null;
+    sfx(held.cue);
+  };
+  if (c && flushStateHooked !== c) {
+    flushStateHooked = c;
+    try { c.addEventListener('statechange', tryFlush); } catch { /* ancient webkit */ }
+  }
+  if (!flushTapHooked) {
+    flushTapHooked = true;
+    document.addEventListener('pointerdown', () => { ac(); setTimeout(tryFlush, 40); }, { passive: true });
+  }
+}
+
 // Pentatonic combo ladder for the arcade: consecutive hits step up a
 // never-dissonant scale (Peggle's trick — the music of a hot streak).
 // Callers restart their chain at 0 on a miss. Caps three octaves up.
