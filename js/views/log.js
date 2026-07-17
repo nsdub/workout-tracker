@@ -5,12 +5,48 @@ import { $, esc, fmtW, fmtDate, monthLabel, dayParts } from '../util.js';
 import { store } from '../store.js';
 import { topSet } from '../engine.js';
 import { applyWorld, UNIVERSES, worldDef } from '../worlds.js';
+import { GAMES, bestFor, starsFor, readStats } from '../game/registry.js';
 
 let root = null;
 const state = { tab: 'sessions', entryPath: null, exId: null };
 
 // universe hues, neon-tuned to glow against the void
 const SWATCH = { PushA: '#ff6a4c', PullA: '#3adcc8', LegsA: '#7ad48a', PushB: '#ff9a5c', PullB: '#ffd24a', LegsB: '#5cb8ff' };
+
+// The bestiary's six constellations — the arcade universes in charting order,
+// each with its canonical name + neon swatch (NOT mod.TITLE, which is the
+// mechanic's name). Keys match registry GAMES.
+const UNI = [
+  { key: 'dojo', name: 'Mount Volcano Dojo', hue: '#ff6a4c' },
+  { key: 'deep', name: 'The Deep', hue: '#3adcc8' },
+  { key: 'park', name: 'Cryptid National Park', hue: '#7ad48a' },
+  { key: 'wok', name: 'The Noodle Cosmos', hue: '#ff9a5c' },
+  { key: 'atoll', name: 'Pirate Radio Atoll', hue: '#ffd24a' },
+  { key: 'yeti', name: 'Yeti Ski Resort', hue: '#5cb8ff' },
+];
+
+// 0xffb46c → "#ffb46c"; anything malformed falls back to the void-grey used
+// elsewhere in the Atlas so a bad accent can never break a tile's style attr.
+function accCss(n) {
+  const v = (typeof n === 'number' && isFinite(n)) ? (n >>> 0) & 0xffffff : 0x8a9ac8;
+  return '#' + v.toString(16).padStart(6, '0');
+}
+
+// A world's [stop,'#hex'] sky pairs → a CSS gradient we can paint a tile with.
+function skyCss(sky) {
+  if (!Array.isArray(sky)) return '#12203a';
+  const stops = sky
+    .filter((p) => Array.isArray(p) && p.length >= 2 && typeof p[1] === 'string')
+    .map(([s, c]) => `${esc(c)} ${Math.round((Number(s) || 0) * 100)}%`)
+    .join(', ');
+  return stops ? `linear-gradient(155deg, ${stops})` : '#12203a';
+}
+
+// 3 pips, `lit` of them gold — mirrors the game-over panel's star ladder
+// (.on = earned), minus the pop animation since this is a static ledger.
+function starPips(lit) {
+  return [1, 2, 3].map((i) => `<span class="${i <= lit ? 'on' : ''}">★</span>`).join('');
+}
 
 export function popBack() {
   if (state.entryPath || state.exId) {
@@ -36,6 +72,9 @@ function backOut() {
 export function render(el) {
   root = el;
   applyWorld('sb');
+  // Worlds is arcade-only — reachable and meaningful even with zero lifting
+  // history, so it jumps the history-empty short-circuit below.
+  if (state.tab === 'worlds') return renderWorlds();
   if (!store.history.length) return renderEmpty();
   if (state.entryPath) return renderDetail();
   if (state.exId) return renderChart();
@@ -44,9 +83,13 @@ export function render(el) {
 
 function renderEmpty() {
   root.onclick = null;
-  root.innerHTML = `
-    <div class="space-title">The Atlas</div>
-    <div class="empty"><div class="card-e"><h3>Uncharted space</h3><p>Finish a night in any world and its star gets charted here.</p></div></div>`;
+  // Keep the tabs even with no logged nights: the Worlds collection is
+  // arcade-only, so a player who has only tapped through rest-games must
+  // still be able to reach it. Without the seg here, Worlds was unreachable
+  // until the first night was charted.
+  root.innerHTML = segHtml()
+    + `<div class="empty"><div class="card-e"><h3>Uncharted space</h3><p>Finish a night in any world and its star gets charted here. Tap <b>Worlds</b> to see the rest-game universes you've discovered.</p></div></div>`;
+  wireSeg();
 }
 
 function segHtml() {
@@ -55,6 +98,7 @@ function segHtml() {
     <div class="seg">
       <button data-t="sessions" class="${state.tab === 'sessions' ? 'active' : ''}">Nights</button>
       <button data-t="exercises" class="${state.tab === 'exercises' ? 'active' : ''}">Lifts</button>
+      <button data-t="worlds" class="${state.tab === 'worlds' ? 'active' : ''}">Worlds</button>
     </div>`;
 }
 
@@ -159,6 +203,81 @@ function renderLiftList() {
     if (!row) return;
     drillIn({ exId: row.dataset.ex });
   };
+}
+
+// ——— Worlds: the bestiary / sticker-album of the 48 arcade worlds ———
+function renderWorlds() {
+  root.onclick = null; // tiles are display-only; no drill-in
+  const stats = readStats();
+
+  // Walk the registry once, tallying discovery + medals for the career band.
+  let discovered = 0;
+  let medals = 0;
+  const groups = UNI.map((u) => {
+    const mod = GAMES[u.key];
+    const worlds = Object.entries(mod?.WORLDS ?? {}).map(([cls, cfg]) => {
+      const best = bestFor(cls) || 0;
+      const stars = starsFor(cls) || 0;
+      const found = best > 0 || stars > 0;
+      if (found) discovered += 1;
+      medals += stars;
+      return { cls, cfg: cfg || {}, best, stars, found };
+    });
+    return { u, worlds, uDisc: worlds.filter((w) => w.found).length };
+  });
+  const total = groups.reduce((n, g) => n + g.worlds.length, 0) || 48;
+
+  // Never touched the arcade at all → a friendly hero, seg kept so they can
+  // sail back to Nights/Lifts.
+  if (!discovered && !(stats.plays > 0)) {
+    root.innerHTML = segHtml()
+      + `<div class="empty"><div class="card-e"><h3>No worlds discovered yet</h3>`
+      + `<p>Play a rest-game between sets and each world you visit gets charted here.</p></div></div>`;
+    wireSeg();
+    return;
+  }
+
+  const pct = Math.round((discovered / total) * 100);
+  const hero = `
+    <div class="wc-hero">
+      <div class="wc-lead">
+        <b class="num">${discovered}<u>/ ${total}</u></b>
+        <i>Worlds discovered</i>
+        <span class="wc-bar"><span style="width:${pct}%"></span></span>
+      </div>
+      <div class="wc-cells">
+        <div class="wc-cell"><b class="num">${stats.plays || 0}</b><i>Plays</i></div>
+        <div class="wc-cell"><b class="num">${stats.streak || 0}</b><i>Day streak</i></div>
+        <div class="wc-cell"><b class="num">${stats.streakBest || 0}</b><i>Best streak</i></div>
+        <div class="wc-cell"><b class="num">${medals}<u>/144</u></b><i>Medals</i></div>
+      </div>
+    </div>`;
+
+  const sectors = groups.map((g) => {
+    const tiles = g.worlds.map((w) => {
+      if (!w.found) {
+        return `<div class="wc-tile locked" style="--c:${g.u.hue}">
+          <span class="wc-q">?</span>
+          <span class="wc-tname dim">???</span>
+        </div>`;
+      }
+      const acc = accCss(w.cfg.accent);
+      return `<div class="wc-tile found${w.stars >= 3 ? ' gold' : ''}" style="--c:${acc};--sky:${skyCss(w.cfg.sky)}">
+        <span class="wc-tname">${esc(w.cfg.name || 'Unknown')}</span>
+        <span class="wc-stars">${starPips(w.stars)}</span>
+        <span class="wc-best num">${w.best}</span>
+      </div>`;
+    }).join('');
+    return `
+      <div class="wc-sector" style="--c:${g.u.hue}">
+        <span class="wc-uni">${esc(g.u.name)}</span>
+        <span class="wc-count num">${g.uDisc} / ${g.worlds.length}</span>
+      </div>
+      <div class="wc-grid">${tiles}</div>`;
+  }).join('');
+
+  root.innerHTML = segHtml() + `<div class="wc-wrap">${hero}${sectors}</div>`;
+  wireSeg();
 }
 
 function renderChart() {

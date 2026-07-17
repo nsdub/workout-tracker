@@ -78,6 +78,7 @@ export function gameFor(universeCls, worldCls) {
   return {
     title: mod.TITLE,
     verb: mod.VERB,
+    gesture: mod.GESTURE,
     cfg: mod.WORLDS[worldCls],
     create: mod.create,
     // per-world tuned medal ladder (base tuple if calibration was skipped)

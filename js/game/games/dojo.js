@@ -25,6 +25,7 @@ export const TITLE = 'Iaido';
 // inside one drag resets the combo, so frantic back-and-forth breaks its own
 // chain and the ladder rewards clean, chained cutting over scribbling.
 export const VERB = 'SLICE!';
+export const GESTURE = 'Swipe to slice';
 export const STARS = [5, 10, 16];
 
 export const HELP = {

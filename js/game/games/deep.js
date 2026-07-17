@@ -20,6 +20,7 @@ export const TITLE = 'Terminal Velocity';
 // Measured post-tune in the richest world (reef): blind full-throttle
 // ≈21/s, armor-weaving hold ≈28/s; leaner worlds run lower.
 export const VERB = 'DIVE!';
+export const GESTURE = 'Hold to dive';
 export const STARS = [8, 15, 24];
 
 export const HELP = {

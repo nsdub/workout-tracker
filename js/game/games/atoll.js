@@ -32,6 +32,7 @@ import {
 
 export const TITLE = 'Bass Drop';
 export const VERB = 'DROP!';
+export const GESTURE = 'Tap on the beat';
 // points per second for 1/2/3 stars — a distracted lifter clears bar 1
 // on any competent round; three stars wants sustained on-beat chains,
 // centred taps, and cashed drops.

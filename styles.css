@@ -968,9 +968,9 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
   box-shadow: 0 0 10px rgba(255, 210, 74, 0.6);
 }
 
-.seg { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 2px 18px; }
+.seg { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 0 2px 18px; }
 .seg button {
-  min-height: 46px; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: .1em;
+  min-height: 46px; font-family: 'Cinzel', serif; font-size: 13.5px; letter-spacing: .08em;
   background: rgba(16, 26, 54, 0.75); color: var(--ink2);
   border: 1px solid rgba(138, 154, 200, 0.35); border-radius: 24px;
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
@@ -1056,6 +1056,76 @@ input, textarea { font: inherit; color: inherit; background: none; border: none;
 .chart-box svg { width: 100%; height: auto; display: block; }
 .chart-meta { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10.5px; color: var(--ink2); padding: 8px 8px 10px; }
 .chart-meta b { color: var(--acc); font-size: 13px; }
+
+/* ——— the bestiary: collect all 48 arcade worlds ——— */
+.wc-wrap { position: relative; z-index: 2; margin: 0 2px; }
+
+/* career band: a featured "discovered" panel + a 4-cell stat row */
+.wc-hero {
+  display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px;
+}
+.wc-lead {
+  position: relative; overflow: hidden;
+  background: rgba(16, 26, 54, 0.82); border: 1px solid rgba(255, 210, 74, 0.3);
+  border-radius: 14px; padding: 14px 16px 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 34px rgba(255, 210, 74, 0.06);
+  backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
+}
+.wc-lead b { display: block; font-family: var(--mono); font-size: 42px; line-height: 1; color: #ffd24a; text-shadow: 0 0 24px rgba(255, 210, 74, 0.45); }
+.wc-lead b u { text-decoration: none; font-size: 15px; color: #8a9ac8; margin-left: 6px; }
+.wc-lead i { display: block; font-style: normal; font-family: var(--mono); font-size: 9.5px; letter-spacing: .28em; text-transform: uppercase; color: #8a9ac8; margin-top: 4px; }
+.wc-bar { display: block; height: 7px; margin-top: 12px; border-radius: 5px; background: rgba(138, 154, 200, 0.2); overflow: hidden; }
+.wc-bar > span { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #3adcc8, #ffd24a); box-shadow: 0 0 12px rgba(255, 210, 74, 0.6); }
+.wc-cells { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.wc-cell {
+  background: rgba(16, 26, 54, 0.8); border: 1px solid rgba(138, 154, 200, 0.3);
+  border-radius: 12px; padding: 12px 6px 10px; text-align: center;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.wc-cell b { display: block; font-family: var(--mono); font-size: 22px; color: #dfe8ff; line-height: 1; }
+.wc-cell b u { text-decoration: none; font-size: 10px; color: #8a9ac8; }
+.wc-cell i { display: block; font-style: normal; font-family: var(--mono); font-size: 8px; letter-spacing: .16em; text-transform: uppercase; color: #8a9ac8; margin-top: 5px; }
+
+/* universe divider, tinted with the constellation's swatch */
+.wc-sector {
+  display: flex; align-items: baseline; gap: 10px; margin: 4px 0 11px;
+  padding-bottom: 6px; border-bottom: 1.4px solid color-mix(in srgb, var(--c) 40%, transparent);
+}
+.wc-uni { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: .04em; color: var(--c); text-shadow: 0 0 16px color-mix(in srgb, var(--c) 55%, transparent); }
+.wc-count { margin-left: auto; font-size: 10px; letter-spacing: .12em; color: #8a9ac8; }
+
+/* the tile grid — 3 dense columns on a phone, complete-able at a glance */
+.wc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-bottom: 22px; }
+.wc-tile {
+  position: relative; overflow: hidden; min-width: 0;
+  min-height: 92px; border-radius: 12px; padding: 9px 9px 8px;
+  display: flex; flex-direction: column; gap: 5px;
+  border: 1px solid rgba(138, 154, 200, 0.22);
+}
+/* discovered: the world's own sky, darkened so text sits on top, accent glow */
+.wc-tile.found {
+  background: linear-gradient(to top, rgba(6, 9, 20, 0.9), rgba(6, 9, 20, 0.34)), var(--sky, #12203a);
+  border-color: color-mix(in srgb, var(--c) 55%, transparent);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--c) 30%, transparent), inset 0 0 22px color-mix(in srgb, var(--c) 12%, transparent);
+}
+.wc-tname { font-family: var(--disp); font-size: 12.5px; line-height: 1.12; color: #f2f6ff; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wc-tname.dim { color: rgba(223, 232, 255, 0.28); }
+.wc-stars { display: flex; gap: 4px; font-size: 13px; line-height: 1; margin-top: auto; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5)); }
+.wc-stars span { color: rgba(138, 154, 200, 0.32); }
+.wc-stars span.on { color: #ffd24a; text-shadow: 0 0 12px rgba(255, 210, 74, 0.65), 0 0 3px rgba(255, 240, 190, 0.8); }
+.wc-best { font-family: var(--mono); font-size: 11px; color: color-mix(in srgb, var(--c) 62%, #dfe8ff); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); }
+/* mastered (3/3): the trophy tile — full gold treatment */
+.wc-tile.gold { border-color: #ffd24a; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.42), 0 0 22px rgba(255, 210, 74, 0.5), inset 0 0 26px rgba(255, 210, 74, 0.18); }
+.wc-tile.gold::after {
+  content: '★'; position: absolute; top: 6px; right: 8px; font-size: 11px; color: #ffd24a;
+  text-shadow: 0 0 10px rgba(255, 210, 74, 0.9);
+}
+/* locked: a dim mystery slot, no name spoiler, still holds its place */
+.wc-tile.locked { background: repeating-linear-gradient(135deg, rgba(16, 26, 54, 0.7) 0 8px, rgba(12, 20, 42, 0.7) 8px 16px); align-items: center; justify-content: center; }
+.wc-q { font-family: 'Cinzel', serif; font-size: 30px; color: color-mix(in srgb, var(--c) 34%, rgba(138, 154, 200, 0.5)); text-shadow: 0 0 14px color-mix(in srgb, var(--c) 30%, transparent); }
+.wc-tile.locked .wc-tname { text-align: center; letter-spacing: .2em; }
+.wc-tile:active { transform: scale(0.97); }
 
 /* ——— mission control ——— */
 .hud-pair { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 2px 14px; }

@@ -21,6 +21,7 @@ export const TITLE = 'Dim Sum Drop';
 // Measured post-tune: random drops ≈10.6/s; cluster-hunting drops with
 // wok catches and SPOTLESS clears reach well past 17/s.
 export const VERB = 'DROP IN A WOK';
+export const GESTURE = 'Drag, then release';
 export const STARS = [5, 11, 17];
 
 export const HELP = {
@@ -291,7 +292,10 @@ export function create(P, ctx) {
           scene.tweens.add({
             targets: img, x: x + (Math.random() < 0.5 ? -1 : 1) * 20 * K,
             duration: 2200 + Math.random() * 1200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut',
-            onUpdate: () => { try { scene.matter.body.setPosition(body, { x: img.x, y: img.y }); } catch { /* removed */ } },
+            // KINEMATIC follow: updateVelocity=true so Matter infers the peg's
+            // velocity from the step, and a dumpling it drifts into gets a
+            // gentle correct nudge instead of a teleport-penetration explosion.
+            onUpdate: () => { try { scene.matter.body.setPosition(body, { x: img.x, y: img.y }, true); } catch { /* removed */ } },
           });
         }
         pegs.push(peg);
@@ -749,14 +753,19 @@ export function create(P, ctx) {
 
       // the dragon coils through the field
       if (cfg.dragon) {
+        // Spawn the head AT its path(0) start (not the origin) so the first
+        // kinematic setPosition is a tiny step, not a full-screen leap that
+        // would record a ~500px/step velocity and snap the head in from the
+        // corner. path(0): x = W/2, y = H*0.42 + sin(1.7)*H*0.16.
+        const dhx = W / 2, dhy = H * 0.42 + Math.sin(1.7) * H * 0.16;
         const segs = [];
-        const head = scene.add.image(0, 0, canvasTex(scene, 'wk-dhead', 40 * K, 40 * K, PAINT.dragonhead)).setDepth(13);
+        const head = scene.add.image(dhx, dhy, canvasTex(scene, 'wk-dhead', 40 * K, 40 * K, PAINT.dragonhead)).setDepth(13);
         segs.push(head);
         for (let i = 0; i < 5; i++) {
-          const s = scene.add.image(0, 0, 'fx-dot').setTint(0x7ad0ff).setScale(0.5 * K).setBlendMode('ADD').setDepth(12);
+          const s = scene.add.image(dhx, dhy, 'fx-dot').setTint(0x7ad0ff).setScale(0.5 * K).setBlendMode('ADD').setDepth(12);
           segs.push(s);
         }
-        const body = scene.matter.add.circle(0, 0, 16 * K, { isStatic: true, label: 'peg', restitution: 0.6 });
+        const body = scene.matter.add.circle(dhx, dhy, 16 * K, { isStatic: true, label: 'peg', restitution: 0.6 });
         const peg = { img: head, body, kind: 'peg', lit: false, dragonHead: true };
         body.pegRef = peg;
         dragon = { segs, body, peg, t: 0 };
@@ -875,7 +884,14 @@ export function create(P, ctx) {
         wk.img.setAngle(wk.dir * 2.2 + Math.sin(scene.time.now / 320 + wk.w) * 1.4);
       }
 
-      // the dragon coils
+      // the dragon coils — dt is already clamped seconds (see the dt above), so
+      // accumulating it traces a slow ~9s coil that even a laggy frame can't
+      // fling. The head is a true KINEMATIC collider: setPosition with
+      // updateVelocity=true gives it real velocity so it NUDGES a dumpling
+      // instead of teleporting into one. It spawns at path(0) (dragon.t starts
+      // at 0), so every step — the first included — is a tiny move; the `moved`
+      // guard is belt-and-suspenders so an initial placement never records
+      // velocity.
       if (dragon) {
         dragon.t += dt;
         const path = (tt) => ({
@@ -884,7 +900,8 @@ export function create(P, ctx) {
         });
         const hp = path(dragon.t);
         dragon.segs[0].setPosition(hp.x, hp.y);
-        try { scene.matter.body.setPosition(dragon.body, hp); } catch { /* gone */ }
+        try { scene.matter.body.setPosition(dragon.body, hp, dragon.moved === true); } catch { /* gone */ }
+        dragon.moved = true;
         for (let i = 1; i < dragon.segs.length; i++) {
           const sp = path(dragon.t - i * 0.24);
           dragon.segs[i].setPosition(sp.x, sp.y);

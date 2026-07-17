@@ -16,6 +16,7 @@ export const TITLE = 'Skip Legend';
 // Measured post-tune: identical safe lobs ≈9.5/s; flat threading runs
 // with clean skips, re-armed grazes and rings run well past 14/s.
 export const VERB = 'SKIP!';
+export const GESTURE = 'Pull back, release';
 // Per-second rate. Raised above what a single lazy flat lob yields: three
 // stars now needs sustained clean chains, grazes and near-misses, not one
 // memorized throw (the per-skip climb soft-caps and the lake tightens over

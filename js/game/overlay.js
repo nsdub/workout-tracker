@@ -271,7 +271,7 @@ export async function openGame({ deadline }) {
           introCard(this, spec.verb, () => {
             mine.introLock = false;
             if (active === mine && mine.phase === 'playing') { try { this.input.enabled = true; } catch { /* gone */ } }
-          });
+          }, spec.gesture);
         }
       } catch (err) { fail(err); }
     };
@@ -353,7 +353,7 @@ export async function openGame({ deadline }) {
       if (s) {
         try {
           const K = Math.min(s.scale.width / 400, s.scale.height / 640) || 1;
-          glyphBanner(s, 'GOLD RUSH ×2', '#ffd24a', Math.round(30 * K)); goldRush(s); mine.sceneCfg?.fever?.(s);
+          glyphBanner(s, 'GOLD RUSH ×2', '#ffd24a', Math.round(30 * K)); goldRush(s, { duration: left }); mine.sceneCfg?.fever?.(s);
         } catch { /* garnish */ }
       }
       sfx('objDone');
@@ -461,8 +461,13 @@ export async function openGame({ deadline }) {
           setTimeout(() => {
             if (active !== mine) return;
             try {
-              const x = W * (0.15 + Math.random() * 0.7);
-              const y = H * (0.12 + Math.random() * 0.5);
+              // World-space bursts must land in the VISIBLE band: a scrolling
+              // world (park skims sideways) has a nonzero camera scroll, so a
+              // fixed screen fraction alone would detonate off-screen. Offset
+              // by the live scroll; still-cameras read 0 and are unaffected.
+              const cam = scene.cameras.main;
+              const x = (cam?.scrollX || 0) + W * (0.15 + Math.random() * 0.7);
+              const y = (cam?.scrollY || 0) + H * (0.12 + Math.random() * 0.5);
               const tint = colors[i % colors.length];
               burst(scene, x, y, tint, { n: 26, speed: 460 * K, scale: 0.7 * K, life: 900 });
               shockRing(scene, x, y, tint, 130 * K);

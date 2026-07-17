@@ -20,6 +20,7 @@ export const TITLE = 'Yeti Bowl';
 // Measured post-tune: thoughtless sweeping ≈26/s; deliberate center-line
 // strikes, swerves and drift upkeep are what push past 36/s.
 export const VERB = 'ROLL!';
+export const GESTURE = 'Hold to grow';
 export const STARS = [12, 24, 36];
 
 export const HELP = {
