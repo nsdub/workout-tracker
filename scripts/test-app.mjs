@@ -20,7 +20,7 @@ globalThis.fetch = (...args) => fetchImpl(...args);
 // Seed a settings blob that PREDATES the cardio field (defaults-merge test)
 localStorage.setItem('p3.settings', JSON.stringify({ owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '' }));
 
-const { fmtW, weekKey, daysBetween } = await import('../js/util.js');
+const { fmtW, weekKey, daysBetween, sessionMins } = await import('../js/util.js');
 const { store } = await import('../js/store.js');
 const { flushQueue, pullRemote, importSeedBundle } = await import('../js/github.js');
 
@@ -44,6 +44,22 @@ await ok('fmtW keeps stack fractions, trims integers, dashes null', () => {
 });
 await ok('daysBetween', () => {
   assert.equal(daysBetween('2026-07-11', '2027-03-01'), 233);
+});
+await ok('sessionMins: wall clock, span fallback, and the resumed-draft guard', () => {
+  const t0 = 1_000_000_000_000;
+  // (a) startedAt-based rounding with the 1-minute floor
+  assert.equal(sessionMins(t0, [], t0 + 10_000), 1);
+  assert.equal(sessionMins(t0, [t0 + 5000], t0 + 62 * 60000), 62);
+  // (b) no startedAt + ≥2 set timestamps → span between first and last set
+  assert.equal(sessionMins(null, [t0, t0 + 45 * 60000]), 45);
+  assert.equal(sessionMins(null, [t0, t0 + 20_000]), 1); // short span floors to 1
+  // (c) no startedAt + <2 timestamps → unknowable
+  assert.equal(sessionMins(null, []), null);
+  assert.equal(sessionMins(null, [t0]), null);
+  // (d) >6h elapsed WITH a valid span → the stale resumed draft defers to the span
+  assert.equal(sessionMins(t0, [t0 + 60000, t0 + 50 * 60000], t0 + 26 * 3600000), 49);
+  // (e) >6h elapsed with no span → the elapsed value stands
+  assert.equal(sessionMins(t0, [t0], t0 + 7 * 3600000), 420);
 });
 
 // ——— store ———
@@ -99,6 +115,93 @@ await ok('syncStatus reflects token/queue/attempts', () => {
   assert.equal(store.syncStatus(), 'failed');
   store.queue = [];
 });
+await ok('quiet upsert refreshes the sync dot only; default upsert full-renders', () => {
+  store.history = []; store.queue = [];
+  const events = [];
+  const un = store.sub((quiet) => events.push(quiet ? 'quiet' : 'full'));
+  store.upsertEntry({ date: '2026-07-08', session_type: 'LegsB', exercises: [] }, { quiet: true });
+  assert.deepEqual(events, ['quiet'], 'quiet upsert: sync-dot refresh only, no full re-render');
+  events.length = 0;
+  store.upsertEntry({ date: '2026-07-08', session_type: 'LegsB', exercises: [] });
+  assert.deepEqual(events, ['quiet', 'full'], 'default upsert keeps the full-render emit');
+  un();
+  store.history = []; store.queue = [];
+});
+await ok('upsertEntry preserves additive mins/startedAt; pruneDraft tolerates them', () => {
+  store.history = []; store.queue = [];
+  store.upsertEntry({ date: '2026-07-10', session_type: 'PushB', exercises: [], mins: 52, startedAt: 1234567890 });
+  const kept = store.history.find((e) => e.date === '2026-07-10');
+  assert.equal(kept.mins, 52);
+  assert.equal(kept.startedAt, 1234567890);
+  assert.equal(store.entryPath(kept), 'data/history/2026-07-10-pushb.json');
+  assert.equal(store.queue[0].content.mins, 52, 'the queued upload carries the new fields');
+  // a startedAt-bearing dirty draft still survives the prune
+  store.draft = { date: '2020-01-01', startedAt: 123, exercises: [{ sets: [{ done: true }] }] };
+  assert.equal(store.pruneDraft(), null);
+  assert.notEqual(store.draft, null);
+  // ...and a clean stale one is handed back for the world-pool refund
+  store.draft = { date: '2020-01-01', session_type: 'PushA', world: 'w1', exercises: [{ sets: [{ done: false }] }] };
+  const dropped = store.pruneDraft();
+  assert.equal(dropped.world, 'w1');
+  assert.equal(store.draft, null);
+  store.history = []; store.queue = [];
+});
+await ok('saving a NEW token resets attempts/errors; unrelated saves do not', () => {
+  store.queue = [{ path: 'p', content: {}, attempts: 3, lastAttemptAt: 123, lastError: 'GitHub 401: bad', queuedAt: 1 }];
+  store.meta.lastError = 'GitHub 401: bad';
+  store.meta.lastErrorAt = 123;
+  store.settings.token = 'old';
+  store.saveSettings({ haptics: false }); // unrelated toggle
+  assert.equal(store.queue[0].attempts, 3);
+  store.saveSettings({ token: 'old' }); // same value re-saved
+  assert.equal(store.queue[0].attempts, 3);
+  store.saveSettings({ token: 'fresh' }); // a real change
+  assert.equal(store.queue[0].attempts, 0);
+  assert.equal(store.queue[0].lastError, null);
+  assert.equal(store.meta.lastError, null);
+  assert.equal(store.meta.lastErrorAt, null);
+  store.saveSettings({ haptics: true });
+  store.queue = [];
+});
+await ok('corrupt localStorage shapes boot to fallbacks instead of crashing', async () => {
+  localStorage.setItem('p3.history', JSON.stringify({ not: 'an array' }));
+  localStorage.setItem('p3.queue', JSON.stringify('garbage'));
+  localStorage.setItem('p3.settings', JSON.stringify([1, 2, 3]));
+  localStorage.setItem('p3.meta', JSON.stringify(42));
+  localStorage.setItem('p3.remoteIndex', JSON.stringify(null));
+  localStorage.setItem('p3.draft', JSON.stringify('nope'));
+  const { store: fresh } = await import('../js/store.js?shape=corrupt');
+  assert.deepEqual(fresh.history, []);
+  assert.deepEqual(fresh.queue, []);
+  assert.equal(fresh.settings.owner, 'nsdub', 'defaults survive an array settings blob');
+  assert.equal(fresh.draft, null);
+  assert.equal(fresh.meta.lastSync, null);
+  assert.ok(!Array.isArray(fresh.remoteIndex) && typeof fresh.remoteIndex === 'object');
+  // a legitimate stored draft must NEVER be coerced away by the shape guard
+  localStorage.setItem('p3.draft', JSON.stringify({ date: '2026-07-17', exercises: [] }));
+  const { store: fresh2 } = await import('../js/store.js?shape=valid-draft');
+  assert.equal(fresh2.draft.date, '2026-07-17');
+  for (const k of ['p3.history', 'p3.queue', 'p3.settings', 'p3.meta', 'p3.remoteIndex', 'p3.draft']) localStorage.removeItem(k);
+});
+await ok('a failing localStorage write goes red, and the entry still makes the queue', () => {
+  store.queue = [];
+  store.settings.token = 't';
+  store.meta.lastError = null; store.meta.lastErrorAt = null;
+  store.meta.lastSync = Date.now() - 1000;
+  const realSet = localStorage.setItem;
+  localStorage.setItem = () => { throw new Error('QuotaExceededError'); };
+  try {
+    store.upsertEntry({ date: '2026-07-09', session_type: 'PullB', exercises: [] });
+  } finally {
+    localStorage.setItem = realSet;
+  }
+  assert.ok(store.meta.lastError?.includes('QuotaExceeded'), 'the failure is recorded, not swallowed');
+  assert.equal(store.syncStatus(), 'failed');
+  assert.ok(store.queue.some((q) => q.path === 'data/history/2026-07-09-pullb.json'),
+    'enqueue-before-write: the night is still bound for GitHub');
+  store.queue = []; store.history = [];
+  store.meta.lastError = null; store.meta.lastErrorAt = null;
+});
 
 // ——— sync: flushQueue ———
 await ok('flushQueue uploads and dequeues on success', async () => {
@@ -146,6 +249,50 @@ await ok('INVARIANT: re-save during in-flight upload is never lost', async () =>
   assert.equal(store.queue[0].content.v, 2);
   store.queue = [];
 });
+await ok("every API request bypasses the HTTP cache (cache: 'no-store')", async () => {
+  store.settings.token = 't';
+  store.queue = [];
+  store.enqueue('data/history/nc.json', { v: 1 });
+  const caches = [];
+  fetchImpl = async (url, opts = {}) => {
+    caches.push(opts.cache);
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    return resJson({ content: { sha: 's' } });
+  };
+  await flushQueue();
+  assert.ok(caches.length >= 2, 'expected the sha GET and the PUT');
+  assert.ok(caches.every((c) => c === 'no-store'),
+    "GitHub's 60s HTTP cache must never serve a stale sha or file body");
+});
+await ok('force flush ignores the backoff window (user-initiated sync)', async () => {
+  store.queue = [];
+  store.enqueue('data/history/f.json', { v: 1 });
+  store.queue[0].attempts = 2;
+  store.queue[0].lastAttemptAt = Date.now(); // deep inside the backoff window
+  let puts = 0;
+  fetchImpl = async (url, opts = {}) => {
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    puts += 1;
+    return resJson({ content: { sha: 's' } });
+  };
+  await flushQueue(); // unforced: the window holds
+  assert.equal(puts, 0);
+  await flushQueue({ force: true }); // a deliberate tap punches through
+  assert.equal(puts, 1);
+  assert.equal(store.queue.length, 0);
+});
+await ok('a flush where nothing uploads does not advance lastSync', async () => {
+  store.queue = [];
+  store.enqueue('data/history/g.json', { v: 1 });
+  store.meta.lastSync = 111;
+  fetchImpl = async (url, opts = {}) => {
+    if ((opts.method || 'GET') === 'GET') return resJson({}, 404);
+    return resJson({ message: 'nope' }, 500);
+  };
+  await flushQueue();
+  assert.equal(store.meta.lastSync, 111, 'an all-fail flush must not mask an older error in syncStatus');
+  store.queue = [];
+});
 
 // ——— sync: pullRemote ———
 await ok('INVARIANT: queued paths are never overwritten by remote; new files merge', async () => {
@@ -178,6 +325,31 @@ await ok('INVARIANT: queued paths are never overwritten by remote; new files mer
   assert.equal(fetched.some((u) => u.includes('2026-07-01-pusha.json')), false);
   assert.equal(store.queue.length, 1, 'queue untouched by pull');
   store.queue = [];
+});
+await ok('INVARIANT: an entry enqueued MID-pull is never overwritten by remote', async () => {
+  store.settings.token = 't';
+  store.history = [];
+  store.queue = [];
+  store.remoteIndex = {};
+  const remoteEntry = { date: '2026-07-03', session_type: 'LegsA', exercises: [{ id: 'stale-remote', name: 'x', sets: [] }] };
+  fetchImpl = async (url) => {
+    if (url.includes('data/plan.json')) return resJson({}, 404);
+    if (url.endsWith('/contents/data/history?ref=main')) {
+      return resJson([{ name: '2026-07-03-legsa.json', sha: 'R-1' }]);
+    }
+    if (url.includes('2026-07-03-legsa.json')) {
+      // the user finishes and saves this very entry while its download is in flight
+      store.upsertEntry({ date: '2026-07-03', session_type: 'LegsA', exercises: [{ id: 'fresher-local', name: 'x', sets: [] }] });
+      return resJson({ content: b64(remoteEntry), sha: 'R-1' });
+    }
+    return resJson({}, 404);
+  };
+  await pullRemote();
+  assert.equal(store.history.length, 1);
+  assert.equal(store.history[0].exercises[0].id, 'fresher-local', 'the mid-pull local save must win');
+  assert.equal(store.queue.length, 1, 'the fresh entry stays queued for upload');
+  store.queue = [];
+  store.history = [];
 });
 
 // ——— importer ———

@@ -19,6 +19,10 @@ function b64decode(b64) {
 async function gh(path, opts = {}) {
   const { token } = store.settings;
   const res = await fetch(`${API}${path}`, {
+    // GitHub caches authenticated GETs for 60s. A cached response here is
+    // poison: a stale sha throws putFile into 409 loops, and a stale file
+    // body can re-download a just-uploaded entry over fresher local data.
+    cache: 'no-store',
     ...opts,
     headers: {
       Accept: 'application/vnd.github+json',
@@ -77,16 +81,20 @@ export async function checkConnection() {
 // ——— Sync orchestration ———
 
 // Flush the local write queue to GitHub. Sequential on purpose: the Contents
-// API needs the latest sha per file and the queue is small.
-export async function flushQueue() {
+// API needs the latest sha per file and the queue is small. `force` is the
+// user tapping Sync: it skips ONLY the backoff window — the reentrancy
+// guard and the token/online checks always hold, or a double-tap would race
+// two PUT loops against the same sha.
+export async function flushQueue({ force = false } = {}) {
   if (store.syncing || !store.settings.token || !navigator.onLine) return;
   if (!store.queue.length) return;
   store.syncing = true;
   store.emit(true);
+  let uploaded = 0;
   try {
     for (const item of [...store.queue]) {
       // exponential backoff: a failing item must not spam the API forever
-      if (item.attempts > 0 && Date.now() - (item.lastAttemptAt || 0) < Math.min(2 ** item.attempts * 30000, 3600000)) continue;
+      if (!force && item.attempts > 0 && Date.now() - (item.lastAttemptAt || 0) < Math.min(2 ** item.attempts * 30000, 3600000)) continue;
       try {
         const sha = await putFile(item.path, item.content, `log: ${item.path.replace(/^data\/(history\/)?/, '').replace(/\.json$/, '')}`);
         store.remoteIndex[item.path] = sha;
@@ -95,11 +103,14 @@ export async function flushQueue() {
         // replaces the queue item, and that newer write must survive.
         const current = store.queue.find((q) => q.path === item.path);
         if (current && current.queuedAt === item.queuedAt) store.dequeue(item.path);
+        uploaded += 1;
       } catch (err) {
         store.markAttempt(item.path, err.message || err);
       }
     }
-    store.setMeta({ lastSync: Date.now() });
+    // lastSync only moves on real progress: an all-fail flush must never
+    // mask an older pull error in syncStatus.
+    if (uploaded) store.setMeta({ lastSync: Date.now() });
   } finally {
     store.syncing = false;
     store.emit();
@@ -111,9 +122,12 @@ export async function flushQueue() {
 export async function pullRemote() {
   if (!store.settings.token || !navigator.onLine) return;
   try {
-    const queued = new Set(store.queue.map((q) => q.path));
+    // The queue is consulted LIVE, per file, twice — never a start-of-pull
+    // snapshot. An entry the user logs while this pull is in flight must
+    // still win over whatever the remote is about to hand us.
+    const queuedNow = (path) => store.queue.some((q) => q.path === path);
     const plan = await getFile('data/plan.json');
-    if (plan && !queued.has('data/plan.json')) {
+    if (plan && !queuedNow('data/plan.json')) {
       store.remoteIndex['data/plan.json'] = plan.sha;
       if (JSON.stringify(plan.content) !== JSON.stringify(store.plan)) store.setPlan(plan.content);
     }
@@ -123,8 +137,10 @@ export async function pullRemote() {
     for (const f of files) {
       if (!f.name.endsWith('.json')) continue;
       const path = `data/history/${f.name}`;
-      if (queued.has(path) || index[path] === f.sha) { index[path] = f.sha; continue; }
+      if (queuedNow(path) || index[path] === f.sha) { index[path] = f.sha; continue; }
       const file = await getFile(path);
+      // re-check after the fetch: the entry may have been queued mid-flight
+      if (queuedNow(path)) { index[path] = f.sha; continue; }
       if (file) {
         // quiet per-file merge; one emit below (first sync is ~50 files)
         store.upsertEntry(file.content, { enqueue: false, quiet: true });

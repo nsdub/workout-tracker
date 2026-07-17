@@ -12,17 +12,37 @@ const KEYS = {
   meta: 'p3.meta',
 };
 
+// Reads are shape-checked against the fallback: a corrupt blob (extension,
+// half-write, hostile paste into devtools) must degrade to the fallback,
+// never crash boot. Arrays stay arrays, objects stay objects, and the
+// null-fallback keys (draft, plan) accept null-or-plain-object only.
 function read(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
+    if (raw == null) return fallback;
+    const parsed = JSON.parse(raw);
+    if (parsed === null) return fallback;
+    if (fallback === null) return (typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : fallback;
+    if (Array.isArray(fallback) !== Array.isArray(parsed)) return fallback;
+    if (typeof parsed !== typeof fallback) return fallback;
+    return parsed;
   } catch {
     return fallback;
   }
 }
 
 function write(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (err) {
+    // Quota / private-mode failure: the local copy is gone, so the sync dot
+    // must go red — a silent localStorage loss is the one lie we never tell.
+    try {
+      store.meta.lastError = `Local save failed: ${err?.message || err}`;
+      store.meta.lastErrorAt = Date.now();
+      localStorage.setItem(KEYS.meta, JSON.stringify(store.meta));
+    } catch { /* device is beyond full; in-memory state still carries the day */ }
+  }
 }
 
 const listeners = new Set();
@@ -52,10 +72,29 @@ export const store = {
   },
 
   saveSettings(patch = {}) {
+    // A NEW token is a fresh start: wipe the old token's failure history so
+    // the next flush fires immediately instead of serving out a stale
+    // backoff sentence. Keyed on the value actually changing — haptics and
+    // sound toggles pass through here constantly.
+    const tokenChanged = 'token' in patch && patch.token !== this.settings.token;
     Object.assign(this.settings, patch);
     globalThis.__p3Haptics = this.settings.haptics;
     write(KEYS.settings, this.settings);
+    if (tokenChanged) this.resetAttempts();
     this.emit();
+  },
+
+  // Zero every queue item's failure state and clear the pull error — the
+  // slate a new token (or a deliberate retry) deserves.
+  resetAttempts() {
+    for (const item of this.queue) {
+      item.attempts = 0;
+      item.lastAttemptAt = null;
+      item.lastError = null;
+    }
+    write(KEYS.queue, this.queue);
+    this.setMeta({ lastError: null, lastErrorAt: null });
+    this.emit(true);
   },
 
   setPlan(plan) {
@@ -80,13 +119,15 @@ export const store = {
   },
 
   // Insert or replace (same date + session type re-log replaces).
+  // Enqueue FIRST: if the history write below dies on quota, the entry is
+  // already bound for GitHub and the night is not silently lost.
   upsertEntry(entry, { enqueue = true, quiet = false } = {}) {
     const path = this.entryPath(entry);
+    if (enqueue) this.enqueue(path, entry);
     this.history = this.history.filter((e) => this.entryPath(e) !== path);
     this.history.push(entry);
     this.history.sort((a, b) => a.date.localeCompare(b.date));
     write(KEYS.history, this.history);
-    if (enqueue) this.enqueue(path, entry);
     if (!quiet) this.emit();
   },
 
@@ -127,10 +168,17 @@ export const store = {
   },
 
   // A draft from a previous day with nothing logged is stale — drop it.
+  // The dropped draft is handed back so the caller can refund its world
+  // draw: a night that never happened shouldn't burn a world from the pool.
   pruneDraft() {
-    if (!this.draft) return;
+    if (!this.draft) return null;
     const dirty = this.draft.exercises?.some((x) => x.sets.some((s) => s.done));
-    if (this.draft.date !== todayStr() && !dirty) this.clearDraft();
+    if (this.draft.date !== todayStr() && !dirty) {
+      const dropped = this.draft;
+      this.clearDraft();
+      return dropped;
+    }
+    return null;
   },
 
   syncStatus() {
@@ -142,8 +190,20 @@ export const store = {
     return 'synced';
   },
 
+  // The raw blocker behind a failed dot: a queue item's error first (it names
+  // the file that can't land), the pull error second. One source of truth for
+  // the Systems console drawer and the sync-tag toast alike.
+  syncError() {
+    if (this.syncStatus() !== 'failed') return null;
+    return this.queue.find((q) => q.lastError)?.lastError || this.meta.lastError;
+  },
+
   resetLocal() {
-    for (const key of Object.values(KEYS)) localStorage.removeItem(key);
+    // Sweep EVERY p3.* key — world pools, game bests, tip flags, whatever a
+    // future build invents — not just the keys this file happens to know.
+    for (const key of Object.keys(localStorage)) {
+      if (key.startsWith('p3.')) localStorage.removeItem(key);
+    }
     location.reload();
   },
 };

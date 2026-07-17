@@ -1,6 +1,7 @@
 // Boot, tabs, status tag, sync lifecycle, auto-update.
-import { $, todayStr } from './util.js';
+import { $, todayStr, syncErrorHint } from './util.js';
 import { store } from './store.js';
+import * as worlds from './worlds.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
 import { toast, sheetPopHandled, gamePopHandled } from './components.js';
@@ -33,15 +34,18 @@ function renderStatus() {
     if (!store.settings.token) return toast('No token yet — Systems console on the Mission deck', 'bad');
     if (!navigator.onLine) return toast('Offline. Writes are queued.');
     toast('Syncing…');
-    await flushQueue();
+    await flushQueue({ force: true }); // a deliberate tap outranks the backoff clock
     await pullRemote();
-    toast(store.syncStatus() === 'synced' ? 'All caught up' : 'Still pending, will retry', store.syncStatus() === 'synced' ? 'ok' : 'bad');
+    if (store.syncStatus() === 'synced') return toast('All caught up', 'ok');
+    // name the real blocker — "still pending" is only for the patient cases
+    toast(syncErrorHint(store.syncError()) ?? 'Still pending, will retry', 'bad');
   };
 }
 
 function switchTab(tab) {
   if (tab === active) return;
   $(`#view-${active}`).classList.remove('active');
+  if (active === 'history') log.resetDrill(); // leave the Atlas with no drill leftovers
   active = tab;
   const next = $(`#view-${active}`);
   VIEWS[active].render(next);
@@ -64,16 +68,26 @@ store.sub((quiet) => {
 });
 
 // Android back gesture: the game first, then sheets, then Atlas drill-ins.
+// The Atlas only owns the gesture while its tab is up — a stale drill must
+// never re-render a hidden view and stomp the live world underneath.
 window.addEventListener('popstate', () => {
   if (gamePopHandled()) return;
   if (sheetPopHandled()) return;
-  log.popBack();
+  if (active === 'history') { log.popBack(); return; }
+  log.resetDrill();
 });
 
 // ——— Boot ———
 
 initAudio();
-store.pruneDraft();
+{
+  // Boot prune: if a stale clean draft dies here, hand its unseen world back
+  // to the universe pool — the night never happened, the draw shouldn't burn.
+  const pruned = store.pruneDraft();
+  if (pruned?.world) {
+    try { worlds.returnWorld?.(pruned.session_type, pruned.world); } catch { /* refund is best-effort */ }
+  }
+}
 $(`#view-${active}`).classList.add('active');
 document.querySelector(`.tab[data-tab="${active}"]`).classList.add('active');
 renderActive();

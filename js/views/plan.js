@@ -1,7 +1,7 @@
 // MISSION CONTROL — the observatory deck above the universes. The road to
 // the show is an orbit trail of planets; cardio is fuel; stalled lifts are
 // distress beacons; the settings live in the systems console.
-import { $, esc, fmtW, todayStr, fmtDate, daysBetween, weekKey, haptic } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, daysBetween, weekKey, haptic, syncErrorHint } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
@@ -235,7 +235,9 @@ function wire(info) {
     arr[i] = !arr[i];
     store.settings.cardio[wk] = arr;
     // prune punch cards older than ~6 weeks (unbounded growth otherwise)
-    const cutoff = weekKey(new Date(Date.now() - 42 * 86400000).toISOString().slice(0, 10));
+    // todayStr, not toISOString: the cutoff must walk the LOCAL calendar or
+    // an evening tap lands a UTC day ahead and prunes a week early
+    const cutoff = weekKey(todayStr(new Date(Date.now() - 42 * 86400000)));
     for (const k of Object.keys(store.settings.cardio)) if (k < cutoff) delete store.settings.cardio[k];
     haptic(8);
     sfx(arr[i] ? 'objDone' : 'tap');
@@ -247,7 +249,10 @@ function wire(info) {
     const b = e.target.closest('[data-t]');
     if (b) arsenalSheet(b.dataset.t);
   });
-  $('#clear-override', root)?.addEventListener('click', () => store.saveSettings({ phaseOverride: null }));
+  // Releasing the lock rebuilds tonight from the calendar phase — it must
+  // ride the same dirty-draft confirm as picking a phase, or the old
+  // override's weights survive into the new night.
+  $('#clear-override', root)?.addEventListener('click', () => applyPhaseOverride(null));
   $('#open-drawer', root).addEventListener('click', () => drawerSheet(info));
 }
 
@@ -281,7 +286,7 @@ function drawerSheet(info) {
       <div class="kv"><span class="k">Repo</span><span class="v">${esc(store.settings.owner)}/${esc(store.settings.repo)}</span></div>
       <div class="kv"><span class="k">Token</span><button class="v" id="sd-token">${store.settings.token ? 'Update' : 'Add'}</button></div>
       <div class="kv"><span class="k">Sync status</span><span class="v ${store.syncStatus() === 'synced' ? 'ok' : store.syncStatus() === 'failed' ? 'bad' : ''}">${statusLabel()}</span></div>
-      ${syncError() ? `<div class="kv"><span class="k" style="color:#ff5d7a">Error</span><span class="v" style="max-width:58%;white-space:normal">${esc(syncError())}</span></div>` : ''}
+      ${store.syncError() ? `<div class="kv"><span class="k" style="color:#ff5d7a">Error</span><span class="v" style="max-width:58%;white-space:normal">${esc(store.syncError())}</span></div>` : ''}
       <div class="kv"><span class="k">Queue</span><span class="v num">${store.queue.length}</span></div>
       <div class="kv"><span class="k">Sync now</span><button class="v" id="sd-sync">Run</button></div>
       <div class="kv"><span class="k">App update</span><button class="v" id="sd-update">Check now</button></div>
@@ -299,8 +304,9 @@ function drawerSheet(info) {
       $('#sd-token', sheet).addEventListener('click', () => { close(); connectSheet(); });
       $('#sd-sync', sheet).addEventListener('click', async () => {
         close(); toast('Syncing…');
-        await flushQueue(); await pullRemote();
-        toast(store.syncStatus() === 'synced' ? 'All caught up' : 'Still some pending', store.syncStatus() === 'synced' ? 'ok' : 'bad');
+        await flushQueue({ force: true }); await pullRemote();
+        if (store.syncStatus() === 'synced') return toast('All caught up', 'ok');
+        toast(syncErrorHint(store.syncError()) ?? 'Still some pending', 'bad');
       });
       $('#sd-update', sheet).addEventListener('click', async () => {
         close();
@@ -350,27 +356,30 @@ export function phaseOverrideSheet(info) {
     ],
     onPick(opt) {
       if (opt.value === (store.settings.phaseOverride ?? null)) return;
-      const apply = () => {
-        store.clearDraft();
-        store.saveSettings({ phaseOverride: opt.value });
-        toast(opt.value ? `Locked: ${opt.label}` : 'Back to automatic');
-      };
-      const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
-      if (dirty) {
-        confirmSheet({
-          title: 'Drop tonight’s logged sets?',
-          body: 'Changing phase rebuilds tonight from scratch.',
-          confirmLabel: 'Change phase', danger: true,
-          onConfirm: apply,
-        });
-      } else apply();
+      applyPhaseOverride(opt.value, opt.label);
     },
   });
 }
 
-function syncError() {
-  if (store.syncStatus() !== 'failed') return null;
-  return store.queue.find((q) => q.lastError)?.lastError || store.meta.lastError;
+// EVERY phase change — locking one, or releasing the lock back to the
+// calendar — rebuilds tonight's draft, so every path clears it behind the
+// same dirty-draft confirm. A draft built under the old phase would keep
+// prescribing the old phase's weights.
+function applyPhaseOverride(value, label = '') {
+  const apply = () => {
+    store.clearDraft();
+    store.saveSettings({ phaseOverride: value });
+    toast(value ? `Locked: ${label}` : 'Back to automatic');
+  };
+  const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
+  if (dirty) {
+    confirmSheet({
+      title: 'Drop tonight’s logged sets?',
+      body: 'Changing phase rebuilds tonight from scratch.',
+      confirmLabel: 'Change phase', danger: true,
+      onConfirm: apply,
+    });
+  } else apply();
 }
 
 function exportData() {

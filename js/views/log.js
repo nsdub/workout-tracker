@@ -1,11 +1,15 @@
 // THE ATLAS — zoom out of the worlds and into the cosmos they float in.
 // Every finished night is a planet on a winding star-path; months are
 // sectors; PR nights wear a crown. Lifts are charted as constellations.
-import { $, esc, fmtW, fmtDate, monthLabel, dayParts } from '../util.js';
+import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins } from '../util.js';
 import { store } from '../store.js';
 import { topSet } from '../engine.js';
 import { applyWorld, UNIVERSES, worldDef } from '../worlds.js';
-import { GAMES, bestFor, starsFor, readStats } from '../game/registry.js';
+// stats.js is the light half of the arcade — pure localStorage readers, no
+// game modules attached. The registry itself (which drags all six game
+// modules in) is dynamic-imported inside renderWorlds, keeping the arcade a
+// zero-boot lazy load.
+import { bestFor, starsFor, readStats } from '../game/stats.js';
 
 let root = null;
 const state = { tab: 'sessions', entryPath: null, exId: null };
@@ -55,6 +59,14 @@ export function popBack() {
     return true;
   }
   return false;
+}
+
+// Forget any drill-in WITHOUT rendering — for when another tab takes over
+// and a stale drill must not be waiting (or stomping the live world via
+// popstate) when the Atlas next appears.
+export function resetDrill() {
+  state.entryPath = null;
+  state.exId = null;
 }
 
 function drillIn(patch) {
@@ -121,6 +133,8 @@ function renderList() {
     const path = store.entryPath(e);
     const sets = e.exercises.reduce((n, x) => n + x.sets.length, 0);
     const tonnage = Math.round(e.exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + (s.weight || 0) * s.reps, 0), 0));
+    const ats = e.exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
+    const mins = e.mins ?? sessionMins(e.startedAt ?? null, ats);
     const hasPr = false; // records live on the star itself below when known
     const { mon, day } = dayParts(e.date);
     const month = monthLabel(e.date);
@@ -134,7 +148,7 @@ function renderList() {
         <span class="sn-info">
           <span class="sn-name">${esc(name)}</span>
           <span class="sn-world">${esc(world)}</span>
-          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' · ⇡ Beaming up' : ''}</span>
+          <span class="sn-meta num">${sets} sets · ${tonnage >= 1000 ? `${(tonnage / 1000).toFixed(1)}k` : tonnage} lb${mins ? ` · ${mins} min` : ''}${e.bodyweight ? ` · bw ${fmtW(e.bodyweight)}` : ''}${queued.has(path) ? ' · ⇡ Beaming up' : ''}</span>
         </span>
       </button>`;
   }).join('');
@@ -155,7 +169,8 @@ function renderDetail() {
   const world = (entry.world && worldDef(entry.session_type, entry.world)?.name) || UNIVERSES[entry.session_type]?.name || '';
   const phase = entry.phase === 'legacy' ? 'imported' : (store.plan?.phases.find((p) => p.id === entry.phase)?.name ?? entry.phase ?? '');
   const ats = entry.exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
-  const mins = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
+  // the persisted duration wins; older entries derive one from set timestamps
+  const mins = entry.mins ?? sessionMins(entry.startedAt ?? null, ats);
   root.innerHTML = `
     <div class="space-title">The Atlas</div>
     <div class="debrief" style="--c:${SWATCH[entry.session_type] ?? '#8a9ac8'}">
@@ -206,8 +221,29 @@ function renderLiftList() {
 }
 
 // ——— Worlds: the bestiary / sticker-album of the 48 arcade worlds ———
+// The registry hauls all six game modules with it, so it only crosses the
+// event horizon when the player actually opens this tab: one frame of
+// "charting", then the full album. Cached for the rest of the session.
+let registryMod = null;
 function renderWorlds() {
   root.onclick = null; // tiles are display-only; no drill-in
+  if (!registryMod) {
+    root.innerHTML = segHtml()
+      + `<div class="empty"><div class="card-e"><h3>Charting…</h3><p>Unrolling the world maps.</p></div></div>`;
+    wireSeg();
+    import('../game/registry.js').then((m) => {
+      registryMod = m;
+      if (root && state.tab === 'worlds') renderWorlds();
+    }).catch(() => {
+      if (root && state.tab === 'worlds') {
+        root.innerHTML = segHtml()
+          + `<div class="empty"><div class="card-e"><h3>Charts out of reach</h3><p>The world maps didn't load — check the connection and tap Worlds again.</p></div></div>`;
+        wireSeg();
+      }
+    });
+    return;
+  }
+  const { GAMES } = registryMod;
   const stats = readStats();
 
   // Walk the registry once, tallying discovery + medals for the career band.
