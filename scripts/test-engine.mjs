@@ -50,21 +50,21 @@ ok('empty history starts at PushA', () => {
 
 // ——— Prescriptions ———
 const calib = E.phaseForDate(plan, '2026-07-15');
-ok('calibration: 90% rounded DOWN to the program grid, never off it (185 → 165)', () => {
+ok('calibration: 90% rounded DOWN to the program grid, never off it (170 → 150)', () => {
   const rx = E.prescribe(plan, history, 'PushA', slot('PushA', 'smith-incline-press'), calib);
   assert.equal(rx.basis, 'calibration');
   assert.equal(rx.sets.length, 4);
-  // 185 × 0.9 = 166.5 → floored to the 5 lb upper grid = 165. NEVER 167.5
-  // (that rounded UP, above 90%, onto a 2.5 grid the program never uses).
-  assert.equal(rx.sets[0].weight, 165);
+  // 170 × 0.9 = 153 → floored to the 5 lb upper grid = 150. NEVER 155
+  // (that rounded UP, above the 90% target).
+  assert.equal(rx.sets[0].weight, 150);
   assert.equal(rx.sets[0].reps, 6);
 });
-ok('calibration: cables/machines land on real, loadable weights (no 27.5 / 72.5)', () => {
+ok('calibration: cables/machines land on real, loadable weights', () => {
   const w = (id) => E.prescribe(plan, history, 'PushA', slot('PushA', id), calib).sets[0].weight;
-  assert.equal(w('machine-chest-press'), 190);        // 193.5 → 190 (≤90%), not 192.5
-  assert.equal(w('cable-crossover-low-high'), 25);    // 27 → 25, not 27.5
-  assert.equal(w('rope-pushdown'), 70);               // 72 → 70, not 72.5
-  assert.equal(w('cable-lateral-raise'), 10);         // 11.25 → 10, not 12.5 (which was 100% of the seed)
+  assert.equal(w('machine-chest-press'), 135);        // 135 is exactly 90% AND on the grid — no floor needed
+  assert.equal(w('cable-crossover-low-high'), 12.5);  // 13.95 → 12.5 on its 2.5 lb stack, not 15 (above 90%)
+  assert.equal(w('rope-pushdown'), 50);               // 51.75 → 50, not 52.5 (above 90%)
+  assert.equal(w('cable-lateral-raise'), 7.5);        // 9.45 → 7.5 on its 2.5 lb stack, not 10 (above 90%)
 });
 ok('calibration: lower lifts round down to the 10 lb grid (240 → 210)', () => {
   const rx = E.prescribe(plan, history, 'LegsA', slot('LegsA', 'leg-press-low'), calib);
@@ -80,7 +80,7 @@ const meso = E.phaseForDate(plan, '2026-07-27');
 ok('build with no post-calibration history → seed as-is', () => {
   const rx = E.prescribe(plan, history, 'PushA', slot('PushA', 'smith-incline-press'), meso);
   assert.equal(rx.basis, 'seed');
-  assert.equal(rx.sets[0].weight, 185);
+  assert.equal(rx.sets[0].weight, 170);
 });
 ok('legacy import never feeds prefill', () => {
   // Deadlift has rich legacy history; prefill must still come from the seed.
@@ -234,11 +234,11 @@ ok('rep gains at the same weight clear the stall flag', () => {
 ok('progressing out of calibration returns at least to the seed', () => {
   const h = [...history, {
     date: '2026-07-15', session_type: 'PushA', phase: 'calibration', week: 1,
-    exercises: [{ id: 'smith-incline-press', name: 'x', sets: [6, 6, 6, 6].map(() => ({ weight: 167.5, reps: 8 })) }],
+    exercises: [{ id: 'smith-incline-press', name: 'x', sets: [6, 6, 6, 6].map(() => ({ weight: 155, reps: 8 })) }],
   }];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), E.phaseForDate(plan, '2026-07-21'));
   assert.equal(rx.basis, 'progress');
-  assert.equal(rx.sets[0].weight, 185); // max(seed 185, 167.5 + 5)
+  assert.equal(rx.sets[0].weight, 170); // max(seed 170, 155 + 5) — the earned floor binds
 });
 ok('smashing the ceiling by 2+ reps earns a double jump', () => {
   const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
@@ -271,8 +271,8 @@ ok('backoffInfo reports the post-grid ratio, not the nominal target', () => {
 });
 ok('prescribe surfaces the real pct alongside the back-off weight', () => {
   const rx = E.prescribe(plan, history, 'PushA', slot('PushA', 'smith-incline-press'), calib);
-  assert.equal(rx.sets[0].weight, 165);
-  assert.equal(rx.pct, 89); // 165/185 — the label must never claim "90%"
+  assert.equal(rx.sets[0].weight, 150);
+  assert.equal(rx.pct, 88); // 150/170 — the label must never claim "90%"
   const h = [...history, mkEntry('2026-08-10', 'PushA', 'smith-incline-press', mkSets(180, 8, 4))];
   const drx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), deload);
   assert.equal(drx.sets[0].weight, 140);
@@ -318,12 +318,12 @@ ok("calibration entries are normalized into meso 1's baseline", () => {
 });
 ok('a weight equal to the prescription never warns (db-curl real-data regression)', () => {
   // legacy db-curl tops run 65–70 lb (per-pair logging); the calibration ask
-  // from the 35 lb seed is 30 lb — a "54% lighter" screamer without immunity.
+  // from the 30 lb seed is 25 lb — a "60% lighter" screamer without immunity.
   const rx = E.prescribe(plan, history, 'PullA', slot('PullA', 'db-curl'), calib);
-  assert.equal(rx.sets[0].weight, 30);
-  const bare = E.validateSet(plan, history, 'db-curl', 30, 10, { phase: calib.phase });
+  assert.equal(rx.sets[0].weight, 25);
+  const bare = E.validateSet(plan, history, 'db-curl', 25, 10, { phase: calib.phase });
   assert.equal(bare.some((w) => w.code === 'dev'), true, 'unfenceable legacy data still deviates');
-  const warns = E.validateSet(plan, history, 'db-curl', 30, 10, { phase: calib.phase, prescribed: rx.sets[0].weight });
+  const warns = E.validateSet(plan, history, 'db-curl', 25, 10, { phase: calib.phase, prescribed: rx.sets[0].weight });
   assert.equal(warns.some((w) => w.code === 'dev'), false, 'the app never second-guesses its own ask');
 });
 
@@ -335,16 +335,16 @@ ok('a per-exercise increment override wins over the upper/lower rule', () => {
   assert.equal(E.increment(plan, 'deadlift'), 10);
 });
 ok('calibration exit: a top far under the reduced ask never teleports to the seed', () => {
-  // real shape: incline-db-curl seed 30, calibration ask 25, lifter managed 20
-  const h = [...history, mkEntry('2026-07-16', 'PullB', 'incline-db-curl', mkSets(20, 10, 3), 'calibration')];
+  // real shape: incline-db-curl seed 20, calibration ask 15, lifter managed 12.5
+  const h = [...history, mkEntry('2026-07-16', 'PullB', 'incline-db-curl', mkSets(12.5, 10, 3), 'calibration')];
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'incline-db-curl'), E.phaseForDate(plan, '2026-07-21'));
   assert.equal(rx.basis, 'progress');
-  assert.equal(rx.sets[0].weight, 25); // 20 + 5, never seed 30 (+50% overnight)
+  assert.equal(rx.sets[0].weight, 17.5); // 12.5 + 5, never seed 20 (+60% overnight)
 });
-ok('calibration exit: face-pulls at 22.5 climb to 27.5, not the 40 lb seed', () => {
+ok('calibration exit: face-pulls climb by their 2.5 lb stack step', () => {
   const h = [...history, mkEntry('2026-07-15', 'PushA', 'face-pulls', mkSets(22.5, 15, 2), 'calibration')];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), E.phaseForDate(plan, '2026-07-21'));
-  assert.equal(rx.sets[0].weight, 27.5); // a +78% jump is a typo, not a program
+  assert.equal(rx.sets[0].weight, 25); // earned floor (22.5 ≥ the 20 ask) + one 2.5 cable step, never a +5 leap
 });
 ok('isolation lifts never double-jump, whatever the rep surplus', () => {
   // compound branch is pinned by the machine-chest-press double-jump test above

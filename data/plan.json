@@ -1,7 +1,7 @@
 {
   "version": 3,
   "name": "Protocol v3",
-  "updated": "2026-07-12",
+  "updated": "2026-07-18",
   "units": "lb",
   "show": {
     "date": "2027-03-01",
@@ -27,7 +27,7 @@
     {
       "id": "calibration",
       "name": "Calibration",
-      "start": "2026-07-13",
+      "start": "2026-07-11",
       "end": "2026-07-19",
       "type": "calibration",
       "loadFactor": 0.9,
@@ -169,7 +169,8 @@
         "Pulleys at the bottom. Step forward into a staggered stance with a slight forward lean, palms facing up and forward.",
         "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
         "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
-      ]
+      ],
+      "increment": 2.5
     },
     "db-shoulder-press": {
       "name": "DB Shoulder Press",
@@ -185,7 +186,8 @@
         "Pulley at the bottom, cable running behind the body or in front of the legs. Stand side-on, handle in the far hand.",
         "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
         "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
-      ]
+      ],
+      "increment": 2.5
     },
     "overhead-cable-triceps": {
       "name": "Overhead Cable Triceps Ext",
@@ -193,14 +195,16 @@
         "Rope on a low or mid pulley. Face away from the stack, rope behind the head, elbows up and pointing forward, slight forward split stance.",
         "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
         "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
-      ]
+      ],
+      "increment": 2.5
     },
     "rope-pushdown": {
       "name": "Rope Pushdown",
       "howto": [
         "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
         "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
-      ]
+      ],
+      "increment": 2.5
     },
     "face-pulls": {
       "name": "Face Pulls",
@@ -208,7 +212,8 @@
         "Rope at upper-face height. Grab with thumbs pointing back toward you, step back to load the stack, staggered stance.",
         "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
         "Think external rotation, not rowing: hands finish above the elbows every rep."
-      ]
+      ],
+      "increment": 2.5
     },
     "deadlift": {
       "name": "Deadlift",
@@ -235,7 +240,8 @@
       "howto": [
         "Wide grip bar, feet braced, knees soft. Sit tall with the torso vertical.",
         "Row to the lower chest with elbows flaring out around 45–60°, squeezing the mid-back. Let the weight pull the shoulders forward into a full stretch between reps, torso staying near vertical."
-      ]
+      ],
+      "increment": 2.5
     },
     "db-curl": {
       "name": "DB Curl",
@@ -250,7 +256,8 @@
       "howto": [
         "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
         "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
-      ]
+      ],
+      "increment": 2.5
     },
     "leg-press-low": {
       "name": "Leg Press (feet low)",
@@ -268,7 +275,8 @@
       "howto": [
         "Seat set so the knee lines up with the machine's pivot, pad on the lower shin, back against the seat.",
         "Extend to a full squeeze at the top and hold a beat. Lower slowly — the eccentric is most of the value here."
-      ]
+      ],
+      "increment": 7.5
     },
     "leg-curl": {
       "name": "Leg Curl",
@@ -277,7 +285,8 @@
         "Knee joint aligned with the machine pivot, pad just above the heels.",
         "Curl all the way to a full hamstring squeeze, then return slowly to a long stretch without letting the stack rest between reps.",
         "Pointing the toes (plantarflexed) takes the calves out and keeps it on the hamstrings."
-      ]
+      ],
+      "increment": 7.5
     },
     "hip-adductor": {
       "name": "Hip Adductor",
@@ -285,7 +294,8 @@
       "howto": [
         "Sit tall, pads inside the knees, start at a comfortable stretch — widen the range setting over warm-up sets, not cold.",
         "Squeeze the legs together under control, hold the contraction, and open slowly against the pads."
-      ]
+      ],
+      "increment": 7.5
     },
     "hip-abductor": {
       "name": "Hip Abductor",
@@ -293,7 +303,8 @@
       "howto": [
         "Pads outside the knees. A slight forward lean with the glutes back biases the upper glutes.",
         "Drive the knees apart to full range, pause, and return slowly without letting the stack touch down between reps."
-      ]
+      ],
+      "increment": 7.5
     },
     "standing-calf-raise": {
       "name": "Standing Calf Raise",
@@ -310,7 +321,8 @@
         "Kneel below a high pulley, rope held at the sides of the head, hips stacked over the knees.",
         "Crunch the ribs toward the pelvis, rounding the spine — the hips don't move. Return until the abs reach a stretch.",
         "If the hips rock back and forth it becomes a hip flexor exercise. Fix the hips, flex the spine."
-      ]
+      ],
+      "increment": 2.5
     },
     "hanging-leg-raise": {
       "name": "Hanging Leg Raise",
@@ -344,7 +356,8 @@
         "Pulleys at the top. Step forward, slight lean, arms open wide with a stretch across the chest.",
         "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
         "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
-      ]
+      ],
+      "increment": 2.5
     },
     "reverse-pec-deck": {
       "name": "Reverse Pec Deck",
@@ -352,7 +365,8 @@
         "Face the pad, seat set so the handles are at shoulder height, arms long with a soft bend.",
         "Open the arms straight back until they are in line with the shoulders, squeezing the rear delts and mid-back. Return slowly without letting the plates stack.",
         "Keep the shoulders down. Shrugging up hands the rep to the traps."
-      ]
+      ],
+      "increment": 2.5
     },
     "assisted-dips": {
       "name": "Assisted Dips",
@@ -394,7 +408,8 @@
         "High pulley, bar or rope, arms long with a soft fixed elbow. Hinge slightly forward.",
         "Sweep the hands down to the thighs in an arc, feeling the lats pull the whole way, then let the arms rise until a deep lat stretch overhead.",
         "The elbow angle never changes — if it bends and extends, the triceps have taken over."
-      ]
+      ],
+      "increment": 2.5
     },
     "db-shrug": {
       "name": "DB Shrug",
@@ -417,7 +432,8 @@
       "howto": [
         "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
         "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
-      ]
+      ],
+      "increment": 2.5
     },
     "smith-rdl": {
       "name": "Smith RDL",
@@ -458,7 +474,7 @@
           "sets": 4,
           "repMin": 6,
           "repMax": 8,
-          "seed": 185,
+          "seed": 170,
           "rest": 180
         },
         {
@@ -466,7 +482,7 @@
           "sets": 3,
           "repMin": 8,
           "repMax": 10,
-          "seed": 215,
+          "seed": 150,
           "rest": 120
         },
         {
@@ -474,7 +490,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 30,
+          "seed": 15.5,
           "rest": 75
         },
         {
@@ -482,7 +498,7 @@
           "sets": 3,
           "repMin": 8,
           "repMax": 10,
-          "seed": 40,
+          "seed": 35,
           "rest": 120
         },
         {
@@ -490,7 +506,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 12.5,
+          "seed": 10.5,
           "rest": 75
         },
         {
@@ -498,7 +514,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 55,
+          "seed": 47.5,
           "rest": 75
         },
         {
@@ -506,7 +522,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 80,
+          "seed": 57.5,
           "rest": 75
         },
         {
@@ -514,7 +530,7 @@
           "sets": 2,
           "repMin": 15,
           "repMax": 15,
-          "seed": 40,
+          "seed": 22.5,
           "rest": 60
         }
       ]
@@ -545,7 +561,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 130,
+          "seed": 97.5,
           "rest": 120
         },
         {
@@ -553,7 +569,7 @@
           "sets": 3,
           "repMin": 8,
           "repMax": 10,
-          "seed": 35,
+          "seed": 30,
           "rest": 75
         },
         {
@@ -561,7 +577,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 45,
+          "seed": 17.5,
           "rest": 75
         },
         {
@@ -569,7 +585,7 @@
           "sets": 2,
           "repMin": 15,
           "repMax": 15,
-          "seed": 40,
+          "seed": 22.5,
           "rest": 60
         }
       ]
@@ -590,7 +606,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 172.5,
+          "seed": 142.5,
           "rest": 90
         },
         {
@@ -598,7 +614,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 172.5,
+          "seed": 135,
           "rest": 90
         },
         {
@@ -606,7 +622,7 @@
           "sets": 2,
           "repMin": 12,
           "repMax": 15,
-          "seed": 97.5,
+          "seed": 82.5,
           "rest": 75
         },
         {
@@ -622,7 +638,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 50,
+          "seed": 45,
           "rest": 60
         },
         {
@@ -643,7 +659,7 @@
           "sets": 4,
           "repMin": 6,
           "repMax": 8,
-          "seed": 135,
+          "seed": 115,
           "rest": 180
         },
         {
@@ -651,7 +667,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 200,
+          "seed": 142.5,
           "rest": 120
         },
         {
@@ -659,7 +675,7 @@
           "sets": 4,
           "repMin": 12,
           "repMax": 15,
-          "seed": 20,
+          "seed": 15,
           "rest": 75
         },
         {
@@ -667,7 +683,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 35,
+          "seed": 27,
           "rest": 75
         },
         {
@@ -675,7 +691,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 85,
+          "seed": 82.5,
           "rest": 75
         },
         {
@@ -691,7 +707,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 55,
+          "seed": 52.5,
           "rest": 75
         },
         {
@@ -707,7 +723,7 @@
           "sets": 2,
           "repMin": 15,
           "repMax": 15,
-          "seed": 40,
+          "seed": 22.5,
           "rest": 60
         }
       ]
@@ -720,7 +736,7 @@
           "sets": 4,
           "repMin": 8,
           "repMax": 10,
-          "seed": 155,
+          "seed": 145,
           "rest": 180
         },
         {
@@ -728,7 +744,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 127.5,
+          "seed": 120,
           "rest": 120
         },
         {
@@ -736,7 +752,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 45,
+          "seed": 37.5,
           "rest": 75
         },
         {
@@ -744,7 +760,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 70,
+          "seed": 60,
           "rest": 75
         },
         {
@@ -752,7 +768,7 @@
           "sets": 3,
           "repMin": 8,
           "repMax": 10,
-          "seed": 30,
+          "seed": 20,
           "rest": 75
         },
         {
@@ -760,7 +776,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 50,
+          "seed": 32.5,
           "rest": 75
         },
         {
@@ -768,7 +784,7 @@
           "sets": 2,
           "repMin": 15,
           "repMax": 15,
-          "seed": 40,
+          "seed": 22.5,
           "rest": 60
         }
       ]
@@ -781,7 +797,7 @@
           "sets": 4,
           "repMin": 8,
           "repMax": 10,
-          "seed": 225,
+          "seed": 205,
           "rest": 180
         },
         {
@@ -789,7 +805,7 @@
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
-          "seed": 180,
+          "seed": 160,
           "rest": 180
         },
         {
@@ -797,7 +813,7 @@
           "sets": 4,
           "repMin": 10,
           "repMax": 12,
-          "seed": 180,
+          "seed": 135,
           "rest": 90
         },
         {
@@ -805,7 +821,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 172.5,
+          "seed": 142.5,
           "rest": 90
         },
         {
@@ -813,7 +829,7 @@
           "sets": 2,
           "repMin": 12,
           "repMax": 15,
-          "seed": 142.5,
+          "seed": 127.5,
           "rest": 75
         },
         {
@@ -829,7 +845,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 50,
+          "seed": 45,
           "rest": 60
         },
         {
