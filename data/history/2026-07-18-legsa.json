@@ -1,0 +1,148 @@
+{
+  "date": "2026-07-18",
+  "session_type": "LegsA",
+  "phase": "calibration",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 10,
+          "at": 1784407239153
+        },
+        {
+          "weight": 200,
+          "reps": 10,
+          "at": 1784407428151
+        },
+        {
+          "weight": 220,
+          "reps": 8,
+          "at": 1784407603108
+        },
+        {
+          "weight": 200,
+          "reps": 8,
+          "at": 1784407788349
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 15,
+          "at": 1784407942832
+        },
+        {
+          "weight": 135,
+          "reps": 15,
+          "at": 1784408142350
+        },
+        {
+          "weight": 142.5,
+          "reps": 13,
+          "at": 1784408275280
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 15,
+          "at": 1784408598362
+        },
+        {
+          "weight": 120,
+          "reps": 15,
+          "at": 1784408763344
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 15,
+          "at": 1784408885057
+        },
+        {
+          "weight": 90,
+          "reps": 14,
+          "at": 1784408987634
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Standing Calf Raise",
+      "sets": [
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1784409122078
+        },
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1784409283706
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 12,
+          "at": 1784409383630
+        },
+        {
+          "weight": 50,
+          "reps": 12,
+          "at": 1784409479625
+        },
+        {
+          "weight": 50,
+          "reps": 12,
+          "at": 1784409622889
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1784409720914
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1784409851908
+        },
+        {
+          "weight": 0,
+          "reps": 11,
+          "at": 1784409960832
+        }
+      ]
+    }
+  ],
+  "world": "marina",
+  "mins": 70,
+  "startedAt": 1784405779210
+}
