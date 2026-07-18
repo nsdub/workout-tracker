@@ -264,7 +264,9 @@ function buildDraft(date, sessionType, phaseInfo) {
       name: engine.exMeta(store.plan, slot.id).name,
       repMin: slot.repMin, repMax: slot.repMax, repUnit: slot.repUnit || null,
       rest: slot.rest || 90,
+      superset: slot.superset ?? null, // paired lifts alternate, sharing one rest after each round
       basis: rx.basis, prevTop: rx.prevTop, note: rx.note || null, bump: rx.increment || 0,
+      logNote: null, // the lifter's own per-exercise note; rides into the saved record for the training staff
       // the true post-grid percentage the engine computed (calibration/deload) —
       // labels state THIS, never a nominal 90/80 the rounding already broke
       pct: rx.pct ?? null,
@@ -408,7 +410,13 @@ function renderWorldScreen(draft, phaseInfo) {
         <span class="chipper">${x.sets.length} × ${repRange}${x.repUnit === 'sec' ? 's' : ''}</span>
         ${x.stalled ? '<span class="chipper warn">stalled</span>' : ''}
         ${x.basis === 'verify' ? '<span class="chipper warn">verify</span>' : ''}
+        <button class="chipper note-chip${x.logNote ? ' has' : ''}" id="ex-note" data-oi="${focusIdx}">${x.logNote ? `${ICONS.pencil} note` : `${ICONS.pencil} add note`}</button>
       </div>
+      ${(() => {
+        const p = supersetPartner(draft, x);
+        if (!p) return '';
+        return `<div class="ss-strip"><div class="ss-line"><span class="ss-tag">SUPERSET</span><span class="ss-txt">straight into <b>${esc(p.name)}</b> — rest after both</span></div><button class="ss-jump" id="ss-jump" data-oi="${draft.exercises.indexOf(p)}">${esc(p.name)} ⇄</button></div>`;
+      })()}
       ${x.prev ? `
       <div class="last-strip">
         <div class="ls-r"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span><span class="num">${esc(x.prev.sets)}</span></div>
@@ -461,6 +469,13 @@ function wire(draft, x, curIdx, noticeList = []) {
   const U = universeOf(draft.session_type);
   $('#open-brief', root).addEventListener('click', briefingSheet);
   $('#open-howto', root).addEventListener('click', (e) => howtoSheet(e.currentTarget.dataset.ex));
+  $('#ex-note', root)?.addEventListener('click', (e) => exerciseNoteSheet(Number(e.currentTarget.dataset.oi)));
+  $('#ss-jump', root)?.addEventListener('click', (e) => {
+    const t = Number(e.currentTarget.dataset.oi);
+    navDir = t >= focusIdx ? 'next' : 'prev';
+    focusIdx = t;
+    render(root);
+  });
   $('#notice-bar', root)?.addEventListener('click', (e) => {
     if (e.target.closest('#resume-discard')) return; // Discard owns its tap
     noticesSheet(noticeList);
@@ -647,6 +662,12 @@ function draftBest(exId) {
   return best;
 }
 
+// The other lift in x's superset (or null). Pairs share a `superset` id.
+function supersetPartner(draft, x) {
+  if (!x?.superset || !draft?.exercises) return null;
+  return draft.exercises.find((e) => e !== x && e.superset === x.superset) ?? null;
+}
+
 function logSet(x, s, U) {
   const now = Date.now();
   if (now - lastLogAt < 400) return; // double-tap = one set
@@ -690,12 +711,33 @@ function logSet(x, s, U) {
   }
 
   const remaining = store.draft.exercises.reduce((n, ex) => n + ex.sets.filter((q) => !q.done && !q.skipped).length, 0);
+
+  // Superset: after the FIRST lift of a round, go straight into the partner —
+  // no rest between the pair — and rest only once both halves are done. The
+  // partner "owes" this round when it has logged fewer sets than the lift just
+  // finished, so it works whichever of the two you start with.
+  const partner = supersetPartner(store.draft, x);
+  const partnerOwesRound = !!partner
+    && partner.sets.some((q) => !q.done && !q.skipped)
+    && partner.sets.filter((q) => q.done || q.skipped).length < x.sets.filter((q) => q.done || q.skipped).length;
+  if (partnerOwesRound && remaining > 0) {
+    hideRestTimer(); // no rest inside the pair
+    focusIdx = store.draft.exercises.indexOf(partner);
+    render(root);
+    toast(`Straight into ${partner.name} — no rest`, 'ok', 2600);
+    renderDock();
+    return;
+  }
+
   if (store.settings.restTimer && remaining > 0) showRestTimer(x.rest, document.getElementById('dock'), U.copy.rest);
   // The night's last set has nothing to rest FOR: retire any live pill (and
   // its wake lock + badge) instead of letting it flip to overtime and nag
   // beside the finish bar about a set that doesn't exist.
   else if (remaining === 0) hideRestTimer();
-  if (finishedObjective && remaining > 0) {
+  // Finishing this lift isn't "objective done" while its superset partner is
+  // still mid-round — the jump above owns that hand-off.
+  const pairStillOwes = !!partner && partner.sets.some((q) => !q.done && !q.skipped);
+  if (finishedObjective && remaining > 0 && !pairStillOwes) {
     if (!s.pr) sfx('objDone');
     flashCard(`${U.copy.objDone}!`, x.name, () => {
       focusIdx = defaultFocus(store.draft);
@@ -704,6 +746,12 @@ function logSet(x, s, U) {
       if (!root.classList.contains('active')) return;
       render(root);
     });
+  } else if (partner && pairStillOwes && remaining > 0) {
+    // A round just closed and the pair continues (resting now) — return focus to
+    // the pair's first lift so the next round leads with it, not the one you
+    // happened to finish on.
+    const lead = store.draft.exercises.find((e) => e.superset === x.superset && e.sets.some((q) => !q.done && !q.skipped));
+    if (lead) { focusIdx = store.draft.exercises.indexOf(lead); render(root); }
   }
   renderDock();
 }
@@ -843,11 +891,42 @@ function bodyweightSheet() {
 function notesSheet() {
   openSheet(`
     <h2>Field notes</h2>
-    <div class="card"><div class="field"><textarea id="notes-in" placeholder="Notes">${esc(store.draft.notes)}</textarea></div></div>
+    <div class="sub">The whole night — the training staff reads this</div>
+    <div class="card"><div class="field"><textarea id="notes-in" placeholder="How did tonight go overall? Sleep, energy, gym, anything the coaches should know.">${esc(store.draft.notes)}</textarea></div></div>
     <button class="btn primary" id="notes-save">Save</button>`, {
     onOpen(sheet, close) {
       $('#notes-save', sheet).addEventListener('click', () => {
         store.draft.notes = $('#notes-in', sheet).value.trim();
+        store.saveDraft(store.draft);
+        close(); render(root);
+      });
+    },
+  });
+}
+
+// Per-exercise note. Rides into the saved record as exercises[].note, so the
+// daily brief and the coach swarm read it and adapt the plan.
+function exerciseNoteSheet(idx) {
+  const x = store.draft?.exercises[idx];
+  if (!x) return;
+  openSheet(`
+    <h2>Note · ${esc(x.name)}</h2>
+    <div class="sub">Just this exercise — the training staff reads it and adapts your plan</div>
+    <div class="card"><div class="field"><textarea id="exn-in" placeholder="How did it feel? Form cues, a tweak or pain, machine seat/pin, reps in reserve, energy — anything worth remembering next time.">${esc(x.logNote || '')}</textarea></div></div>
+    <div class="row-btns">
+      ${x.logNote ? `<button class="btn quiet" id="exn-clear">Clear</button>` : ''}
+      <button class="btn primary" id="exn-save">Save note</button>
+    </div>`, {
+    onOpen(sheet, close) {
+      $('#exn-save', sheet).addEventListener('click', () => {
+        const v = $('#exn-in', sheet).value.trim();
+        store.draft.exercises[idx].logNote = v || null;
+        store.saveDraft(store.draft);
+        close(); render(root);
+        if (v) toast('Note saved — the staff will see it', 'ok');
+      });
+      $('#exn-clear', sheet)?.addEventListener('click', () => {
+        store.draft.exercises[idx].logNote = null;
         store.saveDraft(store.draft);
         close(); render(root);
       });
@@ -880,7 +959,7 @@ function addExerciseSheet() {
         const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
         store.draft.exercises.push({
           id, name, adhoc: true, repMin: 8, repMax: 12, rest: 90,
-          basis: 'seed', prevTop: null, note: null, bump: 0, stalled: false, inc: 5, prev: null,
+          basis: 'seed', prevTop: null, note: null, logNote: null, bump: 0, stalled: false, inc: 5, prev: null,
           sets: Array.from({ length: sets }, () => ({ weight: null, reps: 10, done: false })),
         });
         store.saveDraft(store.draft);
@@ -958,7 +1037,11 @@ function finishSession() {
   const U = universeOf(d.session_type);
   const W = worldDef(d.session_type, d.world);
   const exercises = d.exercises
-    .map((x) => ({ id: x.id, name: x.name, sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}) })) }))
+    .map((x) => ({
+      id: x.id, name: x.name,
+      sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}) })),
+      ...(x.logNote && x.logNote.trim() ? { note: x.logNote.trim() } : {}),
+    }))
     .filter((x) => x.sets.length);
   if (!exercises.length) return toast('Nothing logged yet', 'bad');
 

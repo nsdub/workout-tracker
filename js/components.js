@@ -29,6 +29,7 @@ export const ICONS = {
   gauge: `<svg class="ic" width="16" height="11" viewBox="0 0 18 12" aria-hidden="true"><path d="M2 10.6 a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M9 10.6 L12.6 5.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10.6" r="1.4" fill="currentColor"/></svg>`,
   beam: `<svg class="ic" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 12.4 V4.8 M2.8 7.6 L6 4.4 L9.2 7.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11 h1.6 M8.4 11 h1.6 M4.4 13.2 h3.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".6"/></svg>`,
   warn: `<svg class="ic" width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M9 1.6 L16.8 14.2 H1.2 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 6 v3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="12" r="1.1" fill="currentColor"/></svg>`,
+  pencil: `<svg class="ic" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M9.6 1.4 L12.6 4.4 L4.8 12.2 L1.4 12.6 L1.8 9.2 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.4 2.6 L11.4 5.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
 };
 
 let cleanupTimer = null;

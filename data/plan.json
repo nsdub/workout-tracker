@@ -307,12 +307,12 @@
       "increment": 7.5
     },
     "standing-calf-raise": {
-      "name": "Standing Calf Raise",
+      "name": "Calf Press (leg press)",
       "lower": true,
       "howto": [
-        "Balls of the feet on the platform, heels hanging free, legs straight but knees not locked back.",
-        "Lower to a deep stretch and pause there for a beat, then drive up to full height and squeeze.",
-        "The pause at the bottom kills the bounce out of the Achilles — the bounce is the main reason calves stall."
+        "Balls of the feet on the bottom edge of the leg-press platform, heels hanging free. Knees soft but nearly straight — don't let it turn into a press.",
+        "Let the platform push you into a deep stretch and pause a beat, then drive up through the balls of the feet to full extension and squeeze.",
+        "The pause at the bottom kills the Achilles bounce — the bounce is the main reason calves stall. Never let the knees bend and unrack the weight."
       ]
     },
     "cable-crunch": {
@@ -623,7 +623,17 @@
           "repMin": 12,
           "repMax": 15,
           "seed": 82.5,
-          "rest": 75
+          "rest": 75,
+          "superset": "hips"
+        },
+        {
+          "id": "hip-abductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "seed": 127.5,
+          "rest": 75,
+          "superset": "hips"
         },
         {
           "id": "standing-calf-raise",
@@ -823,14 +833,6 @@
           "repMax": 15,
           "seed": 142.5,
           "rest": 90
-        },
-        {
-          "id": "hip-abductor",
-          "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
-          "seed": 127.5,
-          "rest": 75
         },
         {
           "id": "standing-calf-raise",
