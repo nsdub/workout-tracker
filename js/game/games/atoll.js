@@ -307,7 +307,7 @@ export function create(P, ctx) {
     const spr = scene.add.image(x, y, tex(scene, kind, K)).setDepth(20);
     // dark worlds: a light halo so a low-contrast drone still reads
     let glow = null;
-    if ((cfg.cave || cfg.wind) && kind !== 'ember') {
+    if ((cfg.cave || cfg.wind || cfg.kraken) && kind !== 'ember') {
       glow = scene.add.image(x, y, 'fx-dot').setTint(0xbfe0ff).setBlendMode('ADD')
         .setAlpha(0.4).setDepth(19).setScale((w + h) / 2 * K / 42 * 1.7);
     }
@@ -873,6 +873,13 @@ export function create(P, ctx) {
         krakenGfx.beginPath(); krakenGfx.moveTo(kx - 20 * K, seaY);
         krakenGfx.lineTo(kx - 8 * K, top); krakenGfx.lineTo(kx + 8 * K, top); krakenGfx.lineTo(kx + 20 * K, seaY);
         krakenGfx.closePath(); krakenGfx.fillPath();
+        // bright rim + filled tip cap: the parry target must read on near-black
+        // (it was equiluminant with the mid-sky) — keeps the purple kraken art
+        krakenGfx.lineStyle(2 * K, 0xc9a6ff, 0.85);
+        krakenGfx.beginPath(); krakenGfx.moveTo(kx - 20 * K, seaY);
+        krakenGfx.lineTo(kx - 8 * K, top); krakenGfx.lineTo(kx + 8 * K, top); krakenGfx.lineTo(kx + 20 * K, seaY);
+        krakenGfx.strokePath();
+        if (krakenTip) { krakenGfx.fillStyle(0xe6d2ff, 0.95); krakenGfx.fillCircle(kx, top, 7 * K); }
       }
 
       // ——— advance enemies ———

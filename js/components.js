@@ -410,6 +410,9 @@ function restTick() {
     // the first tap back) instead of dying silently against a suspended ctx.
     flushWhenRunning('restDone');
     showRestDoneFlash();
+    // Backgrounded but still ticking: post the OS alert now (foreground rests
+    // are covered by the flash + ding, so we only notify when hidden).
+    if (document.visibilityState === 'hidden') fireRestNotificationNow(restState.overLabel);
     document.getElementById('rest-pill')?.classList.remove('ending');
     document.getElementById('rest-pill')?.classList.add('overtime');
     if (restState.lbl) restState.lbl.textContent = restState.overLabel;
@@ -436,10 +439,16 @@ document.addEventListener('visibilitychange', () => {
     // Fully wrapped, never prompts: pure progressive enhancement.
     if (restState && !restState.fired) {
       try { navigator.setAppBadge?.(1)?.catch?.(() => {}); } catch { /* no badging */ }
+      // Now that the app is actually backgrounded, arm the OS notification for
+      // the deadline. Only here — a lifter watching the timer never gets it.
+      scheduleRestNotification(restState.deadline, restState.overLabel);
     }
     return;
   }
   try { navigator.clearAppBadge?.()?.catch?.(() => {}); } catch { /* no badging */ }
+  // Back in the app: the on-screen bell owns it now, so kill any pending/shown
+  // OS notification before it can double-buzz.
+  cancelRestNotification();
   if (restState) {
     if (restRAF) cancelAnimationFrame(restRAF);
     clearTimeout(restTO);
@@ -447,6 +456,88 @@ document.addEventListener('visibilitychange', () => {
     restTick(); // catches up instantly; a missed completion fires once (with the catch-up ding)
   }
 });
+
+// ——— Rest-done system notification ———
+// The on-screen flash + ding only reach a lifter who's looking. A pocketed or
+// locked phone needs an OS notification. We schedule it to fire at the rest
+// deadline via the service worker, but ONLY once the app is backgrounded — so a
+// lifter watching the timer never gets a redundant buzz. Cancelled the moment
+// the app returns, the set is logged, or Skip is tapped.
+const NOTIF_TAG = 'p3-rest-done';
+const canTrigger = () => 'Notification' in window
+  && 'serviceWorker' in navigator
+  && 'showTrigger' in (window.Notification?.prototype ?? {})
+  && typeof window.TimestampTrigger !== 'undefined';
+
+async function scheduleRestNotification(deadline, overLabel) {
+  if (!('Notification' in window) || Notification.permission !== 'granted' || !canTrigger()) return;
+  if (deadline - Date.now() < 800) return; // too close to schedule reliably
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    await reg.showNotification('Rest’s up 💪', {
+      tag: NOTIF_TAG, // one live rest-done notification, ever — a re-schedule replaces it
+      body: `${overLabel || 'Back to it'} — time for your next set.`,
+      showTrigger: new window.TimestampTrigger(deadline),
+      requireInteraction: false,
+      silent: false,
+      data: { kind: 'rest-done' },
+    });
+  } catch { /* triggers unsupported on this device — the app badge is the fallback */ }
+}
+
+async function cancelRestNotification() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const notes = await reg.getNotifications({ tag: NOTIF_TAG, includeTriggered: true });
+    notes.forEach((n) => n.close());
+  } catch { /* nothing scheduled, or unsupported */ }
+}
+
+// Belt-and-braces for devices without the scheduling API: if the countdown
+// reaches zero while the page is still alive in the background (Android often
+// keeps a backgrounded PWA's timers running for a while), post the alert right
+// then. Same tag as the scheduled one, so a device that has both shows one.
+async function fireRestNotificationNow(overLabel) {
+  if (!('Notification' in window) || Notification.permission !== 'granted' || !('serviceWorker' in navigator)) return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    await reg.showNotification('Rest’s up 💪', {
+      tag: NOTIF_TAG,
+      body: `${overLabel || 'Back to it'} — time for your next set.`,
+      requireInteraction: false,
+      data: { kind: 'rest-done' },
+    });
+  } catch { /* unsupported */ }
+}
+
+// One-time, opt-in, never nags: on the first rest we offer the alert instead of
+// silently assuming consent. Declined once (or unsupported) → we don't ask again.
+function offerRestAlerts() {
+  const supported = 'Notification' in window && canTrigger();
+  if (localStorage.getItem('p3.restTipShown')) return;
+  try { localStorage.setItem('p3.restTipShown', '1'); } catch { /* private mode: tip may repeat */ }
+  if (supported && Notification.permission === 'default') {
+    toast('I keep your screen lit while you rest. Want a buzz when it’s up, even in your pocket?', 'ok', 6500, {
+      action: {
+        label: 'Alert me',
+        async fn() {
+          try {
+            const p = await Notification.requestPermission();
+            toast(p === 'granted' ? 'Rest alerts on 🔔' : 'No alerts — your phone said no', p === 'granted' ? 'ok' : 'bad', 3200);
+            // If a rest is already running and we just went to background, arm it now.
+            if (p === 'granted' && restState && !restState.fired && document.visibilityState === 'hidden') {
+              scheduleRestNotification(restState.deadline, restState.overLabel);
+            }
+          } catch { /* denied */ }
+        },
+      },
+    });
+  } else {
+    // Notifications unavailable (or already decided) — the original honest tip.
+    toast('I keep your screen lit while you rest — if you pocket the phone, iPhone silences me until you look back.', 'ok', 5200);
+  }
+}
 
 export function showRestTimer(seconds, container, label = 'Rest') {
   hideRestTimer();
@@ -513,14 +604,9 @@ export function showRestTimer(seconds, container, label = 'Rest') {
   };
   acquireWakeLock();
   restRAF = requestAnimationFrame(restTick);
-  // The honest contract, said once in plain English: the totem shows what we
-  // CAN do (hold the screen lit), and iPhone physics cover the rest.
-  try {
-    if (!localStorage.getItem('p3.restTipShown')) {
-      localStorage.setItem('p3.restTipShown', '1');
-      toast('I keep your screen lit while you rest — if you pocket the phone, iPhone silences me until you look back.', 'ok', 5200);
-    }
-  } catch { /* private mode — the tip just repeats */ }
+  // First rest ever: offer the OS alert (opt-in) or, where unsupported, the
+  // honest screen-lit tip. Never nags past the first time.
+  offerRestAlerts();
   el.querySelector('.skip').addEventListener('click', () => { haptic(6); sfx('tap'); hideRestTimer(); });
   const playBtn = el.querySelector('#rest-play');
   playBtn?.addEventListener('click', async () => {
@@ -583,6 +669,7 @@ export function hideRestTimer() {
   clearTimeout(restHideTO);
   restHideTO = null;
   try { navigator.clearAppBadge?.()?.catch?.(() => {}); } catch { /* no badging */ }
+  cancelRestNotification(); // logging a set / Skip / a new rest kills a pending alert
   restState?.lock?.release?.().catch?.(() => {});
   restState = null;
   document.getElementById('rest-pill')?.remove();

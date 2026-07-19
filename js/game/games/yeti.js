@@ -140,13 +140,17 @@ const PAINT = {
   boulder(c, w, h) {
     // a menacing dark crag, snow-capped, clearly too big to plow
     const g = c.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#3a4152'); g.addColorStop(1, '#20252f');
+    g.addColorStop(0, '#6b7488'); g.addColorStop(1, '#3e4656');
     c.fillStyle = g;
     c.beginPath();
     c.moveTo(w * 0.06, h * 0.94); c.lineTo(w * 0.14, h * 0.42); c.lineTo(w * 0.36, h * 0.16);
     c.lineTo(w * 0.6, h * 0.08); c.lineTo(w * 0.86, h * 0.34); c.lineTo(w * 0.96, h * 0.7);
     c.lineTo(w * 0.9, h * 0.94);
     c.closePath(); c.fill();
+    // bright rim: the collision box is the whole crag, but only the snow cap was
+    // visible on black — trace the true silhouette so the whole hazard reads,
+    // and survive the multiplicative threat-tint applied at runtime.
+    c.strokeStyle = 'rgba(230,244,255,.92)'; c.lineWidth = Math.max(2.5, w * 0.035); c.stroke();
     c.strokeStyle = 'rgba(0,0,0,.4)'; c.lineWidth = w * 0.02;
     c.beginPath(); c.moveTo(w * 0.4, h * 0.2); c.lineTo(w * 0.5, h * 0.6); c.lineTo(w * 0.38, h * 0.9); c.stroke();
     c.beginPath(); c.moveTo(w * 0.7, h * 0.3); c.lineTo(w * 0.62, h * 0.7); c.stroke();
@@ -226,12 +230,12 @@ const PAINT = {
   crack(c, w, h) {
     // the mountain groans before the crag: a fissure splits the snow where
     // a boulder is about to surface — the warning you steer away from
-    c.strokeStyle = 'rgba(255,122,106,.45)'; c.lineWidth = w * 0.07; c.lineCap = 'round'; c.lineJoin = 'round';
+    c.strokeStyle = 'rgba(255,150,120,.85)'; c.lineWidth = w * 0.09; c.lineCap = 'round'; c.lineJoin = 'round';
     c.beginPath();
     c.moveTo(w * 0.04, h * 0.55); c.lineTo(w * 0.2, h * 0.4); c.lineTo(w * 0.34, h * 0.62);
     c.lineTo(w * 0.5, h * 0.3); c.lineTo(w * 0.66, h * 0.6); c.lineTo(w * 0.8, h * 0.42); c.lineTo(w * 0.96, h * 0.52);
     c.stroke();
-    c.strokeStyle = 'rgba(20,26,40,.9)'; c.lineWidth = w * 0.03;
+    c.strokeStyle = 'rgba(120,80,90,.9)'; c.lineWidth = w * 0.03;
     c.beginPath();
     c.moveTo(w * 0.04, h * 0.55); c.lineTo(w * 0.2, h * 0.4); c.lineTo(w * 0.34, h * 0.62);
     c.lineTo(w * 0.5, h * 0.3); c.lineTo(w * 0.66, h * 0.6); c.lineTo(w * 0.8, h * 0.42); c.lineTo(w * 0.96, h * 0.52);
@@ -702,7 +706,7 @@ export function create(P, ctx) {
       const warn = addThing(scene, K, 'crack', bx, Math.max(H * 0.62, by - H * 0.68), {
         w: 96, h: 40, warning: true, bornAt: scene.time.now,
       });
-      warn.img.setDepth(6);
+      warn.img.setDepth(6).setBlendMode('ADD'); // the fissure glows on any dark ground
     }
     // drifts keep the mass economy alive AND give a floored ball a way back up
     if (cfg.melt) {

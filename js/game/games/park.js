@@ -96,12 +96,15 @@ const PAINT = {
   },
   canoe(c, w, h) {
     const g = c.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#a8542c'); g.addColorStop(1, '#6a3418');
+    g.addColorStop(0, '#c86a3c'); g.addColorStop(1, '#6a3418');
     c.fillStyle = g;
     c.beginPath();
     c.moveTo(w * 0.02, h * 0.3); c.quadraticCurveTo(w * 0.5, h * 1.1, w * 0.98, h * 0.3);
     c.quadraticCurveTo(w * 0.5, h * 0.55, w * 0.02, h * 0.3);
     c.fill();
+    // bright gunwale rim: the only float with no bright element, ~1.1:1 over the
+    // dark navy water bands — trace the hull so this see-it-or-lose-a-life hazard reads
+    c.strokeStyle = '#ffe0b0'; c.lineWidth = h * 0.07; c.stroke();
     c.strokeStyle = '#4a2410'; c.lineWidth = h * 0.06;
     c.beginPath(); c.moveTo(w * 0.14, h * 0.38); c.quadraticCurveTo(w * 0.5, h * 0.72, w * 0.86, h * 0.38); c.stroke();
   },

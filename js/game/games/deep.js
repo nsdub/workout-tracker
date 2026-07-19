@@ -121,9 +121,12 @@ const PAINT = {
   },
   plate(c, w, h) {
     const g = c.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#6a4a2a'); g.addColorStop(0.5, '#4a3018'); g.addColorStop(1, '#32200e');
+    g.addColorStop(0, '#9a7038'); g.addColorStop(0.5, '#6e4a24'); g.addColorStop(1, '#4a3016');
     c.fillStyle = g;
     c.beginPath(); c.roundRect(0, h * 0.2, w, h * 0.6, h * 0.16); c.fill();
+    // warm rim so the slab's silhouette survives a dark backdrop (the Void's
+    // darkness cone made the leading edge vanish against the near-black canvas)
+    c.strokeStyle = 'rgba(255,225,175,.55)'; c.lineWidth = h * 0.08; c.stroke();
     c.strokeStyle = 'rgba(0,0,0,.4)'; c.lineWidth = h * 0.07;
     c.beginPath(); c.moveTo(w * 0.2, h * 0.2); c.lineTo(w * 0.2, h * 0.8); c.stroke();
     c.beginPath(); c.moveTo(w * 0.55, h * 0.2); c.lineTo(w * 0.55, h * 0.8); c.stroke();

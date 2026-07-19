@@ -157,11 +157,14 @@ const PAINT = {
     c.beginPath(); c.roundRect(w * 0.2, h * 0.38, w * 0.6, h * 0.1, h * 0.05); c.fill();
   },
   coal(c, w, h) {
-    c.fillStyle = '#241014';
+    c.fillStyle = '#3a2018';
     c.beginPath();
     c.moveTo(w * 0.18, h * 0.3); c.lineTo(w * 0.55, h * 0.1); c.lineTo(w * 0.9, h * 0.38);
     c.lineTo(w * 0.82, h * 0.82); c.lineTo(w * 0.32, h * 0.9); c.lineTo(w * 0.08, h * 0.6);
     c.closePath(); c.fill();
+    // hot forge rim: separate the must-slice lump from black and from its own
+    // dark-red world so it isn't missed for a life
+    c.strokeStyle = '#ff9a5c'; c.lineWidth = w * 0.06; c.lineJoin = 'round'; c.stroke();
     c.strokeStyle = '#ff7a3c'; c.lineWidth = w * 0.05; c.lineCap = 'round';
     c.beginPath(); c.moveTo(w * 0.3, h * 0.42); c.lineTo(w * 0.52, h * 0.55); c.lineTo(w * 0.45, h * 0.74); c.stroke();
     c.beginPath(); c.moveTo(w * 0.62, h * 0.3); c.lineTo(w * 0.68, h * 0.52); c.stroke();
@@ -293,6 +296,11 @@ const PAINT = {
     g.addColorStop(0, '#4a4a5c'); g.addColorStop(1, '#14141e');
     c.fillStyle = g;
     c.beginPath(); c.arc(w / 2, h * 0.58, w * 0.38, 0, 7); c.fill();
+    // danger rim: raises the body's contrast on any dark backdrop AND reinforces
+    // "do not cut" for the instant-blade-loss object (its bright fuse floated
+    // above an invisible body before)
+    c.lineWidth = w * 0.05; c.strokeStyle = '#ff6a4a';
+    c.beginPath(); c.arc(w / 2, h * 0.58, w * 0.38, 0, 7); c.stroke();
     c.fillStyle = '#2a2a38';
     c.fillRect(w * 0.42, h * 0.12, w * 0.16, h * 0.14);
     c.strokeStyle = '#c8b088'; c.lineWidth = w * 0.045; c.lineCap = 'round';

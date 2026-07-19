@@ -1,6 +1,6 @@
 // Offline-first service worker. Shell is cache-first; installs bypass the
 // HTTP cache; data/ and the GitHub API are never cached here.
-// build: v41 — MUST match js/version.js (tested); a byte-change here is
+// build: v42 — MUST match js/version.js (tested); a byte-change here is
 // what makes every browser notice a new release.
 importScripts('js/version.js');
 const VERSION = `protocol-${self.PROTOCOL_VERSION}`;
@@ -86,4 +86,17 @@ self.addEventListener('fetch', (e) => {
       });
     })
   );
+});
+
+// Tapping the rest-done alert brings the app forward (or opens it) instead of a
+// dead notification. Focus an existing window if one is open; else launch.
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  e.waitUntil((async () => {
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const w of wins) {
+      if ('focus' in w) return w.focus();
+    }
+    return self.clients.openWindow?.('./');
+  })());
 });

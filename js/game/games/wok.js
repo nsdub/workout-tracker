@@ -141,11 +141,11 @@ const PAINT = {
   wokpan(c, w, h) {
     // the catch target must be the warmest thing on screen (Peggle's bucket law)
     const glow = c.createRadialGradient(w * 0.5, h * 0.3, 1, w * 0.5, h * 0.3, w * 0.5);
-    glow.addColorStop(0, 'rgba(255,196,108,.55)'); glow.addColorStop(1, 'rgba(255,196,108,0)');
+    glow.addColorStop(0, 'rgba(255,196,108,.72)'); glow.addColorStop(1, 'rgba(255,196,108,0)');
     c.fillStyle = glow;
     c.beginPath(); c.ellipse(w * 0.5, h * 0.3, w * 0.48, h * 0.42, 0, 0, 7); c.fill();
     const g = c.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#3c424e'); g.addColorStop(1, '#1c2028');
+    g.addColorStop(0, '#5a616e'); g.addColorStop(1, '#30363f'); // warm metal, not near-black
     c.fillStyle = g;
     c.beginPath();
     c.moveTo(0, h * 0.1);
@@ -153,7 +153,7 @@ const PAINT = {
     c.lineTo(w * 0.88, h * 0.08);
     c.quadraticCurveTo(w * 0.5, h * 0.85, w * 0.12, h * 0.08);
     c.closePath(); c.fill();
-    c.strokeStyle = '#ffc46c'; c.lineWidth = h * 0.08; c.lineCap = 'round';
+    c.strokeStyle = '#ffc46c'; c.lineWidth = h * 0.12; c.lineCap = 'round'; // thicker lip so the mouth survives dark space skies
     c.beginPath(); c.moveTo(0, h * 0.1); c.quadraticCurveTo(w * 0.5, h * 1.15, w, h * 0.1); c.stroke();
     // steam wisps rising off the hot lip
     c.strokeStyle = 'rgba(255,255,255,.3)'; c.lineWidth = h * 0.04;
