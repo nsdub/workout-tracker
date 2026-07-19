@@ -218,6 +218,7 @@ const PAINT = {
     c.beginPath();
     c.moveTo(w * 0.5, h * 0.04); c.lineTo(w * 0.82, h * 0.2); c.lineTo(w * 0.82, h * 0.9);
     c.lineTo(w * 0.18, h * 0.9); c.lineTo(w * 0.18, h * 0.2); c.closePath(); c.fill();
+    c.strokeStyle = '#ffd0a0'; c.lineWidth = w * 0.045; c.stroke(); // separate the dark lower half from the dark-magenta torii sky
     c.fillStyle = '#ffd24a';
     c.fillRect(w * 0.3, h * 0.34, w * 0.4, h * 0.3);
     c.fillStyle = '#8c1f4a';
@@ -620,7 +621,7 @@ export function create(P, ctx) {
     // forge law: cold iron does not cut
     if (cfg.forge && o.kind === 'ingot' && !forgeHot()) {
       squash(scene, o.img, Math.abs(dirX) > Math.abs(dirY) ? 'x' : 'y');
-      o.img.setTint(0x8890a8);
+      o.img.setTint(0xaab4c8);
       scene.time.delayedCall(180, () => o.img.active && o.img.clearTint());
       floatScore(scene, x, y - 20 * K, 'cold!', '#8a9ac8', 15 * K);
       shake(scene, 0.004, 70);
@@ -1213,7 +1214,7 @@ export function create(P, ctx) {
       if (cfg.forge) {
         const hot = forgeHot();
         for (const o of objs) {
-          if (o.kind === 'ingot') { if (hot) o.img.clearTint(); else o.img.setTint(0x6a7290); }
+          if (o.kind === 'ingot') { if (hot) o.img.clearTint(); else o.img.setTint(0x9aa6c4); }
         }
         if (world.forgeGlow) world.forgeGlow.setAlpha(hot ? 0.8 : 0.22).setScale(K * (hot ? 3.3 : 2.4));
       }

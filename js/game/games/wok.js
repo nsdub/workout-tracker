@@ -116,6 +116,7 @@ const PAINT = {
   cracker(c, w, h) {
     c.fillStyle = '#e8302c';
     c.beginPath(); c.roundRect(w * 0.24, h * 0.1, w * 0.52, h * 0.8, w * 0.12); c.fill();
+    c.strokeStyle = 'rgba(255,233,179,.9)'; c.lineWidth = w * 0.05; c.stroke(); // outline: the one target with no accent rim, blended into the red sky
     c.fillStyle = '#ffd24a';
     c.fillRect(w * 0.24, h * 0.3, w * 0.52, h * 0.08);
     c.fillRect(w * 0.24, h * 0.62, w * 0.52, h * 0.08);
@@ -304,7 +305,7 @@ export function create(P, ctx) {
             // targets never vanish into a red/dark sky (contrast + world identity)
             : canvasTex(scene, pegTexKey, PR * 2.6 * K, PR * 2.6 * K, (c, w, h) => {
               PAINT.peg(c, w, h);
-              c.strokeStyle = accentA(0.9); c.lineWidth = w * 0.06;
+              c.strokeStyle = accentA(0.9); c.lineWidth = w * 0.09; // wider so the rim always separates from a matching sky
               c.beginPath(); c.arc(w / 2, h / 2, w * 0.42, 0, 7); c.stroke();
             });
         const img = scene.add.image(x, y, tex).setDepth(10);
@@ -778,9 +779,10 @@ export function create(P, ctx) {
         scene.matter.add.rectangle(cx, cy, W * 0.2, 12 * K, { isStatic: true, angle: ang, restitution: 0.2, friction: 0.02, label: 'apron' });
         const g = scene.add.graphics().setDepth(11);
         g.save(); g.translateCanvas(cx, cy); g.rotateCanvas(ang);
-        g.fillStyle(0x2a1e26, 0.92);
+        g.fillStyle(0x3a2e36, 0.92);
         g.fillRoundedRect(-W * 0.1, -6 * K, W * 0.2, 12 * K, 5 * K);
-        g.fillStyle(0xffc46c, 0.5);
+        g.lineStyle(2 * K, 0xffc46c, 0.6); g.strokeRoundedRect(-W * 0.1, -6 * K, W * 0.2, 12 * K, 5 * K); // bright edge so a redirect off it isn't unexplained
+        g.fillStyle(0xffc46c, 0.8);
         g.fillRoundedRect(-W * 0.1, -6 * K, W * 0.2, 2.5 * K, 2 * K);
         g.restore();
       };
@@ -944,9 +946,9 @@ export function create(P, ctx) {
       if (aiming && aimX != null) launcher.x = Math.max(30 * K, Math.min(W - 30 * K, aimX));
       aimGfx.clear();
       if (aiming) {
-        aimGfx.lineStyle(2.5 * K, 0xffe9b3, 0.6);
+        aimGfx.lineStyle(2.5 * K, 0xffe9b3, 0.85);
         aimGfx.lineBetween(launcher.x, 40 * K, launcher.x, H * 0.2);
-        aimGfx.fillStyle(0xffe9b3, 0.7).fillCircle(launcher.x, H * 0.2, 4 * K);
+        aimGfx.fillStyle(0xffe9b3, 0.9).fillCircle(launcher.x, H * 0.2, 4 * K);
       }
       // the hot-hand meter follows the catch streak
       streakTxt.setText(catchStreak >= 2 ? `${catchStreak}× HOT WOK` : '');

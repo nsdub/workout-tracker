@@ -120,16 +120,18 @@ const PAINT = {
     g.addColorStop(0, '#6e5a34'); g.addColorStop(1, '#3a2c14');
     c.fillStyle = g;
     c.beginPath(); c.ellipse(w / 2, h * 0.44, w * 0.44, h * 0.3, 0, 0, 7); c.fill();
-    c.strokeStyle = 'rgba(230,210,160,.5)'; c.lineWidth = h * 0.028;
+    c.strokeStyle = 'rgba(230,210,160,.8)'; c.lineWidth = h * 0.028;
     c.beginPath(); c.ellipse(w / 2, h * 0.44, w * 0.44, h * 0.3, 0, 0, 7); c.stroke();
     c.fillStyle = '#8a2c2c';
     c.fillRect(w * 0.28, h * 0.62, w * 0.44, h * 0.16);
     c.fillStyle = '#ffe9b3';
     c.font = `700 ${Math.round(h * 0.12)}px sans-serif`;
     c.textAlign = 'center'; c.fillText('NO', w * 0.5, h * 0.735);
-    c.fillStyle = '#14141c';
-    c.beginPath(); c.arc(w * 0.42, h * 0.42, w * 0.03, 0, 7); c.fill();
-    c.beginPath(); c.arc(w * 0.58, h * 0.42, w * 0.03, 0, 7); c.fill();
+    // light eyes with a dark pupil — solid near-black discs vanished on dark skies
+    for (const ex of [0.42, 0.58]) {
+      c.fillStyle = '#ffe9b3'; c.beginPath(); c.arc(w * ex, h * 0.42, w * 0.04, 0, 7); c.fill();
+      c.fillStyle = '#14141c'; c.beginPath(); c.arc(w * ex, h * 0.42, w * 0.018, 0, 7); c.fill();
+    }
   },
   note(c, w, h) {
     // the navy's counter-broadcast — fast little jammer note

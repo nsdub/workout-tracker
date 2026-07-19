@@ -119,17 +119,18 @@ const PAINT = {
   pine(c, w, h) {
     c.fillStyle = '#5c3414';
     c.fillRect(w * 0.44, h * 0.8, w * 0.12, h * 0.2);
-    c.fillStyle = '#1d5038';
+    c.fillStyle = '#2f7d54';
     for (let i = 0; i < 3; i++) {
       const y = h * (0.75 - i * 0.24), s = 1 - i * 0.24;
       c.beginPath(); c.moveTo(w * 0.5, y - h * 0.26); c.lineTo(w * (0.5 + 0.42 * s), y); c.lineTo(w * (0.5 - 0.42 * s), y); c.closePath(); c.fill();
+      if (i === 0) { c.strokeStyle = 'rgba(210,236,220,.5)'; c.lineWidth = w * 0.02; c.stroke(); } // hold the tree on Aurora / Black Ice ground
     }
     c.fillStyle = 'rgba(244,250,253,.85)';
     c.beginPath(); c.ellipse(w * 0.5, h * 0.28, w * 0.16, h * 0.05, -0.3, 0, 7); c.fill();
     c.beginPath(); c.ellipse(w * 0.36, h * 0.52, w * 0.14, h * 0.05, 0.2, 0, 7); c.fill();
   },
   rock(c, w, h) {
-    c.fillStyle = '#4a5668';
+    c.fillStyle = '#5c6a80';
     c.beginPath();
     c.moveTo(w * 0.12, h * 0.85); c.lineTo(w * 0.28, h * 0.3); c.lineTo(w * 0.6, h * 0.12);
     c.lineTo(w * 0.9, h * 0.5); c.lineTo(w * 0.82, h * 0.85);
@@ -819,6 +820,7 @@ export function create(P, ctx) {
       depthText = scene.add.text(16 * K, 14 * K, '', {
         fontFamily: 'system-ui, sans-serif', fontStyle: '900',
         fontSize: `${Math.round(15 * K)}px`, color: '#dff6ff',
+        stroke: 'rgba(4,6,14,.82)', strokeThickness: Math.max(3, 3 * K), // legible over bright ice and strobes
       }).setDepth(33).setAlpha(0.85).setVisible(false);
       // (the HOLD TO PACK banner fires on the first pack-phase update frame,
       // AFTER the intro card releases input — a teach beat nobody can miss)
@@ -952,7 +954,7 @@ export function create(P, ctx) {
           strobeT = 1100 + Math.random() * 500;
           darkVeil.setAlpha(0);
           darkVeil.fillColor = [0x38104c, 0x0c2c44, 0x441024][Math.floor(Math.random() * 3)];
-          scene.tweens.add({ targets: darkVeil, alpha: 0.72, duration: 460, delay: 150 });
+          scene.tweens.add({ targets: darkVeil, alpha: 0.5, duration: 460, delay: 150 }); // cap the strobe dim so gameplay stays legible
         }
       }
 

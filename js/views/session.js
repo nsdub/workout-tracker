@@ -173,7 +173,7 @@ function ensureDraft(today, phaseInfo) {
     // unseen world and show the banked hero instead. Deliberate double-day
     // drafts carry d.deliberate; reopened drafts carry d.reopened — neither
     // is ever reclaimed.
-    if (!dirty && !d.deliberate && !d.reopened && store.history.some((e) => e.date === today)) {
+    if (!dirty && !d.deliberate && !d.reopened && store.history.some((e) => e.date === today && !e.supplemental)) {
       if (d.world) returnWorld(d.session_type, d.world);
       store.clearDraft();
       return null;
@@ -190,7 +190,7 @@ function ensureDraft(today, phaseInfo) {
   // results overlay, burned a pool draw the user never saw, and made the app
   // answer "what do I do today?" with tomorrow's session. The next draft
   // (with its world draw + visible reveal) waits for an explicit start.
-  if (store.history.some((e) => e.date === today)) {
+  if (store.history.some((e) => e.date === today && !e.supplemental)) {
     if (d) store.clearDraft(); // the stale clean draft's world was refunded above
     return null;
   }
@@ -204,7 +204,7 @@ function ensureDraft(today, phaseInfo) {
 // ——— Night banked: tonight is in the books; tomorrow waits ———
 
 function renderBanked(today, phaseInfo) {
-  const entry = [...store.history].reverse().find((e) => e.date === today);
+  const entry = [...store.history].reverse().find((e) => e.date === today && !e.supplemental);
   const U = universeOf(entry.session_type);
   const W = worldDef(entry.session_type, entry.world ?? null);
   applyWorld(entry.session_type, entry.world ?? null);

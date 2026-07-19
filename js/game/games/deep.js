@@ -141,11 +141,13 @@ const PAINT = {
   },
   chimney(c, w, h) {
     const g = c.createLinearGradient(0, 0, w, 0);
-    g.addColorStop(0, '#2c1a20'); g.addColorStop(0.5, '#4a2c30'); g.addColorStop(1, '#241418');
+    g.addColorStop(0, '#3a2228'); g.addColorStop(0.5, '#6e3f44'); g.addColorStop(1, '#301a1e');
     c.fillStyle = g;
     c.beginPath();
     c.moveTo(w * 0.28, h); c.lineTo(w * 0.36, h * 0.08); c.lineTo(w * 0.64, h * 0.08); c.lineTo(w * 0.72, h);
     c.closePath(); c.fill();
+    // warm rim so the 2-HP obstacle reads as a shape, not a floating cap dot
+    c.strokeStyle = 'rgba(255,180,120,.5)'; c.lineWidth = w * 0.03; c.stroke();
     const v = c.createRadialGradient(w / 2, h * 0.06, 1, w / 2, h * 0.06, w * 0.2);
     v.addColorStop(0, '#ffc46c'); v.addColorStop(1, 'rgba(255,122,60,0)');
     c.fillStyle = v;
@@ -168,6 +170,7 @@ const PAINT = {
     g.addColorStop(0, '#3c4a56'); g.addColorStop(1, '#222c36');
     c.fillStyle = g;
     c.beginPath(); c.roundRect(0, h * 0.16, w, h * 0.68, h * 0.34); c.fill();
+    c.strokeStyle = 'rgba(190,215,235,.5)'; c.lineWidth = h * 0.05; c.stroke(); // mass reads without relying only on portholes
     c.fillStyle = 'rgba(255,220,150,.75)';
     for (let i = 0; i < 4; i++) { c.beginPath(); c.arc(w * (0.2 + i * 0.2), h * 0.5, h * 0.1, 0, 7); c.fill(); }
     c.fillStyle = '#222c36';
@@ -519,7 +522,7 @@ export function create(P, ctx) {
     const armored = kind !== 'jelly' && kind !== 'canopy' && Math.random() < armorP;
     let aw = w, mark = null;
     if (armored) {
-      img.setTint(0xff8a8a);
+      img.setTint(0xffb0b0); // lighter so the striped 'unbreakable' slab reads on dark
       img.setScale(1.35, 1);
       aw = w * 1.35;
       scene.tweens.add({ targets: img, alpha: 0.72, duration: 320, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
@@ -1001,8 +1004,14 @@ export function create(P, ctx) {
         kp.gfx.clear();
         if (kp.y < -H * 0.5) { kp.gfx.destroy(); kelps.splice(kelps.indexOf(kp), 1); continue; }
         if (kp.torn) continue;
-        kp.gfx.lineStyle(5 * K, 0x3f7a2c, 0.85);
         const sway = Math.sin(now / 600 + kp.phase) * 26 * K;
+        kp.gfx.lineStyle(5 * K, 0x6fe07e, 0.9); // brighter strand — reads on the dark-green wall flora
+        kp.gfx.beginPath();
+        kp.gfx.moveTo(kp.x, kp.y);
+        kp.gfx.lineTo(kp.x + sway * 0.5, kp.y - H * 0.25);
+        kp.gfx.lineTo(kp.x + sway, kp.y - H * 0.5);
+        kp.gfx.strokePath();
+        kp.gfx.lineStyle(2 * K, 0xc8ffd0, 0.8); // bright core so the snag line is unmistakable
         kp.gfx.beginPath();
         kp.gfx.moveTo(kp.x, kp.y);
         kp.gfx.lineTo(kp.x + sway * 0.5, kp.y - H * 0.25);
@@ -1234,8 +1243,11 @@ export function create(P, ctx) {
           if (L.sub.y < -80) { L.sub.destroy(); L.gfx.destroy(); lights.splice(lights.indexOf(L), 1); continue; }
           const bx = L.sub.x, by = L.sub.y - 20 * K;
           const ex = bx + Math.sin(L.angle) * H * 0.7, ey = by - Math.cos(Math.PI + L.angle) * -H * 0.7;
-          L.gfx.fillStyle(0xfff4c8, 0.14);
+          L.gfx.fillStyle(0xfff4c8, 0.22); // brighter resting beam — visible before it catches you
           L.gfx.fillTriangle(bx, by, ex - 60 * K, ey, ex + 60 * K, ey);
+          L.gfx.lineStyle(2 * K, 0xfff4c8, 0.5); // defined edges so the cone boundary reads
+          L.gfx.lineBetween(bx, by, ex - 60 * K, ey);
+          L.gfx.lineBetween(bx, by, ex + 60 * K, ey);
           // beam catch — the 'you've been seen' beat deserves impact, not
           // just a label, or the near-halt reads as a frozen thumb
           if (spotted <= 0 && player.y > ey && player.y < by && Math.abs(player.x - (bx + (ex - bx) * ((player.y - by) / (ey - by || 1)))) < 55 * K) {

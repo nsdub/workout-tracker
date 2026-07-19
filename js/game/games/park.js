@@ -74,6 +74,8 @@ const PAINT = {
     c.beginPath(); c.arc(w * 0.6, h * 0.42, w * 0.05, 0, 7); c.fill();
     c.strokeStyle = '#2c3238'; c.lineWidth = w * 0.04; c.lineCap = 'round';
     c.beginPath(); c.arc(w * 0.49, h * 0.5, w * 0.12, 0.5, 2.6); c.stroke();
+    c.strokeStyle = 'rgba(255,255,255,.7)'; c.lineWidth = w * 0.05; // bright rim so the must-track player pops on water
+    c.beginPath(); c.ellipse(w / 2, h / 2, w * 0.46, h * 0.4, 0, 0, 7); c.stroke();
   },
   duck(c, w, h) {
     c.fillStyle = '#f2e84c';
@@ -139,6 +141,8 @@ const PAINT = {
     c.beginPath(); c.moveTo(w * 0.9, h * 0.3); c.quadraticCurveTo(w * 0.98, h * 0.22, w * 0.94, h * 0.14); c.lineTo(w * 0.9, h * 0.24); c.closePath(); c.fill();
     c.fillStyle = '#1c1208';
     c.beginPath(); c.arc(w * 0.84, h * 0.4, w * 0.035, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(232,213,174,.6)'; c.lineWidth = w * 0.03; // light back-line so the safe landing pad reads on night skies
+    c.beginPath(); c.ellipse(w * 0.45, h * 0.5, w * 0.4, h * 0.34, 0, Math.PI * 1.05, Math.PI * 1.95); c.stroke();
   },
   ranger(c, w, h) {
     c.fillStyle = '#3a5c40';
@@ -367,13 +371,13 @@ export function create(P, ctx) {
         livesGfx.lineStyle(2.4 * K, 0xff5d7a, p);
         livesGfx.strokeCircle(x, y, r * (1.5 + (1 - p) * 1.3));
       }
-      const col = full ? 0xff6a7a : 0x3a2530, a = full ? 0.96 : 0.55;
+      const col = full ? 0xff6a7a : 0x3a2530, a = full ? 0.96 : 0.8;
       const s = r;
       livesGfx.fillStyle(col, a);
       livesGfx.fillCircle(x - s * 0.42, y - s * 0.2, s * 0.52);
       livesGfx.fillCircle(x + s * 0.42, y - s * 0.2, s * 0.52);
       livesGfx.fillTriangle(x - s * 0.9, y + s * 0.02, x + s * 0.9, y + s * 0.02, x, y + s * 1.02);
-      livesGfx.lineStyle(1.4 * K, full ? 0xffd0d8 : 0x68727e, full ? 0.9 : 0.4);
+      livesGfx.lineStyle(1.4 * K, full ? 0xffd0d8 : 0x8a94a0, full ? 0.9 : 0.7);
       livesGfx.strokeCircle(x - s * 0.42, y - s * 0.2, s * 0.52);
       livesGfx.strokeCircle(x + s * 0.42, y - s * 0.2, s * 0.52);
     }
