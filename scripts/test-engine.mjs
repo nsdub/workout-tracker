@@ -373,4 +373,20 @@ ok('bodyweight prescription anchors on the best set, not the first (9,8,10 → 1
   assert.equal(rx.sets[0].reps, 10);
 });
 
+// ——— Conditioning (supplemental) entries are fenced from all lifting logic ———
+ok('supplemental conditioning entry never moves rotation, PRs, or prescriptions', () => {
+  const lifts = [
+    { date: '2026-07-20', session_type: 'PushA', phase: 'meso1', exercises: [{ id: 'zz', name: 'ZZ', sets: [{ weight: 100, reps: 5 }] }] },
+    { date: '2026-07-21', session_type: 'PullA', phase: 'meso1', exercises: [{ id: 'zz', name: 'ZZ', sets: [{ weight: 200, reps: 5 }] }] },
+  ];
+  const cardio = { date: '2026-07-22', session_type: 'cardio', supplemental: true, exercises: [], conditioning: { modality: 'Run', mins: 25, intensity: 'Easy' } };
+  const withCardio = [...lifts, cardio];
+  // "what's next" follows the last LIFT (PullA → LegsA), never resets to rot[0]
+  assert.equal(E.rotationNext(plan, lifts), 'LegsA');
+  assert.equal(E.rotationNext(plan, withCardio), 'LegsA');
+  // best/PR readers ignore it and never throw on its empty exercises
+  assert.equal(E.allTimeBest(withCardio, 'zz').weight, 200);
+  assert.doesNotThrow(() => E.isRepPR(withCardio, 'zz', 200, 6));
+});
+
 console.log(`\n${n} engine tests passed`);

@@ -58,7 +58,11 @@ export function phaseForDate(plan, dateStr, overrideId = null) {
 // ——— Rotation ———
 
 function sortedHistory(history) {
-  return [...history].sort((a, b) => a.date.localeCompare(b.date));
+  // Supplemental entries (logged conditioning / cardio) carry no barbell work and
+  // must never move "what's next" or feed a prescription. Fencing them here covers
+  // rotationNext, lastPerformance/performances, isStalled, and validateSet in one
+  // place — the same discipline as the deload/sinceDate fences.
+  return [...history].filter((e) => !e.supplemental).sort((a, b) => a.date.localeCompare(b.date));
 }
 
 export function rotationNext(plan, history) {
@@ -113,6 +117,7 @@ export function topSet(sets) {
 export function allTimeBest(history, exId) {
   let best = null;
   for (const e of history) {
+    if (e.supplemental || !e.exercises) continue; // conditioning entries hold no lifts
     for (const x of e.exercises) {
       if (x.id !== exId) continue;
       const t = topSet(x.sets);
@@ -280,6 +285,7 @@ export function isRepPR(history, exId, weight, reps) {
   if (!weight || reps < 1) return false;
   let best = null;
   for (const e of history) {
+    if (e.supplemental || !e.exercises) continue; // conditioning entries hold no lifts
     for (const x of e.exercises) {
       if (x.id !== exId) continue;
       for (const s of x.sets) {

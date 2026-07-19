@@ -794,4 +794,19 @@ await ok('sw.js build line matches js/version.js (update-detection guard)', asyn
   assert.equal(build, version, `sw.js says ${build} but js/version.js says ${version} — bump BOTH on every release`);
 });
 
+// ——— Conditioning entries coexist with the day's lift (the overwrite trap) ———
+await ok('a conditioning session and a same-day lift both persist (distinct paths)', () => {
+  store.replaceHistory([]);
+  const lift = { date: '2026-07-25', session_type: 'LegsA', phase: 'meso1', exercises: [{ id: 'leg-press', name: 'LP', sets: [{ weight: 200, reps: 8 }] }] };
+  const cardio = { date: '2026-07-25', session_type: 'cardio', supplemental: true, exercises: [], conditioning: { modality: 'Run', mins: 25, intensity: 'Easy' } };
+  store.upsertEntry(lift, { enqueue: false });
+  store.upsertEntry(cardio, { enqueue: false });
+  assert.equal(store.history.length, 2);
+  assert.deepEqual(
+    store.history.map((e) => store.entryPath(e)).sort(),
+    ['data/history/2026-07-25-cardio.json', 'data/history/2026-07-25-legsa.json'],
+  );
+  assert.equal(store.history.find((e) => e.session_type === 'LegsA').exercises[0].sets[0].weight, 200);
+});
+
 console.log(`\n${n} app tests passed`);

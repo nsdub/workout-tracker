@@ -1,6 +1,6 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins, weekKey } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
@@ -835,6 +835,7 @@ function briefingSheet() {
     <div class="opt-list">
       <button class="opt" id="chip-bw">Bodyweight<span class="hint num">${d.bodyweight ? `${fmtW(d.bodyweight)} lb` : 'log it'}</span></button>
       <button class="opt" id="chip-notes">Field notes<span class="hint">${d.notes ? '●' : '+'}</span></button>
+      <button class="opt" id="chip-cardio">Conditioning<span class="hint">${conditioningToday() ? '● logged today' : '+ log'}</span></button>
       <button class="opt" id="switch-session">Swap the day<span class="hint">${esc(store.plan.sessions[d.session_type].name)}</span></button>
     </div>`, {
     onOpen(sheet, close) {
@@ -845,6 +846,7 @@ function briefingSheet() {
       $('#brief-add', sheet).addEventListener('click', () => { close(); addExerciseSheet(); });
       $('#chip-bw', sheet).addEventListener('click', () => { close(); bodyweightSheet(); });
       $('#chip-notes', sheet).addEventListener('click', () => { close(); notesSheet(); });
+      $('#chip-cardio', sheet).addEventListener('click', () => { close(); conditioningSheet(); });
       $('#switch-session', sheet).addEventListener('click', () => { close(); switchSheet(); });
     },
   });
@@ -929,6 +931,79 @@ function exerciseNoteSheet(idx) {
         store.draft.exercises[idx].logNote = null;
         store.saveDraft(store.draft);
         close(); render(root);
+      });
+    },
+  });
+}
+
+// ——— Conditioning: a separate cardio session, logged alongside the lift and
+// fenced off from all lifting progression (engine skips entries flagged
+// supplemental). Its own history record, so it never overwrites the day's lift.
+const CARDIO_MODES = ['Run', 'Bike', 'Row', 'Incline walk', 'Stair', 'Elliptical', 'Swim', 'Other'];
+const CARDIO_EFFORT = ['Easy', 'Moderate', 'Hard'];
+
+export function conditioningToday() {
+  const t = todayStr();
+  return store.history.find((e) => e.supplemental && e.date === t && e.conditioning) || null;
+}
+
+export function conditioningSheet() {
+  const today = todayStr();
+  const prior = conditioningToday();
+  let modality = prior?.conditioning.modality ?? 'Run';
+  let mins = prior?.conditioning.mins ?? 25;
+  let effort = prior?.conditioning.intensity ?? 'Easy';
+  openSheet(`
+    <h2>Log conditioning</h2>
+    <div class="sub">A separate cardio session — kept off your lifting numbers</div>
+    <div class="card">
+      <div class="field"><label>Type</label>
+        <div class="pick-row" id="cx-mode">${CARDIO_MODES.map((m) => `<button class="pick${m === modality ? ' sel' : ''}" data-m="${esc(m)}">${esc(m)}</button>`).join('')}</div>
+      </div>
+      <div class="field"><label>Minutes</label>
+        <div style="display:flex;align-items:center;gap:16px">
+          <button class="np-step" id="cx-minus" aria-label="less">−</button>
+          <span class="num" id="cx-mins" style="font-size:22px;min-width:44px;text-align:center">${mins}</span>
+          <button class="np-step" id="cx-plus" aria-label="more">+</button>
+        </div>
+      </div>
+      <div class="field"><label>Effort</label>
+        <div class="pick-row" id="cx-int">${CARDIO_EFFORT.map((v) => `<button class="pick${v === effort ? ' sel' : ''}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>
+      </div>
+      <div class="field"><label>Note</label><textarea id="cx-note" placeholder="Optional — how it felt, distance, avg HR…">${esc(prior?.conditioning.note ?? '')}</textarea></div>
+    </div>
+    <button class="btn primary" id="cx-save">${prior ? 'Update session' : 'Log it'}</button>`, {
+    onOpen(sheet, close) {
+      $('#cx-mode', sheet).addEventListener('click', (e) => {
+        const b = e.target.closest('.pick'); if (!b) return;
+        modality = b.dataset.m; haptic(4);
+        sheet.querySelectorAll('#cx-mode .pick').forEach((x) => x.classList.toggle('sel', x === b));
+      });
+      $('#cx-int', sheet).addEventListener('click', (e) => {
+        const b = e.target.closest('.pick'); if (!b) return;
+        effort = b.dataset.v; haptic(4);
+        sheet.querySelectorAll('#cx-int .pick').forEach((x) => x.classList.toggle('sel', x === b));
+      });
+      $('#cx-minus', sheet).addEventListener('click', () => { mins = Math.max(5, mins - 5); $('#cx-mins', sheet).textContent = mins; haptic(4); });
+      $('#cx-plus', sheet).addEventListener('click', () => { mins = Math.min(180, mins + 5); $('#cx-mins', sheet).textContent = mins; haptic(4); });
+      $('#cx-save', sheet).addEventListener('click', () => {
+        const note = $('#cx-note', sheet).value.trim();
+        const entry = {
+          date: today, session_type: 'cardio', supplemental: true, exercises: [],
+          conditioning: { modality, mins, intensity: effort, ...(note ? { note } : {}) },
+          startedAt: Date.now(),
+        };
+        store.upsertEntry(entry); // its own path (…-cardio.json) — never clobbers the lift
+        // reflect it in the weekly cardio target, but only on a fresh log
+        if (!prior) {
+          const wk = weekKey(today);
+          const arr = store.settings.cardio[wk] || [false, false, false];
+          const slot = arr.indexOf(false);
+          if (slot !== -1) { arr[slot] = true; store.settings.cardio[wk] = arr; store.saveSettings(); }
+        }
+        haptic(10); sfx('objDone');
+        close();
+        toast(`Conditioning logged — ${mins} min ${modality.toLowerCase()} · kept off your lifting numbers`, 'ok', 3000);
       });
     },
   });

@@ -100,6 +100,10 @@ window.addEventListener('p3:nav', (e) => {
   else renderActive();
 });
 
+// Log a conditioning session from anywhere (Mission tab's Fuel cells) without a
+// plan→session import cycle.
+window.addEventListener('p3:log-cardio', () => session.conditioningSheet());
+
 store.sub((quiet) => {
   if (quiet) return renderStatus();
   renderActive();

@@ -84,6 +84,7 @@ export function render(el) {
       <div class="punchcard" id="cardio-dots">
         ${cardio.map((on, i) => `<button class="punch ${on ? 'on' : ''}" data-ci="${i}"><svg viewBox="0 0 24 24"><path d="M13 2 L5 14 h5 l-1 8 L18 9 h-6 Z"/></svg></button>`).join('')}
       </div>
+      <button class="btn quiet" id="cardio-log" style="margin-top:10px">＋ Log a session</button>
     </div>` : ''}
 
     ${stalls.length ? `
@@ -237,6 +238,7 @@ function statusLabel() {
 
 function wire(info) {
   root.onclick = null;
+  $('#cardio-log', root)?.addEventListener('click', () => window.dispatchEvent(new CustomEvent('p3:log-cardio')));
   $('#cardio-dots', root)?.addEventListener('click', (e) => {
     const dot = e.target.closest('.punch');
     if (!dot) return;

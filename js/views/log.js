@@ -160,6 +160,22 @@ function renderList() {
   let lastMonth = '';
   const rows = entries.map((e, ri) => {
     const path = store.entryPath(e);
+    if (e.supplemental && e.conditioning) {
+      const c = e.conditioning;
+      const { mon, day } = dayParts(e.date);
+      const month = monthLabel(e.date);
+      const sector = month !== lastMonth ? `<div class="sector"><i></i><span>${esc(month)} sector</span><i></i></div>` : '';
+      lastMonth = month;
+      return `${sector}
+      <button class="star-node" data-path="${esc(path)}" style="--c:#4fae5c;--i:${Math.min(ri, 12)}">
+        <span class="planet"><b class="num">${mon}<u>${day}</u></b></span>
+        <span class="sn-info">
+          <span class="sn-name">Conditioning</span>
+          <span class="sn-world">${esc(c.modality)}</span>
+          <span class="sn-meta num">${c.mins} min · ${esc((c.intensity || '').toLowerCase())}${queued.has(path) ? ` · <span class="beaming">${ICONS.beam} Beaming up</span>` : ''}</span>
+        </span>
+      </button>`;
+    }
     const sets = e.exercises.reduce((n, x) => n + x.sets.length, 0);
     const tonnage = Math.round(e.exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + (s.weight || 0) * s.reps, 0), 0));
     const ats = e.exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
@@ -190,10 +206,42 @@ function renderList() {
   };
 }
 
+function renderConditioningDetail(entry) {
+  const c = entry.conditioning;
+  root.innerHTML = `
+    <div class="space-title">The Atlas</div>
+    <div class="debrief" style="--c:#4fae5c">
+      <button class="back" id="back">← Back to the chart</button>
+      <div class="db-head">
+        <span class="planet big"></span>
+        <span>
+          <h1>Conditioning</h1>
+          <div class="m">${esc(c.modality)}</div>
+          <div class="m dim">${fmtDate(entry.date, { year: true })} · ${c.mins} min · ${esc((c.intensity || '').toLowerCase())} pace</div>
+        </span>
+      </div>
+      ${c.note ? `<div class="d-ex"><div class="n">Note</div><div style="font-family:var(--mono);font-size:12px;color:var(--ink)">${esc(c.note)}</div></div>` : ''}
+      <div class="d-ex"><div class="n" style="color:var(--ink2);font-family:var(--mono);font-size:11.5px">Kept off your lifting progression — never feeds weights, PRs, or what's next.</div></div>
+      <div class="db-actions">
+        <button class="btn quiet danger-ghost" id="db-remove">Remove from the chart</button>
+      </div>
+    </div>`;
+  $('#back', root).addEventListener('click', backOut);
+  $('#db-remove', root).addEventListener('click', () => {
+    confirmSheet({
+      title: 'Remove this conditioning session?',
+      body: store.settings.token ? 'Deletes it from this phone AND from GitHub. No undo.' : 'Deletes it from this phone. No undo.',
+      confirmLabel: 'Remove', danger: true,
+      onConfirm() { store.deleteEntry(entry); resetDrill(); toast('Conditioning session removed', 'ok'); },
+    });
+  });
+}
+
 function renderDetail() {
   root.onclick = null;
   const entry = store.history.find((e) => store.entryPath(e) === state.entryPath);
   if (!entry) { state.entryPath = null; return renderList(); }
+  if (entry.supplemental && entry.conditioning) return renderConditioningDetail(entry);
   const name = store.plan?.sessions[entry.session_type]?.name ?? entry.session_type;
   const world = (entry.world && worldDef(entry.session_type, entry.world)?.name) || UNIVERSES[entry.session_type]?.name || '';
   const phase = entry.phase === 'legacy' ? 'imported' : (store.plan?.phases.find((p) => p.id === entry.phase)?.name ?? entry.phase ?? '');
@@ -305,6 +353,7 @@ function draftFromEntry(entry) {
 function renderLiftList() {
   const map = new Map();
   for (const e of store.history) {
+    if (e.supplemental || !e.exercises) continue; // conditioning entries hold no lifts to chart
     for (const x of e.exercises) {
       const rec = map.get(x.id) || { id: x.id, name: x.name, count: 0, last: '' };
       rec.count += 1;
