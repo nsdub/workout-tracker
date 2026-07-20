@@ -1,0 +1,174 @@
+{
+  "date": "2026-07-20",
+  "session_type": "PushB",
+  "phase": "meso1",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1784582847159
+        },
+        {
+          "weight": 142.5,
+          "reps": 10,
+          "at": 1784582448664
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1784582709930
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1784583059698
+        },
+        {
+          "weight": 15,
+          "reps": 12,
+          "at": 1784583242851
+        },
+        {
+          "weight": 15,
+          "reps": 12,
+          "at": 1784583380466
+        },
+        {
+          "weight": 17.5,
+          "reps": 12,
+          "at": 1784583537878
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 24,
+          "reps": 12,
+          "at": 1784583700902
+        },
+        {
+          "weight": 25.5,
+          "reps": 12,
+          "at": 1784583849345
+        },
+        {
+          "weight": 27.5,
+          "reps": 9,
+          "at": 1784584002817
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 82.5,
+          "reps": 12,
+          "at": 1784584172916
+        },
+        {
+          "weight": 82.5,
+          "reps": 14,
+          "at": 1784584288536
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1784584439146
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1784584555258
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1784584664486
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1784584828463
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 52.5,
+          "reps": 12,
+          "at": 1784584995048
+        },
+        {
+          "weight": 54,
+          "reps": 10,
+          "at": 1784585100601
+        },
+        {
+          "weight": 54,
+          "reps": 10,
+          "at": 1784585241386
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 24,
+          "reps": 14,
+          "at": 1784585400197
+        },
+        {
+          "weight": 27.5,
+          "reps": 12,
+          "at": 1784585515388
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 22.5,
+          "reps": 15,
+          "at": 1784585611904
+        },
+        {
+          "weight": 24,
+          "reps": 15,
+          "at": 1784585720206
+        }
+      ]
+    }
+  ],
+  "world": "dragon",
+  "mins": 55,
+  "startedAt": 1784550886963
+}
