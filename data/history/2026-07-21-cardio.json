@@ -1,0 +1,12 @@
+{
+  "date": "2026-07-21",
+  "session_type": "cardio",
+  "supplemental": true,
+  "exercises": [],
+  "conditioning": {
+    "modality": "Elliptical",
+    "mins": 15,
+    "intensity": "Moderate"
+  },
+  "startedAt": 1784669669264
+}
