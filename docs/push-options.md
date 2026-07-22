@@ -1,5 +1,12 @@
 # Real push notifications for the rest timer — the honest option sheet
 
+> **DECIDED 2026-07-22: Option A is built.** The Cloudflare Worker lives in
+> `push-worker/` (see its README). It is written and tested but **not yet
+> deployed** — deploying needs a `wrangler login` in the user's browser.
+> Until then the app's Rest-alerts switch stays off and the v46 local path
+> (background tick → OS notification on Android) is what rings.
+> The rest of this document is kept as the reasoning trail.
+
 _Status update 2026-07-22 (v46): **the user's phone is a Google Pixel 8a
 (Android), not an iPhone** — and on Android the no-server local path WORKS:
 a hidden page keeps ~1 Hz timers alive far longer than any rest, so v46

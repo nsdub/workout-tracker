@@ -9,6 +9,7 @@ import { optionSheet, confirmSheet, openSheet, toast, ICONS } from '../component
 import { connectSheet, handleSeedFile, howtoSheet } from './session.js';
 import { applyWorld, UNIVERSES } from '../worlds.js';
 import { sfx } from '../audio.js';
+import { pushStatus, enablePush, disablePush } from '../push.js';
 
 let root = null;
 
@@ -308,6 +309,7 @@ function drawerSheet(info) {
     </div>
     <div class="card">
       <div class="kv"><span class="k">Rest timer</span><button class="v" id="sd-rest">${store.settings.restTimer ? 'On' : 'Off'}</button></div>
+      <div class="kv"><span class="k">Rest alerts</span><button class="v" id="sd-push">…</button></div>
       <div class="kv"><span class="k">Sound</span><button class="v" id="sd-sound">${store.settings.sound ? 'On' : 'Off'}</button></div>
       <div class="kv"><span class="k">Haptics</span><button class="v" id="sd-haptics">${store.settings.haptics ? 'On' : 'Off'}</button></div>
       <div class="kv"><span class="k">Phase override</span><button class="v" id="sd-phase">${info.override ? esc(info.phase.name) : 'Auto'}</button></div>
@@ -335,6 +337,9 @@ function drawerSheet(info) {
         } catch { toast('Could not check — are you online?', 'bad', 3000); }
       });
       $('#sd-rest', sheet).addEventListener('click', () => { store.saveSettings({ restTimer: !store.settings.restTimer }); close(); });
+      // Live status, resolved after the sheet paints (it asks the SW).
+      pushStatus().then((s) => { const b = $('#sd-push', sheet); if (b) b.textContent = { on: 'On', off: 'Set up', blocked: 'Blocked', unsupported: 'N/A' }[s.state]; });
+      $('#sd-push', sheet).addEventListener('click', () => { close(); pushSheet(); });
       $('#sd-sound', sheet).addEventListener('click', () => { store.saveSettings({ sound: !store.settings.sound }); sfx('tap'); close(); });
       $('#sd-haptics', sheet).addEventListener('click', () => { store.saveSettings({ haptics: !store.settings.haptics }); close(); });
       $('#sd-phase', sheet).addEventListener('click', () => { close(); phaseOverrideSheet(info); });
@@ -351,6 +356,54 @@ function drawerSheet(info) {
           confirmLabel: 'Reset', danger: true,
           onConfirm: () => store.resetLocal(),
         });
+      });
+    },
+  });
+}
+
+// Rest alerts: paste the worker URL once, tap on, done. Every claim here is
+// checked against the live state — the switch only says "On" when a real
+// subscription exists and the worker answered.
+function pushSheet() {
+  const url = store.settings.pushUrl ?? '';
+  openSheet(`
+    <h2>Rest alerts</h2>
+    <div class="sub">A buzz when the rest is up — even locked, even in your pocket</div>
+    <div class="card">
+      <div class="cc-line" id="ps-state">Checking…</div>
+    </div>
+    <div class="card">
+      <div class="field"><label>Alarm worker URL</label>
+        <input id="ps-url" value="${esc(url)}" placeholder="https://protocol-rest-push.…workers.dev" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="cc-line" style="margin-top:2px">Deploy it once from <span class="num">push-worker/</span> in the repo: <span class="num">./scripts/deploy.sh</span>. It prints this URL.</div>
+    </div>
+    <div class="row-btns">
+      <button class="btn quiet" id="ps-off">Turn off</button>
+      <button class="btn primary" id="ps-on">Save &amp; turn on</button>
+    </div>`, {
+    onOpen(sheet, close) {
+      const state = $('#ps-state', sheet);
+      const paint = () => pushStatus().then((s) => { state.textContent = s.txt; });
+      paint();
+      $('#ps-on', sheet).addEventListener('click', async () => {
+        const v = $('#ps-url', sheet).value.trim().replace(/\/$/, '');
+        if (!/^https:\/\/\S+$/.test(v)) return toast('That needs to be an https:// URL', 'bad');
+        store.saveSettings({ pushUrl: v });
+        state.textContent = 'Subscribing…';
+        try {
+          await enablePush();
+          toast('Rest alerts on — locked-phone bells from here on', 'ok', 3600);
+          close();
+        } catch (err) {
+          state.textContent = err.message || 'Could not turn on';
+          toast(err.message || 'Could not turn on', 'bad', 4000);
+        }
+      });
+      $('#ps-off', sheet).addEventListener('click', async () => {
+        await disablePush();
+        store.saveSettings({ pushUrl: '' });
+        toast('Rest alerts off — the in-app bell still rings', 'ok', 3000);
+        close();
       });
     },
   });

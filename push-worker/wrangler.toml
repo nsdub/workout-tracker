@@ -1,0 +1,22 @@
+name = "protocol-rest-push"
+main = "src/index.mjs"
+compatibility_date = "2026-07-01"
+
+# The alarm that fires at the rest deadline. One instance per push
+# subscription; re-arming overwrites, so stale bells can't pile up.
+[[durable_objects.bindings]]
+name = "RESTS"
+class_name = "RestAlarm"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RestAlarm"]
+
+# Public half of the VAPID pair — safe in the repo; the app needs it too.
+# Set at deploy time by scripts/deploy.sh from vapid.json.
+[vars]
+VAPID_SUBJECT = "mailto:nathaniel@manifest.finance"
+VAPID_PUBLIC_KEY = ""
+
+# VAPID_PRIVATE_JWK is a SECRET: wrangler secret put VAPID_PRIVATE_JWK
+# (deploy.sh does this for you). It must never be committed.

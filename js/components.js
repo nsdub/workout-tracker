@@ -2,6 +2,7 @@
 // cooldown timer, particle bursts, world-flavored interstitials.
 import { $, esc, fmtW, haptic } from './util.js';
 import { sfx, flushWhenRunning } from './audio.js';
+import { armPush, disarmPush, pushConfigured } from './push.js';
 import { UNIVERSES, NEUTRAL_COPY } from './worlds.js';
 
 // The rest pill speaks whatever universe is on stage; dataset.universe holds
@@ -630,6 +631,10 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     echoes: [8000, 20000], // the bell re-rings at +0:08 and +0:20 overtime (visible page only)
   };
   acquireWakeLock();
+  // The server-side bell: armed at rest START (not at backgrounding), because
+  // the page may be evicted before any visibilitychange fires. Fire-and-forget
+  // — the local timer is already running and never waits on the network.
+  armPush(restState.deadline, restState.overLabel);
   // restTick schedules its own next step (rAF visible / 1s timeout hidden) —
   // calling it directly means even a rest born on a hidden page ticks.
   restTick();
@@ -699,6 +704,11 @@ export function hideRestTimer() {
   restHideTO = null;
   try { navigator.clearAppBadge?.()?.catch?.(() => {}); } catch { /* no badging */ }
   cancelRestNotification(); // logging a set / Skip / a new rest kills a pending alert
+  // ...and the same for the worker's alarm, unless this rest already rang
+  // (then there is nothing pending, and a disarm race could only cancel the
+  // NEXT rest's alarm — showRestTimer re-arms after this call, so the order
+  // is safe either way).
+  if (pushConfigured() && restState && !restState.fired) disarmPush();
   restState?.lock?.release?.().catch?.(() => {});
   restState = null;
   document.getElementById('rest-pill')?.remove();

@@ -1,0 +1,4 @@
+vapid.json
+node_modules/
+.wrangler/
+.dev.vars

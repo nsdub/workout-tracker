@@ -59,6 +59,7 @@ let seq = 0;
 const SETTINGS_DEFAULTS = {
   owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '',
   phaseOverride: null, haptics: true, restTimer: true, sound: true, cardio: {},
+  pushUrl: '', // Cloudflare rest-alarm worker; empty = push disabled entirely
 };
 
 export const store = {
