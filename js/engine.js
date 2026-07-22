@@ -469,7 +469,13 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
   return session.exercises.map((slot) => {
     const rx = prescribe(plan, history, sessionType, slot, phaseInfo, coach);
     const meta = exMeta(plan, slot.id);
-    const last = lastPerformanceAnywhere(history, slot.id);
+    // TWO distinct facts, never conflated: the visit this day's numbers were
+    // built from, and any work done since on another day. Showing only the
+    // latter under a sentence about the former put three different sessions
+    // on one card and made the app look broken (it was).
+    const sameDay = lastPerformance(history, sessionType, slot.id, {});
+    const anywhere = lastPerformanceAnywhere(history, slot.id);
+    const other = anywhere && anywhere.entry !== sameDay?.entry ? anywhere : null;
     return {
       id: slot.id,
       name: meta.name,
@@ -489,11 +495,20 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
       coachRx: rx.coach ?? null,
       srcDate: rx.source?.date ?? null,
       stalled: isStalled(plan, history, sessionType, slot),
-      last: last ? {
-        date: last.entry.date,
-        session: last.entry.session_type,
-        sets: last.ex.sets,
-        note: last.ex.note ?? null,
+      // this day's own last visit — the one the standing rules copied from
+      last: sameDay ? {
+        date: sameDay.entry.date,
+        session: sameDay.entry.session_type,
+        sets: sameDay.ex.sets,
+        note: sameDay.ex.note ?? null,
+      } : null,
+      // the same lift done SINCE then on a different day, if any
+      other: other ? {
+        date: other.entry.date,
+        session: other.entry.session_type,
+        sets: other.ex.sets,
+        note: other.ex.note ?? null,
+        newer: !sameDay || other.entry.date > sameDay.entry.date,
       } : null,
     };
   });

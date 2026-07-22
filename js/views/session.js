@@ -265,29 +265,27 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
   const session = store.plan.sessions[sessionType];
   const exercises = session.exercises.map((slot) => {
     const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo, store.coach);
-    // "What did I lift last time?" answered with the most RECENT performance
-    // of this exercise ANYWHERE in the rotation — labeled with its day when it
-    // wasn't this one. The full set-by-set line lives on the card now, not
-    // buried in the field-guide sheet.
-    const last = engine.lastPerformanceAnywhere(store.history, slot.id);
-    let prev = null;
-    if (last) {
-      const all = last.ex.sets.map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`);
-      const top = last.ex.sets.reduce((a, b) => ((b.weight ?? 0) > (a.weight ?? 0) ? b : a), last.ex.sets[0]);
-      prev = {
-        date: last.entry.date,
-        day: last.entry.session_type !== sessionType
-          ? (store.plan.sessions[last.entry.session_type]?.name ?? last.entry.session_type) : null,
-        sets: top ? `${fmtW(top.weight)}×${Number(top.reps) || 0}${all.length > 1 ? ` +${all.length - 1} more` : ''}` : '',
-        setsAll: all.join('  '),
-        tag: store.plan.phases.find((p) => p.id === last.entry.phase)?.type === 'deload' ? 'deload' : null,
-      };
-    }
+    // THIS day's last visit — the visit the prescription was actually built
+    // from — and, separately, the same lift done since on another day. They
+    // are different facts and the card labels them differently; collapsing
+    // them into one "LAST" line is what made the card contradict itself.
+    const sameDay = engine.lastPerformance(store.history, sessionType, slot.id, {});
+    const anywhere = engine.lastPerformanceAnywhere(store.history, slot.id);
+    const otherDay = anywhere && anywhere.entry !== sameDay?.entry ? anywhere : null;
+    const strip = (perf) => perf ? {
+      date: perf.entry.date,
+      day: store.plan.sessions[perf.entry.session_type]?.name ?? perf.entry.session_type,
+      setsAll: perf.ex.sets.map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`).join('  '),
+      tag: store.plan.phases.find((p) => p.id === perf.entry.phase)?.type === 'deload' ? 'deload' : null,
+    } : null;
+    const prev = strip(sameDay);
+    const other = strip(otherDay);
     // The lifter's own most recent note on this exercise, resurfaced where it
     // was promised to matter: on the card, next time.
     const noted = engine.lastNotedPerformance(store.history, slot.id);
     return {
       prev,
+      other,
       prevNote: noted ? { text: noted.ex.note, date: noted.entry.date } : null,
       id: slot.id,
       name: engine.exMeta(store.plan, slot.id).name,
@@ -437,13 +435,17 @@ function renderWorldScreen(draft, phaseInfo) {
         if (!p) return '';
         return `<div class="ss-strip"><div class="ss-line"><span class="ss-tag">SUPERSET</span><span class="ss-txt">straight into <b>${esc(p.name)}</b> — rest after both</span></div><button class="ss-jump" id="ss-jump" data-oi="${draft.exercises.indexOf(p)}">${esc(p.name)} ⇄</button></div>`;
       })()}
-      ${x.prev ? `
+      ${x.prev || x.other || x.prevNote ? `
       <div class="last-strip">
-        <div class="ls-r"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.day ? ` · ${esc(x.prev.day)}` : ''}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span></div>
-        <div class="ls-sets num">${esc(x.prev.setsAll || x.prev.sets)}</div>
+        ${x.prev ? `
+        <div class="ls-r"><b>${esc((x.prev.day || 'last').toUpperCase())}</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span></div>
+        <div class="ls-sets num">${esc(x.prev.setsAll)}</div>` : ''}
+        ${x.other ? `
+        <div class="ls-r ls-other"><b>${esc(x.other.day.toUpperCase())}</b><span class="d">${fmtDate(x.other.date)}${x.other.tag ? ` · ${x.other.tag}` : ''}</span></div>
+        <div class="ls-sets num ls-other-sets">${esc(x.other.setsAll)}</div>` : ''}
         ${x.prevNote ? `<div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div>` : ''}
         <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
-      </div>` : `${x.prevNote ? `<div class="last-strip"><div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div></div>` : ''}<div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>`}
+      </div>` : `<div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>`}
 
       ${x.sets.some((s) => s.done) ? `
         <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
@@ -510,19 +512,40 @@ function wire(draft, x, curIdx, noticeList = []) {
       onConfirm() { hideRestTimer(); store.clearDraft(); focusIdx = null; render(root); renderDock(); },
     });
   });
-  // Changing acts is a LOOKUP, not a set piece: the new card takes one short
-  // step in and is readable immediately (see the card-next/prev keyframes for
-  // what this replaced and why). No detached ghost copy, so no absolute
-  // positioning to measure, no duplicate-id scrubbing, no animationend
-  // fallback — and rapid taps can't stack anything.
+  // A true sideways SCROLL of the deck: the outgoing card is cloned in place
+  // and travels off as the incoming card travels in, both a full width in
+  // lockstep. The clone is inert (no ids, no pointer events) and dies the
+  // moment it lands; a rapid second tap removes any clone still in flight, so
+  // at most one ever exists.
   const paginate = (target, dir) => {
-    navDir = dir ?? (target > focusIdx ? 'next' : 'prev');
+    const d = dir ?? (target > focusIdx ? 'next' : 'prev');
+    navDir = d;
     haptic(4);
     sfx('nav');
+
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.querySelector('.objective-ghost')?.remove();
+    const old = reduced ? null : root.querySelector('.objective');
+    // .view is the offsetParent, so these are layout coords in the scroll
+    // container — MUST be read before render() detaches the node.
+    const pos = old ? { top: old.offsetTop, left: old.offsetLeft, width: old.offsetWidth } : null;
     focusIdx = target;
     const st = root.scrollTop;
-    render(root); // fresh card gets slide-next/prev from navDir
+    render(root); // the fresh card takes slide-next/prev from navDir
     root.scrollTop = st;
+    if (!old) return;
+    old.classList.remove('slide-next', 'slide-prev');
+    old.classList.add('objective-ghost', d === 'next' ? 'ghost-out-next' : 'ghost-out-prev');
+    old.setAttribute('aria-hidden', 'true');
+    old.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id')); // no duplicate ids
+    Object.assign(old.style, {
+      position: 'absolute', top: `${pos.top}px`, left: `${pos.left}px`, width: `${pos.width}px`,
+      margin: '0', zIndex: '3', pointerEvents: 'none',
+    });
+    root.appendChild(old);
+    const kill = () => old.remove();
+    old.addEventListener('animationend', kill, { once: true });
+    setTimeout(kill, 700); // fallback: animationend never fires on a hidden tab
   };
   $('#pg-prev', root)?.addEventListener('click', () => paginate(focusIdx - 1, 'prev'));
   $('#pg-next', root)?.addEventListener('click', () => paginate(focusIdx + 1, 'next'));

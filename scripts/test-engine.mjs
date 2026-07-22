@@ -598,14 +598,30 @@ ok('previewSession returns every slot with the same numbers prescribe gives', ()
     assert.equal(row.basis, rx.basis);
   }
 });
-ok('previewSession carries the coach packet, and its last-time is cross-day aware', () => {
-  const h = [...history, mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(24, 15, 2))];
+ok('previewSession carries the coach packet and NEVER conflates the two histories', () => {
+  // The card once showed the freshest work from ANY day under a sentence about
+  // "this day's last visit", so three different sessions appeared at once and
+  // the prescribed number matched none of them. last = the visit the numbers
+  // came from; other = work done since on a different day. Separate, always.
+  const h = [...history,
+    mkEntry('2026-07-19', 'PullB', 'face-pulls', mkSets(22.5, 15, 2)),
+    mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(24, 15, 2)),
+  ];
   const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', reason: 'hold', sets: mkSets(70, 12, 3) }]);
   const rows = E.previewSession(plan, h, 'PullB', meso, coach);
   assert.equal(rows.find((r) => r.id === 'db-shrug').basis, 'coach');
   const fp = rows.find((r) => r.id === 'face-pulls');
-  assert.equal(fp.last.session, 'PushB'); // the freshest work, whatever day it happened on
-  assert.equal(fp.last.sets.length, 2);
+  assert.equal(fp.last.session, 'PullB');   // this day's own visit — what 'repeat' copies
+  assert.equal(fp.last.date, '2026-07-19');
+  assert.equal(fp.other.session, 'PushB');  // done since, on another day
+  assert.equal(fp.other.date, '2026-07-20');
+  assert.equal(fp.other.newer, true);
+});
+ok('no cross-day work → other is null, never a duplicate of last', () => {
+  const h = [...history, mkEntry('2026-07-19', 'PullB', 'db-shrug', mkSets(70, 12, 3))];
+  const row = E.previewSession(plan, h, 'PullB', meso).find((r) => r.id === 'db-shrug');
+  assert.equal(row.last.date, '2026-07-19');
+  assert.equal(row.other, null);
 });
 ok('previewSession is empty for an unknown session type, never throws', () => {
   assert.deepEqual(E.previewSession(plan, history, 'NopeC', meso), []);

@@ -100,8 +100,9 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
           </div>
           <div class="pv-sets num">${esc(fmtSetLine(r.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</div>
           <div class="pv-why">${BASIS[r.basis]?.(r) ?? ''}</div>
-          ${r.last ? `<div class="pv-last">Last: ${fmtDate(r.last.date)}${r.last.session !== sessionType ? ` · ${esc(dayName(r.last.session))}` : ''} — <span class="num">${esc(fmtSetLine(r.last.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
-          ${r.last?.note ? `<div class="pv-note">“${esc(r.last.note)}”</div>` : ''}
+          ${r.last ? `<div class="pv-last">${esc(dayName(r.last.session))} · ${fmtDate(r.last.date)} — <span class="num">${esc(fmtSetLine(r.last.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
+          ${r.other ? `<div class="pv-last">${esc(dayName(r.other.session))} · ${fmtDate(r.other.date)} — <span class="num">${esc(fmtSetLine(r.other.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
+          ${(r.last?.note || r.other?.note) ? `<div class="pv-note">“${esc(r.last?.note || r.other?.note)}”</div>` : ''}
         </div>`;
       }).join('')}
     </div>

@@ -53,8 +53,10 @@
   --m-dur: 0.38s;
   --m-float: 1.03;
   --m-quake: 1;
-  /* --m-drop / --m-tilt died with the tumbling card slide (v49) — they had
-     exactly one consumer. Re-add them only with a consumer in the same edit. */
+  /* Paging speed is a fixed property of the APP, not of a world: universes
+     override --m-dur/--m-snap, and must never reach these. */
+  --m-page: .3s;
+  --m-page-ease: cubic-bezier(.25, .46, .45, .94);
 }
 
 /* Designed focus: keyboard/switch-control focus wears each world's accent
@@ -305,6 +307,11 @@ svg.ic { vertical-align: -2px; }
 /* the full set-by-set line from last time — allowed to wrap; the whole point
    is seeing every set, not an ellipsis */
 .last-strip .ls-sets { margin: 2px 0 0; white-space: normal; word-spacing: 8px; line-height: 1.5; }
+/* work done on ANOTHER day since — same lift, different session. Dimmed and
+   named so it can never be mistaken for the visit tonight's numbers came from. */
+.last-strip .ls-other { margin-top: 6px; }
+.last-strip .ls-other b { color: var(--ink2); }
+.last-strip .ls-other-sets { opacity: .78; }
 /* the lifter's own note from last visit, resurfaced where it was promised */
 .last-strip .ls-note { font-family: var(--body); font-style: italic; font-size: 12.5px; color: var(--ink2); margin: 4px 0 0; line-height: 1.45; }
 .last-strip .ls-note svg { width: 11px; height: 11px; vertical-align: -1px; }
@@ -1481,16 +1488,25 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
    own resting place and wobbled back — for .38s, or .5s plus a 12px sinking
    drift inside the Deep, with a second full copy of the card on screen the
    whole time. That is a card trick, not a control.
-   Now: one short step in from the side, flat ease-out, no spin, no spring, no
-   ghost. Deliberately NOT wired to the universe motion tokens — a world may
-   own its entrance ceremony, never the speed of looking something up.
-   Travel does ALL the work and opacity is never touched: a frozen animation
-   (backgrounded tab, throttled page) then leaves the card 7% off its mark —
-   offset but perfectly readable — instead of stranding it at opacity 0. */
-@keyframes card-next { from { translate: 7% 0 } to { translate: 0 0 } }
-@keyframes card-prev { from { translate: -7% 0 } to { translate: 0 0 } }
-.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next .16s cubic-bezier(.22, .61, .36, 1) both; }
-.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev .16s cubic-bezier(.22, .61, .36, 1) both; }
+   It is a SCROLL: the outgoing card leaves as the incoming card arrives, both
+   travelling the full width in lockstep, so the deck visibly moves one place
+   sideways. (A short 7% nudge — v49 — was the opposite mistake: too little
+   travel reads as a twitch, not a movement.) Flat ease-out, no spin, no
+   spring, and deliberately NOT wired to the universe motion tokens — a world
+   owns its entrance ceremony, never the speed of looking something up.
+   Opacity is never touched: travel does all the work, so a frozen animation
+   on a backgrounded page leaves a card offset but readable, never invisible. */
+@keyframes card-next { from { translate: 100% 0 } to { translate: 0 0 } }
+@keyframes card-prev { from { translate: -100% 0 } to { translate: 0 0 } }
+@keyframes card-out-next { from { translate: 0 0 } to { translate: -100% 0 } }
+@keyframes card-out-prev { from { translate: 0 0 } to { translate: 100% 0 } }
+.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next var(--m-page) var(--m-page-ease) both; }
+.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev var(--m-page) var(--m-page-ease) both; }
+/* the outgoing copy: inert, blur-free (two live backdrop-filters overlapping
+   is an iOS jank machine), gone the moment it lands */
+.objective-ghost { will-change: translate; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.objective-ghost.ghost-out-next { animation: card-out-next var(--m-page) var(--m-page-ease) both; }
+.objective-ghost.ghost-out-prev { animation: card-out-prev var(--m-page) var(--m-page-ease) both; }
 
 
 /* ═══════════ THE COSMOS: THE ATLAS + MISSION CONTROL ═══════════
