@@ -17,6 +17,20 @@ function renderActive() {
   VIEWS[active].render($(`#view-${active}`));
   if (active === 'today') session.renderDock();
   renderStatus();
+  renderPendingDot();
+}
+
+// Anything waiting on the athlete's answer gets a dot on the Mission tab, so
+// he finds out from the screen he's already on instead of by going looking.
+// Undecided trainer proposals are the only thing that qualifies today.
+function renderPendingDot() {
+  const dot = $('#mission-dot');
+  if (!dot) return;
+  const props = store.coach?.proposals ?? [];
+  const decided = new Set(store.decisions.map((d) => `${d.proposal?.date ?? ''}:${d.proposal?.kind}:${d.proposal?.exercise}:${d.proposal?.scope ?? 'all'}`));
+  const open = props.filter((p) => !decided.has(`${p.date ?? store.coach?.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`));
+  dot.hidden = open.length === 0;
+  dot.textContent = open.length > 9 ? '9+' : String(open.length);
 }
 
 function renderStatus() {

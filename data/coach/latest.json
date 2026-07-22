@@ -213,10 +213,23 @@
     },
     {
       "from": "program",
-      "kind": "volume",
+      "kind": "reprange",
       "exercise": "machine-chest-press",
-      "why": "PushA calls the heavier range but you press heavier on PushB — the two prescriptions are backwards relative to where you are fresh.",
-      "date": "2026-07-22"
+      "scope": "PushA",
+      "repMin": 10,
+      "repMax": 12,
+      "date": "2026-07-22",
+      "why": "Your two prescriptions are backwards. Push A calls the heavy 8-10 range but your chest has already eaten four sets of incline by the time it gets there — you pressed 150x10. Push B calls the lighter 10-12 and you pressed 157.5x10, heavier, on the day that is supposed to be lighter. Flip the labels so they match where you are actually fresh."
+    },
+    {
+      "from": "program",
+      "kind": "reprange",
+      "exercise": "machine-chest-press",
+      "scope": "PushB",
+      "repMin": 8,
+      "repMax": 10,
+      "date": "2026-07-22",
+      "why": "Your two prescriptions are backwards. Push A calls the heavy 8-10 range but your chest has already eaten four sets of incline by the time it gets there — you pressed 150x10. Push B calls the lighter 10-12 and you pressed 157.5x10, heavier, on the day that is supposed to be lighter. Flip the labels so they match where you are actually fresh."
     },
     {
       "from": "recovery",

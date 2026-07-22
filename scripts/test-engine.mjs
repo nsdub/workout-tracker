@@ -737,6 +737,23 @@ ok('volume, swap, reorder and add all apply — and a bogus one is ignored, not 
   const bad = E.effectivePlan(plan, [acc(prop({ kind: 'swap', exercise: 'leg-curl', scope: 'LegsB', replacement: 'nordic-ham-curl' }))]);
   assert.deepEqual(bad.sessions.LegsB.exercises.map((x) => x.id), plan.sessions.LegsB.exercises.map((x) => x.id));
 });
+ok('reprange flips what a slot asks for, without touching the movement', () => {
+  // the two push days' ranges were backwards: he pressed HEAVIER on the day
+  // labelled lighter, because on PushA the chest is pre-fatigued by inclines.
+  const live = E.effectivePlan(plan, [
+    acc(prop({ kind: 'reprange', exercise: 'machine-chest-press', scope: 'PushA', repMin: 10, repMax: 12 })),
+    acc(prop({ kind: 'reprange', exercise: 'machine-chest-press', scope: 'PushB', repMin: 8, repMax: 10 })),
+  ]);
+  const a = live.sessions.PushA.exercises.find((x) => x.id === 'machine-chest-press');
+  const b = live.sessions.PushB.exercises.find((x) => x.id === 'machine-chest-press');
+  assert.deepEqual([a.repMin, a.repMax], [10, 12]);
+  assert.deepEqual([b.repMin, b.repMax], [8, 10]);
+  assert.equal(a.id, 'machine-chest-press', 'the movement itself is untouched');
+  assert.equal(a.sets, plan.sessions.PushA.exercises.find((x) => x.id === 'machine-chest-press').sets);
+  // and the new range drives the actual prescription's progression trigger
+  const rows = E.previewSession(live, history, 'PushA', meso);
+  assert.equal(rows.find((r) => r.id === 'machine-chest-press').repMax, 12);
+});
 ok('an accepted change flows into the actual prescription', () => {
   const live = E.effectivePlan(plan, [acc(prop({ kind: 'volume', exercise: 'standing-calf-raise', scope: 'LegsB', sets: 3 }))]);
   const rows = E.previewSession(live, history, 'LegsB', meso);

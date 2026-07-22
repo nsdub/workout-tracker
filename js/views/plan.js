@@ -145,9 +145,19 @@ function openProposals() {
   };
   const APPLIES = { remove: true, add: true, swap: true, reorder: true, volume: true };
 
+  // Marks are held locally and applied together on Save — tapping used to
+  // apply instantly and slam the sheet shut, so there was no way to work
+  // through the list, change your mind, or see what you were about to do.
+  const marks = new Map();
+  const applyEnabled = (sheet) => {
+    const btn = $('#pr-save', sheet);
+    if (!btn) return;
+    btn.disabled = marks.size === 0;
+    btn.textContent = marks.size ? `Save ${marks.size} decision${marks.size === 1 ? '' : 's'}` : 'Nothing marked yet';
+  };
   openSheet(`
     <h2>Your trainers want to change the program</h2>
-    <div class="sub">${raw.length} proposal${raw.length === 1 ? '' : 's'} — nothing happens until you say so</div>
+    <div class="sub">${raw.length} proposal${raw.length === 1 ? '' : 's'} — mark them, then save. Nothing changes until you do.</div>
     <div class="pv-list">
       ${raw.map((p) => {
         const id = propId(p);
@@ -162,36 +172,58 @@ function openProposals() {
           <div class="pv-why">${esc(p.why ?? '')}</div>
           ${applies
             ? `<div class="row-btns" style="margin-top:8px">
-                 <button class="btn quiet" data-act="declined">${d?.decision === 'declined' ? 'Declined' : 'No'}</button>
-                 <button class="btn primary" data-act="accepted">${d?.decision === 'accepted' ? 'Accepted — undo?' : 'Accept'}</button>
+                 <button class="btn quiet pr-btn" data-act="declined">No</button>
+                 <button class="btn primary pr-btn" data-act="accepted">Accept</button>
                </div>`
-            : `<div class="pv-last">This one needs a decision I can't apply automatically — tell me in a session and I'll do it by hand.</div>`}
+            : `<div class="pv-last">This one needs a judgment call I can’t apply automatically — say the word in a session and I’ll do it by hand.</div>`}
         </div>`;
       }).join('') || '<div class="pv-foot">No open proposals. The panel raises these when your log gives it a reason to.</div>'}
     </div>
-    <div class="pv-foot">Accepting changes tonight’s session immediately and is recorded in <span class="num">data/coach/decisions.json</span>. Your plan file is never rewritten, so any of this is one tap to undo.</div>`, {
+    <div class="pv-foot">Saving applies your accepted changes to tonight and records them in <span class="num">data/coach/decisions.json</span>. Your plan file is never rewritten, so anything here can be changed back.</div>
+    ${raw.length ? `<button class="btn primary" id="pr-save" style="margin-top:12px" disabled>Nothing marked yet</button>` : ''}`, {
     onOpen(sheet, close) {
+      // pre-mark anything already decided, so a re-open shows your answers
+      for (const p of raw) {
+        const prior = decidedBy.get(propId(p))?.decision;
+        if (prior) marks.set(propId(p), prior);
+      }
+      const paint = () => {
+        for (const row of sheet.querySelectorAll('.prop')) {
+          const m = marks.get(row.dataset.id);
+          for (const b of row.querySelectorAll('.pr-btn')) b.classList.toggle('marked', b.dataset.act === m);
+          const tag = row.querySelector('.pv-tag');
+          if (tag && m) { tag.textContent = m === 'accepted' ? 'accepting' : 'declining'; tag.className = `pv-tag ${m === 'accepted' ? 'up' : ''}`; }
+        }
+        applyEnabled(sheet);
+      };
+      paint();
       sheet.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-act]');
-        if (!btn) return;
-        const row = btn.closest('.prop');
-        const p = raw.find((q) => propId(q) === row.dataset.id);
-        if (!p) return;
-        const want = btn.dataset.act;
-        const cur = decidedBy.get(propId(p))?.decision;
-        haptic(8);
-        if (cur === want) { // tapping the same answer again clears it
-          store.decisions = store.decisions.filter((d) => propId(d.proposal) !== propId(p));
-          store.decide(p, want === 'accepted' ? 'declined' : 'accepted');
-          store.decisions = store.decisions.filter((d) => propId(d.proposal) !== propId(p));
-          store.setDecisions([...store.decisions]);
-          toast('Cleared — back to the program as written', 'ok');
-        } else {
-          store.decide(p, want);
-          toast(want === 'accepted' ? 'Accepted — it applies to tonight' : 'Declined — nothing changes', 'ok', 2800);
+        if (btn) {
+          const row = btn.closest('.prop');
+          const id = row.dataset.id;
+          haptic(6);
+          // tapping the same answer twice un-marks it
+          if (marks.get(id) === btn.dataset.act) marks.delete(id);
+          else marks.set(id, btn.dataset.act);
+          paint();
+          return;
         }
-        close();
-        setTimeout(() => { render(root); openProposals(); }, 160);
+        if (e.target.closest('#pr-save')) {
+          const n = marks.size;
+          for (const [id, decision] of marks) {
+            const p = raw.find((q) => propId(q) === id);
+            if (p) store.decide(p, decision);
+          }
+          const accepted = [...marks.values()].filter((v) => v === 'accepted').length;
+          haptic([12, 40, 12]);
+          close();
+          store.clearDraft(); // tonight rebuilds under the new program
+          toast(accepted
+            ? `Saved — ${accepted} change${accepted === 1 ? '' : 's'} applied to tonight`
+            : `Saved — ${n} declined, nothing changed`, 'ok', 3200);
+          setTimeout(() => render(root), 200);
+        }
       });
     },
   });

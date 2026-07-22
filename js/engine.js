@@ -139,6 +139,13 @@ export function effectivePlan(plan, decisions = []) {
         if (i !== -1 && p.replacement && plan.exercises[p.replacement]) {
           list[i] = { ...list[i], id: p.replacement, seed: null, seedNote: `Swapped in for ${exMeta(plan, p.exercise).name} — set your working weight` };
         }
+      } else if (p.kind === 'reprange') {
+        // Change what a slot ASKS FOR without touching the movement — e.g.
+        // flipping which push day carries the heavy 8-10 exposure and which
+        // carries the 10-12, when the logs show the labels are backwards.
+        if (i !== -1 && p.repMin > 0 && p.repMax >= p.repMin) {
+          list[i] = { ...list[i], repMin: Math.round(p.repMin), repMax: Math.round(p.repMax) };
+        }
       } else if (p.kind === 'reorder') {
         if (i !== -1 && Number.isInteger(p.position)) {
           const [slot] = list.splice(i, 1);
