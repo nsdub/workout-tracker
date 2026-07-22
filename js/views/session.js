@@ -455,6 +455,7 @@ function renderWorldScreen(draft, phaseInfo) {
       <h1 class="obj-name"><button id="open-howto" data-ex="${esc(x.id)}">${esc(x.name)}<span class="qm">?</span></button></h1>
       <div class="obj-meta">
         <span class="chipper">${x.sets.length} × ${repRange}${x.repUnit === 'sec' ? 's' : ''}</span>
+        ${x.basis === 'coach' ? '<span class="chipper coach">trainer</span>' : ''}
         ${x.stalled ? '<span class="chipper warn">stalled</span>' : ''}
         ${x.basis === 'verify' ? '<span class="chipper warn">verify</span>' : ''}
         <button class="chipper note-chip${x.logNote ? ' has' : ''}" id="ex-note" data-oi="${focusIdx}">${x.logNote ? `${ICONS.pencil} note` : `${ICONS.pencil} add note`}</button>
@@ -488,6 +489,18 @@ function renderWorldScreen(draft, phaseInfo) {
       <div class="console" id="console">
         <div class="striker"></div>
         <div class="c-target"><b>Set ${curIdx + 1} of ${x.sets.length}</b> · target ${repRange} ${repUnitTxt}</div>
+        <!-- EVERY set's target for this lift, not just the one you're on.
+             Logged sets strike through, the current one is boxed — so "what
+             am I doing on this exercise tonight" is answered on the card
+             itself instead of two taps away in the briefing. -->
+        <div class="set-plan">
+          ${x.sets.map((s, si) => {
+            const w = s.rxWeight ?? s.weight;
+            const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
+            const cls = s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : '';
+            return `<span class="sp-set ${cls}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
+          }).join('')}
+        </div>
         <div class="c-vals">
           <button class="g-val${freshField === 'weight' ? ' fresh' : ''}" id="g-w">${cur.weight == null ? '—' : fmtW(cur.weight)}<u>lb</u></button>
           <span class="c-x">×</span>
@@ -852,13 +865,33 @@ function unlogSet(x, s) {
 
 // ——— Sheets ———
 
+// One exercise, everything about it: tonight's target for every set, why,
+// what you did last time on this day AND on any other day it appears, your
+// own note, then the form guide. Reachable from the exercise name on the
+// card and from any row of the whole-night preview.
 export function howtoSheet(exId) {
   const meta = store.plan?.exercises[exId];
   const ex = store.draft?.exercises.find((x) => x.id === exId);
   const name = meta?.name ?? ex?.name ?? exId;
+  const range = ex ? (ex.repMin === ex.repMax ? `${ex.repMin}` : `${ex.repMin}–${ex.repMax}`) : null;
+  const unit = ex?.repUnit === 'sec' ? 'sec' : 'reps';
   openSheet(`
     <h2>${esc(name)}</h2>
-    ${ex?.prev ? `<div class="sub">Last time · ${fmtDate(ex.prev.date)}${ex.prev.tag ? ` · ${esc(ex.prev.tag)}` : ''} — <span class="num">${esc(ex.prev.setsAll ?? ex.prev.sets)}</span></div>` : ''}
+    ${ex ? `
+    <div class="sub">Tonight — ${ex.sets.length} × ${range} ${unit}</div>
+    <div class="card ex-tonight">
+      <div class="set-plan">
+        ${ex.sets.map((s) => {
+          const w = s.rxWeight ?? s.weight;
+          const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
+          return `<span class="sp-set${s.done ? ' done' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
+        }).join('')}
+      </div>
+      <div class="basis-line" style="margin:6px 0 0">${BASIS[ex.basis]?.(ex) ?? ''}</div>
+    </div>` : ''}
+    ${ex?.prev ? `<div class="sub">${esc(ex.prev.day)} · ${fmtDate(ex.prev.date)}${ex.prev.tag ? ` · ${esc(ex.prev.tag)}` : ''} — <span class="num">${esc(ex.prev.setsAll)}</span></div>` : ''}
+    ${ex?.other ? `<div class="sub">${esc(ex.other.day)} · ${fmtDate(ex.other.date)}${ex.other.tag ? ` · ${esc(ex.other.tag)}` : ''} — <span class="num">${esc(ex.other.setsAll)}</span></div>` : ''}
+    ${ex?.prevNote ? `<div class="sub" style="font-style:italic">“${esc(ex.prevNote.text)}” — your note, ${fmtDate(ex.prevNote.date)}</div>` : ''}
     ${meta?.howto
       ? `<div class="howto">${meta.howto.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`
       : `<div class="howto"><p>No field guide for this one.</p></div>`}

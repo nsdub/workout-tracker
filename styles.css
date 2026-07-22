@@ -1808,6 +1808,19 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 }
 .pv-flag svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
 .pv-foot { font-family: var(--body); font-size: 12px; color: var(--ink2); line-height: 1.45; margin-top: 10px; }
+/* Every set's target for the current lift, on the card. */
+.set-plan { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 6px 0 2px; }
+.sp-set {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink2);
+  border: 1.5px solid transparent; border-radius: 7px; padding: 2px 7px;
+  background: rgba(127, 127, 127, .1); white-space: nowrap;
+}
+.sp-set i { font-style: normal; opacity: .7; font-size: 11px; }
+.sp-set.cur { border-color: var(--acc); color: var(--ink); background: transparent; }
+.sp-set.done { opacity: .45; text-decoration: line-through; }
+.sp-set.skip { opacity: .35; }
+.chipper.coach { border-color: var(--acc); color: var(--acc); }
+
 /* THE RECEIPT — who set tonight's numbers, counted not claimed */
 .pv-prov { margin-top: 10px; border-left: 3px solid var(--ink2); }
 .pv-prov-h { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink2); }

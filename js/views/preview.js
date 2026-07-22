@@ -42,11 +42,12 @@ function repeatDeltas(x) {
 // (not in session.js) so the preview and the exercise card always tell the
 // same story; session.js imports this map.
 export const BASIS = {
-  coach: (x) => `<span class="up">Set by your trainer</span> in the ${x.coachRx?.date ? `${fmtDate(x.coachRx.date)} ` : ''}morning review${x.coachRx?.reason ? `: “${esc(x.coachRx.reason)}”` : '.'}${
-    // The trainer's ask is quoted above; if the pin snap or the safety cap
-    // moved it, the athlete must be told, or the quote justifies a number
-    // that is not on the screen.
-    x.coachRx?.asked ? ` <span class="adj">Adjusted to what your machine can actually load — the trainer asked for ${esc(x.coachRx.asked.map((w) => fmtW(w)).join(', '))}.</span>` : ''}`,
+  // JUST THE REASON. "Set by your trainer in the Jul 22 morning review:" was
+  // eight words of identical boilerplate on every single card — a third of
+  // the text on screen, saying the same thing seven times. WHO and WHEN are
+  // stated ONCE, in the receipt at the top; the card wears a TRAINER chip.
+  coach: (x) => `${x.coachRx?.reason ? `“${esc(x.coachRx.reason)}”` : 'Set by your trainer.'}${
+    x.coachRx?.asked ? ` <span class="adj">Adjusted to a weight your machine can load — the ask was ${esc(x.coachRx.asked.map((w) => fmtW(w)).join(', '))}.</span>` : ''}`,
   progress: (x) => x.bump > 0
     // "the next pin" is only true when the jump IS one pin — exiting
     // calibration can vault several at once (22.5 → 30 skips 24, 25.5, 27.5).
