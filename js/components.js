@@ -407,7 +407,14 @@ function restTick() {
       restState.lastTickSec = s;
       sfx('tap');
     }
-    restRAF = requestAnimationFrame(restTick);
+    // rAF freezes the moment the page hides — on the user's Pixel that killed
+    // the countdown in the pocket and no notification could ever fire. Hidden
+    // pages tick on a 1s timeout instead: Android keeps those alive long past
+    // any rest length, so the deadline is crossed IN the background and the
+    // OS notification posts for real. (iOS suspends JS soon after lock —
+    // there the catch-up on return remains the honest best.)
+    if (document.visibilityState === 'hidden') restTO = setTimeout(restTick, 1000);
+    else restRAF = requestAnimationFrame(restTick);
     return;
   }
   if (!restState.fired) {
@@ -461,12 +468,18 @@ function restTick() {
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden') {
-    // A live rest leaves a dot on the home-screen icon where iOS allows it.
+    // A live rest leaves a dot on the home-screen icon where the OS allows it.
     // Fully wrapped, never prompts: pure progressive enhancement. (There is
     // deliberately NO scheduled notification here — no browser has an API to
     // fire one at a future time, and pretending otherwise was v42's mistake.)
     if (restState && !restState.fired) {
       try { navigator.setAppBadge?.(1)?.catch?.(() => {}); } catch { /* no badging */ }
+      // Hand the countdown from the now-frozen rAF loop to the 1s background
+      // timeout, or the deadline can never be crossed while pocketed and the
+      // Android notification never fires.
+      if (restRAF) cancelAnimationFrame(restRAF);
+      clearTimeout(restTO);
+      restTO = setTimeout(restTick, 1000);
     }
     return;
   }
@@ -483,16 +496,16 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // ——— Rest-done system notification ———
-// HONESTY LEDGER (v45): v42 scheduled these via the Notification Triggers API
-// (showTrigger/TimestampTrigger). That API shipped in NO browser — WebKit
+// HONESTY LEDGER (v45/v46): v42 scheduled these via the Notification Triggers
+// API (showTrigger/TimestampTrigger). That API shipped in NO browser — WebKit
 // never implemented it, Chromium removed it in 2021 — so the scheduled path,
 // and the permission prompt gated behind it, were dead code on every device.
-// Deleted. What a web app can truly do about a LOCKED phone with no server:
-// nothing — iOS suspends the page's JS within seconds of lock, and only real
-// Web Push (a server sending at the right moment) can wake a locked iPhone.
-// Until that server exists, the honest contract is: the app holds a screen
-// wake lock so the timer stays alive face-up, and the end-of-rest alarm
-// repeats so a loud gym floor can't swallow it.
+// Deleted. What a web app can truly do about a pocketed phone with no server:
+// on ANDROID (the user's Pixel 8a), plenty — a hidden page keeps ~1 Hz timers
+// for minutes, so the background tick crosses the deadline and posts a real
+// OS notification (v46). On iOS, nothing — JS suspends within seconds of
+// lock; only real Web Push (a server) can wake a locked iPhone. The wake
+// lock + repeating bell remain the face-up contract on both.
 const NOTIF_TAG = 'p3-rest-done';
 
 async function cancelRestNotification() {
@@ -504,10 +517,10 @@ async function cancelRestNotification() {
   } catch { /* nothing shown, or unsupported */ }
 }
 
-// If the countdown reaches zero while the page is still alive in the
-// background (Android often keeps a backgrounded PWA's timers running for a
-// while — iOS does not), post the OS alert right then. This is the only
-// notification path that ever actually worked, and only on Android.
+// The countdown reaching zero while the page is hidden posts the OS alert
+// right then — the payoff of the 1s background tick. Android delivers this
+// to a pocketed or locked phone; iOS will already have suspended us (the
+// return catch-up covers it there).
 async function fireRestNotificationNow(overLabel) {
   if (!('Notification' in window) || Notification.permission !== 'granted' || !('serviceWorker' in navigator)) return;
   try {
@@ -524,14 +537,15 @@ async function fireRestNotificationNow(overLabel) {
 const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-// One-time, opt-in, never nags. On iOS the truth is the tip: a web app cannot
-// buzz a pocketed iPhone, so we promise only what we deliver — screen stays
-// awake, alarm repeats. Elsewhere, offer the background alert that
-// fireRestNotificationNow can genuinely deliver. (v42 gated this prompt
-// behind the dead Triggers API, so it had never actually been shown anywhere.)
+// One-time, opt-in, never nags. On Android (the user's Pixel 8a) the offer is
+// real: with permission granted, the background tick crosses the deadline in
+// the pocket and posts an OS notification. On iOS the truth is the tip: a web
+// app cannot buzz a locked iPhone, so we promise only what we deliver.
+// Key is restTip2 ON PURPOSE: v42-v44 burned 'p3.restTipShown' showing a tip
+// on every install, which would suppress this now-working offer forever.
 function offerRestAlerts() {
-  if (localStorage.getItem('p3.restTipShown')) return;
-  try { localStorage.setItem('p3.restTipShown', '1'); } catch { /* private mode: tip may repeat */ }
+  if (localStorage.getItem('p3.restTip2')) return;
+  try { localStorage.setItem('p3.restTip2', '1'); } catch { /* private mode: tip may repeat */ }
   const offerable = !IS_IOS && 'Notification' in window && 'serviceWorker' in navigator
     && Notification.permission === 'default';
   if (offerable) {
@@ -616,7 +630,9 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     echoes: [8000, 20000], // the bell re-rings at +0:08 and +0:20 overtime (visible page only)
   };
   acquireWakeLock();
-  restRAF = requestAnimationFrame(restTick);
+  // restTick schedules its own next step (rAF visible / 1s timeout hidden) —
+  // calling it directly means even a rest born on a hidden page ticks.
+  restTick();
   // First rest ever: offer the OS alert (opt-in) or, where unsupported, the
   // honest screen-lit tip. Never nags past the first time.
   offerRestAlerts();

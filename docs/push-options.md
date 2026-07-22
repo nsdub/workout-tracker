@@ -1,13 +1,24 @@
 # Real push notifications for the rest timer — the honest option sheet
 
-_Status: **NOT DEPLOYED.** Written 2026-07-21 (v45) after the dead v42
-"background rest notifications" were removed. Nothing in this document is
-wired up yet; it exists so the decision can be made with real facts._
+_Status update 2026-07-22 (v46): **the user's phone is a Google Pixel 8a
+(Android), not an iPhone** — and on Android the no-server local path WORKS:
+a hidden page keeps ~1 Hz timers alive far longer than any rest, so v46
+ticks the countdown in the background and posts a real OS notification at
+rest-end (opt-in "Alert me" on the first rest). Everything below about
+servers is therefore only needed if (a) Chrome kills the page under memory
+pressure mid-rest — rare at these durations — or (b) an iOS device ever
+enters the picture. Deprioritized accordingly; kept for the facts._
+
+_Originally written 2026-07-21 (v45) after the dead v42 "background rest
+notifications" were removed._
 
 ## The physics
 
 - An installed iOS PWA's JavaScript is **suspended within seconds** of the
-  screen locking or the app backgrounding. Timers freeze. Nothing local fires.
+  screen locking or the app backgrounding. Timers freeze. Nothing local
+  fires. **Android is different**: hidden pages keep setTimeout alive at
+  ~1/second (intensive throttling only after ~5 minutes hidden — longer
+  than every rest in the plan), which is what v46 rides.
 - The Notification Triggers API (schedule a notification for a future time,
   no server) is **dead**: WebKit never implemented it; Chromium removed it
   in 2021. v42 was built on it, which is why it never worked.

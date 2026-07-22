@@ -1,7 +1,7 @@
 {
   "version": 3,
   "name": "Protocol v3",
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "gear": {
     "main-cable": {
       "label": "dual cable stack",
@@ -247,7 +247,8 @@
         "Wide grip on the long bar, knees locked under the pads. Slight lean back, chest up.",
         "Pull the bar to the top of the chest by driving the elbows down and back. Pause with the shoulder blades pinched, then let the bar rise until the arms are long and the lats stretch.",
         "Momentum from a rocking torso is the usual cheat. The lean is set once — it doesn't grow during the set."
-      ]
+      ],
+      "increment": 7.5
     },
     "seated-cable-row-wide": {
       "name": "Seated Cable Row (wide)",
@@ -256,7 +257,7 @@
         "Wide grip bar, feet braced, knees soft. Sit tall with the torso vertical.",
         "Row to the lower chest with elbows flaring out around 45–60°, squeezing the mid-back. Let the weight pull the shoulders forward into a full stretch between reps, torso staying near vertical."
       ],
-      "increment": 2.5
+      "increment": 7.5
     },
     "db-curl": {
       "name": "DB Curl",
@@ -381,7 +382,7 @@
         "Open the arms straight back until they are in line with the shoulders, squeezing the rear delts and mid-back. Return slowly without letting the plates stack.",
         "Keep the shoulders down. Shrugging up hands the rep to the traps."
       ],
-      "increment": 2.5
+      "increment": 7.5
     },
     "assisted-dips": {
       "name": "Assisted Dips",
@@ -416,7 +417,8 @@
       "howto": [
         "Neutral close-grip handle, thighs locked under the pads, slight lean back.",
         "Pull the handle to the upper chest, elbows driving down past the ribs. Full stretch at the top of every rep — the close grip gives more range, so use it."
-      ]
+      ],
+      "increment": 7.5
     },
     "straight-arm-pulldown": {
       "name": "Straight-Arm Pulldown",
@@ -425,7 +427,7 @@
         "Sweep the hands down to the thighs in an arc, feeling the lats pull the whole way, then let the arms rise until a deep lat stretch overhead.",
         "The elbow angle never changes — if it bends and extends, the triceps have taken over."
       ],
-      "increment": 2.5
+      "increment": 7.5
     },
     "db-shrug": {
       "name": "DB Shrug",
