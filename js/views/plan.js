@@ -143,8 +143,10 @@ function openProposals() {
     swap: (p) => `Swap <b>${esc(name(p.exercise))}</b> for <b>${esc(name(p.replacement))}</b>${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
     reorder: (p) => `Move <b>${esc(name(p.exercise))}</b> earlier${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
     volume: (p) => `Change <b>${esc(name(p.exercise))}</b>${p.sets ? ` to ${p.sets} sets` : '’s volume'}`,
+    reprange: (p) => `<b>${esc(name(p.exercise))}</b> reps → ${p.repMin}–${p.repMax}${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
+    keep: (p) => `Put <b>${esc(name(p.exercise))}</b> back${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
   };
-  const APPLIES = { remove: true, add: true, swap: true, reorder: true, volume: true };
+  const APPLIES = { remove: true, add: true, swap: true, reorder: true, volume: true, reprange: true, keep: true };
 
   // Marks are held locally and applied together on Save — tapping used to
   // apply instantly and slam the sheet shut, so there was no way to work
@@ -163,7 +165,7 @@ function openProposals() {
       ${raw.map((p) => {
         const id = propId(p);
         const d = decidedBy.get(id);
-        const applies = APPLIES[p.kind] && (p.kind !== 'swap' || plan.exercises[p.replacement]) && (p.kind !== 'volume' || p.sets > 0);
+        const applies = APPLIES[p.kind] && (p.kind !== 'swap' || plan.exercises[p.replacement]) && (p.kind !== 'volume' || p.sets > 0) && (p.kind !== 'reprange' || p.repMin > 0);
         return `
         <div class="pv-row prop" data-id="${esc(id)}">
           <div class="pv-head">

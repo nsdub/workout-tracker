@@ -120,12 +120,19 @@ export function effectivePlan(plan, decisions = []) {
     seen.set(proposalId(d.proposal), d); // a later decision on the same proposal replaces the earlier
   }
   for (const d of seen.values()) if (d.decision === 'accepted') accepted.push(d.proposal);
-  if (!accepted.length) return plan;
+  // A `keep` is a RETRACTION: the trainers changed their mind, or a later
+  // review overturned an earlier one. Accepting it cancels every other
+  // accepted change on that exercise+scope, so the athlete doesn't have to
+  // find and un-accept the original to undo a call that was wrong.
+  const kept = accepted.filter((p) => p.kind === 'keep');
+  const live = accepted.filter((p) => p.kind !== 'keep'
+    && !kept.some((k) => k.exercise === p.exercise && (k.scope ?? null) === (p.scope ?? null)));
+  if (!live.length) return plan;
 
   const next = { ...plan, sessions: Object.fromEntries(Object.entries(plan.sessions).map(([k, s]) => [k, { ...s, exercises: [...s.exercises] }])) };
   const targets = (scope) => (scope && next.sessions[scope] ? [scope] : Object.keys(next.sessions));
 
-  for (const p of accepted) {
+  for (const p of live) {
     for (const t of targets(p.scope)) {
       const list = next.sessions[t].exercises;
       const i = list.findIndex((x) => x.id === p.exercise);

@@ -737,6 +737,31 @@ ok('volume, swap, reorder and add all apply — and a bogus one is ignored, not 
   const bad = E.effectivePlan(plan, [acc(prop({ kind: 'swap', exercise: 'leg-curl', scope: 'LegsB', replacement: 'nordic-ham-curl' }))]);
   assert.deepEqual(bad.sessions.LegsB.exercises.map((x) => x.id), plan.sessions.LegsB.exercises.map((x) => x.id));
 });
+ok('an accepted KEEP retracts an earlier accepted change on that slot', () => {
+  // the face-pull case: a removal was accepted on bad evidence, a later audit
+  // overturned it. Accepting the keep must restore the slot without the
+  // athlete hunting down and un-accepting the original.
+  const remove = prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PushA' });
+  const keep = prop({ kind: 'keep', exercise: 'face-pulls', scope: 'PushA' });
+  const gone = E.effectivePlan(plan, [acc(remove)]);
+  assert.equal(gone.sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), false);
+  const back = E.effectivePlan(plan, [acc(remove), acc(keep)]);
+  assert.equal(back.sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), true);
+  // scoped: a keep on PushA must not resurrect a removal accepted elsewhere
+  const other = E.effectivePlan(plan, [
+    acc(prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PullB' })), acc(keep),
+  ]);
+  assert.equal(other.sessions.PullB.exercises.some((x) => x.id === 'face-pulls'), false);
+});
+ok('every exercise declares what it is FOR, and correctives are findable', () => {
+  // purpose was unrepresentable in plan.json, which is why a reviewer could
+  // price a 2-set joint-health movement as surplus rear-delt volume.
+  const roles = Object.values(plan.exercises).map((m) => m.role);
+  assert.equal(roles.every(Boolean), true, 'every exercise must declare a role');
+  assert.equal(E.exMeta(plan, 'face-pulls').role, 'corrective');
+  assert.equal(E.exMeta(plan, 'smith-incline-press').role, 'compound');
+  assert.equal(E.exMeta(plan, 'plank').role, 'core');
+});
 ok('reprange flips what a slot asks for, without touching the movement', () => {
   // the two push days' ranges were backwards: he pressed HEAVIER on the day
   // labelled lighter, because on PushA the chest is pre-fatigued by inclines.
