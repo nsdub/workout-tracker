@@ -49,5 +49,17 @@
     },
     "decision": "accepted",
     "decided_at": "2026-07-22T18:59:03.644Z"
+  },
+  {
+    "proposal": {
+      "from": "recovery",
+      "kind": "remove",
+      "exercise": "plank",
+      "why": "It lands at the tail of a long session and reads as clock-punching rather than core work.",
+      "scope": "LegsB",
+      "date": "2026-07-22"
+    },
+    "decision": "declined",
+    "decided_at": "2026-07-22T18:59:47.490Z"
   }
 ]
