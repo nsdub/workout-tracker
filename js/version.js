@@ -1,2 +1,2 @@
 // Single source of the app build version. Bump on every deploy.
-self.PROTOCOL_VERSION = 'v48';
+self.PROTOCOL_VERSION = 'v49';

@@ -510,37 +510,19 @@ function wire(draft, x, curIdx, noticeList = []) {
       onConfirm() { hideRestTimer(); store.clearDraft(); focusIdx = null; render(root); renderDock(); },
     });
   });
-  // Dual-card slide: the outgoing card is cloned-in-place as a ghost that
-  // exits while the fresh card slides in — travel does all the work, no
-  // opacity blink, both cards stay opaque the whole .38s.
+  // Changing acts is a LOOKUP, not a set piece: the new card takes one short
+  // step in and is readable immediately (see the card-next/prev keyframes for
+  // what this replaced and why). No detached ghost copy, so no absolute
+  // positioning to measure, no duplicate-id scrubbing, no animationend
+  // fallback — and rapid taps can't stack anything.
   const paginate = (target, dir) => {
-    const d = dir ?? (target > focusIdx ? 'next' : 'prev');
-    navDir = d;
+    navDir = dir ?? (target > focusIdx ? 'next' : 'prev');
     haptic(4);
-    sfx('nav'); // the card flick speaks in the world's voice
-
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    root.querySelector('.objective-ghost')?.remove(); // rapid taps: one ghost max
-    const old = reduced ? null : root.querySelector('.objective');
-    // .view is the offsetParent (position:absolute), so these are layout
-    // coords in the scroll container — MUST be read before render() detaches it
-    const pos = old ? { top: old.offsetTop, left: old.offsetLeft, width: old.offsetWidth } : null;
+    sfx('nav');
     focusIdx = target;
     const st = root.scrollTop;
     render(root); // fresh card gets slide-next/prev from navDir
     root.scrollTop = st;
-    if (old) {
-      old.classList.remove('slide-next', 'slide-prev');
-      old.classList.add('objective-ghost', d === 'next' ? 'ghost-out-next' : 'ghost-out-prev');
-      old.setAttribute('aria-hidden', 'true');
-      // no duplicate ids while both cards exist — $('#…') must never hit the ghost
-      old.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
-      Object.assign(old.style, { position: 'absolute', top: pos.top + 'px', left: pos.left + 'px', width: pos.width + 'px', margin: '0', zIndex: '3', pointerEvents: 'none' });
-      root.appendChild(old);
-      const kill = () => old.remove();
-      old.addEventListener('animationend', kill, { once: true });
-      setTimeout(kill, 500); // fallback if animationend is swallowed (tab hidden)
-    }
   };
   $('#pg-prev', root)?.addEventListener('click', () => paginate(focusIdx - 1, 'prev'));
   $('#pg-next', root)?.addEventListener('click', () => paginate(focusIdx + 1, 'next'));

@@ -53,8 +53,8 @@
   --m-dur: 0.38s;
   --m-float: 1.03;
   --m-quake: 1;
-  --m-drop: 0px;
-  --m-tilt: 2.5deg;
+  /* --m-drop / --m-tilt died with the tumbling card slide (v49) — they had
+     exactly one consumer. Re-add them only with a consumer in the same edit. */
 }
 
 /* Designed focus: keyboard/switch-control focus wears each world's accent
@@ -1432,7 +1432,7 @@ svg.ic { vertical-align: -2px; }
 }
 @keyframes vinyl-wobble { 0%, 100% { rotate: -1.2deg } 50% { rotate: 1.2deg } }
 :root[data-universe="dojo"] { --m-snap: cubic-bezier(.6, -.28, .2, 1.3); --m-dur: .22s; --m-quake: 1.5; } /* a strike, not a glide */
-:root[data-universe="deep"] { --m-snap: ease-out; --m-dur: .5s; --m-float: 1.05; --m-drop: 12px; --m-tilt: 1deg; } /* buoyant: everything drifts */
+:root[data-universe="deep"] { --m-snap: ease-out; --m-dur: .5s; --m-float: 1.05; } /* buoyant: everything drifts */
 :where(:root[data-universe="deep"]) .g-log { animation-duration: 4s; } /* slower, deeper breath at depth */
 :where(:root[data-universe="park"]) .objective { animation-name: panel-in-flicker; }
 :where(:root[data-universe="wok"]) .console.struck { animation: shiver .12s linear 3; } /* logging sizzles the ticket — oil, not tectonics */
@@ -1474,19 +1474,23 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
    way while the incoming card slides in from the other. NO opacity keyframes:
    travel does all the work, so there is never a blank frame where the world
    shows through an absent panel. */
-/* the slide's whole physics rides the tokens: dojo flicks the scroll in
-   .22s on an overshoot bezier; the Deep drifts it .5s on a 12px sinking arc */
-@keyframes card-next { from { translate: 108% var(--m-drop, 0px); rotate: var(--m-tilt, 2.5deg) } to { translate: 0 0; rotate: 0deg } }
-@keyframes card-prev { from { translate: -108% var(--m-drop, 0px); rotate: calc(var(--m-tilt, 2.5deg) * -1) } to { translate: 0 0; rotate: 0deg } }
-@keyframes card-out-next { to { translate: -108% var(--m-drop, 0px); rotate: calc(var(--m-tilt, 2.5deg) * -1) } }
-@keyframes card-out-prev { to { translate: 108% var(--m-drop, 0px); rotate: var(--m-tilt, 2.5deg) } }
-.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next var(--m-dur) var(--m-snap) both; }
-.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev var(--m-dur) var(--m-snap) both; }
-/* the detached outgoing card: inert, blur-free (two live backdrop-filters
-   overlapping for 380ms is an iOS jank machine), gone in ≤500ms */
-.objective-ghost { will-change: translate; backdrop-filter: none; -webkit-backdrop-filter: none; }
-.objective-ghost.ghost-out-next { animation: card-out-next var(--m-dur) var(--m-snap) both; }
-.objective-ghost.ghost-out-prev { animation: card-out-prev var(--m-dur) var(--m-snap) both; }
+/* PAGING BETWEEN ACTS IS NAVIGATION, NOT CEREMONY. You tap it repeatedly to
+   check a number, so the destination must be readable the instant it lands.
+   What was here before flew the whole card a full screen width (108%) with a
+   2.5° tumble on a 1.56-overshoot spring — so the numbers rotated past their
+   own resting place and wobbled back — for .38s, or .5s plus a 12px sinking
+   drift inside the Deep, with a second full copy of the card on screen the
+   whole time. That is a card trick, not a control.
+   Now: one short step in from the side, flat ease-out, no spin, no spring, no
+   ghost. Deliberately NOT wired to the universe motion tokens — a world may
+   own its entrance ceremony, never the speed of looking something up.
+   Travel does ALL the work and opacity is never touched: a frozen animation
+   (backgrounded tab, throttled page) then leaves the card 7% off its mark —
+   offset but perfectly readable — instead of stranding it at opacity 0. */
+@keyframes card-next { from { translate: 7% 0 } to { translate: 0 0 } }
+@keyframes card-prev { from { translate: -7% 0 } to { translate: 0 0 } }
+.no-entrance .objective.slide-next, .objective.slide-next { animation: card-next .16s cubic-bezier(.22, .61, .36, 1) both; }
+.no-entrance .objective.slide-prev, .objective.slide-prev { animation: card-prev .16s cubic-bezier(.22, .61, .36, 1) both; }
 
 
 /* ═══════════ THE COSMOS: THE ATLAS + MISSION CONTROL ═══════════
