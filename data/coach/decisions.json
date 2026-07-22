@@ -1,0 +1,27 @@
+[
+  {
+    "proposal": {
+      "from": "program",
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PushA",
+      "why": "The PushA face-pull slot is a ghost — last logged there 2026-02-24. You run face pulls live on PullA, PushB and PullB.",
+      "date": "2026-07-22"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T18:58:38.579Z"
+  },
+  {
+    "proposal": {
+      "from": "program",
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "why": "The plan asks 4 sets on both leg days; you have never hit the fourth. Cut the prescription to 3 real sets or commit to the 4th.",
+      "scope": "LegsB",
+      "date": "2026-07-22",
+      "sets": 3
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T18:58:42.865Z"
+  }
+]
