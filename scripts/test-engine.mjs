@@ -502,6 +502,19 @@ ok('cross-day floor fills a day that has NO history of the exercise yet', () => 
   assert.equal(rx.basis, 'cross');
   assert.deepEqual(rx.sets.map((s) => s.weight), [25.5, 25.5]);
 });
+ok('two sessions on ONE date: the other day’s proof still counts', () => {
+  // real in this history — 2026-01-10 PushA+PullA, 2026-02-13 PullA+PullB.
+  // A `<=` fence used to discard same-date evidence entirely, silently
+  // breaking the "progress carries across days" promise on the Mission screen.
+  const h = [...history,
+    mkEntry('2026-07-23', 'PushA', 'machine-chest-press', mkSets(150, 9, 3)),
+    mkEntry('2026-07-23', 'PushB', 'machine-chest-press', mkSets(160, 12, 3)),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'cross');
+  assert.equal(rx.cross.date, '2026-07-23');
+  assert.equal(rx.sets[0].weight, 160);
+});
 ok('older cross-day work never overrides this day’s own newer choice', () => {
   const h = [...history,
     mkEntry('2026-07-16', 'PushB', 'machine-chest-press', mkSets(157.5, 10, 3)),

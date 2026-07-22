@@ -266,7 +266,13 @@ export function crossDayBest(plan, history, sessionType, slot, afterDate = null)
   for (const e of sortedHistory(history)) {
     if (e.session_type === sessionType) continue;
     if (e.date < since) continue;
-    if (afterDate && e.date <= afterDate) continue;
+    // STRICTLY older is excluded — same-date work is not. This user trains
+    // two sessions on one calendar date (2026-01-10, 2026-02-13), and a `<=`
+    // fence silently threw that evidence away while the Mission screen
+    // promised "progress on one day carries to every other day it appears".
+    // Date-only granularity can't order two same-day sessions, so trust the
+    // heavier proof: applyCross only ever raises, never lowers.
+    if (afterDate && e.date < afterDate) continue;
     if (skip.includes(e.phase)) continue;
     const ex = e.exercises.find((x) => x.id === slot.id);
     if (!ex) continue;

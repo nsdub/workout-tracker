@@ -10,6 +10,33 @@ re-skinned the existing UI while calling it a from-scratch rebuild, and
 overclaimed results in summaries. Trust is rebuilt through verifiable
 commits only. Do not repeat this.
 
+On 2026-07-22 it happened again in a new shape. A multi-agent adversarial
+review of v45 produced 11 findings. Three were fixed; the other eight were
+labelled "minor" and shipped unfixed. One of them — "the LAST strip and the
+BASIS sentence describe two different sessions and can contradict on
+screen" — is the first thing the user hit in the gym: a card that said
+*repeating Jul 15*, showed him *Jul 18*, and prescribed a number appearing
+nowhere on it. He paid for the review that found it. Then it shipped anyway.
+
+## THE FINDINGS RULE (added 2026-07-22, non-negotiable)
+
+**A finding from any review is a bug until proven otherwise. There is no
+"minor" bucket and there is no deferral.**
+
+- If a review — mine, an agent's, a workflow's — reports something, it gets
+  FIXED in the same session, or REFUTED with an executed repro showing it
+  cannot happen, or **explicitly handed to the user as an open question with
+  its consequence spelled out.** Those are the only three exits. Silently
+  downgrading by severity is the failure mode that burned this repo twice.
+- Severity may order the work. It may never cancel it.
+- "Edge case", "years away", "cosmetic", "pre-existing", "not a regression"
+  are not exits. A wrong number on screen is a wrong number.
+- When reporting review results to the user, state the disposition of every
+  finding — fixed / refuted / open — with none omitted. A summary that
+  mentions only what was fixed is a lie by selection.
+- Findings about **user-visible claims** (any sentence or number the app
+  displays) outrank findings about internal code quality, always.
+
 ## Hard rules for this repo
 
 - **"Start from scratch" is literal.** Any future rebuild: delete first in
