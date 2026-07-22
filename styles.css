@@ -1808,6 +1808,16 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 }
 .pv-flag svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
 .pv-foot { font-family: var(--body); font-size: 12px; color: var(--ink2); line-height: 1.45; margin-top: 10px; }
+/* Facts, not paragraphs. A label you can scan and one short line under it —
+   this card used to be 1,800 characters of prose slapped on the deck. */
+.facts { display: flex; flex-direction: column; gap: 11px; }
+.facts > div { display: flex; flex-direction: column; gap: 2px; }
+.facts dt {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--acc);
+}
+.facts dd { margin: 0; font-family: var(--body); font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+
 /* Something is waiting on you — a count on the tab you aren't looking at. */
 .tab { position: relative; }
 .tab-dot {

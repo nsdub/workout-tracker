@@ -109,13 +109,14 @@ export function render(el) {
     ${proposalsCard()}
 
     <div class="console-card manual">
-      <h3>How the weights go up</h3>
-      <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift. Miss it → same weights again. Progress on one day carries to the same lift on every other day it appears.</div>
-      <div class="cc-line" style="margin-top:6px">${incrementSentence(plan)}</div>
-      <div class="cc-line" style="margin-top:6px">Every morning at 6 a trainer agent reads your full log — every set, every note — and commits its review to the repo: a plain-English brief plus any lifts it's adjusting, with reasons. The app applies those adjustments to tonight's numbers (each one says so on its card) and tells you in the briefing exactly which review tonight is running on. If a review hasn't seen your latest session, the app says that too and falls back to the rules above — it never pretends.</div>
-      <div class="cc-line" style="margin-top:6px">Every prefill explains itself on its card, and you can always override it: what you actually log outranks everything and is what the next review reads.</div>
-      <div class="cc-line" style="margin-top:6px">Effort: on big lifts stop with 1–2 reps left in the tank; the final set of small lifts can go to failure. On deload weeks stay 4+ reps away from failure.</div>
-      <div class="cc-line" style="margin-top:6px">Same weight ${plan.rules.stall.sessions} sessions in a row → a red beacon lights up here, and the lift gets a variation swap at the next deload.</div>
+      <h3>Where your numbers come from</h3>
+      <dl class="facts">
+        <div><dt>Who sets them</dt><dd>Three trainers review your log each morning; a head coach makes the call. Each card names who set it and why.</dd></div>
+        <div><dt>If they haven’t reviewed yet</dt><dd>Hit the top of the rep range on every set and the lift goes up next time. Miss it, same weight.</dd></div>
+        <div><dt>Effort</dt><dd>Big lifts: stop 1–2 reps short. Last set of small lifts can go to failure. Deloads: stay 4+ short.</dd></div>
+        <div><dt>You outrank all of it</dt><dd>Change any number you like — what you log is what counts.</dd></div>
+      </dl>
+      <button class="btn quiet" id="open-manual" style="margin-top:10px">The full rules</button>
     </div>
 
     ${info.override ? `<button class="btn quiet" id="clear-override" style="margin:0 2px 14px">Release manual phase lock</button>` : ''}
@@ -244,6 +245,30 @@ function proposalsCard() {
     </div>`;
 }
 
+// The detail, one tap away instead of 1,800 characters slapped on the page.
+// The Mission deck answers "where do my numbers come from" in four lines;
+// anyone who wants the machinery opens this.
+function manualSheet() {
+  const plan = store.plan;
+  const stall = plan.rules.stall.sessions;
+  openSheet(`
+    <h2>The full rules</h2>
+    <div class="sub">What decides a weight, in order</div>
+    <div class="pv-list">
+      <div class="pv-row"><div class="pv-head"><span class="pv-name">1 · Your trainers</span></div>
+        <div class="pv-why">Every morning three specialists read your log separately — one on load, one on recovery and your notes, one on the program's shape. A head coach settles any disagreement and must pick a side, never split the difference. Whatever they decide becomes tonight's numbers, with the reason quoted on the card. Their raw arguments are committed to <span class="num">data/coach/panel/</span> before the head coach touches them.</div></div>
+      <div class="pv-row"><div class="pv-head"><span class="pv-name">2 · The standing rules</span></div>
+        <div class="pv-why">Used for any lift the trainers didn't set, or whenever a review is stale. Hit the top of the rep range on every set → the lift goes up next visit. Miss it → same weight. Progress on one day carries to the same lift on every other day it appears. Same weight ${stall} sessions running lights a red beacon here.</div></div>
+      <div class="pv-row"><div class="pv-head"><span class="pv-name">3 · Your machines</span></div>
+        <div class="pv-why">${incrementSentence(plan)}</div></div>
+      <div class="pv-row"><div class="pv-head"><span class="pv-name">4 · You</span></div>
+        <div class="pv-why">Tap any number to change it. What you actually log outranks every rule above and is what tomorrow's review reads. Structural changes — dropping a lift, swapping one, changing a rep range — never happen without you accepting them on this screen.</div></div>
+    </div>
+    <button class="btn quiet" id="man-close" style="margin-top:12px">Close</button>`, {
+    onOpen(sheet, close) { $('#man-close', sheet).addEventListener('click', close); },
+  });
+}
+
 // How much each lift goes up by — READ OFF THE PLAN, never hand-written.
 // A hand-written version of this sentence has been wrong twice: it claimed
 // pin-true stepping for cable lifts that were still on a fictional 2.5 grid,
@@ -271,10 +296,9 @@ function incrementSentence(plan) {
     .map(([label, names], i) => {
       const list = esc([...names].sort().join(', '));
       const cap = label.charAt(0).toUpperCase() + label.slice(1);
-      if (i === 0 && names.size > total / 2) return `Most lifts go up <b>${esc(label)}</b>. Everything else: `;
-      return `<b>${esc(cap)}</b> — ${list}.`;
+      return `<b>${esc(cap)}</b><br><span style="opacity:.75">${list}</span>`;
     });
-  return parts.join(' ');
+  return parts.join('<br><br>');
 }
 
 // The next seven days spelled out: tonight's session, then the rest of the
@@ -441,6 +465,7 @@ function wire(info) {
   $('#clear-override', root)?.addEventListener('click', () => applyPhaseOverride(null));
   $('#open-drawer', root).addEventListener('click', () => drawerSheet(info));
   $('#open-proposals', root)?.addEventListener('click', openProposals);
+  $('#open-manual', root)?.addEventListener('click', manualSheet);
 }
 
 // The six-workouts strip and the week-ahead rows both open the real card —

@@ -223,6 +223,14 @@ export async function bootstrapStaticPlan() {
       const res = await fetch('data/coach/latest.json', { cache: 'no-cache' });
       if (res.ok) store.setCoach(await res.json());
     } catch { /* offline: last stored review stands */ }
+    // ...and the decisions, or a token-less client shows every proposal as
+    // undecided and silently ignores structural changes already accepted.
+    try {
+      const res = await fetch('data/coach/decisions.json', { cache: 'no-cache' });
+      if (res.ok && !store.queue.some((q) => q.path === 'data/coach/decisions.json')) {
+        store.setDecisions(await res.json());
+      }
+    } catch { /* offline: local decisions stand */ }
   }
   if (store.plan) return;
   try {
