@@ -1,0 +1,184 @@
+{
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "push",
+      "why": "Your top set slipped to 7 reps last week, so the bar itself doesn't move — 205 stays. What changes is the shape of the work. 155 for 8 was a warm-up wearing a work-set jersey, and it ate a quarter of your hamstring volume. Warm up off the card, then open at 185 and give me three honest sets at 205. Three clean eights at 205 and you've earned 215 next week.",
+      "evidence": [
+        "2026-07-15:smith-rdl"
+      ],
+      "sets": [
+        {
+          "weight": 185,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "why": "120 for 12 was the easiest set of your night and it sits 40 lb under your working weight — that's a ramp, not a set. It goes to 140 and it counts. 160 holds for the last two because you finished at the bottom of the range, but I want 11 reps there, not 10. Get 12 on both and 170 is yours next week.",
+      "evidence": [
+        "2026-07-15:leg-press-high"
+      ],
+      "sets": [
+        {
+          "weight": 140,
+          "reps": 12
+        },
+        {
+          "weight": 160,
+          "reps": 11
+        },
+        {
+          "weight": 160,
+          "reps": 11
+        }
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "The slot calls for four sets and you logged three at 135. I'm not paying out a weight increase for volume that didn't happen. Same 135, same 10s, all four sets — the fourth set IS the progression tonight. Your hamstrings also took 105 and 120 for 15s on Saturday, so there's no case for forcing load on top of that. Finish the slot and we chase 12s next week.",
+      "evidence": [
+        "2026-07-15:leg-curl",
+        "2026-07-18:leg-curl"
+      ],
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "142.5 for 12s last leg day and 15/15/13 on Saturday — you've handled this weight four times now and never touched the top of the range on this day. The range runs to 15; the weight doesn't move until you live there. Hold 142.5 and hunt reps: 14 on the first, 13 on the back two. Three sets of 15 and 150 is automatic.",
+      "evidence": [
+        "2026-07-15:leg-extension",
+        "2026-07-18:leg-extension"
+      ],
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 14
+        },
+        {
+          "weight": 142.5,
+          "reps": 13
+        },
+        {
+          "weight": 142.5,
+          "reps": 13
+        }
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "why": "Two sets of 15 at 260 on Saturday tells me 280 for one set isn't your ceiling — your 200 lb opener is. That opener comes off the card. Start at 240 for 15, two sets at 280, then back off to 260 for 15 to close. That last one is the fourth set you didn't log last week, and it's the cheapest volume in this whole session.",
+      "evidence": [
+        "2026-07-15:standing-calf-raise",
+        "2026-07-18:standing-calf-raise"
+      ],
+      "sets": [
+        {
+          "weight": 240,
+          "reps": 15
+        },
+        {
+          "weight": 280,
+          "reps": 12
+        },
+        {
+          "weight": 280,
+          "reps": 12
+        },
+        {
+          "weight": 260,
+          "reps": 15
+        }
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "The app wants to add a pin because you touched 50 on Saturday — I'm overruling it. You have logged exactly 12 reps on every single set for two weeks straight and the range runs to 15. You've never been near the trigger, so you don't get the weight. 50.5 is the same load you already handled Saturday. Tonight the earn is reps, not pins: 15, 15, 15.",
+      "evidence": [
+        "2026-07-15:cable-crunch",
+        "2026-07-18:cable-crunch"
+      ],
+      "sets": [
+        {
+          "weight": 50.5,
+          "reps": 15
+        },
+        {
+          "weight": 50.5,
+          "reps": 15
+        },
+        {
+          "weight": 50.5,
+          "reps": 15
+        }
+      ]
+    }
+  ],
+  "date": "2026-07-22",
+  "reviewed_through": "2026-07-21",
+  "role": "progression",
+  "session": "LegsB",
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "smith-rdl",
+      "why": "The slot says four work sets, but the logged pattern is 155/185/205/205 — a two-set ramp bolted onto two real sets. The card should prescribe warm-ups separately from work sets so the ramp stops being counted as hamstring volume and the progression rule stops averaging a warm-up into your session load.",
+      "evidence": [
+        "2026-07-15:smith-rdl"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "why": "Four sets are prescribed and three were logged, and the same tail-end drop shows up on the other leg day. Either the fourth set gets honored or the slot should be cut to three sets and carry the progression through load instead. A prescribed set that never happens quietly inflates what the plan thinks you're doing.",
+      "evidence": [
+        "2026-07-15:leg-curl",
+        "2026-07-18:leg-curl"
+      ]
+    },
+    {
+      "kind": "swap",
+      "exercise": "leg-extension",
+      "why": "Leg extension runs on both leg days within four days at the identical top load of 142.5. That's the same stimulus twice a week wearing two different names. Give this day a heavier 10-12 quad slot — or a different quad movement entirely — and leave the 15-rep work to the other day, so the two sessions actually differ.",
+      "evidence": [
+        "2026-07-15:leg-extension",
+        "2026-07-18:leg-extension"
+      ]
+    }
+  ]
+}

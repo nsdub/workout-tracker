@@ -1,0 +1,68 @@
+{
+  "calls": [],
+  "date": "2026-07-22",
+  "reviewed_through": "2026-07-21",
+  "role": "program",
+  "session": "LegsB",
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "why": "The face-pull slot on PushA is a ghost. You last logged it there on 2026-02-24 at 40x15, and in the five months since you have run face pulls on PullA (22.5x15), PushB (24x15) and PullB (25.5x15) — three live exposures in the last five days. The PushA copy isn't training anything, it's just inflating the plan on paper and making the session look longer than it is. Strike it from PushA. Six real rear-delt sets across three days is plenty of rear delt for a March stage.",
+      "evidence": [
+        "2026-02-24:face-pulls",
+        "2026-07-17:face-pulls",
+        "2026-07-20:face-pulls",
+        "2026-07-21:face-pulls"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "why": "The plan asks for 4x12-15 on both leg days, so eight sets a week. You actually did three on 2026-07-15 (top 280x12) and two on 2026-07-18 (top 260x15) — five. The fourth set is fiction and you have never once hit it. Calves are a scored muscle from the back and the side, so I don't want the target quietly failing every week. Cut the prescription to 3 per leg day and move calves up ahead of the ab block, so the six real sets get your attention instead of your leftovers.",
+      "evidence": [
+        "2026-07-15:standing-calf-raise",
+        "2026-07-18:standing-calf-raise"
+      ]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "leg-curl",
+      "why": "Same lift, two days, two different athletes. LegsB on 2026-07-15 gave you three sets topping 135x10. LegsA on 2026-07-18 gave you two sets topping 120x15 — fifteen pounds and a set behind. Your hamstrings didn't get weaker in three days; the slot did. On LegsA leg curls sit behind leg presses and leg extensions, so they get the tired end of the session. Move leg-curl to second on LegsA, straight after leg-press-low and before leg-extension. Both hamstring exposures should start fresh, not one of them.",
+      "evidence": [
+        "2026-07-15:leg-curl",
+        "2026-07-18:leg-curl"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "leg-extension",
+      "why": "Leg extensions are healthy and even across both days — 142.5x12 on 2026-07-15 and 142.5x13 on 2026-07-18 — so this is a balance call, not a performance one. You are running six weekly sets of leg extension against five of leg curl, on top of leg press on both days. Front of the leg is out-earning the back of it. Drop LegsB's leg-extension from 3 sets to 2 and hand that set to leg-curl. Rear line is where a physique gets separated in March, and right now your program is quietly voting quads.",
+      "evidence": [
+        "2026-07-15:leg-extension",
+        "2026-07-18:leg-extension",
+        "2026-07-15:leg-curl",
+        "2026-07-18:leg-curl"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "machine-chest-press",
+      "why": "Your two prescriptions are backwards. PushA calls the heavier 8-10 range and you pressed 150x10 on 2026-07-16. PushB calls the lighter 10-12 range and you pressed 157.5x10 on 2026-07-20 — heavier, for the same reps, on the day that is supposed to be the lighter one. That's the fatigue talking: on PushA your chest has already eaten four sets of incline before it ever gets to the machine, and on PushB it hasn't. Stop fighting it. Flip the ranges — PushB becomes the heavy 8-10 exposure, PushA becomes the 10-12 exposure. Same work, honest labels.",
+      "evidence": [
+        "2026-07-16:machine-chest-press",
+        "2026-07-20:machine-chest-press"
+      ]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "overhead-cable-triceps",
+      "why": "Overhead cable extension runs 54x10 for three sets on PushB (2026-07-20) but only 47.5x13 for two sets on PushA (2026-07-16) — six and a half pounds and a set apart. On PushA it's buried at the back, after the pressing and the laterals, and it shows. Either move overhead-cable-triceps ahead of cable-lateral-raise on PushA so it gets fresh arms, or let the pushdown lead the PushA triceps block and keep the overhead variation as your one hard weekly exposure on PushB. Trained twice badly is worse than trained once well.",
+      "evidence": [
+        "2026-07-16:overhead-cable-triceps",
+        "2026-07-20:overhead-cable-triceps"
+      ]
+    }
+  ],
+  "vetoes": []
+}

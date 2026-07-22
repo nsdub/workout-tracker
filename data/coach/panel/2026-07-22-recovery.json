@@ -1,0 +1,133 @@
+{
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8
+        },
+        {
+          "weight": 185,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 7
+        }
+      ],
+      "why": "Last time you took the RDL to 205, your rest before that top set stretched from about two minutes to three and a half, and the final set still came back 7 instead of 8. That's the lift telling you 205 isn't owned yet. Add that four days ago you pulled 255 off the floor for three sets of five and needed nearly six minutes before the last one, and you weighed in at 206 yesterday — roughly ten pounds under your winter bodyweight, which means less fuel behind the same hinge. Stay at 205 tonight and win all eight on both top sets. Earn the increase; don't borrow it.",
+      "evidence": [
+        "2026-07-15:smith-rdl",
+        "2026-07-17:deadlift",
+        "2026-07-21:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "why": "This is the cleanest movement in your whole leg log — 160 for ten, twice, with metronome-steady two-and-a-half-minute rests and not a single rep lost between them. I have nothing to brake here. Push it, and I'll defer to the progression seat on the exact number.",
+      "evidence": [
+        "2026-07-15:leg-press-high"
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        }
+      ],
+      "why": "Your hamstrings have had a full week already: RDLs on the 15th, deadlifts on the 17th, and on the 18th your curls got cut to two sets after a five-minute stall mid-session. Tonight the RDL is holding at 205, so they're already getting fed. Keep the curl at 135 for three honest sets — three completed sets beats two heavy ones you have to abandon.",
+      "evidence": [
+        "2026-07-15:leg-curl",
+        "2026-07-17:deadlift",
+        "2026-07-18:leg-curl"
+      ]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 12
+        },
+        {
+          "weight": 142.5,
+          "reps": 12
+        },
+        {
+          "weight": 142.5,
+          "reps": 12
+        }
+      ],
+      "why": "On the 18th your quads went backwards inside the session — the press dropped from 220 for 8 down to 200 for 8, and the extensions faded from 15s to 13 at 142.5. That was four days ago, and tonight is your third training day in a row after Monday's push and Tuesday's pull. Repeat 142.5 for 12 across all three sets. If all three feel controlled, that's your green light next week.",
+      "evidence": [
+        "2026-07-15:leg-extension",
+        "2026-07-18:leg-extension",
+        "2026-07-18:leg-press-low",
+        "2026-07-20:machine-chest-press",
+        "2026-07-21:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "why": "Calves are the one place your log shows zero fatigue — 280 for 12 on the 15th, then 260 for 15 twice on the 18th, three days later, with no rep loss at all. Nothing to protect. Load them.",
+      "evidence": [
+        "2026-07-15:standing-calf-raise",
+        "2026-07-18:standing-calf-raise"
+      ]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "abstain",
+      "why": "Two clean sets on the 15th, steady rests, no rep decay. I have no recovery concern here and I'm not going to invent one — take whatever the progression seat calls.",
+      "evidence": [
+        "2026-07-15:hip-abductor"
+      ]
+    }
+  ],
+  "date": "2026-07-22",
+  "reviewed_through": "2026-07-21",
+  "role": "recovery",
+  "session": "LegsB",
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "plank",
+      "why": "On the 15th the plank landed at the tail of a 52-minute session and your second hold came 69 seconds after the first — that's punching a clock, not training your core, and the cable crunch right before it already did three full sets. Cut it tonight. On your third straight training day I want you walking out of a tight session, not padding the end of one.",
+      "evidence": [
+        "2026-07-15:plank",
+        "2026-07-15:cable-crunch"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "cable-crunch",
+      "why": "Protect the tail of this session. The last leg day that ran long fell apart at the back end — curls cut to two sets, adductors to two, calves to two, after a five-minute stall. The LegsB session that stayed near 50 minutes finished everything it started. If tonight is running past the hour by the time you reach the crunch, take two sets and end it rather than dragging out a third.",
+      "evidence": [
+        "2026-07-18:leg-curl",
+        "2026-07-18:hip-adductor",
+        "2026-07-15:cable-crunch"
+      ]
+    }
+  ],
+  "vetoes": []
+}

@@ -1,67 +1,99 @@
 {
   "date": "2026-07-22",
   "reviewed_through": "2026-07-21",
-  "generated_at": "2026-07-22T15:08:44+00:00",
-  "reviewer": "Claude session (hand-written) — the 6 AM automatic review has not committed yet",
+  "generated_at": "2026-07-22T18:10:34+00:00",
+  "produced_by": "interactive-session",
+  "reviewer": "Claude session acting as head coach over the 3-seat panel (NOT the 6 AM automatic run)",
   "session_expected": "LegsB",
-  "brief": "Legs B, and I've set every number tonight off last week's results rather than letting the app copy Jul 15 back at you. Two themes from the week: you keep leaving the last set of leg curls and calf presses unbanked, and your Legs A day is out-performing Legs B on the same machines (15s at 135 on leg extension, 260x15 twice on calves) — so Legs B is the one lagging, not the muscle. RDL: tighter ramp, same 205 top, and I want all four sets at 8 or better; the 15th died at 7 because two of your four sets were spent warming up. Leg curl holds at 135 on purpose — it is the third session there and the fourth set has never been logged; bank all four and it goes to 142.5 next week. Leg extension holds at 142.5 and you chase 15s, which you have already proven at 135. Calves: one ramp at 240 then three honest sets at 280, dead-stop pause at the bottom. Cable crunch is 50.5, which is the real pin — the 50 you logged does not exist on that stack. Plank stays 2 x 60s. One more easy 20-30 min cardio before Sunday.",
+  "panel": {
+    "seats": [
+      "progression",
+      "recovery",
+      "program"
+    ],
+    "files": "data/coach/panel/2026-07-22-*.json"
+  },
+  "brief": "Legs B. Three trainers reviewed you separately tonight and split on three lifts — each card says who won and why. Headline: the RDL does NOT get restructured. Progression wanted to bin the 155 warm-up and give you three sets at 205; recovery showed your rest before the top set stretched to about three and a half minutes last time and the last set still came back at 7, four days after pulling 255 for triples, at 206 lb — ten under your winter weight. Recovery won: same ramp as last week, and the job is eight honest reps on BOTH top sets. Because the RDL stayed light, I gave progression the leg curl: all four sets at 135, and that fourth set is the whole point — it has gone unlogged three sessions running and it is the only thing standing between you and 142.5. Leg extension holds at 142.5 but chase 14/13/13; the weight is unchanged so there is no added risk, and if the reps fade like they did Saturday, stop. Calves lose the 200 opener and gain a real fourth set: 240, two at 280, then 260 for 15. Cable crunch stays 50.5 and the earn is reps, not pins — you have logged exactly 12 on every set for two weeks and the range runs to 15. The program seat also flagged four structural problems for you to approve or reject; they are in the packet and none of them touched tonight's numbers.",
   "flags": [
     {
-      "kind": "volume",
-      "note": "Leg curls and calf presses have both come up a set short two sessions running — banking every set is tonight's actual job."
+      "kind": "fatigue",
+      "note": "Third training day in a row and bodyweight is 206, about ten under winter — recovery held the RDL for that reason."
     },
     {
-      "kind": "fatigue",
-      "note": "Legs A is beating Legs B on the shared machines. If tonight feels flat again, say so in a note and I'll rebalance the two days."
+      "kind": "volume",
+      "note": "The fourth set of leg curls and calf presses has gone unlogged for weeks. Tonight that fourth set IS the progression."
+    }
+  ],
+  "dissent": [
+    {
+      "exercise": "smith-rdl",
+      "ruled_for": "recovery",
+      "progression": "185/205/205/205 — the 155 was a warm-up eating hamstring volume",
+      "recovery": "155/185/205/205 — rest drifted to 3.5 min and the last set came back 7",
+      "why": "Progression is right that the ramp wastes a set, but that is a structural fix, not tonight's. Asking for three sets at 205 when he could not complete two, four days after heavy deadlifts and ten pounds down on bodyweight, buys another failed rep. Fix the ramp in the plan, not on a night he is already carrying fatigue."
+    },
+    {
+      "exercise": "leg-curl",
+      "ruled_for": "progression",
+      "progression": "135 x 4 — the slot says four sets and three were logged; the fourth set is the progression",
+      "recovery": "135 x 3 — hamstrings already fed by RDLs, deadlifts and Saturday's curls",
+      "why": "Recovery priced this against progression's HEAVIER RDL, which I just refused. With the RDL holding at last week's ramp the hamstring cost of tonight is lower than either seat assumed, so the fourth set is affordable — and it is the exact set whose absence has blocked this lift for three sessions."
+    },
+    {
+      "exercise": "leg-extension",
+      "ruled_for": "progression",
+      "progression": "142.5 x 14/13/13 — four exposures at this weight and never once at the top of the range",
+      "recovery": "142.5 x 12/12/12 — quads faded inside the session on Saturday, third straight training day",
+      "why": "Both seats want the same weight, so nothing is added to the load — the only question is what he chases. Prescribing the 12 he already does guarantees the trigger never fires. Recovery's fatigue read is real and is why the weight does not move; if the reps fade, stop short and it still counts."
     }
   ],
   "overrides": [
     {
       "exercise": "smith-rdl",
       "session": "LegsB",
-      "reason": "Two of your four sets on the 15th were spent under 190 and the last one died at 7. Tighter ramp, same top — all four at 8 or better.",
+      "reason": "Same ramp as last week on purpose — your rest stretched to three and a half minutes before the top set and it still came back 7. Eight honest reps on both top sets is the job.",
       "sets": [
         {
-          "weight": 175,
+          "weight": 155,
           "reps": 8
         },
         {
-          "weight": 195,
-          "reps": 8
-        },
-        {
-          "weight": 205,
+          "weight": 185,
           "reps": 8
         },
         {
           "weight": 205,
           "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 7
         }
       ]
     },
     {
       "exercise": "leg-press-high",
       "session": "LegsB",
-      "reason": "Your 120 opener was a warm-up in disguise — three real sets at 160, build toward 12s.",
+      "reason": "Your 120 opener sat 40 lb under your working weight — that is a ramp, not a set. 140 counts, then 11s on both at 160.",
       "sets": [
         {
-          "weight": 160,
-          "reps": 10
+          "weight": 140,
+          "reps": 12
         },
         {
           "weight": 160,
-          "reps": 10
+          "reps": 11
         },
         {
           "weight": 160,
-          "reps": 10
+          "reps": 11
         }
       ]
     },
     {
       "exercise": "leg-curl",
       "session": "LegsB",
-      "reason": "Third session at 135 and the fourth set has never made it into the log. Weight holds until all four are banked — then 142.5.",
+      "reason": "Four sets at 135. The fourth set has gone unlogged three sessions running and it is the only thing between you and 142.5 — tonight it IS the progression.",
       "sets": [
         {
           "weight": 135,
@@ -84,30 +116,30 @@
     {
       "exercise": "leg-extension",
       "session": "LegsB",
-      "reason": "You hit 15s at 135 on Legs A but stall at 12 here. Same weight, chase 15 on every set — that is what unlocks the next step.",
+      "reason": "Weight holds at 142.5 — you have handled it four times and never touched the top of the range. Chase 14/13/13; if the reps fade like Saturday, stop short.",
       "sets": [
         {
           "weight": 142.5,
-          "reps": 12
+          "reps": 14
         },
         {
           "weight": 142.5,
-          "reps": 12
+          "reps": 13
         },
         {
           "weight": 142.5,
-          "reps": 12
+          "reps": 13
         }
       ]
     },
     {
       "exercise": "standing-calf-raise",
       "session": "LegsB",
-      "reason": "You proved 260x15 twice on Saturday — one ramp set, then three real sets at 280. Pause dead at the bottom.",
+      "reason": "The 200 opener comes off the card — you did 260x15 twice on Saturday. 240, two at 280, then 260 for 15 to close: that is the fourth set you have been skipping, and it is the cheapest volume in the session.",
       "sets": [
         {
           "weight": 240,
-          "reps": 12
+          "reps": 15
         },
         {
           "weight": 280,
@@ -118,30 +150,68 @@
           "reps": 12
         },
         {
-          "weight": 280,
-          "reps": 12
+          "weight": 260,
+          "reps": 15
         }
       ]
     },
     {
       "exercise": "cable-crunch",
       "session": "LegsB",
-      "reason": "50.5 is the real pin — the 50 you logged does not exist on that stack. You handled it Saturday, so three sets here.",
+      "reason": "50.5 is what you already handled Saturday. You have logged exactly 12 reps on every set for two weeks and the range runs to 15 — tonight the earn is reps, not pins.",
       "sets": [
         {
           "weight": 50.5,
-          "reps": 12
+          "reps": 15
         },
         {
           "weight": 50.5,
-          "reps": 12
+          "reps": 15
         },
         {
           "weight": 50.5,
-          "reps": 12
+          "reps": 15
         }
       ]
     }
   ],
-  "produced_by": "interactive-session"
+  "proposals": [
+    {
+      "from": "program",
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PushA",
+      "why": "The PushA face-pull slot is a ghost — last logged there 2026-02-24. You run face pulls live on PullA, PushB and PullB."
+    },
+    {
+      "from": "program",
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "why": "The plan asks 4 sets on both leg days; you have never hit the fourth. Cut the prescription to 3 real sets or commit to the 4th."
+    },
+    {
+      "from": "program",
+      "kind": "reorder",
+      "exercise": "leg-curl",
+      "why": "Same lift, two days, 15 lb and a set apart — on LegsA it sits behind leg press and extensions and gets the tired end of the session."
+    },
+    {
+      "from": "program",
+      "kind": "volume",
+      "exercise": "leg-extension",
+      "why": "Six weekly sets of extension against five of curl, on top of leg press both days. Front of the leg is out-earning the back."
+    },
+    {
+      "from": "program",
+      "kind": "volume",
+      "exercise": "machine-chest-press",
+      "why": "PushA calls the heavier range but you press heavier on PushB — the two prescriptions are backwards relative to where you are fresh."
+    },
+    {
+      "from": "recovery",
+      "kind": "remove",
+      "exercise": "plank",
+      "why": "It lands at the tail of a long session and reads as clock-punching rather than core work."
+    }
+  ]
 }
