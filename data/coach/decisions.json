@@ -52,6 +52,18 @@
   },
   {
     "proposal": {
+      "from": "recovery",
+      "kind": "remove",
+      "exercise": "plank",
+      "why": "It lands at the tail of a long session and reads as clock-punching rather than core work.",
+      "scope": "LegsB",
+      "date": "2026-07-22"
+    },
+    "decision": "declined",
+    "decided_at": "2026-07-22T19:12:56.922Z"
+  },
+  {
+    "proposal": {
       "from": "program",
       "kind": "reprange",
       "exercise": "machine-chest-press",
@@ -62,7 +74,7 @@
       "why": "Your two prescriptions are backwards. Push A calls the heavy 8-10 range but your chest has already eaten four sets of incline by the time it gets there — you pressed 150x10. Push B calls the lighter 10-12 and you pressed 157.5x10, heavier, on the day that is supposed to be lighter. Flip the labels so they match where you are actually fresh."
     },
     "decision": "accepted",
-    "decided_at": "2026-07-22T19:12:56.917Z"
+    "decided_at": "2026-07-22T20:24:44.199Z"
   },
   {
     "proposal": {
@@ -76,18 +88,99 @@
       "why": "Your two prescriptions are backwards. Push A calls the heavy 8-10 range but your chest has already eaten four sets of incline by the time it gets there — you pressed 150x10. Push B calls the lighter 10-12 and you pressed 157.5x10, heavier, on the day that is supposed to be lighter. Flip the labels so they match where you are actually fresh."
     },
     "decision": "accepted",
-    "decided_at": "2026-07-22T19:12:56.920Z"
+    "decided_at": "2026-07-22T20:24:44.211Z"
   },
   {
     "proposal": {
-      "from": "recovery",
-      "kind": "remove",
-      "exercise": "plank",
-      "why": "It lands at the tail of a long session and reads as clock-punching rather than core work.",
-      "scope": "LegsB",
-      "date": "2026-07-22"
+      "from": "corrective-audit",
+      "kind": "keep",
+      "exercise": "face-pulls",
+      "scope": "PushA",
+      "date": "2026-07-22",
+      "why": "REVERSING the earlier proposal — it was wrong on the facts. 'Last logged 2026-02-24' is the date of your last Push A, not the last time you chose to do face pulls: only one Push A has run since, a 34-minute 21:58 session where the last THREE exercises collapsed together. Your actual record here is 22 of 24 sets across 12 sessions — 92%, better than most of your leg work. And this is the only external-rotation and only posterior-shoulder work in a 24-set day carrying 16 anterior sets. Put it back."
     },
-    "decision": "declined",
-    "decided_at": "2026-07-22T19:12:56.922Z"
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.214Z"
+  },
+  {
+    "proposal": {
+      "from": "corrective-audit",
+      "kind": "reprange",
+      "exercise": "face-pulls",
+      "scope": "PushA",
+      "repMin": 12,
+      "repMax": 15,
+      "date": "2026-07-22",
+      "why": "Face pulls are the only loaded lift in your plan with repMin = repMax (15-15), so the progression rule fires EVERY session and the load can only climb. It went 17.5 to 40 lb, where a rope face pull is a trap-driven high row, not a cuff movement — then sat stuck at 40 for six sessions. It is already back on that path: 20.5 to 25.5 in eight days. A 12-15 range lets it progress by control and reps instead of by the pin."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.216Z"
+  },
+  {
+    "proposal": {
+      "from": "corrective-audit",
+      "kind": "reprange",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "repMin": 12,
+      "repMax": 15,
+      "date": "2026-07-22",
+      "why": "Same fix, same reason — the fixed 15-15 range forces load on a corrective on every day it appears."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.218Z"
+  },
+  {
+    "proposal": {
+      "from": "corrective-audit",
+      "kind": "reprange",
+      "exercise": "face-pulls",
+      "scope": "PushB",
+      "repMin": 12,
+      "repMax": 15,
+      "date": "2026-07-22",
+      "why": "Same fix, same reason."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.222Z"
+  },
+  {
+    "proposal": {
+      "from": "corrective-audit",
+      "kind": "reprange",
+      "exercise": "face-pulls",
+      "scope": "PullB",
+      "repMin": 12,
+      "repMax": 15,
+      "date": "2026-07-22",
+      "why": "Same fix, same reason."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.224Z"
+  },
+  {
+    "proposal": {
+      "from": "corrective-audit",
+      "kind": "remove",
+      "exercise": "leg-extension",
+      "scope": "LegsB",
+      "date": "2026-07-22",
+      "why": "THIS is the slot the compliance argument actually pointed at: 3 of 15 sets across 5 sessions, 20% — the deadest slot in your program. You already do leg extensions on Legs A at over 100% compliance. You decided five times running that this duplicate is not worth doing; the prescription should say so instead of generating false 'stale slot' signals."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.226Z"
+  },
+  {
+    "proposal": {
+      "from": "corrective-audit",
+      "kind": "swap",
+      "exercise": "plank",
+      "replacement": "hanging-leg-raise",
+      "scope": "LegsB",
+      "date": "2026-07-22",
+      "why": "Every bit of core work you do is spinal flexion — 6 cable-crunch sets plus leg raises — against deadlifts topping 255x5 and rows at 150x8. Nothing resists rotation. Plank is also 3 of 10 sets across 5 sessions (30%), the second-deadest slot. NOTE: this swaps in another flexion movement because the catalog has no anti-rotation exercise yet — a Pallof press would be the right answer and needs adding to plan.json first. Decline this one if you would rather I add the right movement."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-22T20:24:44.228Z"
   }
 ]
