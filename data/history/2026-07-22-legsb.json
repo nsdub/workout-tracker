@@ -1,0 +1,168 @@
+{
+  "date": "2026-07-22",
+  "session_type": "LegsB",
+  "phase": "meso1",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1784748548778
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1784748771074
+        },
+        {
+          "weight": 205,
+          "reps": 8,
+          "at": 1784748952060
+        },
+        {
+          "weight": 205,
+          "reps": 8,
+          "at": 1784749143046
+        }
+      ]
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 140,
+          "reps": 12,
+          "at": 1784749308528
+        },
+        {
+          "weight": 160,
+          "reps": 11,
+          "at": 1784749491356
+        },
+        {
+          "weight": 160,
+          "reps": 12,
+          "at": 1784749702364
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1784749916521
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1784750036912
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1784750175946
+        },
+        {
+          "weight": 135,
+          "reps": 11,
+          "at": 1784750302853
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 11,
+          "at": 1784750420900
+        },
+        {
+          "weight": 142.5,
+          "reps": 14,
+          "at": 1784750559649
+        },
+        {
+          "weight": 142.5,
+          "reps": 14,
+          "at": 1784750695601
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 240,
+          "reps": 15,
+          "at": 1784750820644
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1784750935344
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1784751064640
+        },
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1784751178602
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 15,
+          "at": 1784751300091
+        },
+        {
+          "weight": 50,
+          "reps": 15,
+          "at": 1784751422787
+        },
+        {
+          "weight": 50,
+          "reps": 15,
+          "at": 1784751566151
+        }
+      ]
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 45,
+          "at": 1784751687463
+        },
+        {
+          "weight": 0,
+          "reps": 45,
+          "at": 1784751800730
+        }
+      ]
+    }
+  ],
+  "world": "village",
+  "mins": 64,
+  "startedAt": 1784747961534
+}
