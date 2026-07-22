@@ -702,4 +702,46 @@ ok('previewSession is empty for an unknown session type, never throws', () => {
   assert.deepEqual(E.previewSession(plan, history, 'NopeC', meso), []);
 });
 
+// ——— Structural decisions: the trainers change the PROGRAM, the athlete rules ———
+const prop = (o) => ({ date: '2026-07-22', ...o });
+const acc = (p) => ({ proposal: p, decision: 'accepted' });
+ok('an accepted removal drops the slot — and plan.json is untouched', () => {
+  const p = prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PushA' });
+  const live = E.effectivePlan(plan, [acc(p)]);
+  assert.equal(live.sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), false);
+  assert.equal(plan.sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), true, 'the signed program must never be mutated');
+  // scoped: the other days keep theirs
+  assert.equal(live.sessions.PullB.exercises.some((x) => x.id === 'face-pulls'), true);
+});
+ok('declining, or deciding nothing, changes nothing at all', () => {
+  const p = prop({ kind: 'remove', exercise: 'plank', scope: 'LegsB' });
+  assert.deepEqual(E.effectivePlan(plan, [{ proposal: p, decision: 'declined' }]), plan);
+  assert.deepEqual(E.effectivePlan(plan, []), plan);
+});
+ok('the newest decision on a proposal wins (undo is just another decision)', () => {
+  const p = prop({ kind: 'remove', exercise: 'plank', scope: 'LegsB' });
+  const live = E.effectivePlan(plan, [acc(p), { proposal: p, decision: 'declined' }]);
+  assert.equal(live.sessions.LegsB.exercises.some((x) => x.id === 'plank'), true);
+});
+ok('volume, swap, reorder and add all apply — and a bogus one is ignored, not guessed', () => {
+  const vol = E.effectivePlan(plan, [acc(prop({ kind: 'volume', exercise: 'standing-calf-raise', scope: 'LegsB', sets: 3 }))]);
+  assert.equal(vol.sessions.LegsB.exercises.find((x) => x.id === 'standing-calf-raise').sets, 3);
+  const sw = E.effectivePlan(plan, [acc(prop({ kind: 'swap', exercise: 'leg-extension', scope: 'LegsB', replacement: 'leg-press-low' }))]);
+  assert.equal(sw.sessions.LegsB.exercises.some((x) => x.id === 'leg-press-low'), true);
+  assert.equal(sw.sessions.LegsB.exercises.find((x) => x.id === 'leg-press-low').seed, null, 'a swapped-in lift must ask for its weight, not inherit one');
+  const ro = E.effectivePlan(plan, [acc(prop({ kind: 'reorder', exercise: 'leg-curl', scope: 'LegsA', position: 0 }))]);
+  assert.equal(ro.sessions.LegsA.exercises[0].id, 'leg-curl');
+  const add = E.effectivePlan(plan, [acc(prop({ kind: 'add', exercise: 'hip-adductor', scope: 'LegsB', slot: { sets: 2, repMin: 12, repMax: 15 } }))]);
+  assert.equal(add.sessions.LegsB.exercises.some((x) => x.id === 'hip-adductor'), true);
+  // a swap naming an exercise that does not exist is dropped, never invented
+  const bad = E.effectivePlan(plan, [acc(prop({ kind: 'swap', exercise: 'leg-curl', scope: 'LegsB', replacement: 'nordic-ham-curl' }))]);
+  assert.deepEqual(bad.sessions.LegsB.exercises.map((x) => x.id), plan.sessions.LegsB.exercises.map((x) => x.id));
+});
+ok('an accepted change flows into the actual prescription', () => {
+  const live = E.effectivePlan(plan, [acc(prop({ kind: 'volume', exercise: 'standing-calf-raise', scope: 'LegsB', sets: 3 }))]);
+  const rows = E.previewSession(live, history, 'LegsB', meso);
+  assert.equal(rows.find((r) => r.id === 'standing-calf-raise').sets.length, 3);
+  assert.equal(rows.some((r) => r.id === 'plank'), true, 'untouched slots survive');
+});
+
 console.log(`\n${n} engine tests passed`);

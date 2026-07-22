@@ -154,13 +154,14 @@ export function provenanceText(p) {
 
 export function previewRows(sessionType, dateStr = null) {
   const date = dateStr ?? new Date().toLocaleDateString('sv-SE');
-  const phaseInfo = engine.phaseForDate(store.plan, date, store.settings.phaseOverride);
-  return { rows: engine.previewSession(store.plan, store.history, sessionType, phaseInfo, store.coach), phaseInfo };
+  const plan = store.livePlan();
+  const phaseInfo = engine.phaseForDate(plan, date, store.settings.phaseOverride);
+  return { rows: engine.previewSession(plan, store.history, sessionType, phaseInfo, store.coach), phaseInfo };
 }
 
 // The preview sheet. `when` is a human label ("Tonight", "Tomorrow", …).
 export function previewSheet(sessionType, { when = null, dateStr = null } = {}) {
-  const plan = store.plan;
+  const plan = store.livePlan();
   if (!plan?.sessions[sessionType]) return;
   const { rows, phaseInfo } = previewRows(sessionType, dateStr);
   const U = UNIVERSES[sessionType];

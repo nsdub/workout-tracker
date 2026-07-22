@@ -1,6 +1,8 @@
 // Offline-first store. localStorage is the write buffer and always wins locally;
 // GitHub is the durable source of truth, fed by the sync queue.
 import { todayStr } from './util.js';
+// engine is pure logic with no imports of its own — no cycle.
+import { effectivePlan as engineEffectivePlan } from './engine.js';
 
 const KEYS = {
   settings: 'p3.settings',
@@ -11,6 +13,7 @@ const KEYS = {
   remoteIndex: 'p3.remoteIndex',
   meta: 'p3.meta',
   coach: 'p3.coach',
+  decisions: 'p3.decisions',
 };
 
 // Reads are shape-checked against the fallback: a corrupt blob (extension,
@@ -71,6 +74,8 @@ export const store = {
   remoteIndex: read(KEYS.remoteIndex, {}),
   meta: { lastSync: null, lastError: null, ...read(KEYS.meta, {}) },
   coach: read(KEYS.coach, null),
+  // the athlete's yes/no on structural proposals — his program, his call
+  decisions: read(KEYS.decisions, []),
   syncing: false,
 
   sub(fn) { listeners.add(fn); return () => listeners.delete(fn); },
@@ -114,6 +119,31 @@ export const store = {
 
   // The daily trainer review packet (data/coach/latest.json). Null when the
   // repo has none; staleness is judged at prescription time, never here.
+  // Accept or decline a trainer's structural proposal. Written locally at
+  // once (it changes tonight immediately) and queued to the repo like any
+  // other record, so the decision survives the phone and is auditable.
+  decide(proposal, decision) {
+    const id = `${proposal.date ?? ''}:${proposal.kind}:${proposal.exercise}:${proposal.scope ?? 'all'}`;
+    const rest = this.decisions.filter((d) => `${d.proposal?.date ?? ''}:${d.proposal?.kind}:${d.proposal?.exercise}:${d.proposal?.scope ?? 'all'}` !== id);
+    this.decisions = [...rest, { proposal, decision, decided_at: new Date().toISOString() }];
+    write(KEYS.decisions, this.decisions);
+    this.enqueue('data/coach/decisions.json', this.decisions);
+    this.emit();
+  },
+
+  setDecisions(list) {
+    if (JSON.stringify(list ?? []) === JSON.stringify(this.decisions ?? [])) return;
+    this.decisions = list ?? [];
+    write(KEYS.decisions, this.decisions);
+    this.emit();
+  },
+
+  // The plan the app actually runs: the signed program plus every structural
+  // change the athlete has accepted. plan.json is never rewritten.
+  livePlan() {
+    return this.plan ? engineEffectivePlan(this.plan, this.decisions) : this.plan;
+  },
+
   setCoach(coach) {
     if (JSON.stringify(coach ?? null) === JSON.stringify(this.coach ?? null)) return;
     this.coach = coach ?? null;

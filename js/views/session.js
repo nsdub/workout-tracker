@@ -272,9 +272,12 @@ function renderBanked(today, phaseInfo) {
 const coachStamp = () => store.coach?.generated_at ?? store.coach?.date ?? null;
 
 function buildDraft(date, sessionType, phaseInfo, world = null) {
-  const session = store.plan.sessions[sessionType];
+  // livePlan = the signed program plus every structural change the athlete
+  // has accepted, so an approved swap or removal is in tonight's session.
+  const plan = store.livePlan();
+  const session = plan.sessions[sessionType];
   const exercises = session.exercises.map((slot) => {
-    const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo, store.coach);
+    const rx = engine.prescribe(plan, store.history, sessionType, slot, phaseInfo, store.coach);
     // THIS day's last visit — the visit the prescription was actually built
     // from — and, separately, the same lift done since on another day. They
     // are different facts and the card labels them differently; collapsing
@@ -306,7 +309,7 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
       other,
       prevNote: noted ? { text: noted.ex.note, date: noted.entry.date } : null,
       id: slot.id,
-      name: engine.exMeta(store.plan, slot.id).name,
+      name: engine.exMeta(plan, slot.id).name,
       repMin: slot.repMin, repMax: slot.repMax, repUnit: slot.repUnit || null,
       rest: slot.rest || 90,
       superset: slot.superset ?? null, // paired lifts alternate, sharing one rest after each round
@@ -318,11 +321,11 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
       // the true post-grid percentage the engine computed (calibration/deload) —
       // labels state THIS, never a nominal 90/80 the rounding already broke
       pct: rx.pct ?? null,
-      stalled: engine.isStalled(store.plan, store.history, sessionType, slot),
-      inc: engine.increment(store.plan, slot.id) || 2.5,
+      stalled: engine.isStalled(plan, store.history, sessionType, slot),
+      inc: engine.increment(plan, slot.id) || 2.5,
       // real machine pins for this lift (null = plain grid) — the numpad
       // steppers walk these instead of inventing weights that don't exist
-      grid: engine.ladderFor(store.plan, slot.id),
+      grid: engine.ladderFor(plan, slot.id),
       // rxWeight: the engine's own prescription, kept per set so validateSet
       // can grant it immunity — the app never second-guesses its own numbers
       // rxWeight/rxReps: the engine's own prescription, kept per set so

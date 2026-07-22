@@ -535,7 +535,7 @@ await ok('INVARIANT: an entry enqueued MID-pull is never overwritten by remote',
   store.queue = [];
   store.history = [];
 });
-await ok("pullRemote bypasses the HTTP cache on every request (plan, coach, listing, file)", async () => {
+await ok("pullRemote bypasses the HTTP cache on every request (plan, coach, decisions, listing, file)", async () => {
   store.settings.token = 't';
   store.queue = []; store.history = []; store.remoteIndex = {};
   const caches = [];
@@ -543,12 +543,13 @@ await ok("pullRemote bypasses the HTTP cache on every request (plan, coach, list
     caches.push(opts.cache);
     if (url.includes('data/plan.json')) return resJson({}, 404);
     if (url.includes('data/coach/latest.json')) return resJson({}, 404);
+    if (url.includes('data/coach/decisions.json')) return resJson({}, 404);
     if (url.endsWith('/contents/data/history?ref=main')) return resJson([{ name: '2026-07-20-pusha.json', sha: 'R' }]);
     if (url.includes('2026-07-20-pusha.json')) return resJson({ content: b64({ date: '2026-07-20', session_type: 'PushA', exercises: [] }), sha: 'R' });
     return resJson({}, 404);
   };
   await pullRemote();
-  assert.equal(caches.length, 4, 'expected the plan GET, the coach GET, the listing, and one file GET');
+  assert.equal(caches.length, 5, 'expected the plan GET, the coach GET, the decisions GET, the listing, and one file GET');
   assert.ok(caches.every((c) => c === 'no-store'),
     "GitHub's 60s HTTP cache must never serve a stale sha or file body to a pull");
   store.history = []; store.remoteIndex = {};

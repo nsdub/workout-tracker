@@ -100,6 +100,66 @@ export function increment(plan, id) {
     : plan.rules.progression.upperIncrement;
 }
 
+// ——— Structural decisions (the trainers change the PROGRAM, not just loads) ———
+// A panel proposal — drop this slot, add that lift, cut these sets — becomes
+// real the moment the athlete accepts it, and it applies as an OVERLAY on the
+// plan rather than by rewriting plan.json. That matters: the plan stays the
+// signed program, the change is one line in data/coach/decisions.json, and
+// declining or undoing is the same one line going the other way.
+
+export function proposalId(p) {
+  return `${p.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
+}
+
+// Accepted decisions, newest-wins, applied to the session templates.
+export function effectivePlan(plan, decisions = []) {
+  const accepted = [];
+  const seen = new Map();
+  for (const d of decisions) {
+    if (!d?.proposal?.kind) continue;
+    seen.set(proposalId(d.proposal), d); // a later decision on the same proposal replaces the earlier
+  }
+  for (const d of seen.values()) if (d.decision === 'accepted') accepted.push(d.proposal);
+  if (!accepted.length) return plan;
+
+  const next = { ...plan, sessions: Object.fromEntries(Object.entries(plan.sessions).map(([k, s]) => [k, { ...s, exercises: [...s.exercises] }])) };
+  const targets = (scope) => (scope && next.sessions[scope] ? [scope] : Object.keys(next.sessions));
+
+  for (const p of accepted) {
+    for (const t of targets(p.scope)) {
+      const list = next.sessions[t].exercises;
+      const i = list.findIndex((x) => x.id === p.exercise);
+      if (p.kind === 'remove') {
+        if (i !== -1) list.splice(i, 1);
+      } else if (p.kind === 'volume') {
+        if (i !== -1 && p.sets > 0) list[i] = { ...list[i], sets: Math.round(p.sets) };
+      } else if (p.kind === 'swap') {
+        // keep the slot's shape, change the movement — the replacement must
+        // be a real exercise or the swap is ignored rather than guessed at
+        if (i !== -1 && p.replacement && plan.exercises[p.replacement]) {
+          list[i] = { ...list[i], id: p.replacement, seed: null, seedNote: `Swapped in for ${exMeta(plan, p.exercise).name} — set your working weight` };
+        }
+      } else if (p.kind === 'reorder') {
+        if (i !== -1 && Number.isInteger(p.position)) {
+          const [slot] = list.splice(i, 1);
+          list.splice(Math.max(0, Math.min(list.length, p.position)), 0, slot);
+        }
+      } else if (p.kind === 'add') {
+        if (i === -1 && plan.exercises[p.exercise] && p.slot?.sets > 0) {
+          const slot = {
+            id: p.exercise, sets: p.slot.sets, repMin: p.slot.repMin ?? 8, repMax: p.slot.repMax ?? 12,
+            rest: p.slot.rest ?? 90, seed: p.slot.seed ?? null,
+            seedNote: p.slot.seed == null ? 'Added by your trainers — set your working weight' : undefined,
+          };
+          const at = Number.isInteger(p.position) ? p.position : list.length;
+          list.splice(Math.max(0, Math.min(list.length, at)), 0, slot);
+        }
+      }
+    }
+  }
+  return next;
+}
+
 // ——— Phase calendar ———
 
 export function phaseForDate(plan, dateStr, overrideId = null) {

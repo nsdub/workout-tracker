@@ -181,37 +181,50 @@
       "kind": "remove",
       "exercise": "face-pulls",
       "scope": "PushA",
-      "why": "The PushA face-pull slot is a ghost — last logged there 2026-02-24. You run face pulls live on PullA, PushB and PullB."
+      "why": "The PushA face-pull slot is a ghost — last logged there 2026-02-24. You run face pulls live on PullA, PushB and PullB.",
+      "date": "2026-07-22"
     },
     {
       "from": "program",
       "kind": "volume",
       "exercise": "standing-calf-raise",
-      "why": "The plan asks 4 sets on both leg days; you have never hit the fourth. Cut the prescription to 3 real sets or commit to the 4th."
+      "why": "The plan asks 4 sets on both leg days; you have never hit the fourth. Cut the prescription to 3 real sets or commit to the 4th.",
+      "scope": "LegsB",
+      "date": "2026-07-22",
+      "sets": 3
     },
     {
       "from": "program",
       "kind": "reorder",
       "exercise": "leg-curl",
-      "why": "Same lift, two days, 15 lb and a set apart — on LegsA it sits behind leg press and extensions and gets the tired end of the session."
+      "why": "Same lift, two days, 15 lb and a set apart — on LegsA it sits behind leg press and extensions and gets the tired end of the session.",
+      "scope": "LegsA",
+      "date": "2026-07-22",
+      "position": 1
     },
     {
       "from": "program",
       "kind": "volume",
       "exercise": "leg-extension",
-      "why": "Six weekly sets of extension against five of curl, on top of leg press both days. Front of the leg is out-earning the back."
+      "why": "Six weekly sets of extension against five of curl, on top of leg press both days. Front of the leg is out-earning the back.",
+      "scope": "LegsB",
+      "date": "2026-07-22",
+      "sets": 2
     },
     {
       "from": "program",
       "kind": "volume",
       "exercise": "machine-chest-press",
-      "why": "PushA calls the heavier range but you press heavier on PushB — the two prescriptions are backwards relative to where you are fresh."
+      "why": "PushA calls the heavier range but you press heavier on PushB — the two prescriptions are backwards relative to where you are fresh.",
+      "date": "2026-07-22"
     },
     {
       "from": "recovery",
       "kind": "remove",
       "exercise": "plank",
-      "why": "It lands at the tail of a long session and reads as clock-punching rather than core work."
+      "why": "It lands at the tail of a long session and reads as clock-punching rather than core work.",
+      "scope": "LegsB",
+      "date": "2026-07-22"
     }
   ]
 }

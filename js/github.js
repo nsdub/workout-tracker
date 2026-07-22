@@ -175,6 +175,12 @@ export async function pullRemote() {
     // says "no review" honestly instead of guessing.
     const coach = await getFile('data/coach/latest.json');
     store.setCoach(coach ? coach.content : null);
+    // The athlete's accepted/declined structural changes. Local queue wins:
+    // a decision made on the phone must never be reverted by a stale remote.
+    if (!queuedNow('data/coach/decisions.json')) {
+      const dec = await getFile('data/coach/decisions.json');
+      if (dec && !queuedNow('data/coach/decisions.json')) store.setDecisions(dec.content);
+    }
     const files = await listDir('data/history');
     let changed = false;
     for (const f of files) {

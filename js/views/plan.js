@@ -106,6 +106,8 @@ export function render(el) {
       </div>
     </div>
 
+    ${proposalsCard()}
+
     <div class="console-card manual">
       <h3>How the weights go up</h3>
       <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift. Miss it → same weights again. Progress on one day carries to the same lift on every other day it appears.</div>
@@ -121,6 +123,93 @@ export function render(el) {
     <p class="mission-foot">APP ${esc(self.PROTOCOL_VERSION || 'dev')} · PLAN V${plan.version} · ${esc(plan.updated)}</p>`;
 
   wire(info);
+}
+
+// YOUR PROGRAM, YOUR CALL. The trainers can argue for a structural change —
+// drop a dead slot, swap a movement, cut a set count — but only the athlete
+// can accept one, and accepting it changes tonight immediately. plan.json is
+// never rewritten; the decision is one line in data/coach/decisions.json.
+const propId = (p) => `${p.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
+
+function openProposals() {
+  const plan = store.plan;
+  const raw = (store.coach?.proposals ?? []).map((p) => ({ ...p, date: p.date ?? store.coach?.date ?? null }));
+  const decidedBy = new Map(store.decisions.map((d) => [propId(d.proposal), d]));
+  const name = (id) => engine.exMeta(plan, id)?.name ?? id;
+  const VERB = {
+    remove: (p) => `Drop <b>${esc(name(p.exercise))}</b>${p.scope ? ` from ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
+    add: (p) => `Add <b>${esc(name(p.exercise))}</b>${p.scope ? ` to ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
+    swap: (p) => `Swap <b>${esc(name(p.exercise))}</b> for <b>${esc(name(p.replacement))}</b>${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
+    reorder: (p) => `Move <b>${esc(name(p.exercise))}</b> earlier${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
+    volume: (p) => `Change <b>${esc(name(p.exercise))}</b>${p.sets ? ` to ${p.sets} sets` : '’s volume'}`,
+  };
+  const APPLIES = { remove: true, add: true, swap: true, reorder: true, volume: true };
+
+  openSheet(`
+    <h2>Your trainers want to change the program</h2>
+    <div class="sub">${raw.length} proposal${raw.length === 1 ? '' : 's'} — nothing happens until you say so</div>
+    <div class="pv-list">
+      ${raw.map((p) => {
+        const id = propId(p);
+        const d = decidedBy.get(id);
+        const applies = APPLIES[p.kind] && (p.kind !== 'swap' || plan.exercises[p.replacement]) && (p.kind !== 'volume' || p.sets > 0);
+        return `
+        <div class="pv-row prop" data-id="${esc(id)}">
+          <div class="pv-head">
+            <span class="pv-name">${VERB[p.kind]?.(p) ?? esc(`${p.kind} ${p.exercise}`)}</span>
+            <span class="pv-tag ${d?.decision === 'accepted' ? 'up' : ''}">${d ? esc(d.decision) : esc(p.from ?? 'trainer')}</span>
+          </div>
+          <div class="pv-why">${esc(p.why ?? '')}</div>
+          ${applies
+            ? `<div class="row-btns" style="margin-top:8px">
+                 <button class="btn quiet" data-act="declined">${d?.decision === 'declined' ? 'Declined' : 'No'}</button>
+                 <button class="btn primary" data-act="accepted">${d?.decision === 'accepted' ? 'Accepted — undo?' : 'Accept'}</button>
+               </div>`
+            : `<div class="pv-last">This one needs a decision I can't apply automatically — tell me in a session and I'll do it by hand.</div>`}
+        </div>`;
+      }).join('') || '<div class="pv-foot">No open proposals. The panel raises these when your log gives it a reason to.</div>'}
+    </div>
+    <div class="pv-foot">Accepting changes tonight’s session immediately and is recorded in <span class="num">data/coach/decisions.json</span>. Your plan file is never rewritten, so any of this is one tap to undo.</div>`, {
+    onOpen(sheet, close) {
+      sheet.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-act]');
+        if (!btn) return;
+        const row = btn.closest('.prop');
+        const p = raw.find((q) => propId(q) === row.dataset.id);
+        if (!p) return;
+        const want = btn.dataset.act;
+        const cur = decidedBy.get(propId(p))?.decision;
+        haptic(8);
+        if (cur === want) { // tapping the same answer again clears it
+          store.decisions = store.decisions.filter((d) => propId(d.proposal) !== propId(p));
+          store.decide(p, want === 'accepted' ? 'declined' : 'accepted');
+          store.decisions = store.decisions.filter((d) => propId(d.proposal) !== propId(p));
+          store.setDecisions([...store.decisions]);
+          toast('Cleared — back to the program as written', 'ok');
+        } else {
+          store.decide(p, want);
+          toast(want === 'accepted' ? 'Accepted — it applies to tonight' : 'Declined — nothing changes', 'ok', 2800);
+        }
+        close();
+        setTimeout(() => { render(root); openProposals(); }, 160);
+      });
+    },
+  });
+}
+
+function proposalsCard() {
+  const props = store.coach?.proposals ?? [];
+  if (!props.length) return '';
+  const decided = new Set(store.decisions.map((d) => propId(d.proposal)));
+  const open = props.filter((p) => !decided.has(propId({ ...p, date: p.date ?? store.coach?.date ?? null })));
+  return `
+    <div class="console-card">
+      <h3>Program changes your trainers want</h3>
+      <div class="cc-line" style="margin-bottom:9px">${open.length
+        ? `<b>${open.length}</b> waiting on you — ${props.length - open.length} already decided. Nothing changes until you accept it.`
+        : `All ${props.length} decided. Tap to review or undo.`}</div>
+      <button class="btn console-btn" id="open-proposals">Review the ${props.length} proposal${props.length === 1 ? '' : 's'}</button>
+    </div>`;
 }
 
 // How much each lift goes up by — READ OFF THE PLAN, never hand-written.
@@ -319,6 +408,7 @@ function wire(info) {
   // override's weights survive into the new night.
   $('#clear-override', root)?.addEventListener('click', () => applyPhaseOverride(null));
   $('#open-drawer', root).addEventListener('click', () => drawerSheet(info));
+  $('#open-proposals', root)?.addEventListener('click', openProposals);
 }
 
 // The six-workouts strip and the week-ahead rows both open the real card —
