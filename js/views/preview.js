@@ -45,7 +45,7 @@ export const BASIS = {
   // JUST THE REASON. "Set by your trainer in the Jul 22 morning review:" was
   // eight words of identical boilerplate on every single card — a third of
   // the text on screen, saying the same thing seven times. WHO and WHEN are
-  // stated ONCE, in the receipt at the top; the card wears a TRAINER chip.
+  // stated ONCE, in the receipt at the top.
   coach: (x) => `${x.coachRx?.reason ? `“${esc(x.coachRx.reason)}”` : 'Set by your trainer.'}${
     x.coachRx?.asked ? ` <span class="adj">Adjusted to a weight your machine can load — the ask was ${esc(x.coachRx.asked.map((w) => fmtW(w)).join(', '))}.</span>` : ''}${
     // Where the trainers disagreed, say so and name who won. A panel whose
@@ -191,8 +191,13 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
       </div>` : ''}
     ${flags.map((f) => `<div class="pv-flag">${ICONS.warn} ${esc(f.note ?? f.kind ?? '')}</div>`).join('')}
     <div class="pv-list">
-      ${rows.map((r, i) => {
-        const tag = TAG[r.basis] ?? { txt: r.basis, cls: '' };
+      ${(() => {
+        // If every row would carry the same chip, the column is wallpaper —
+        // drop it and let the receipt say it once.
+        const bases = new Set(rows.filter((r) => r.basis !== 'bodyweight').map((r) => r.basis));
+        const uniform = bases.size <= 1;
+        return rows.map((r, i) => {
+        const tag = uniform ? null : (TAG[r.basis] ?? { txt: r.basis, cls: '' });
         const ss = r.superset ? `<span class="pv-ss">superset</span>` : '';
         return `
         <div class="pv-row" data-ex="${esc(r.id)}" role="button" tabindex="0">
@@ -201,7 +206,7 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
             <span class="pv-name">${esc(r.name)}</span>
             ${r.stalled ? '<span class="chipper warn">stalled</span>' : ''}
             ${ss}
-            <span class="pv-tag ${tag.cls}">${esc(tag.txt)}</span>
+            ${tag ? `<span class="pv-tag ${tag.cls}">${esc(tag.txt)}</span>` : ''}
           </div>
           <div class="pv-sets num">${esc(fmtSetLine(r.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</div>
           <div class="pv-why">${BASIS[r.basis]?.(r) ?? ''}</div>
@@ -209,7 +214,8 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
           ${r.other ? `<div class="pv-last">${esc(dayName(r.other.session))} · ${fmtDate(r.other.date)}${r.other.deload ? ' · deload' : ''} — <span class="num">${esc(fmtSetLine(r.other.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
           ${(r.last?.note || r.other?.note) ? `<div class="pv-note">“${esc(r.last?.note || r.other?.note)}”</div>` : ''}
         </div>`;
-      }).join('')}
+        }).join('');
+      })()}
     </div>
     <div class="card pv-prov">
       <div class="pv-prov-h">Who set these numbers</div>

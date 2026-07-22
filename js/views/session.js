@@ -369,6 +369,23 @@ function switchSession(type) {
 // (x.prev is the card's own last-time strip; preview builds its own as
 // x.last, and BASIS.seed reads whichever exists.)
 
+// A label on EVERY card is not a label, it is wallpaper. Mark only the odd
+// one out: when the whole night comes from the trainers, nothing is tagged
+// (the receipt already says so once); when one lift didn't, THAT is the card
+// worth flagging — and vice versa.
+function oddOneOut(draft, x) {
+  const loaded = draft.exercises.filter((e) => e.basis !== 'bodyweight');
+  if (loaded.length < 2 || x.basis === 'bodyweight') return '';
+  const coached = loaded.filter((e) => e.basis === 'coach').length;
+  if (coached === 0 || coached === loaded.length) return ''; // uniform: says nothing
+  const isCoach = x.basis === 'coach';
+  const minorityIsCoach = coached * 2 <= loaded.length;
+  if (isCoach !== minorityIsCoach) return '';
+  return isCoach
+    ? '<span class="chipper coach">trainer</span>'
+    : '<span class="chipper">standing rules</span>';
+}
+
 function renderWorldScreen(draft, phaseInfo) {
   const U = universeOf(draft.session_type);
   const W = worldDef(draft.session_type, draft.world);
@@ -458,7 +475,7 @@ function renderWorldScreen(draft, phaseInfo) {
       <h1 class="obj-name"><button id="open-howto" data-ex="${esc(x.id)}">${esc(x.name)}<span class="qm">?</span></button></h1>
       <div class="obj-meta">
         <span class="chipper">${x.sets.length} × ${repRange}${x.repUnit === 'sec' ? 's' : ''}</span>
-        ${x.basis === 'coach' ? '<span class="chipper coach">trainer</span>' : ''}
+        ${oddOneOut(draft, x)}
         ${x.stalled ? '<span class="chipper warn">stalled</span>' : ''}
         ${x.basis === 'verify' ? '<span class="chipper warn">verify</span>' : ''}
         <button class="chipper note-chip${x.logNote ? ' has' : ''}" id="ex-note" data-oi="${focusIdx}">${x.logNote ? `${ICONS.pencil} note` : `${ICONS.pencil} add note`}</button>
