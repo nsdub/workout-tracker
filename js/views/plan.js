@@ -108,7 +108,8 @@ export function render(el) {
 
     <div class="console-card manual">
       <h3>How the weights go up</h3>
-      <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift by ${plan.rules.progression.upperIncrement} lb (+${plan.rules.progression.lowerIncrement} on deadlift, RDL and leg presses; lifts on your dual cable stack step to its next real pin, +1.5 or +2). Miss it → same weights again. Progress on one day carries to the same lift on every other day it appears.</div>
+      <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift. Miss it → same weights again. Progress on one day carries to the same lift on every other day it appears.</div>
+      <div class="cc-line" style="margin-top:6px">${incrementSentence(plan)}</div>
       <div class="cc-line" style="margin-top:6px">Every morning at 6 a trainer agent reads your full log — every set, every note — and commits its review to the repo: a plain-English brief plus any lifts it's adjusting, with reasons. The app applies those adjustments to tonight's numbers (each one says so on its card) and tells you in the briefing exactly which review tonight is running on. If a review hasn't seen your latest session, the app says that too and falls back to the rules above — it never pretends.</div>
       <div class="cc-line" style="margin-top:6px">Every prefill explains itself on its card, and you can always override it: what you actually log outranks everything and is what the next review reads.</div>
       <div class="cc-line" style="margin-top:6px">Effort: on big lifts stop with 1–2 reps left in the tank; the final set of small lifts can go to failure. On deload weeks stay 4+ reps away from failure.</div>
@@ -120,6 +121,34 @@ export function render(el) {
     <p class="mission-foot">APP ${esc(self.PROTOCOL_VERSION || 'dev')} · PLAN V${plan.version} · ${esc(plan.updated)}</p>`;
 
   wire(info);
+}
+
+// How much each lift goes up by — READ OFF THE PLAN, never hand-written.
+// A hand-written version of this sentence has been wrong twice: it claimed
+// pin-true stepping for cable lifts that were still on a fictional 2.5 grid,
+// then, once those were fixed, silently omitted the 7.5 lb machines.
+function incrementSentence(plan) {
+  const groups = new Map(); // label → Set(exercise names)
+  for (const session of Object.values(plan.sessions)) {
+    for (const slot of session.exercises) {
+      const meta = engine.exMeta(plan, slot.id);
+      if (meta.bodyweight) continue;
+      const label = meta.gear
+        ? `to the next real pin on your ${plan.gear?.[meta.gear]?.label ?? 'cable stack'} (+1.5 or +2 lb)`
+        : `by ${engine.increment(plan, slot.id)} lb`;
+      if (!groups.has(label)) groups.set(label, new Set());
+      groups.get(label).add(meta.name);
+    }
+  }
+  // biggest group first — it reads as the rule, the rest as its exceptions
+  const parts = [...groups.entries()]
+    .sort((a, b) => b[1].size - a[1].size)
+    .map(([label, names], i) => {
+      if (i === 0) return `Most lifts go up <b>${esc(label)}</b>.`;
+      const cap = label.charAt(0).toUpperCase() + label.slice(1);
+      return `<b>${esc(cap)}</b> — ${esc([...names].sort().join(', '))}.`;
+    });
+  return parts.join(' ');
 }
 
 // The next seven days spelled out: tonight's session, then the rest of the

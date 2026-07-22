@@ -444,6 +444,11 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     && prevTop >= backoffInfo(slot.seed, lastPhase?.loadFactor ?? 0.9, inc, ladder).weight;
   const sets = Array.from({ length: nSets }, (_, i) => {
     const src = prev[Math.min(i, prev.length - 1)];
+    // A set saved without a weight is an anomaly, not a rung to climb from:
+    // adding an increment to 0 invents a 7.5 lb "working set", and a ladder
+    // step from 0 lands on the lightest pin. Same rule applyCross already
+    // uses — leave the anomaly exactly where it is.
+    if (!(src.weight > 0)) return { weight: src.weight, reps: clamp(src.reps, slot.repMin, slot.repMax) };
     if (!grow) return { weight: snapRx(src.weight), reps: clamp(src.reps, slot.repMin, slot.repMax) };
     // On a ladder the "+increment" is the next real pin. At the very top of
     // the stack there is no raise to give — hold the weight AND the earned
@@ -460,7 +465,10 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     basis: grow ? 'progress' : phase?.type === 'prep' ? 'hold' : 'repeat',
     prevTop,
     increment: grow && prevTop != null ? +(newTop - prevTop).toFixed(2) : 0,
-    source: { date: last.entry.date }, // which visit these numbers came from
+    // The visit these numbers were actually built from — carried out whole so
+    // the card can display THAT session rather than re-deriving "most recent"
+    // with a different fence and contradicting itself.
+    source: { date: last.entry.date, entry: last.entry, ex: last.ex },
   };
   if (phase?.type === 'prep') return base; // prep holds — no cross-day raises either
   return applyCross(sets, prevTop) ?? base;
@@ -479,7 +487,10 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
     // built from, and any work done since on another day. Showing only the
     // latter under a sentence about the former put three different sessions
     // on one card and made the app look broken (it was).
-    const sameDay = lastPerformance(history, sessionType, slot.id, {});
+    // rx.source is authoritative — it is the entry prescribe actually read,
+    // through prescribe's own fences (calibration cutoff, deload skip). The
+    // unfenced fallback only runs for bases that read no prior visit.
+    const sameDay = rx.source ?? lastPerformance(history, sessionType, slot.id, {});
     const anywhere = lastPerformanceAnywhere(history, slot.id);
     const other = anywhere && anywhere.entry !== sameDay?.entry ? anywhere : null;
     return {

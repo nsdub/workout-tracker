@@ -269,7 +269,11 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
     // from — and, separately, the same lift done since on another day. They
     // are different facts and the card labels them differently; collapsing
     // them into one "LAST" line is what made the card contradict itself.
-    const sameDay = engine.lastPerformance(store.history, sessionType, slot.id, {});
+    // rx.source is the visit the prescription actually read (through the
+    // engine's own calibration/deload fences). Re-deriving "most recent" here
+    // with a looser fence is exactly how the card came to show one session
+    // while the sentence underneath described another.
+    const sameDay = rx.source ?? engine.lastPerformance(store.history, sessionType, slot.id, {});
     const anywhere = engine.lastPerformanceAnywhere(store.history, slot.id);
     const otherDay = anywhere && anywhere.entry !== sameDay?.entry ? anywhere : null;
     const strip = (perf) => perf ? {

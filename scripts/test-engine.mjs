@@ -435,6 +435,37 @@ ok('at the top of the stack the weight holds AND the earned reps hold', () => {
   assert.equal(rx.sets[0].reps, 12);      // a raise that doesn't exist must not reset reps to the floor
   assert.equal(rx.increment, 0);          // the card renders the honest "top of the stack" line off this
 });
+ok('a zero-weight set is never climbed FROM on the progress path either', () => {
+  // the same anomaly applyCross already refused to touch: +5 from 0 invents a
+  // 5 lb "working set"; a ladder step from 0 lands on the lightest pin.
+  // reps 10 = repMax exactly → the single +5 step (12 would earn the
+  // compound double-jump and muddy what this test is pinning)
+  const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
+    { weight: 0, reps: 10 }, { weight: 195, reps: 10 }, { weight: 195, reps: 10 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'progress');
+  assert.deepEqual(rx.sets.map((s) => s.weight), [0, 200, 200]);
+  const lad = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', [
+    { weight: 0, reps: 15 }, { weight: 25.5, reps: 15 },
+  ])];
+  const lrx = E.prescribe(plan, lad, 'PullB', slot('PullB', 'face-pulls'), meso);
+  assert.equal(lrx.sets[0].weight, 0, 'a ladder step from 0 must not land on the lightest pin');
+});
+ok('the card’s LAST strip is the visit prescribe actually read, fences and all', () => {
+  // a deload entry is the most recent same-day-type visit, but the meso
+  // prescription deliberately skips it — so the strip must show the meso
+  // visit, not the deload, or the card contradicts its own sentence again.
+  const meso2 = E.phaseForDate(plan, '2026-08-25');
+  const h = [...history,
+    mkEntry('2026-08-10', 'PushA', 'machine-chest-press', mkSets(195, 10, 3), 'meso1'),
+    mkEntry('2026-08-19', 'PushA', 'machine-chest-press', mkSets(155, 6, 2), 'deload1'),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso2);
+  assert.equal(rx.source.date, '2026-08-10', 'source must be the visit the numbers came from');
+  const row = E.previewSession(plan, h, 'PushA', meso2).find((r) => r.id === 'machine-chest-press');
+  assert.equal(row.last.date, '2026-08-10', 'the displayed strip must match that same visit');
+});
 ok('a zero-weight set inside a real shape is never teleported to the cross top', () => {
   const h = [...history,
     mkEntry('2026-07-16', 'PushA', 'machine-chest-press', [
