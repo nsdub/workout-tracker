@@ -1,17 +1,44 @@
 {
   "date": "2026-07-22",
   "reviewed_through": "2026-07-21",
-  "generated_at": "2026-07-22T03:45:31+00:00",
+  "generated_at": "2026-07-22T15:08:44+00:00",
   "reviewer": "daily-training-brief (Claude trainer agent)",
   "session_expected": "LegsB",
-  "brief": "Legs B tonight — first build week, so the calibration discount is over. Smith RDL: same ramp to 205, fight for 8s and take the full three-minute rests (your last set died at 7 on the 15th). Leg press: I made all three work sets 160 — your 120 opener was really a warm-up. Calves: one ramp set at 240, then three real sets at 280 with a dead-stop pause at the bottom; you proved 260×15 twice on Saturday. Cable crunch moves up to 50, which you already handled Saturday. Get all four leg-curl sets in this time. And fit one more easy 20–30 minute cardio session in before Sunday.",
+  "brief": "Legs B, and I've set every number tonight off last week's results rather than letting the app copy Jul 15 back at you. Two themes from the week: you keep leaving the last set of leg curls and calf presses unbanked, and your Legs A day is out-performing Legs B on the same machines (15s at 135 on leg extension, 260x15 twice on calves) — so Legs B is the one lagging, not the muscle. RDL: tighter ramp, same 205 top, and I want all four sets at 8 or better; the 15th died at 7 because two of your four sets were spent warming up. Leg curl holds at 135 on purpose — it is the third session there and the fourth set has never been logged; bank all four and it goes to 142.5 next week. Leg extension holds at 142.5 and you chase 15s, which you have already proven at 135. Calves: one ramp at 240 then three honest sets at 280, dead-stop pause at the bottom. Cable crunch is 50.5, which is the real pin — the 50 you logged does not exist on that stack. Plank stays 2 x 60s. One more easy 20-30 min cardio before Sunday.",
   "flags": [
     {
       "kind": "volume",
-      "note": "Leg curls and calf presses have come up short of their planned sets two sessions running — bank every set tonight."
+      "note": "Leg curls and calf presses have both come up a set short two sessions running — banking every set is tonight's actual job."
+    },
+    {
+      "kind": "fatigue",
+      "note": "Legs A is beating Legs B on the shared machines. If tonight feels flat again, say so in a note and I'll rebalance the two days."
     }
   ],
   "overrides": [
+    {
+      "exercise": "smith-rdl",
+      "session": "LegsB",
+      "reason": "Two of your four sets on the 15th were spent under 190 and the last one died at 7. Tighter ramp, same top — all four at 8 or better.",
+      "sets": [
+        {
+          "weight": 175,
+          "reps": 8
+        },
+        {
+          "weight": 195,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        },
+        {
+          "weight": 205,
+          "reps": 8
+        }
+      ]
+    },
     {
       "exercise": "leg-press-high",
       "session": "LegsB",
@@ -32,9 +59,51 @@
       ]
     },
     {
+      "exercise": "leg-curl",
+      "session": "LegsB",
+      "reason": "Third session at 135 and the fourth set has never made it into the log. Weight holds until all four are banked — then 142.5.",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 135,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "exercise": "leg-extension",
+      "session": "LegsB",
+      "reason": "You hit 15s at 135 on Legs A but stall at 12 here. Same weight, chase 15 on every set — that is what unlocks the next step.",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 12
+        },
+        {
+          "weight": 142.5,
+          "reps": 12
+        },
+        {
+          "weight": 142.5,
+          "reps": 12
+        }
+      ]
+    },
+    {
       "exercise": "standing-calf-raise",
       "session": "LegsB",
-      "reason": "You proved 260×15 twice on Saturday — one ramp set, then three real sets at 280. Pause at the bottom.",
+      "reason": "You proved 260x15 twice on Saturday — one ramp set, then three real sets at 280. Pause dead at the bottom.",
       "sets": [
         {
           "weight": 240,
@@ -50,6 +119,25 @@
         },
         {
           "weight": 280,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "session": "LegsB",
+      "reason": "50.5 is the real pin — the 50 you logged does not exist on that stack. You handled it Saturday, so three sets here.",
+      "sets": [
+        {
+          "weight": 50.5,
+          "reps": 12
+        },
+        {
+          "weight": 50.5,
+          "reps": 12
+        },
+        {
+          "weight": 50.5,
           "reps": 12
         }
       ]
