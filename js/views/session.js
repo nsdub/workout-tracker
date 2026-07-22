@@ -386,6 +386,25 @@ function oddOneOut(draft, x) {
     : '<span class="chipper">standing rules</span>';
 }
 
+// WHY THIS WEIGHT — collapsed by default. Mid-set with a rest timer running
+// he needs the number and the button, not a paragraph; the reasoning is
+// reference material he reads once, not every set. Open state is remembered
+// per exercise so expanding it survives logging a set.
+const whyOpen = new Set();
+function whyBlock(x) {
+  const body = BASIS[x.basis]?.(x) ?? '';
+  if (!body) return '';
+  const plain = body.replace(/<[^>]+>/g, '');
+  // short enough to just read? then no toggle — a control that saves nothing
+  // is worse than the text it hides.
+  if (plain.length <= 90) return `<div class="basis-line">${body}</div>`;
+  const open = whyOpen.has(x.id);
+  return `<details class="why"${open ? ' open' : ''} data-ex="${esc(x.id)}">
+    <summary>Why ${fmtW(Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0)))} lb${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
+    <div class="basis-line">${body}</div>
+  </details>`;
+}
+
 function renderWorldScreen(draft, phaseInfo) {
   const U = universeOf(draft.session_type);
   const W = worldDef(draft.session_type, draft.world);
@@ -505,8 +524,8 @@ function renderWorldScreen(draft, phaseInfo) {
         <div class="ls-r ls-other"><b>${esc(x.other.day.toUpperCase())}</b><span class="d">${fmtDate(x.other.date)}${x.other.tag ? ` · ${x.other.tag}` : ''}</span></div>
         <div class="ls-sets num ls-other-sets">${esc(x.other.setsAll)}</div>` : ''}
         ${x.prevNote ? `<div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div>` : ''}
-        <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
-      </div>` : `<div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>`}
+        ${whyBlock(x)}
+      </div>` : whyBlock(x)}
 
       ${x.sets.some((s) => s.done) ? `
         <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
@@ -565,6 +584,11 @@ function wire(draft, x, curIdx, noticeList = []) {
   root.onclick = null;
   const U = universeOf(draft.session_type);
   $('#open-brief', root).addEventListener('click', briefingSheet);
+  // remember which explanations he opened, so logging a set doesn't slam them
+  root.querySelector('details.why')?.addEventListener('toggle', (e) => {
+    const id = e.currentTarget.dataset.ex;
+    if (e.currentTarget.open) whyOpen.add(id); else whyOpen.delete(id);
+  });
   $('#open-howto', root).addEventListener('click', (e) => howtoSheet(e.currentTarget.dataset.ex));
   $('#ex-note', root)?.addEventListener('click', (e) => exerciseNoteSheet(Number(e.currentTarget.dataset.oi)));
   $('#ss-jump', root)?.addEventListener('click', (e) => {

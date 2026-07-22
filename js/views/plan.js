@@ -174,7 +174,12 @@ function openProposals() {
             <span class="pv-name">${VERB[p.kind]?.(p) ?? esc(`${p.kind} ${p.exercise}`)}</span>
             <span class="pv-tag ${d?.decision === 'accepted' ? 'up' : ''}">${d ? esc(d.decision) : esc(p.from ?? 'trainer')}</span>
           </div>
-          <div class="pv-why">${esc(p.why ?? '')}</div>
+          ${(() => {
+            const why = String(p.why ?? '');
+            if (why.length <= 150) return `<div class="pv-why">${esc(why)}</div>`;
+            const gist = why.slice(0, why.slice(0, 130).lastIndexOf(' ')).trim();
+            return `<details class="why"><summary>${esc(gist)}…</summary><div class="pv-why">${esc(why)}</div></details>`;
+          })()}
           ${applies
             ? `<div class="row-btns" style="margin-top:8px">
                  <button class="btn quiet pr-btn" data-act="declined">No</button>

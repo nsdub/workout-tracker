@@ -186,8 +186,8 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
     <div class="sub">${esc(U?.name ?? '')} · ${rows.length} acts · ${totalSets} sets · ≈${mins} min${phaseInfo.phase ? ` · ${esc(phaseInfo.phase.name)}` : ''}</div>
     ${coachFresh && store.coach?.brief ? `
       <div class="card pv-brief">
-        <div class="pv-brief-h">${ICONS.pencil} Trainer, ${esc(fmtDate(store.coach.date ?? store.coach.reviewed_through))}</div>
-        <div class="pv-brief-b">${esc(store.coach.brief)}</div>
+        <details class="why"><summary>Trainer’s note, ${esc(fmtDate(store.coach.date ?? store.coach.reviewed_through))}</summary>
+        <div class="pv-brief-b">${esc(store.coach.brief)}</div></details>
       </div>` : ''}
     ${flags.map((f) => `<div class="pv-flag">${ICONS.warn} ${esc(f.note ?? f.kind ?? '')}</div>`).join('')}
     <div class="pv-list">
