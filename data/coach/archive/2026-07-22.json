@@ -1,0 +1,58 @@
+{
+  "date": "2026-07-22",
+  "reviewed_through": "2026-07-21",
+  "generated_at": "2026-07-22T03:45:31+00:00",
+  "reviewer": "daily-training-brief (Claude trainer agent)",
+  "session_expected": "LegsB",
+  "brief": "Legs B tonight — first build week, so the calibration discount is over. Smith RDL: same ramp to 205, fight for 8s and take the full three-minute rests (your last set died at 7 on the 15th). Leg press: I made all three work sets 160 — your 120 opener was really a warm-up. Calves: one ramp set at 240, then three real sets at 280 with a dead-stop pause at the bottom; you proved 260×15 twice on Saturday. Cable crunch moves up to 50, which you already handled Saturday. Get all four leg-curl sets in this time. And fit one more easy 20–30 minute cardio session in before Sunday.",
+  "flags": [
+    {
+      "kind": "volume",
+      "note": "Leg curls and calf presses have come up short of their planned sets two sessions running — bank every set tonight."
+    }
+  ],
+  "overrides": [
+    {
+      "exercise": "leg-press-high",
+      "session": "LegsB",
+      "reason": "Your 120 opener was a warm-up in disguise — three real sets at 160, build toward 12s.",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 10
+        },
+        {
+          "weight": 160,
+          "reps": 10
+        },
+        {
+          "weight": 160,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "session": "LegsB",
+      "reason": "You proved 260×15 twice on Saturday — one ramp set, then three real sets at 280. Pause at the bottom.",
+      "sets": [
+        {
+          "weight": 240,
+          "reps": 12
+        },
+        {
+          "weight": 280,
+          "reps": 12
+        },
+        {
+          "weight": 280,
+          "reps": 12
+        },
+        {
+          "weight": 280,
+          "reps": 12
+        }
+      ]
+    }
+  ]
+}
