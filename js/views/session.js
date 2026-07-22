@@ -427,8 +427,19 @@ function renderWorldScreen(draft, phaseInfo) {
   const coachFlags = engine.coachFresh(store.history, pkt, draft.date)
     && (!pkt?.session_expected || pkt.session_expected === draft.session_type)
     ? (pkt?.flags ?? []) : [];
+  // Program changes waiting on him. These were three screens deep in Mission
+  // behind a scroll; a decision the trainers are blocked on belongs on the
+  // screen he is actually looking at.
+  const undecided = (() => {
+    const props = store.coach?.proposals ?? [];
+    if (!props.length) return 0;
+    const pid = (q) => `${q.date ?? store.coach?.date ?? ''}:${q.kind}:${q.exercise}:${q.scope ?? 'all'}`;
+    const done = new Set(store.decisions.map((x) => `${x.proposal?.date ?? ''}:${x.proposal?.kind}:${x.proposal?.exercise}:${x.proposal?.scope ?? 'all'}`));
+    return props.filter((q) => !done.has(pid(q))).length;
+  })();
   const noticeList = [
     ...coachFlags.filter((f) => f.kind === 'pain').map((f) => ({ p: 0, k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? 'check this before you lift'}` })),
+    undecided ? { p: 1, k: 'props', ic: 'pencil', txt: `${undecided} program change${undecided === 1 ? '' : 's'} waiting on your yes or no — tap to decide` } : null,
     draft.date !== todayStr() ? { p: 1, k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
     ...coachFlags.filter((f) => f.kind !== 'pain').map((f) => ({ p: 2, k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? f.kind ?? 'see this morning’s review'}` })),
     streak >= 6 ? { p: 3, k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
@@ -564,6 +575,12 @@ function wire(draft, x, curIdx, noticeList = []) {
   });
   $('#notice-bar', root)?.addEventListener('click', (e) => {
     if (e.target.closest('#resume-discard')) return; // Discard owns its tap
+    // A proposals notice goes STRAIGHT to the decision, not to a list of
+    // notices that then makes him go find it on another tab.
+    if (noticeList[0]?.k === 'props') {
+      window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'plan', proposals: true } }));
+      return;
+    }
     noticesSheet(noticeList);
   });
   $('#resume-discard', root)?.addEventListener('click', () => {
@@ -968,10 +985,18 @@ function briefingSheet() {
       const fresh = !!c && engine.coachFresh(store.history, c, d.date)
         && (!c.session_expected || c.session_expected === d.session_type);
       const p = provenance(d.exercises.map((x) => ({ basis: x.basis, name: x.name })), c, fresh);
-      const rules = `Between reviews the standing rules run on this phone: hit the top of the rep range on every set and the lift goes up next time, progress on one day carries to the same lift on other days, and every weight lands on a pin your machines can actually load.`;
-      return `<div class="opt notice-full">${provenanceText(p)}${
-        p.rules.length ? `<br><br>Standing rules tonight: ${esc(p.rules.map((r) => r.name).join(', '))}. ${rules}` : ''
-      }${fresh && c?.brief ? `<br><br>“${esc(c.brief)}”` : ''}</div>`;
+      // ONE line, not an essay. The full trainer brief used to be dumped here
+      // whole — several hundred words in a sheet you open to check a weight.
+      // It lives one tap away instead.
+      const src = p.automatic
+        ? `the 6 AM review of ${esc(fmtDate(p.date))}`
+        : `a review written by hand on ${esc(fmtDate(p.date))}`;
+      const head = p.trainer.length
+        ? `<b>${p.trainer.length} of ${p.total}</b> lifts set by ${src}.`
+        : `No trainer review is driving tonight — all ${p.total} lifts come from the standing rules.`;
+      const rest = p.rules.length ? ` Standing rules: ${esc(p.rules.map((r) => r.name).join(', '))}.` : '';
+      return `<div class="opt notice-full">${head}${rest}</div>
+        ${fresh && c?.brief ? `<button class="btn quiet" id="brief-read" style="margin-top:8px">Read tonight’s brief</button>` : ''}`;
     })()}</div>`, {
     onOpen(sheet, close) {
       sheet.addEventListener('click', (e) => {
@@ -979,6 +1004,16 @@ function briefingSheet() {
         if (opt) { close(); const t = Number(opt.dataset.oi); navDir = t >= focusIdx ? 'next' : 'prev'; focusIdx = t; render(root); }
       });
       $('#brief-card', sheet).addEventListener('click', () => { close(); setTimeout(() => previewSheet(d.session_type, { when: 'tonight' }), 120); });
+      $('#brief-read', sheet)?.addEventListener('click', () => {
+        close();
+        setTimeout(() => openSheet(`
+          <h2>Tonight’s brief</h2>
+          <div class="sub">${esc(store.coach?.reviewer ?? 'Your trainers')} · ${esc(fmtDate(store.coach?.date))}</div>
+          <div class="card"><div class="pv-why">${esc(store.coach?.brief ?? '')}</div></div>
+          <button class="btn quiet" id="tb-close" style="margin-top:12px">Close</button>`, {
+          onOpen(s2, c2) { $('#tb-close', s2).addEventListener('click', c2); },
+        }), 120);
+      });
       $('#brief-add', sheet).addEventListener('click', () => { close(); addExerciseSheet(); });
       $('#chip-bw', sheet).addEventListener('click', () => { close(); bodyweightSheet(); });
       $('#chip-notes', sheet).addEventListener('click', () => { close(); notesSheet(); });

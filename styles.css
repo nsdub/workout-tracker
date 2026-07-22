@@ -217,7 +217,14 @@ svg.ic { vertical-align: -2px; }
 }
 .notice button { color: var(--acc); font-family: inherit; font-size: 12px; padding: 14px; margin: -14px; flex: none; }
 /* full-sentence rows inside the briefing sheet */
-.opt.notice-full { font-family: var(--body); font-size: 13.5px; font-weight: 600; line-height: 1.45; pointer-events: none; }
+/* PROSE, NOT A ROW. `.opt` is display:flex for label+hint buttons; reusing it
+   for a paragraph turned every <b> inside into a flex ITEM and shredded the
+   text into narrow vertical columns on the phone. Prose blocks are blocks. */
+.opt.notice-full {
+  display: block; font-family: var(--body); font-size: 13.5px; font-weight: 600;
+  line-height: 1.45; pointer-events: none;
+}
+.opt.notice-full b { font-weight: 800; }
 
 /* The objective panel — frosted material: the world shows THROUGH it.
    Each universe reskins it completely below. */

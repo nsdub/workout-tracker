@@ -132,6 +132,8 @@ export function render(el) {
 // never rewritten; the decision is one line in data/coach/decisions.json.
 const propId = (p) => `${p.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
 
+export function openProposalsSheet() { openProposals(); }
+
 function openProposals() {
   const plan = store.plan;
   const raw = (store.coach?.proposals ?? []).map((p) => ({ ...p, date: p.date ?? store.coach?.date ?? null }));

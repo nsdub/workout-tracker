@@ -108,10 +108,12 @@ $('#tabbar').addEventListener('click', (e) => {
 // star, Atlas re-open → the Lift screen), the tab owner routes. An event, not
 // an export, so the views never import the entry module back (no cycle).
 window.addEventListener('p3:nav', (e) => {
-  const { tab, entryPath } = e.detail || {};
+  const { tab, entryPath, proposals } = e.detail || {};
   if (entryPath) log.openEntry(entryPath);
   if (tab && tab !== active) switchTab(tab);
   else renderActive();
+  // land ON the decision, not on a tab he then has to scroll
+  if (proposals) setTimeout(() => board.openProposalsSheet?.(), 220);
 });
 
 // Log a conditioning session from anywhere (Mission tab's Fuel cells) without a
