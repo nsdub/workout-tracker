@@ -106,7 +106,9 @@ export function render(el) {
 
     <div class="console-card manual">
       <h3>How the weights go up</h3>
-      <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift by ${plan.rules.progression.upperIncrement} lb (+${plan.rules.progression.lowerIncrement} on deadlift, RDL and leg presses). Miss it → same weight again. You never pick the numbers.</div>
+      <div class="cc-line">Hit the TOP of the rep range on every set of a lift → next session the app raises that lift by ${plan.rules.progression.upperIncrement} lb (+${plan.rules.progression.lowerIncrement} on deadlift, RDL and leg presses; lifts on your dual cable stack step to its next real pin, +1.5 or +2). Miss it → same weights again. Progress on one day carries to the same lift on every other day it appears.</div>
+      <div class="cc-line" style="margin-top:6px">Every morning at 6 a trainer agent reads your full log — every set, every note — and commits its review to the repo: a plain-English brief plus any lifts it's adjusting, with reasons. The app applies those adjustments to tonight's numbers (each one says so on its card) and tells you in the briefing exactly which review tonight is running on. If a review hasn't seen your latest session, the app says that too and falls back to the rules above — it never pretends.</div>
+      <div class="cc-line" style="margin-top:6px">Every prefill explains itself on its card, and you can always override it: what you actually log outranks everything and is what the next review reads.</div>
       <div class="cc-line" style="margin-top:6px">Effort: on big lifts stop with 1–2 reps left in the tank; the final set of small lifts can go to failure. On deload weeks stay 4+ reps away from failure.</div>
       <div class="cc-line" style="margin-top:6px">Same weight ${plan.rules.stall.sessions} sessions in a row → a red beacon lights up here, and the lift gets a variation swap at the next deload.</div>
     </div>

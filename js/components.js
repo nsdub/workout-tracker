@@ -105,7 +105,7 @@ export function openSheet(html, { onOpen } = {}) {
   return close;
 }
 
-export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, min = 0, max = 2000, decimals = true, onConfirm }) {
+export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, min = 0, max = 2000, decimals = true, grid = null, onConfirm }) {
   let current = value ?? 0;
   let typing = false;
   let buffer = '';
@@ -113,9 +113,9 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
     <h2>${esc(title)}</h2>
     ${sub ? `<div class="sub">${esc(sub)}</div>` : ''}
     <div class="np-display">
-      <button class="np-step" data-d="-1">−${fmtW(step)}</button>
+      <button class="np-step" data-d="-1">${grid?.length ? '− pin' : `−${fmtW(step)}`}</button>
       <div class="np-value num"><span id="np-v">${fmtW(current)}</span>${unit ? `<span class="unit"> ${esc(unit)}</span>` : ''}</div>
-      <button class="np-step" data-d="1">+${fmtW(step)}</button>
+      <button class="np-step" data-d="1">${grid?.length ? '+ pin' : `+${fmtW(step)}`}</button>
     </div>
     <div class="np-grid">
       ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button class="np-key" data-k="${n}">${n}</button>`).join('')}
@@ -144,7 +144,18 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
         const key = e.target.closest('.np-key');
         if (stepBtn) {
           if (typing) { current = parseFloat(buffer || '0'); typing = false; }
-          current = Math.min(max, Math.max(min, +(current + step * Number(stepBtn.dataset.d)).toFixed(2)));
+          const d = Number(stepBtn.dataset.d);
+          if (grid?.length) {
+            // Walk the machine's real pins: +/− lands on a weight that exists,
+            // never on step-arithmetic the stack can't load. Past either end
+            // the value HOLDS — a plus that lowers (typed 150 → top pin) or a
+            // minus that raises (0 → first pin) would invert the button.
+            current = d > 0
+              ? (grid.find((v) => v > current + 1e-9) ?? current)
+              : ([...grid].reverse().find((v) => v < current - 1e-9) ?? current);
+          } else {
+            current = Math.min(max, Math.max(min, +(current + step * d).toFixed(2)));
+          }
           haptic(5); sfx('tap'); render(); pulse(true);
         } else if (key && !key.disabled) {
           const k = key.dataset.k;
@@ -404,6 +415,10 @@ function restTick() {
     // the rest you are, until the next set is logged or Skip is tapped. A user
     // back from a locked phone sees exactly how late they're running.
     restState.fired = true;
+    // A catch-up fire (page was hidden past the deadline) must not double-ring:
+    // any echo whose window overlaps this very bell is spent, not pending.
+    const overAtFire = now - restState.deadline;
+    if (restState.echoes) restState.echoes = restState.echoes.filter((d) => d > overAtFire + 2000);
     haptic([30, 60, 30]);
     // Through the pending-cue path: if iOS froze the audio clock while the
     // phone was pocketed, the ding lands the instant the room wakes (or on
@@ -428,6 +443,17 @@ function restTick() {
   // Count UP, capped at +30:00 on the label (an abandoned session shouldn't
   // read like a stopwatch marathon); half-second cadence is plenty.
   const over = Math.min(now - restState.deadline, 30 * 60000);
+  // The bell REPEATS into early overtime — one ding on a loud gym floor is a
+  // coin flip. Echoes only reach a visible page (a pocketed phone can't hear
+  // them anyway, and a stack of stale dings on return would be noise: the
+  // catch-up flash + overtime pill already tell that story).
+  while (restState.echoes?.length && over >= restState.echoes[0]) {
+    const due = restState.echoes.shift();
+    if (document.visibilityState === 'visible' && over - due < 2000) {
+      haptic([30, 60, 30]);
+      sfx('restDone');
+    }
+  }
   const s = Math.floor(over / 1000);
   restState.digits.textContent = `+${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
   restTO = setTimeout(restTick, 500);
@@ -436,12 +462,11 @@ function restTick() {
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden') {
     // A live rest leaves a dot on the home-screen icon where iOS allows it.
-    // Fully wrapped, never prompts: pure progressive enhancement.
+    // Fully wrapped, never prompts: pure progressive enhancement. (There is
+    // deliberately NO scheduled notification here — no browser has an API to
+    // fire one at a future time, and pretending otherwise was v42's mistake.)
     if (restState && !restState.fired) {
       try { navigator.setAppBadge?.(1)?.catch?.(() => {}); } catch { /* no badging */ }
-      // Now that the app is actually backgrounded, arm the OS notification for
-      // the deadline. Only here — a lifter watching the timer never gets it.
-      scheduleRestNotification(restState.deadline, restState.overLabel);
     }
     return;
   }
@@ -458,46 +483,31 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // ——— Rest-done system notification ———
-// The on-screen flash + ding only reach a lifter who's looking. A pocketed or
-// locked phone needs an OS notification. We schedule it to fire at the rest
-// deadline via the service worker, but ONLY once the app is backgrounded — so a
-// lifter watching the timer never gets a redundant buzz. Cancelled the moment
-// the app returns, the set is logged, or Skip is tapped.
+// HONESTY LEDGER (v45): v42 scheduled these via the Notification Triggers API
+// (showTrigger/TimestampTrigger). That API shipped in NO browser — WebKit
+// never implemented it, Chromium removed it in 2021 — so the scheduled path,
+// and the permission prompt gated behind it, were dead code on every device.
+// Deleted. What a web app can truly do about a LOCKED phone with no server:
+// nothing — iOS suspends the page's JS within seconds of lock, and only real
+// Web Push (a server sending at the right moment) can wake a locked iPhone.
+// Until that server exists, the honest contract is: the app holds a screen
+// wake lock so the timer stays alive face-up, and the end-of-rest alarm
+// repeats so a loud gym floor can't swallow it.
 const NOTIF_TAG = 'p3-rest-done';
-const canTrigger = () => 'Notification' in window
-  && 'serviceWorker' in navigator
-  && 'showTrigger' in (window.Notification?.prototype ?? {})
-  && typeof window.TimestampTrigger !== 'undefined';
-
-async function scheduleRestNotification(deadline, overLabel) {
-  if (!('Notification' in window) || Notification.permission !== 'granted' || !canTrigger()) return;
-  if (deadline - Date.now() < 800) return; // too close to schedule reliably
-  try {
-    const reg = await navigator.serviceWorker.ready;
-    await reg.showNotification('Rest’s up 💪', {
-      tag: NOTIF_TAG, // one live rest-done notification, ever — a re-schedule replaces it
-      body: `${overLabel || 'Back to it'} — time for your next set.`,
-      showTrigger: new window.TimestampTrigger(deadline),
-      requireInteraction: false,
-      silent: false,
-      data: { kind: 'rest-done' },
-    });
-  } catch { /* triggers unsupported on this device — the app badge is the fallback */ }
-}
 
 async function cancelRestNotification() {
   if (!('serviceWorker' in navigator)) return;
   try {
     const reg = await navigator.serviceWorker.ready;
-    const notes = await reg.getNotifications({ tag: NOTIF_TAG, includeTriggered: true });
+    const notes = await reg.getNotifications({ tag: NOTIF_TAG });
     notes.forEach((n) => n.close());
-  } catch { /* nothing scheduled, or unsupported */ }
+  } catch { /* nothing shown, or unsupported */ }
 }
 
-// Belt-and-braces for devices without the scheduling API: if the countdown
-// reaches zero while the page is still alive in the background (Android often
-// keeps a backgrounded PWA's timers running for a while), post the alert right
-// then. Same tag as the scheduled one, so a device that has both shows one.
+// If the countdown reaches zero while the page is still alive in the
+// background (Android often keeps a backgrounded PWA's timers running for a
+// while — iOS does not), post the OS alert right then. This is the only
+// notification path that ever actually worked, and only on Android.
 async function fireRestNotificationNow(overLabel) {
   if (!('Notification' in window) || Notification.permission !== 'granted' || !('serviceWorker' in navigator)) return;
   try {
@@ -511,13 +521,20 @@ async function fireRestNotificationNow(overLabel) {
   } catch { /* unsupported */ }
 }
 
-// One-time, opt-in, never nags: on the first rest we offer the alert instead of
-// silently assuming consent. Declined once (or unsupported) → we don't ask again.
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+// One-time, opt-in, never nags. On iOS the truth is the tip: a web app cannot
+// buzz a pocketed iPhone, so we promise only what we deliver — screen stays
+// awake, alarm repeats. Elsewhere, offer the background alert that
+// fireRestNotificationNow can genuinely deliver. (v42 gated this prompt
+// behind the dead Triggers API, so it had never actually been shown anywhere.)
 function offerRestAlerts() {
-  const supported = 'Notification' in window && canTrigger();
   if (localStorage.getItem('p3.restTipShown')) return;
   try { localStorage.setItem('p3.restTipShown', '1'); } catch { /* private mode: tip may repeat */ }
-  if (supported && Notification.permission === 'default') {
+  const offerable = !IS_IOS && 'Notification' in window && 'serviceWorker' in navigator
+    && Notification.permission === 'default';
+  if (offerable) {
     toast('I keep your screen lit while you rest. Want a buzz when it’s up, even in your pocket?', 'ok', 6500, {
       action: {
         label: 'Alert me',
@@ -525,17 +542,12 @@ function offerRestAlerts() {
           try {
             const p = await Notification.requestPermission();
             toast(p === 'granted' ? 'Rest alerts on 🔔' : 'No alerts — your phone said no', p === 'granted' ? 'ok' : 'bad', 3200);
-            // If a rest is already running and we just went to background, arm it now.
-            if (p === 'granted' && restState && !restState.fired && document.visibilityState === 'hidden') {
-              scheduleRestNotification(restState.deadline, restState.overLabel);
-            }
           } catch { /* denied */ }
         },
       },
     });
   } else {
-    // Notifications unavailable (or already decided) — the original honest tip.
-    toast('I keep your screen lit while you rest — if you pocket the phone, iPhone silences me until you look back.', 'ok', 5200);
+    toast('I keep your screen awake while you rest, and the bell re-rings twice if you miss it. iPhone won’t let a web app buzz a locked phone — keep me face-up.', 'ok', 6000);
   }
 }
 
@@ -601,6 +613,7 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     lock: null,
     ending: false,      // last-10s hot state applied once
     lastTickSec: null,  // final-3s tick fires once per whole second
+    echoes: [8000, 20000], // the bell re-rings at +0:08 and +0:20 overtime (visible page only)
   };
   acquireWakeLock();
   restRAF = requestAnimationFrame(restTick);

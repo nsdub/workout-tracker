@@ -1,7 +1,22 @@
 {
   "version": 3,
   "name": "Protocol v3",
-  "updated": "2026-07-18",
+  "updated": "2026-07-21",
+  "gear": {
+    "main-cable": {
+      "label": "dual cable stack",
+      "note": "Photographed 2026-07-21: plates 2.5–97.5 lb in 5 lb steps, plus two 1.5 lb micro weights (loadable: pin, pin+1.5, pin+3).",
+      "stack": {
+        "min": 2.5,
+        "step": 5,
+        "max": 97.5
+      },
+      "micro": [
+        1.5,
+        3
+      ]
+    }
+  },
   "units": "lb",
   "show": {
     "date": "2027-03-01",
@@ -170,7 +185,7 @@
         "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
         "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "db-shoulder-press": {
       "name": "DB Shoulder Press",
@@ -187,7 +202,7 @@
         "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
         "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "overhead-cable-triceps": {
       "name": "Overhead Cable Triceps Ext",
@@ -196,7 +211,7 @@
         "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
         "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "rope-pushdown": {
       "name": "Rope Pushdown",
@@ -204,7 +219,7 @@
         "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
         "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "face-pulls": {
       "name": "Face Pulls",
@@ -213,7 +228,7 @@
         "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
         "Think external rotation, not rowing: hands finish above the elbows every rep."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "deadlift": {
       "name": "Deadlift",
@@ -257,7 +272,7 @@
         "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
         "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "leg-press-low": {
       "name": "Leg Press (feet low)",
@@ -322,7 +337,7 @@
         "Crunch the ribs toward the pelvis, rounding the spine — the hips don't move. Return until the abs reach a stretch.",
         "If the hips rock back and forth it becomes a hip flexor exercise. Fix the hips, flex the spine."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "hanging-leg-raise": {
       "name": "Hanging Leg Raise",
@@ -357,7 +372,7 @@
         "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
         "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "reverse-pec-deck": {
       "name": "Reverse Pec Deck",
@@ -383,7 +398,8 @@
       "howto": [
         "Straight or EZ bar on a high pulley, underhand grip, elbows at the sides.",
         "Push down to lockout keeping the palms up, squeeze, and return under control. The underhand grip forces stricter elbows and biases the medial head."
-      ]
+      ],
+      "gear": "main-cable"
     },
     "smith-bent-over-row": {
       "name": "Smith Bent-Over Row",
@@ -433,7 +449,7 @@
         "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
         "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
       ],
-      "increment": 2.5
+      "gear": "main-cable"
     },
     "smith-rdl": {
       "name": "Smith RDL",
@@ -648,7 +664,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 45,
+          "seed": 45.5,
           "rest": 60
         },
         {
@@ -693,7 +709,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 27,
+          "seed": 27.5,
           "rest": 75
         },
         {
@@ -847,7 +863,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 45,
+          "seed": 45.5,
           "rest": 60
         },
         {

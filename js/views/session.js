@@ -178,6 +178,22 @@ function ensureDraft(today, phaseInfo) {
       store.clearDraft();
       return null;
     }
+    // A fresher trainer review usually lands via sync moments AFTER tonight's
+    // draft was built on app open. An untouched draft (no sets logged or
+    // skipped, nothing added, no notes) rebuilds its prescriptions under the
+    // new review — same world, same start time, nothing burned. The moment
+    // the user has touched anything, their night is theirs: no rebuild.
+    const touched = dirty
+      || d.exercises?.some((x) => x.adhoc || x.logNote || x.sets.some((s) => s.skipped));
+    if (d.date === today && !touched && !d.reopened && (d.coachStamp ?? null) !== coachStamp()) {
+      const fresh = buildDraft(today, d.session_type, phaseInfo, d.world ?? null);
+      fresh.deliberate = d.deliberate;
+      fresh.startedAt = d.startedAt ?? fresh.startedAt;
+      fresh.bodyweight = d.bodyweight ?? null;
+      fresh.notes = d.notes ?? '';
+      store.saveDraft(fresh);
+      return fresh.session_type;
+    }
     return d.session_type;
   }
   // Date rolled over a clean draft: that world was drawn but never trained —
@@ -240,47 +256,66 @@ function renderBanked(today, phaseInfo) {
   renderDock(); // no draft → the finish bar clears itself
 }
 
-function buildDraft(date, sessionType, phaseInfo) {
+// Identity of the trainer review a draft was prescribed under — lets a clean
+// draft notice that a fresher review has landed and rebuild itself.
+const coachStamp = () => store.coach?.generated_at ?? store.coach?.date ?? null;
+
+function buildDraft(date, sessionType, phaseInfo, world = null) {
   const session = store.plan.sessions[sessionType];
   const exercises = session.exercises.map((slot) => {
-    const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo);
-    const last = engine.lastPerformance(store.history, sessionType, slot.id, {});
+    const rx = engine.prescribe(store.plan, store.history, sessionType, slot, phaseInfo, store.coach);
+    // "What did I lift last time?" answered with the most RECENT performance
+    // of this exercise ANYWHERE in the rotation — labeled with its day when it
+    // wasn't this one. The full set-by-set line lives on the card now, not
+    // buried in the field-guide sheet.
+    const last = engine.lastPerformanceAnywhere(store.history, slot.id);
     let prev = null;
     if (last) {
-      // The card shows only the top set + count (vertical budget); the full
-      // set-by-set history stays reachable in the field guide sheet.
       const all = last.ex.sets.map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`);
       const top = last.ex.sets.reduce((a, b) => ((b.weight ?? 0) > (a.weight ?? 0) ? b : a), last.ex.sets[0]);
       prev = {
         date: last.entry.date,
+        day: last.entry.session_type !== sessionType
+          ? (store.plan.sessions[last.entry.session_type]?.name ?? last.entry.session_type) : null,
         sets: top ? `${fmtW(top.weight)}×${Number(top.reps) || 0}${all.length > 1 ? ` +${all.length - 1} more` : ''}` : '',
         setsAll: all.join('  '),
         tag: store.plan.phases.find((p) => p.id === last.entry.phase)?.type === 'deload' ? 'deload' : null,
       };
     }
+    // The lifter's own most recent note on this exercise, resurfaced where it
+    // was promised to matter: on the card, next time.
+    const noted = engine.lastNotedPerformance(store.history, slot.id);
     return {
       prev,
+      prevNote: noted ? { text: noted.ex.note, date: noted.entry.date } : null,
       id: slot.id,
       name: engine.exMeta(store.plan, slot.id).name,
       repMin: slot.repMin, repMax: slot.repMax, repUnit: slot.repUnit || null,
       rest: slot.rest || 90,
       superset: slot.superset ?? null, // paired lifts alternate, sharing one rest after each round
       basis: rx.basis, prevTop: rx.prevTop, note: rx.note || null, bump: rx.increment || 0,
-      logNote: null, // the lifter's own per-exercise note; rides into the saved record for the training staff
+      cross: rx.cross ?? null, // progress recognized from another day of the rotation
+      coachRx: rx.coach ?? null, // the trainer's reason + review date, shown on the card
+      srcDate: rx.source?.date ?? null, // the visit the standing rules copied from
+      logNote: null, // the lifter's own per-exercise note; saved into the record and shown here next visit
       // the true post-grid percentage the engine computed (calibration/deload) —
       // labels state THIS, never a nominal 90/80 the rounding already broke
       pct: rx.pct ?? null,
       stalled: engine.isStalled(store.plan, store.history, sessionType, slot),
       inc: engine.increment(store.plan, slot.id) || 2.5,
+      // real machine pins for this lift (null = plain grid) — the numpad
+      // steppers walk these instead of inventing weights that don't exist
+      grid: engine.ladderFor(store.plan, slot.id),
       // rxWeight: the engine's own prescription, kept per set so validateSet
       // can grant it immunity — the app never second-guesses its own numbers
       sets: rx.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: false })),
     };
   });
   return {
-    date, session_type: sessionType, world: pickWorld(sessionType),
+    date, session_type: sessionType, world: world ?? pickWorld(sessionType),
     phase: phaseInfo.phase?.id ?? null, week: phaseInfo.week,
     startedAt: Date.now(),
+    coachStamp: coachStamp(), // which trainer review these prescriptions used
     bodyweight: null, notes: '', exercises,
   };
 }
@@ -310,24 +345,36 @@ function switchSession(type) {
 // rxWeight, so fall back to the working weight.
 const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0));
 
+// Every prefilled number gets a full plain-English explanation of where it
+// came from. These ARE the "trainer": a fixed rule applied to the lifter's own
+// log — and the card says so instead of leaving the numbers unexplained.
+const repsWord = (x) => (x.repUnit === 'sec' ? 'seconds' : 'reps');
+const gridName = (x) => (x.grid ? 'your cable machine’s real pins' : `the ${x.inc} lb grid`);
+const dayName = (t) => store.plan?.sessions[t]?.name ?? t;
 const BASIS = {
-  progress: (x) => `<span class="num">${fmtW(x.prevTop)}</span> <span class="up">→ <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb — every set hit the top</span>`,
-  repeat: (x) => `Repeat <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  hold: (x) => `Prep — hold <span class="num">${fmtW(x.prevTop)}</span> lb`,
-  seed: (x) => x.prev ? `New program — seed weight (older logs shown for reference)` : `First run — seed weight`,
+  coach: (x) => `<span class="up">Set by your trainer</span> in the ${x.coachRx?.date ? `${fmtDate(x.coachRx.date)} ` : ''}morning review${x.coachRx?.reason ? `: “${esc(x.coachRx.reason)}”` : '.'}`,
+  progress: (x) => x.bump > 0
+    ? `<span class="up">Up <span class="num">${fmtW(x.prevTop)}</span> → <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb${x.grid ? ' (the next pin your machine can load)' : ''}</span> — you hit the top of the rep range on every set${x.srcDate ? ` on ${fmtDate(x.srcDate)}` : ' last time'}.`
+    : `<span class="up">Top of the stack</span> — the machine can’t load more, so the weight holds at <span class="num">${fmtW(x.prevTop)}</span>. Keep owning the reps.`,
+  repeat: (x) => `Repeating this day’s last visit${x.srcDate ? ` (${fmtDate(x.srcDate)})` : ''} — hit ${x.repMax} ${repsWord(x)} on every set tonight and the app raises this lift next time.`,
+  cross: (x) => x.cross
+    ? `Raised to <span class="num">${fmtW(x.cross.weight)}</span> lb to match what you already did on ${esc(dayName(x.cross.sessionType))} (${fmtDate(x.cross.date)}: <span class="num">${fmtW(x.cross.weight)}×${x.cross.reps}</span>). Progress counts wherever it happens.`
+    : `Raised to match your latest work on another day.`,
+  hold: (x) => `Prep block — the weight holds at <span class="num">${fmtW(x.prevTop)}</span> lb on purpose; matching last time’s reps is the win.`,
+  seed: (x) => x.prev ? `Program starting weight — this day hasn’t logged this lift yet (your older log is shown above for reference).` : `Program starting weight — first time logging this lift.`,
   // Calibration/deload state the TRUE computed numbers. The grid snap makes a
   // fixed "90%"/"80%" a lie almost every time — say the real ratio, and name
   // the snap so the math is hand-checkable.
-  calibration: (x) => !x.prevTop ? `Calibration — seed minus 10%`
+  calibration: (x) => !x.prevTop ? `Calibration week — seed weight minus 10%.`
     : x.pct != null
-      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of seed <span class="num">${fmtW(x.prevTop)}</span> — target 90%, snapped down to the ${x.inc} lb grid`
-      : `Target 90% of seed <span class="num">${fmtW(x.prevTop)}</span>, snapped down to the ${x.inc} lb grid`,
-  deload: (x) => !x.prevTop ? `Deload — lighter on purpose`
+      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of seed <span class="num">${fmtW(x.prevTop)}</span> — target 90%, snapped down to ${gridName(x)}.`
+      : `Target 90% of seed <span class="num">${fmtW(x.prevTop)}</span>, snapped down to ${gridName(x)}.`,
+  deload: (x) => !x.prevTop ? `Deload week — lighter on purpose.`
     : x.pct != null
-      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of <span class="num">${fmtW(x.prevTop)}</span> — target 80%, snapped down to the ${x.inc} lb grid`
-      : `Target 80% of <span class="num">${fmtW(x.prevTop)}</span>, snapped down to the ${x.inc} lb grid`,
+      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of <span class="num">${fmtW(x.prevTop)}</span> — target 80%, snapped down to ${gridName(x)}.`
+      : `Target 80% of <span class="num">${fmtW(x.prevTop)}</span>, snapped down to ${gridName(x)}.`,
   verify: (x) => esc(x.note || 'Verify weight'),
-  bodyweight: () => `Bodyweight`,
+  bodyweight: () => `Bodyweight — beat last time’s reps.`,
 };
 
 function renderWorldScreen(draft, phaseInfo) {
@@ -363,8 +410,11 @@ function renderWorldScreen(draft, phaseInfo) {
   // ONE notice on screen — the single most important thing tonight; the rest
   // wait one tap away in the briefing (priority: resuming > streak >
   // off-rotation > back-off week).
+  // Fresh trainer flags (a pain note outranks every number) surface here.
+  const coachFlags = engine.coachFresh(store.history, store.coach) ? (store.coach?.flags ?? []) : [];
   const noticeList = [
     draft.date !== todayStr() ? { k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
+    ...coachFlags.map((f) => ({ k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? f.kind ?? 'see this morning’s review'}` })),
     streak >= 6 ? { k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
     isNext ? null : { k: 'offrot', ic: 'compass', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
     phase?.type === 'deload' ? { k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
@@ -419,9 +469,11 @@ function renderWorldScreen(draft, phaseInfo) {
       })()}
       ${x.prev ? `
       <div class="last-strip">
-        <div class="ls-r"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span><span class="num">${esc(x.prev.sets)}</span></div>
+        <div class="ls-r"><b>LAST</b><span class="d">${fmtDate(x.prev.date)}${x.prev.day ? ` · ${esc(x.prev.day)}` : ''}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span></div>
+        <div class="ls-sets num">${esc(x.prev.setsAll || x.prev.sets)}</div>
+        ${x.prevNote ? `<div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div>` : ''}
         <div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>
-      </div>` : `<div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>`}
+      </div>` : `${x.prevNote ? `<div class="last-strip"><div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div></div>` : ''}<div class="basis-line">${BASIS[x.basis]?.(x) ?? ''}</div>`}
 
       ${x.sets.some((s) => s.done) ? `
         <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
@@ -634,6 +686,8 @@ function editValue(x, s, si, field) {
     value: isW ? s.weight ?? 0 : s.reps,
     unit: isW ? 'lb' : (x.repUnit === 'sec' ? 's' : ''),
     step: isW ? x.inc : 1,
+    // laddered lifts: the +/− steppers walk the machine's REAL pins
+    grid: isW ? x.grid ?? null : null,
     decimals: isW,
     max: isW ? 2000 : 999,
     onConfirm(v) {
@@ -674,7 +728,12 @@ function logSet(x, s, U) {
   lastLogAt = now;
   const bestBefore = Math.max(engine.allTimeBest(store.history, x.id)?.weight ?? 0, draftBest(x.id));
   s.done = true;
-  s.at = Date.now();
+  // First log stamps the performance time; an unlog→edit→relog CORRECTION
+  // keeps the original stamp. Restamping here let a routine typo fix scramble
+  // the performed order the engine now trusts — a rep edit after set 3 made
+  // set 1 "newest", and the envelope inflated the next session off the fake
+  // dip (found by the v45 adversarial review, repro'd against real data).
+  s.at ??= Date.now();
   // Hand validateSet the context it needs to be fair: the current phase (a
   // deload weight is light ON PURPOSE) and the engine's own prescription
   // (the app must never call its own number a typo).
@@ -837,7 +896,19 @@ function briefingSheet() {
       <button class="opt" id="chip-notes">Field notes<span class="hint">${d.notes ? '●' : '+'}</span></button>
       <button class="opt" id="chip-cardio">Conditioning<span class="hint">${conditioningToday() ? '● logged today' : '+ log'}</span></button>
       <button class="opt" id="switch-session">Swap the day<span class="hint">${esc(store.plan.sessions[d.session_type].name)}</span></button>
-    </div>`, {
+    </div>
+    <div class="sub" style="margin:14px 0 6px">Where tonight’s numbers come from</div>
+    <div class="opt-list">${(() => {
+      const latest = [...store.history].filter((e) => !e.supplemental).sort((a, b) => a.date.localeCompare(b.date)).pop();
+      const latestTxt = latest ? ` (latest entry ${fmtDate(latest.date)})` : '';
+      const rules = `Between reviews the standing rules run on this phone: hit the top of the rep range on every set and the lift goes up next time, progress on one day carries to the same lift on other days, and every weight lands on a pin your machines can actually load.`;
+      const c = store.coach;
+      if (c && engine.coachFresh(store.history, c)) {
+        return `<div class="opt notice-full"><b>Trainer review of ${esc(fmtDate(c.date ?? c.reviewed_through))}</b> — read your full log through ${esc(fmtDate(c.reviewed_through))}, including your notes. Lifts it adjusted say so on their cards; the rest follow the standing rules.${c.brief ? `<br><br>“${esc(c.brief)}”` : ''}</div>`;
+      }
+      if (c) return `<div class="opt notice-full">Your trainer’s last review (${esc(fmtDate(c.date ?? c.reviewed_through))}) hasn’t seen your latest session${latestTxt} yet — tonight runs on the standing rules until the 6 AM review catches up. ${rules}</div>`;
+      return `<div class="opt notice-full">No trainer review found yet — the coach task commits one to the repo every morning at 6. Tonight runs on the standing rules${latestTxt}. ${rules}</div>`;
+    })()}</div>`, {
     onOpen(sheet, close) {
       sheet.addEventListener('click', (e) => {
         const opt = e.target.closest('.opt[data-oi]');
@@ -893,8 +964,8 @@ function bodyweightSheet() {
 function notesSheet() {
   openSheet(`
     <h2>Field notes</h2>
-    <div class="sub">The whole night — the training staff reads this</div>
-    <div class="card"><div class="field"><textarea id="notes-in" placeholder="How did tonight go overall? Sleep, energy, gym, anything the coaches should know.">${esc(store.draft.notes)}</textarea></div></div>
+    <div class="sub">The whole night — your trainer reads this in tomorrow’s 6 AM review</div>
+    <div class="card"><div class="field"><textarea id="notes-in" placeholder="How did tonight go overall? Sleep, energy, gym — anything worth knowing at the next program revision.">${esc(store.draft.notes)}</textarea></div></div>
     <button class="btn primary" id="notes-save">Save</button>`, {
     onOpen(sheet, close) {
       $('#notes-save', sheet).addEventListener('click', () => {
@@ -906,14 +977,15 @@ function notesSheet() {
   });
 }
 
-// Per-exercise note. Rides into the saved record as exercises[].note, so the
-// daily brief and the coach swarm read it and adapt the plan.
+// Per-exercise note. Rides into the saved record as exercises[].note and
+// resurfaces on this exercise's card the next time it comes up. No human
+// reads these day-to-day — the copy must never claim otherwise.
 function exerciseNoteSheet(idx) {
   const x = store.draft?.exercises[idx];
   if (!x) return;
   openSheet(`
     <h2>Note · ${esc(x.name)}</h2>
-    <div class="sub">Just this exercise — the training staff reads it and adapts your plan</div>
+    <div class="sub">Just this exercise — your trainer reads it in the 6 AM review, and it shows on this card next time</div>
     <div class="card"><div class="field"><textarea id="exn-in" placeholder="How did it feel? Form cues, a tweak or pain, machine seat/pin, reps in reserve, energy — anything worth remembering next time.">${esc(x.logNote || '')}</textarea></div></div>
     <div class="row-btns">
       ${x.logNote ? `<button class="btn quiet" id="exn-clear">Clear</button>` : ''}
@@ -925,7 +997,7 @@ function exerciseNoteSheet(idx) {
         store.draft.exercises[idx].logNote = v || null;
         store.saveDraft(store.draft);
         close(); render(root);
-        if (v) toast('Note saved — the staff will see it', 'ok');
+        if (v) toast('Note saved — your trainer reads it at 6 AM, and it’ll be on this card next time', 'ok');
       });
       $('#exn-clear', sheet)?.addEventListener('click', () => {
         store.draft.exercises[idx].logNote = null;

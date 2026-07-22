@@ -170,6 +170,11 @@ export async function pullRemote() {
       store.remoteIndex['data/plan.json'] = plan.sha;
       if (JSON.stringify(plan.content) !== JSON.stringify(store.plan)) store.setPlan(plan.content);
     }
+    // The morning trainer review, committed by the daily coach task. A 404
+    // (no review yet) is a normal state, stored as null — the session view
+    // says "no review" honestly instead of guessing.
+    const coach = await getFile('data/coach/latest.json');
+    store.setCoach(coach ? coach.content : null);
     const files = await listDir('data/history');
     let changed = false;
     for (const f of files) {
@@ -203,8 +208,16 @@ export async function pullRemote() {
 }
 
 // No token yet? The plan also ships as a static file in this repo, so a
-// fresh install can read it straight off Pages before any setup.
+// fresh install can read it straight off Pages before any setup. The coach
+// packet rides the same road (Pages lags the API by a few minutes — the
+// authenticated pull above wins whenever a token exists).
 export async function bootstrapStaticPlan() {
+  if (!store.settings.token) {
+    try {
+      const res = await fetch('data/coach/latest.json', { cache: 'no-cache' });
+      if (res.ok) store.setCoach(await res.json());
+    } catch { /* offline: last stored review stands */ }
+  }
   if (store.plan) return;
   try {
     const res = await fetch('data/plan.json', { cache: 'no-cache' });

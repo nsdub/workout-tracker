@@ -143,7 +143,10 @@ localStorage.setItem('p3.lastVersion', appVersion);
 
 if (store.settings.token && navigator.onLine) {
   pullRemote().then(flushQueue);
-} else if (!store.plan && navigator.onLine) {
+} else if (navigator.onLine) {
+  // Token-less installs still get the static plan (first run) AND the
+  // morning coach review straight off Pages — the review must never be
+  // gated behind GitHub setup.
   bootstrapStaticPlan();
 }
 

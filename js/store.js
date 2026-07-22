@@ -10,6 +10,7 @@ const KEYS = {
   draft: 'p3.draft',
   remoteIndex: 'p3.remoteIndex',
   meta: 'p3.meta',
+  coach: 'p3.coach',
 };
 
 // Reads are shape-checked against the fallback: a corrupt blob (extension,
@@ -68,6 +69,7 @@ export const store = {
   draft: read(KEYS.draft, null),
   remoteIndex: read(KEYS.remoteIndex, {}),
   meta: { lastSync: null, lastError: null, ...read(KEYS.meta, {}) },
+  coach: read(KEYS.coach, null),
   syncing: false,
 
   sub(fn) { listeners.add(fn); return () => listeners.delete(fn); },
@@ -106,6 +108,15 @@ export const store = {
   setPlan(plan) {
     this.plan = plan;
     write(KEYS.plan, plan);
+    this.emit();
+  },
+
+  // The daily trainer review packet (data/coach/latest.json). Null when the
+  // repo has none; staleness is judged at prescription time, never here.
+  setCoach(coach) {
+    if (JSON.stringify(coach ?? null) === JSON.stringify(this.coach ?? null)) return;
+    this.coach = coach ?? null;
+    write(KEYS.coach, this.coach);
     this.emit();
   },
 

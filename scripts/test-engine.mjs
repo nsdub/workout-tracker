@@ -62,9 +62,11 @@ ok('calibration: 90% rounded DOWN to the program grid, never off it (170 → 150
 ok('calibration: cables/machines land on real, loadable weights', () => {
   const w = (id) => E.prescribe(plan, history, 'PushA', slot('PushA', id), calib).sets[0].weight;
   assert.equal(w('machine-chest-press'), 135);        // 135 is exactly 90% AND on the grid — no floor needed
-  assert.equal(w('cable-crossover-low-high'), 12.5);  // 13.95 → 12.5 on its 2.5 lb stack, not 15 (above 90%)
-  assert.equal(w('rope-pushdown'), 50);               // 51.75 → 50, not 52.5 (above 90%)
-  assert.equal(w('cable-lateral-raise'), 7.5);        // 9.45 → 7.5 on its 2.5 lb stack, not 10 (above 90%)
+  // The cable-stack lifts snap to the machine's REAL pins (5 lb plates + two
+  // 1.5 micros), never to the fictional 2.5 grid the old tests demanded:
+  assert.equal(w('cable-crossover-low-high'), 12.5);  // 13.95 → pin 12.5 (the next pin, 14, overshoots the 90% target)
+  assert.equal(w('rope-pushdown'), 50.5);             // 51.75 → pin 50.5; the old ask of 50 does not exist on this stack
+  assert.equal(w('cable-lateral-raise'), 9);          // 9.45 → pin 9 (7.5+1.5); the old 7.5 gave away 1.5 lb for no reason
 });
 ok('calibration: lower lifts round down to the 10 lb grid (240 → 210)', () => {
   const rx = E.prescribe(plan, history, 'LegsA', slot('LegsA', 'leg-press-low'), calib);
@@ -341,10 +343,14 @@ ok('calibration exit: a top far under the reduced ask never teleports to the see
   assert.equal(rx.basis, 'progress');
   assert.equal(rx.sets[0].weight, 17.5); // 12.5 + 5, never seed 20 (+60% overnight)
 });
-ok('calibration exit: face-pulls climb by their 2.5 lb stack step', () => {
+ok('calibration exit: face-pulls climb one REAL pin (22.5 → 24, never the nonexistent 25)', () => {
   const h = [...history, mkEntry('2026-07-15', 'PushA', 'face-pulls', mkSets(22.5, 15, 2), 'calibration')];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), E.phaseForDate(plan, '2026-07-21'));
-  assert.equal(rx.sets[0].weight, 25); // earned floor (22.5 ≥ the 20 ask) + one 2.5 cable step, never a +5 leap
+  // The stack pins 22.5 → 24 (+1.5 micro) → 25.5 → 27.5. The old +2.5 rule
+  // asked for 25 — a weight this machine cannot make (the user proved it on
+  // 2026-07-21 by loading 25.5 against a 25 ask).
+  assert.equal(rx.basis, 'progress');
+  assert.equal(rx.sets[0].weight, 24);
 });
 ok('isolation lifts never double-jump, whatever the rep surplus', () => {
   // compound branch is pinned by the machine-chest-press double-jump test above
@@ -387,6 +393,197 @@ ok('supplemental conditioning entry never moves rotation, PRs, or prescriptions'
   // best/PR readers ignore it and never throw on its empty exercises
   assert.equal(E.allTimeBest(withCardio, 'zz').weight, 200);
   assert.doesNotThrow(() => E.isRepPR(withCardio, 'zz', 200, 6));
+});
+
+// ——— Machine ladder: prescriptions land on pins that physically exist ———
+const LADDER = E.ladderFor(plan, 'face-pulls');
+ok('the cable ladder is the photographed machine: 5 lb pins + two 1.5 micros', () => {
+  assert.deepEqual(LADDER.slice(0, 6), [2.5, 4, 5.5, 7.5, 9, 10.5]);
+  assert.equal(LADDER[LADDER.length - 1], 100.5); // 97.5 pin + both micros
+  assert.equal(E.ladderUp(LADDER, 22.5), 24);
+  assert.equal(E.ladderUp(LADDER, 24), 25.5);
+  assert.equal(E.ladderUp(LADDER, 25.5), 27.5);
+  assert.equal(E.ladderUp(LADDER, 100.5), null); // top of the stack: no higher pin
+  assert.equal(E.ladderDown(LADDER, 20.25), 19);
+  assert.equal(E.ladderNearest(LADDER, 25), 25.5); // ties and near-misses resolve to a real pin
+});
+ok('every weight prescribed for a laddered lift is a loadable pin (full sweep)', () => {
+  const pins = new Set(LADDER);
+  for (const [type, session] of Object.entries(plan.sessions)) {
+    for (const sl of session.exercises) {
+      if (!E.exMeta(plan, sl.id).gear) continue;
+      for (const ph of [calib, meso]) {
+        for (const s of E.prescribe(plan, history, type, sl, ph).sets) {
+          if (s.weight != null) assert.ok(pins.has(s.weight), `${type}/${sl.id}: ${s.weight} is not a pin`);
+        }
+      }
+    }
+  }
+});
+ok('repeat of an off-pin logged weight snaps to the nearest real pin', () => {
+  const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
+    { weight: 25, reps: 14 }, { weight: 25, reps: 15 }, // 25 does not exist on this stack
+  ])];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), meso);
+  assert.equal(rx.basis, 'repeat');
+  assert.equal(rx.sets[0].weight, 25.5);
+});
+ok('at the top of the stack the weight holds AND the earned reps hold', () => {
+  const h = [...history, mkEntry('2026-07-22', 'PullA', 'cable-hammer-curl', mkSets(100.5, 12, 3))];
+  const rx = E.prescribe(plan, h, 'PullA', slot('PullA', 'cable-hammer-curl'), meso);
+  assert.equal(rx.sets[0].weight, 100.5); // never null, never an imaginary heavier pin
+  assert.equal(rx.sets[0].reps, 12);      // a raise that doesn't exist must not reset reps to the floor
+  assert.equal(rx.increment, 0);          // the card renders the honest "top of the stack" line off this
+});
+ok('a zero-weight set inside a real shape is never teleported to the cross top', () => {
+  const h = [...history,
+    mkEntry('2026-07-16', 'PushA', 'machine-chest-press', [
+      { weight: 0, reps: 9 }, { weight: 142.5, reps: 9 }, { weight: 150, reps: 9 }]),
+    mkEntry('2026-07-20', 'PushB', 'machine-chest-press', mkSets(157.5, 10, 3)),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'cross');
+  assert.deepEqual(rx.sets.map((s) => s.weight), [0, 150, 157.5]); // the anomaly stays an anomaly
+});
+
+// ——— Set-shape sanity: performed order + no up-then-down echoes ———
+ok('prescriptions follow performed order (timestamps), not storage order', () => {
+  // real shape from 2026-07-20 PushB: array [157.5, 142.5, 150] but the
+  // timestamps prove a clean ascending ramp — the next ask must be the ramp,
+  // not the scrambled array.
+  const h = [...history, mkEntry('2026-07-22', 'PushB', 'machine-chest-press', [
+    { weight: 157.5, reps: 10, at: 3000 }, { weight: 142.5, reps: 10, at: 1000 }, { weight: 150, reps: 10, at: 2000 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushB', slot('PushB', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'repeat'); // 10s in a 10–12 range: trigger not met
+  assert.deepEqual(rx.sets.map((s) => s.weight), [142.5, 150, 157.5]);
+});
+ok('one night’s mid-set dip is never echoed back as a target (30/37.5/30 → 30/37.5/37.5)', () => {
+  // real shape from 2026-07-13 PullB straight-arm-pulldown; on 2026-07-21 the
+  // app replayed the dip verbatim and the user rightly called it out.
+  const h = [...history, mkEntry('2026-07-22', 'PullB', 'straight-arm-pulldown', [
+    { weight: 30, reps: 13 }, { weight: 37.5, reps: 12 }, { weight: 30, reps: 12 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'straight-arm-pulldown'), meso);
+  assert.deepEqual(rx.sets.map((s) => s.weight), [30, 37.5, 37.5]);
+  assert.deepEqual(rx.sets.map((s) => s.reps), [13, 12, 12]);
+});
+
+// ——— Cross-day progression: overlap days share their evidence ———
+ok('a fresher, heavier day raises the whole shape (shape preserved)', () => {
+  const h = [...history,
+    mkEntry('2026-07-16', 'PushA', 'machine-chest-press', [
+      { weight: 120, reps: 10 }, { weight: 142.5, reps: 8 }, { weight: 150, reps: 10 }]),
+    mkEntry('2026-07-20', 'PushB', 'machine-chest-press', [
+      { weight: 142.5, reps: 10 }, { weight: 150, reps: 10 }, { weight: 157.5, reps: 10 }]),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'cross');
+  assert.equal(rx.cross.sessionType, 'PushB');
+  assert.equal(rx.cross.weight, 157.5);
+  // the PushA ramp survives, shifted up so its top lands on the proven weight
+  assert.deepEqual(rx.sets.map((s) => s.weight), [127.5, 150, 157.5]);
+});
+ok('cross-day evidence must satisfy THIS slot’s rep floor', () => {
+  // a heavy 157.5×6 on another day says nothing about an 8–10 slot
+  const h = [...history,
+    mkEntry('2026-07-16', 'PushA', 'machine-chest-press', mkSets(150, 9, 3)),
+    mkEntry('2026-07-20', 'PushB', 'machine-chest-press', mkSets(157.5, 6, 3)),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'repeat');
+  assert.equal(rx.sets[0].weight, 150);
+});
+ok('cross-day floor fills a day that has NO history of the exercise yet', () => {
+  // face-pulls close 4 days from one shared seed; a PushA that never logged
+  // them post-calibration starts where the freshest day left off, not at seed
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25.5, 15, 2))];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), meso);
+  assert.equal(rx.basis, 'cross');
+  assert.deepEqual(rx.sets.map((s) => s.weight), [25.5, 25.5]);
+});
+ok('older cross-day work never overrides this day’s own newer choice', () => {
+  const h = [...history,
+    mkEntry('2026-07-16', 'PushB', 'machine-chest-press', mkSets(157.5, 10, 3)),
+    mkEntry('2026-07-20', 'PushA', 'machine-chest-press', mkSets(145, 9, 3)), // deliberate back-off after the 157.5s
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'repeat');
+  assert.equal(rx.sets[0].weight, 145);
+});
+ok('deload entries never set the cross-day floor', () => {
+  const h = [...history,
+    mkEntry('2026-07-16', 'PushA', 'machine-chest-press', mkSets(150, 9, 3)),
+    mkEntry('2026-08-19', 'PushB', 'machine-chest-press', mkSets(160, 12, 3), 'deload1'),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), E.phaseForDate(plan, '2026-08-25'));
+  assert.equal(rx.basis, 'repeat');
+  assert.equal(rx.sets[0].weight, 150);
+});
+ok('prep holds: no cross-day raises either', () => {
+  const prep = E.phaseForDate(plan, '2026-11-20');
+  const h = [...history,
+    mkEntry('2026-11-15', 'PushA', 'machine-chest-press', mkSets(225, 10, 3), 'prep'),
+    mkEntry('2026-11-17', 'PushB', 'machine-chest-press', mkSets(235, 10, 3), 'prep'),
+  ];
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), prep);
+  assert.equal(rx.basis, 'hold');
+  assert.equal(rx.sets[0].weight, 225);
+});
+
+// ——— Coach directives: the daily trainer review drives the prefills ———
+const coachPkt = (over, extra = {}) => ({
+  date: '2026-07-22', reviewed_through: '2026-07-21', overrides: over, ...extra,
+});
+ok('a fresh coach override becomes the prescription, reason attached', () => {
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'db-shrug', mkSets(70, 12, 3))];
+  const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', reason: 'hold here one more week', sets: mkSets(70, 12, 3) }]);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), meso, coach);
+  assert.equal(rx.basis, 'coach');
+  assert.equal(rx.sets[0].weight, 70);
+  assert.equal(rx.coach.reason, 'hold here one more week');
+});
+ok('the moment a session the trainer has not seen is logged, overrides expire', () => {
+  const h = [...history,
+    mkEntry('2026-07-21', 'PullB', 'db-shrug', mkSets(70, 12, 3)),
+    mkEntry('2026-07-22', 'LegsB', 'leg-curl', mkSets(135, 10, 4)),
+  ];
+  const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', sets: mkSets(70, 12, 3) }]);
+  assert.equal(E.coachFresh(h, coach), false);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), meso, coach);
+  assert.equal(rx.basis, 'repeat'); // standing rules take back over, honestly
+});
+ok('a runaway coach raise is capped two honest steps above proven work', () => {
+  // best face-pull since calibration: 25.5. Cap = two pins up = 29.
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25.5, 15, 2))];
+  const coach = coachPkt([{ exercise: 'face-pulls', sets: mkSets(60, 15, 2) }]);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, coach);
+  assert.equal(rx.basis, 'coach');
+  assert.equal(rx.sets[0].weight, 29);
+});
+ok('coach weights snap to real pins; reps clamp to the validation ceiling', () => {
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25.5, 15, 2))];
+  const coach = coachPkt([{ exercise: 'face-pulls', sets: [{ weight: 25, reps: 15 }, { weight: 25, reps: 99 }] }]);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, coach);
+  assert.equal(rx.sets[0].weight, 25.5); // 25 does not exist on the stack
+  assert.equal(rx.sets[1].reps, 30);
+});
+ok('a session-scoped override never leaks onto another day; unscoped applies anywhere', () => {
+  const h = [...history, mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(24, 15, 2))];
+  const scoped = coachPkt([{ exercise: 'face-pulls', session: 'PushB', sets: mkSets(24, 15, 2) }]);
+  assert.notEqual(E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, scoped).basis, 'coach');
+  const open = coachPkt([{ exercise: 'face-pulls', sets: mkSets(24, 15, 2) }]);
+  assert.equal(E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, open).basis, 'coach');
+});
+ok('coach never touches bodyweight slots; malformed sets are ignored', () => {
+  const coach = coachPkt([
+    { exercise: 'assisted-dips', sets: mkSets(50, 10, 3) },
+    { exercise: 'db-shrug', session: 'PullB', sets: [{ weight: 0, reps: 12 }] },
+  ]);
+  const dips = E.prescribe(plan, history, 'PushB', slot('PushB', 'assisted-dips'), meso, coach);
+  assert.equal(dips.basis, 'bodyweight');
+  const shrug = E.prescribe(plan, history, 'PullB', slot('PullB', 'db-shrug'), meso, coach);
+  assert.notEqual(shrug.basis, 'coach'); // zero-weight set = malformed, standing rules run
 });
 
 console.log(`\n${n} engine tests passed`);

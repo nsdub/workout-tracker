@@ -4,7 +4,7 @@
 import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins, haptic } from '../util.js';
 import { sfx } from '../audio.js';
 import { store } from '../store.js';
-import { topSet, increment } from '../engine.js';
+import { topSet, increment, ladderFor } from '../engine.js';
 import { confirmSheet, toast, ICONS } from '../components.js';
 import { flushQueue } from '../github.js';
 import { applyWorld, UNIVERSES, worldDef, returnWorld } from '../worlds.js';
@@ -264,6 +264,7 @@ function renderDetail() {
         const top = topSet(x.sets);
         return `<div class="d-ex"><div class="n">${esc(x.name)}</div>
           <div class="d-sets">${x.sets.map((s) => `<span class="d-set ${top && s === top ? 'top' : ''}"><b class="num">${fmtW(s.weight)}</b>×${s.reps}</span>`).join('')}</div>
+          ${x.note ? `<div class="d-note">“${esc(x.note)}”</div>` : ''}
         </div>`;
       }).join('')}
       ${entry.notes ? `<div class="d-ex"><div class="n">Field notes</div><div style="font-family:var(--mono);font-size:12px;color:var(--ink)">${esc(entry.notes)}</div></div>` : ''}
@@ -330,9 +331,14 @@ function draftFromEntry(entry) {
       rest: slot?.rest || 90,
       basis: 'verify', prevTop: null,
       note: 'Re-opened from the Atlas — these are the night’s saved numbers',
+      // The night's saved per-exercise note MUST ride into the reopen, or
+      // re-finishing silently deletes it from the record (found by the v45
+      // adversarial review): finishSession persists only logNote.
+      logNote: x.note ?? null,
       // inc drives the numpad's ± stepper: resolve the real per-exercise grid
       // (5/10 lb on the barbells) exactly like buildDraft, never a flat 2.5.
       bump: 0, pct: null, stalled: false, inc: (slot && increment(store.plan, slot.id)) || 2.5, adhoc: !slot,
+      grid: slot ? ladderFor(store.plan, slot.id) : null,
       sets: x.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: true, ...(s.at ? { at: s.at } : {}) })),
     };
   });

@@ -5,6 +5,65 @@ export function roundLoad(w) {
   return Math.round(w / 2.5) * 2.5;
 }
 
+// ——— Load ladders (machines whose loadable weights are NOT an arithmetic grid) ———
+// The user's dual cable stack pins 2.5 → 97.5 in 5 lb plates, plus two 1.5 lb
+// micro weights that can ride on top (one or both). Loadable weights are
+// S, S+1.5, S+3 — steps of 1.5/1.5/2, and a naive "+2.5" from ANY loadable
+// weight lands on a pin that does not exist. Exercises on such a machine name
+// a gear profile (plan.gear) and every weight the engine emits for them is
+// snapped to a real pin.
+
+export function gearLadder(gear) {
+  const { min, step, max } = gear.stack;
+  const out = [];
+  for (let s = min; s <= max + 1e-9; s += step) {
+    out.push(+s.toFixed(2));
+    for (const m of gear.micro ?? []) out.push(+(s + m).toFixed(2));
+  }
+  return [...new Set(out)].sort((a, b) => a - b);
+}
+
+export function ladderFor(plan, id) {
+  const g = exMeta(plan, id).gear;
+  const def = g && plan.gear ? plan.gear[g] : null;
+  return def ? gearLadder(def) : null;
+}
+
+// Largest pin ≤ w (never below the lightest pin) — back-off weeks must not
+// round UP past their target.
+export function ladderDown(ladder, w) {
+  let best = ladder[0];
+  for (const v of ladder) { if (v <= w + 1e-9) best = v; else break; }
+  return best;
+}
+
+// Closest pin to w; ties break UP. Used when repeating a logged weight that
+// isn't on the ladder (hand-typed or from another machine's grid).
+export function ladderNearest(ladder, w) {
+  let best = ladder[0];
+  for (const v of ladder) {
+    if (Math.abs(v - w) < Math.abs(best - w) - 1e-9) best = v;
+    else if (Math.abs(v - w) <= Math.abs(best - w) + 1e-9 && v > best) best = v;
+  }
+  return best;
+}
+
+// The next pin(s) strictly above w — the ladder's own "+increment". Null at
+// the top of the stack: a lift that can't go heavier keeps its weight and
+// chases reps. An off-pin w (hand-typed) climbs to the first REAL pin above
+// it, never skipping one via a nearest-snap.
+export function ladderUp(ladder, w, rungs = 1) {
+  let cur = w;
+  let out = null;
+  for (let n = 0; n < rungs; n++) {
+    const next = ladder.find((v) => v > cur + 1e-9);
+    if (next == null) return out;
+    out = next;
+    cur = next;
+  }
+  return out;
+}
+
 // Back-off weeks (calibration 90%, deload 80%) must never round UP past their
 // target and must land on the program's OWN increment grid — 5 lb upper /
 // 10 lb lower — so every prescribed weight is actually loadable (a rope stack
@@ -18,9 +77,10 @@ export function backoffLoad(w, inc) {
 // The grid snap means "90%" is almost never 90% — 185 × 0.9 lands at 165,
 // which is really 89%. One place computes both the weight and the ratio it
 // actually is, so every label downstream can tell the truth instead of
-// asserting the nominal target.
-export function backoffInfo(base, factor, inc) {
-  const weight = backoffLoad(base * factor, inc);
+// asserting the nominal target. A ladder (real machine pins) outranks the
+// arithmetic grid when the exercise has one.
+export function backoffInfo(base, factor, inc, ladder = null) {
+  const weight = ladder ? ladderDown(ladder, base * factor) : backoffLoad(base * factor, inc);
   return { weight, pct: Math.round((weight / base) * 100) };
 }
 
@@ -92,6 +152,29 @@ export function lastPerformance(history, sessionType, exId, { sinceDate = null, 
   return null;
 }
 
+// Most recent logged performance of an exercise in ANY session type — the
+// honest answer to "what did I lift last time?" for lifts that live on
+// several days of the rotation.
+export function lastPerformanceAnywhere(history, exId) {
+  const sorted = sortedHistory(history);
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const ex = sorted[i].exercises.find((x) => x.id === exId);
+    if (ex && ex.sets.length) return { entry: sorted[i], ex };
+  }
+  return null;
+}
+
+// Most recent performance that carries the lifter's own note — per-exercise
+// notes resurface on the card the next time the exercise comes up.
+export function lastNotedPerformance(history, exId) {
+  const sorted = sortedHistory(history);
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const ex = sorted[i].exercises.find((x) => x.id === exId);
+    if (ex && ex.note && String(ex.note).trim()) return { entry: sorted[i], ex };
+  }
+  return null;
+}
+
 export function performances(history, sessionType, exId, limit = Infinity) {
   const out = [];
   const sorted = sortedHistory(history);
@@ -145,14 +228,127 @@ function calibrationStart(plan) {
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
+// Last session's sets, in the order they were PERFORMED. Edited sets restamp
+// `at`, so the stored array order can put the heaviest set first — copying
+// that index-by-index prescribed 157.5 / 142.5 / 150 the day after a clean
+// ascending ramp. Chronology is the truth when every set carries a timestamp.
+function performedOrder(sets) {
+  const s = [...sets];
+  if (s.length > 1 && s.every((q) => q.at)) s.sort((a, b) => a.at - b.at);
+  return s;
+}
+
+// Never prescribe a weight LOWER than an earlier set of the same exercise.
+// A logged 30 / 37.5 / 30 was one night's mid-session experiment; echoing the
+// dip back as next session's target (the "weights went up then down" ask the
+// user rightly flagged) turns a one-off into a template. The envelope keeps
+// deliberate ramps and flattens only the dips: 30 / 37.5 / 37.5.
+function envelopeUp(sets) {
+  let run = -Infinity;
+  return sets.map((q) => {
+    if (!(q.weight > 0)) return q;
+    run = Math.max(run, q.weight);
+    return { ...q, weight: run };
+  });
+}
+
+const normalizeSets = (sets) => envelopeUp(performedOrder(sets));
+
+// Best qualifying top set of this exercise in any OTHER session type since
+// `afterDate` (or since calibration when the slot has no same-day history).
+// Qualifying = reps meet THIS slot's rep floor, so a heavy triple on a
+// strength day never inflates a 15-rep day. Deload entries lift light on
+// purpose and never speak here; supplemental entries are already fenced.
+export function crossDayBest(plan, history, sessionType, slot, afterDate = null) {
+  const skip = deloadPhaseIds(plan);
+  const since = calibrationStart(plan);
+  let best = null;
+  for (const e of sortedHistory(history)) {
+    if (e.session_type === sessionType) continue;
+    if (e.date < since) continue;
+    if (afterDate && e.date <= afterDate) continue;
+    if (skip.includes(e.phase)) continue;
+    const ex = e.exercises.find((x) => x.id === slot.id);
+    if (!ex) continue;
+    for (const s of ex.sets) {
+      if (!(s.weight > 0) || (s.reps ?? 0) < slot.repMin) continue;
+      if (!best || s.weight > best.weight || (s.weight === best.weight && e.date > best.date)) {
+        best = { weight: s.weight, reps: s.reps, date: e.date, sessionType: e.session_type };
+      }
+    }
+  }
+  return best;
+}
+
+// ——— Coach directives: the daily trainer review ———
+// The 6 AM trainer agent commits data/coach/latest.json. Its overrides drive
+// the prefills ONLY while the review is fresh — the moment a session is
+// logged that the trainer hasn't seen, every override expires and the
+// standing rules take back over (and the UI says so). The engine never
+// trusts the packet blindly: weights snap to real pins and are capped near
+// what this lift has actually demonstrated.
+
+export function coachFresh(history, coach) {
+  if (!coach?.reviewed_through) return false;
+  return !sortedHistory(history).some((e) => e.date > coach.reviewed_through);
+}
+
+function coachOverrideFor(coach, sessionType, exId) {
+  return coach?.overrides?.find?.((o) => o.exercise === exId && (!o.session || o.session === sessionType)) ?? null;
+}
+
+// Ceiling for a coach-prescribed weight: two honest steps above the best top
+// set this lift has shown since calibration (deloads excluded), or above the
+// seed when it hasn't been logged yet. A trainer can hold or cut without
+// limit; a runaway raise gets clamped.
+function coachCap(plan, history, slot, ladder, inc) {
+  const since = calibrationStart(plan);
+  const skip = deloadPhaseIds(plan);
+  let base = 0;
+  for (const e of sortedHistory(history)) {
+    if (e.date < since || skip.includes(e.phase)) continue;
+    const ex = e.exercises.find((x) => x.id === slot.id);
+    const t = ex && topSet(ex.sets);
+    if (t && t.weight > base) base = t.weight;
+  }
+  if (!base && slot.seed != null) base = slot.seed;
+  if (!base) return Infinity;
+  return ladder ? (ladderUp(ladder, base, 2) ?? ladder[ladder.length - 1]) : base + 2 * inc;
+}
+
 // Builds the pre-filled targets for one exercise slot of a session template.
-// Returns { sets: [{weight, reps}], basis, prevTop, note }
-export function prescribe(plan, history, sessionType, slot, phaseInfo) {
+// Returns { sets: [{weight, reps}], basis, prevTop, note, increment, pct,
+// cross, coach }. `coach` (optional) is the daily trainer review packet.
+export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = null) {
   const { phase } = phaseInfo;
   const inc = increment(plan, slot.id);
+  const ladder = ladderFor(plan, slot.id);
   const meta = exMeta(plan, slot.id);
   const nSets = phase?.type === 'deload' ? Math.max(1, Math.round(slot.sets * (phase.setFactor ?? 0.6))) : slot.sets;
   const mk = (w, r) => Array.from({ length: nSets }, () => ({ weight: w, reps: r }));
+  // Every weight this engine emits for a laddered lift is a pin that exists.
+  const snapRx = (w) => (ladder && w > 0 ? ladderNearest(ladder, w) : w);
+
+  // The trainer's word comes first — but only fresh, snapped, and capped.
+  // Bodyweight slots are excluded (nothing to prescribe but reps the
+  // bodyweight branch already anchors honestly).
+  if (!meta.bodyweight && coach && coachFresh(history, coach)) {
+    const o = coachOverrideFor(coach, sessionType, slot.id);
+    if (o && Array.isArray(o.sets) && o.sets.length && o.sets.every((s) => s.weight > 0 && s.reps > 0)) {
+      const cap = coachCap(plan, history, slot, ladder, inc);
+      const maxReps = plan.rules?.validation?.maxReps ?? 30;
+      const sets = o.sets.slice(0, slot.sets + 2).map((s) => ({
+        weight: snapRx(Math.min(cap, s.weight)),
+        reps: clamp(Math.round(s.reps), 1, maxReps),
+      }));
+      return {
+        sets,
+        basis: 'coach',
+        prevTop: null,
+        coach: { reason: o.reason ?? null, date: coach.date ?? coach.reviewed_through ?? null },
+      };
+    }
+  }
 
   if (meta.bodyweight) {
     const last = lastPerformance(history, sessionType, slot.id, { sinceDate: calibrationStart(plan) });
@@ -164,7 +360,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
 
   if (phase?.type === 'calibration') {
     if (slot.seed == null) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
-    const bo = backoffInfo(slot.seed, phase.loadFactor ?? 0.9, inc);
+    const bo = backoffInfo(slot.seed, phase.loadFactor ?? 0.9, inc, ladder);
     return { sets: mk(bo.weight, slot.repMin), basis: 'calibration', prevTop: slot.seed, pct: bo.pct };
   }
 
@@ -172,25 +368,55 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
   const last = lastPerformance(history, sessionType, slot.id, fence);
 
   if (phase?.type === 'deload') {
-    const baseSets = last ? last.ex.sets : slot.seed != null ? mk(slot.seed, slot.repMin) : null;
+    const baseSets = last ? normalizeSets(last.ex.sets) : slot.seed != null ? mk(slot.seed, slot.repMin) : null;
     if (!baseSets) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
     const factor = phase.loadFactor ?? 0.8;
     const sets = Array.from({ length: nSets }, (_, i) => {
       const src = baseSets[Math.min(i, baseSets.length - 1)];
-      return { weight: backoffInfo(src.weight, factor, inc).weight, reps: slot.repMin };
+      return { weight: backoffInfo(src.weight, factor, inc, ladder).weight, reps: slot.repMin };
     });
     // pct describes the TOP set — a ramped base means every set carries its
     // own ratio, and the headline should match the heaviest bar of the day.
     const top = topSet(baseSets);
-    return { sets, basis: 'deload', prevTop: top?.weight ?? null, pct: top ? backoffInfo(top.weight, factor, inc).pct : null };
+    return { sets, basis: 'deload', prevTop: top?.weight ?? null, pct: top ? backoffInfo(top.weight, factor, inc, ladder).pct : null };
   }
+
+  // The floor set elsewhere in the rotation: face pulls close four different
+  // days, chest press lives on both push days, leg work repeats — progress
+  // made on ANY of them since this slot's own last visit carries over instead
+  // of each day type climbing its own blind silo.
+  const cross = meta.bodyweight ? null
+    : crossDayBest(plan, history, sessionType, slot, last?.entry.date ?? null);
+  const applyCross = (sets, prevTop) => {
+    const top = Math.max(0, ...sets.map((s) => s.weight ?? 0));
+    if (!cross || cross.weight <= top) return null;
+    // Shift the whole shape up so the TOP set lands on the proven weight — a
+    // deliberate ramp stays a ramp, a flat prescription stays flat.
+    const delta = cross.weight - top;
+    // A zero-weight set inside a real shape is an anomaly (saved without a
+    // weight) — leave it alone rather than teleport it to the day's top. Only
+    // the all-zero shape (a verify slot) adopts the cross weight wholesale.
+    return {
+      sets: top > 0
+        ? sets.map((s) => ({ ...s, weight: s.weight > 0 ? snapRx(s.weight + delta) : s.weight }))
+        : sets.map((s) => ({ ...s, weight: snapRx(cross.weight) })),
+      basis: 'cross',
+      prevTop,
+      cross,
+    };
+  };
 
   if (!last) {
-    if (slot.seed == null) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
-    return { sets: mk(slot.seed, slot.repMin), basis: 'seed', prevTop: null, note: slot.seedNote };
+    if (slot.seed == null) {
+      const lifted = applyCross(mk(0, slot.repMin), null);
+      if (lifted) return lifted; // real recent work beats "verify" every time
+      return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
+    }
+    const seeded = mk(snapRx(slot.seed), slot.repMin);
+    return applyCross(seeded, null) ?? { sets: seeded, basis: 'seed', prevTop: null, note: slot.seedNote };
   }
 
-  const prev = last.ex.sets;
+  const prev = normalizeSets(last.ex.sets);
   const prevTop = topSet(prev)?.weight ?? null;
   // Progression needs every prescribed set, not just every logged one —
   // 2-of-4 sets at the top of the range is an unfinished session, not a trigger.
@@ -199,7 +425,8 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
   // only on compounds. +10 on a deadlift is ~4%; +10 on a curl is a form
   // breakdown waiting to happen, so isolation lifts take the single step no
   // matter how loud the rep surplus.
-  const jump = grow && meta.compound === true && prev.every((s) => s.reps >= slot.repMax + 2) ? inc * 2 : inc;
+  const rungs = grow && meta.compound === true && prev.every((s) => s.reps >= slot.repMax + 2) ? 2 : 1;
+  const jump = inc * rungs;
   const lastPhase = plan.phases.find((p) => p.id === last.entry.phase);
   const fromCalibration = lastPhase?.type === 'calibration';
   // Progressing out of calibration returns at least to the seed — the -10%
@@ -208,20 +435,29 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo) {
   // far under (20 against a 25 ask, seed 30) hasn't earned a teleport to a
   // weight it never touched — it climbs one honest jump from where it stands.
   const seedEarned = fromCalibration && slot.seed != null && prevTop != null
-    && prevTop >= backoffLoad(slot.seed * (lastPhase.loadFactor ?? 0.9), inc);
+    && prevTop >= backoffInfo(slot.seed, lastPhase?.loadFactor ?? 0.9, inc, ladder).weight;
   const sets = Array.from({ length: nSets }, (_, i) => {
     const src = prev[Math.min(i, prev.length - 1)];
-    if (!grow) return { weight: src.weight, reps: clamp(src.reps, slot.repMin, slot.repMax) };
-    let w = src.weight + jump;
-    if (seedEarned) w = Math.max(w, slot.seed);
+    if (!grow) return { weight: snapRx(src.weight), reps: clamp(src.reps, slot.repMin, slot.repMax) };
+    // On a ladder the "+increment" is the next real pin. At the very top of
+    // the stack there is no raise to give — hold the weight AND the earned
+    // reps; resetting to repMin would trade 12s for a raise that doesn't exist.
+    const up = ladder ? ladderUp(ladder, src.weight, rungs) : src.weight + jump;
+    if (up == null) return { weight: snapRx(src.weight), reps: clamp(src.reps, slot.repMin, slot.repMax) };
+    let w = up;
+    if (seedEarned) w = Math.max(w, snapRx(slot.seed));
     return { weight: w, reps: slot.repMin };
   });
-  return {
+  const newTop = Math.max(0, ...sets.map((s) => s.weight ?? 0));
+  const base = {
     sets,
     basis: grow ? 'progress' : phase?.type === 'prep' ? 'hold' : 'repeat',
     prevTop,
-    increment: grow ? inc : 0,
+    increment: grow && prevTop != null ? +(newTop - prevTop).toFixed(2) : 0,
+    source: { date: last.entry.date }, // which visit these numbers came from
   };
+  if (phase?.type === 'prep') return base; // prep holds — no cross-day raises either
+  return applyCross(sets, prevTop) ?? base;
 }
 
 // ——— Stall detection ———
