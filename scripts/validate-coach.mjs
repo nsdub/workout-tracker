@@ -40,6 +40,16 @@ for (const f of pkt.flags ?? []) {
 for (const o of pkt.overrides ?? []) {
   if (!plan.exercises[o.exercise]) fail(`override for unknown exercise "${o.exercise}"`);
   if (o.session && !plan.sessions[o.session]) fail(`override session "${o.session}" is not in the plan`);
+  // An override aimed at a lift that isn't a slot in that session is dropped
+  // silently by the engine — and the summary below would still have said
+  // "every override lands exactly as written". Catch it here instead.
+  const inSess = (id) => !!plan.sessions[id]?.exercises?.some((x) => x.id === o.exercise);
+  if (o.session && plan.sessions[o.session] && !inSess(o.session)) {
+    fail(`override "${o.exercise}" is not a slot in ${o.session} — the app would drop it silently`);
+  }
+  if (!o.session && !Object.keys(plan.sessions).some(inSess)) {
+    fail(`override "${o.exercise}" is not a slot in any session — the app would drop it silently`);
+  }
   if (typeof o.reason !== 'string' || !o.reason.trim()) fail(`override ${o.exercise}: reason is required — the card quotes it`);
   if (!Array.isArray(o.sets) || !o.sets.length) fail(`override ${o.exercise}: sets[] required`);
   for (const s of o.sets ?? []) {
@@ -65,6 +75,10 @@ for (const slot of plan.sessions[type].exercises) {
   console.log(`  ${slot.id.padEnd(24)} ${rx.basis.padEnd(8)} ${line}${rx.coach?.reason ? `  — "${rx.coach.reason}"` : ''}`);
   const o = (pkt.overrides ?? []).find((q) => q.exercise === slot.id && (!q.session || q.session === type));
   if (o && rx.basis === 'coach') {
+    if (o.sets.length !== rx.sets.length) {
+      altered = true;
+      console.log(`    ⚠ engine changed the SET COUNT: you wrote ${o.sets.length}, the app will show ${rx.sets.length} (slot cap, or the deload's set budget)`);
+    }
     o.sets.slice(0, rx.sets.length).forEach((s, i) => {
       if (s.weight !== rx.sets[i].weight || Math.round(s.reps) !== rx.sets[i].reps) {
         altered = true;

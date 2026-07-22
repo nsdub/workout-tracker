@@ -109,10 +109,12 @@ export function phaseForDate(plan, dateStr, overrideId = null) {
     phase = phases.find((p) => dateStr >= p.start && dateStr <= p.end);
     if (!phase && dateStr > phases[phases.length - 1].end) phase = phases[phases.length - 1];
   }
-  if (!phase) return { phase: null, week: null, weeks: null, override: false };
+  // `date` rides along so downstream (coach freshness) can judge age against
+  // the night being prescribed rather than against wall-clock "now".
+  if (!phase) return { phase: null, week: null, weeks: null, override: false, date: dateStr };
   const days = Math.max(0, Math.round((new Date(dateStr + 'T12:00') - new Date(phase.start + 'T12:00')) / 86400000));
   const weeks = Math.ceil((Math.round((new Date(phase.end + 'T12:00') - new Date(phase.start + 'T12:00')) / 86400000) + 1) / 7);
-  return { phase, week: Math.floor(days / 7) + 1, weeks, override: !!overrideId };
+  return { phase, week: Math.floor(days / 7) + 1, weeks, override: !!overrideId, date: dateStr };
 }
 
 // ——— Rotation ———
@@ -232,7 +234,7 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 // `at`, so the stored array order can put the heaviest set first — copying
 // that index-by-index prescribed 157.5 / 142.5 / 150 the day after a clean
 // ascending ramp. Chronology is the truth when every set carries a timestamp.
-function performedOrder(sets) {
+export function performedOrder(sets) {
   const s = [...sets];
   if (s.length > 1 && s.every((q) => q.at)) s.sort((a, b) => a.at - b.at);
   return s;
@@ -294,9 +296,20 @@ export function crossDayBest(plan, history, sessionType, slot, afterDate = null)
 // trusts the packet blindly: weights snap to real pins and are capped near
 // what this lift has actually demonstrated.
 
-export function coachFresh(history, coach) {
+// A packet is fresh only while BOTH hold: nothing has been logged that the
+// trainer hasn't seen, AND it isn't stale by the calendar. Without the age
+// bound, a rest week (or a missed run of morning reviews) let a weeks-old
+// review keep driving tonight's numbers under a banner claiming it had read
+// everything — including straight through a phase boundary into a deload.
+export const COACH_MAX_AGE_DAYS = 3;
+
+export function coachFresh(history, coach, today = null) {
   if (!coach?.reviewed_through) return false;
-  return !sortedHistory(history).some((e) => e.date > coach.reviewed_through);
+  if (sortedHistory(history).some((e) => e.date > coach.reviewed_through)) return false;
+  const now = today ?? new Date().toLocaleDateString('sv-SE');
+  const written = coach.date ?? coach.reviewed_through;
+  const age = Math.round((new Date(now + 'T12:00') - new Date(written + 'T12:00')) / 86400000);
+  return age <= COACH_MAX_AGE_DAYS;
 }
 
 function coachOverrideFor(coach, sessionType, exId) {
@@ -338,20 +351,30 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   // The trainer's word comes first — but only fresh, snapped, and capped.
   // Bodyweight slots are excluded (nothing to prescribe but reps the
   // bodyweight branch already anchors honestly).
-  if (!meta.bodyweight && coach && coachFresh(history, coach)) {
+  if (!meta.bodyweight && coach && coachFresh(history, coach, phaseInfo?.date ?? null)) {
     const o = coachOverrideFor(coach, sessionType, slot.id);
     if (o && Array.isArray(o.sets) && o.sets.length && o.sets.every((s) => s.weight > 0 && s.reps > 0)) {
       const cap = coachCap(plan, history, slot, ladder, inc);
       const maxReps = plan.rules?.validation?.maxReps ?? 30;
-      const sets = o.sets.slice(0, slot.sets + 2).map((s) => ({
+      // In a deload week the app's own notice bar promises ~60% of the sets.
+      // A packet restoring the full count would make that notice false, so the
+      // deload's set budget wins over the trainer's count (its weights don't).
+      const askSets = o.sets.slice(0, phase?.type === 'deload' ? nSets : slot.sets + 2);
+      const sets = askSets.map((s) => ({
         weight: snapRx(Math.min(cap, s.weight)),
         reps: clamp(Math.round(s.reps), 1, maxReps),
       }));
+      // If the pin snap or the safety cap moved the trainer's number, the card
+      // MUST say so — otherwise it quotes a reason for 50 while prefilling
+      // 50.5, and the athlete is reading a justification for a weight that is
+      // not on screen.
+      const asked = sets.some((s, i) => s.weight !== askSets[i].weight)
+        ? askSets.map((s) => s.weight) : null;
       return {
         sets,
         basis: 'coach',
         prevTop: null,
-        coach: { reason: o.reason ?? null, date: coach.date ?? coach.reviewed_through ?? null },
+        coach: { reason: o.reason ?? null, date: coach.date ?? coach.reviewed_through ?? null, asked },
       };
     }
   }
@@ -377,9 +400,18 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     const baseSets = last ? normalizeSets(last.ex.sets) : slot.seed != null ? mk(slot.seed, slot.repMin) : null;
     if (!baseSets) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
     const factor = phase.loadFactor ?? 0.8;
+    // A deload cuts SET COUNT, and the sets it must keep are the working ones.
+    // Indexing a ramp from the front kept the warm-ups and threw the top set
+    // away — so a 155/185/205/205 night deloaded to 120/145 while the label
+    // underneath claimed "140 lb = 78% of 205", arithmetic that was simply
+    // false. Take the last nSets of the (ascending) base instead.
+    const off = Math.max(0, baseSets.length - nSets);
     const sets = Array.from({ length: nSets }, (_, i) => {
-      const src = baseSets[Math.min(i, baseSets.length - 1)];
-      return { weight: backoffInfo(src.weight, factor, inc, ladder).weight, reps: slot.repMin };
+      const src = baseSets[Math.min(i + off, baseSets.length - 1)];
+      return {
+        weight: src.weight > 0 ? backoffInfo(src.weight, factor, inc, ladder).weight : src.weight,
+        reps: slot.repMin,
+      };
     });
     // pct describes the TOP set — a ramped base means every set carries its
     // own ratio, and the headline should match the heaviest bar of the day.
@@ -393,7 +425,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   // of each day type climbing its own blind silo.
   const cross = meta.bodyweight ? null
     : crossDayBest(plan, history, sessionType, slot, last?.entry.date ?? null);
-  const applyCross = (sets, prevTop) => {
+  const applyCross = (sets, prevTop, source = null) => {
     const top = Math.max(0, ...sets.map((s) => s.weight ?? 0));
     if (!cross || cross.weight <= top) return null;
     // Shift the whole shape up so the TOP set lands on the proven weight — a
@@ -409,6 +441,9 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
       basis: 'cross',
       prevTop,
       cross,
+      // carried so the card never falls back to an UNFENCED "most recent"
+      // lookup and labels a deload night as this day's last visit
+      ...(source ? { source } : {}),
     };
   };
 
@@ -460,18 +495,23 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     return { weight: w, reps: slot.repMin };
   });
   const newTop = Math.max(0, ...sets.map((s) => s.weight ?? 0));
+  // The visit these numbers were actually built from — carried out whole so
+  // the card can display THAT session rather than re-deriving "most recent"
+  // with a different fence and contradicting itself.
+  const source = { date: last.entry.date, entry: last.entry, ex: last.ex };
+  // Per-set rises, so a MIXED shape at the ladder ceiling (set 1 climbs, the
+  // top two hold) can't be labelled "top of the stack, weight holds" while
+  // set 1 in fact went up. Zero only when nothing moved at all.
+  const rose = grow ? Math.max(0, ...sets.map((s, i) => (s.weight ?? 0) - (prev[Math.min(i, prev.length - 1)].weight ?? 0))) : 0;
   const base = {
     sets,
     basis: grow ? 'progress' : phase?.type === 'prep' ? 'hold' : 'repeat',
     prevTop,
-    increment: grow && prevTop != null ? +(newTop - prevTop).toFixed(2) : 0,
-    // The visit these numbers were actually built from — carried out whole so
-    // the card can display THAT session rather than re-deriving "most recent"
-    // with a different fence and contradicting itself.
-    source: { date: last.entry.date, entry: last.entry, ex: last.ex },
+    increment: grow && prevTop != null ? +Math.max(rose, newTop - prevTop).toFixed(2) : 0,
+    source,
   };
   if (phase?.type === 'prep') return base; // prep holds — no cross-day raises either
-  return applyCross(sets, prevTop) ?? base;
+  return applyCross(sets, prevTop, source) ?? base;
 }
 
 // Every slot of a session, prescribed — the whole night's numbers in one
@@ -512,20 +552,26 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
       coachRx: rx.coach ?? null,
       srcDate: rx.source?.date ?? null,
       stalled: isStalled(plan, history, sessionType, slot),
-      // this day's own last visit — the one the standing rules copied from
+      // this day's own last visit — the one the standing rules copied from.
+      // Sets are shown in the order they were PERFORMED (the order the engine
+      // read them in), never raw array order, or the strip and the
+      // prescription describe different nights.
       last: sameDay ? {
         date: sameDay.entry.date,
         session: sameDay.entry.session_type,
-        sets: sameDay.ex.sets,
+        sets: performedOrder(sameDay.ex.sets),
         note: sameDay.ex.note ?? null,
+        deload: deloadPhaseIds(plan).includes(sameDay.entry.phase),
       } : null,
       // the same lift done SINCE then on a different day, if any
       other: other ? {
         date: other.entry.date,
         session: other.entry.session_type,
-        sets: other.ex.sets,
+        sets: performedOrder(other.ex.sets),
         note: other.ex.note ?? null,
         newer: !sameDay || other.entry.date > sameDay.entry.date,
+        deload: deloadPhaseIds(plan).includes(other.entry.phase),
+        sameType: other.entry.session_type === sessionType,
       } : null,
     };
   });

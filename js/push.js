@@ -43,20 +43,33 @@ export async function pushStatus() {
 export async function enablePush() {
   if (!pushSupported()) throw new Error('This browser has no push support');
   if (!pushConfigured()) throw new Error('Add the worker URL first');
+  // Permission first, so the prompt stays inside the tap's user activation.
   const perm = await Notification.requestPermission();
   if (perm !== 'granted') throw new Error('Your phone said no to notifications');
   const reg = await navigator.serviceWorker.ready;
-  const sub = await reg.pushManager.getSubscription()
-    ?? await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: b64urlToBytes(VAPID_PUBLIC_KEY),
-    });
-  // Prove the worker is reachable before claiming success — a typo'd URL
-  // must fail HERE, in front of the user, not silently at rest-end.
+  const existing = await reg.pushManager.getSubscription();
+  const sub = existing ?? await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: b64urlToBytes(VAPID_PUBLIC_KEY),
+  });
+  // Prove the worker is reachable AND actually able to send before claiming
+  // success — a typo'd URL, or one deployed without its VAPID secret, must
+  // fail HERE in front of the user, not silently at rest-end.
   const res = await fetch(`${store.settings.pushUrl.replace(/\/$/, '')}/health`).catch(() => null);
-  if (!res?.ok) {
-    await sub.unsubscribe().catch(() => {});
+  const health = res?.ok ? await res.json().catch(() => null) : null;
+  if (!health) {
+    // Only tear down what THIS call created — a pre-existing, working
+    // subscription must survive someone fat-fingering the URL field.
+    if (!existing) await sub.unsubscribe().catch(() => {});
     throw new Error("Couldn't reach that worker URL — check it and try again");
+  }
+  if (health.canSend === false) {
+    if (!existing) await sub.unsubscribe().catch(() => {});
+    throw new Error('That worker is deployed but has no signing key — run scripts/deploy.sh again');
+  }
+  if (health.key && health.key !== VAPID_PUBLIC_KEY) {
+    if (!existing) await sub.unsubscribe().catch(() => {});
+    throw new Error('That worker signs with a different key than this app — redeploy it from this repo');
   }
   return sub;
 }
@@ -100,14 +113,17 @@ export async function armPush(deadline, label) {
 // Cancel a pending bell: the set was logged early, Skip was tapped, a new
 // rest started, or the night finished. keepalive matters here — this often
 // fires as the page is going away.
-export async function disarmPush() {
+export async function disarmPush(deadline = null) {
   const sub = await currentSubscription();
   if (!sub) return false;
   try {
     const res = await fetch(`${store.settings.pushUrl.replace(/\/$/, '')}/disarm`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subscription: sub.toJSON() }),
+      // The deadline IDENTIFIES the rest being cancelled. Without it, a
+      // disarm sent as one rest ends could race ahead of the next rest's arm
+      // and silently cancel the wrong alarm. The worker ignores a mismatch.
+      body: JSON.stringify({ subscription: sub.toJSON(), deadline }),
       keepalive: true,
     });
     return res.ok;

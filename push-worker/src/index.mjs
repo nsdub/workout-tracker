@@ -50,7 +50,17 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
     const url = new URL(request.url);
 
-    if (url.pathname === '/health') return json({ ok: true, service: 'protocol-rest-push' }, 200, origin);
+    // /health reports READINESS, not just reachability: a worker deployed
+    // without its VAPID secret answers 200 while being unable to send a
+    // single push, and the app would have proudly said "On".
+    if (url.pathname === '/health') {
+      return json({
+        ok: true,
+        service: 'protocol-rest-push',
+        canSend: !!(env.VAPID_PUBLIC_KEY && env.VAPID_PRIVATE_JWK && env.VAPID_SUBJECT),
+        key: env.VAPID_PUBLIC_KEY || null,
+      }, 200, origin);
+    }
 
     if (request.method !== 'POST') return json({ error: 'POST only' }, 405, origin);
     if (origin && !ALLOWED.has(origin)) return json({ error: 'origin not allowed' }, 403, origin);
@@ -72,7 +82,13 @@ export default {
     }
 
     if (url.pathname === '/disarm') {
-      await stub.fetch('https://do/disarm', { method: 'POST' });
+      // The deadline names the rest being cancelled; the DO drops the request
+      // if a NEWER rest has since been armed, so a late disarm can't kill the
+      // alarm for the set the lifter is resting for right now.
+      await stub.fetch('https://do/disarm', {
+        method: 'POST',
+        body: JSON.stringify({ deadline: payload.deadline ?? null }),
+      });
       return json({ ok: true }, 200, origin);
     }
 
@@ -97,6 +113,15 @@ export class RestAlarm {
       return new Response('ok');
     }
     if (path === '/disarm') {
+      let asked = null;
+      try { asked = (await request.json())?.deadline ?? null; } catch { /* legacy client: no body */ }
+      const rest = await this.state.storage.get('rest');
+      // A disarm naming an OLD rest must not cancel the one now pending —
+      // logging a set early fires a disarm that could otherwise race past the
+      // next rest's arm and silently kill its bell.
+      if (asked != null && rest && Number(rest.deadline) !== Number(asked)) {
+        return new Response('stale disarm ignored');
+      }
       await this.state.storage.deleteAlarm();
       await this.state.storage.delete('rest');
       return new Response('ok');

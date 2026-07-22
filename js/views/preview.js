@@ -15,17 +15,63 @@ const gridName = (x) => (x.grid ? 'your cable machine’s real pins' : `the ${x.
 const dayName = (t) => store.plan?.sessions[t]?.name ?? t;
 const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0));
 
+// What the prescription did to last visit's sets, in the athlete's words.
+// Works off the SAME two things the user can see: the sets on the card and
+// the sets on the LAST line. If they match, there is nothing to explain.
+function repeatDeltas(x) {
+  const prevSets = (x.last ?? x.prev)?.sets;
+  if (!Array.isArray(prevSets) || !prevSets.length || !x.sets?.length) return [];
+  const out = [];
+  const raised = [];
+  for (let i = 0; i < Math.min(x.sets.length, prevSets.length); i++) {
+    const now = x.sets[i]?.weight ?? 0;
+    const was = prevSets[i]?.weight ?? 0;
+    if (now > was) raised.push(i + 1);
+  }
+  if (raised.length) {
+    const which = raised.length === 1 ? `set ${raised[0]}` : `sets ${raised.join(' and ')}`;
+    out.push(`with ${which} brought up so the night never steps backwards`);
+  }
+  if (x.sets.length > prevSets.length) {
+    out.push(`padded back to the planned ${x.sets.length} sets (you logged ${prevSets.length})`);
+  }
+  return out;
+}
+
 // WHY this number — one plain-English sentence per prescription. Lives here
 // (not in session.js) so the preview and the exercise card always tell the
 // same story; session.js imports this map.
 export const BASIS = {
-  coach: (x) => `<span class="up">Set by your trainer</span> in the ${x.coachRx?.date ? `${fmtDate(x.coachRx.date)} ` : ''}morning review${x.coachRx?.reason ? `: “${esc(x.coachRx.reason)}”` : '.'}`,
+  coach: (x) => `<span class="up">Set by your trainer</span> in the ${x.coachRx?.date ? `${fmtDate(x.coachRx.date)} ` : ''}morning review${x.coachRx?.reason ? `: “${esc(x.coachRx.reason)}”` : '.'}${
+    // The trainer's ask is quoted above; if the pin snap or the safety cap
+    // moved it, the athlete must be told, or the quote justifies a number
+    // that is not on the screen.
+    x.coachRx?.asked ? ` <span class="adj">Adjusted to what your machine can actually load — the trainer asked for ${esc(x.coachRx.asked.map((w) => fmtW(w)).join(', '))}.</span>` : ''}`,
   progress: (x) => x.bump > 0
-    ? `<span class="up">Up <span class="num">${fmtW(x.prevTop)}</span> → <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb${x.grid ? ' (the next pin your machine can load)' : ''}</span> — you hit the top of the rep range on every set${x.srcDate ? ` on ${fmtDate(x.srcDate)}` : ' last time'}.`
+    // "the next pin" is only true when the jump IS one pin — exiting
+    // calibration can vault several at once (22.5 → 30 skips 24, 25.5, 27.5).
+    ? `<span class="up">Up <span class="num">${fmtW(x.prevTop)}</span> → <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb${
+      x.grid && Math.abs((engine.ladderUp(x.grid, x.prevTop) ?? NaN) - (x.prevTop + x.bump)) < 1e-9
+        ? ' (the next pin your machine can load)' : ''}</span> — you hit the top of the rep range on every set${x.srcDate ? ` on ${fmtDate(x.srcDate)}` : ' last time'}.`
     : `<span class="up">Top of the stack</span> — the machine can’t load more, so the weight holds at <span class="num">${fmtW(x.prevTop)}</span>. Keep owning the reps.`,
-  repeat: (x) => `Repeating this day’s last visit${x.srcDate ? ` (${fmtDate(x.srcDate)})` : ''} — hit ${x.repMax} ${repsWord(x)} on every set tonight and the app raises this lift next time.`,
+  // "Repeating" must only be said when it is TRUE. The engine reorders sets
+  // into performed order, never steps backwards mid-session, and pads a short
+  // night up to the planned set count — so the prescription frequently is NOT
+  // a copy. Saying so anyway put a sentence on screen that the numbers right
+  // above it contradicted (14 of 34 repeat rows in the live data).
+  repeat: (x) => {
+    const changes = repeatDeltas(x);
+    const src = x.srcDate ? ` (${fmtDate(x.srcDate)})` : '';
+    const tail = ` Hit ${x.repMax} ${repsWord(x)} on every set tonight and the app raises this lift next time.`;
+    return changes.length
+      ? `Built from this day’s last visit${src}, ${changes.join(' and ')}.${tail}`
+      : `Repeating this day’s last visit${src} exactly.${tail}`;
+  },
+  // States the weight the card ACTUALLY prefills (topRx), not the raw
+  // cross-day number — those differ whenever the pin snap moves it, and
+  // quoting the raw one put a weight in the sentence that appeared nowhere else.
   cross: (x) => x.cross
-    ? `Raised to <span class="num">${fmtW(x.cross.weight)}</span> lb to match what you already did on ${esc(dayName(x.cross.sessionType))} (${fmtDate(x.cross.date)}: <span class="num">${fmtW(x.cross.weight)}×${x.cross.reps}</span>). Progress counts wherever it happens.`
+    ? `Raised to <span class="num">${fmtW(topRx(x))}</span> lb${topRx(x) !== x.cross.weight ? ' (the nearest pin your machine can load)' : ''} to match what you already did on ${esc(dayName(x.cross.sessionType))} (${fmtDate(x.cross.date)}: <span class="num">${fmtW(x.cross.weight)}×${x.cross.reps}</span>). Progress counts wherever it happens.`
     : `Raised to match your latest work on another day.`,
   hold: (x) => `Prep block — the weight holds at <span class="num">${fmtW(x.prevTop)}</span> lb on purpose; matching last time’s reps is the win.`,
   // x.prev on a session card, x.last in the preview — either means "there is
@@ -40,7 +86,15 @@ export const BASIS = {
       ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of <span class="num">${fmtW(x.prevTop)}</span> — target 80%, snapped down to ${gridName(x)}.`
       : `Target 80% of <span class="num">${fmtW(x.prevTop)}</span>, snapped down to ${gridName(x)}.`,
   verify: (x) => esc(x.note || 'Verify weight'),
-  bodyweight: () => `Bodyweight — beat last time’s reps.`,
+  // A fixed 60-second plank is not "beat last time's reps", and its unit is
+  // seconds. Match the slot's actual range and unit like every other basis.
+  bodyweight: (x) => {
+    const unit = repsWord(x);
+    const target = x.sets?.[0]?.reps ?? x.repMin;
+    return x.repMin === x.repMax
+      ? `Bodyweight — hold <span class="num">${x.repMax}</span> ${unit}, every set.`
+      : `Bodyweight — you held <span class="num">${target}</span> ${unit} last time; beat it.`;
+  },
 };
 
 // Short chip per row, so the whole night's shape reads at a glance without
@@ -72,9 +126,18 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
   const U = UNIVERSES[sessionType];
   const totalSets = rows.reduce((n, r) => n + r.sets.length, 0);
   const mins = estimateMins(rows);
-  const coachFresh = engine.coachFresh(store.history, store.coach);
+  // The brief and its flags describe ONE session — the one the trainer wrote
+  // them for. Rendering them on all six put "Legs B tonight, calves at 280"
+  // at the top of the Push A card.
+  const packetSession = store.coach?.session_expected ?? null;
+  const coachFresh = engine.coachFresh(store.history, store.coach, phaseInfo.date)
+    && (!packetSession || packetSession === sessionType);
   const flags = coachFresh ? (store.coach?.flags ?? []) : [];
-  const changed = rows.filter((r) => r.basis === 'coach' || r.basis === 'progress' || r.basis === 'cross').length;
+  // Count rows whose numbers actually differ from last time — the basis label
+  // is not the question the footer answers. A 'coach' row that holds the exact
+  // same sets did not change; a 'repeat' row padded to 4 sets did.
+  const line = (r, sets) => fmtSetLine(sets, { repUnit: r.repUnit, bodyweight: r.bodyweight });
+  const changed = rows.filter((r) => r.last?.sets?.length && line(r, r.sets) !== line(r, r.last.sets)).length;
 
   openSheet(`
     <h2>${esc(plan.sessions[sessionType].name)}${when ? ` — ${esc(when.toLowerCase())}` : ''}</h2>
@@ -100,8 +163,8 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
           </div>
           <div class="pv-sets num">${esc(fmtSetLine(r.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</div>
           <div class="pv-why">${BASIS[r.basis]?.(r) ?? ''}</div>
-          ${r.last ? `<div class="pv-last">${esc(dayName(r.last.session))} · ${fmtDate(r.last.date)} — <span class="num">${esc(fmtSetLine(r.last.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
-          ${r.other ? `<div class="pv-last">${esc(dayName(r.other.session))} · ${fmtDate(r.other.date)} — <span class="num">${esc(fmtSetLine(r.other.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
+          ${r.last ? `<div class="pv-last">${esc(dayName(r.last.session))} · ${fmtDate(r.last.date)}${r.last.deload ? ' · deload' : ''} — <span class="num">${esc(fmtSetLine(r.last.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
+          ${r.other ? `<div class="pv-last">${esc(dayName(r.other.session))} · ${fmtDate(r.other.date)}${r.other.deload ? ' · deload' : ''} — <span class="num">${esc(fmtSetLine(r.other.sets, { repUnit: r.repUnit, bodyweight: r.bodyweight }))}</span></div>` : ''}
           ${(r.last?.note || r.other?.note) ? `<div class="pv-note">“${esc(r.last?.note || r.other?.note)}”</div>` : ''}
         </div>`;
       }).join('')}

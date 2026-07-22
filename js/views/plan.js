@@ -140,13 +140,18 @@ function incrementSentence(plan) {
       groups.get(label).add(meta.name);
     }
   }
-  // biggest group first — it reads as the rule, the rest as its exceptions
+  // Biggest group first, ties broken by label so the sentence is stable. Only
+  // claim "Most" when the group is an actual majority — with 33 lifts split
+  // 10/10/9/4, "Most lifts go up by 5 lb" was false, and every group is
+  // listed either way so nothing hides behind a summary.
+  const total = [...groups.values()].reduce((n, s) => n + s.size, 0);
   const parts = [...groups.entries()]
-    .sort((a, b) => b[1].size - a[1].size)
+    .sort((a, b) => b[1].size - a[1].size || a[0].localeCompare(b[0]))
     .map(([label, names], i) => {
-      if (i === 0) return `Most lifts go up <b>${esc(label)}</b>.`;
+      const list = esc([...names].sort().join(', '));
       const cap = label.charAt(0).toUpperCase() + label.slice(1);
-      return `<b>${esc(cap)}</b> — ${esc([...names].sort().join(', '))}.`;
+      if (i === 0 && names.size > total / 2) return `Most lifts go up <b>${esc(label)}</b>. Everything else: `;
+      return `<b>${esc(cap)}</b> — ${list}.`;
     });
   return parts.join(' ');
 }
@@ -164,6 +169,14 @@ function weekAhead(plan, next, today) {
     dt.setDate(dt.getDate() + offset);
     return dt.toLocaleDateString('en-US', { weekday: 'long' });
   };
+  // The row's REAL date, carried into the preview — otherwise a night that
+  // falls inside the deload week is previewed at full build weights, because
+  // the card resolved the phase for today instead of for that night.
+  const dayDate = (offset) => {
+    const dt = new Date(today + 'T12:00:00');
+    dt.setDate(dt.getDate() + offset);
+    return dt.toLocaleDateString('sv-SE');
+  };
   // Honest "Today": once tonight is banked, rotationNext has already advanced
   // past it — so say what was DONE today, dimmed, and start the rotation rows
   // at Tomorrow instead of relabeling tomorrow's session "Today".
@@ -177,7 +190,7 @@ function weekAhead(plan, next, today) {
     const t = plan.rotation[idx];
     // Every scheduled day opens its card — "what am I lifting Thursday?" is
     // one tap, not a guess.
-    rows.push(`<div class="wk-row tappable" role="button" tabindex="0" data-t="${t}" data-when="${esc(dayLabel(d))}" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span><span class="wk-go">${ICONS.chevR}</span></div>`);
+    rows.push(`<div class="wk-row tappable" role="button" tabindex="0" data-t="${t}" data-when="${esc(dayLabel(d))}" data-date="${dayDate(d)}" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span><span class="wk-go">${ICONS.chevR}</span></div>`);
     if (idx === plan.rotation.length - 1 && rows.length < 7) {
       d++;
       rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${ICONS.moon} rest day</span></div>`);
@@ -299,7 +312,7 @@ function wire(info) {
   });
   root.querySelector('.week-rows')?.addEventListener('click', (e) => {
     const row = e.target.closest('.wk-row.tappable');
-    if (row) { haptic(4); arsenalSheet(row.dataset.t, row.dataset.when); }
+    if (row) { haptic(4); arsenalSheet(row.dataset.t, row.dataset.when, row.dataset.date); }
   });
   // Releasing the lock rebuilds tonight from the calendar phase — it must
   // ride the same dirty-draft confirm as picking a phase, or the old
@@ -312,8 +325,8 @@ function wire(info) {
 // live prescriptions, not the program's static seed weights (which is what
 // this sheet used to show, and why the numbers here never matched the ones
 // the session screen actually prefilled).
-function arsenalSheet(type, when = null) {
-  previewSheet(type, { when });
+function arsenalSheet(type, when = null, dateStr = null) {
+  previewSheet(type, { when, dateStr });
 }
 
 function drawerSheet(info) {
@@ -410,6 +423,7 @@ function pushSheet() {
       $('#ps-on', sheet).addEventListener('click', async () => {
         const v = $('#ps-url', sheet).value.trim().replace(/\/$/, '');
         if (!/^https:\/\/\S+$/.test(v)) return toast('That needs to be an https:// URL', 'bad');
+        const prevUrl = store.settings.pushUrl;
         store.saveSettings({ pushUrl: v });
         state.textContent = 'Subscribing…';
         try {
@@ -417,6 +431,10 @@ function pushSheet() {
           toast('Rest alerts on — locked-phone bells from here on', 'ok', 3600);
           close();
         } catch (err) {
+          // A URL that doesn't work is not saved — keeping it would leave the
+          // console reading "Set up" while every future rest armed nothing.
+          store.saveSettings({ pushUrl: prevUrl });
+          $('#ps-url', sheet).value = v; // keep what they typed, for fixing
           state.textContent = err.message || 'Could not turn on';
           toast(err.message || 'Could not turn on', 'bad', 4000);
         }

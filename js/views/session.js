@@ -184,9 +184,19 @@ function ensureDraft(today, phaseInfo) {
     // skipped, nothing added, no notes) rebuilds its prescriptions under the
     // new review — same world, same start time, nothing burned. The moment
     // the user has touched anything, their night is theirs: no rebuild.
+    // An EDIT is a touch. Dialing 195 into the numpad and then having a
+    // fresher packet land would silently restore the trainer's 175 with no
+    // message and no undo — the user's own number, gone. The `!= null` guards
+    // keep drafts written by older builds (rxWeight but no rxReps) working.
     const touched = dirty
-      || d.exercises?.some((x) => x.adhoc || x.logNote || x.sets.some((s) => s.skipped));
-    if (d.date === today && !touched && !d.reopened && (d.coachStamp ?? null) !== coachStamp()) {
+      || d.exercises?.some((x) => x.adhoc || x.logNote || x.sets.some((s) => s.skipped
+        || (s.rxWeight != null && s.weight !== s.rxWeight)
+        || (s.rxReps != null && s.reps !== s.rxReps)));
+    // Never rebuild underneath an open sheet either: the numpad's confirm
+    // closure points at the draft being replaced, so the pending edit would
+    // be written to an orphan and vanish.
+    const sheetOpen = !!document.querySelector('.sheet');
+    if (d.date === today && !touched && !sheetOpen && !d.reopened && (d.coachStamp ?? null) !== coachStamp()) {
       const fresh = buildDraft(today, d.session_type, phaseInfo, d.world ?? null);
       fresh.deliberate = d.deliberate;
       fresh.startedAt = d.startedAt ?? fresh.startedAt;
@@ -276,10 +286,14 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
     const sameDay = rx.source ?? engine.lastPerformance(store.history, sessionType, slot.id, {});
     const anywhere = engine.lastPerformanceAnywhere(store.history, slot.id);
     const otherDay = anywhere && anywhere.entry !== sameDay?.entry ? anywhere : null;
+    // Sets are rendered in the order they were PERFORMED — the same order the
+    // engine read them in. Raw array order can differ (a corrected set gets
+    // re-saved) and then the strip describes a night the prescription never saw.
     const strip = (perf) => perf ? {
       date: perf.entry.date,
       day: store.plan.sessions[perf.entry.session_type]?.name ?? perf.entry.session_type,
-      setsAll: perf.ex.sets.map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`).join('  '),
+      sets: engine.performedOrder(perf.ex.sets),
+      setsAll: engine.performedOrder(perf.ex.sets).map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`).join('  '),
       tag: store.plan.phases.find((p) => p.id === perf.entry.phase)?.type === 'deload' ? 'deload' : null,
     } : null;
     const prev = strip(sameDay);
@@ -311,7 +325,10 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
       grid: engine.ladderFor(store.plan, slot.id),
       // rxWeight: the engine's own prescription, kept per set so validateSet
       // can grant it immunity — the app never second-guesses its own numbers
-      sets: rx.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: false })),
+      // rxWeight/rxReps: the engine's own prescription, kept per set so
+      // validateSet can grant it immunity AND so an edit is detectable — a
+      // weight the user dialed in must never be silently overwritten.
+      sets: rx.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, rxReps: s.reps, done: false })),
     };
   });
   return {
@@ -383,15 +400,23 @@ function renderWorldScreen(draft, phaseInfo) {
   // wait one tap away in the briefing (priority: resuming > streak >
   // off-rotation > back-off week).
   // Fresh trainer flags (a pain note outranks every number) surface here.
-  const coachFlags = engine.coachFresh(store.history, store.coach) ? (store.coach?.flags ?? []) : [];
+  // Only this session's packet speaks here, and PAIN outranks everything —
+  // the bar shows one notice, so a pain flag written second must not end up
+  // hidden behind a "+1" chip while a volume note takes the stage.
+  const pkt = store.coach;
+  const coachFlags = engine.coachFresh(store.history, pkt, draft.date)
+    && (!pkt?.session_expected || pkt.session_expected === draft.session_type)
+    ? (pkt?.flags ?? []) : [];
   const noticeList = [
-    draft.date !== todayStr() ? { k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
-    ...coachFlags.map((f) => ({ k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? f.kind ?? 'see this morning’s review'}` })),
-    streak >= 6 ? { k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
-    isNext ? null : { k: 'offrot', ic: 'compass', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
-    phase?.type === 'deload' ? { k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
-    phase?.type === 'calibration' ? { k: 'cal', ic: 'gauge', txt: 'Calibration week — seeds at ~90%, snapped to the weight grid' } : null,
-  ].filter(Boolean);
+    ...coachFlags.filter((f) => f.kind === 'pain').map((f) => ({ p: 0, k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? 'check this before you lift'}` })),
+    draft.date !== todayStr() ? { p: 1, k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
+    ...coachFlags.filter((f) => f.kind !== 'pain').map((f) => ({ p: 2, k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? f.kind ?? 'see this morning’s review'}` })),
+    streak >= 6 ? { p: 3, k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
+    isNext ? null : { p: 4, k: 'offrot', ic: 'compass', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
+    phase?.type === 'deload' ? { p: 5, k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
+    phase?.type === 'calibration' ? { p: 5, k: 'cal', ic: 'gauge', txt: 'Calibration week — seeds at ~90%, snapped to the weight grid' } : null,
+    // Array#sort is stable, so packet order survives within a rank.
+  ].filter(Boolean).sort((a, b) => (a.p ?? 9) - (b.p ?? 9));
   const topNotice = noticeList[0];
 
   const repRange = `${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}`;
@@ -887,7 +912,7 @@ function briefingSheet() {
       const latestTxt = latest ? ` (latest entry ${fmtDate(latest.date)})` : '';
       const rules = `Between reviews the standing rules run on this phone: hit the top of the rep range on every set and the lift goes up next time, progress on one day carries to the same lift on other days, and every weight lands on a pin your machines can actually load.`;
       const c = store.coach;
-      if (c && engine.coachFresh(store.history, c)) {
+      if (c && engine.coachFresh(store.history, c, d.date)) {
         return `<div class="opt notice-full"><b>Trainer review of ${esc(fmtDate(c.date ?? c.reviewed_through))}</b> — read your full log through ${esc(fmtDate(c.reviewed_through))}, including your notes. Lifts it adjusted say so on their cards; the rest follow the standing rules.${c.brief ? `<br><br>“${esc(c.brief)}”` : ''}</div>`;
       }
       if (c) return `<div class="opt notice-full">Your trainer’s last review (${esc(fmtDate(c.date ?? c.reviewed_through))}) hasn’t seen your latest session${latestTxt} yet — tonight runs on the standing rules until the 6 AM review catches up. ${rules}</div>`;
@@ -1089,10 +1114,29 @@ function addExerciseSheet() {
         const name = $('#ax-name', sheet).value.trim();
         if (!name) return toast('Give it a name', 'bad');
         const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        // A "sneak one in" lift you've done before is NOT new: consult the log
+        // the same way buildDraft does, so the card shows your last numbers
+        // instead of claiming this is the first time you've ever logged it.
+        const past = engine.lastPerformanceAnywhere(store.history, id);
+        const prev = past ? {
+          date: past.entry.date,
+          day: store.plan.sessions[past.entry.session_type]?.name ?? past.entry.session_type,
+          sets: engine.performedOrder(past.ex.sets),
+          setsAll: engine.performedOrder(past.ex.sets).map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`).join('  '),
+          tag: store.plan.phases.find((p) => p.id === past.entry.phase)?.type === 'deload' ? 'deload' : null,
+        } : null;
+        const top = past ? engine.topSet(past.ex.sets) : null;
         store.draft.exercises.push({
           id, name, adhoc: true, repMin: 8, repMax: 12, rest: 90,
-          basis: 'seed', prevTop: null, note: null, logNote: null, bump: 0, stalled: false, inc: 5, prev: null,
-          sets: Array.from({ length: sets }, () => ({ weight: null, reps: 10, done: false })),
+          basis: past ? 'repeat' : 'verify',
+          note: past ? null : 'Added tonight — set the weight you use',
+          prevTop: top?.weight ?? null, logNote: null, bump: 0, stalled: false,
+          inc: engine.increment(store.plan, id) || 5,
+          grid: engine.ladderFor(store.plan, id),
+          prev, other: null, srcDate: past?.entry.date ?? null,
+          sets: Array.from({ length: sets }, () => ({
+            weight: top?.weight ?? null, reps: top?.reps ?? 10, done: false,
+          })),
         });
         store.saveDraft(store.draft);
         close();
@@ -1174,8 +1218,14 @@ function finishSession() {
       sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}) })),
       ...(x.logNote && x.logNote.trim() ? { note: x.logNote.trim() } : {}),
     }))
-    .filter((x) => x.sets.length);
-  if (!exercises.length) return toast('Nothing logged yet', 'bad');
+    // Keep a lift that carries EITHER performance or a note. Dropping
+    // note-only acts deleted "left shoulder tweak, skipped it" seconds after
+    // the app promised the trainer would read it — precisely the note most
+    // worth keeping. Every engine read gates on sets.length, so a note-only
+    // entry is inert for the training math.
+    .filter((x) => x.sets.length || x.note);
+  // ...but a night of pure notes is still not a logged workout.
+  if (!exercises.some((x) => x.sets.length)) return toast('Nothing logged yet', 'bad');
 
   const ats = exercises.flatMap((x) => x.sets.map((q) => q.at).filter(Boolean));
   // True wall-clock duration from the draft's birth; pre-deploy drafts fall
@@ -1211,7 +1261,7 @@ function finishSession() {
     sets: exercises.reduce((n, x) => n + x.sets.length, 0),
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),
     prs: d.exercises.reduce((n, x) => n + x.sets.filter((s) => s.pr).length, 0),
-    acts: exercises.length,
+    acts: exercises.filter((x) => x.sets.length).length, // note-only acts aren't acts performed
     title: U.copy.results,
     world: W ? `${W.name} · ${U.name}` : U.name,
     delivered: U.copy.delivered ?? NEUTRAL_COPY.delivered,

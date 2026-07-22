@@ -1,6 +1,6 @@
 // Offline-first service worker. Shell is cache-first; installs bypass the
 // HTTP cache; data/ and the GitHub API are never cached here.
-// build: v52 — MUST match js/version.js (tested); a byte-change here is
+// build: v53 — MUST match js/version.js (tested); a byte-change here is
 // what makes every browser notice a new release.
 importScripts('js/version.js');
 const VERSION = `protocol-${self.PROTOCOL_VERSION}`;
@@ -38,6 +38,7 @@ const SHELL = [
   'js/game/loader.js',
   'js/game/fx.js',
   'js/game/registry.js',
+  'js/game/stats.js',
   'js/game/overlay.js',
   'js/game/games/dojo.js',
   'js/game/games/deep.js',
@@ -96,15 +97,23 @@ self.addEventListener('fetch', (e) => {
 self.addEventListener('push', (e) => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch { /* non-JSON: use defaults */ }
-  e.waitUntil(self.registration.showNotification(d.title || 'Rest’s up 💪', {
-    body: d.body || 'Time for your next set.',
-    tag: d.tag || 'p3-rest-done',
-    renotify: true,
-    vibrate: [30, 60, 30],
-    icon: 'icons/icon-192.png',
-    badge: 'icons/icon-192.png',
-    data: { kind: 'rest-done' },
-  }));
+  e.waitUntil((async () => {
+    // A VISIBLE window means the in-app bell (flash + ding + haptic) already
+    // rang — a second OS banner on top of it is noise, and every rest ended
+    // while looking at the phone was firing both. Chrome exempts a visible
+    // client from the userVisibleOnly rule, so showing nothing here is legal
+    // and does not trigger the generic "site updated in background" notice.
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    if (wins.some((w) => w.visibilityState === 'visible')) return;
+    await self.registration.showNotification(d.title || 'Rest’s up 💪', {
+      body: d.body || 'Time for your next set.',
+      tag: d.tag || 'p3-rest-done',
+      vibrate: [30, 60, 30],
+      icon: 'icons/icon-192.png',
+      badge: 'icons/icon-192.png',
+      data: { kind: 'rest-done' },
+    });
+  })());
 });
 
 // Tapping the rest-done alert brings the app forward (or opens it) instead of a

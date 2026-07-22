@@ -55,10 +55,14 @@ export function weekKey(iso) {
 // days later (>6h) would lie about the night, so it defers to the set span
 // when one exists. Never returns 0 — a logged night took at least a minute.
 export function sessionMins(startedAt, ats, end = Date.now()) {
-  const span = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
+  const raw = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
+  // The span fallback needs the SAME 6-hour ceiling the elapsed value has:
+  // resuming a two-day-old draft made the set timestamps span the gap, and
+  // the results card proudly reported "1505 minutes in the world".
+  const span = raw && raw <= 360 ? raw : null;
   if (!startedAt) return span;
   const m = Math.max(1, Math.round((end - startedAt) / 60000));
-  return m > 360 && span ? span : m;
+  return m > 360 ? span : m;
 }
 
 // Map a raw GitHub error onto a sentence a human can act on — the toast must

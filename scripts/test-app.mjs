@@ -58,8 +58,14 @@ await ok('sessionMins: wall clock, span fallback, and the resumed-draft guard', 
   assert.equal(sessionMins(null, [t0]), null);
   // (d) >6h elapsed WITH a valid span → the stale resumed draft defers to the span
   assert.equal(sessionMins(t0, [t0 + 60000, t0 + 50 * 60000], t0 + 26 * 3600000), 49);
-  // (e) >6h elapsed with no span → the elapsed value stands
-  assert.equal(sessionMins(t0, [t0], t0 + 7 * 3600000), 420);
+  // (e) >6h elapsed with no usable span → UNKNOWN, not a 7-hour workout.
+  // This assertion used to expect 420 and was itself the bug: a draft left
+  // open overnight reported "420 minutes in the world" as fact. The ceiling
+  // now applies to the span fallback too, so an unknowable duration is
+  // reported as unknown (the results card renders "—").
+  assert.equal(sessionMins(t0, [t0], t0 + 7 * 3600000), null);
+  // ...and a span that crosses a resume gap is rejected the same way
+  assert.equal(sessionMins(t0, [t0, t0 + 25 * 3600000], t0 + 26 * 3600000), null);
 });
 
 // ——— store ———
@@ -744,16 +750,32 @@ await ok('the playable-universe sets in components.js and overlay.js match the r
     for (const s of set) assert.ok(GAMES[s], `${file} lists ${s} but no game module exists — Play would silently no-op`);
   }
 });
-await ok('sw shell carries the whole arcade (engine vendor + every module)', async () => {
-  const { readFileSync } = await import('node:fs');
-  const sw = readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
-  for (const f of [
-    'vendor/phaser.min.js', 'js/game/loader.js', 'js/game/fx.js',
-    'js/game/registry.js', 'js/game/overlay.js',
-    ...Object.keys(GAMES).map((g) => `js/game/games/${g}.js`),
-  ]) {
-    assert.ok(sw.includes(`'${f}'`), `sw.js SHELL is missing ${f} — offline arcade would 404`);
+await ok('sw shell carries EVERY module the app imports (derived, not a whitelist)', async () => {
+  // A hand-maintained list let js/game/stats.js — imported by views/log.js on
+  // the boot path — sit outside the shell, so an offline load after any
+  // update opened a dead app. Walk the real import graph instead: this test
+  // cannot go stale when a module is split out.
+  const { readFileSync, existsSync } = await import('node:fs');
+  const { dirname, join, normalize } = await import('node:path');
+  const root = new URL('..', import.meta.url).pathname;
+  const sw = readFileSync(join(root, 'sw.js'), 'utf8');
+  const seen = new Set();
+  const walk = (rel) => {
+    if (seen.has(rel) || !existsSync(join(root, rel))) return;
+    seen.add(rel);
+    const src = readFileSync(join(root, rel), 'utf8');
+    // static `from '…'` plus lazy `import('…')` — the arcade is dynamic and
+    // needs to work offline exactly as much as the rest.
+    for (const m of src.matchAll(/(?:from|import)\s*\(?\s*['"](\.[^'"]+)['"]/g)) {
+      walk(normalize(join(dirname(rel), m[1])));
+    }
+  };
+  walk('js/app.js');
+  for (const f of seen) {
+    assert.ok(sw.includes(`'${f}'`), `sw.js SHELL is missing ${f} — offline load would 404 on it`);
   }
+  assert.ok(seen.has('js/game/stats.js'), 'import walk failed to reach a known lazy module');
+  assert.ok(sw.includes("'vendor/phaser.min.js'"), 'phaser vendor missing from the shell');
   assert.ok(!sw.includes('matter.min.js'), 'stale matter vendor still in the shell');
   assert.ok(!sw.includes("'js/game/engine.js'"), 'deleted engine still in the shell');
 });

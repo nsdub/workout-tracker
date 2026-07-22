@@ -154,6 +154,20 @@ ok('deload: rounds DOWN, never up past the 80% target (205 → 160)', () => {
   // 205 × 0.8 = 164 → floored to 5 = 160. The old 2.5-grid gave 165, ABOVE the 80% target.
   assert.equal(rx.sets[0].weight, 160);
 });
+ok('deload keeps the WORKING sets of a ramp, not the warm-ups', () => {
+  // A ramp deloaded from the front kept 155/185 and threw the 205 top set
+  // away, while the card claimed "140 lb = 78% of 205" — arithmetic that was
+  // simply false. The cut must take the last nSets.
+  const h = [...history, mkEntry('2026-08-10', 'LegsB', 'smith-rdl', [
+    { weight: 155, reps: 8 }, { weight: 185, reps: 8 }, { weight: 205, reps: 8 }, { weight: 205, reps: 8 },
+  ])];
+  const rx = E.prescribe(plan, h, 'LegsB', slot('LegsB', 'smith-rdl'), deload);
+  assert.equal(rx.sets.length, 2);
+  assert.deepEqual(rx.sets.map((s) => s.weight), [160, 160]);
+  assert.equal(rx.prevTop, 205);
+  // the headline % must be TRUE of the heaviest weight actually prescribed
+  assert.equal(Math.round((Math.max(...rx.sets.map((s) => s.weight)) / rx.prevTop) * 100), rx.pct);
+});
 ok('meso 2 progresses off meso 1, skipping the deload entry', () => {
   const meso2 = E.phaseForDate(plan, '2026-08-25');
   const h = [...history,
@@ -579,10 +593,14 @@ ok('prep holds: no cross-day raises either', () => {
 const coachPkt = (over, extra = {}) => ({
   date: '2026-07-22', reviewed_through: '2026-07-21', overrides: over, ...extra,
 });
+// A packet is only fresh for a few days (COACH_MAX_AGE_DAYS), so coach tests
+// prescribe for a night INSIDE that window rather than the generic `meso`
+// fixture five days later — which is itself the behaviour being asserted.
+const mesoNow = E.phaseForDate(plan, '2026-07-22');
 ok('a fresh coach override becomes the prescription, reason attached', () => {
   const h = [...history, mkEntry('2026-07-21', 'PullB', 'db-shrug', mkSets(70, 12, 3))];
   const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', reason: 'hold here one more week', sets: mkSets(70, 12, 3) }]);
-  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), meso, coach);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), mesoNow, coach);
   assert.equal(rx.basis, 'coach');
   assert.equal(rx.sets[0].weight, 70);
   assert.equal(rx.coach.reason, 'hold here one more week');
@@ -594,39 +612,52 @@ ok('the moment a session the trainer has not seen is logged, overrides expire', 
   ];
   const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', sets: mkSets(70, 12, 3) }]);
   assert.equal(E.coachFresh(h, coach), false);
-  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), meso, coach);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), mesoNow, coach);
   assert.equal(rx.basis, 'repeat'); // standing rules take back over, honestly
 });
 ok('a runaway coach raise is capped two honest steps above proven work', () => {
   // best face-pull since calibration: 25.5. Cap = two pins up = 29.
   const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25.5, 15, 2))];
   const coach = coachPkt([{ exercise: 'face-pulls', sets: mkSets(60, 15, 2) }]);
-  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, coach);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, coach);
   assert.equal(rx.basis, 'coach');
   assert.equal(rx.sets[0].weight, 29);
 });
 ok('coach weights snap to real pins; reps clamp to the validation ceiling', () => {
   const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25.5, 15, 2))];
   const coach = coachPkt([{ exercise: 'face-pulls', sets: [{ weight: 25, reps: 15 }, { weight: 25, reps: 99 }] }]);
-  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, coach);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, coach);
   assert.equal(rx.sets[0].weight, 25.5); // 25 does not exist on the stack
   assert.equal(rx.sets[1].reps, 30);
 });
 ok('a session-scoped override never leaks onto another day; unscoped applies anywhere', () => {
   const h = [...history, mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(24, 15, 2))];
   const scoped = coachPkt([{ exercise: 'face-pulls', session: 'PushB', sets: mkSets(24, 15, 2) }]);
-  assert.notEqual(E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, scoped).basis, 'coach');
+  assert.notEqual(E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, scoped).basis, 'coach');
   const open = coachPkt([{ exercise: 'face-pulls', sets: mkSets(24, 15, 2) }]);
-  assert.equal(E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), meso, open).basis, 'coach');
+  assert.equal(E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, open).basis, 'coach');
+});
+ok('a packet goes stale by the CALENDAR, not just by new logs', () => {
+  // "Nothing logged since" alone let a weeks-old review keep driving the
+  // numbers under a banner claiming it had read everything — straight across
+  // a rest week and, worse, through a phase boundary into the deload.
+  const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', reason: 'hold', sets: mkSets(70, 12, 3) }]);
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'db-shrug', mkSets(70, 12, 3))];
+  assert.equal(E.coachFresh(h, coach, '2026-07-22'), true);
+  assert.equal(E.coachFresh(h, coach, '2026-07-25'), true, 'inside the window');
+  assert.equal(E.coachFresh(h, coach, '2026-07-26'), false, 'past the window');
+  // and the prescription itself falls back to the standing rules
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), E.phaseForDate(plan, '2026-08-20'), coach);
+  assert.equal(rx.basis, 'deload', 'a stale packet must never override a deload week');
 });
 ok('coach never touches bodyweight slots; malformed sets are ignored', () => {
   const coach = coachPkt([
     { exercise: 'assisted-dips', sets: mkSets(50, 10, 3) },
     { exercise: 'db-shrug', session: 'PullB', sets: [{ weight: 0, reps: 12 }] },
   ]);
-  const dips = E.prescribe(plan, history, 'PushB', slot('PushB', 'assisted-dips'), meso, coach);
+  const dips = E.prescribe(plan, history, 'PushB', slot('PushB', 'assisted-dips'), mesoNow, coach);
   assert.equal(dips.basis, 'bodyweight');
-  const shrug = E.prescribe(plan, history, 'PullB', slot('PullB', 'db-shrug'), meso, coach);
+  const shrug = E.prescribe(plan, history, 'PullB', slot('PullB', 'db-shrug'), mesoNow, coach);
   assert.notEqual(shrug.basis, 'coach'); // zero-weight set = malformed, standing rules run
 });
 
@@ -652,7 +683,7 @@ ok('previewSession carries the coach packet and NEVER conflates the two historie
     mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(24, 15, 2)),
   ];
   const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', reason: 'hold', sets: mkSets(70, 12, 3) }]);
-  const rows = E.previewSession(plan, h, 'PullB', meso, coach);
+  const rows = E.previewSession(plan, h, 'PullB', mesoNow, coach);
   assert.equal(rows.find((r) => r.id === 'db-shrug').basis, 'coach');
   const fp = rows.find((r) => r.id === 'face-pulls');
   assert.equal(fp.last.session, 'PullB');   // this day's own visit — what 'repeat' copies

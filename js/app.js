@@ -172,14 +172,21 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     if (!hadController) { hadController = true; return; } // first install: no reload
     if (reloaded) return;
     const sheetOpen = document.querySelector('.sheet-root.open');
-    if (document.visibilityState === 'hidden' || !sheetOpen) {
+    // A LIVE REST is as protective as an open numpad: reloading destroys the
+    // countdown, the wake lock and the pill mid-set. And `hidden` must NOT
+    // bypass the guard — a pocketed phone with a running rest is exactly the
+    // case the background tick exists to serve. The pill is in the DOM for
+    // precisely as long as the rest is live.
+    const restLive = !!document.getElementById('rest-pill');
+    if (!sheetOpen && !restLive) {
       reloaded = true;
       location.reload();
     } else {
-      // never yank a numpad out of someone's hands mid-set
+      // never yank a numpad — or a running rest timer — out of someone's hands
       toast('Updated — applies next time you look away');
       document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden' && !reloaded) { reloaded = true; location.reload(); }
+        if (document.visibilityState === 'hidden' && !reloaded
+          && !document.getElementById('rest-pill')) { reloaded = true; location.reload(); }
       }, { once: true });
     }
   });

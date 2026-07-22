@@ -708,7 +708,7 @@ export function hideRestTimer() {
   // (then there is nothing pending, and a disarm race could only cancel the
   // NEXT rest's alarm — showRestTimer re-arms after this call, so the order
   // is safe either way).
-  if (pushConfigured() && restState && !restState.fired) disarmPush();
+  if (pushConfigured() && restState && !restState.fired) disarmPush(restState.deadline);
   restState?.lock?.release?.().catch?.(() => {});
   restState = null;
   document.getElementById('rest-pill')?.remove();

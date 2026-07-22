@@ -5,7 +5,7 @@ import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins, haptic } from
 import { sfx } from '../audio.js';
 import { store } from '../store.js';
 import { topSet, increment, ladderFor } from '../engine.js';
-import { confirmSheet, toast, ICONS } from '../components.js';
+import { confirmSheet, toast, hideRestTimer, ICONS } from '../components.js';
 import { flushQueue } from '../github.js';
 import { applyWorld, UNIVERSES, worldDef, returnWorld } from '../worlds.js';
 // stats.js is the light half of the arcade — pure localStorage readers, no
@@ -286,6 +286,11 @@ function renderDetail() {
       confirmLabel: 'Re-open it',
       danger: !!dirty,
       onConfirm() {
+        // The dropped workout's rest goes with it — pill, wake lock, badge and
+        // the worker's pending alarm. Without this, re-opening an old night
+        // left a countdown ticking for a session that no longer exists and a
+        // push still armed to fire. (switchSession has always done this.)
+        hideRestTimer();
         // Stomping a clean in-progress draft hands its unseen world back to
         // the deck (same rule as switchSession) — reopening must not burn the
         // draw. A reopened prev is exempt: its world was already trained.
