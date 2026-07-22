@@ -47,7 +47,10 @@ export const BASIS = {
   // the text on screen, saying the same thing seven times. WHO and WHEN are
   // stated ONCE, in the receipt at the top; the card wears a TRAINER chip.
   coach: (x) => `${x.coachRx?.reason ? `“${esc(x.coachRx.reason)}”` : 'Set by your trainer.'}${
-    x.coachRx?.asked ? ` <span class="adj">Adjusted to a weight your machine can load — the ask was ${esc(x.coachRx.asked.map((w) => fmtW(w)).join(', '))}.</span>` : ''}`,
+    x.coachRx?.asked ? ` <span class="adj">Adjusted to a weight your machine can load — the ask was ${esc(x.coachRx.asked.map((w) => fmtW(w)).join(', '))}.</span>` : ''}${
+    // Where the trainers disagreed, say so and name who won. A panel whose
+    // arguments are invisible is indistinguishable from one agent.
+    x.coachRx?.dissent ? `<span class="dis"><b>The room split.</b> ${esc(x.coachRx.dissent.progression ?? '')}${x.coachRx.dissent.progression && x.coachRx.dissent.recovery ? ' vs ' : ''}${esc(x.coachRx.dissent.recovery ?? '')} — went with ${esc(x.coachRx.dissent.ruled_for)}: ${esc(x.coachRx.dissent.why)}</span>` : ''}`,
   progress: (x) => x.bump > 0
     // "the next pin" is only true when the jump IS one pin — exiting
     // calibration can vault several at once (22.5 → 30 skips 24, 25.5, 27.5).

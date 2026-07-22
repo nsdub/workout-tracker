@@ -374,7 +374,13 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
         sets,
         basis: 'coach',
         prevTop: null,
-        coach: { reason: o.reason ?? null, date: coach.date ?? coach.reviewed_through ?? null, asked },
+        coach: {
+          reason: o.reason ?? null,
+          date: coach.date ?? coach.reviewed_through ?? null,
+          asked,
+          // the panel's disagreement on THIS lift, if the room split on it
+          dissent: coach.dissent?.find?.((d) => d.exercise === slot.id) ?? null,
+        },
       };
     }
   }

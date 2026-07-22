@@ -16,7 +16,26 @@ const history = readdirSync(join(root, 'data/history'))
   .map((f) => JSON.parse(readFileSync(join(root, 'data/history', f), 'utf8')))
   .sort((a, b) => a.date.localeCompare(b.date));
 
-const today = process.argv[2] ?? new Date().toLocaleDateString('sv-SE');
+// --slice=<role> hands each panel seat ONLY the evidence its mandate covers.
+// Decorrelation is enforced at the input, not by asking politely in a prompt:
+// three agents reading the same 9k-token dossier produce the same answer three
+// times at three times the price. It is also the main cost lever.
+const args = process.argv.slice(2);
+const slice = (args.find((a) => a.startsWith('--slice=')) ?? '').split('=')[1] || 'all';
+const today = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a)) ?? new Date().toLocaleDateString('sv-SE');
+const SLICES = {
+  // the load driver: numbers only. No notes, no pain text, no timestamps —
+  // so it cannot quietly become the recovery seat too.
+  progression: ['generated_for', 'phase', 'next_session', 'next_session_slots', 'stalled_lifts', 'gear_note'],
+  // the brake: the athlete's own words and body. No progression tables, so it
+  // never argues load arithmetic it was not asked to argue.
+  recovery: ['generated_for', 'phase', 'next_session', 'latest_entry', 'pain_notes', 'recent_entries', 'bodyweight_trend'],
+  // structure: composition and balance. Emits no weights at all.
+  program: ['generated_for', 'phase', 'next_session', 'session_composition', 'weekly_volume', 'day_divergence', 'stalled_lifts'],
+  // the head coach reads the panel's files, not the raw evidence again.
+  head: ['generated_for', 'phase', 'next_session', 'latest_entry', 'next_session_slots'],
+  all: null,
+};
 const lifting = history.filter((e) => !e.supplemental);
 const latest = lifting[lifting.length - 1] ?? null;
 const phaseInfo = E.phaseForDate(plan, today);
@@ -68,6 +87,45 @@ const dossier = {
     }),
   bodyweight_trend: history.filter((e) => e.bodyweight).slice(-6).map((e) => ({ date: e.date, lb: e.bodyweight })),
   gear_note: 'Exercises with meta.gear in plan.json load only real pins (stack 2.5..97.5 by 5, micros +1.5/+3). The engine snaps and caps every coach override; write loadable weights anyway.',
+  // ——— structure evidence, for the PROGRAM seat ———
+  session_composition: Object.fromEntries(Object.entries(plan.sessions).map(([t, s]) => [t,
+    s.exercises.map((x) => `${x.id} ${x.sets}×${x.repMin}-${x.repMax}${x.superset ? ` (superset:${x.superset})` : ''}`)])),
+  // Weekly working sets per exercise across the last 14 days — the raw input
+  // for "is anything under- or over-done" without any judgment baked in.
+  weekly_volume: (() => {
+    const v = {};
+    for (const e of recent) {
+      for (const x of e.exercises ?? []) {
+        v[x.id] = (v[x.id] ?? 0) + x.sets.filter((s) => (s.reps ?? 0) >= 1).length;
+      }
+    }
+    return Object.fromEntries(Object.entries(v).sort((a, b) => b[1] - a[1]));
+  })(),
+  // Lifts that appear on more than one day, with each day's latest top set —
+  // this is where "Legs A is beating Legs B" becomes visible as data.
+  day_divergence: (() => {
+    const byEx = {};
+    for (const [type, s] of Object.entries(plan.sessions)) {
+      for (const slot of s.exercises) (byEx[slot.id] ??= new Set()).add(type);
+    }
+    const out = {};
+    for (const [id, types] of Object.entries(byEx)) {
+      if (types.size < 2) continue;
+      out[id] = {};
+      for (const t of types) {
+        const p = E.lastPerformance(history, t, id, {});
+        const top = p && E.topSet(p.ex.sets);
+        out[id][t] = p ? { date: p.entry.date, top: top ? `${top.weight}×${top.reps}` : null, sets: p.ex.sets.length } : null;
+      }
+    }
+    return out;
+  })(),
 };
 
-console.log(JSON.stringify(dossier, null, 2));
+if (!(slice in SLICES)) {
+  console.error(`unknown --slice=${slice}; expected one of ${Object.keys(SLICES).join(', ')}`);
+  process.exit(1);
+}
+const keys = SLICES[slice];
+const out = keys ? Object.fromEntries(keys.filter((k) => k in dossier).map((k) => [k, dossier[k]])) : dossier;
+console.log(JSON.stringify(out, null, 2));

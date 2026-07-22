@@ -1808,6 +1808,10 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 }
 .pv-flag svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
 .pv-foot { font-family: var(--body); font-size: 12px; color: var(--ink2); line-height: 1.45; margin-top: 10px; }
+/* The panel's disagreement on this lift, and who won. */
+.dis { display: block; margin-top: 5px; font-size: 12px; line-height: 1.45; color: var(--ink2); border-left: 2px solid var(--ink2); padding-left: 8px; }
+.dis b { color: var(--ink); }
+
 /* Every set's target for the current lift, on the card. */
 .set-plan { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 6px 0 2px; }
 .sp-set {

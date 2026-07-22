@@ -143,5 +143,21 @@
       ]
     }
   ],
-  "produced_by": "interactive-session"
+  "produced_by": "interactive-session",
+  "panel": {
+    "seats": [
+      "progression",
+      "recovery"
+    ],
+    "files": "data/coach/panel/2026-07-22-*.json"
+  },
+  "dissent": [
+    {
+      "exercise": "leg-curl",
+      "ruled_for": "recovery",
+      "progression": "142.5 × 4 — the rep top was met three sessions running",
+      "recovery": "135 × 4 — the fourth set has never been banked",
+      "why": "Volume before load: he has never completed the prescribed four sets at 135, so the trigger that would earn 142.5 has not honestly fired."
+    }
+  ]
 }

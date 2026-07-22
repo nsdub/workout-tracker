@@ -1,0 +1,3 @@
+{"role":"recovery","date":"2026-07-22","session":"LegsB","reviewed_through":"2026-07-21",
+ "calls":[{"exercise":"leg-curl","stance":"hold","sets":[{"weight":135,"reps":10},{"weight":135,"reps":10},{"weight":135,"reps":10},{"weight":135,"reps":10}],
+   "why":"The fourth set has never been banked; volume before load.","evidence":["2026-07-15:leg-curl"]}]}
