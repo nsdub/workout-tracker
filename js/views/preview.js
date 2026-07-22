@@ -112,6 +112,42 @@ const TAG = {
   bodyweight: { txt: 'bodyweight', cls: '' },
 };
 
+// THE RECEIPT. Who set tonight's numbers — counted from the prescriptions the
+// app actually produced, not from anything the packet claims about itself.
+// A lift is "trainer" only if its basis came out of the coach branch; every
+// other lift was arithmetic, and this says so by name.
+export function provenance(rows, coach = store.coach, fresh = false) {
+  const byTrainer = rows.filter((r) => r.basis === 'coach');
+  const byRules = rows.filter((r) => r.basis !== 'coach');
+  const producer = coach?.produced_by ?? null;
+  return {
+    total: rows.length,
+    trainer: byTrainer.map((r) => r.name),
+    rules: byRules.map((r) => ({ name: r.name, basis: r.basis })),
+    fresh,
+    date: coach?.date ?? null,
+    reviewedThrough: coach?.reviewed_through ?? null,
+    // 'scheduled-task' = the autonomous 6 AM run. Anything else was a human
+    // or a Claude session writing the packet by hand, and must say so.
+    automatic: producer === 'scheduled-task',
+    producer,
+    reviewer: coach?.reviewer ?? null,
+  };
+}
+
+// One honest paragraph, built from the receipt above.
+export function provenanceText(p) {
+  if (!p.trainer.length && !p.fresh) {
+    return p.date
+      ? `<b>No trainer review is driving tonight.</b> The last one (${esc(fmtDate(p.date))}) is stale or was written for another session, so all ${p.total} lifts come from the standing rules — the app's own arithmetic on your log.`
+      : `<b>No trainer review has ever been applied.</b> All ${p.total} lifts come from the standing rules — the app's own arithmetic on your log.`;
+  }
+  const src = p.automatic
+    ? `the automatic 6 AM review of ${esc(fmtDate(p.date))}`
+    : `a review written by hand on ${esc(fmtDate(p.date))} <b>(not the automatic 6 AM run)</b>`;
+  return `<b>${p.trainer.length} of ${p.total} lifts</b> were set by ${src}, which read your log through ${esc(fmtDate(p.reviewedThrough))}. The other ${p.rules.length} came from the standing rules. Each lift says which on its own card.`;
+}
+
 export function previewRows(sessionType, dateStr = null) {
   const date = dateStr ?? new Date().toLocaleDateString('sv-SE');
   const phaseInfo = engine.phaseForDate(store.plan, date, store.settings.phaseOverride);
@@ -138,6 +174,7 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
   // same sets did not change; a 'repeat' row padded to 4 sets did.
   const line = (r, sets) => fmtSetLine(sets, { repUnit: r.repUnit, bodyweight: r.bodyweight });
   const changed = rows.filter((r) => r.last?.sets?.length && line(r, r.sets) !== line(r, r.last.sets)).length;
+  const prov = provenance(rows, store.coach, coachFresh);
 
   openSheet(`
     <h2>${esc(plan.sessions[sessionType].name)}${when ? ` — ${esc(when.toLowerCase())}` : ''}</h2>
@@ -168,6 +205,12 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
           ${(r.last?.note || r.other?.note) ? `<div class="pv-note">“${esc(r.last?.note || r.other?.note)}”</div>` : ''}
         </div>`;
       }).join('')}
+    </div>
+    <div class="card pv-prov">
+      <div class="pv-prov-h">Who set these numbers</div>
+      <div class="pv-prov-b">${provenanceText(prov)}</div>
+      ${prov.rules.length ? `<div class="pv-prov-l">Standing rules tonight: ${esc(prov.rules.map((r) => r.name).join(', '))}.</div>` : ''}
+      <div class="pv-prov-l">Every review is a file in your repo — <span class="num">data/coach/</span> — with a commit you can read.</div>
     </div>
     <div class="pv-foot">${changed ? `${changed} lift${changed === 1 ? '' : 's'} changed since last time. ` : 'Nothing changed since last time. '}Tap any lift for its form guide. Nothing here is locked — what you log is what counts.</div>`, {
     onOpen(sheet, close) {

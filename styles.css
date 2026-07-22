@@ -1808,6 +1808,12 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 }
 .pv-flag svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
 .pv-foot { font-family: var(--body); font-size: 12px; color: var(--ink2); line-height: 1.45; margin-top: 10px; }
+/* THE RECEIPT — who set tonight's numbers, counted not claimed */
+.pv-prov { margin-top: 10px; border-left: 3px solid var(--ink2); }
+.pv-prov-h { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink2); }
+.pv-prov-b { font-family: var(--body); font-size: 13px; line-height: 1.5; color: var(--ink); margin-top: 5px; }
+.pv-prov-b b { font-weight: 700; }
+.pv-prov-l { font-family: var(--body); font-size: 12px; line-height: 1.45; color: var(--ink2); margin-top: 6px; }
 /* the briefing sheet's act rows now carry their target numbers */
 .opt-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
 .opt-sets { font-size: 11.5px; color: var(--ink2); }

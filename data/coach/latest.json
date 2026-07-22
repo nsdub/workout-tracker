@@ -2,7 +2,7 @@
   "date": "2026-07-22",
   "reviewed_through": "2026-07-21",
   "generated_at": "2026-07-22T15:08:44+00:00",
-  "reviewer": "daily-training-brief (Claude trainer agent)",
+  "reviewer": "Claude session (hand-written) — the 6 AM automatic review has not committed yet",
   "session_expected": "LegsB",
   "brief": "Legs B, and I've set every number tonight off last week's results rather than letting the app copy Jul 15 back at you. Two themes from the week: you keep leaving the last set of leg curls and calf presses unbanked, and your Legs A day is out-performing Legs B on the same machines (15s at 135 on leg extension, 260x15 twice on calves) — so Legs B is the one lagging, not the muscle. RDL: tighter ramp, same 205 top, and I want all four sets at 8 or better; the 15th died at 7 because two of your four sets were spent warming up. Leg curl holds at 135 on purpose — it is the third session there and the fourth set has never been logged; bank all four and it goes to 142.5 next week. Leg extension holds at 142.5 and you chase 15s, which you have already proven at 135. Calves: one ramp at 240 then three honest sets at 280, dead-stop pause at the bottom. Cable crunch is 50.5, which is the real pin — the 50 you logged does not exist on that stack. Plank stays 2 x 60s. One more easy 20-30 min cardio before Sunday.",
   "flags": [
@@ -142,5 +142,6 @@
         }
       ]
     }
-  ]
+  ],
+  "produced_by": "interactive-session"
 }

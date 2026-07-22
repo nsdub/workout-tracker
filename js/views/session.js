@@ -7,7 +7,7 @@ import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../gi
 import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
-import { BASIS, previewSheet } from './preview.js';
+import { BASIS, previewSheet, provenance, provenanceText } from './preview.js';
 
 let root = null;
 let focusIdx = null;
@@ -906,17 +906,19 @@ function briefingSheet() {
       <button class="opt" id="chip-cardio">Conditioning<span class="hint">${conditioningToday() ? '● logged today' : '+ log'}</span></button>
       <button class="opt" id="switch-session">Swap the day<span class="hint">${esc(store.plan.sessions[d.session_type].name)}</span></button>
     </div>
-    <div class="sub" style="margin:14px 0 6px">Where tonight’s numbers come from</div>
+    <div class="sub" style="margin:14px 0 6px">Who set tonight’s numbers</div>
     <div class="opt-list">${(() => {
-      const latest = [...store.history].filter((e) => !e.supplemental).sort((a, b) => a.date.localeCompare(b.date)).pop();
-      const latestTxt = latest ? ` (latest entry ${fmtDate(latest.date)})` : '';
-      const rules = `Between reviews the standing rules run on this phone: hit the top of the rep range on every set and the lift goes up next time, progress on one day carries to the same lift on other days, and every weight lands on a pin your machines can actually load.`;
+      // Counted from the draft the app actually built — a lift is "trainer"
+      // only if its prescription came out of the coach branch. Nothing here
+      // is taken on the packet's word.
       const c = store.coach;
-      if (c && engine.coachFresh(store.history, c, d.date)) {
-        return `<div class="opt notice-full"><b>Trainer review of ${esc(fmtDate(c.date ?? c.reviewed_through))}</b> — read your full log through ${esc(fmtDate(c.reviewed_through))}, including your notes. Lifts it adjusted say so on their cards; the rest follow the standing rules.${c.brief ? `<br><br>“${esc(c.brief)}”` : ''}</div>`;
-      }
-      if (c) return `<div class="opt notice-full">Your trainer’s last review (${esc(fmtDate(c.date ?? c.reviewed_through))}) hasn’t seen your latest session${latestTxt} yet — tonight runs on the standing rules until the 6 AM review catches up. ${rules}</div>`;
-      return `<div class="opt notice-full">No trainer review found yet — the coach task commits one to the repo every morning at 6. Tonight runs on the standing rules${latestTxt}. ${rules}</div>`;
+      const fresh = !!c && engine.coachFresh(store.history, c, d.date)
+        && (!c.session_expected || c.session_expected === d.session_type);
+      const p = provenance(d.exercises.map((x) => ({ basis: x.basis, name: x.name })), c, fresh);
+      const rules = `Between reviews the standing rules run on this phone: hit the top of the rep range on every set and the lift goes up next time, progress on one day carries to the same lift on other days, and every weight lands on a pin your machines can actually load.`;
+      return `<div class="opt notice-full">${provenanceText(p)}${
+        p.rules.length ? `<br><br>Standing rules tonight: ${esc(p.rules.map((r) => r.name).join(', '))}. ${rules}` : ''
+      }${fresh && c?.brief ? `<br><br>“${esc(c.brief)}”` : ''}</div>`;
     })()}</div>`, {
     onOpen(sheet, close) {
       sheet.addEventListener('click', (e) => {
