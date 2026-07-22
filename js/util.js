@@ -113,6 +113,30 @@ export function haptic(pattern = 10) {
   } catch { /* unsupported */ }
 }
 
+// One night's prescribed sets as a line a lifter can read at a glance.
+// Identical sets collapse ("3 × 160 × 10"); a ramp lists every rung
+// ("155×8 · 185×8 · 205×8"), because the ramp IS the instruction.
+export function fmtSetLine(sets, { repUnit = null, bodyweight = false } = {}) {
+  if (!sets?.length) return '—';
+  const reps = (r) => `${r}${repUnit === 'sec' ? 's' : ''}`;
+  const wt = (w) => (bodyweight || !w ? 'BW' : `${fmtW(w)}`);
+  const same = sets.every((s) => s.weight === sets[0].weight && s.reps === sets[0].reps);
+  if (same) {
+    const w = sets[0].weight;
+    return bodyweight || !w
+      ? `${sets.length} × ${reps(sets[0].reps)}`
+      : `${sets.length} × ${wt(w)} × ${reps(sets[0].reps)}`;
+  }
+  return sets.map((s) => (s.weight == null ? `?×${reps(s.reps)}` : `${wt(s.weight)}×${reps(s.reps)}`)).join(' · ');
+}
+
+// Rough clock for a whole session: every set costs its rest plus ~40s of
+// work. Labelled "≈" everywhere it shows — it is a planning aid, not a promise.
+export function estimateMins(rows) {
+  const secs = rows.reduce((n, r) => n + r.sets.length * ((r.rest ?? 90) + 40), 0);
+  return Math.max(1, Math.round(secs / 60));
+}
+
 export function debounce(fn, ms) {
   let t;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };

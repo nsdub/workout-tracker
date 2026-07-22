@@ -1744,6 +1744,54 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 
 .week-rows { border-top: 1px dashed var(--line); }
 .wk-row { display: flex; align-items: center; gap: 12px; padding: 8px 2px; border-bottom: 1px dashed var(--line); }
+.wk-row.tappable { cursor: pointer; }
+.wk-row.tappable:active { background: rgba(255, 255, 255, .05); }
+.wk-row .wk-go { margin-left: auto; opacity: .4; display: flex; }
+.wk-row .wk-go svg { width: 15px; height: 15px; }
+
+/* ——— THE CARD: a whole night's numbers, previewed ——— */
+.pv-list { display: flex; flex-direction: column; gap: 8px; }
+.pv-row {
+  background: var(--paper2); border: 1.5px solid var(--line);
+  border-radius: 10px; padding: 9px 11px; cursor: pointer;
+}
+.pv-row:active { transform: scale(.995); }
+.pv-head { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.pv-n {
+  font-family: var(--mono); font-size: 10px; color: var(--ink2);
+  border: 1px solid var(--line); border-radius: 999px;
+  min-width: 17px; height: 17px; display: grid; place-items: center; flex-shrink: 0;
+}
+.pv-name { font-family: var(--body); font-weight: 700; font-size: 14.5px; color: var(--ink); }
+.pv-tag {
+  margin-left: auto; font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink2);
+  border: 1px solid var(--line); border-radius: 999px; padding: 2px 7px; white-space: nowrap;
+}
+.pv-tag.up { color: var(--acc); border-color: var(--acc); }
+.pv-tag.coach { color: var(--acc2, var(--acc)); border-color: var(--acc2, var(--acc)); font-weight: 700; }
+.pv-tag.warn { color: #ffb038; border-color: #ffb038; }
+.pv-ss { font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; color: var(--ink2); text-transform: uppercase; }
+.pv-sets { font-size: 17px; color: var(--ink); margin: 5px 0 3px; letter-spacing: .01em; }
+.pv-why { font-family: var(--body); font-size: 12.5px; line-height: 1.45; color: var(--ink2); }
+.pv-why .up { color: var(--acc); font-weight: 600; }
+.pv-last { font-family: var(--mono); font-size: 11px; color: var(--ink2); margin-top: 5px; opacity: .85; }
+.pv-note { font-family: var(--body); font-style: italic; font-size: 12px; color: var(--ink2); margin-top: 3px; line-height: 1.4; }
+.pv-brief { border-left: 3px solid var(--acc); }
+.pv-brief-h { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--acc); display: flex; align-items: center; gap: 5px; }
+.pv-brief-h svg { width: 12px; height: 12px; }
+.pv-brief-b { font-family: var(--body); font-size: 13px; line-height: 1.5; color: var(--ink); margin-top: 5px; }
+.pv-flag {
+  display: flex; gap: 7px; align-items: flex-start;
+  font-family: var(--body); font-size: 12.5px; line-height: 1.4; color: #ffb038;
+  border: 1px dashed #ffb038; border-radius: 8px; padding: 7px 9px; margin-bottom: 8px;
+}
+.pv-flag svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+.pv-foot { font-family: var(--body); font-size: 12px; color: var(--ink2); line-height: 1.45; margin-top: 10px; }
+/* the briefing sheet's act rows now carry their target numbers */
+.opt-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
+.opt-sets { font-size: 11.5px; color: var(--ink2); }
+.opt .hint.ok { color: var(--acc); }
 .wk-day { font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink2); width: 84px; flex: none; }
 .wk-sess { font-family: var(--disp); font-size: 14.5px; color: var(--c, var(--ink)); text-shadow: 0 0 12px color-mix(in srgb, var(--c, #8a9ac8) 40%, transparent); }
 .wk-row.rest .wk-sess { color: #b8a4f0; font-size: 13px; }

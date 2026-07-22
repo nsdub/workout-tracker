@@ -1,12 +1,13 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins, weekKey } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins, weekKey, fmtSetLine } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
 import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
+import { BASIS, previewSheet } from './preview.js';
 
 let root = null;
 let focusIdx = null;
@@ -341,41 +342,10 @@ function switchSession(type) {
 
 // ——— The world screen ———
 
-// Top prescribed weight for this exercise — old persisted drafts may predate
-// rxWeight, so fall back to the working weight.
-const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0));
-
-// Every prefilled number gets a full plain-English explanation of where it
-// came from. These ARE the "trainer": a fixed rule applied to the lifter's own
-// log — and the card says so instead of leaving the numbers unexplained.
-const repsWord = (x) => (x.repUnit === 'sec' ? 'seconds' : 'reps');
-const gridName = (x) => (x.grid ? 'your cable machine’s real pins' : `the ${x.inc} lb grid`);
-const dayName = (t) => store.plan?.sessions[t]?.name ?? t;
-const BASIS = {
-  coach: (x) => `<span class="up">Set by your trainer</span> in the ${x.coachRx?.date ? `${fmtDate(x.coachRx.date)} ` : ''}morning review${x.coachRx?.reason ? `: “${esc(x.coachRx.reason)}”` : '.'}`,
-  progress: (x) => x.bump > 0
-    ? `<span class="up">Up <span class="num">${fmtW(x.prevTop)}</span> → <span class="num">${fmtW(x.prevTop + x.bump)}</span> lb${x.grid ? ' (the next pin your machine can load)' : ''}</span> — you hit the top of the rep range on every set${x.srcDate ? ` on ${fmtDate(x.srcDate)}` : ' last time'}.`
-    : `<span class="up">Top of the stack</span> — the machine can’t load more, so the weight holds at <span class="num">${fmtW(x.prevTop)}</span>. Keep owning the reps.`,
-  repeat: (x) => `Repeating this day’s last visit${x.srcDate ? ` (${fmtDate(x.srcDate)})` : ''} — hit ${x.repMax} ${repsWord(x)} on every set tonight and the app raises this lift next time.`,
-  cross: (x) => x.cross
-    ? `Raised to <span class="num">${fmtW(x.cross.weight)}</span> lb to match what you already did on ${esc(dayName(x.cross.sessionType))} (${fmtDate(x.cross.date)}: <span class="num">${fmtW(x.cross.weight)}×${x.cross.reps}</span>). Progress counts wherever it happens.`
-    : `Raised to match your latest work on another day.`,
-  hold: (x) => `Prep block — the weight holds at <span class="num">${fmtW(x.prevTop)}</span> lb on purpose; matching last time’s reps is the win.`,
-  seed: (x) => x.prev ? `Program starting weight — this day hasn’t logged this lift yet (your older log is shown above for reference).` : `Program starting weight — first time logging this lift.`,
-  // Calibration/deload state the TRUE computed numbers. The grid snap makes a
-  // fixed "90%"/"80%" a lie almost every time — say the real ratio, and name
-  // the snap so the math is hand-checkable.
-  calibration: (x) => !x.prevTop ? `Calibration week — seed weight minus 10%.`
-    : x.pct != null
-      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of seed <span class="num">${fmtW(x.prevTop)}</span> — target 90%, snapped down to ${gridName(x)}.`
-      : `Target 90% of seed <span class="num">${fmtW(x.prevTop)}</span>, snapped down to ${gridName(x)}.`,
-  deload: (x) => !x.prevTop ? `Deload week — lighter on purpose.`
-    : x.pct != null
-      ? `<span class="num">${fmtW(topRx(x))}</span> lb = ${x.pct}% of <span class="num">${fmtW(x.prevTop)}</span> — target 80%, snapped down to ${gridName(x)}.`
-      : `Target 80% of <span class="num">${fmtW(x.prevTop)}</span>, snapped down to ${gridName(x)}.`,
-  verify: (x) => esc(x.note || 'Verify weight'),
-  bodyweight: () => `Bodyweight — beat last time’s reps.`,
-};
+// The "why this number" copy lives in views/preview.js and is imported here,
+// so the exercise card and the whole-night preview can never drift apart.
+// (x.prev is the card's own last-time strip; preview builds its own as
+// x.last, and BASIS.seed reads whichever exists.)
 
 function renderWorldScreen(draft, phaseInfo) {
   const U = universeOf(draft.session_type);
@@ -882,13 +852,18 @@ function briefingSheet() {
   const d = store.draft;
   openSheet(`
     <h2>Tonight’s program</h2>
-    <div class="sub">${d.exercises.length} acts tonight</div>
+    <div class="sub">${d.exercises.length} acts · every target weight below</div>
     <div class="opt-list">
       ${d.exercises.map((e, i) => {
         const dn = e.sets.filter((s) => s.done).length;
-        return `<button class="opt ${i === focusIdx ? 'selected' : ''}" data-oi="${i}">${esc(e.name)}<span class="hint num">${dn}/${e.sets.length}</span></button>`;
+        const done = dn === e.sets.length;
+        return `<button class="opt ${i === focusIdx ? 'selected' : ''}" data-oi="${i}">
+          <span class="opt-main">${esc(e.name)}<span class="opt-sets num">${esc(fmtSetLine(e.sets, { repUnit: e.repUnit, bodyweight: !e.sets.some((s) => s.weight) }))}</span></span>
+          <span class="hint num${done ? ' ok' : ''}">${dn}/${e.sets.length}</span>
+        </button>`;
       }).join('')}
     </div>
+    <button class="btn quiet" id="brief-card" style="margin-top:8px">See the whole card</button>
     <button class="btn quiet" id="brief-add" style="margin-top:8px">+ Sneak one in</button>
     <div class="sub" style="margin:14px 0 6px">Tonight’s kit</div>
     <div class="opt-list">
@@ -914,6 +889,7 @@ function briefingSheet() {
         const opt = e.target.closest('.opt[data-oi]');
         if (opt) { close(); const t = Number(opt.dataset.oi); navDir = t >= focusIdx ? 'next' : 'prev'; focusIdx = t; render(root); }
       });
+      $('#brief-card', sheet).addEventListener('click', () => { close(); setTimeout(() => previewSheet(d.session_type, { when: 'tonight' }), 120); });
       $('#brief-add', sheet).addEventListener('click', () => { close(); addExerciseSheet(); });
       $('#chip-bw', sheet).addEventListener('click', () => { close(); bodyweightSheet(); });
       $('#chip-notes', sheet).addEventListener('click', () => { close(); notesSheet(); });

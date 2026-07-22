@@ -586,4 +586,29 @@ ok('coach never touches bodyweight slots; malformed sets are ignored', () => {
   assert.notEqual(shrug.basis, 'coach'); // zero-weight set = malformed, standing rules run
 });
 
+// ——— previewSession: the whole night, and it MUST match the session screen ———
+ok('previewSession returns every slot with the same numbers prescribe gives', () => {
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'db-shrug', mkSets(70, 12, 3))];
+  const rows = E.previewSession(plan, h, 'PullB', meso);
+  assert.equal(rows.length, plan.sessions.PullB.exercises.length);
+  for (const slot of plan.sessions.PullB.exercises) {
+    const row = rows.find((r) => r.id === slot.id);
+    const rx = E.prescribe(plan, h, 'PullB', slot, meso);
+    assert.deepEqual(row.sets, rx.sets, `${slot.id}: preview and prescribe must never disagree`);
+    assert.equal(row.basis, rx.basis);
+  }
+});
+ok('previewSession carries the coach packet, and its last-time is cross-day aware', () => {
+  const h = [...history, mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(24, 15, 2))];
+  const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', reason: 'hold', sets: mkSets(70, 12, 3) }]);
+  const rows = E.previewSession(plan, h, 'PullB', meso, coach);
+  assert.equal(rows.find((r) => r.id === 'db-shrug').basis, 'coach');
+  const fp = rows.find((r) => r.id === 'face-pulls');
+  assert.equal(fp.last.session, 'PushB'); // the freshest work, whatever day it happened on
+  assert.equal(fp.last.sets.length, 2);
+});
+ok('previewSession is empty for an unknown session type, never throws', () => {
+  assert.deepEqual(E.previewSession(plan, history, 'NopeC', meso), []);
+});
+
 console.log(`\n${n} engine tests passed`);

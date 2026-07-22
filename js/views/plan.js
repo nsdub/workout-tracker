@@ -10,6 +10,7 @@ import { connectSheet, handleSeedFile, howtoSheet } from './session.js';
 import { applyWorld, UNIVERSES } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { pushStatus, enablePush, disablePush } from '../push.js';
+import { previewSheet } from './preview.js';
 
 let root = null;
 
@@ -145,7 +146,9 @@ function weekAhead(plan, next, today) {
   }
   while (rows.length < 7) {
     const t = plan.rotation[idx];
-    rows.push(`<div class="wk-row" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span></div>`);
+    // Every scheduled day opens its card — "what am I lifting Thursday?" is
+    // one tap, not a guess.
+    rows.push(`<div class="wk-row tappable" role="button" tabindex="0" data-t="${t}" data-when="${esc(dayLabel(d))}" style="--c:${UNIVERSES[t].swatch}"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${esc(plan.sessions[t]?.name ?? t)}</span><span class="wk-go">${ICONS.chevR}</span></div>`);
     if (idx === plan.rotation.length - 1 && rows.length < 7) {
       d++;
       rows.push(`<div class="wk-row rest"><span class="wk-day">${dayLabel(d)}</span><span class="wk-sess">${ICONS.moon} rest day</span></div>`);
@@ -265,6 +268,10 @@ function wire(info) {
     const b = e.target.closest('[data-t]');
     if (b) arsenalSheet(b.dataset.t);
   });
+  root.querySelector('.week-rows')?.addEventListener('click', (e) => {
+    const row = e.target.closest('.wk-row.tappable');
+    if (row) { haptic(4); arsenalSheet(row.dataset.t, row.dataset.when); }
+  });
   // Releasing the lock rebuilds tonight from the calendar phase — it must
   // ride the same dirty-draft confirm as picking a phase, or the old
   // override's weights survive into the new night.
@@ -272,26 +279,12 @@ function wire(info) {
   $('#open-drawer', root).addEventListener('click', () => drawerSheet(info));
 }
 
-function arsenalSheet(type) {
-  const plan = store.plan;
-  const s = plan.sessions[type];
-  openSheet(`
-    <h2>${esc(s.name)} — ${esc(UNIVERSES[type].name)}</h2>
-    <div class="sub">Tap a lift for the field guide</div>
-    <div class="opt-list">
-      ${s.exercises.map((slot) => `
-        <button class="opt" data-ex="${esc(slot.id)}">
-          ${esc(engine.exMeta(plan, slot.id).name)}
-          <span class="hint num">${slot.sets}×${slot.repMin === slot.repMax ? slot.repMin : `${slot.repMin}–${slot.repMax}`}${slot.repUnit === 'sec' ? 's' : ''} @ ${slot.seed == null ? (engine.exMeta(plan, slot.id).bodyweight ? 'BW' : '?') : fmtW(slot.seed)}</span>
-        </button>`).join('')}
-    </div>`, {
-    onOpen(sheet, close) {
-      sheet.addEventListener('click', (e) => {
-        const b = e.target.closest('.opt');
-        if (b) { close(); setTimeout(() => howtoSheet(b.dataset.ex), 120); }
-      });
-    },
-  });
+// The six-workouts strip and the week-ahead rows both open the real card —
+// live prescriptions, not the program's static seed weights (which is what
+// this sheet used to show, and why the numbers here never matched the ones
+// the session screen actually prefilled).
+function arsenalSheet(type, when = null) {
+  previewSheet(type, { when });
 }
 
 function drawerSheet(info) {

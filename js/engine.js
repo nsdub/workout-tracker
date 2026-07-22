@@ -460,6 +460,45 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   return applyCross(sets, prevTop) ?? base;
 }
 
+// Every slot of a session, prescribed — the whole night's numbers in one
+// call, so a preview screen shows EXACTLY what the session screen will
+// prefill (same function, same fences) instead of a second, drifting guess.
+export function previewSession(plan, history, sessionType, phaseInfo, coach = null) {
+  const session = plan.sessions[sessionType];
+  if (!session) return [];
+  return session.exercises.map((slot) => {
+    const rx = prescribe(plan, history, sessionType, slot, phaseInfo, coach);
+    const meta = exMeta(plan, slot.id);
+    const last = lastPerformanceAnywhere(history, slot.id);
+    return {
+      id: slot.id,
+      name: meta.name,
+      bodyweight: !!meta.bodyweight,
+      repMin: slot.repMin, repMax: slot.repMax, repUnit: slot.repUnit ?? null,
+      superset: slot.superset ?? null,
+      rest: slot.rest ?? 90,
+      inc: increment(plan, slot.id) || 2.5,
+      grid: ladderFor(plan, slot.id),
+      sets: rx.sets,
+      basis: rx.basis,
+      prevTop: rx.prevTop ?? null,
+      bump: rx.increment ?? 0,
+      pct: rx.pct ?? null,
+      note: rx.note ?? null,
+      cross: rx.cross ?? null,
+      coachRx: rx.coach ?? null,
+      srcDate: rx.source?.date ?? null,
+      stalled: isStalled(plan, history, sessionType, slot),
+      last: last ? {
+        date: last.entry.date,
+        session: last.entry.session_type,
+        sets: last.ex.sets,
+        note: last.ex.note ?? null,
+      } : null,
+    };
+  });
+}
+
 // ——— Stall detection ———
 
 // 3 sessions without progression on a lift → flag. A weight increase or a
