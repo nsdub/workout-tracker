@@ -1,0 +1,179 @@
+{
+  "date": "2026-07-23",
+  "session_type": "PushA",
+  "phase": "meso1",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 145,
+          "reps": 8,
+          "at": 1784846608584
+        },
+        {
+          "weight": 165,
+          "reps": 8,
+          "at": 1784846754395
+        },
+        {
+          "weight": 165,
+          "reps": 8,
+          "at": 1784846913846
+        },
+        {
+          "weight": 170,
+          "reps": 8,
+          "at": 1784847101974
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1784847290075
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1784847451988
+        },
+        {
+          "weight": 165,
+          "reps": 8,
+          "at": 1784847574752
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 14,
+          "reps": 14,
+          "at": 1784847754780
+        },
+        {
+          "weight": 15.5,
+          "reps": 13,
+          "at": 1784847894947
+        },
+        {
+          "weight": 15.5,
+          "reps": 13,
+          "at": 1784848023318
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 9,
+          "at": 1784848123324
+        },
+        {
+          "weight": 35,
+          "reps": 9,
+          "at": 1784848202838
+        },
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1784848346379
+        }
+      ]
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10.5,
+          "reps": 11,
+          "at": 1784848509860
+        },
+        {
+          "weight": 9,
+          "reps": 12,
+          "at": 1784848621390
+        },
+        {
+          "weight": 7.5,
+          "reps": 13,
+          "at": 1784848818519
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 47.5,
+          "reps": 13,
+          "at": 1784848943267
+        },
+        {
+          "weight": 52.5,
+          "reps": 12,
+          "at": 1784849041596
+        },
+        {
+          "weight": 54,
+          "reps": 11,
+          "at": 1784849147247
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 60.5,
+          "reps": 8,
+          "at": 1784849277522
+        },
+        {
+          "weight": 57.5,
+          "reps": 7,
+          "at": 1784849366495
+        },
+        {
+          "weight": 52.5,
+          "reps": 9,
+          "at": 1784849492295
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1784849621758
+        },
+        {
+          "weight": 27.5,
+          "reps": 12,
+          "at": 1784849702633
+        }
+      ]
+    }
+  ],
+  "world": "snowtemple",
+  "mins": 52,
+  "startedAt": 1784823570782
+}
