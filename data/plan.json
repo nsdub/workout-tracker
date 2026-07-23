@@ -1,7 +1,7 @@
 {
   "version": 3,
   "name": "Protocol v3",
-  "updated": "2026-07-22",
+  "updated": "2026-07-23",
   "gear": {
     "main-cable": {
       "label": "dual cable stack",
@@ -14,6 +14,30 @@
       "micro": [
         1.5,
         3
+      ]
+    },
+    "dumbbell": {
+      "label": "dumbbell rack",
+      "note": "Photographed 2026-07-23: 2.5-lb steps to 20, 5-lb steps to 50, then 60/70/80/90. Hex DBs, per-hand weight.",
+      "pins": [
+        2.5,
+        5,
+        7.5,
+        10,
+        12.5,
+        15,
+        17.5,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        60,
+        70,
+        80,
+        90
       ]
     }
   },
@@ -197,7 +221,8 @@
         "Seated with back support. Dumbbells start at shoulder height, palms forward or slightly turned in, forearms vertical.",
         "Press up and slightly together to lockout overhead, then lower under control until the dumbbells are back at ear-to-shoulder level. Ribs down, no arching off the pad."
       ],
-      "role": "compound"
+      "role": "compound",
+      "gear": "dumbbell"
     },
     "cable-lateral-raise": {
       "name": "Cable Lateral Raise",
@@ -277,7 +302,8 @@
         "Curl without moving the upper arm — elbows stay at the ribs. Squeeze at the top, lower slowly to a full hang.",
         "If the shoulders swing to start the rep, the weight is doing the curl, not the biceps."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "gear": "dumbbell"
     },
     "cable-hammer-curl": {
       "name": "Cable Hammer Curl",
@@ -387,7 +413,8 @@
         "Raise out and slightly forward to shoulder height, leading with the elbows, pinkies no higher than thumbs. Lower on a 2–3 second count.",
         "Past shoulder height it becomes traps. Lighter and stricter beats heavier and swung, 25 sets a week says so."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "gear": "dumbbell"
     },
     "cable-crossover-high-low": {
       "name": "Cable Crossover (high→low)",
@@ -466,7 +493,8 @@
         "Elevate the shoulders straight up toward the ears, pause a full second at the top, and lower slowly to a stretch.",
         "Straight up and down — rolling the shoulders adds nothing but wear."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "gear": "dumbbell"
     },
     "incline-db-curl": {
       "name": "Incline DB Curl",
@@ -475,7 +503,8 @@
         "Curl with the upper arms staying behind the torso, squeeze, and lower to a full stretch of the long head.",
         "The arms hanging behind the body is the entire point — if the elbows drift forward it's a standing curl on a slant."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "gear": "dumbbell"
     },
     "cable-reverse-curl": {
       "name": "Cable Reverse Curl",

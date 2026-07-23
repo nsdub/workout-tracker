@@ -355,7 +355,9 @@ ok('calibration exit: a top far under the reduced ask never teleports to the see
   const h = [...history, mkEntry('2026-07-16', 'PullB', 'incline-db-curl', mkSets(12.5, 10, 3), 'calibration')];
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'incline-db-curl'), E.phaseForDate(plan, '2026-07-21'));
   assert.equal(rx.basis, 'progress');
-  assert.equal(rx.sets[0].weight, 17.5); // 12.5 + 5, never seed 20 (+60% overnight)
+  // incline curl is a DUMBBELL now — it climbs to the next real dumbbell (15),
+  // not 12.5+5=17.5 which would skip the 15 lb pair that exists on the rack.
+  assert.equal(rx.sets[0].weight, 15);
 });
 ok('calibration exit: face-pulls climb one REAL pin (22.5 → 24, never the nonexistent 25)', () => {
   const h = [...history, mkEntry('2026-07-15', 'PushA', 'face-pulls', mkSets(22.5, 15, 2), 'calibration')];
@@ -411,6 +413,15 @@ ok('supplemental conditioning entry never moves rotation, PRs, or prescriptions'
 
 // ——— Machine ladder: prescriptions land on pins that physically exist ———
 const LADDER = E.ladderFor(plan, 'face-pulls');
+ok('gear can be an explicit pin list (the irregular dumbbell rack)', () => {
+  const dl = E.ladderFor(plan, 'db-curl');
+  assert.ok(Array.isArray(dl) && dl.length, 'dumbbells resolve to a ladder');
+  assert.deepEqual(dl.slice(0, 4), [2.5, 5, 7.5, 10]);      // 2.5 steps at the light end
+  assert.equal(E.ladderUp(dl, 15), 17.5);                    // still 2.5 up here
+  assert.equal(E.ladderUp(dl, 20), 25);                      // 5 steps in the middle
+  assert.equal(E.ladderUp(dl, 50), 60);                      // 10 steps at the top
+  assert.equal(E.ladderNearest(dl, 22), 20);                 // no 22.5 dumbbell exists
+});
 ok('the cable ladder is the photographed machine: 5 lb pins + two 1.5 micros', () => {
   assert.deepEqual(LADDER.slice(0, 6), [2.5, 4, 5.5, 7.5, 9, 10.5]);
   assert.equal(LADDER[LADDER.length - 1], 100.5); // 97.5 pin + both micros
@@ -422,10 +433,11 @@ ok('the cable ladder is the photographed machine: 5 lb pins + two 1.5 micros', (
   assert.equal(E.ladderNearest(LADDER, 25), 25.5); // ties and near-misses resolve to a real pin
 });
 ok('every weight prescribed for a laddered lift is a loadable pin (full sweep)', () => {
-  const pins = new Set(LADDER);
   for (const [type, session] of Object.entries(plan.sessions)) {
     for (const sl of session.exercises) {
-      if (!E.exMeta(plan, sl.id).gear) continue;
+      const ladder = E.ladderFor(plan, sl.id); // each gear type has its OWN pins
+      if (!ladder) continue;
+      const pins = new Set(ladder);
       for (const ph of [calib, meso]) {
         for (const s of E.prescribe(plan, history, type, sl, ph).sets) {
           if (s.weight != null) assert.ok(pins.has(s.weight), `${type}/${sl.id}: ${s.weight} is not a pin`);

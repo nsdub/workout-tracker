@@ -14,6 +14,10 @@ export function roundLoad(w) {
 // snapped to a real pin.
 
 export function gearLadder(gear) {
+  // Some hardware isn't an arithmetic stack at all — a dumbbell rack steps by
+  // 2.5 at the light end, 5 in the middle, 10 at the top. Such gear lists its
+  // loadable weights explicitly as `pins`.
+  if (Array.isArray(gear.pins)) return [...new Set(gear.pins)].sort((a, b) => a - b);
   const { min, step, max } = gear.stack;
   const out = [];
   for (let s = min; s <= max + 1e-9; s += step) {
