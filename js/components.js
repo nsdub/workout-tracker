@@ -423,10 +423,6 @@ function restTick() {
     // the rest you are, until the next set is logged or Skip is tapped. A user
     // back from a locked phone sees exactly how late they're running.
     restState.fired = true;
-    // A catch-up fire (page was hidden past the deadline) must not double-ring:
-    // any echo whose window overlaps this very bell is spent, not pending.
-    const overAtFire = now - restState.deadline;
-    if (restState.echoes) restState.echoes = restState.echoes.filter((d) => d > overAtFire + 2000);
     haptic([30, 60, 30]);
     // Through the pending-cue path: if iOS froze the audio clock while the
     // phone was pocketed, the ding lands the instant the room wakes (or on
@@ -448,20 +444,14 @@ function restTick() {
       updateTotem();
     }, 60000);
   }
-  // Count UP, capped at +30:00 on the label (an abandoned session shouldn't
-  // read like a stopwatch marathon); half-second cadence is plenty.
+  // The bell rings ONCE, at zero. Past that the user is typically already
+  // lifting (they start the set on the bell), so a repeating ding is pure
+  // noise mid-set — the single bell + flash + overtime pill already told the
+  // story. (Removed the +0:08/+0:20 echoes that fired straight into a working
+  // set.) The count-up now reads as the WORK clock: how long since the bell,
+  // i.e. how long into the current set — capped at +30:00 so an abandoned
+  // session doesn't read like a stopwatch marathon.
   const over = Math.min(now - restState.deadline, 30 * 60000);
-  // The bell REPEATS into early overtime — one ding on a loud gym floor is a
-  // coin flip. Echoes only reach a visible page (a pocketed phone can't hear
-  // them anyway, and a stack of stale dings on return would be noise: the
-  // catch-up flash + overtime pill already tell that story).
-  while (restState.echoes?.length && over >= restState.echoes[0]) {
-    const due = restState.echoes.shift();
-    if (document.visibilityState === 'visible' && over - due < 2000) {
-      haptic([30, 60, 30]);
-      sfx('restDone');
-    }
-  }
   const s = Math.floor(over / 1000);
   restState.digits.textContent = `+${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
   restTO = setTimeout(restTick, 500);
@@ -628,7 +618,6 @@ export function showRestTimer(seconds, container, label = 'Rest') {
     lock: null,
     ending: false,      // last-10s hot state applied once
     lastTickSec: null,  // final-3s tick fires once per whole second
-    echoes: [8000, 20000], // the bell re-rings at +0:08 and +0:20 overtime (visible page only)
   };
   acquireWakeLock();
   // The server-side bell: armed at rest START (not at backgrounding), because
@@ -691,6 +680,14 @@ export function showRestTimer(seconds, container, label = 'Rest') {
       if (lbl) lbl.innerHTML = restore;
     }
   });
+}
+
+// The deadline of the live rest — the moment its bell rang, which is when the
+// lifter (who starts on the bell) began the set they're about to log. Null when
+// no rest is running (first set of a session, or straight into a superset
+// partner). Used to split each set's preceding interval into rest vs work.
+export function restBellAt() {
+  return restState ? restState.deadline : null;
 }
 
 export function hideRestTimer() {

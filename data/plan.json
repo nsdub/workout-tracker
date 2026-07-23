@@ -39,6 +39,45 @@
         80,
         90
       ]
+    },
+    "leg-press": {
+      "label": "leg press stack",
+      "note": "User-confirmed 2026-07-23: Technogym selectorized, 20-lb steps (10, 20, then 40, 60, 80 …). NOT plate-loaded.",
+      "pins": [
+        10,
+        20,
+        40,
+        60,
+        80,
+        100,
+        120,
+        140,
+        160,
+        180,
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        320,
+        340,
+        360,
+        380,
+        400
+      ]
+    },
+    "chest-press": {
+      "label": "chest press stack",
+      "note": "User-confirmed 2026-07-23: main stack moves in 15s with a 7.5-lb micro selector (loadable: multiples of 7.5).",
+      "stack": {
+        "min": 15,
+        "step": 15,
+        "max": 300
+      },
+      "micro": [
+        7.5
+      ]
     }
   },
   "units": "lb",
@@ -202,7 +241,8 @@
         "Set the seat so the handles sit at mid-chest. Shoulder blades squeezed into the pad, chest up, feet flat.",
         "Press to just short of elbow lockout, then lower until the hands are near chest level with a stretch across the pecs. Keep the shoulders pinned back the entire rep."
       ],
-      "role": "compound"
+      "role": "compound",
+      "gear": "chest-press"
     },
     "cable-crossover-low-high": {
       "name": "Cable Crossover (low→high)",
@@ -323,7 +363,8 @@
         "Lower until the knees reach roughly 90° or as deep as possible without the lower back curling off the pad. Press through the whole foot to just short of knee lockout.",
         "The tailbone lifting off the seat is the depth limit. Never let the knees slam into lockout."
       ],
-      "role": "compound"
+      "role": "compound",
+      "gear": "leg-press"
     },
     "leg-extension": {
       "name": "Leg Extension",
@@ -374,7 +415,8 @@
         "Let the platform push you into a deep stretch and pause a beat, then drive up through the balls of the feet to full extension and squeeze.",
         "The pause at the bottom kills the Achilles bounce — the bounce is the main reason calves stall. Never let the knees bend and unrack the weight."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "gear": "leg-press"
     },
     "cable-crunch": {
       "name": "Cable Crunch",
@@ -383,8 +425,9 @@
         "Crunch the ribs toward the pelvis, rounding the spine — the hips don't move. Return until the abs reach a stretch.",
         "If the hips rock back and forth it becomes a hip flexor exercise. Fix the hips, flex the spine."
       ],
-      "gear": "main-cable",
-      "role": "core"
+      "role": "core",
+      "increment": 5,
+      "note": "User does this on the Technogym abdominal-crunch machine (selectorized, ~5-lb steps from logs), not the cable stack. howto still describes the kneeling cable version — verify."
     },
     "hanging-leg-raise": {
       "name": "Hanging Leg Raise",
@@ -534,7 +577,8 @@
         "Feet high on the platform, slightly wider than shoulders. High placement biases glutes and hamstrings.",
         "Lower deep, keeping the pelvis flat on the pad, then drive through the heels to just short of lockout."
       ],
-      "role": "compound"
+      "role": "compound",
+      "gear": "leg-press"
     },
     "plank": {
       "name": "Plank",
@@ -731,7 +775,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 45.5,
+          "seed": 45,
           "rest": 60
         },
         {
@@ -930,7 +974,7 @@
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "seed": 45.5,
+          "seed": 45,
           "rest": 60
         },
         {

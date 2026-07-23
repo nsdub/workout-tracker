@@ -68,9 +68,11 @@ ok('calibration: cables/machines land on real, loadable weights', () => {
   assert.equal(w('rope-pushdown'), 50.5);             // 51.75 → pin 50.5; the old ask of 50 does not exist on this stack
   assert.equal(w('cable-lateral-raise'), 9);          // 9.45 → pin 9 (7.5+1.5); the old 7.5 gave away 1.5 lb for no reason
 });
-ok('calibration: lower lifts round down to the 10 lb grid (240 → 210)', () => {
+ok('calibration: the leg press floors to a REAL 20-lb pin (240 → 200, never the nonexistent 210)', () => {
   const rx = E.prescribe(plan, history, 'LegsA', slot('LegsA', 'leg-press-low'), calib);
-  assert.equal(rx.sets[0].weight, 210);               // 240 × 0.9 = 216 → floored to 10 = 210, not 215
+  // 240 × 0.9 = 216. The leg press is selectorized in 20s, so 210 doesn't exist;
+  // floor to the pin at or below target = 200. (The old test rounded to a fake 10-grid.)
+  assert.equal(rx.sets[0].weight, 200);
 });
 ok('calibration: null seed → verify', () => {
   const rx = E.prescribe(plan, history, 'PullA', slot('PullA', 'lat-pulldown-wide'), calib);
@@ -95,13 +97,15 @@ const mkEntry = (date, type, id, sets, phase = 'meso1') => ({
   exercises: [{ id, name: id, sets }],
 });
 
-ok('double progression: all sets at top → +5 upper, reps reset to min', () => {
+ok('double progression: all sets at top → up one machine pin, reps reset to min', () => {
   const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
     { weight: 195, reps: 10 }, { weight: 195, reps: 10 }, { weight: 195, reps: 10 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'progress');
-  assert.equal(rx.sets[0].weight, 200);
+  // The chest press moves in 7.5s (15-lb stack + a 7.5 micro), so 195 climbs to
+  // 202.5, the next real pin — not the +5 = 200 the old test assumed (200 isn't loadable).
+  assert.equal(rx.sets[0].weight, 202.5);
   assert.equal(rx.sets[0].reps, 8);
 });
 ok('double progression: +10 for deadlift', () => {
@@ -261,7 +265,7 @@ ok('smashing the ceiling by 2+ reps earns a double jump', () => {
     { weight: 195, reps: 12 }, { weight: 195, reps: 12 }, { weight: 195, reps: 12 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
-  assert.equal(rx.sets[0].weight, 205); // +10 instead of +5
+  assert.equal(rx.sets[0].weight, 210); // double jump = two machine pins (195 → 202.5 → 210)
 });
 ok('rep PR at a held weight is detected; matching reps are not', () => {
   assert.equal(E.isRepPR(history, 'deadlift', 255, 7), true);  // best at 255 is 6
@@ -471,7 +475,7 @@ ok('a zero-weight set is never climbed FROM on the progress path either', () => 
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'progress');
-  assert.deepEqual(rx.sets.map((s) => s.weight), [0, 200, 200]);
+  assert.deepEqual(rx.sets.map((s) => s.weight), [0, 202.5, 202.5]); // 195 → next chest pin
   const lad = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', [
     { weight: 0, reps: 15 }, { weight: 25.5, reps: 15 },
   ])];
@@ -565,21 +569,21 @@ ok('two sessions on ONE date: the other day’s proof still counts', () => {
   // breaking the "progress carries across days" promise on the Mission screen.
   const h = [...history,
     mkEntry('2026-07-23', 'PushA', 'machine-chest-press', mkSets(150, 9, 3)),
-    mkEntry('2026-07-23', 'PushB', 'machine-chest-press', mkSets(160, 12, 3)),
+    mkEntry('2026-07-23', 'PushB', 'machine-chest-press', mkSets(157.5, 12, 3)), // 157.5 is a real chest pin
   ];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'cross');
   assert.equal(rx.cross.date, '2026-07-23');
-  assert.equal(rx.sets[0].weight, 160);
+  assert.equal(rx.sets[0].weight, 157.5);
 });
 ok('older cross-day work never overrides this day’s own newer choice', () => {
   const h = [...history,
     mkEntry('2026-07-16', 'PushB', 'machine-chest-press', mkSets(157.5, 10, 3)),
-    mkEntry('2026-07-20', 'PushA', 'machine-chest-press', mkSets(145, 9, 3)), // deliberate back-off after the 157.5s
+    mkEntry('2026-07-20', 'PushA', 'machine-chest-press', mkSets(142.5, 9, 3)), // deliberate back-off (real pin) after the 157.5s
   ];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'repeat');
-  assert.equal(rx.sets[0].weight, 145);
+  assert.equal(rx.sets[0].weight, 142.5);
 });
 ok('deload entries never set the cross-day floor', () => {
   const h = [...history,

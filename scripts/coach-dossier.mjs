@@ -29,7 +29,7 @@ const SLICES = {
   progression: ['generated_for', 'phase', 'next_session', 'next_session_slots', 'stalled_lifts', 'gear_note'],
   // the brake: the athlete's own words and body. No progression tables, so it
   // never argues load arithmetic it was not asked to argue.
-  recovery: ['generated_for', 'phase', 'next_session', 'latest_entry', 'pain_notes', 'recent_entries', 'bodyweight_trend'],
+  recovery: ['generated_for', 'phase', 'next_session', 'latest_entry', 'pain_notes', 'recent_entries', 'bodyweight_trend', 'tempo_trend'],
   // structure: composition and balance. Emits no weights at all.
   program: ['generated_for', 'phase', 'next_session', 'session_composition', 'weekly_volume', 'day_divergence', 'stalled_lifts'],
   // the head coach reads the panel's files, not the raw evidence again.
@@ -86,7 +86,29 @@ const dossier = {
       exercises: (e.exercises ?? []).map((x) => ({ id: x.id, sets: x.sets, ...(x.note ? { note: x.note } : {}) })),
     }),
   bodyweight_trend: history.filter((e) => e.bodyweight).slice(-6).map((e) => ({ date: e.date, lb: e.bodyweight })),
-  gear_note: 'Exercises with meta.gear in plan.json load only real pins (stack 2.5..97.5 by 5, micros +1.5/+3). The engine snaps and caps every coach override; write loadable weights anyway.',
+  // Pacing: REAL median rest vs work per recent session, split by the work-start
+  // bell stamped on each set (restEndedAt) — not the old flat "~40s/set" guess.
+  // Rising rest or falling work density across sessions is a fatigue signal the
+  // recovery seat reads. null on sessions logged before the bell was captured.
+  tempo_trend: recent.filter((e) => !e.supplemental).map((e) => {
+    const all = (e.exercises ?? []).flatMap((x) => x.sets ?? []).filter((s) => s.at).sort((a, b) => a.at - b.at);
+    const rests = [];
+    const works = [];
+    for (let i = 1; i < all.length; i++) {
+      const R = all[i].restEndedAt;
+      if (R == null || R < all[i - 1].at || R > all[i].at) continue;
+      rests.push((R - all[i - 1].at) / 1000);
+      works.push((all[i].at - R) / 1000);
+    }
+    const med = (a) => {
+      const b = [...a].sort((x, y) => x - y);
+      const m = b.length >> 1;
+      return Math.round(b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2);
+    };
+    const timed = rests.length >= 2;
+    return { date: e.date, session: e.session_type, rest_med_s: timed ? med(rests) : null, work_med_s: timed ? med(works) : null, timed_sets: rests.length };
+  }),
+  gear_note: 'Exercises with meta.gear in plan.json load only real hardware pins (photographed 2026-07-23): main-cable = 2.5..97.5 by 5 + micros +1.5/+3; dumbbell = 2.5s to 20, 5s to 50, then 60/70/80/90; leg-press = 20-lb selectorized steps; chest-press = 15-lb stack + 7.5 micro. The engine snaps and caps every coach override to the exercise\'s own ladder; write loadable weights anyway.',
   // ——— structure evidence, for the PROGRAM seat ———
   session_composition: Object.fromEntries(Object.entries(plan.sessions).map(([t, s]) => [t,
     s.exercises.map((x) => `${x.id} ${x.sets}×${x.repMin}-${x.repMax}${x.superset ? ` (superset:${x.superset})` : ''}`)])),

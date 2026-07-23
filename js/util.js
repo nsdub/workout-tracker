@@ -141,6 +141,50 @@ export function estimateMins(rows) {
   return Math.max(1, Math.round(secs / 60));
 }
 
+// Split a session's logged sets into REAL rest vs REAL work, using the
+// work-start bell (restEndedAt) stamped on each set. The rest timer is global —
+// one pill — so the rest before a set began when the PREVIOUS set (any exercise)
+// was logged, and the bell marks where that rest ended and the set began:
+//   rest = bell − previous set's time,  work = this set's time − bell.
+// Sets with no bell (first set of the night, straight-into-superset, or history
+// logged before this was captured) are skipped, never guessed. Returns null when
+// too few sets carry timing to say anything honest. Medians, so one bathroom
+// break doesn't distort the picture. mmss() formats the seconds as M:SS.
+export function restWorkStats(exercises) {
+  const all = (exercises ?? [])
+    .flatMap((x) => x.sets ?? [])
+    .filter((s) => s.at)
+    .sort((a, b) => a.at - b.at);
+  const rests = [];
+  const works = [];
+  for (let i = 1; i < all.length; i++) {
+    const s = all[i];
+    const R = s.restEndedAt;
+    if (R == null || R < all[i - 1].at || R > s.at) continue; // can't split — skip
+    rests.push((R - all[i - 1].at) / 1000);
+    works.push((s.at - R) / 1000);
+  }
+  if (rests.length < 2) return null;
+  const med = (a) => {
+    const b = [...a].sort((x, y) => x - y);
+    const m = b.length >> 1;
+    return b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2;
+  };
+  const sum = (a) => a.reduce((n, v) => n + v, 0);
+  return {
+    n: rests.length,
+    restMed: Math.round(med(rests)),
+    workMed: Math.round(med(works)),
+    restTotal: Math.round(sum(rests)),
+    workTotal: Math.round(sum(works)),
+  };
+}
+
+export function mmss(sec) {
+  const s = Math.max(0, Math.round(sec));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
 export function debounce(fn, ms) {
   let t;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };

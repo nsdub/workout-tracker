@@ -20,7 +20,7 @@ globalThis.fetch = (...args) => fetchImpl(...args);
 // Seed a settings blob that PREDATES the cardio field (defaults-merge test)
 localStorage.setItem('p3.settings', JSON.stringify({ owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '' }));
 
-const { fmtW, weekKey, daysBetween, sessionMins } = await import('../js/util.js');
+const { fmtW, weekKey, daysBetween, sessionMins, restWorkStats, mmss } = await import('../js/util.js');
 const { store } = await import('../js/store.js');
 const { flushQueue, pullRemote, importSeedBundle } = await import('../js/github.js');
 
@@ -44,6 +44,38 @@ await ok('fmtW keeps stack fractions, trims integers, dashes null', () => {
 });
 await ok('daysBetween', () => {
   assert.equal(daysBetween('2026-07-11', '2027-03-01'), 233);
+});
+await ok('mmss formats seconds as M:SS', () => {
+  assert.equal(mmss(0), '0:00');
+  assert.equal(mmss(41), '0:41');
+  assert.equal(mmss(112), '1:52');
+  assert.equal(mmss(-5), '0:00'); // clamped
+});
+await ok('restWorkStats splits real rest vs work from the work-start bell', () => {
+  const T = 1_700_000_000_000;
+  // Three sets: rested to a bell, then worked. rest = bell − prev.at, work = at − bell.
+  //   set0 logged at T
+  //   set1: bell at T+90s (rested 90), logged at T+130s (worked 40)
+  //   set2: bell at T+130+95s (rested 95), logged +38s (worked 38)
+  const ex = [{ sets: [
+    { weight: 100, reps: 8, at: T },
+    { weight: 100, reps: 8, at: T + 130_000, restEndedAt: T + 90_000 },
+    { weight: 100, reps: 8, at: T + 263_000, restEndedAt: T + 225_000 },
+  ] }];
+  const r = restWorkStats(ex);
+  assert.equal(r.n, 2);
+  assert.deepEqual([r.restMed, r.workMed], [93, 39]); // medians of {90,95}=92.5→93 and {40,38}=39
+});
+await ok('restWorkStats returns null when too few sets carry the bell', () => {
+  const T = 1_700_000_000_000;
+  // Only the first set is timed; nothing to split (needs ≥2 split intervals).
+  assert.equal(restWorkStats([{ sets: [{ at: T }, { at: T + 100_000 }] }]), null);
+  // A bell OUTSIDE its interval (logged before the bell) is skipped, not trusted.
+  const bad = [{ sets: [
+    { at: T }, { at: T + 50_000, restEndedAt: T + 90_000 }, // bell after the log → skip
+    { at: T + 200_000, restEndedAt: T + 150_000 },
+  ] }];
+  assert.equal(restWorkStats(bad), null); // only 1 valid split left → null
 });
 await ok('sessionMins: wall clock, span fallback, and the resumed-draft guard', () => {
   const t0 = 1_000_000_000_000;

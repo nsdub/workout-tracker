@@ -705,6 +705,10 @@ svg.ic { vertical-align: -2px; }
 .rs-star { position: absolute; font-size: 15px; color: #ffd24a; text-shadow: 0 0 12px rgba(255, 210, 74, .85); pointer-events: none; animation: star-pop .5s var(--spring) backwards; }
 .rs-star.s1 { top: -9px; right: -5px; animation-delay: .68s; }
 .rs-star.s2 { bottom: -7px; left: -7px; font-size: 11px; rotate: -14deg; animation-delay: .84s; }
+/* honest work-vs-rest line, measured from the work-start bell (not the ~40s guess) */
+.rs-tempo { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--ink2); text-align: center; margin: -6px 0 16px; animation: val-pop .45s var(--spring) backwards; }
+.rs-tempo b { color: var(--ink); font-size: 12.5px; }
+.rs-tempo-n { opacity: .62; }
 /* the elapsed-time banner: always present, full width, the headline stat */
 .rs-stat.rs-time { grid-column: 1 / -1; border-color: var(--acc); padding: 10px 6px; }
 .rs-stat.rs-time b { font-size: 34px; color: var(--acc); }

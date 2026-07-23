@@ -1,10 +1,10 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins, weekKey, fmtSetLine } from '../util.js';
+import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins, weekKey, fmtSetLine, restWorkStats, mmss } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
-import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
+import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, restBellAt, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { BASIS, previewSheet, provenance, provenanceText } from './preview.js';
@@ -804,6 +804,11 @@ function logSet(x, s, U) {
   const now = Date.now();
   if (now - lastLogAt < 400) return; // double-tap = one set
   lastLogAt = now;
+  // Capture WHEN this set's work began — the bell of the rest that preceded it
+  // (the lifter starts the set on the bell). Read before any timer is hidden.
+  // With it, the gap to the previous set splits honestly into rest (prev→bell)
+  // and work (bell→now); without it the whole gap was silently called "rest".
+  const bellAt = restBellAt();
   const bestBefore = Math.max(engine.allTimeBest(store.history, x.id)?.weight ?? 0, draftBest(x.id));
   s.done = true;
   // First log stamps the performance time; an unlog→edit→relog CORRECTION
@@ -812,6 +817,11 @@ function logSet(x, s, U) {
   // set 1 "newest", and the envelope inflated the next session off the fake
   // dip (found by the v45 adversarial review, repro'd against real data).
   s.at ??= Date.now();
+  // Stamp the work-start bell once, alongside s.at, so an unlog→edit→relog
+  // correction keeps the original timing. Only when the bell is in the past and
+  // after the previous stamp — a future/absent deadline means we can't split
+  // this interval, so we leave it unmeasured rather than record a guess.
+  if (s.restEndedAt == null && bellAt != null && bellAt <= s.at) s.restEndedAt = bellAt;
   // Hand validateSet the context it needs to be fair: the current phase (a
   // deload weight is light ON PURPOSE) and the engine's own prescription
   // (the app must never call its own number a typo).
@@ -1329,7 +1339,7 @@ function finishSession() {
   const exercises = d.exercises
     .map((x) => ({
       id: x.id, name: x.name,
-      sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}) })),
+      sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}), ...(s.restEndedAt ? { restEndedAt: s.restEndedAt } : {}) })),
       ...(x.logNote && x.logNote.trim() ? { note: x.logNote.trim() } : {}),
     }))
     // Keep a lift that carries EITHER performance or a note. Dropping
@@ -1376,6 +1386,7 @@ function finishSession() {
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),
     prs: d.exercises.reduce((n, x) => n + x.sets.filter((s) => s.pr).length, 0),
     acts: exercises.filter((x) => x.sets.length).length, // note-only acts aren't acts performed
+    restWork: restWorkStats(exercises), // real rest-vs-work from the work-start bell (null if untimed)
     title: U.copy.results,
     world: W ? `${W.name} · ${U.name}` : U.name,
     delivered: U.copy.delivered ?? NEUTRAL_COPY.delivered,
@@ -1418,6 +1429,7 @@ function showResults(stats) {
         <div class="rs-stat" style="animation-delay:.48s"><b class="num">${stats.acts}</b><i>${stats.acts === 1 ? 'act' : 'acts'}</i></div>
         <div class="rs-stat ${stats.prs ? 'pr' : ''}" style="animation-delay:.6s"><b class="num">${stats.prs}</b><i>${stats.prs === 1 ? 'record' : 'records'}</i>${stats.prs ? '<span class="rs-star s1" aria-hidden="true">★</span><span class="rs-star s2" aria-hidden="true">★</span>' : ''}</div>
       </div>
+      ${stats.restWork ? `<div class="rs-tempo" style="animation-delay:.72s">typical set <b>${esc(mmss(stats.restWork.workMed))}</b> work · <b>${esc(mmss(stats.restWork.restMed))}</b> rest <span class="rs-tempo-n">— measured over ${stats.restWork.n} ${stats.restWork.n === 1 ? 'set' : 'sets'}</span></div>` : ''}
       <button class="btn primary" id="rs-go">Take a bow</button>
       <button class="btn quiet rs-atlas" id="rs-atlas">See tonight’s star in the Atlas</button>
       <div class="rs-sync" id="rs-sync"></div>
