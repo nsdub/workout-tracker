@@ -1,0 +1,58 @@
+{
+  "role": "recovery",
+  "date": "2026-07-23",
+  "session": "PushA",
+  "reviewed_through": "2026-07-22",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "abstain",
+      "why": "No pain note or rest drift on the last incline-press session, so the brake sees no fatigue grounds and defers the number to the progression seats.",
+      "evidence": ["2026-07-16:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "abstain",
+      "why": "Chest press moved cleanly at 142.5-157.5 three days ago with even set spacing and no fatigue note, so no recovery brake applies.",
+      "evidence": ["2026-07-20:machine-chest-press", "2026-07-16:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "abstain",
+      "why": "Logged clean at target reps with normal rest and no pain flag, nothing for the brake to act on.",
+      "evidence": ["2026-07-16:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "abstain",
+      "why": "Shoulder press held all sets at target with steady timestamps and no shoulder pain note, so no fatigue-based hold.",
+      "evidence": ["2026-07-16:db-shoulder-press"]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "abstain",
+      "why": "Small accessory logged without pain or rest-drift signal; the brake has no reason to intervene.",
+      "evidence": ["2026-07-16:cable-lateral-raise"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "abstain",
+      "why": "Triceps work progressed to 54 lb three days ago with normal rest and no elbow or fatigue note, so no recovery brake.",
+      "evidence": ["2026-07-20:overhead-cable-triceps", "2026-07-16:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "abstain",
+      "why": "Last logged at 57.5 lb with no pain flag and clean timing, nothing for the brake to gate.",
+      "evidence": ["2026-07-16:rope-pushdown"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "abstain",
+      "why": "Rear-delt/rotator health work ran at 25.5 lb for full reps two days ago with no shoulder complaint, so the brake keeps hands off.",
+      "evidence": ["2026-07-21:face-pulls", "2026-07-20:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,28 @@
+{
+  "role": "program",
+  "date": "2026-07-23",
+  "session": "PushA",
+  "reviewed_through": "2026-07-22",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "machine-chest-press",
+      "why": "The two prescribed rep ranges are inverted against what actually happens: PushA is labelled the heavier 8-10 range yet you pressed 150x10 on 2026-07-16, while PushB is labelled the lighter 10-12 range yet you pressed a heavier 157.5x10 on 2026-07-20 for the same reps. PushA buries the machine behind four sets of smith incline, so the chest is pre-fatigued there and fresh on PushB. Flip the range labels so PushB is the 8-10 heavy exposure and PushA the 10-12 exposure, and they will finally describe the sessions you are really doing.",
+      "evidence": [
+        "2026-07-16:machine-chest-press",
+        "2026-07-20:machine-chest-press"
+      ]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "overhead-cable-triceps",
+      "why": "The same lift is two different athletes across the split: 54x10 for three sets on PushB (2026-07-20) versus only 47.5x13 for two sets on PushA (2026-07-16). On PushA it sits sixth in the order, after both presses, the crossover, the shoulder press and the lateral raise, so it gets whatever is left. Move overhead-cable-triceps ahead of the lateral-raise on PushA so its one PushA exposure starts with fresh arms instead of the dregs of the session, and the whole trailing triceps block stops evaporating.",
+      "evidence": [
+        "2026-07-16:overhead-cable-triceps",
+        "2026-07-20:overhead-cable-triceps"
+      ]
+    }
+  ]
+}

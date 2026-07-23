@@ -1,0 +1,98 @@
+{
+  "role": "progression",
+  "date": "2026-07-23",
+  "session": "PushA",
+  "reviewed_through": "2026-07-22",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 140, "reps": 8 },
+        { "weight": 160, "reps": 8 },
+        { "weight": 165, "reps": 7 },
+        { "weight": 170, "reps": 7 }
+      ],
+      "why": "On 7-16 he hit the 8-rep ceiling on both feeder sets (135x8, 155x8) so those earn +5 lb, and the two top sets sat at the 6-rep floor (165x6, 170x6) so I ask for one more rep before adding weight there.",
+      "evidence": ["2026-07-16:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 150, "reps": 10 },
+        { "weight": 157.5, "reps": 10 },
+        { "weight": 165, "reps": 8 }
+      ],
+      "why": "He already cleared 157.5x10 (range ceiling) on 7-20, so the app's cross prescription just hands back what he beat; I step the top set to 165 (next 7.5 machine notch) and start the ramp at weights he owns.",
+      "evidence": ["2026-07-20:machine-chest-press", "2026-07-16:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "push",
+      "sets": [
+        { "weight": 14, "reps": 14 },
+        { "weight": 15.5, "reps": 13 },
+        { "weight": 15.5, "reps": 13 }
+      ],
+      "why": "The app repeats 7-16 verbatim at 12 reps, the floor of a 12-15 slot; weight is fine, so I bank reps toward the middle of the range instead of copy-pasting.",
+      "evidence": ["2026-07-16:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 35, "reps": 9 },
+        { "weight": 35, "reps": 9 },
+        { "weight": 35, "reps": 10 }
+      ],
+      "why": "Sitting mid-range at 8/8/9 in an 8-10 slot, so I hold 35 and push each set one rep toward the 10 ceiling before the dumbbell jumps to 40.",
+      "evidence": ["2026-07-16:db-shoulder-press"]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 10.5, "reps": 11 },
+        { "weight": 7.5, "reps": 12 },
+        { "weight": 7.5, "reps": 12 }
+      ],
+      "why": "The app's repeat prescribes 10.5x12 three times but on 7-16 he only got 10.5x10 then had to DROP to 7.5 for the last two sets — I correct the fantasy down to what he actually holds: one push set at 10.5 and honest 7.5 back-offs.",
+      "evidence": ["2026-07-16:cable-lateral-raise"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "push",
+      "sets": [
+        { "weight": 47.5, "reps": 12 },
+        { "weight": 52.5, "reps": 12 },
+        { "weight": 54, "reps": 11 }
+      ],
+      "why": "The app's cross prescribes 54x12 twice, but on 7-20 he only managed 54x10 there — that overstates him, so I correct the top set to a reachable 54x11 and ramp through 52.5 which he took for 12.",
+      "evidence": ["2026-07-20:overhead-cable-triceps", "2026-07-16:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "push",
+      "sets": [
+        { "weight": 60.5, "reps": 11 },
+        { "weight": 60.5, "reps": 10 },
+        { "weight": 60.5, "reps": 10 }
+      ],
+      "why": "He hit the 12-rep ceiling of a 10-12 slot on his only logged set at 57.5 on 7-16, so I earn the next loadable notch (60.5) and expect reps to settle back into range.",
+      "evidence": ["2026-07-16:rope-pushdown"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 15 }
+      ],
+      "why": "He cleared both fixed-15 sets at 25.5 on 7-21, so on a rep-capped slot the only way forward is weight — step to the next real pin at 27.5.",
+      "evidence": ["2026-07-21:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
