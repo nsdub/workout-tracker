@@ -182,5 +182,45 @@
     },
     "decision": "accepted",
     "decided_at": "2026-07-22T20:24:44.228Z"
+  },
+  {
+    "proposal": {
+      "from": "program",
+      "kind": "reprange",
+      "exercise": "machine-chest-press",
+      "scope": "PushA",
+      "repMin": 10,
+      "repMax": 12,
+      "date": "2026-07-23",
+      "why": "Your two chest-press prescriptions are backwards. Push A is labelled the heavy 8-10 range, but the machine sits behind four sets of incline there, so you pressed 150x10. Push B is labelled the lighter 10-12 and you pressed 157.5x10 — heavier, on the day meant to be lighter. Flip the labels so Push A is the 10-12 exposure and Push B the heavy 8-10. (Re-surfaced from yesterday; still unactioned.)"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-23T16:19:28.106Z"
+  },
+  {
+    "proposal": {
+      "from": "program",
+      "kind": "reprange",
+      "exercise": "machine-chest-press",
+      "scope": "PushB",
+      "repMin": 8,
+      "repMax": 10,
+      "date": "2026-07-23",
+      "why": "Same fix — make Push B the heavy 8-10 chest exposure, since that is where your chest is actually fresh and you press heavier."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-23T16:19:28.118Z"
+  },
+  {
+    "proposal": {
+      "from": "program",
+      "kind": "reorder",
+      "exercise": "overhead-cable-triceps",
+      "scope": "PushA",
+      "date": "2026-07-23",
+      "why": "The same lift is two different athletes across the split: 54x10 for three sets on Push B (fresh) versus only 47.5x13 for two sets on Push A, where it sits sixth after both presses, the crossover, the shoulder press and the lateral raise. Move it ahead of the Push A lateral raise so its one Push A exposure starts on fresh arms instead of the dregs."
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-23T16:19:28.124Z"
   }
 ]
