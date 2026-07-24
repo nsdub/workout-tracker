@@ -1,6 +1,6 @@
 // Offline-first service worker. Shell is cache-first; installs bypass the
 // HTTP cache; data/ and the GitHub API are never cached here.
-// build: v65 — MUST match js/version.js (tested); a byte-change here is
+// build: v66 — MUST match js/version.js (tested); a byte-change here is
 // what makes every browser notice a new release.
 importScripts('js/version.js');
 const VERSION = `protocol-${self.PROTOCOL_VERSION}`;

@@ -18,7 +18,7 @@
     },
     "dumbbell": {
       "label": "dumbbell rack",
-      "note": "Photographed 2026-07-23: 2.5-lb steps to 20, 5-lb steps to 50, then 60/70/80/90. Hex DBs, per-hand weight.",
+      "note": "Photographed 2026-07-23, top pair user-confirmed 80 (Hampton rubber-hex): 2.5-lb steps to 20, 5-lb steps to 50, then 60/70/80. Per-hand weight.",
       "pins": [
         2.5,
         5,
@@ -36,8 +36,7 @@
         50,
         60,
         70,
-        80,
-        90
+        80
       ]
     },
     "leg-press": {
@@ -590,6 +589,17 @@
         "When the hips drop, the set is over regardless of the clock."
       ],
       "role": "core"
+    },
+    "db-bulgarian-split-squat": {
+      "name": "DB Bulgarian Split Squat",
+      "compound": true,
+      "role": "compound",
+      "gear": "dumbbell",
+      "howto": [
+        "Stand about a stride in front of the flat bench, a dumbbell in each hand at your sides, and rest the top of your rear foot on the bench. Set the front foot far enough forward that at the bottom the front knee stacks over the ankle, not way past the toes.",
+        "Lower straight down by bending the front knee until the front thigh is about parallel, feeling a stretch through the front-leg quad and glute — torso tall, weight through the front heel and mid-foot. Drive up through the front foot; don't push off the back foot.",
+        "Train the WEAKER leg first every set, then match — never beat — its rep count on the stronger leg. That is the whole mechanism that closes the left/right gap instead of hiding it."
+      ]
     }
   },
   "sessions": {

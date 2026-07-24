@@ -222,5 +222,38 @@
     },
     "decision": "accepted",
     "decided_at": "2026-07-23T16:19:28.124Z"
+  },
+  {
+    "proposal": {
+      "from": "panel",
+      "kind": "add",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "position": 1,
+      "why": "Your legs were 100% bilateral — no single-leg work, so a stronger leg can hide a left/right gap that is judged on stage. A 4-seat trainer panel picked this over the Smith squat (bilateral, fixes nothing) and kettlebells (cap 30 lb, too light) as the one move that adds a squat pattern AND fixes symmetry. Start ~30/hand and light: the first sessions are to find balance and each leg's baseline. Weaker leg first, match — never beat — its reps. Off-ramp: if balance/knee/recovery suffers near prep, swap to single-leg leg press.",
+      "date": "2026-07-23",
+      "slot": {
+        "sets": 2,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 120,
+        "seed": 30
+      }
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-24T01:38:21.914Z"
+  },
+  {
+    "proposal": {
+      "from": "panel",
+      "kind": "volume",
+      "exercise": "leg-extension",
+      "scope": "LegsA",
+      "why": "Keep quad volume about flat while the split squat is added: trim LegsA leg extension 3→2 sets (net +1 set on the day). Reverse anytime.",
+      "date": "2026-07-23",
+      "sets": 2
+    },
+    "decision": "accepted",
+    "decided_at": "2026-07-24T01:38:21.914Z"
   }
 ]
