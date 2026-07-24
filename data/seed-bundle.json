@@ -4,7 +4,84 @@
   "plan": {
     "version": 3,
     "name": "Protocol v3",
-    "updated": "2026-07-12",
+    "updated": "2026-07-23",
+    "gear": {
+      "main-cable": {
+        "label": "dual cable stack",
+        "note": "Life Fitness Signature Series Dual Adjustable Pulley (user-confirmed 2026-07-24): 4:1 ratio, stack label is PER-HANDLE (max 97.5 = 390-lb stack / 4), 5-lb per-handle steps. The two circular add-on micro weights are 5 lb PHYSICAL each -> 5/4 = 1.25 lb per handle. Loadable per handle: pin, pin+1.25, pin+2.5.",
+        "stack": {
+          "min": 2.5,
+          "step": 5,
+          "max": 97.5
+        },
+        "micro": [
+          1.25,
+          2.5
+        ]
+      },
+      "dumbbell": {
+        "label": "dumbbell rack",
+        "note": "Photographed 2026-07-23, top pair user-confirmed 80 (Hampton rubber-hex): 2.5-lb steps to 20, 5-lb steps to 50, then 60/70/80. Per-hand weight.",
+        "pins": [
+          2.5,
+          5,
+          7.5,
+          10,
+          12.5,
+          15,
+          17.5,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          60,
+          70,
+          80
+        ]
+      },
+      "leg-press": {
+        "label": "leg press stack",
+        "note": "User-confirmed 2026-07-23: Technogym selectorized, 20-lb steps (10, 20, then 40, 60, 80 …). NOT plate-loaded.",
+        "pins": [
+          10,
+          20,
+          40,
+          60,
+          80,
+          100,
+          120,
+          140,
+          160,
+          180,
+          200,
+          220,
+          240,
+          260,
+          280,
+          300,
+          320,
+          340,
+          360,
+          380,
+          400
+        ]
+      },
+      "chest-press": {
+        "label": "chest press stack",
+        "note": "User-confirmed 2026-07-23: main stack moves in 15s with a 7.5-lb micro selector (loadable: multiples of 7.5).",
+        "stack": {
+          "min": 15,
+          "step": 15,
+          "max": 300
+        },
+        "micro": [
+          7.5
+        ]
+      }
+    },
     "units": "lb",
     "show": {
       "date": "2027-03-01",
@@ -30,7 +107,7 @@
       {
         "id": "calibration",
         "name": "Calibration",
-        "start": "2026-07-13",
+        "start": "2026-07-11",
         "end": "2026-07-19",
         "type": "calibration",
         "loadFactor": 0.9,
@@ -156,7 +233,8 @@
           "Bench at 30–40°, positioned so the bar meets the upper chest, just below the clavicles. Grip slightly wider than shoulders, shoulder blades pinned back and down, feet planted.",
           "Lower under control to a light touch on the chest, elbows about 45–60° from the torso. Press to lockout without letting the shoulders roll forward off the pad.",
           "The Smith path is fixed, so bench placement is the whole setup. Mark the position that lets the bar track over the upper chest, not the neck."
-        ]
+        ],
+        "role": "compound"
       },
       "machine-chest-press": {
         "name": "Machine Chest Press",
@@ -164,7 +242,9 @@
         "howto": [
           "Set the seat so the handles sit at mid-chest. Shoulder blades squeezed into the pad, chest up, feet flat.",
           "Press to just short of elbow lockout, then lower until the hands are near chest level with a stretch across the pecs. Keep the shoulders pinned back the entire rep."
-        ]
+        ],
+        "role": "compound",
+        "gear": "chest-press"
       },
       "cable-crossover-low-high": {
         "name": "Cable Crossover (low→high)",
@@ -172,7 +252,9 @@
           "Pulleys at the bottom. Step forward into a staggered stance with a slight forward lean, palms facing up and forward.",
           "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
           "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "db-shoulder-press": {
         "name": "DB Shoulder Press",
@@ -180,7 +262,9 @@
         "howto": [
           "Seated with back support. Dumbbells start at shoulder height, palms forward or slightly turned in, forearms vertical.",
           "Press up and slightly together to lockout overhead, then lower under control until the dumbbells are back at ear-to-shoulder level. Ribs down, no arching off the pad."
-        ]
+        ],
+        "role": "compound",
+        "gear": "dumbbell"
       },
       "cable-lateral-raise": {
         "name": "Cable Lateral Raise",
@@ -188,7 +272,9 @@
           "Pulley at the bottom, cable running behind the body or in front of the legs. Stand side-on, handle in the far hand.",
           "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
           "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "overhead-cable-triceps": {
         "name": "Overhead Cable Triceps Ext",
@@ -196,14 +282,18 @@
           "Rope on a low or mid pulley. Face away from the stack, rope behind the head, elbows up and pointing forward, slight forward split stance.",
           "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
           "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "rope-pushdown": {
         "name": "Rope Pushdown",
         "howto": [
           "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
           "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "face-pulls": {
         "name": "Face Pulls",
@@ -211,7 +301,9 @@
           "Rope at upper-face height. Grab with thumbs pointing back toward you, step back to load the stack, staggered stance.",
           "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
           "Think external rotation, not rowing: hands finish above the elbows every rep."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "corrective"
       },
       "deadlift": {
         "name": "Deadlift",
@@ -221,7 +313,8 @@
           "Bar over mid-foot, shins an inch away. Hinge down, grip just outside the legs, shins to the bar, chest up, lats tight — pull the slack out before the break.",
           "Push the floor away and stand, bar dragging up the legs. Lock by driving the hips through, not leaning back. Return by hinging first, bending the knees once the bar passes them.",
           "Brace hard before every rep. At 1–2 RIR the back position is the stop signal: any rounding, the set is over."
-        ]
+        ],
+        "role": "compound"
       },
       "lat-pulldown-wide": {
         "name": "Lat Pulldown (wide)",
@@ -230,7 +323,9 @@
           "Wide grip on the long bar, knees locked under the pads. Slight lean back, chest up.",
           "Pull the bar to the top of the chest by driving the elbows down and back. Pause with the shoulder blades pinched, then let the bar rise until the arms are long and the lats stretch.",
           "Momentum from a rocking torso is the usual cheat. The lean is set once — it doesn't grow during the set."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "compound"
       },
       "seated-cable-row-wide": {
         "name": "Seated Cable Row (wide)",
@@ -238,7 +333,9 @@
         "howto": [
           "Wide grip bar, feet braced, knees soft. Sit tall with the torso vertical.",
           "Row to the lower chest with elbows flaring out around 45–60°, squeezing the mid-back. Let the weight pull the shoulders forward into a full stretch between reps, torso staying near vertical."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "compound"
       },
       "db-curl": {
         "name": "DB Curl",
@@ -246,14 +343,18 @@
           "Standing or seated, dumbbells at the sides, palms forward (or supinating on the way up).",
           "Curl without moving the upper arm — elbows stay at the ribs. Squeeze at the top, lower slowly to a full hang.",
           "If the shoulders swing to start the rep, the weight is doing the curl, not the biceps."
-        ]
+        ],
+        "role": "hypertrophy",
+        "gear": "dumbbell"
       },
       "cable-hammer-curl": {
         "name": "Cable Hammer Curl",
         "howto": [
           "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
           "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "leg-press-low": {
         "name": "Leg Press (feet low)",
@@ -263,7 +364,9 @@
           "Feet low on the platform, about shoulder width. Low placement biases the quads.",
           "Lower until the knees reach roughly 90° or as deep as possible without the lower back curling off the pad. Press through the whole foot to just short of knee lockout.",
           "The tailbone lifting off the seat is the depth limit. Never let the knees slam into lockout."
-        ]
+        ],
+        "role": "compound",
+        "gear": "leg-press"
       },
       "leg-extension": {
         "name": "Leg Extension",
@@ -271,7 +374,9 @@
         "howto": [
           "Seat set so the knee lines up with the machine's pivot, pad on the lower shin, back against the seat.",
           "Extend to a full squeeze at the top and hold a beat. Lower slowly — the eccentric is most of the value here."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "hypertrophy"
       },
       "leg-curl": {
         "name": "Leg Curl",
@@ -280,7 +385,9 @@
           "Knee joint aligned with the machine pivot, pad just above the heels.",
           "Curl all the way to a full hamstring squeeze, then return slowly to a long stretch without letting the stack rest between reps.",
           "Pointing the toes (plantarflexed) takes the calves out and keeps it on the hamstrings."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "hypertrophy"
       },
       "hip-adductor": {
         "name": "Hip Adductor",
@@ -288,7 +395,9 @@
         "howto": [
           "Sit tall, pads inside the knees, start at a comfortable stretch — widen the range setting over warm-up sets, not cold.",
           "Squeeze the legs together under control, hold the contraction, and open slowly against the pads."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "corrective"
       },
       "hip-abductor": {
         "name": "Hip Abductor",
@@ -296,16 +405,20 @@
         "howto": [
           "Pads outside the knees. A slight forward lean with the glutes back biases the upper glutes.",
           "Drive the knees apart to full range, pause, and return slowly without letting the stack touch down between reps."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "corrective"
       },
       "standing-calf-raise": {
-        "name": "Standing Calf Raise",
+        "name": "Calf Press (leg press)",
         "lower": true,
         "howto": [
-          "Balls of the feet on the platform, heels hanging free, legs straight but knees not locked back.",
-          "Lower to a deep stretch and pause there for a beat, then drive up to full height and squeeze.",
-          "The pause at the bottom kills the bounce out of the Achilles — the bounce is the main reason calves stall."
-        ]
+          "Balls of the feet on the bottom edge of the leg-press platform, heels hanging free. Knees soft but nearly straight — don't let it turn into a press.",
+          "Let the platform push you into a deep stretch and pause a beat, then drive up through the balls of the feet to full extension and squeeze.",
+          "The pause at the bottom kills the Achilles bounce — the bounce is the main reason calves stall. Never let the knees bend and unrack the weight."
+        ],
+        "role": "hypertrophy",
+        "gear": "leg-press"
       },
       "cable-crunch": {
         "name": "Cable Crunch",
@@ -313,7 +426,10 @@
           "Kneel below a high pulley, rope held at the sides of the head, hips stacked over the knees.",
           "Crunch the ribs toward the pelvis, rounding the spine — the hips don't move. Return until the abs reach a stretch.",
           "If the hips rock back and forth it becomes a hip flexor exercise. Fix the hips, flex the spine."
-        ]
+        ],
+        "role": "core",
+        "increment": 5,
+        "note": "User does this on the Technogym abdominal-crunch machine (selectorized, ~5-lb steps from logs), not the cable stack. howto still describes the kneeling cable version — verify."
       },
       "hanging-leg-raise": {
         "name": "Hanging Leg Raise",
@@ -322,7 +438,8 @@
           "Dead hang from the bar, shoulders active enough to stay stable.",
           "Raise the legs by tilting the pelvis up and curling it toward the ribs — knees bent or straight by strength level. Lower slowly to a dead hang without swinging.",
           "The pelvic tilt is the rep. Legs lifting with a fixed pelvis is hip flexor work, not abs."
-        ]
+        ],
+        "role": "core"
       },
       "smith-overhead-press": {
         "name": "Smith Overhead Press",
@@ -331,7 +448,8 @@
           "Seated or standing under the bar, grip just outside shoulders, bar starting at the clavicles. Position yourself so the fixed path clears the chin naturally.",
           "Press to lockout overhead, finishing with the bar over the ears. Lower under control back to the clavicles.",
           "Brace the ribs down; the Smith machine hides balance problems but not a leaking arch."
-        ]
+        ],
+        "role": "compound"
       },
       "db-lateral-raise": {
         "name": "DB Lateral Raise",
@@ -339,7 +457,9 @@
           "Dumbbells at the sides, slight forward tilt of the torso, soft elbows.",
           "Raise out and slightly forward to shoulder height, leading with the elbows, pinkies no higher than thumbs. Lower on a 2–3 second count.",
           "Past shoulder height it becomes traps. Lighter and stricter beats heavier and swung, 25 sets a week says so."
-        ]
+        ],
+        "role": "hypertrophy",
+        "gear": "dumbbell"
       },
       "cable-crossover-high-low": {
         "name": "Cable Crossover (high→low)",
@@ -347,7 +467,9 @@
           "Pulleys at the top. Step forward, slight lean, arms open wide with a stretch across the chest.",
           "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
           "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "reverse-pec-deck": {
         "name": "Reverse Pec Deck",
@@ -355,7 +477,9 @@
           "Face the pad, seat set so the handles are at shoulder height, arms long with a soft bend.",
           "Open the arms straight back until they are in line with the shoulders, squeezing the rear delts and mid-back. Return slowly without letting the plates stack.",
           "Keep the shoulders down. Shrugging up hands the rep to the traps."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "hypertrophy"
       },
       "assisted-dips": {
         "name": "Assisted Dips",
@@ -365,14 +489,17 @@
           "Knees or feet on the assist platform, grip on the bars, shoulders down away from the ears.",
           "Lower until the upper arms reach parallel or the shoulders signal the end of range, torso leaning slightly forward. Press back to lockout.",
           "More lean hits chest, upright hits triceps. Pick one and keep it consistent set to set."
-        ]
+        ],
+        "role": "compound"
       },
       "reverse-grip-pushdown": {
         "name": "Reverse Grip Pushdown",
         "howto": [
           "Straight or EZ bar on a high pulley, underhand grip, elbows at the sides.",
           "Push down to lockout keeping the palms up, squeeze, and return under control. The underhand grip forces stricter elbows and biases the medial head."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "smith-bent-over-row": {
         "name": "Smith Bent-Over Row",
@@ -381,7 +508,8 @@
           "Hinge to roughly 30–45° above horizontal, knees soft, bar hanging at arm's length on the fixed track. Overhand grip just outside the legs.",
           "Row to the lower ribs, elbows tracking back at about 45°. Squeeze, then lower to a full hang without the torso rising.",
           "The torso angle set on rep one is the contract for the whole set."
-        ]
+        ],
+        "role": "compound"
       },
       "lat-pulldown-close": {
         "name": "Lat Pulldown (close)",
@@ -389,7 +517,9 @@
         "howto": [
           "Neutral close-grip handle, thighs locked under the pads, slight lean back.",
           "Pull the handle to the upper chest, elbows driving down past the ribs. Full stretch at the top of every rep — the close grip gives more range, so use it."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "compound"
       },
       "straight-arm-pulldown": {
         "name": "Straight-Arm Pulldown",
@@ -397,7 +527,9 @@
           "High pulley, bar or rope, arms long with a soft fixed elbow. Hinge slightly forward.",
           "Sweep the hands down to the thighs in an arc, feeling the lats pull the whole way, then let the arms rise until a deep lat stretch overhead.",
           "The elbow angle never changes — if it bends and extends, the triceps have taken over."
-        ]
+        ],
+        "increment": 7.5,
+        "role": "hypertrophy"
       },
       "db-shrug": {
         "name": "DB Shrug",
@@ -405,7 +537,9 @@
           "Dumbbells at the sides, standing tall, neck neutral.",
           "Elevate the shoulders straight up toward the ears, pause a full second at the top, and lower slowly to a stretch.",
           "Straight up and down — rolling the shoulders adds nothing but wear."
-        ]
+        ],
+        "role": "hypertrophy",
+        "gear": "dumbbell"
       },
       "incline-db-curl": {
         "name": "Incline DB Curl",
@@ -413,14 +547,18 @@
           "Bench at about 45–60°, dumbbells hanging straight down, shoulders back against the pad.",
           "Curl with the upper arms staying behind the torso, squeeze, and lower to a full stretch of the long head.",
           "The arms hanging behind the body is the entire point — if the elbows drift forward it's a standing curl on a slant."
-        ]
+        ],
+        "role": "hypertrophy",
+        "gear": "dumbbell"
       },
       "cable-reverse-curl": {
         "name": "Cable Reverse Curl",
         "howto": [
           "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
           "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
-        ]
+        ],
+        "gear": "main-cable",
+        "role": "hypertrophy"
       },
       "smith-rdl": {
         "name": "Smith RDL",
@@ -430,7 +568,8 @@
           "Bar at hip height, overhand grip, feet hip width, soft knee bend that stays constant.",
           "Push the hips straight back, sliding the bar down the thighs to shins until the hamstrings hit a deep stretch — mid-shin at most. Drive the hips forward to stand.",
           "Range is set by hamstring stretch, not the floor. A flat back and shifting the load into the heels are non-negotiable."
-        ]
+        ],
+        "role": "compound"
       },
       "leg-press-high": {
         "name": "Leg Press (feet high)",
@@ -439,7 +578,9 @@
         "howto": [
           "Feet high on the platform, slightly wider than shoulders. High placement biases glutes and hamstrings.",
           "Lower deep, keeping the pelvis flat on the pad, then drive through the heels to just short of lockout."
-        ]
+        ],
+        "role": "compound",
+        "gear": "leg-press"
       },
       "plank": {
         "name": "Plank",
@@ -449,6 +590,18 @@
           "Forearms down, elbows under shoulders, body one straight line from ears to heels.",
           "Squeeze the glutes, tuck the pelvis slightly, and breathe — the low back never sags and the hips never pike.",
           "When the hips drop, the set is over regardless of the clock."
+        ],
+        "role": "core"
+      },
+      "db-bulgarian-split-squat": {
+        "name": "DB Bulgarian Split Squat",
+        "compound": true,
+        "role": "compound",
+        "gear": "dumbbell",
+        "howto": [
+          "Stand about a stride in front of the flat bench, a dumbbell in each hand at your sides, and rest the top of your rear foot on the bench. Set the front foot far enough forward that at the bottom the front knee stacks over the ankle, not way past the toes.",
+          "Lower straight down by bending the front knee until the front thigh is about parallel, feeling a stretch through the front-leg quad and glute — torso tall, weight through the front heel and mid-foot. Drive up through the front foot; don't push off the back foot.",
+          "Train the WEAKER leg first every set, then match — never beat — its rep count on the stronger leg. That is the whole mechanism that closes the left/right gap instead of hiding it."
         ]
       }
     },
@@ -461,7 +614,7 @@
             "sets": 4,
             "repMin": 6,
             "repMax": 8,
-            "seed": 185,
+            "seed": 170,
             "rest": 180
           },
           {
@@ -469,7 +622,7 @@
             "sets": 3,
             "repMin": 8,
             "repMax": 10,
-            "seed": 215,
+            "seed": 150,
             "rest": 120
           },
           {
@@ -477,7 +630,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 30,
+            "seed": 15.5,
             "rest": 75
           },
           {
@@ -485,7 +638,7 @@
             "sets": 3,
             "repMin": 8,
             "repMax": 10,
-            "seed": 40,
+            "seed": 35,
             "rest": 120
           },
           {
@@ -493,7 +646,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 12.5,
+            "seed": 10.5,
             "rest": 75
           },
           {
@@ -501,7 +654,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 55,
+            "seed": 47.5,
             "rest": 75
           },
           {
@@ -509,7 +662,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 80,
+            "seed": 57.5,
             "rest": 75
           },
           {
@@ -517,7 +670,7 @@
             "sets": 2,
             "repMin": 15,
             "repMax": 15,
-            "seed": 40,
+            "seed": 22.5,
             "rest": 60
           }
         ]
@@ -548,7 +701,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 130,
+            "seed": 97.5,
             "rest": 120
           },
           {
@@ -556,7 +709,7 @@
             "sets": 3,
             "repMin": 8,
             "repMax": 10,
-            "seed": 35,
+            "seed": 30,
             "rest": 75
           },
           {
@@ -564,7 +717,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 45,
+            "seed": 17.5,
             "rest": 75
           },
           {
@@ -572,7 +725,7 @@
             "sets": 2,
             "repMin": 15,
             "repMax": 15,
-            "seed": 40,
+            "seed": 22.5,
             "rest": 60
           }
         ]
@@ -593,7 +746,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 172.5,
+            "seed": 142.5,
             "rest": 90
           },
           {
@@ -601,7 +754,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 172.5,
+            "seed": 135,
             "rest": 90
           },
           {
@@ -609,8 +762,18 @@
             "sets": 2,
             "repMin": 12,
             "repMax": 15,
-            "seed": 97.5,
-            "rest": 75
+            "seed": 82.5,
+            "rest": 75,
+            "superset": "hips"
+          },
+          {
+            "id": "hip-abductor",
+            "sets": 2,
+            "repMin": 12,
+            "repMax": 15,
+            "seed": 127.5,
+            "rest": 75,
+            "superset": "hips"
           },
           {
             "id": "standing-calf-raise",
@@ -625,7 +788,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 50,
+            "seed": 45,
             "rest": 60
           },
           {
@@ -646,7 +809,7 @@
             "sets": 4,
             "repMin": 6,
             "repMax": 8,
-            "seed": 135,
+            "seed": 115,
             "rest": 180
           },
           {
@@ -654,7 +817,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 200,
+            "seed": 142.5,
             "rest": 120
           },
           {
@@ -662,7 +825,7 @@
             "sets": 4,
             "repMin": 12,
             "repMax": 15,
-            "seed": 20,
+            "seed": 15,
             "rest": 75
           },
           {
@@ -670,7 +833,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 35,
+            "seed": 27.5,
             "rest": 75
           },
           {
@@ -678,7 +841,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 85,
+            "seed": 82.5,
             "rest": 75
           },
           {
@@ -694,7 +857,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 55,
+            "seed": 52.5,
             "rest": 75
           },
           {
@@ -710,7 +873,7 @@
             "sets": 2,
             "repMin": 15,
             "repMax": 15,
-            "seed": 40,
+            "seed": 22.5,
             "rest": 60
           }
         ]
@@ -723,7 +886,7 @@
             "sets": 4,
             "repMin": 8,
             "repMax": 10,
-            "seed": 155,
+            "seed": 145,
             "rest": 180
           },
           {
@@ -731,7 +894,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 127.5,
+            "seed": 120,
             "rest": 120
           },
           {
@@ -739,7 +902,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 45,
+            "seed": 37.5,
             "rest": 75
           },
           {
@@ -747,7 +910,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 70,
+            "seed": 60,
             "rest": 75
           },
           {
@@ -755,7 +918,7 @@
             "sets": 3,
             "repMin": 8,
             "repMax": 10,
-            "seed": 30,
+            "seed": 20,
             "rest": 75
           },
           {
@@ -763,7 +926,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 50,
+            "seed": 32.5,
             "rest": 75
           },
           {
@@ -771,7 +934,7 @@
             "sets": 2,
             "repMin": 15,
             "repMax": 15,
-            "seed": 40,
+            "seed": 22.5,
             "rest": 60
           }
         ]
@@ -784,7 +947,7 @@
             "sets": 4,
             "repMin": 8,
             "repMax": 10,
-            "seed": 225,
+            "seed": 205,
             "rest": 180
           },
           {
@@ -792,7 +955,7 @@
             "sets": 3,
             "repMin": 10,
             "repMax": 12,
-            "seed": 180,
+            "seed": 160,
             "rest": 180
           },
           {
@@ -800,7 +963,7 @@
             "sets": 4,
             "repMin": 10,
             "repMax": 12,
-            "seed": 180,
+            "seed": 135,
             "rest": 90
           },
           {
@@ -808,16 +971,8 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 172.5,
-            "rest": 90
-          },
-          {
-            "id": "hip-abductor",
-            "sets": 2,
-            "repMin": 12,
-            "repMax": 15,
             "seed": 142.5,
-            "rest": 75
+            "rest": 90
           },
           {
             "id": "standing-calf-raise",
@@ -832,7 +987,7 @@
             "sets": 3,
             "repMin": 12,
             "repMax": 15,
-            "seed": 50,
+            "seed": 45,
             "rest": 60
           },
           {
@@ -1200,7 +1355,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 280,
@@ -1630,7 +1785,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 200,
@@ -2009,7 +2164,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 260,
@@ -2470,7 +2625,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 220,
@@ -2856,7 +3011,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 300,
@@ -3558,7 +3713,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 300,
@@ -4012,7 +4167,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 280,
@@ -4425,7 +4580,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 280,
@@ -4866,7 +5021,7 @@
         },
         {
           "id": "standing-calf-raise",
-          "name": "Standing Calf Raise",
+          "name": "Calf Press (leg press)",
           "sets": [
             {
               "weight": 135,

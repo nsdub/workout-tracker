@@ -108,7 +108,7 @@ const dossier = {
     const timed = rests.length >= 2;
     return { date: e.date, session: e.session_type, rest_med_s: timed ? med(rests) : null, work_med_s: timed ? med(works) : null, timed_sets: rests.length };
   }),
-  gear_note: 'Exercises with meta.gear in plan.json load only real hardware pins (photographed 2026-07-23): main-cable = 2.5..97.5 by 5 + micros +1.5/+3; dumbbell = 2.5s to 20, 5s to 50, then 60/70/80/90; leg-press = 20-lb selectorized steps; chest-press = 15-lb stack + 7.5 micro. The engine snaps and caps every coach override to the exercise\'s own ladder; write loadable weights anyway.',
+  gear_note: 'Exercises with meta.gear in plan.json load only real hardware pins (user-confirmed): main-cable = Life Fitness DAP, 4:1, per-handle 2.5..97.5 by 5 + two 1.25 micros (5-lb add-on / 4); dumbbell = 2.5s to 20, 5s to 50, then 60/70/80; leg-press = 20-lb selectorized steps; chest-press = 15-lb stack + 7.5 micro. The engine snaps and caps every coach override to the exercise\'s own ladder; write loadable weights anyway.',
   // ——— structure evidence, for the PROGRAM seat ———
   session_composition: Object.fromEntries(Object.entries(plan.sessions).map(([t, s]) => [t,
     s.exercises.map((x) => `${x.id} ${x.sets}×${x.repMin}-${x.repMax}${x.superset ? ` (superset:${x.superset})` : ''}`)])),

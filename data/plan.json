@@ -5,15 +5,15 @@
   "gear": {
     "main-cable": {
       "label": "dual cable stack",
-      "note": "Photographed 2026-07-21: plates 2.5–97.5 lb in 5 lb steps, plus two 1.5 lb micro weights (loadable: pin, pin+1.5, pin+3).",
+      "note": "Life Fitness Signature Series Dual Adjustable Pulley (user-confirmed 2026-07-24): 4:1 ratio, stack label is PER-HANDLE (max 97.5 = 390-lb stack / 4), 5-lb per-handle steps. The two circular add-on micro weights are 5 lb PHYSICAL each -> 5/4 = 1.25 lb per handle. Loadable per handle: pin, pin+1.25, pin+2.5.",
       "stack": {
         "min": 2.5,
         "step": 5,
         "max": 97.5
       },
       "micro": [
-        1.5,
-        3
+        1.25,
+        2.5
       ]
     },
     "dumbbell": {
