@@ -1,0 +1,153 @@
+{
+  "date": "2026-07-24",
+  "session_type": "PullA",
+  "phase": "meso1",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 225,
+          "reps": 5,
+          "at": 1784929526758
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1784929672060
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1784929892747
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1784930191326,
+          "restEndedAt": 1784930132763
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 8,
+          "at": 1784930354811
+        },
+        {
+          "weight": 150,
+          "reps": 8,
+          "at": 1784930486548,
+          "restEndedAt": 1784930474852
+        },
+        {
+          "weight": 150,
+          "reps": 7,
+          "at": 1784930628729,
+          "restEndedAt": 1784930606559
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 10,
+          "at": 1784930798496,
+          "restEndedAt": 1784930748739
+        },
+        {
+          "weight": 105,
+          "reps": 11,
+          "at": 1784931039859,
+          "restEndedAt": 1784930918514
+        },
+        {
+          "weight": 105,
+          "reps": 10,
+          "at": 1784931181295,
+          "restEndedAt": 1784931159875
+        }
+      ],
+      "note": "You have the machine wrong. The lat pulldown machine doubles as a cable row"
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1784931339517,
+          "restEndedAt": 1784931301306
+        },
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1784931468420,
+          "restEndedAt": 1784931414527
+        },
+        {
+          "weight": 30,
+          "reps": 7,
+          "at": 1784931608857,
+          "restEndedAt": 1784931543429
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 42.5,
+          "reps": 10,
+          "at": 1784931820319,
+          "restEndedAt": 1784931683866
+        },
+        {
+          "weight": 42.5,
+          "reps": 10,
+          "at": 1784931918379,
+          "restEndedAt": 1784931895335
+        },
+        {
+          "weight": 42.5,
+          "reps": 10,
+          "at": 1784932041423,
+          "restEndedAt": 1784931993389
+        }
+      ],
+      "note": "I'm doing a two hand rope cable hammer curl today"
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1784932154725,
+          "restEndedAt": 1784932116436
+        },
+        {
+          "weight": 27.5,
+          "reps": 14,
+          "at": 1784932248896,
+          "restEndedAt": 1784932214738
+        }
+      ]
+    }
+  ],
+  "world": "void",
+  "mins": 280,
+  "startedAt": 1784915480695
+}
