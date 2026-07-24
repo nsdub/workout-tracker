@@ -1,0 +1,22 @@
+{
+  "role": "program",
+  "date": "2026-07-24",
+  "session": "PullA",
+  "reviewed_through": "2026-07-23",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "seated-cable-row-wide",
+      "why": "On PullA the only horizontal mid-back row is seated-cable-row-wide at 3 sets, while direct biceps on the same day get 6 sets (db-curl 3 + cable-hammer-curl 3). That makes the day's arm-isolation volume 2x its horizontal-rowing volume, even though the biceps are already trained as synergists on every pulldown and row. Back thickness is the under-served pattern here relative to elbow flexion. Propose bumping seated-cable-row-wide from 3 to 4 working sets so mid-back thickness on PullA lines up with the day's vertical-pull work (lat-pulldown-wide, 3 sets) instead of sitting below the arm work. Alternative if total set count must stay flat: drop cable-hammer-curl to 2 sets and give that set to the row.",
+      "evidence": ["2026-07-17:seated-cable-row-wide", "2026-07-17:db-curl", "2026-07-17:cable-hammer-curl"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "cable-hammer-curl",
+      "why": "Weekly direct elbow-flexion volume is high and outweighs horizontal rowing: db-curl 3 + cable-hammer-curl 3 + incline-db-curl 6 + cable-reverse-curl 6 = 18 direct biceps/forearm sets per week, versus 11 sets of horizontal rowing (smith-bent-over-row 8 + seated-cable-row-wide 3). Four separate curl variations already cover supinated, hammer/neutral, incline-stretch, and reverse-grip angles, so the angle coverage is complete and the extra volume is redundant given the synergist load from all the pulldowns and rows. This is flagged as an open balance question for the user: is 18 weekly direct-arm sets intended, or should one hammer/reverse-curl set be reallocated toward mid-back thickness? No change is made here beyond surfacing it alongside the seated-row proposal above.",
+      "evidence": ["2026-07-17:cable-hammer-curl", "2026-07-21:incline-db-curl", "2026-07-21:cable-reverse-curl", "2026-07-13:incline-db-curl"]
+    }
+  ]
+}

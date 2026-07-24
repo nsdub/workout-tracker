@@ -1,0 +1,76 @@
+{
+  "role": "progression",
+  "date": "2026-07-24",
+  "session": "PullA",
+  "reviewed_through": "2026-07-23",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "push",
+      "sets": [
+        { "weight": 225, "reps": 5 },
+        { "weight": 285, "reps": 5 },
+        { "weight": 285, "reps": 5 },
+        { "weight": 285, "reps": 5 }
+      ],
+      "why": "The app wants to repeat 205/255/255/255 from 2026-07-17, but that was a CALIBRATION session run at -10%. On a BUILD week those numbers are artificially suppressed. Removing the -10% haircut puts the working set back at 255/0.9 = 283 -> nearest loadable barbell step 285 (+30), and the opener 205 -> 225. This is not a PR push, it is restoring the honest build-phase load. Prescribed at the bottom of the 5-6 range so he banks reps toward 6 at the true weight before the next +10.",
+      "evidence": ["2026-07-17:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 8 },
+        { "weight": 150, "reps": 8 },
+        { "weight": 150, "reps": 8 }
+      ],
+      "why": "App repeats 120/135/135 from the 2026-07-17 calibration day (-10%). Un-suppressing the working weight: 135/0.9 = 150 (loadable +7.5 notch), opener 120 -> 135. He hit 120x10 (top of range) and 135x8 on calibration, so this is a clean restore, not a fresh gain. Reps target 8 (bottom of 8-10) because ~11% more load just went on the bar; bank up to 10 before the next notch.",
+      "evidence": ["2026-07-17:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "push",
+      "sets": [
+        { "weight": 100.5, "reps": 10 },
+        { "weight": 100.5, "reps": 10 },
+        { "weight": 100.5, "reps": 10 }
+      ],
+      "why": "He hit 97.5x11/12/11 on 2026-07-17 (range 10-12) and 97.5 is the top of the dual cable stack, so the -10% calibration haircut cannot be restored the normal way - there is no full pin above it. The only loadable step up is the +3 micro-load to 100.5. Pushing there and targeting the bottom of the range (10) is the honest maximum this hardware allows.",
+      "evidence": ["2026-07-17:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 30, "reps": 8 },
+        { "weight": 30, "reps": 8 },
+        { "weight": 30, "reps": 8 }
+      ],
+      "why": "On 2026-07-17 he did 25x10 (top of the 8-10 range -> earns the step to 30), 30x8, then faded to 25x8 on set 3. The app would repeat 25/30/30. He has proven 30 for only one set before fatigue dropped him off it, so consolidate all three sets at 30 and bank reps toward 10 before the coarse jump to 35 (no 27.5 or 32.5 exists on the rack).",
+      "evidence": ["2026-07-17:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 }
+      ],
+      "why": "The app shows 17.5x10 (basis repeat), but the real 2026-07-17 log is 17.5x8, 17.5x8, then a fade to 15.5x8 - he never reached the 10-12 floor even at the suppressed calibration weight. This is the one PullA slot where load must NOT go up: hold 17.5 and demand the rep range. No increment is earned until all three sets reach 10-12.",
+      "evidence": ["2026-07-17:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 15 }
+      ],
+      "why": "Rep-capped at 15, so weight is the only lever. Most recent real data is 2026-07-23 (PushA): 27.5x15 then 27.5x12 - he hit the cap on set 1 but faded on set 2. The old 2026-07-17 PullA numbers (20.5/22.5) are stale calibration loads. Hold 27.5 across both sets and require 15/15 at the cap; only then does he earn the +1.5 micro to 29.",
+      "evidence": ["2026-07-23:face-pulls", "2026-07-17:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

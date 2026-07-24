@@ -1,0 +1,46 @@
+{
+  "role": "recovery",
+  "date": "2026-07-24",
+  "session": "PullA",
+  "reviewed_through": "2026-07-23",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "abstain",
+      "why": "Last PullA the deadlift held 255x5 for three straight top sets with no rep drop-off and inter-set rest of 3.6-5.8 min (normal for a heavy triple), and there is no pain note anywhere in the log. Bodyweight is 206 lb, down from 216 (an active cut), so recovery capacity is trimmed and the progression seat should not chase big jumps here, but a cut alone is not a fatigue signal and gives the brake no grounds to hold. Deferring the number.",
+      "evidence": ["2026-07-17:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "abstain",
+      "why": "Moved cleanly at 120x10 then 135x8 twice on the last PullA with even set spacing and no pain flag, so the brake sees no fatigue grounds and defers the number.",
+      "evidence": ["2026-07-17:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "abstain",
+      "why": "Logged 97.5 lb for 11-12-11 reps last PullA with steady timestamps and no back or fatigue note, nothing for the brake to act on.",
+      "evidence": ["2026-07-17:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "abstain",
+      "why": "Accessory curl ran 25/30/25 lb at 8-10 reps last PullA, a normal top-set back-off with no pain flag, so no recovery brake applies.",
+      "evidence": ["2026-07-17:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "abstain",
+      "why": "Small biceps accessory logged 17.5/17.5/15.5 lb at a clean 8 reps each last PullA; the last-set weight step-down is ordinary within-session accessory fatigue a week ago, not a pain or injury signal, so the brake stays off.",
+      "evidence": ["2026-07-17:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "abstain",
+      "why": "Rear-delt/rotator health work has been progressing, 27.5 lb for 15 reps yesterday and 25.5 for full reps on 07-21, with no shoulder complaint, so the brake keeps hands off.",
+      "evidence": ["2026-07-23:face-pulls", "2026-07-17:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
