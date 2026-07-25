@@ -1,0 +1,34 @@
+{
+  "role": "program",
+  "date": "2026-07-25",
+  "session": "LegsA",
+  "reviewed_through": "2026-07-24",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "swap",
+      "exercise": "seated-cable-row-wide",
+      "why": "The plan writes this slot as its own seated row station and prints setup instructions for one — wide grip bar, feet braced, sit tall — but your note on 2026-07-24 says the lat pulldown machine doubles as the cable row. If that is right, Pull A's vertical pull and its only horizontal row are the same machine, done back to back, and the instructions on screen describe a station you do not have. No weight changes either way: every load you have logged on this lift already sits on the same 7.5-lb ladder the pulldown uses. What needs your approval is rewriting this slot to name the real station and its real setup, and answering one question that follows from it — does the gym have any independent row machine (chest-supported or plate-loaded)? If not, all of your machine rowing runs off the pulldown frame and Pull B's smith bent-over row is the only other row in the week, which is worth knowing before we call back thickness covered.",
+      "evidence": ["2026-07-24:note", "2026-07-24:seated-cable-row-wide", "2026-07-24:lat-pulldown-wide"]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "standing-calf-raise",
+      "why": "Calf work in this plan is a calf press done on the leg press, and Legs A sends you to the leg press first, takes you away for four other exercises, then asks you to come back to it in slot six. That return trip is where the sets go missing: on 2026-07-18 (Legs A) you got two of the four written calf sets, while on 2026-07-22 (Legs B) you got all four. Propose moving the calf press directly after leg-press-low on Legs A so both leg-press movements happen in one visit to the machine. Trade-off said out loud: calves would then come before leg extensions and curls, on legs that just finished heavy pressing. This one is actionable tonight if you approve it, since today is Legs A.",
+      "evidence": ["2026-07-18:standing-calf-raise", "2026-07-22:standing-calf-raise", "2026-07-18:leg-press-low"]
+    },
+    {
+      "kind": "add",
+      "exercise": "hip-abductor",
+      "why": "The hip pair is written on Legs A only, and that is not where it is happening. On 2026-07-15 you did the abductor on Legs B, where it is not in the plan at all, and on 2026-07-18 on Legs A you did the adductor and no abductor. Two sets each is the smallest slot in the entire week and it is the one that keeps landing on the wrong day or not at all, which means the app keeps showing it as skipped when you actually did the work. Propose writing hip-abductor into Legs B so the plan matches what you really do, and leaving the Legs A pair as written. The alternative, if you would rather not carry it twice, is to tell us to drop it from Legs A and keep it only on Legs B.",
+      "evidence": ["2026-07-15:hip-abductor", "2026-07-18:hip-adductor"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "why": "This is the only heavy overhead press in the program, four sets, and it lives on Push B alone. On 2026-07-20 the Push B session ran without it — the day opened at the chest press and the overhead press was never logged. The last time it happened was 2026-07-12, so there has been one heavy shoulder-press exposure in two weeks. This is an open question rather than a change: was 2026-07-20 a one-off (smith rack taken, short on time), or is that station unreliable for you? If it is unreliable, propose swapping this slot for an overhead press you can always get to; if it was a one-off, nothing changes and we stop asking.",
+      "evidence": ["2026-07-12:smith-overhead-press", "2026-07-20:machine-chest-press"]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "role": "progression",
+  "date": "2026-07-25",
+  "session": "LegsA",
+  "reviewed_through": "2026-07-24",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 180, "reps": 10 },
+        { "weight": 200, "reps": 10 },
+        { "weight": 220, "reps": 9 },
+        { "weight": 220, "reps": 9 }
+      ],
+      "why": "Last time you got 220 for 8 and then had to drop to 200 for the last set, so 220 is not yours yet — the job tonight is two real sets at 220 for 9, not a heavier pin. The opening set moves 160 to 180 because 160 for 10 is a warm-up at this point.",
+      "evidence": ["2026-07-18:leg-press-low", "2026-07-11:leg-press-low"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 15 },
+        { "weight": 142.5, "reps": 15 },
+        { "weight": 150, "reps": 12 }
+      ],
+      "why": "You held 142.5 for 14, 14 across your last legs day three days ago, and before that you took it for 13 here — that is the top of the range twice, which is exactly what earns the next pin. Top set goes to 150 for 12.",
+      "evidence": ["2026-07-22:leg-extension", "2026-07-18:leg-extension"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 120, "reps": 15 },
+        { "weight": 135, "reps": 13 },
+        { "weight": 135, "reps": 12 }
+      ],
+      "why": "This slot is stuck at 120 while you were curling 135 for four straight sets on Wednesday, and your hamstrings are fresher here than they are after RDLs. We match the 135 you are already doing and ask for 12 to 13 instead of 10.",
+      "evidence": ["2026-07-22:leg-curl", "2026-07-18:leg-curl", "2026-07-15:leg-curl"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 97.5, "reps": 13 },
+        { "weight": 97.5, "reps": 12 }
+      ],
+      "why": "90 gave you 15 and 14 last time, which is the top of the range, so the pin moves one notch to 97.5. You have handled that weight for 12 and 13 before, so it is a step back onto ground you already own.",
+      "evidence": ["2026-07-18:hip-adductor", "2025-12-29:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 127.5, "reps": 15 },
+        { "weight": 127.5, "reps": 15 }
+      ],
+      "why": "You only got 12 reps at 127.5 last time you did this, and 12 is the bottom of the range, so the weight stays put — the target is 15 on both sets before the pin moves. You skipped this one last legs day, so tonight it gets done.",
+      "evidence": ["2026-07-15:hip-abductor", "2025-12-29:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 240, "reps": 15 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 12 }
+      ],
+      "why": "You were at 260 on this day and 280 for 12 on Wednesday, so 280 is the right working weight and the ask is one or two more reps on it. All four sets get done tonight — last time only two got logged.",
+      "evidence": ["2026-07-22:standing-calf-raise", "2026-07-18:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 55, "reps": 13 },
+        { "weight": 55, "reps": 12 },
+        { "weight": 55, "reps": 12 }
+      ],
+      "why": "Three sets of 15 at 50 on Wednesday is every set at the top of the range — that is the cleanest earned step on the whole card. 55 for 12 to 13, and start all three sets there.",
+      "evidence": ["2026-07-22:cable-crunch", "2026-07-18:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "12, 10, 11 last time means you can reach the top of the range but not hold it, so nothing gets added — bodyweight, and the goal is a clean 12 on all three sets. Add weight only after you own 12, 12, 12.",
+      "evidence": ["2026-07-18:hanging-leg-raise", "2025-12-29:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

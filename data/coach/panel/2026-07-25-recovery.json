@@ -1,0 +1,62 @@
+{
+  "role": "recovery",
+  "date": "2026-07-25",
+  "session": "LegsA",
+  "reviewed_through": "2026-07-24",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "why": "Use the same weights as last Legs A, don't add. Two reasons. Last time you pressed (Jul 18) you got 220 for 8 and then had to come back down to 200 for your last set, so you were already at the edge at 220. And your quads worked three days ago on Jul 22 (leg press feet-high plus leg extensions). Tonight is your sixth training day in a row with no day off since Jul 19. Repeating Jul 18's numbers is the honest move here; add weight next Legs A after a rest day.",
+      "evidence": ["2026-07-18:leg-press-low", "2026-07-22:leg-press-high", "2026-07-21:smith-bent-over-row"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "Stay at 142.5. You have used 142.5 in your last three leg days, and three days ago your first set was only 11 reps — below the 12 you are aiming for — before you settled into 14s. That is the same muscle, the same weight, 72 hours ago. No increase tonight.",
+      "evidence": ["2026-07-22:leg-extension", "2026-07-18:leg-extension", "2026-07-15:leg-extension"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "Same weight as you would otherwise repeat, no jump. Your hamstrings took a lot on Jul 22: heavy Smith RDLs at 205 for 8 twice, then four sets of leg curls. And on the last Legs A you stopped leg curls after two sets instead of three. Hold the weight and let the sets be the work.",
+      "evidence": ["2026-07-22:leg-curl", "2026-07-22:smith-rdl", "2026-07-18:leg-curl"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "abstain",
+      "why": "No reason to touch this from my side. Last done Jul 18 at 90 for 15 and 14 — top of the rep range, and you finished both sets. It is a small movement that costs almost nothing to recover from. I looked at your notes for that day (none), your rest times, and the fact that nothing since has loaded the inner thigh. Whatever the load call is, I have no objection.",
+      "evidence": ["2026-07-18:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "abstain",
+      "why": "Nothing here for me to stop. You have not trained this since Jul 15 (127.5 for 12), and you skipped it entirely on the last Legs A, so it is the freshest thing on tonight's card. Small muscle, low recovery cost, ten days rested. I checked for pain notes and there are none anywhere in the log.",
+      "evidence": ["2026-07-15:hip-abductor", "2026-07-18:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "cut",
+      "why": "Two sets tonight instead of four, at 260. Your calves did four hard sets three days ago and the fourth one came down from 280 to 260 to finish, which is the machine telling you the fourth set was not adding anything. On the last Legs A you did two sets and stopped there yourself. On your sixth straight day, trim the tail of the session rather than grind it out. 260 is a real notch on the leg press stack.",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 }
+      ],
+      "evidence": ["2026-07-22:standing-calf-raise", "2026-07-18:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "abstain",
+      "why": "No recovery grounds. Three days ago you did 50 for 15, 15 and 15 — every set at the top of the range, no fade. Abs come back fast and nothing about this slot is being limited by fatigue. I looked at the set-to-set timing on that day too: your last three exercises were your quickest, not your slowest.",
+      "evidence": ["2026-07-22:cable-crunch", "2026-07-18:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "abstain",
+      "why": "Bodyweight, no load to argue about. You did 12, 10 and 11 on Jul 18 and it has not been trained since. Nothing here for the brake to do.",
+      "evidence": ["2026-07-18:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
