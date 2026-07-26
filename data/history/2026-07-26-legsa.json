@@ -1,0 +1,203 @@
+{
+  "date": "2026-07-26",
+  "session_type": "LegsA",
+  "phase": "meso1",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 10,
+          "at": 1785106649391
+        },
+        {
+          "weight": 200,
+          "reps": 10,
+          "at": 1785106783232
+        },
+        {
+          "weight": 220,
+          "reps": 10,
+          "at": 1785106958720
+        },
+        {
+          "weight": 200,
+          "reps": 10,
+          "at": 1785107149099,
+          "restEndedAt": 1785107138732
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 8,
+          "at": 1785107344970,
+          "restEndedAt": 1785107329113
+        },
+        {
+          "weight": 17.5,
+          "reps": 8,
+          "at": 1785107525503,
+          "restEndedAt": 1785107464981
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 15,
+          "at": 1785107624732
+        },
+        {
+          "weight": 135,
+          "reps": 13,
+          "at": 1785107750451,
+          "restEndedAt": 1785107714771
+        },
+        {
+          "weight": 135,
+          "reps": 13,
+          "at": 1785107885810,
+          "restEndedAt": 1785107840482
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 14,
+          "at": 1785107990504,
+          "restEndedAt": 1785107975825
+        },
+        {
+          "weight": 142.5,
+          "reps": 14,
+          "at": 1785108117315,
+          "restEndedAt": 1785108080521
+        },
+        {
+          "weight": 150,
+          "reps": 11,
+          "at": 1785108253810,
+          "restEndedAt": 1785108207324
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 13,
+          "at": 1785108414627,
+          "restEndedAt": 1785108343825
+        },
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1785108617693,
+          "restEndedAt": 1785108493502
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 15,
+          "at": 1785108418485
+        },
+        {
+          "weight": 127.5,
+          "reps": 15,
+          "at": 1785108618657
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1785108733809,
+          "restEndedAt": 1785108693670
+        },
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1785108833851,
+          "restEndedAt": 1785108808821
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 13,
+          "at": 1785108976184,
+          "restEndedAt": 1785108908861
+        },
+        {
+          "weight": 55,
+          "reps": 12,
+          "at": 1785109085988,
+          "restEndedAt": 1785109036197
+        },
+        {
+          "weight": 55,
+          "reps": 12,
+          "at": 1785109200766,
+          "restEndedAt": 1785109145997
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785109318058,
+          "restEndedAt": 1785109260776
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785109414948,
+          "restEndedAt": 1785109378068
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1785109537302,
+          "restEndedAt": 1785109474958
+        }
+      ]
+    }
+  ],
+  "world": "mothman",
+  "mins": 53,
+  "startedAt": 1785106362739
+}
