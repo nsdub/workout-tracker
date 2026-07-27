@@ -1,0 +1,109 @@
+{
+  "role": "progression",
+  "date": "2026-07-27",
+  "session": "PushB",
+  "reviewed_through": "2026-07-26",
+  "calls": [
+    {
+      "exercise": "smith-overhead-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 95, "reps": 8 },
+        { "weight": 105, "reps": 8 },
+        { "weight": 115, "reps": 7 },
+        { "weight": 115, "reps": 7 }
+      ],
+      "why": "This press did not get logged at all last PushB, so the last real data on it is 95, 105, 115, 115 for exactly 6 reps every set — 6 is the bottom of the range, so nothing here earned more weight. Same four loads tonight, and the job is 7 and 8 instead of 6. Get all four sets in before anything else on the card.",
+      "evidence": ["2026-07-12:smith-overhead-press", "2026-02-02:smith-overhead-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 150, "reps": 10 },
+        { "weight": 157.5, "reps": 10 },
+        { "weight": 165, "reps": 10 }
+      ],
+      "why": "On Thursday you pressed 165 for 8 on this machine, but this session is still set up to top out at 157.5 because that is what you did here a week ago. You have already been under 165, so it is your top set tonight and the job is to turn that 8 into 10. The whole ladder shifts up one notch to match.",
+      "evidence": ["2026-07-23:machine-chest-press", "2026-07-20:machine-chest-press"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 15, "reps": 15 },
+        { "weight": 15, "reps": 13 },
+        { "weight": 17.5, "reps": 12 },
+        { "weight": 17.5, "reps": 12 }
+      ],
+      "why": "The 12.5s gave you 15 reps last time, which is the top of the range, so that pair comes off the card and you start on the 15s. You already took the 17.5s for 12 on the last set, so tonight you get two sets there instead of one. Nothing new is being asked of you — every weight on this line you have already lifted.",
+      "evidence": ["2026-07-20:db-lateral-raise", "2026-07-12:db-lateral-raise"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "hold",
+      "sets": [
+        { "weight": 23.75, "reps": 12 },
+        { "weight": 25, "reps": 12 },
+        { "weight": 27.5, "reps": 12 }
+      ],
+      "why": "Your top set on this has run out early twice — 10 reps two weeks ago and 9 reps last week, against a range that starts at 12. Nothing goes up until that top set survives 12 clean reps. The numbers look slightly different from what you wrote down because we now know the crossover reads per handle: your old 24 and 25.5 are really 23.75 and 25 on that stack.",
+      "evidence": ["2026-07-20:cable-crossover-high-low", "2026-07-12:cable-crossover-high-low"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "push",
+      "sets": [
+        { "weight": 82.5, "reps": 15 },
+        { "weight": 90, "reps": 13 },
+        { "weight": 90, "reps": 12 }
+      ],
+      "why": "You finished on 90 for 12 last week and you were holding 90 for 14 back in January, so a second working set at 90 is ground you already own. The pin does not move past 90 tonight — this machine goes up in 7.5s and you have not put 15 reps on 90 yet.",
+      "evidence": ["2026-07-20:reverse-pec-deck", "2026-01-04:reverse-pec-deck"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "10, 10, 12 last week is one set at the top of the range and two below it. Same assistance, bodyweight only, and the target is 12 on all three before we touch the load. This is the last set of the night that stays exactly as it was, on purpose.",
+      "evidence": ["2026-07-20:assisted-dips", "2026-07-12:assisted-dips"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "sets": [
+        { "weight": 52.5, "reps": 12 },
+        { "weight": 53.75, "reps": 12 },
+        { "weight": 53.75, "reps": 11 }
+      ],
+      "why": "Your top load here has produced 10, 10 last week and 11 on Thursday, and the range runs to 12. That is progress but it is not the top of the range yet, so the stack stays where it is and the ask is 12 on the second set. Two twelves and it moves to 55 next time.",
+      "evidence": ["2026-07-20:overhead-cable-triceps", "2026-07-23:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 23.75, "reps": 15 },
+        { "weight": 27.5, "reps": 13 }
+      ],
+      "why": "14 on the first set and 12 on the second is short of the 15 this slot is asking for, so both loads stay put and you chase the reps instead. Only two sets here — they are at the end of a long push day, so make them count rather than adding weight you have not finished paying for.",
+      "evidence": ["2026-07-20:reverse-grip-pushdown", "2026-07-12:reverse-grip-pushdown"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 15 }
+      ],
+      "why": "This session still wants to give you 22.5 and 24 because that is what you pulled here a week ago, but you have done 27.5 on both Thursday and Friday. Start at 27.5. You got a clean 15 on the first set both of those days and then faded to 12 and 14 on the second — the whole job tonight is a clean 15 on set two.",
+      "evidence": ["2026-07-24:face-pulls", "2026-07-23:face-pulls", "2026-07-20:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

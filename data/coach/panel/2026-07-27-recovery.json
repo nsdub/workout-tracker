@@ -1,0 +1,114 @@
+{
+  "role": "recovery",
+  "date": "2026-07-27",
+  "session": "PushB",
+  "reviewed_through": "2026-07-26",
+  "calls": [
+    {
+      "exercise": "smith-overhead-press",
+      "stance": "hold",
+      "why": "Repeat 115 on your top sets and add nothing. Two separate things are true tonight. First, the good news: you actually took Jul 25 completely off — there is no session logged that day — and it paid off. On Jul 26 you pressed 220 for 10 on the leg press, where back on Jul 18 the same 220 only gave you 8, and your rest between sets that night ran shorter than on Jul 24 (roughly 83 seconds versus roughly 98) while your sets themselves ran slightly longer. You are one day into a new stretch, not deep into a streak, and that is why nothing on this card is a cut. Second, the reason to hold anyway: you have not pressed overhead on the Smith since Jul 12, fifteen days ago, and your own note from that day says you did it sitting on the ground with no bench. Those numbers came out of an odd setup. Your shoulders themselves are in good shape — you pressed the 35s for 9, 9 and 12 on Jul 23, four days ago. This is a cold movement pattern, not a tired muscle. Press 115 cleanly with a proper setup tonight and earn the jump next time.",
+      "evidence": [
+        "2026-07-12:smith-overhead-press",
+        "2026-07-12:note",
+        "2026-07-23:db-shoulder-press",
+        "2026-07-26:leg-press-low",
+        "2026-07-18:leg-press-low",
+        "2026-07-24:seated-cable-row-wide",
+        "2026-07-26:leg-curl"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "Keep the top set at 157.5 for all three sets. On Jul 23 you went 150 for 10, then 157.5 for 10, then 165 for 8. Tonight this slot asks for 10 to 12 reps, and you have never done 10 reps at 165 — the one time you tried it you got 8. 157.5 is the heaviest weight you have actually completed 10 reps on, and you have done that twice now, on Jul 20 and again on Jul 23. Your chest has had four days off since Jul 23, so I am not braking you for fatigue here; I am holding you at the last weight the reps were honest at. On this machine 157.5 is the 150 pin plus the 7.5 add-on weight.",
+      "sets": [
+        { "weight": 157.5, "reps": 10 },
+        { "weight": 157.5, "reps": 10 },
+        { "weight": 157.5, "reps": 10 }
+      ],
+      "evidence": [
+        "2026-07-23:machine-chest-press",
+        "2026-07-20:machine-chest-press",
+        "2026-07-23:smith-incline-press"
+      ]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "hold",
+      "why": "Run the same ladder you ran on Jul 20 — 12.5, then 15, then 15, then 17.5 — and do not reach for the 20s. Side delts are the one muscle on this card that visibly fades inside a session in your log. Both times you did cable lateral raises you had to keep taking weight off set to set: Jul 23 went 10.5, then 9, then 7.5, and Jul 16 went 10.5, then 7.5, then 7.5. That is a small muscle that runs out quickly. 17.5 for 12 is already the most you have done on this lift, and it is only four days since you worked the same delts on Jul 23.",
+      "evidence": [
+        "2026-07-20:db-lateral-raise",
+        "2026-07-23:cable-lateral-raise",
+        "2026-07-16:cable-lateral-raise"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "hold",
+      "why": "Put the top set at 25 per handle and stay off 27.5. The last time you did this movement, on Jul 20, the first two sets were 12 reps each and then you moved up to 27.5 and got only 9 — three reps short of the 12 this slot asks for. 25 per handle is the 22.5 pin with both of the round add-on weights hung on, which is a real notch and is right where your two good sets landed. Recovery is not the problem here — it has been seven days since this movement — the load is simply one notch past where your reps hold up.",
+      "sets": [
+        { "weight": 22.5, "reps": 12 },
+        { "weight": 25, "reps": 12 },
+        { "weight": 25, "reps": 12 }
+      ],
+      "evidence": [
+        "2026-07-20:cable-crossover-high-low",
+        "2026-07-23:cable-crossover-low-high"
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "abstain",
+      "why": "Nothing here for the brake to do. You last did this on Jul 20, seven days ago, and you finished going up rather than down: 82.5 for 12, 82.5 for 14, then 90 for 12. The only rear-delt work since was two sets of face pulls on Jul 24, which is light corrective work and does not leave the rear delts beaten up. I checked the whole log for pain notes and there are none. Whatever load call gets made on this one, I have no objection.",
+      "evidence": [
+        "2026-07-20:reverse-pec-deck",
+        "2026-07-24:face-pulls"
+      ]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "abstain",
+      "why": "This is bodyweight against the assist pad, so there is no load for me to argue about. On Jul 20 you did 10, 10 and then 12, going up across the sets, and you have not done dips since — seven days. No recovery objection.",
+      "evidence": [
+        "2026-07-20:assisted-dips"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "Stay at 52.5 per handle for all three sets. You have been creeping just past it and paying for it in reps: on Jul 20 you did 52.5 for 12, then 54 for 10, then 54 for 10, and on Jul 23 you did 47.5 for 13, 52.5 for 12, then 54 for 11. This slot asks for 10 to 12 reps and 52.5 is the weight where you actually get 12. There is also a hardware reason to stop logging 54: on that cable machine each round add-on weight is 1.25 per handle, so from the 52.5 pin the real options are 52.5, 53.75 and 55 — 54 is not a load you can put on the machine. Your triceps have had four days since Jul 23, so this is about picking the right notch, not about being tired.",
+      "sets": [
+        { "weight": 52.5, "reps": 12 },
+        { "weight": 52.5, "reps": 12 },
+        { "weight": 52.5, "reps": 12 }
+      ],
+      "evidence": [
+        "2026-07-23:overhead-cable-triceps",
+        "2026-07-20:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "hold",
+      "why": "Repeat what you did on Jul 20 and add nothing to the top set. The triceps evidence from your last push day is the worst thing in the recent log: on Jul 23 your rope pushdowns went 60.5 for 8, then 57.5 for 7, then 52.5 for 9. You took weight off twice and still never reached the 10 reps that exercise asks for. That is the tail end of a push session coming apart, and this lift sits in exactly the same place tonight — after overhead press, chest press, crossovers, dips and overhead extensions. Hold the weight and make the reps clean instead.",
+      "evidence": [
+        "2026-07-23:rope-pushdown",
+        "2026-07-20:reverse-grip-pushdown",
+        "2026-07-16:rope-pushdown"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "why": "Stay at 27.5 per handle. You have used 27.5 in your last two sessions and the second set keeps slipping under the target: Jul 23 was 15 reps then 12, and Jul 24 was 15 reps then 14, against a card that asks for 15 and 15 both times. These are shoulder-health work at the end of the night and they should never turn into a grind. Hold 27.5 until both sets come in at 15.",
+      "evidence": [
+        "2026-07-24:face-pulls",
+        "2026-07-23:face-pulls",
+        "2026-07-20:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

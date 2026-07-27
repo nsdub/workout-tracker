@@ -1,0 +1,40 @@
+{
+  "role": "program",
+  "date": "2026-07-27",
+  "session": "PushB",
+  "reviewed_through": "2026-07-26",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "swap",
+      "exercise": "hanging-leg-raise",
+      "why": "Read this one first. On 2026-07-22 you accepted swapping the plank out of Legs B for hanging leg raises. The swap changed the movement but kept the plank's old target, so the Legs B slot now asks for two sets of sixty on hanging leg raises — and it is still counting in seconds, because that is what a plank counts in. Your next Legs B is two days away and that is the number that will be on the screen. You cannot hang from a bar for sixty seconds a set doing leg raises, and it is not what you actually do: on Legs A you did three sets of hanging leg raises on 2026-07-26 and three again on 2026-07-18, in reps, in the ten-to-twelve range. What needs your approval is finishing the swap — give the Legs B slot a real rep target in reps rather than the plank's stopwatch. There is a second question behind it that only you can answer: the trainer who proposed that swap said out loud that the movement it really wanted was an anti-rotation exercise like a Pallof press, and that hanging leg raises were a stand-in because the plan has no anti-rotation movement in it. If you want the anti-rotation work, we add that movement to the plan and put it in this slot instead. If you would rather just have leg raises, say so and we set the reps and stop.",
+      "evidence": ["2026-07-22:plank", "2026-07-15:plank", "2026-07-26:hanging-leg-raise", "2026-07-18:hanging-leg-raise"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "why": "Tonight is Push B, and the heavy overhead press that opens it has not happened since 2026-07-12 — fifteen days. On 2026-07-20 the Push B session began at the machine chest press and the overhead press was never logged at all. We asked about this on 2026-07-25 and did not get an answer, but your own note from 2026-07-12 looks like the answer: you wrote that you did the overhead press sitting on the ground, no bench. A lift you have to sit on the floor to do is a lift you will skip, and you did. This is the only heavy overhead pressing in the whole program, four sets, on one day a week, so a skipped Push B is a week with no heavy overhead work at all. Two ways out, and you pick. One, the fix is equipment, not programming: if a bench can be dragged into the Smith rack, keep the slot exactly as written and nothing changes — you clearly have a flat bench in the gym, because you used one for Bulgarian split squats on 2026-07-26. Two, if that rack is genuinely unusable for pressing, we swap this slot for a seated dumbbell overhead press on that bench. Said plainly, the cost of option two: you already do a dumbbell shoulder press on Push A, on 2026-07-16 and again on 2026-07-23, so both push days would then run the same movement and the two days would stop looking different from each other. If that trade bothers you, the third option is to move the heavy four-set overhead exposure onto Push A, where nothing has ever been skipped, and give Push B a second chest press in its place.",
+      "evidence": ["2026-07-12:smith-overhead-press", "2026-07-12:note", "2026-07-20:machine-chest-press", "2026-07-23:db-shoulder-press", "2026-07-16:db-shoulder-press", "2026-07-26:db-bulgarian-split-squat"]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "standing-calf-raise",
+      "why": "This is the same proposal we made on 2026-07-25, and Legs A has run once since then without it being decided, so here is the new evidence. Calf work in this plan is a calf press done on the leg press. Legs A sends you to the leg press first, walks you away for five other exercises, then asks you to come back to it near the end. On 2026-07-18 you got two of the four written calf sets. On 2026-07-26 you got two of four again. On Legs B, where the calf press sits in the middle of the day, you got all four on 2026-07-22. Same lift, same week, half the work on one of the two days, twice in a row now. Propose moving the calf press to directly after the heavy leg press on Legs A so both leg-press movements happen in one visit to the machine. Trade-off said out loud: calves would then come before leg extensions and curls, on legs that have just finished heavy pressing. If you would rather not reorder the day, the honest alternative is to write Legs A calves as three sets instead of four, which is what you already approved for Legs B on 2026-07-22 — but be aware that would be the second cut and it would mean the plan is admitting you do not do the fourth set rather than fixing why.",
+      "evidence": ["2026-07-18:standing-calf-raise", "2026-07-26:standing-calf-raise", "2026-07-22:standing-calf-raise", "2026-07-26:leg-press-low"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "leg-extension",
+      "why": "Three separate cuts to the leg extension were approved within about a day of each other, each one sensible on its own, and nobody ever looked at what they add up to. On 2026-07-22 you accepted trimming it on Legs B, then accepted removing it from Legs B entirely, and on 2026-07-23 you accepted trimming Legs A from three sets to two to make room for Bulgarian split squats. The result is that your only direct quad isolation in the whole week is now two sets on Legs A, down from six a week earlier, while the back of the leg still gets seven sets of leg curls across the two days — three on 2026-07-26 and four on 2026-07-22. You are voting against the cut with your hands: on 2026-07-26 you did three sets of leg extension, not the two the program asked for, exactly as you did three on 2026-07-22 and three on 2026-07-18. Propose putting Legs A back to three sets, which just matches what you actually do, and leaving Legs B without it. If you would rather hold at two, that is a fine answer — but it should be a decision you made on purpose about the front of your legs seven months out from the show, not the leftover of three unrelated approvals.",
+      "evidence": ["2026-07-26:leg-extension", "2026-07-22:leg-extension", "2026-07-18:leg-extension", "2026-07-26:leg-curl", "2026-07-22:leg-curl"]
+    },
+    {
+      "kind": "remove",
+      "exercise": "reverse-grip-pushdown",
+      "why": "Push B is the longest day in your rotation — nine exercises and twenty-seven written sets, against eighteen on Pull A — and it is the one day that has lost its opening lift. It also runs three separate triceps movements: on 2026-07-20 you did assisted dips, then overhead cable extensions, then reverse-grip pushdowns, eight sets of triceps in one evening, and then Push A gave them six more three days later with overhead extensions and rope pushdowns on 2026-07-23. Propose cutting the reverse-grip pushdown from Push B. It is the smallest slot on the day at two sets, it sits second from the end where the clock runs out, and it is the third exercise in a row aimed at the same muscle, so removing it costs you the least of anything on that day. What it buys is roughly ten minutes at the front of the session for the heavy overhead press that keeps not happening. To be clear about what this does not touch: the face pulls stay. They are the only shoulder-rotation work on that day and a trainer already tried to cut face pulls once, on 2026-07-22, and was overruled for good reason.",
+      "evidence": ["2026-07-20:reverse-grip-pushdown", "2026-07-20:overhead-cable-triceps", "2026-07-20:assisted-dips", "2026-07-23:rope-pushdown", "2026-07-12:smith-overhead-press"]
+    }
+  ]
+}
