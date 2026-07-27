@@ -1,0 +1,220 @@
+{
+  "date": "2026-07-27",
+  "session_type": "PushB",
+  "phase": "meso1",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-overhead-press",
+      "name": "Smith Overhead Press",
+      "sets": [
+        {
+          "weight": 95,
+          "reps": 10,
+          "at": 1785182934393
+        },
+        {
+          "weight": 105,
+          "reps": 8,
+          "at": 1785183057690
+        },
+        {
+          "weight": 115,
+          "reps": 8,
+          "at": 1785183193003
+        },
+        {
+          "weight": 120,
+          "reps": 8,
+          "at": 1785183375061,
+          "restEndedAt": 1785183373013
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1785183514285
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1785183606927
+        },
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1785183778493,
+          "restEndedAt": 1785183726934
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 10.5,
+          "reps": 11,
+          "at": 1785184165220,
+          "restEndedAt": 1785183898505
+        },
+        {
+          "weight": 10.5,
+          "reps": 12,
+          "at": 1785184193461
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1785184303433,
+          "restEndedAt": 1785184268475
+        },
+        {
+          "weight": 15,
+          "reps": 12,
+          "at": 1785184475063,
+          "restEndedAt": 1785184378443
+        }
+      ],
+      "note": "First two sets on cable lat raise"
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 25.5,
+          "reps": 12,
+          "at": 1785184636676,
+          "restEndedAt": 1785184550080
+        },
+        {
+          "weight": 25.5,
+          "reps": 12,
+          "at": 1785184751742,
+          "restEndedAt": 1785184711686
+        },
+        {
+          "weight": 25.5,
+          "reps": 12,
+          "at": 1785184873173,
+          "restEndedAt": 1785184826784
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 82.5,
+          "reps": 15,
+          "at": 1785185058499,
+          "restEndedAt": 1785184948187
+        },
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1785185111959
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1785185210181,
+          "restEndedAt": 1785185186969
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785185317414,
+          "restEndedAt": 1785185285194
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785185429034
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785185562325,
+          "restEndedAt": 1785185549043
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 52.5,
+          "reps": 12,
+          "at": 1785185702146,
+          "restEndedAt": 1785185682333
+        },
+        {
+          "weight": 53.75,
+          "reps": 12,
+          "at": 1785185807198,
+          "restEndedAt": 1785185777164
+        },
+        {
+          "weight": 53.75,
+          "reps": 10,
+          "at": 1785185924703,
+          "restEndedAt": 1785185882211
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 23.75,
+          "reps": 15,
+          "at": 1785186038765,
+          "restEndedAt": 1785185999712
+        },
+        {
+          "weight": 27.5,
+          "reps": 13,
+          "at": 1785186145594,
+          "restEndedAt": 1785186113774
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1785186257507,
+          "restEndedAt": 1785186220607
+        },
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1785186356236,
+          "restEndedAt": 1785186317518
+        }
+      ]
+    }
+  ],
+  "world": "steamgardens",
+  "mins": 57,
+  "startedAt": 1785159494992
+}
