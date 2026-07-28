@@ -1,0 +1,163 @@
+{
+  "date": "2026-07-28",
+  "session_type": "PullB",
+  "phase": "meso1",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 115,
+          "reps": 10,
+          "at": 1785268657073
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1785268792833
+        },
+        {
+          "weight": 145,
+          "reps": 10,
+          "at": 1785268959922
+        },
+        {
+          "weight": 150,
+          "reps": 9,
+          "at": 1785269132519
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1785269399112,
+          "restEndedAt": 1785269312539
+        },
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1785269564414,
+          "restEndedAt": 1785269519122
+        },
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1785269709990,
+          "restEndedAt": 1785269684426
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 13,
+          "at": 1785269889961,
+          "restEndedAt": 1785269830000
+        },
+        {
+          "weight": 37.5,
+          "reps": 12,
+          "at": 1785270010058,
+          "restEndedAt": 1785269964973
+        },
+        {
+          "weight": 37.5,
+          "reps": 12,
+          "at": 1785270140638,
+          "restEndedAt": 1785270085070
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 70,
+          "reps": 14,
+          "at": 1785270255943,
+          "restEndedAt": 1785270215650
+        },
+        {
+          "weight": 70,
+          "reps": 13,
+          "at": 1785270364263,
+          "restEndedAt": 1785270330955
+        },
+        {
+          "weight": 70,
+          "reps": 13,
+          "at": 1785270482059,
+          "restEndedAt": 1785270439275
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1785270619033,
+          "restEndedAt": 1785270557070
+        },
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1785270734879,
+          "restEndedAt": 1785270694042
+        },
+        {
+          "weight": 25,
+          "reps": 9,
+          "at": 1785270865304,
+          "restEndedAt": 1785270809888
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 12,
+          "at": 1785270998222,
+          "restEndedAt": 1785270940313
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1785271129146,
+          "restEndedAt": 1785271073230
+        },
+        {
+          "weight": 37.5,
+          "reps": 10,
+          "at": 1785271244629,
+          "restEndedAt": 1785271204155
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [],
+      "note": "You're insane to have so many of the same corrective exercise back to back like this between days..I did angels and demons instead"
+    }
+  ],
+  "world": "shipwreck",
+  "mins": 52,
+  "startedAt": 1785268379443
+}
