@@ -1,0 +1,91 @@
+{
+  "role": "recovery",
+  "date": "2026-07-28",
+  "session": "PullB",
+  "reviewed_through": "2026-07-27",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "why": "Repeat last Pull B exactly and earn reps in the 8-10 window before any weight goes on. This is the heaviest load on his lower back tonight, and he pressed 120 overhead yesterday with the same bracing muscles.",
+      "evidence": [
+        "2026-07-21:smith-bent-over-row",
+        "2026-07-27:smith-overhead-press",
+        "2026-07-24:deadlift"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "why": "Last time he got 12 reps on the first set and only 10 on the next two, so the top of the range is not finished yet. He also just corrected how this station is set up, so give him one clean session on it before changing the number.",
+      "evidence": [
+        "2026-07-21:lat-pulldown-close",
+        "2026-07-24:seated-cable-row-wide",
+        "2026-07-24:note"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "why": "Three sessions at the same weight and he still has not reached the top of the rep range. Nothing here needs to move.",
+      "evidence": [
+        "2026-07-21:straight-arm-pulldown",
+        "2026-07-13:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "cut",
+      "why": "Two sets at 70 instead of three. He jumped from 60 to 70 last Pull B and his reps dropped from 14 down to 12, and his traps already worked hard holding 120 overhead yesterday. Keep the weight, take one set off.",
+      "sets": [
+        { "weight": 70, "reps": 12 },
+        { "weight": 70, "reps": 12 }
+      ],
+      "evidence": [
+        "2026-07-21:db-shrug",
+        "2026-07-13:db-shrug",
+        "2026-07-27:smith-overhead-press"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "why": "Stay at 25 and get all three sets to 10 before anyone talks about 30. Last Pull B he needed about two and a half to three minutes between sets at 25 and still lost two reps on the last one; at 20 he was resting about two minutes and holding 10 across. The rest he is taking is the tell, not the reps.",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "evidence": [
+        "2026-07-21:incline-db-curl",
+        "2026-07-13:incline-db-curl",
+        "2026-07-24:db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "hold",
+      "why": "He finished all three sets at the bottom of the rep range last time and his rest between sets was right on target. Repeat it and push the reps up.",
+      "evidence": [
+        "2026-07-21:cable-reverse-curl"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "cut",
+      "why": "One set tonight instead of two. He did face pulls yesterday and in six of his last eight lifting sessions, and yesterday also included three hard sets of reverse pec deck on the same rear shoulder muscles. One easy set keeps the habit without piling on.",
+      "sets": [
+        { "weight": 27.5, "reps": 15 }
+      ],
+      "evidence": [
+        "2026-07-27:face-pulls",
+        "2026-07-27:reverse-pec-deck",
+        "2026-07-24:face-pulls",
+        "2026-07-23:face-pulls",
+        "2026-07-21:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

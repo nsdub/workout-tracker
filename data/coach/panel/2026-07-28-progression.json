@@ -1,0 +1,87 @@
+{
+  "role": "progression",
+  "date": "2026-07-28",
+  "session": "PullB",
+  "reviewed_through": "2026-07-27",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "sets": [
+        { "weight": 115, "reps": 10 },
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 9 },
+        { "weight": 150, "reps": 9 }
+      ],
+      "why": "Two Pull B sessions in a row he stopped every single set on exactly 8 reps, which is the bottom of the 8-10 range, so the bar has not earned another 5 pounds. The weights stay where they are and the reps go up instead - the two lighter sets to 10, the two heavy ones to 9.",
+      "evidence": ["2026-07-21:smith-bent-over-row", "2026-07-13:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 120, "reps": 10 },
+        { "weight": 120, "reps": 10 },
+        { "weight": 120, "reps": 10 }
+      ],
+      "why": "His opening set at 112.5 hit 12 reps, the top of the range, so that set moves up one notch to 120 and all three sets now run at the same weight. He already did 120 for 10 twice last time, so this is the step he earned, not a guess.",
+      "evidence": ["2026-07-21:lat-pulldown-close", "2026-07-13:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 12 },
+        { "weight": 37.5, "reps": 12 }
+      ],
+      "why": "Last time he got 13, 11 and 12 - the middle set came in under the 12-rep floor, so he fell short and the weight holds. The next notch on this machine is 45, a jump of 20 percent, so all three sets need to be clean before it moves.",
+      "evidence": ["2026-07-21:straight-arm-pulldown", "2026-07-13:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "push",
+      "sets": [
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 13 },
+        { "weight": 70, "reps": 13 }
+      ],
+      "why": "He hit 12, 12, 12 at the 70s - the bottom of the range - the same week he moved up from the 60s. The rack has nothing between 70 and 80, so a load jump here is 10 pounds a hand and unearned; the reps go up instead. He carried 70 for 15s in December, so this is inside what he has done.",
+      "evidence": ["2026-07-21:db-shrug", "2026-07-13:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "Two sets at the top of the range and then the third dropped to 8, so he has not finished the job at 25 and the weight stays. The next dumbbell is 30, a 20 percent jump - the third set going to 10 is what buys it.",
+      "evidence": ["2026-07-21:incline-db-curl", "2026-07-13:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 37.5, "reps": 12 },
+        { "weight": 37.5, "reps": 12 },
+        { "weight": 37.5, "reps": 12 }
+      ],
+      "why": "He already did 37.5 for 12 on both work sets last time, so the light opening set at 32.5 has no reason to exist any more - all three sets start at 37.5. He has stopped on exactly 12 reps for two sessions straight, so the stack does not go past 37.5 until he gets closer to 15.",
+      "evidence": ["2026-07-21:cable-reverse-curl", "2026-07-13:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 28.75, "reps": 15 },
+        { "weight": 28.75, "reps": 15 }
+      ],
+      "why": "This is a flat 15-and-15 lift, so weight is the only thing that can move, and last night he finally got both sets clean at 27.5 after falling short at that weight twice. The app wants to hand him 27.5 for a fourth time; instead he adds one small 1.25 add-on per handle for 28.75, the smallest real step this machine has.",
+      "evidence": ["2026-07-27:face-pulls", "2026-07-24:face-pulls", "2026-07-23:face-pulls", "2026-07-21:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
