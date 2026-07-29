@@ -1,0 +1,79 @@
+{
+  "role": "progression",
+  "date": "2026-07-29",
+  "session": "LegsB",
+  "reviewed_through": "2026-07-28",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 185, "reps": 8 },
+        { "weight": 205, "reps": 9 },
+        { "weight": 205, "reps": 9 }
+      ],
+      "why": "Last LegsB he hit 8 on every set — the BOTTOM of the 8-10 range, so no load has been earned and 215 would be unbacked. Weight held; the ask is one extra rep on each 205 work set, which is the whole distance between here and a legal +10 next week.",
+      "evidence": ["2026-07-22:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "sets": [
+        { "weight": 160, "reps": 12 },
+        { "weight": 180, "reps": 10 },
+        { "weight": 180, "reps": 10 }
+      ],
+      "why": "He finished 160 at 12 reps — top of the 10-12 range — and his reps went UP within the session (11 then 12), so fatigue was never the limiter and re-running 140/160/160 is a wasted session. Next real pin is 180 (leg-press stack is 20-lb steps; 170 does not exist), with reps reset to the bottom of the range and 140 dropped as a redundant ramp.",
+      "evidence": ["2026-07-22:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 12 },
+        { "weight": 142.5, "reps": 10 },
+        { "weight": 142.5, "reps": 10 },
+        { "weight": 142.5, "reps": 10 }
+      ],
+      "why": "The app wants 135x10 again, but three days ago on LegsA he pulled 135 for 13 reps TWICE — a rep above this slot's own 12-rep ceiling and three above the prescription. 135 is finished; 142.5 is the next 7.5-lb pin, with the opener kept at 135 for 12.",
+      "evidence": ["2026-07-22:leg-curl", "2026-07-26:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 15 },
+        { "weight": 150, "reps": 12 },
+        { "weight": 150, "reps": 12 }
+      ],
+      "why": "He already moved himself to 150 on LegsA three days ago and got 11 — one short of the 12-rep floor — so prescribing 142.5 across the board tonight would put him BELOW his most recent actual leg-extension work. Hold 150 and buy the missing rep; 142.5 stays only as the opener, and it has to cap at 15 this time (14 twice on both recent days).",
+      "evidence": ["2026-07-22:leg-extension", "2026-07-26:leg-extension"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 240, "reps": 15 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 }
+      ],
+      "why": "260 is done: he took it for 15 — top of range — twice on LegsA three days ago, and the last LegsB set dropped to 260 only after two sets at 280. 280 is the next pin (20-lb stack) and it stays there for all three work sets at 13, up one rep from the 12s he logged, instead of the app's back-slide to 260. Load push is unavailable above 280 in reps, so the earn is reps.",
+      "evidence": ["2026-07-22:standing-calf-raise", "2026-07-26:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 55, "reps": 14 },
+        { "weight": 55, "reps": 13 },
+        { "weight": 55, "reps": 13 }
+      ],
+      "why": "The app labels 55 a progression off 50x15, but 55 is not new — he ran it three days ago for 13/12/12, below the 12-15 target's ceiling, so there is nothing to progress off yet. Hold 55 and beat those exact rep counts; 60 unlocks when all three sets reach 15.",
+      "evidence": ["2026-07-22:cable-crunch", "2026-07-26:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

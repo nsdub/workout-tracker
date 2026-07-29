@@ -1,0 +1,52 @@
+{
+  "role": "recovery",
+  "date": "2026-07-29",
+  "session": "LegsB",
+  "reviewed_through": "2026-07-28",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "why": "His erectors were loaded hard 24 hours ago: 4 ascending sets of smith bent-over row topping at 150x9 on 2026-07-28. Tonight's RDL is the only other heavy hinge in the week and it already sits at a clean 205x8 double from 2026-07-22. Repeat 2026-07-22 exactly; do not add load on a back that worked yesterday. This is the one lift tonight where the cost of being wrong is a lumbar strain, not a missed rep.",
+      "evidence": ["2026-07-28:smith-bent-over-row", "2026-07-22:smith-rdl", "2026-07-15:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "abstain",
+      "why": "No readiness signal either way. Reps held across the working sets on 2026-07-22 (140x12, 160x11, 160x12), quads were last loaded three days ago on 2026-07-26 and handled 220x10, and he wrote no complaint about either. Nothing here for the brake to grab; load is the program seat's call.",
+      "evidence": ["2026-07-22:leg-press-high", "2026-07-26:leg-press-low"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "abstain",
+      "why": "Hamstrings show no accumulated fatigue: 135x13 twice on 2026-07-26 beat the flat 135x10s from 2026-07-22, three days of separation, no note. I see nothing to brake.",
+      "evidence": ["2026-07-26:leg-curl", "2026-07-22:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "abstain",
+      "why": "Trending the right way with no distress: 142.5x14 twice then 150x11 on 2026-07-26, versus 142.5 for 11/14/14 on 2026-07-22. Rest between those sets stayed short (roughly 45-75s). No fatigue signal to act on.",
+      "evidence": ["2026-07-26:leg-extension", "2026-07-22:leg-extension"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "Calves are the one muscle he trims himself. On 2026-07-22 he ran four sets including a self-selected 260x15 back-off, then on 2026-07-26 he stopped calves at two sets of 260x15. That is a voluntary volume cut three days ago on a muscle that gets hit on both leg days. Repeat 2026-07-22's weights, no increase, and treat the fourth set as optional rather than owed.",
+      "evidence": ["2026-07-26:standing-calf-raise", "2026-07-22:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Trunk is loaded on every leg day and tonight also carries the RDL. He crunched 55 for 13/12/12 on 2026-07-26 plus three sets of hanging leg raises the same night. Repeat 2026-07-22 (50x15) rather than chasing the 55; the abs are not the limiting adaptation this week and fresh erectors matter more for the RDL.",
+      "evidence": ["2026-07-26:cable-crunch", "2026-07-22:cable-crunch", "2026-07-26:hanging-leg-raise"]
+    },
+    {
+      "exercise": "plank",
+      "stance": "hold",
+      "why": "The only silent regression in the whole window: 60s holds on 2026-07-15 became 45s holds on 2026-07-22, twice, with no note explaining it. He complains loudly when something is wrong, so a quiet 25% cut reads as an honest end-of-session limit, not laziness. Hold at 45s and let him earn it back; do not prescribe 60s.",
+      "evidence": ["2026-07-15:plank", "2026-07-22:plank"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

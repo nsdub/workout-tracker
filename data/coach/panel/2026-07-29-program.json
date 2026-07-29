@@ -1,0 +1,46 @@
+{
+  "role": "program",
+  "date": "2026-07-29",
+  "session": "LegsB",
+  "reviewed_through": "2026-07-28",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "why": "He is right and the plan is wrong. Face pulls are prescribed in four of the six sessions (PushA, PullA, PushB, PullB), which in the A/B rotation puts them on back-to-back training days twice per cycle, and on PushB he does reverse pec deck and face pulls in the same session before facing face pulls again the next day. At 12 weekly sets they are tied for the single most-trained lift in the whole program, and rear-delt work totals 18 weekly sets counting reverse pec deck, more than side delts get and close to the entire biceps allotment. Drop face pulls from both push days and keep them on PullA and PullB only, which leaves them once every three training days and lets PushB's reverse pec deck cover the rear delt.",
+      "evidence": ["2026-07-28:note", "2026-07-27:face-pulls", "2026-07-27:reverse-pec-deck", "2026-07-24:face-pulls", "2026-07-23:face-pulls"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "cable-crunch",
+      "why": "Direct ab work is 22 sets a week (cable crunch 12, hanging leg raise 6, plank 4) in week 2 of a build block, which is more weekly volume than any pressing or pulling lift gets. Cable crunch alone is on both leg days at the same weekly count as leg curl. Cut it to one leg day and leave hanging leg raise and plank as the other days' ab work.",
+      "evidence": ["2026-07-26:cable-crunch", "2026-07-22:cable-crunch", "2026-07-26:hanging-leg-raise"]
+    },
+    {
+      "kind": "add",
+      "exercise": "db-bulgarian-split-squat",
+      "why": "This lift is defined in the plan but is not in any session's exercise list, yet he logged it on his own on the last LegsA. It is an orphan he clearly wants. Give it a real slot on LegsB, which currently duplicates LegsA in five of its seven slots and contains no unilateral or single-leg work at all.",
+      "evidence": ["2026-07-26:db-bulgarian-split-squat"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "why": "Calf raise is prescribed identically on both leg days but the two days have come apart: the last LegsB ran the full prescribed number of sets and a heavier ladder, while the last LegsA ran half the prescribed sets on a lighter one. Either restore the missing LegsA sets or formally make LegsA the lighter, shorter calf day; right now the plan claims they are the same slot and they are not.",
+      "evidence": ["2026-07-26:standing-calf-raise", "2026-07-22:standing-calf-raise"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "leg-extension",
+      "why": "Leg extension and leg curl both appear on LegsA and LegsB and each is effectively running two independent progressions that have drifted apart in load and in set count across the two days. Treat each as one slot with one shared progression and differentiate the two leg days by rep range or emphasis instead of by running the same lift twice with different numbers.",
+      "evidence": ["2026-07-26:leg-extension", "2026-07-22:leg-extension", "2026-07-26:leg-curl", "2026-07-22:leg-curl"]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "lat-pulldown-close",
+      "why": "This is the only stalled lift in the program and it sits immediately behind a heavy compound row on PullB, where it produced three flat identical sets. Moving it ahead of the row on PullB would give the stalled lift the fresh slot for a cycle and tell us whether the stall is fatigue placement or genuine.",
+      "evidence": ["2026-07-28:lat-pulldown-close", "2026-07-28:smith-bent-over-row"]
+    }
+  ]
+}
