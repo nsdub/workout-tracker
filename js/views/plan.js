@@ -46,7 +46,11 @@ export function render(el) {
   const next = engine.rotationNext(plan, store.history);
   const show = plan.show || { date: '2027-03-01', label: 'the show' };
   const showDays = Math.max(0, daysBetween(today, show.date));
-  const last7 = store.history.filter((e) => daysBetween(e.date, today) < 7).length;
+  // LIFTING nights only — the gauge is labelled "nights this week" over the
+  // 6-day rotation. Counting conditioning entries made it read 7/6 on
+  // 2026-07-22, -24 and -27: an impossible number, and it climbs further once
+  // cardio lands on days he doesn't lift (the plan asks for 2-3 a week).
+  const last7 = engine.sortedHistory(store.history).filter((e) => daysBetween(e.date, today) < 7).length;
   const wk = weekKey(today);
   const cardio = store.settings.cardio[wk] || [false, false, false];
   const weekPct = Math.min(1, last7 / plan.rotation.length);

@@ -268,7 +268,12 @@ export function phaseForDate(plan, dateStr, overrideId = null) {
 
 // ——— Rotation ———
 
-function sortedHistory(history) {
+// Exported because the DISPLAY layer needs the same fence. Every view that
+// counted `store.history` raw inherited the cardio entries this filter
+// exists to exclude: the session header read "night 63" on his 62nd lift,
+// and Mission Control's "nights this week" gauge read 7/6 over a six-day
+// rotation. The discipline was here; the screens just weren't using it.
+export function sortedHistory(history) {
   // Supplemental entries (logged conditioning / cardio) carry no barbell work and
   // must never move "what's next" or feed a prescription. Fencing them here covers
   // rotationNext, lastPerformance/performances, isStalled, and validateSet in one

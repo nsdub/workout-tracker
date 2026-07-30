@@ -9,6 +9,12 @@ import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NE
 import { sfx } from '../audio.js';
 import { BASIS, previewSheet, provenance, provenanceText } from './preview.js';
 
+// A "night" is a LIFTING night. store.history also holds conditioning entries
+// (supplemental: true, written by the cardio logger), and counting those
+// inflated every night number on screen. Delegates to the engine's own fence
+// so there is one definition, not a second one drifting beside it.
+const liftNights = (h = store.history) => engine.sortedHistory(h);
+
 let root = null;
 let focusIdx = null;
 let lastLogAt = 0;
@@ -74,8 +80,14 @@ function defaultFocus(d) {
 // consecutive training days ending yesterday (tonight isn't banked yet).
 // todayStr formats in LOCAL time — toISOString would walk UTC dates and
 // miscount the streak for any evening lifter west of Greenwich.
+//
+// LIFTING nights only. The plan puts cardio "after lifting or on the rest
+// day", so a cardio-only day is a day he RESTED from lifting — counting it
+// would chain a streak through the rest day and then tell him to take the
+// rest day he had just taken. (Latent today: his one logged cardio session
+// shares a date with a lift, so the date set is unchanged either way.)
 function trainStreak(history, today) {
-  const days = new Set(history.map((e) => e.date));
+  const days = new Set(engine.sortedHistory(history).map((e) => e.date));
   const d = new Date(today + 'T12:00:00');
   let n = 0;
   d.setDate(d.getDate() - 1);
@@ -246,7 +258,7 @@ function renderBanked(today, phaseInfo) {
   root.innerHTML = `
     <header class="world-head">
       <div class="world-name">${esc(W?.name ?? U?.name ?? sessionName)}</div>
-      <div class="mission-line">${esc(U?.name ?? '')} — night ${store.history.length} banked · ${fmtDate(today)}</div>
+      <div class="mission-line">${esc(U?.name ?? '')} — night ${liftNights().length} banked · ${fmtDate(today)}</div>
     </header>
     <section class="objective banked-hero">
       <div class="bk-stamp">Night banked</div>
@@ -415,8 +427,9 @@ function renderWorldScreen(draft, phaseInfo) {
   // night's original chronological number — never history.length + 1, which
   // would claim a new night the re-finish never creates (finishSession makes
   // the same call on the results card).
-  const replacing = store.history.findIndex((e) => store.entryPath(e) === store.entryPath(draft));
-  const missionNo = replacing === -1 ? store.history.length + 1 : replacing + 1;
+  const nights = liftNights();
+  const replacing = nights.findIndex((e) => store.entryPath(e) === store.entryPath(draft));
+  const missionNo = replacing === -1 ? nights.length + 1 : replacing + 1;
   const x = draft.exercises[focusIdx];
   const curIdx = x.sets.findIndex((s) => !s.done && !s.skipped);
   const cur = curIdx === -1 ? null : x.sets[curIdx];
@@ -1378,9 +1391,15 @@ function finishSession() {
   // reopened night REPLACES its entry (same date + session type), so that
   // night keeps its original chronological number. Only a genuinely new
   // entry grows the count.
-  const replaceIdx = store.history.findIndex((e) => store.entryPath(e) === path);
+  //
+  // Counted over LIFTING nights only. store.history also holds conditioning
+  // entries (supplemental: true), and counting those made the header read
+  // "night 63" on his 62nd lift. He does 2-3 cardio sessions a week, so the
+  // drift compounds — by the show it would have been off by dozens.
+  const lifting = liftNights();
+  const replaceIdx = lifting.findIndex((e) => store.entryPath(e) === path);
   const stats = {
-    night: replaceIdx === -1 ? store.history.length + 1 : replaceIdx + 1,
+    night: replaceIdx === -1 ? lifting.length + 1 : replaceIdx + 1,
     mins,
     sets: exercises.reduce((n, x) => n + x.sets.length, 0),
     tonnage: Math.round(exercises.reduce((n, x) => n + x.sets.reduce((m, s) => m + s.weight * s.reps, 0), 0)),

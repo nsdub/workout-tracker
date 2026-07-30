@@ -211,6 +211,19 @@ ok('weight increase clears the stall', () => {
 ok('legacy history alone never stalls', () => {
   assert.equal(E.stalledLifts(plan, history).length, 0);
 });
+ok('sortedHistory fences conditioning out — a cardio day is not a lifting night', () => {
+  // Every screen that counted store.history RAW inherited the cardio entries
+  // this filter exists to exclude: the session header read "night 63" on his
+  // 62nd lift, and Mission Control's gauge read 7/6 nights over a six-day
+  // rotation on 2026-07-22, -24 and -27. Exported so the views share the fence.
+  const lift = mkEntry('2026-07-21', 'PullB', 'lat-pulldown-close', [{ weight: 120, reps: 10 }]);
+  const cardio = { date: '2026-07-21', session_type: 'cardio', supplemental: true, exercises: [] };
+  const older = mkEntry('2026-07-13', 'PullB', 'lat-pulldown-close', [{ weight: 120, reps: 10 }]);
+  const out = E.sortedHistory([cardio, lift, older]);
+  assert.equal(out.length, 2, 'the conditioning entry is not a night');
+  assert.deepEqual(out.map((e) => e.date), ['2026-07-13', '2026-07-21'], 'and the result is date-sorted');
+  assert.equal(E.sortedHistory([cardio]).length, 0, 'a cardio-only day counts as zero lifting nights');
+});
 ok('stallDetail reports the stuck weight and how long — the beacon states facts, not orders', () => {
   // The Mission tab answered a stall with "Swap variations at the next
   // deload" — an action he has no control to take, and one that contradicted
