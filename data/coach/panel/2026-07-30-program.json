@@ -1,0 +1,41 @@
+{
+  "role": "program",
+  "date": "2026-07-30",
+  "session": "LegsB",
+  "reviewed_through": "2026-07-28",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "why": "Face pulls run on four of your six days, which is 12 weekly sets of a corrective — more than any lift you actually want to grow — and it puts them on back-to-back days twice per rotation, which is exactly what you objected to. Dropping them from Push A and Push B leaves them on Pull A and Pull B, three slots apart, and Push B already trains rear delts with the reverse pec deck.",
+      "evidence": [
+        "2026-07-28:note",
+        "2026-07-27:face-pulls",
+        "2026-07-24:face-pulls",
+        "2026-07-23:face-pulls",
+        "2026-07-27:reverse-pec-deck"
+      ]
+    },
+    {
+      "kind": "add",
+      "exercise": "db-bulgarian-split-squat",
+      "why": "You added Bulgarian split squats yourself on Legs A even though they are in no session in the plan, so right now the one unilateral leg exercise you actually chose has no home and no progression history. Legs B is the shorter leg day and has no single-leg work at all, so that is where I would give it a permanent slot.",
+      "evidence": [
+        "2026-07-26:db-bulgarian-split-squat",
+        "2026-07-22:leg-press-high"
+      ]
+    },
+    {
+      "kind": "swap",
+      "exercise": "plank",
+      "why": "The plank is a timed hold, so nothing can progress it and you delivered 45 seconds against a 60-second target — it is the one slot on Legs B that cannot get harder over the meso. Swapping it for hanging leg raises gives Legs B the same direct ab work Legs A already gets and a rep count that can actually climb.",
+      "evidence": [
+        "2026-07-22:plank",
+        "2026-07-26:hanging-leg-raise",
+        "2026-07-22:cable-crunch"
+      ]
+    }
+  ]
+}

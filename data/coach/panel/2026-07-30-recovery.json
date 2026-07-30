@@ -1,0 +1,46 @@
+{
+  "role": "recovery",
+  "date": "2026-07-30",
+  "session": "LegsB",
+  "reviewed_through": "2026-07-28",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "why": "Say the honest thing first: after two full days off my fatigue case on this lift is weaker than it was yesterday, so I am not resting the hold on tiredness. I am resting it on pattern exposure and asymmetric cost. His last hinge was 2026-07-22 and he took only 8 reps there on both top sets at 205, the floor of the 8-10 range, not the ceiling; the nearest thing since was smith bent-over row on 2026-07-28, the one lift that session where reps fell instead of holding (10, 10, 10, then 9 at 150). Repeat 2026-07-22 exactly and make him earn 10 reps at 205 before the bar moves. A missed rep costs one night; a lumbar strain eight days out from his last hinge costs weeks he does not have.",
+      "evidence": ["2026-07-22:smith-rdl", "2026-07-28:smith-bent-over-row"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "abstain",
+      "why": "No recovery objection. Reps held or climbed across the working sets on 2026-07-22 (140x12, 160x11, 160x12), and quads took 220x10 on 2026-07-26 four days ago with a self-chosen 200 back-off after it, which is a man managing his own load correctly. Load here is the program seat's call. One thing to watch that is mine: his rest has been shrinking week over week - median rest between sets ran roughly 180s early in 2026-07-26 and had collapsed to 60s by the end of that same session while his actual working time per set stayed near 45s. Tonight's plan asks 180s on this lift and he will feel good enough after two days off to skip it. The bell is the instruction, not a suggestion.",
+      "evidence": ["2026-07-22:leg-press-high", "2026-07-26:leg-press-low", "2026-07-26:hanging-leg-raise"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "This is my clearest call tonight and it is an ordering effect, not a freshness one. Unhinged on 2026-07-26 his hamstrings gave 135x13 twice; on 2026-07-22, with four sets of RDL in front of it, the same 135 gave 10, 10, 10, 11 - three reps lighter, at the bottom of the 10-12 range. Tonight the RDL is in front of it again, so the 13s from 2026-07-26 are not license to add weight. Repeat 135 for four sets.",
+      "evidence": ["2026-07-26:leg-curl", "2026-07-22:leg-curl", "2026-07-22:smith-rdl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "150 has already been tried and it did not make range: on 2026-07-26 he ran 142.5x14, 142.5x14, then 150 for 11, under the 12-rep minimum, and that was in a session with no RDL in it. Tonight this lift sits behind the RDL, the leg press and four sets of leg curl. Repeat 142.5 for three sets and bank clean 14s and 15s; 150 is a next-week problem.",
+      "evidence": ["2026-07-26:leg-extension", "2026-07-22:leg-extension"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "He has already shown us the ceiling on this one twice. On 2026-07-22 the seed 280 bought him 12 reps and 12 reps - the bare minimum of the 12-15 range - and he cut himself to 260 for the fourth set and got 15. On 2026-07-26 he stopped calves at two sets of 260x15 rather than pushing. Repeat 2026-07-22's ladder (240, 280, 280, 260) with no increase, and treat the fourth set as optional rather than owed. This muscle is hit on both leg days and it is not the one that needs forcing.",
+      "evidence": ["2026-07-22:standing-calf-raise", "2026-07-26:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "abstain",
+      "why": "No recovery objection - 55 gave 13, 12, 12 on 2026-07-26, inside range, plus three sets of hanging leg raises the same night, and he has had two days off since. Load is the program seat's. Separate note on the plank, which I cannot prescribe by weight: on 2026-07-22 he held 45 seconds twice against a prescribed 60, with no note explaining it. He complains loudly when something is wrong, so read that quiet 25 percent trim as an honest end-of-session limit. Print 45 seconds and let him earn 60 back; do not ask him for 60 tonight.",
+      "evidence": ["2026-07-26:cable-crunch", "2026-07-22:cable-crunch", "2026-07-22:plank"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

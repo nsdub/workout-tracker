@@ -1,0 +1,79 @@
+{
+  "role": "progression",
+  "date": "2026-07-30",
+  "session": "LegsB",
+  "reviewed_through": "2026-07-28",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "push",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 185, "reps": 9 },
+        { "weight": 205, "reps": 9 },
+        { "weight": 205, "reps": 9 }
+      ],
+      "why": "On 2026-07-22 he hit 8 reps on all four sets, which is the BOTTOM of the 8-10 range, so the load stays exactly where it was and the ask goes up by one rep on the three working sets. The app would re-print 8 reps for the third straight week; earning 10s at 205 is what buys the +10 lb, and he comes in on two full rest days with 8 days since the last Smith RDL.",
+      "evidence": ["2026-07-22:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "sets": [
+        { "weight": 160, "reps": 12 },
+        { "weight": 160, "reps": 12 },
+        { "weight": 180, "reps": 10 }
+      ],
+      "why": "He topped the 10-12 range twice on 2026-07-22 (140x12 and 160x12), so 140 is retired as an opener and the last set steps to the next real pin, 180, for the bottom of the range. The app would re-print 160x11 for set two, literally copying the one set he fell short on, when 160x12 is already proven from that same session.",
+      "evidence": ["2026-07-22:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 12 },
+        { "weight": 142.5, "reps": 11 },
+        { "weight": 142.5, "reps": 10 },
+        { "weight": 142.5, "reps": 10 }
+      ],
+      "why": "Four days ago on LegsA (2026-07-26) he put up 135x13 twice, which is over the 12-rep top of this slot's range, so 135 is done and the stack goes one 7.5 step to 142.5. Repeating the 2026-07-22 LegsB numbers of 135x10 would hand him less work than he already did this week.",
+      "evidence": ["2026-07-22:leg-curl", "2026-07-26:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "push",
+      "sets": [
+        { "weight": 150, "reps": 13 },
+        { "weight": 150, "reps": 12 },
+        { "weight": 150, "reps": 12 }
+      ],
+      "why": "He already moved to 150 himself on LegsA (2026-07-26, 150x11 as his third set) after 142.5x14 twice, so prescribing 142.5 again is a step backwards from his own most recent leg work. All three sets go to 150 targeting the bottom of the 12-15 range, which is the honest next job at that pin.",
+      "evidence": ["2026-07-22:leg-extension", "2026-07-26:leg-extension"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 12 }
+      ],
+      "why": "240 is retired: he hit 260x15 to close 2026-07-22 and 260x15 twice again on 2026-07-26, so 260 becomes the opener and the three working sets consolidate 280 at 12-13 reps. FLAG: the app's own suggestion asks for 280x15 on the last set, a number he has never done at that pin (his best at 280 is 12, on 2026-07-22) while his only 15s came at 240 and 260 — that set is corrected down to 12, not raised.",
+      "evidence": ["2026-07-22:standing-calf-raise", "2026-07-26:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 55, "reps": 14 },
+        { "weight": 55, "reps": 13 },
+        { "weight": 55, "reps": 13 }
+      ],
+      "why": "The app calls this a progression to 55, but he already worked 55 on 2026-07-26 for 13/12/12, so 55x12 is a copy of Sunday, not a step. 55 holds and the reps climb toward the 15-rep top of the range; 60 is not earned until he tops out there.",
+      "evidence": ["2026-07-22:cable-crunch", "2026-07-26:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
