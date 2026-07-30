@@ -168,5 +168,6 @@
       ]
     }
   ],
-  "world": "chairlift"
+  "world": "chairlift",
+  "mins": 52
 }

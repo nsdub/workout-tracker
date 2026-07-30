@@ -152,5 +152,6 @@
       ]
     }
   ],
-  "world": "kraken"
+  "world": "kraken",
+  "mins": 42
 }
