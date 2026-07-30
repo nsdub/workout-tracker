@@ -92,8 +92,11 @@ export function render(el) {
     ${stalls.length ? `
     <div class="beacon">
       <b>⚠ DISTRESS BEACONS</b>
-      ${stalls.map((s) => `<span>${esc(s.name)} <i>(${esc(s.sessionType)})</i></span>`).join('')}
-      <span class="dim">Swap variations at the next deload.</span>
+      ${stalls.map((s) => {
+        const d = engine.stallDetail(plan, store.history, s.sessionType, s.id);
+        return `<span>${esc(s.name)} <i>(${esc(s.sessionType)})</i>${d ? ` — top set stuck at <span class="num">${fmtW(d.weight)}</span> for ${d.sessions} session${d.sessions === 1 ? '' : 's'}` : ''}</span>
+        <span class="dim">${stallOwner(s)}</span>`;
+      }).join('')}
     </div>` : ''}
 
     <div class="orbit-map">${orbitMap(plan, info, today, show)}</div>
@@ -185,7 +188,7 @@ function openProposals() {
                  <button class="btn quiet pr-btn" data-act="declined">No</button>
                  <button class="btn primary pr-btn" data-act="accepted">Accept</button>
                </div>`
-            : `<div class="pv-last">This one needs a judgment call I can’t apply automatically — say the word in a session and I’ll do it by hand.</div>`}
+            : `<div class="pv-last">The app can’t apply this one as written, so there’s nothing for you to answer. Your trainers will re-send it in a form that applies.</div>`}
         </div>`;
       }).join('') || '<div class="pv-foot">No open proposals. The panel raises these when your log gives it a reason to.</div>'}
     </div>
@@ -237,6 +240,26 @@ function openProposals() {
       });
     },
   });
+}
+
+// A stall is the TRAINERS' problem to solve, not his. He has no control that
+// changes the program — structural changes only happen by accepting a
+// proposal on this screen, which this very tab says in plain text. So the
+// beacon names who owns it and what they last called, and never issues an
+// instruction. It used to say "Swap variations at the next deload", which he
+// could not do and which contradicted the panel's actual call on 2026-07-28
+// for the one lift it was flagging (hold 120 and consolidate).
+function stallOwner(s) {
+  const coach = store.coach;
+  const fresh = !!coach && engine.coachFresh(store.history, coach, todayStr());
+  const o = fresh
+    ? (coach.overrides ?? []).find((x) => x.exercise === s.id && (!x.session || x.session === s.sessionType))
+    : null;
+  const day = s.sessionType.replace(/([AB])$/, ' $1');
+  if (o?.sets?.length) {
+    return `Your trainers set ${esc(o.sets.map((q) => `${fmtW(q.weight)}×${q.reps}`).join(', '))} for your next ${esc(day)}.`;
+  }
+  return `Your trainers see this every morning — they set this lift on ${esc(day)} days.`;
 }
 
 function proposalsCard() {

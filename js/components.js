@@ -551,8 +551,19 @@ function offerRestAlerts() {
         },
       },
     });
-  } else {
+  } else if (IS_IOS) {
     toast('I keep your screen awake while you rest, and the bell re-rings twice if you miss it. iPhone won’t let a web app buzz a locked phone — keep me face-up.', 'ok', 6000);
+  } else if ('Notification' in window && Notification.permission === 'granted') {
+    toast('Rest alerts are on — I’ll buzz you when the rest is up, even in your pocket.', 'ok', 5000);
+  } else if ('Notification' in window && Notification.permission === 'denied') {
+    toast('Rest alerts are blocked in your phone’s settings. I’ll keep the screen lit and re-ring the bell twice instead.', 'ok', 6000);
+  } else {
+    // The `else` used to be a single branch that blamed iPhone for EVERY
+    // non-offerable case — including an Android phone that had simply already
+    // answered the permission prompt. He is on a Pixel: the app was telling
+    // him a limitation of a phone he does not own, and telling him to keep it
+    // face-up when his phone's background timers work fine.
+    toast('I keep your screen awake while you rest, and the bell re-rings twice if you miss it.', 'ok', 5000);
   }
 }
 

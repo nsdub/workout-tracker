@@ -211,6 +211,23 @@ ok('weight increase clears the stall', () => {
 ok('legacy history alone never stalls', () => {
   assert.equal(E.stalledLifts(plan, history).length, 0);
 });
+ok('stallDetail reports the stuck weight and how long — the beacon states facts, not orders', () => {
+  // The Mission tab answered a stall with "Swap variations at the next
+  // deload" — an action he has no control to take, and one that contradicted
+  // what his trainers had actually called for the flagged lift. The screen
+  // now reports the fact and names who owns it, so it needs real numbers.
+  const flat = (d) => mkEntry(d, 'PushA', 'machine-chest-press', [
+    { weight: 195, reps: 9 }, { weight: 195, reps: 8 }, { weight: 195, reps: 8 },
+  ]);
+  const h = [...history, flat('2026-07-21'), flat('2026-07-28'), flat('2026-08-04')];
+  const d = E.stallDetail(plan, h, 'PushA', 'machine-chest-press');
+  assert.equal(d.weight, 195);
+  assert.equal(d.sessions, 3);
+  assert.deepEqual(d.dates, ['2026-07-21', '2026-07-28', '2026-08-04']);
+  assert.equal(d.lastDate, '2026-08-04');
+  // a lift with no performances in the window has nothing to report
+  assert.equal(E.stallDetail(plan, [], 'PushA', 'machine-chest-press'), null);
+});
 
 // ——— PRs ———
 ok('deadlift best ignores the 290×0 miss', () => {

@@ -780,6 +780,26 @@ export function stalledLifts(plan, history) {
   return out;
 }
 
+// What a stall actually looks like, for a screen that REPORTS it instead of
+// issuing orders about it. The Mission tab used to answer a stall with "Swap
+// variations at the next deload" — an instruction the athlete has no control
+// to carry out (structural changes only happen by accepting a trainer
+// proposal), and one that contradicted what his trainers had actually called.
+// Returns the weight the top set keeps landing on and how many sessions in
+// the window have sat there, so the screen can state the fact and name who is
+// handling it.
+export function stallDetail(plan, history, sessionType, exId) {
+  const since = calibrationStart(plan);
+  const perfs = performances(history, sessionType, exId)
+    .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
+  const recent = perfs.slice(-4);
+  if (!recent.length) return null;
+  const tops = recent.map((p) => ({ date: p.entry.date, ...(topSet(p.ex.sets) ?? { weight: 0, reps: 0 }) }));
+  const weight = Math.max(...tops.map((t) => t.weight));
+  const at = tops.filter((t) => t.weight === weight);
+  return { weight, sessions: at.length, dates: at.map((t) => t.date), lastDate: tops[tops.length - 1].date };
+}
+
 // ——— PR detection ———
 
 export function isPR(history, exId, weight, reps) {
