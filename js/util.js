@@ -50,19 +50,27 @@ export function weekKey(iso) {
   return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
 }
 
-// How long a night ran. Prefer the wall clock from the draft's birth; fall
-// back to the span between the first and last logged set. A draft resumed
-// days later (>6h) would lie about the night, so it defers to the set span
-// when one exists. Never returns 0 — a logged night took at least a minute.
+// How long a night ran: the WORKING WINDOW, first logged set to last. That is
+// the only span the app actually measures, and it is the same window the
+// results card's "typical set — work · rest" line already reports over.
+//
+// `startedAt` is when the session card was OPENED, which is not when the
+// lifting started — he browses the night at lunch and lifts at four. Two
+// releases in a row preferred it and printed a wall-clock lie: "1505 minutes
+// in the world" for a resumed draft, then 274 minutes for a 49-minute Legs B
+// on 2026-07-30 (card opened 12:23 PM, first set 4:08 PM, last set 4:56 PM).
+// A 6-hour ceiling was bolted on after the first one and sailed straight past
+// the second, because 274 < 360. The ceiling was never the bug — preferring
+// the draft's birth was. `startedAt` is now ignored entirely.
+//
+// Returns null when there is nothing to measure (fewer than two timestamped
+// sets, or a span so wide it is a resumed draft rather than a night). The
+// card prints "—" instead of inventing a number.
 export function sessionMins(startedAt, ats, end = Date.now()) {
-  const raw = ats.length > 1 ? Math.max(1, Math.round((Math.max(...ats) - Math.min(...ats)) / 60000)) : null;
-  // The span fallback needs the SAME 6-hour ceiling the elapsed value has:
-  // resuming a two-day-old draft made the set timestamps span the gap, and
-  // the results card proudly reported "1505 minutes in the world".
-  const span = raw && raw <= 360 ? raw : null;
-  if (!startedAt) return span;
-  const m = Math.max(1, Math.round((end - startedAt) / 60000));
-  return m > 360 ? span : m;
+  const stamps = (ats ?? []).filter((t) => Number.isFinite(t));
+  if (stamps.length < 2) return null;
+  const span = Math.round((Math.max(...stamps) - Math.min(...stamps)) / 60000);
+  return span > 360 ? null : Math.max(1, span);
 }
 
 // Map a raw GitHub error onto a sentence a human can act on — the toast must

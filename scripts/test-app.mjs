@@ -77,26 +77,31 @@ await ok('restWorkStats returns null when too few sets carry the bell', () => {
   ] }];
   assert.equal(restWorkStats(bad), null); // only 1 valid split left → null
 });
-await ok('sessionMins: wall clock, span fallback, and the resumed-draft guard', () => {
+await ok('sessionMins: the night is the set span, and startedAt is ignored', () => {
   const t0 = 1_000_000_000_000;
-  // (a) startedAt-based rounding with the 1-minute floor
-  assert.equal(sessionMins(t0, [], t0 + 10_000), 1);
-  assert.equal(sessionMins(t0, [t0 + 5000], t0 + 62 * 60000), 62);
-  // (b) no startedAt + ≥2 set timestamps → span between first and last set
+  // (a) THE 2026-07-30 REGRESSION. He opened Legs B at 12:23 PM and lifted
+  // 4:08–4:56 PM. The card said "274 minutes in the world" for a 49-minute
+  // workout, because sessionMins PREFERRED elapsed-since-draft-birth and only
+  // fell back to the span above a 6-hour ceiling — and 274 < 360. The ceiling
+  // was never the bug; preferring the draft's birth was. startedAt is now
+  // ignored outright, so opening the card early cannot inflate the night.
+  const opened = t0, first = t0 + 225 * 60000, last = t0 + 274 * 60000;
+  assert.equal(sessionMins(opened, [first, last], last), 49);
+  // ...and the same log with no startedAt at all must give the same answer.
+  assert.equal(sessionMins(null, [first, last], last), 49);
+  // (b) ≥2 set timestamps → span between first and last, with a 1-min floor
   assert.equal(sessionMins(null, [t0, t0 + 45 * 60000]), 45);
-  assert.equal(sessionMins(null, [t0, t0 + 20_000]), 1); // short span floors to 1
-  // (c) no startedAt + <2 timestamps → unknowable
+  assert.equal(sessionMins(null, [t0, t0 + 20_000]), 1);
+  // (c) <2 timestamps → unknowable, whatever startedAt or the clock claim.
+  // Both of these used to return a wall-clock number (1 and 62); each was a
+  // duration the app could not measure and asserted as fact anyway.
   assert.equal(sessionMins(null, []), null);
   assert.equal(sessionMins(null, [t0]), null);
-  // (d) >6h elapsed WITH a valid span → the stale resumed draft defers to the span
-  assert.equal(sessionMins(t0, [t0 + 60000, t0 + 50 * 60000], t0 + 26 * 3600000), 49);
-  // (e) >6h elapsed with no usable span → UNKNOWN, not a 7-hour workout.
-  // This assertion used to expect 420 and was itself the bug: a draft left
-  // open overnight reported "420 minutes in the world" as fact. The ceiling
-  // now applies to the span fallback too, so an unknowable duration is
-  // reported as unknown (the results card renders "—").
+  assert.equal(sessionMins(t0, [], t0 + 10_000), null);
+  assert.equal(sessionMins(t0, [t0 + 5000], t0 + 62 * 60000), null);
+  // (d) a span wider than 6h is a resumed draft, not a night → unknown.
+  // (This assertion also once expected 420 and was itself the bug.)
   assert.equal(sessionMins(t0, [t0], t0 + 7 * 3600000), null);
-  // ...and a span that crosses a resume gap is rejected the same way
   assert.equal(sessionMins(t0, [t0, t0 + 25 * 3600000], t0 + 26 * 3600000), null);
 });
 

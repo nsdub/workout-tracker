@@ -754,6 +754,34 @@ ok('volume, swap, reorder and add all apply — and a bogus one is ignored, not 
   const bad = E.effectivePlan(plan, [acc(prop({ kind: 'swap', exercise: 'leg-curl', scope: 'LegsB', replacement: 'nordic-ham-curl' }))]);
   assert.deepEqual(bad.sessions.LegsB.exercises.map((x) => x.id), plan.sessions.LegsB.exercises.map((x) => x.id));
 });
+ok('a swap never carries the old slot\'s reps or units onto the new movement', () => {
+  // THE 2026-07-30 REGRESSION. Plank → Hanging Leg Raise was accepted on
+  // 2026-07-22. The swap spread the plank's slot ({repMin/repMax: 60,
+  // repUnit: 'sec'}) and changed only the id, so the app prescribed "Hanging
+  // Leg Raise 2 × 60 sec" — a rep exercise in stopwatch units, five times
+  // the hardest set in his log. The replacement's own prescription wins.
+  const sw = E.effectivePlan(plan, [acc(prop({ kind: 'swap', exercise: 'plank', scope: 'LegsB', replacement: 'hanging-leg-raise' }))]);
+  const slot = sw.sessions.LegsB.exercises.find((x) => x.id === 'hanging-leg-raise');
+  const native = E.nativeSlot(plan, 'hanging-leg-raise');
+  assert.equal(slot.repUnit, undefined, 'a rep movement must not inherit repUnit "sec" from a timed slot');
+  assert.equal(slot.repMin, native.repMin, 'reps come from the movement\'s own prescription in the plan');
+  assert.equal(slot.repMax, native.repMax);
+  assert.equal(slot.sets, plan.sessions.LegsB.exercises.find((x) => x.id === 'plank').sets,
+    'set count belongs to the SLOT — a swap must not silently add or drop volume');
+  // The trainer may reallocate explicitly, and then its slot wins outright.
+  const explicit = E.effectivePlan(plan, [acc(prop({
+    kind: 'swap', exercise: 'plank', scope: 'LegsB', replacement: 'hanging-leg-raise',
+    slot: { sets: 3, repMin: 8, repMax: 10, rest: 90 },
+  }))]);
+  const e2 = explicit.sessions.LegsB.exercises.find((x) => x.id === 'hanging-leg-raise');
+  assert.deepEqual([e2.sets, e2.repMin, e2.repMax, e2.rest], [3, 8, 10, 90]);
+  // A swap that crosses the timed boundary with no shape to adopt is dropped
+  // rather than guessed at — the same rule as an unknown replacement.
+  const noShape = { ...plan, exercises: { ...plan.exercises, 'wall-sit': { name: 'Wall Sit', bodyweight: true, timed: true, role: 'core' } } };
+  const dropped = E.effectivePlan(noShape, [acc(prop({ kind: 'swap', exercise: 'cable-crunch', scope: 'LegsB', replacement: 'wall-sit' }))]);
+  assert.equal(dropped.sessions.LegsB.exercises.some((x) => x.id === 'wall-sit'), false,
+    'no native slot + crosses timed boundary + no explicit slot → drop, never guess the units');
+});
 ok('an accepted KEEP retracts an earlier accepted change on that slot', () => {
   // the face-pull case: a removal was accepted on bad evidence, a later audit
   // overturned it. Accepting the keep must restore the slot without the

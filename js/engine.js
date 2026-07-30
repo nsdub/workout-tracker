@@ -115,6 +115,18 @@ export function proposalId(p) {
   return `${p.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
 }
 
+// A movement's own prescription where the signed plan already defines it, so
+// a swap can adopt the replacement's real reps and units instead of wearing
+// the outgoing slot's. Always reads the ORIGINAL plan, never the overlay
+// being built, so the answer doesn't depend on decision order.
+export function nativeSlot(plan, id) {
+  for (const s of Object.values(plan.sessions)) {
+    const hit = s.exercises.find((x) => x.id === id);
+    if (hit) return hit;
+  }
+  return null;
+}
+
 // Accepted decisions, newest-wins, applied to the session templates.
 export function effectivePlan(plan, decisions = []) {
   const accepted = [];
@@ -145,10 +157,34 @@ export function effectivePlan(plan, decisions = []) {
       } else if (p.kind === 'volume') {
         if (i !== -1 && p.sets > 0) list[i] = { ...list[i], sets: Math.round(p.sets) };
       } else if (p.kind === 'swap') {
-        // keep the slot's shape, change the movement — the replacement must
-        // be a real exercise or the swap is ignored rather than guessed at
+        // Keep the slot's POSITION and set count, change the movement — but
+        // NEVER carry the old slot's reps or units onto the new one. The
+        // plank slot is `repMin/repMax: 60, repUnit: 'sec'`; spreading that
+        // onto a rep movement is how the app prescribed "Hanging Leg Raise
+        // 2 × 60 sec" on 2026-07-30 — a timed hold five times longer than
+        // the hardest set he had ever logged, for an exercise measured in
+        // reps. The replacement's own shape wins: the proposal's explicit
+        // `slot` first (the trainer's call), else the movement's real
+        // prescription elsewhere in the signed plan. If the swap crosses the
+        // timed/untimed boundary and neither is available, it is dropped
+        // rather than guessed at — same rule as an unknown replacement.
         if (i !== -1 && p.replacement && plan.exercises[p.replacement]) {
-          list[i] = { ...list[i], id: p.replacement, seed: null, seedNote: `Swapped in for ${exMeta(plan, p.exercise).name} — set your working weight` };
+          const shape = p.slot ?? nativeSlot(plan, p.replacement);
+          const crosses = !!plan.exercises[p.exercise]?.timed !== !!plan.exercises[p.replacement]?.timed;
+          if (shape || !crosses) {
+            const slot = { ...list[i], id: p.replacement, seed: null, seedNote: `Swapped in for ${exMeta(plan, p.exercise).name} — set your working weight` };
+            if (shape) {
+              // sets stay with the SLOT (the program's volume for this
+              // position) unless the proposal explicitly reallocates it.
+              if (p.slot?.sets > 0) slot.sets = Math.round(p.slot.sets);
+              if (shape.repMin > 0) slot.repMin = Math.round(shape.repMin);
+              if (shape.repMax >= shape.repMin) slot.repMax = Math.round(shape.repMax);
+              if (shape.rest > 0) slot.rest = shape.rest;
+              if (shape.repUnit) slot.repUnit = shape.repUnit;
+              else delete slot.repUnit;
+            }
+            list[i] = slot;
+          }
         }
       } else if (p.kind === 'reprange') {
         // Change what a slot ASKS FOR without touching the movement — e.g.
