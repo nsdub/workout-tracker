@@ -13,7 +13,13 @@ import * as E from '../js/engine.js';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pktPath = process.argv[2] ?? join(root, 'data/coach/latest.json');
 const today = process.argv[3] ?? new Date().toLocaleDateString('sv-SE');
-const plan = JSON.parse(readFileSync(join(root, 'data/plan.json'), 'utf8'));
+// Validate against the program he ACTUALLY RUNS. Accepted structural
+// decisions are an overlay on plan.json, so checking the signed baseline
+// passed a packet that prescribed leg-extension on a Legs B slot removed on
+// 2026-07-22, while the lift that replaced it got no prescription at all.
+const signed = JSON.parse(readFileSync(join(root, 'data/plan.json'), 'utf8'));
+const decisions = JSON.parse(readFileSync(join(root, 'data/coach/decisions.json'), 'utf8'));
+const plan = E.effectivePlan(signed, decisions);
 const history = readdirSync(join(root, 'data/history'))
   .filter((f) => f.endsWith('.json'))
   .map((f) => JSON.parse(readFileSync(join(root, 'data/history', f), 'utf8')))
@@ -66,6 +72,72 @@ for (const o of pkt.overrides ?? []) {
   for (const s of o.sets ?? []) {
     if (!(s.weight > 0) || !Number.isFinite(s.weight)) fail(`override ${o.exercise}: bad weight ${s.weight}`);
     if (!(s.reps >= 1) || s.reps > (plan.rules?.validation?.maxReps ?? 30)) fail(`override ${o.exercise}: bad reps ${s.reps}`);
+  }
+}
+
+// ——— Structural proposals: the only way a trainer ask becomes answerable ———
+// The app renders `proposals[]` as Yes/No cards (js/views/plan.js) and records
+// the answer in decisions.json. Anything the panel writes as prose instead
+// lands in the briefing sheet, which has one button on it: Close. On
+// 2026-07-30 all three of the program seat's structure_proposals were
+// flattened into flags[] and the athlete had no way to answer any of them —
+// one had been re-asked daily for over a week. These gates make that
+// impossible: a dropped proposal, an inapplicable one, or one that silently
+// does nothing all fail the packet.
+const PROPOSAL_KINDS = ['add', 'remove', 'swap', 'volume', 'reorder', 'reprange', 'keep'];
+const bareId = (p) => `${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
+const decidedAlready = new Map(decisions.map((d) => [bareId(d.proposal ?? {}), d]));
+
+for (const p of pkt.proposals ?? []) {
+  const tag = `proposal ${p.kind}/${p.exercise}`;
+  if (!PROPOSAL_KINDS.includes(p.kind)) { fail(`${tag}: kind must be one of ${PROPOSAL_KINDS.join(' | ')}`); continue; }
+  if (!signed.exercises[p.exercise]) { fail(`${tag}: unknown exercise`); continue; }
+  if (typeof p.why !== 'string' || !p.why.trim()) fail(`${tag}: why is required — the card quotes it to the athlete`);
+  // SCOPE IS MANDATORY. `effectivePlan` treats a missing scope as EVERY
+  // session: the 2026-07-30 packet's unscoped `remove face-pulls` would have
+  // stripped them from all four days while its own note promised "cut them
+  // from both push days and keep them on Pull A and Pull B only".
+  if (!p.scope) fail(`${tag}: scope is required — without it this applies to EVERY session, which is almost never what the note says`);
+  else if (!plan.sessions[p.scope]) fail(`${tag}: scope "${p.scope}" is not a session`);
+  if (p.kind === 'swap') {
+    if (!p.replacement) fail(`${tag}: swap needs a replacement`);
+    else if (!signed.exercises[p.replacement]) fail(`${tag}: replacement "${p.replacement}" is not in the catalog`);
+    else if (!!signed.exercises[p.exercise]?.timed !== !!signed.exercises[p.replacement]?.timed
+             && !p.slot && !E.nativeSlot(signed, p.replacement)) {
+      fail(`${tag}: this swap crosses the timed/untimed boundary and neither the proposal nor the plan gives ${p.replacement} a shape — supply slot{sets,repMin,repMax} or the app cannot know its units`);
+    }
+  }
+  if (p.kind === 'add' && !(p.slot?.sets > 0)) fail(`${tag}: add needs slot{sets,repMin,repMax} — the trainer sets the prescription, not the athlete`);
+  if (p.kind === 'volume' && !(p.sets > 0)) fail(`${tag}: volume needs sets`);
+  if (p.kind === 'reorder' && !Number.isInteger(p.position)) fail(`${tag}: reorder needs an integer position`);
+  if (p.kind === 'reprange' && !(p.repMin > 0 && p.repMax >= p.repMin)) fail(`${tag}: reprange needs repMin/repMax`);
+  // Dry-run it. A proposal the athlete accepts and that then changes nothing
+  // is worse than no proposal: the app reports it as applied.
+  const before = E.effectivePlan(signed, decisions);
+  const after = E.effectivePlan(signed, [...decisions, { proposal: { ...p, date: p.date ?? pkt.date }, decision: 'accepted' }]);
+  if (JSON.stringify(before.sessions) === JSON.stringify(after.sessions)) {
+    fail(`${tag}: accepting this changes NOTHING — the app would show it as applied and the program would be identical`);
+  }
+  // Re-pitching is only a WARNING, never a failure: an accepted `keep` can
+  // retract an earlier accepted change (the face-pull reversal on 2026-07-22
+  // did exactly that), which makes re-proposing it legitimate. The dry-run
+  // above is the real gate — if the change is already in force it is a no-op
+  // and fails there.
+  const prior = decidedAlready.get(bareId(p));
+  if (prior) console.warn(`⚠ ${tag}: he already answered "${prior.decision}" to this on ${(prior.decided_at ?? '').slice(0, 10)} — re-raise it only if something retracted it since`);
+}
+
+// Every structural ask a seat raised must reach the athlete as an answerable
+// proposal. Prose in flags[] is a dead end.
+const panelDir = join(root, 'data/coach/panel');
+const seatFiles = readdirSync(panelDir).filter((f) => f.startsWith(`${pkt.date}-`) && f.endsWith('.json'));
+const carried = new Set((pkt.proposals ?? []).map(bareId));
+for (const f of seatFiles) {
+  const seat = JSON.parse(readFileSync(join(panelDir, f), 'utf8'));
+  for (const sp of seat.structure_proposals ?? []) {
+    if (!carried.has(bareId(sp))) {
+      fail(`${f}: the ${seat.role} seat proposed ${sp.kind}/${sp.exercise} but it is not in the packet's proposals[] — the athlete would see prose he cannot answer`);
+    }
   }
 }
 

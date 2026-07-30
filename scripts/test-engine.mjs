@@ -798,6 +798,40 @@ ok('an accepted KEEP retracts an earlier accepted change on that slot', () => {
   ]);
   assert.equal(other.sessions.PullB.exercises.some((x) => x.id === 'face-pulls'), false);
 });
+ok('a KEEP retracts what came before it — it is not a permanent veto on the slot', () => {
+  // THE 2026-07-30 REGRESSION. `keep` used to filter the whole accepted set
+  // with no notion of time, so the 2026-07-22 face-pull reversal blocked
+  // every LATER change to that slot forever: the panel could re-argue the
+  // case with new evidence, he could tap Yes, and nothing would move.
+  const at = (p, iso) => ({ proposal: p, decision: 'accepted', decided_at: iso });
+  const remove22 = prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PushA', date: '2026-07-22' });
+  const keep22 = prop({ kind: 'keep', exercise: 'face-pulls', scope: 'PushA', date: '2026-07-22' });
+  const remove30 = prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PushA', date: '2026-07-30' });
+  const ledger = [
+    at(remove22, '2026-07-22T19:12:56.901Z'),
+    at(keep22, '2026-07-22T20:24:44.214Z'),
+    at(remove30, '2026-07-30T18:00:00.000Z'),
+  ];
+  assert.equal(E.effectivePlan(plan, ledger).sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), false,
+    'a removal accepted AFTER the keep must apply — the keep only undid the one before it');
+  // ...and with the last one absent, the keep still restores the slot.
+  assert.equal(E.effectivePlan(plan, ledger.slice(0, 2)).sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), true);
+  // Replay follows decided_at, not array position: the same three decisions
+  // shuffled must produce the same program.
+  const shuffled = [ledger[2], ledger[0], ledger[1]];
+  assert.deepEqual(
+    E.effectivePlan(plan, shuffled).sessions.PushA.exercises.map((x) => x.id),
+    E.effectivePlan(plan, ledger).sessions.PushA.exercises.map((x) => x.id),
+    'a merged or re-ordered ledger must not change what the program is',
+  );
+  // An UNSTAMPED decision appended to a stamped ledger is the "what would
+  // accepting this do?" dry-run the validator runs. It must replay LAST, not
+  // first — otherwise the 07-22 keep cancels it and the validator reports a
+  // perfectly good proposal as a no-op.
+  const dryRun = [...ledger.slice(0, 2), { proposal: remove30, decision: 'accepted' }];
+  assert.equal(E.effectivePlan(plan, dryRun).sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), false,
+    'an undated decision holds its position in the ledger instead of jumping to the front');
+});
 ok('every exercise declares what it is FOR, and correctives are findable', () => {
   // purpose was unrepresentable in plan.json, which is why a reviewer could
   // price a 2-set joint-health movement as surplus rear-delt volume.

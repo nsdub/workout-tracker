@@ -127,22 +127,57 @@ export function nativeSlot(plan, id) {
   return null;
 }
 
-// Accepted decisions, newest-wins, applied to the session templates.
+// The athlete's answers, REPLAYED IN THE ORDER HE GAVE THEM, applied to the
+// session templates. decisions.json is an append-only ledger, so order is the
+// whole meaning: it is what makes a retraction say "undo what I said before"
+// instead of "veto this slot forever".
 export function effectivePlan(plan, decisions = []) {
-  const accepted = [];
-  const seen = new Map();
-  for (const d of decisions) {
-    if (!d?.proposal?.kind) continue;
-    seen.set(proposalId(d.proposal), d); // a later decision on the same proposal replaces the earlier
+  // Sort by when he actually answered. The previous version trusted array
+  // position for "newest wins", which is only correct if the file happens to
+  // be in chronological order — nothing guaranteed that, and a synced or
+  // merged ledger need not be. Ties (and pre-`decided_at` rows) keep their
+  // original order, so a hand-built list still replays as written.
+  // A row with no usable `decided_at` inherits the time of the row before it,
+  // so it holds its place instead of teleporting to the front of the ledger.
+  // Without that, appending an unstamped decision (a dry-run asking "what
+  // would accepting this do?") replays it BEFORE every dated row, and an old
+  // retraction cancels a change that was meant to happen after it.
+  let carried = 0;
+  const ordered = decisions
+    .map((d, i) => {
+      const parsed = Date.parse(d?.decided_at ?? '');
+      if (Number.isFinite(parsed)) carried = parsed;
+      return { d, i, t: carried };
+    })
+    .filter((x) => x.d?.proposal?.kind)
+    .sort((a, b) => (a.t - b.t) || (a.i - b.i))
+    .map((x) => x.d);
+  // A later decision on the SAME proposal replaces the earlier one — undo is
+  // just another decision.
+  const latest = new Map();
+  for (const d of ordered) latest.set(proposalId(d.proposal), d);
+
+  const slotKey = (p) => `${p.exercise}:${p.scope ?? null}`;
+  const live = [];
+  for (const d of ordered) {
+    if (latest.get(proposalId(d.proposal)) !== d || d.decision !== 'accepted') continue;
+    const p = d.proposal;
+    // A `keep` is a RETRACTION: the trainers changed their mind, or a later
+    // audit overturned an earlier call, and accepting it undoes that call
+    // without the athlete hunting down the original. It cancels only what he
+    // had accepted BEFORE it, on that exercise+scope.
+    //
+    // It is NOT a permanent veto. Treating it as one — filtering the whole
+    // accepted set, with no notion of time — meant the 2026-07-22 face-pull
+    // reversal silently blocked every future change to that slot: the panel
+    // could re-argue the case with new evidence, he could tap Yes, and the
+    // program would not move. Nothing surfaced the no-op.
+    if (p.kind === 'keep') {
+      for (let i = live.length - 1; i >= 0; i--) if (slotKey(live[i]) === slotKey(p)) live.splice(i, 1);
+      continue;
+    }
+    live.push(p);
   }
-  for (const d of seen.values()) if (d.decision === 'accepted') accepted.push(d.proposal);
-  // A `keep` is a RETRACTION: the trainers changed their mind, or a later
-  // review overturned an earlier one. Accepting it cancels every other
-  // accepted change on that exercise+scope, so the athlete doesn't have to
-  // find and un-accept the original to undo a call that was wrong.
-  const kept = accepted.filter((p) => p.kind === 'keep');
-  const live = accepted.filter((p) => p.kind !== 'keep'
-    && !kept.some((k) => k.exercise === p.exercise && (k.scope ?? null) === (p.scope ?? null)));
   if (!live.length) return plan;
 
   const next = { ...plan, sessions: Object.fromEntries(Object.entries(plan.sessions).map(([k, s]) => [k, { ...s, exercises: [...s.exercises] }])) };

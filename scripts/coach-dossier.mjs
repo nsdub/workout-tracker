@@ -10,7 +10,15 @@ import { fileURLToPath } from 'node:url';
 import * as E from '../js/engine.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const plan = JSON.parse(readFileSync(join(root, 'data/plan.json'), 'utf8'));
+// The panel must see the program the athlete ACTUALLY RUNS, not the signed
+// baseline. Accepted structural decisions live as an overlay in
+// decisions.json, so plan.json alone is a program he stopped running weeks
+// ago. Reading it raw is why the 2026-07-30 review prescribed leg-extension
+// on Legs B (removed 2026-07-22) and pitched a plank→hanging-leg-raise swap
+// he had already accepted on 2026-07-22.
+const signed = JSON.parse(readFileSync(join(root, 'data/plan.json'), 'utf8'));
+const decisions = JSON.parse(readFileSync(join(root, 'data/coach/decisions.json'), 'utf8'));
+const plan = E.effectivePlan(signed, decisions);
 const history = readdirSync(join(root, 'data/history'))
   .filter((f) => f.endsWith('.json'))
   .map((f) => JSON.parse(readFileSync(join(root, 'data/history', f), 'utf8')))
