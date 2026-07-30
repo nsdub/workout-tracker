@@ -1,0 +1,164 @@
+{
+  "date": "2026-07-30",
+  "session_type": "LegsB",
+  "phase": "meso1",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1785442083295
+        },
+        {
+          "weight": 185,
+          "reps": 9,
+          "at": 1785442239819
+        },
+        {
+          "weight": 205,
+          "reps": 9,
+          "at": 1785442430391,
+          "restEndedAt": 1785442419830
+        },
+        {
+          "weight": 205,
+          "reps": 9,
+          "at": 1785442691082,
+          "restEndedAt": 1785442610409
+        }
+      ]
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 12,
+          "at": 1785442857801
+        },
+        {
+          "weight": 160,
+          "reps": 12,
+          "at": 1785443022485
+        },
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1785443296843,
+          "restEndedAt": 1785443202496
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 11,
+          "at": 1785443522839,
+          "restEndedAt": 1785443476857
+        },
+        {
+          "weight": 135,
+          "reps": 11,
+          "at": 1785443645904
+        },
+        {
+          "weight": 135,
+          "reps": 11,
+          "at": 1785443780160,
+          "restEndedAt": 1785443735917
+        },
+        {
+          "weight": 135,
+          "reps": 12,
+          "at": 1785443925692,
+          "restEndedAt": 1785443870170
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1785444409665,
+          "restEndedAt": 1785444358238
+        },
+        {
+          "weight": 280,
+          "reps": 13,
+          "at": 1785444517454,
+          "restEndedAt": 1785444484678
+        },
+        {
+          "weight": 280,
+          "reps": 13,
+          "at": 1785444644715,
+          "restEndedAt": 1785444592465
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1785444765127,
+          "restEndedAt": 1785444719726
+        }
+      ],
+      "note": "Why four sets"
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 14,
+          "at": 1785444067490,
+          "restEndedAt": 1785444015703
+        },
+        {
+          "weight": 55,
+          "reps": 13,
+          "at": 1785444180569,
+          "restEndedAt": 1785444127532
+        },
+        {
+          "weight": 55,
+          "reps": 13,
+          "at": 1785444298229,
+          "restEndedAt": 1785444240580
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785444884983,
+          "restEndedAt": 1785444840161
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785444994376,
+          "restEndedAt": 1785444945001
+        }
+      ],
+      "note": "What the fuck..why did you put this in terms of seconds"
+    }
+  ],
+  "world": "apresski",
+  "mins": 274,
+  "startedAt": 1785428588718
+}
