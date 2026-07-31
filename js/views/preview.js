@@ -19,23 +19,59 @@ const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 
 
 const joinList = (a) => (a.length <= 1 ? (a[0] ?? '') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`);
 const setList = (n) => (n.length === 1 ? `set ${n[0]}` : `sets ${joinList(n)}`);
+// Last visit's sets, aligned to the prescribed ones: a trimmed night keeps its
+// TAIL, so prescribed set 1 is last visit's set 2.
+const alignPrev = (x) => {
+  const prevSets = (x.last ?? x.prev)?.sets;
+  if (!Array.isArray(prevSets) || !prevSets.length || !x.sets?.length) return null;
+  const off = Math.max(0, prevSets.length - x.sets.length);
+  return { prevSets, at: (i) => prevSets[i + off] ?? null };
+};
+
+// Any set where the card asks for FEWER reps than he already did, because he
+// went past the top of the range. The number shrinking on screen is the thing
+// he sees; the reason is not, unless it is written down.
+function beatTheRange(x) {
+  const a = alignPrev(x);
+  if (!a || x.repUnit === 'sec') return '';
+  const over = [];
+  for (let i = 0; i < x.sets.length; i++) {
+    const was = a.at(i);
+    if (was && (was.reps ?? 0) > (x.sets[i]?.reps ?? 0) && (was.reps ?? 0) > x.repMax) {
+      over.push({ n: i + 1, reps: was.reps });
+    }
+  }
+  if (!over.length) return '';
+  const which = joinList(over.map((o) => `set ${o.n} (<span class="num">${o.reps}</span>)`));
+  return ` You were already past the top of the range on ${which} — it's the other sets holding the raise back.`;
+}
+
+// A held weight is kept exactly as logged, which means it can sit off the grid
+// the app has for that machine. Say so on the card: either the gear model in
+// the plan is missing a micro plate, or the entry is wrong, and only he can
+// settle which. Silence here is what let 15.5 turn into 15 for weeks.
+function offGrid(x) {
+  if (!x.grid?.length || !x.sets?.length) return '';
+  const odd = [...new Set(x.sets.map((s) => s.weight).filter((w) => w > 0
+    && !x.grid.some((v) => Math.abs(v - w) < 1e-9)))];
+  if (!odd.length) return '';
+  const one = odd.length === 1;
+  return ` <span class="adj"><span class="num">${joinList(odd.map((w) => fmtW(w)))}</span> ${one ? "isn't" : "aren't"} on this machine’s grid as the app has it — kept because you logged ${one ? 'it' : 'them'}. If the machine really loads ${one ? 'it' : 'them'}, the grid is what’s wrong.</span>`;
+}
 
 // What the prescription did to last visit's WEIGHTS, in the athlete's words.
 // Works off the SAME two things the user can see: the sets on the card and
 // the sets on the LAST line. If they match, there is nothing to explain.
 function repeatDeltas(x) {
-  const prevSets = (x.last ?? x.prev)?.sets;
-  if (!Array.isArray(prevSets) || !prevSets.length || !x.sets?.length) return [];
+  const a = alignPrev(x);
+  if (!a) return [];
+  const { prevSets } = a;
   const out = [];
   const raised = [];
   const dropped = [];
-  // A trimmed night keeps its TAIL, so prescribed set 1 is last visit's set 2.
-  // Comparing index-to-index across that shift reported "set 1 brought up
-  // 260 → 280" on a card where nothing had been brought up at all.
-  const off = Math.max(0, prevSets.length - x.sets.length);
   for (let i = 0; i < Math.min(x.sets.length, prevSets.length); i++) {
     const now = x.sets[i]?.weight ?? 0;
-    const was = prevSets[i + off]?.weight ?? 0;
+    const was = a.at(i)?.weight ?? 0;
     if (now > was) raised.push(i + 1);
     else if (now < was) dropped.push(i + 1);
   }
@@ -96,9 +132,10 @@ export const BASIS = {
     // "Same weights as Jul 23, all three sets snapped down" contradicts itself
     // inside one sentence — the moment anything moved, the lead has to be
     // "built from", not "same as".
-    return changes.length
-      ? `Built from this day’s last visit${src}, ${joinList(changes)}.${tail}`
-      : `Same weights as this day’s last visit${src}.${tail}`;
+    const lead = changes.length
+      ? `Built from this day’s last visit${src}, ${joinList(changes)}.`
+      : `Same weights as this day’s last visit${src}.`;
+    return `${lead}${tail}${beatTheRange(x)}${offGrid(x)}`;
   },
   // States the weight the card ACTUALLY prefills (topRx), not the raw
   // cross-day number — those differ whenever the pin snap moves it, and

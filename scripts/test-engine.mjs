@@ -506,13 +506,26 @@ ok('every weight prescribed for a laddered lift is a loadable pin (full sweep)',
     }
   }
 });
-ok('repeat of an off-pin logged weight snaps to the nearest real pin', () => {
+ok('a HELD off-pin weight is kept, never snapped down below what was lifted', () => {
+  // The ladder is the app's MODEL of the machine; the log is what he actually
+  // loaded. Snapping a repeat to "the nearest real pin" handed back less than
+  // he lifted on eleven live sets (15.5 → 15, 10.5 → 10, 60.5 → 60) under a
+  // sentence claiming the night was being repeated.
   const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
-    { weight: 24, reps: 14 }, { weight: 24, reps: 15 }, // 24 does not exist on this stack
+    { weight: 24, reps: 14 }, { weight: 24, reps: 14 }, // 24 is not on the modelled stack
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), meso);
   assert.equal(rx.basis, 'repeat');
-  assert.equal(rx.sets[0].weight, 23.75); // snaps down to the nearest real pin
+  assert.equal(rx.sets[0].weight, 24);
+});
+ok('a COMPUTED weight still lands on a real pin — climbing off-pin never skips one', () => {
+  const s = slot('PushA', 'face-pulls');
+  const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
+    { weight: 24, reps: s.repMax }, { weight: 24, reps: s.repMax },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushA', s, meso);
+  assert.equal(rx.basis, 'progress');
+  assert.equal(rx.sets[0].weight, 25); // the first REAL pin above 24
 });
 ok('at the top of the stack the weight holds AND the earned reps hold', () => {
   const h = [...history, mkEntry('2026-07-22', 'PullA', 'cable-hammer-curl', mkSets(100, 12, 3))];

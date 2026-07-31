@@ -935,6 +935,24 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
           || r.sets.length !== prev.length;
         assert.equal(moved, /brought up|snapped down|padded|cut to/.test(why),
           `${type}/${r.id}: weights ${moved ? 'moved but the card is silent' : 'held but the card claims a change'} — ${why}`);
+        // 4. A held weight NEVER goes backwards. The ladder is the app's model
+        //    of the machine; the log is what he actually loaded, and the model
+        //    was quietly overruling it downward on eleven sets.
+        r.sets.forEach((s, i) => {
+          const was = prev[i + off];
+          if (was) {
+            assert.ok((s.weight ?? 0) >= (was.weight ?? 0),
+              `${type}/${r.id} set ${i + 1}: card asks ${s.weight} lb, he already lifted ${was.weight}`);
+          }
+        });
+        // 5. A rep ask BELOW what he logged only happens when he went past the
+        //    top of the range — and the card has to say so, or the number just
+        //    shrinks on screen for no visible reason.
+        const under = r.sets.some((s, i) => prev[i + off] && (prev[i + off].reps ?? 0) > s.reps);
+        if (under) {
+          assert.match(why, /past the top of the range/,
+            `${type}/${r.id}: asks for fewer reps than logged with no explanation — ${why}`);
+        }
       }
     }
   }
