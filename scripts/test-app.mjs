@@ -886,4 +886,59 @@ await ok('a conditioning session and a same-day lift both persist (distinct path
   assert.equal(store.history.find((e) => e.session_type === 'LegsA').exercises[0].sets[0].weight, 200);
 });
 
+// ——— The card's own sentences, against the real plan and the real log ———
+// The failure this guards is the one that has burned this repo twice: a number
+// on screen and a sentence underneath it describing something else. It renders
+// the ACTUAL BASIS copy for every lift of every session and reads it back.
+await ok('no card claims a repeat it did not make, and none asks for reps its own note contradicts', async () => {
+  globalThis.document ??= {
+    addEventListener() {}, querySelector: () => null,
+    documentElement: { dataset: {}, style: { setProperty() {} }, classList: { add() {}, remove() {} } },
+    body: { classList: { add() {}, remove() {} } },
+    createElement: () => ({ style: {}, classList: { add() {}, remove() {} }, appendChild() {}, addEventListener() {}, remove() {} }),
+  };
+  globalThis.window ??= { addEventListener() {}, matchMedia: () => ({ matches: false, addEventListener() {} }) };
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const E = await import('../js/engine.js');
+  const { BASIS } = await import('../js/views/preview.js');
+  const read = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
+  const plan = E.effectivePlan(read('data/plan.json'), read('data/coach/decisions.json'));
+  // The REAL log, not the seed bundle — the bundle stops in February, so a
+  // sweep over it renders seed cards and never reaches the repeat path where
+  // every one of these failures lived.
+  const history = readdirSync(new URL('../data/history', import.meta.url))
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => read(`data/history/${f}`))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const phaseInfo = E.phaseForDate(plan, '2026-07-31');
+  store.plan = plan; // the copy names other days through the store, as the app does
+  let rows = 0;
+  for (const type of plan.rotation) {
+    for (const r of E.previewSession(plan, history, type, phaseInfo, null)) {
+      rows++;
+      const why = (BASIS[r.basis]?.(r) ?? '').replace(/<[^>]+>/g, '');
+      assert.ok(why, `${type}/${r.id}: no sentence at all`);
+      // 1. The rep ask IS the trigger. A held weight that asks for less than
+      //    repMax makes its own "hit N and the app raises this" unreachable.
+      if (r.basis === 'repeat' && !r.bodyweight) {
+        assert.ok(r.sets.every((s) => s.reps === r.repMax),
+          `${type}/${r.id}: card asks ${r.sets.map((s) => s.reps).join('/')} reps but its note demands ${r.repMax}`);
+      }
+      // 2. "Exactly" is a claim about numbers the user can see. It was being
+      //    printed over sets that had been snapped, padded, trimmed or clamped.
+      assert.ok(!/exactly/i.test(why), `${type}/${r.id}: still claims "exactly" — ${why}`);
+      // 3. Every weight that moved off the LAST strip is accounted for in words.
+      if (r.basis === 'repeat' && r.last?.sets?.length) {
+        const prev = r.last.sets;
+        const off = Math.max(0, prev.length - r.sets.length);
+        const moved = r.sets.some((s, i) => (s.weight ?? 0) !== (prev[i + off]?.weight ?? 0))
+          || r.sets.length !== prev.length;
+        assert.equal(moved, /brought up|snapped down|padded|cut to/.test(why),
+          `${type}/${r.id}: weights ${moved ? 'moved but the card is silent' : 'held but the card claims a change'} — ${why}`);
+      }
+    }
+  }
+  assert.ok(rows > 30, `only ${rows} rows rendered — the sweep is not reaching the plan`);
+});
+
 console.log(`\n${n} app tests passed`);

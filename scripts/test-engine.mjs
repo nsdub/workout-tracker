@@ -123,14 +123,39 @@ ok('incomplete session never triggers progression', () => {
   assert.equal(rx.basis, 'repeat');
   assert.equal(rx.sets[0].weight, 195);
 });
-ok('short of top reps → repeat weight, keep reps', () => {
+ok('short of top reps → hold the weight, ask for the top of the range', () => {
   const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
     { weight: 195, reps: 10 }, { weight: 195, reps: 9 }, { weight: 195, reps: 8 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'repeat');
   assert.equal(rx.sets[0].weight, 195);
-  assert.equal(rx.sets[2].reps, 8);
+  // The card used to echo 10/9/8 back while its own note demanded 10 on every
+  // set — obeying the prescription made the promised raise unreachable.
+  assert.deepEqual(rx.sets.map((s) => s.reps), [10, 10, 10]);
+});
+ok('a night longer than the plan keeps the WORKING sets, not the warm-ups', () => {
+  // LegsA leg-extension is a 2-set slot; he logged 142.5/142.5/150. Taking the
+  // first two retired the 150 he had already lifted, under a sentence claiming
+  // the night carried over. Same rule the deload branch already follows.
+  const s = slot('LegsA', 'leg-extension');
+  const logged = Array.from({ length: s.sets + 1 }, (_, i) => ({ weight: i === s.sets ? 150 : 142.5, reps: 12 }));
+  const rx = E.prescribe(plan, [...history, mkEntry('2026-07-26', 'LegsA', 'leg-extension', logged)], 'LegsA', s, meso);
+  assert.equal(rx.sets.length, s.sets);
+  assert.equal(rx.sets[rx.sets.length - 1].weight, 150); // the top set survives the cut
+  assert.equal(rx.sets[0].weight, 142.5);
+});
+ok('the held-weight rep ask is exactly what progressionMet tests for', () => {
+  const s = slot('PushA', 'machine-chest-press');
+  const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
+    { weight: 195, reps: 9 }, { weight: 195, reps: 9 }, { weight: 195, reps: 9 },
+  ])];
+  const rx = E.prescribe(plan, h, 'PushA', s, meso);
+  // Log the prescription verbatim and the very next call must progress.
+  const done = rx.sets.map((q) => ({ weight: q.weight, reps: q.reps }));
+  assert.equal(E.progressionMet(done, s.repMax), true);
+  const next = E.prescribe(plan, [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', done)], 'PushA', s, meso);
+  assert.equal(next.basis, 'progress');
 });
 ok('pyramid weights progress per set', () => {
   const h = [...history, mkEntry('2026-07-21', 'PullA', 'deadlift', [
@@ -558,7 +583,10 @@ ok('one night’s mid-set dip is never echoed back as a target (30/37.5/30 → 3
   ])];
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'straight-arm-pulldown'), meso);
   assert.deepEqual(rx.sets.map((s) => s.weight), [30, 37.5, 37.5]);
-  assert.deepEqual(rx.sets.map((s) => s.reps), [13, 12, 12]);
+  // Weights carry over from the night; the rep ask does not — a held weight
+  // always asks for the top of the range, because that is the only thing that
+  // earns the raise the card promises.
+  assert.deepEqual(rx.sets.map((s) => s.reps), [15, 15, 15]);
 });
 
 // ——— Cross-day progression: overlap days share their evidence ———

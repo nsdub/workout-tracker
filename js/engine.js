@@ -637,14 +637,32 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   // weight it never touched — it climbs one honest jump from where it stands.
   const seedEarned = fromCalibration && slot.seed != null && prevTop != null
     && prevTop >= backoffInfo(slot.seed, lastPhase?.loadFactor ?? 0.9, inc, ladder).weight;
+  // THE ASK, not the memory of last time. While the weight is held, the ONLY
+  // thing that earns the raise is repMax on every set — that is exactly what
+  // progressionMet tests, and exactly what the card's own sentence promises
+  // ("hit 12 reps on every set and the app raises this lift next time").
+  // Copying last visit's reps forward put "×10" on screen underneath that
+  // sentence, and an athlete who obeyed the card to the letter could never
+  // trigger the progression the same card was promising him. Prep is the one
+  // exception: it holds by design and its card says matching last time IS the
+  // win, so prep alone keeps last visit's reps.
+  const askReps = (src) => (phase?.type === 'prep'
+    ? clamp(src.reps, slot.repMin, slot.repMax)
+    : slot.repMax);
+  // When the night ran LONGER than the plan asks for, the sets that survive
+  // into the prescription are the working ones. Indexing a ramp from the front
+  // kept the warm-ups and threw the top set away — a 142.5/142.5/150 night
+  // came back as two sets of 142.5, quietly retiring a weight he had already
+  // pressed. The deload branch already takes the tail for exactly this reason.
+  const off = Math.max(0, prev.length - nSets);
   const sets = Array.from({ length: nSets }, (_, i) => {
-    const src = prev[Math.min(i, prev.length - 1)];
+    const src = prev[Math.min(i + off, prev.length - 1)];
     // A set saved without a weight is an anomaly, not a rung to climb from:
     // adding an increment to 0 invents a 7.5 lb "working set", and a ladder
     // step from 0 lands on the lightest pin. Same rule applyCross already
     // uses — leave the anomaly exactly where it is.
-    if (!(src.weight > 0)) return { weight: src.weight, reps: clamp(src.reps, slot.repMin, slot.repMax) };
-    if (!grow) return { weight: snapRx(src.weight), reps: clamp(src.reps, slot.repMin, slot.repMax) };
+    if (!(src.weight > 0)) return { weight: src.weight, reps: grow ? slot.repMin : askReps(src) };
+    if (!grow) return { weight: snapRx(src.weight), reps: askReps(src) };
     // On a ladder the "+increment" is the next real pin. At the very top of
     // the stack there is no raise to give — hold the weight AND the earned
     // reps; resetting to repMin would trade 12s for a raise that doesn't exist.

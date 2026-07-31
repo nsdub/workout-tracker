@@ -12,10 +12,15 @@ import { UNIVERSES } from '../worlds.js';
 
 const repsWord = (x) => (x.repUnit === 'sec' ? 'seconds' : 'reps');
 const gridName = (x) => (x.grid ? 'your cable machine’s real pins' : `the ${x.inc} lb grid`);
-const dayName = (t) => store.plan?.sessions[t]?.name ?? t;
+// The `?.` has to reach `sessions` too — a cached plan without it (a partial
+// or failed load) turned a cross-day card into a thrown render, not a fallback.
+const dayName = (t) => store.plan?.sessions?.[t]?.name ?? t;
 const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0));
 
-// What the prescription did to last visit's sets, in the athlete's words.
+const joinList = (a) => (a.length <= 1 ? (a[0] ?? '') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`);
+const setList = (n) => (n.length === 1 ? `set ${n[0]}` : `sets ${joinList(n)}`);
+
+// What the prescription did to last visit's WEIGHTS, in the athlete's words.
 // Works off the SAME two things the user can see: the sets on the card and
 // the sets on the LAST line. If they match, there is nothing to explain.
 function repeatDeltas(x) {
@@ -23,17 +28,34 @@ function repeatDeltas(x) {
   if (!Array.isArray(prevSets) || !prevSets.length || !x.sets?.length) return [];
   const out = [];
   const raised = [];
+  const dropped = [];
+  // A trimmed night keeps its TAIL, so prescribed set 1 is last visit's set 2.
+  // Comparing index-to-index across that shift reported "set 1 brought up
+  // 260 → 280" on a card where nothing had been brought up at all.
+  const off = Math.max(0, prevSets.length - x.sets.length);
   for (let i = 0; i < Math.min(x.sets.length, prevSets.length); i++) {
     const now = x.sets[i]?.weight ?? 0;
-    const was = prevSets[i]?.weight ?? 0;
+    const was = prevSets[i + off]?.weight ?? 0;
     if (now > was) raised.push(i + 1);
+    else if (now < was) dropped.push(i + 1);
   }
   if (raised.length) {
-    const which = raised.length === 1 ? `set ${raised[0]}` : `sets ${raised.join(' and ')}`;
-    out.push(`with ${which} brought up so the night never steps backwards`);
+    out.push(`with ${setList(raised)} brought up so the night never steps backwards`);
+  }
+  // A held weight can only go DOWN by one route — the pin snap, because the
+  // number logged last time isn't loadable. Reporting only the rises printed
+  // "repeating last visit exactly" over a card showing 60 under a strip
+  // reading 60.5, which is the same wrong-number-on-screen failure twice.
+  if (dropped.length) {
+    out.push(`${setList(dropped)} snapped down to the nearest ${x.grid ? 'weight your machine can actually load' : `${fmtW(x.inc)} lb step`}`);
   }
   if (x.sets.length > prevSets.length) {
     out.push(`padded back to the planned ${x.sets.length} sets (you logged ${prevSets.length})`);
+  }
+  // The other direction was silent: a 3-set night against a 2-set slot showed
+  // two rows and a sentence claiming the night was carried over whole.
+  if (x.sets.length < prevSets.length) {
+    out.push(`cut to the planned ${x.sets.length} sets from the ${prevSets.length} you logged, keeping the heaviest`);
   }
   return out;
 }
@@ -59,17 +81,24 @@ export const BASIS = {
         ? ' (the next pin your machine can load)' : ''}</span> — you hit the top of the rep range on every set${x.srcDate ? ` on ${fmtDate(x.srcDate)}` : ' last time'}.`
     : `<span class="up">Top of the stack</span> — the machine can’t load more, so the weight holds at <span class="num">${fmtW(x.prevTop)}</span>. Keep owning the reps.`,
   // "Repeating" must only be said when it is TRUE. The engine reorders sets
-  // into performed order, never steps backwards mid-session, and pads a short
-  // night up to the planned set count — so the prescription frequently is NOT
-  // a copy. Saying so anyway put a sentence on screen that the numbers right
-  // above it contradicted (14 of 34 repeat rows in the live data).
+  // into performed order, never steps backwards mid-session, snaps to real
+  // pins, and pads a short night up to the planned set count — so the
+  // prescription frequently is NOT a copy. Saying so anyway put a sentence on
+  // screen that the numbers right above it contradicted (14 of 34 repeat rows
+  // in the live data). The claim is now scoped to the WEIGHTS, which is the
+  // only part that carries over: the reps are tonight's ask (repMax), and the
+  // tail states it as an instruction rather than leaving it to be read off a
+  // strip that used to say something else.
   repeat: (x) => {
     const changes = repeatDeltas(x);
     const src = x.srcDate ? ` (${fmtDate(x.srcDate)})` : '';
     const tail = ` Hit ${x.repMax} ${repsWord(x)} on every set tonight and the app raises this lift next time.`;
+    // "Same weights as Jul 23, all three sets snapped down" contradicts itself
+    // inside one sentence — the moment anything moved, the lead has to be
+    // "built from", not "same as".
     return changes.length
-      ? `Built from this day’s last visit${src}, ${changes.join(' and ')}.${tail}`
-      : `Repeating this day’s last visit${src} exactly.${tail}`;
+      ? `Built from this day’s last visit${src}, ${joinList(changes)}.${tail}`
+      : `Same weights as this day’s last visit${src}.${tail}`;
   },
   // States the weight the card ACTUALLY prefills (topRx), not the raw
   // cross-day number — those differ whenever the pin snap moves it, and
@@ -95,8 +124,12 @@ export const BASIS = {
   bodyweight: (x) => {
     const unit = repsWord(x);
     const target = x.sets?.[0]?.reps ?? x.repMin;
-    return x.repMin === x.repMax
-      ? `Bodyweight — hold <span class="num">${x.repMax}</span> ${unit}, every set.`
+    if (x.repMin === x.repMax) return `Bodyweight — hold <span class="num">${x.repMax}</span> ${unit}, every set.`;
+    // "Beat it" is only an instruction while there is room above. At the top of
+    // the range there isn't: the chip overhead reads 10–12, so telling him to
+    // beat 12 asks for a number his own plan doesn't contain.
+    return target >= x.repMax
+      ? `Bodyweight — you held <span class="num">${target}</span> ${unit} last time, the top of the range; hold it on every set tonight.`
       : `Bodyweight — you held <span class="num">${target}</span> ${unit} last time; beat it.`;
   },
 };
@@ -174,11 +207,19 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
   const coachFresh = engine.coachFresh(store.history, store.coach, phaseInfo.date)
     && (!packetSession || packetSession === sessionType);
   const flags = coachFresh ? (store.coach?.flags ?? []) : [];
-  // Count rows whose numbers actually differ from last time — the basis label
-  // is not the question the footer answers. A 'coach' row that holds the exact
-  // same sets did not change; a 'repeat' row padded to 4 sets did.
-  const line = (r, sets) => fmtSetLine(sets, { repUnit: r.repUnit, bodyweight: r.bodyweight });
-  const changed = rows.filter((r) => r.last?.sets?.length && line(r, r.sets) !== line(r, r.last.sets)).length;
+  // Count rows whose LOAD actually differs from last time — the basis label is
+  // not the question the footer answers. A 'coach' row that holds the exact
+  // same sets did not change; a 'repeat' row padded to 4 sets did. Reps are
+  // deliberately excluded: every held lift now asks for the top of its range,
+  // so counting rep asks would flag all eight lifts every night and the line
+  // would mean nothing. Bodyweight lifts have no load, so their rep ask IS
+  // their number.
+  const changed = rows.filter((r) => {
+    const prev = r.last?.sets;
+    if (!prev?.length) return false;
+    const key = (s) => (r.bodyweight ? (s.reps ?? 0) : (s.weight ?? 0));
+    return r.sets.length !== prev.length || r.sets.some((s, i) => key(s) !== key(prev[i]));
+  }).length;
   const prov = provenance(rows, store.coach, coachFresh);
 
   openSheet(`
