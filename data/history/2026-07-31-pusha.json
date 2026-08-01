@@ -1,0 +1,199 @@
+{
+  "date": "2026-07-31",
+  "session_type": "PushA",
+  "phase": "meso1",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 6,
+          "at": 1785540541953
+        },
+        {
+          "weight": 170,
+          "reps": 6,
+          "at": 1785540676258
+        },
+        {
+          "weight": 170,
+          "reps": 6,
+          "at": 1785540793587
+        },
+        {
+          "weight": 175,
+          "reps": 7,
+          "at": 1785541002366,
+          "restEndedAt": 1785540973601
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 12,
+          "at": 1785541226375,
+          "restEndedAt": 1785541182376
+        },
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1785541360802,
+          "restEndedAt": 1785541346387
+        },
+        {
+          "weight": 165,
+          "reps": 12,
+          "at": 1785541537428,
+          "restEndedAt": 1785541480814
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 13.75,
+          "reps": 14,
+          "at": 1785541693892,
+          "restEndedAt": 1785541657439
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1785541817901,
+          "restEndedAt": 1785541768906
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1785541944609,
+          "restEndedAt": 1785541892913
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1785542240064,
+          "restEndedAt": 1785542019618
+        },
+        {
+          "weight": 40,
+          "reps": 9,
+          "at": 1785542358503
+        },
+        {
+          "weight": 40,
+          "reps": 9,
+          "at": 1785542481219,
+          "restEndedAt": 1785542478515
+        }
+      ]
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10.5,
+          "reps": 12,
+          "at": 1785542650011,
+          "restEndedAt": 1785542601227
+        },
+        {
+          "weight": 10.5,
+          "reps": 12,
+          "at": 1785542840884,
+          "restEndedAt": 1785542725023
+        },
+        {
+          "weight": 10.5,
+          "reps": 12,
+          "at": 1785543027314,
+          "restEndedAt": 1785542915892
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 53.75,
+          "reps": 13,
+          "at": 1785543193682,
+          "restEndedAt": 1785543102321
+        },
+        {
+          "weight": 55,
+          "reps": 11,
+          "at": 1785543301754,
+          "restEndedAt": 1785543268696
+        },
+        {
+          "weight": 57.5,
+          "reps": 8,
+          "at": 1785543466533,
+          "restEndedAt": 1785543376770
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 8,
+          "at": 1785543586817,
+          "restEndedAt": 1785543541544
+        },
+        {
+          "weight": 60,
+          "reps": 7,
+          "at": 1785543839413,
+          "restEndedAt": 1785543661825
+        },
+        {
+          "weight": 55,
+          "reps": 8,
+          "at": 1785543844854
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1785543975261,
+          "restEndedAt": 1785543919863
+        },
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1785544097046,
+          "restEndedAt": 1785544035277
+        }
+      ],
+      "note": "Do you have a brain?"
+    }
+  ],
+  "world": "hall",
+  "mins": 59,
+  "startedAt": 1785539630597
+}
