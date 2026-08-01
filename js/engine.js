@@ -662,15 +662,11 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     // step from 0 lands on the lightest pin. Same rule applyCross already
     // uses — leave the anomaly exactly where it is.
     if (!(src.weight > 0)) return { weight: src.weight, reps: grow ? slot.repMin : askReps(src) };
-    // A HELD weight is never snapped. Every number in `prev` is a weight he
-    // physically loaded and logged; the ladder is only the app's model of the
-    // machine, and where the two disagree the log is evidence and the model is
-    // a guess. Snapping to "the nearest real pin" quietly handed back LESS
-    // than he lifted — 15.5 → 15, 10.5 → 10, 60.5 → 60, 54 → 53.75 — on eleven
-    // sets, under a sentence claiming the night was being repeated. The snap
-    // still governs every COMPUTED weight (progressions, back-offs, cross-day
-    // matches), which is what it was for.
-    if (!grow) return { weight: src.weight, reps: askReps(src) };
+    // The stack is the authority, not the log (user's call, 2026-08-01): a
+    // weight the machine cannot load is a typo, and the card must never print
+    // one. Entries are snapped on the way IN now (logSet), so this only ever
+    // fires on rows logged before that landed.
+    if (!grow) return { weight: snapRx(src.weight), reps: askReps(src) };
     // On a ladder the "+increment" is the next real pin. At the very top of
     // the stack there is no raise to give — hold the weight AND the earned
     // reps; resetting to repMin would trade 12s for a raise that doesn't exist.

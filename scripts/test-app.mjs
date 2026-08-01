@@ -935,16 +935,16 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
           || r.sets.length !== prev.length;
         assert.equal(moved, /brought up|snapped down|padded|cut to/.test(why),
           `${type}/${r.id}: weights ${moved ? 'moved but the card is silent' : 'held but the card claims a change'} — ${why}`);
-        // 4. A held weight NEVER goes backwards. The ladder is the app's model
-        //    of the machine; the log is what he actually loaded, and the model
-        //    was quietly overruling it downward on eleven sets.
-        r.sets.forEach((s, i) => {
-          const was = prev[i + off];
-          if (was) {
-            assert.ok((s.weight ?? 0) >= (was.weight ?? 0),
-              `${type}/${r.id} set ${i + 1}: card asks ${s.weight} lb, he already lifted ${was.weight}`);
-          }
-        });
+        // 4. Every weight the card prints is one the machine can actually
+        //    load. The stack is the authority; a number off the grid is a typo
+        //    and must never survive as far as the card.
+        if (r.grid?.length) {
+          r.sets.forEach((s, i) => {
+            if (!(s.weight > 0)) return;
+            assert.ok(r.grid.some((v) => Math.abs(v - s.weight) < 1e-9),
+              `${type}/${r.id} set ${i + 1}: ${s.weight} lb is not loadable on this machine`);
+          });
+        }
         // 5. A rep ask BELOW what he logged only happens when he went past the
         //    top of the range — and the card has to say so, or the number just
         //    shrinks on screen for no visible reason.
@@ -957,6 +957,26 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
     }
   }
   assert.ok(rows > 30, `only ${rows} rows rendered — the sweep is not reaching the plan`);
+});
+
+// ——— The console and the strip above it are the same number ———
+// He dialled 10.5 into the console; the set-plan strip two lines up kept
+// showing the engine's opening bid of 10, because it read rxWeight first.
+// Every display site must read the LIVE weight and fall back to the
+// prescription, never the reverse. Source-level because the alternative is a
+// DOM, and the rule is one character wide and easy to reintroduce.
+await ok('no display site prefers the prescription over the weight actually dialled in', async () => {
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const dir = new URL('../js/views/', import.meta.url);
+  const files = ['../js/components.js', ...readdirSync(dir).filter((f) => f.endsWith('.js')).map((f) => `../js/views/${f}`)];
+  for (const rel of files) {
+    const src = readFileSync(new URL(rel, import.meta.url), 'utf8');
+    const bad = src.match(/rxWeight\s*\?\?\s*\w+\.weight/g);
+    assert.equal(bad, null,
+      `${rel}: reads ${bad?.[0]} — the strip would show the prescription while the console shows the edit`);
+    const badReps = src.match(/rxReps\s*\?\?\s*\w+\.reps/g);
+    assert.equal(badReps, null, `${rel}: reads ${badReps?.[0]} — same inversion on reps`);
+  }
 });
 
 console.log(`\n${n} app tests passed`);

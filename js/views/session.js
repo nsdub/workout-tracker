@@ -412,7 +412,7 @@ function whyBlock(x) {
   if (plain.length <= 90) return `<div class="basis-line">${body}</div>`;
   const open = whyOpen.has(x.id);
   return `<details class="why"${open ? ' open' : ''} data-ex="${esc(x.id)}">
-    <summary>Why ${fmtW(Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0)))} lb${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
+    <summary>Why ${fmtW(Math.max(0, ...x.sets.map((s) => s.weight ?? s.rxWeight ?? 0)))} lb${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
     <div class="basis-line">${body}</div>
   </details>`;
 }
@@ -558,10 +558,16 @@ function renderWorldScreen(draft, phaseInfo) {
              itself instead of two taps away in the briefing. -->
         <div class="set-plan">
           ${x.sets.map((s, si) => {
-            const w = s.rxWeight ?? s.weight;
+            // The LIVE weight, not the engine's opening bid. Reading rxWeight
+            // first pinned this strip to the prescription while the console
+            // right underneath showed the number he had actually dialled in —
+            // 10 across the strip, 10.5 in the console, one card. The weight
+            // now tracks the edit exactly as the reps beside it always have.
+            const w = s.weight ?? s.rxWeight;
             const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
             const cls = s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : '';
-            return `<span class="sp-set ${cls}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
+            const edited = s.rxWeight != null && s.weight !== s.rxWeight;
+            return `<span class="sp-set ${cls}${edited ? ' edited' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
           }).join('')}
         </div>
         <div class="c-vals">
@@ -783,11 +789,18 @@ function editValue(x, s, si, field) {
     max: isW ? 2000 : 999,
     onConfirm(v) {
       if (isW) {
+        // Typed weights land on the machine's grid, same as the steppers
+        // already do (user's call, 2026-08-01: the stack is the authority).
+        // A weight the machine cannot load must never reach the log, or the
+        // prescription that copies it back is arguing with the hardware.
+        const snapped = x.grid?.length && v > 0 ? engine.ladderNearest(x.grid, v) : v;
         const hit = [];
-        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = v; hit.push(j + 1); }
-        toast(hit.length > 1
-          ? `Weight set for sets ${hit[0]}–${hit[hit.length - 1]}`
-          : `Weight set for set ${hit[0] ?? si + 1}`);
+        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = snapped; hit.push(j + 1); }
+        const where = hit.length > 1 ? `sets ${hit[0]}–${hit[hit.length - 1]}` : `set ${hit[0] ?? si + 1}`;
+        // Never snap in silence — if the grid is wrong, this is where he sees it.
+        toast(snapped !== v
+          ? `${fmtW(v)} isn’t on this stack — ${fmtW(snapped)} set for ${where}`
+          : `Weight set for ${where}`);
       } else s.reps = Math.round(v);
       // the confirmed number pops back on the card — the .fresh mechanism
       // replays val-pop through .no-entrance
@@ -966,7 +979,7 @@ export function howtoSheet(exId) {
     <div class="card ex-tonight">
       <div class="set-plan">
         ${ex.sets.map((s) => {
-          const w = s.rxWeight ?? s.weight;
+          const w = s.weight ?? s.rxWeight; // the live number, same as the card's strip
           const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
           return `<span class="sp-set${s.done ? ' done' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
         }).join('')}

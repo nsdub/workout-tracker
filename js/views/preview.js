@@ -15,7 +15,11 @@ const gridName = (x) => (x.grid ? 'your cable machine’s real pins' : `the ${x.
 // The `?.` has to reach `sessions` too — a cached plan without it (a partial
 // or failed load) turned a cross-day card into a thrown render, not a fallback.
 const dayName = (t) => store.plan?.sessions?.[t]?.name ?? t;
-const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.rxWeight ?? s.weight ?? 0));
+// The heaviest weight the card is SHOWING. On a live session card that is the
+// number he dialled in, not the engine's opening bid — quoting rxWeight put a
+// weight in the sentence that appeared nowhere else on screen the moment he
+// edited one. (In the preview nothing is edited, so the two are the same.)
+const topRx = (x) => Math.max(0, ...x.sets.map((s) => s.weight ?? s.rxWeight ?? 0));
 
 const joinList = (a) => (a.length <= 1 ? (a[0] ?? '') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`);
 const setList = (n) => (n.length === 1 ? `set ${n[0]}` : `sets ${joinList(n)}`);
@@ -44,19 +48,6 @@ function beatTheRange(x) {
   if (!over.length) return '';
   const which = joinList(over.map((o) => `set ${o.n} (<span class="num">${o.reps}</span>)`));
   return ` You were already past the top of the range on ${which} — it's the other sets holding the raise back.`;
-}
-
-// A held weight is kept exactly as logged, which means it can sit off the grid
-// the app has for that machine. Say so on the card: either the gear model in
-// the plan is missing a micro plate, or the entry is wrong, and only he can
-// settle which. Silence here is what let 15.5 turn into 15 for weeks.
-function offGrid(x) {
-  if (!x.grid?.length || !x.sets?.length) return '';
-  const odd = [...new Set(x.sets.map((s) => s.weight).filter((w) => w > 0
-    && !x.grid.some((v) => Math.abs(v - w) < 1e-9)))];
-  if (!odd.length) return '';
-  const one = odd.length === 1;
-  return ` <span class="adj"><span class="num">${joinList(odd.map((w) => fmtW(w)))}</span> ${one ? "isn't" : "aren't"} on this machine’s grid as the app has it — kept because you logged ${one ? 'it' : 'them'}. If the machine really loads ${one ? 'it' : 'them'}, the grid is what’s wrong.</span>`;
 }
 
 // What the prescription did to last visit's WEIGHTS, in the athlete's words.
@@ -135,7 +126,7 @@ export const BASIS = {
     const lead = changes.length
       ? `Built from this day’s last visit${src}, ${joinList(changes)}.`
       : `Same weights as this day’s last visit${src}.`;
-    return `${lead}${tail}${beatTheRange(x)}${offGrid(x)}`;
+    return `${lead}${tail}${beatTheRange(x)}`;
   },
   // States the weight the card ACTUALLY prefills (topRx), not the raw
   // cross-day number — those differ whenever the pin snap moves it, and

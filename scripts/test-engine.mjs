@@ -506,17 +506,16 @@ ok('every weight prescribed for a laddered lift is a loadable pin (full sweep)',
     }
   }
 });
-ok('a HELD off-pin weight is kept, never snapped down below what was lifted', () => {
-  // The ladder is the app's MODEL of the machine; the log is what he actually
-  // loaded. Snapping a repeat to "the nearest real pin" handed back less than
-  // he lifted on eleven live sets (15.5 → 15, 10.5 → 10, 60.5 → 60) under a
-  // sentence claiming the night was being repeated.
+ok('a HELD off-pin weight snaps to the stack — the machine is the authority', () => {
+  // The user's call (2026-08-01): a weight the machine cannot load is a typo,
+  // and the card never prints one. Entries snap on the way IN now, so this
+  // only fires on rows logged before that landed.
   const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
     { weight: 24, reps: 14 }, { weight: 24, reps: 14 }, // 24 is not on the modelled stack
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), meso);
   assert.equal(rx.basis, 'repeat');
-  assert.equal(rx.sets[0].weight, 24);
+  assert.equal(rx.sets[0].weight, 23.75);
 });
 ok('a COMPUTED weight still lands on a real pin — climbing off-pin never skips one', () => {
   const s = slot('PushA', 'face-pulls');
