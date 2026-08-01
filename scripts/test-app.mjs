@@ -927,6 +927,13 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
       // 2. "Exactly" is a claim about numbers the user can see. It was being
       //    printed over sets that had been snapped, padded, trimmed or clamped.
       assert.ok(!/exactly/i.test(why), `${type}/${r.id}: still claims "exactly" — ${why}`);
+      // 2b. A set COUNT that differs from last visit is named, on EVERY basis.
+      //     `cross` was the last card that could quietly show four rows over a
+      //     two-set night.
+      if (r.last?.sets?.length && r.last.sets.length !== r.sets.length && !r.bodyweight) {
+        assert.match(why, /padded|cut to|trimmed/i,
+          `${type}/${r.id}: shows ${r.sets.length} sets against a ${r.last.sets.length}-set night, unexplained — ${why}`);
+      }
       // 3. Every weight that moved off the LAST strip is accounted for in words.
       if (r.basis === 'repeat' && r.last?.sets?.length) {
         const prev = r.last.sets;

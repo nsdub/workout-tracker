@@ -131,9 +131,19 @@ export const BASIS = {
   // States the weight the card ACTUALLY prefills (topRx), not the raw
   // cross-day number — those differ whenever the pin snap moves it, and
   // quoting the raw one put a weight in the sentence that appeared nowhere else.
-  cross: (x) => x.cross
-    ? `Raised to <span class="num">${fmtW(topRx(x))}</span> lb${topRx(x) !== x.cross.weight ? ' (the nearest pin your machine can load)' : ''} to match what you already did on ${esc(dayName(x.cross.sessionType))} (${fmtDate(x.cross.date)}: <span class="num">${fmtW(x.cross.weight)}×${x.cross.reps}</span>). Progress counts wherever it happens.`
-    : `Raised to match your latest work on another day.`,
+  // The set COUNT moves here too — a 2-set night against a 4-set slot showed
+  // four rows under a sentence that only ever explained the weight. `repeat`
+  // has said this since v71; silence on the same fact here was the last card
+  // that could still change a number without naming the change.
+  cross: (x) => {
+    const n = (x.last ?? x.prev)?.sets?.length ?? 0;
+    const count = n && n !== x.sets.length
+      ? ` ${x.sets.length > n ? `Padded back to the planned ${x.sets.length} sets (you logged ${n})` : `Cut to the planned ${x.sets.length} sets from the ${n} you logged, keeping the heaviest`}.`
+      : '';
+    return x.cross
+      ? `Raised to <span class="num">${fmtW(topRx(x))}</span> lb${topRx(x) !== x.cross.weight ? ' (the nearest pin your machine can load)' : ''} to match what you already did on ${esc(dayName(x.cross.sessionType))} (${fmtDate(x.cross.date)}: <span class="num">${fmtW(x.cross.weight)}×${x.cross.reps}</span>). Progress counts wherever it happens.${count}`
+      : `Raised to match your latest work on another day.${count}`;
+  },
   hold: (x) => `Prep block — the weight holds at <span class="num">${fmtW(x.prevTop)}</span> lb on purpose; matching last time’s reps is the win.`,
   // x.prev on a session card, x.last in the preview — either means "there is
   // older work on record for this lift, just not on this day yet".

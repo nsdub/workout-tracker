@@ -509,7 +509,9 @@ function renderChart() {
   const useReps = points.length > 0 && points.every((p) => !p.w);
   const series = useReps ? points.map((p) => ({ ...p, w: p.reps })) : points;
   const last = series[series.length - 1];
-  const best = series.reduce((m, p) => (p.w > m.w ? p : m), series[0] ?? { w: 0 });
+  // No points = no best. The `{w:0}` seed is truthy, so an unlogged lift
+  // rendered "best 0" beside "last —" — a number where there is no number.
+  const best = series.length ? series.reduce((m, p) => (p.w > m.w ? p : m), series[0]) : null;
   root.innerHTML = `
     <div class="space-title">The Atlas</div>
     <div class="debrief" style="padding-bottom:8px;--c:#ffd24a">
