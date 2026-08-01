@@ -503,19 +503,33 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   const snapRx = (w) => (ladder && w > 0 ? ladderNearest(ladder, w) : w);
 
   // The trainer's word comes first — but only fresh, snapped, and capped.
-  // Bodyweight slots are excluded (nothing to prescribe but reps the
-  // bodyweight branch already anchors honestly).
-  if (!meta.bodyweight && coach && coachFresh(history, coach, phaseInfo?.date ?? null)) {
+  // Bodyweight slots USED to be excluded here on the grounds that there was
+  // "nothing to prescribe but reps". There is: the plank went 60s → 45s and
+  // the recovery seat wrote "your card will still say 60 because I cannot set
+  // a timed hold from here" in two consecutive reviews. It was right, and the
+  // hole was here. A bodyweight override carries weight 0 and the reps (or
+  // seconds) it wants; the cap and the pin snap have nothing to do on it.
+  if (coach && coachFresh(history, coach, phaseInfo?.date ?? null)) {
     const o = coachOverrideFor(coach, sessionType, slot.id);
-    if (o && Array.isArray(o.sets) && o.sets.length && o.sets.every((s) => s.weight > 0 && s.reps > 0)) {
+    const shaped = o && Array.isArray(o.sets) && o.sets.length && o.sets.every((s) => s.reps > 0
+      && (meta.bodyweight ? (s.weight ?? 0) === 0 : s.weight > 0));
+    if (shaped) {
       const cap = coachCap(plan, history, slot, ladder, inc);
-      const maxReps = plan.rules?.validation?.maxReps ?? 30;
+      // A REP ceiling must not be applied to SECONDS. The plan's own plank is
+      // 2 × 60 sec; clamping it at maxReps (30) made a 60-second hold
+      // inexpressible — the trainer would have asked for 45 and the card would
+      // have printed 30.
+      const maxReps = slot.repUnit === 'sec'
+        ? Math.max(600, slot.repMax ?? 0)
+        : (plan.rules?.validation?.maxReps ?? 30);
       // In a deload week the app's own notice bar promises ~60% of the sets.
       // A packet restoring the full count would make that notice false, so the
       // deload's set budget wins over the trainer's count (its weights don't).
       const askSets = o.sets.slice(0, phase?.type === 'deload' ? nSets : slot.sets + 2);
+      // A bodyweight slot carries no load, so there is no pin to snap to and
+      // no weight ceiling to cap against — only the hold or the rep count.
       const sets = askSets.map((s) => ({
-        weight: snapRx(Math.min(cap, s.weight)),
+        weight: meta.bodyweight ? 0 : snapRx(Math.min(cap, s.weight)),
         reps: clamp(Math.round(s.reps), 1, maxReps),
       }));
       // If the pin snap or the safety cap moved the trainer's number, the card

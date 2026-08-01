@@ -737,15 +737,26 @@ ok('a packet goes stale by the CALENDAR, not just by new logs', () => {
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), E.phaseForDate(plan, '2026-08-20'), coach);
   assert.equal(rx.basis, 'deload', 'a stale packet must never override a deload week');
 });
-ok('coach never touches bodyweight slots; malformed sets are ignored', () => {
+ok('a loaded ask on a bodyweight slot is malformed; a zero-weight ask on a loaded slot is too', () => {
   const coach = coachPkt([
-    { exercise: 'assisted-dips', sets: mkSets(50, 10, 3) },
-    { exercise: 'db-shrug', session: 'PullB', sets: [{ weight: 0, reps: 12 }] },
+    { exercise: 'assisted-dips', sets: mkSets(50, 10, 3) },        // 50 lb on a bodyweight slot
+    { exercise: 'db-shrug', session: 'PullB', sets: [{ weight: 0, reps: 12 }] }, // 0 lb on a loaded slot
   ]);
   const dips = E.prescribe(plan, history, 'PushB', slot('PushB', 'assisted-dips'), mesoNow, coach);
   assert.equal(dips.basis, 'bodyweight');
   const shrug = E.prescribe(plan, history, 'PullB', slot('PullB', 'db-shrug'), mesoNow, coach);
-  assert.notEqual(shrug.basis, 'coach'); // zero-weight set = malformed, standing rules run
+  assert.notEqual(shrug.basis, 'coach');
+});
+ok('the trainers CAN set a bodyweight hold — the plank is not out of their reach', () => {
+  // "Your card will still say 60 because I cannot set a timed hold from here"
+  // — the recovery seat, 2026-07-29 and again 2026-07-30. It was right, and
+  // the block was the !meta.bodyweight guard on the coach branch.
+  const s = slot('LegsB', 'plank'); // 2 × 60 sec — the exact slot it complained about
+  const coach = coachPkt([{ exercise: 'plank', sets: [{ weight: 0, reps: 45 }, { weight: 0, reps: 45 }] }]);
+  const rx = E.prescribe(plan, history, 'LegsB', s, mesoNow, coach);
+  assert.equal(rx.basis, 'coach');
+  assert.deepEqual(rx.sets.map((q) => q.reps), [45, 45]);
+  assert.ok(rx.sets.every((q) => q.weight === 0), 'a bodyweight ask must never acquire a load');
 });
 
 // ——— previewSession: the whole night, and it MUST match the session screen ———

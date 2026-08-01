@@ -70,8 +70,20 @@ for (const o of pkt.overrides ?? []) {
   if (typeof o.reason !== 'string' || !o.reason.trim()) fail(`override ${o.exercise}: reason is required — the card quotes it`);
   if (!Array.isArray(o.sets) || !o.sets.length) fail(`override ${o.exercise}: sets[] required`);
   for (const s of o.sets ?? []) {
-    if (!(s.weight > 0) || !Number.isFinite(s.weight)) fail(`override ${o.exercise}: bad weight ${s.weight}`);
-    if (!(s.reps >= 1) || s.reps > (plan.rules?.validation?.maxReps ?? 30)) fail(`override ${o.exercise}: bad reps ${s.reps}`);
+    // A bodyweight slot (plank, hanging leg raise, assisted dips) carries
+    // weight 0 and prescribes only the hold or the rep count. Requiring a
+    // positive weight here is what made the recovery seat write "I cannot set
+    // a timed hold from here" two reviews running.
+    const bw = !!plan.exercises[o.exercise]?.bodyweight;
+    if (bw ? (s.weight ?? 0) !== 0 : !(s.weight > 0) || !Number.isFinite(s.weight)) {
+      fail(`override ${o.exercise}: bad weight ${s.weight}${bw ? ' — bodyweight slots take weight 0' : ''}`);
+    }
+    // Seconds are not reps: a timed slot's ceiling is time, not the 30-rep
+    // validation cap that would have rejected the plan's own 60-second plank.
+    const timed = Object.values(plan.sessions).some((sess) => sess.exercises
+      .some((x) => x.id === o.exercise && x.repUnit === 'sec'));
+    const repCap = timed ? 600 : (plan.rules?.validation?.maxReps ?? 30);
+    if (!(s.reps >= 1) || s.reps > repCap) fail(`override ${o.exercise}: bad ${timed ? 'seconds' : 'reps'} ${s.reps}`);
   }
 }
 
