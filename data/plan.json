@@ -5,15 +5,16 @@
   "gear": {
     "main-cable": {
       "label": "dual cable stack",
-      "note": "Life Fitness Signature Series Dual Adjustable Pulley (user-confirmed 2026-07-24): 4:1 ratio, stack label is PER-HANDLE (max 97.5 = 390-lb stack / 4), 5-lb per-handle steps. The two circular add-on micro weights are 5 lb PHYSICAL each -> 5/4 = 1.25 lb per handle. Loadable per handle: pin, pin+1.25, pin+2.5.",
+      "note": "Life Fitness Signature Series Dual Adjustable Pulley. Stack photographed 2026-07-31: label reads 2.5 to 97.5 in 5s and states 'Weight stack label indicates resistance for each handle' — pins confirmed PER-HANDLE. The two add-on micro weights were MEASURED from the log on 2026-08-01, not derived: of every distinct cable weight logged since 2026-07-11, the offsets above the pin are +1.5 (9, 14, 19, 24, 54), +3 (10.5, 15.5, 20.5, 25.5, 60.5) and +4.5 (27 = both on). Nothing lands on +1.25 or +2.5 except 23.75 and 53.75, which the app itself prescribed off its own wrong grid and which were then logged back. The earlier '5 lb physical / 4 = 1.25' figure was arithmetic, never an observation. Loadable per handle: pin, pin+1.5, pin+3, pin+4.5.",
       "stack": {
         "min": 2.5,
         "step": 5,
         "max": 97.5
       },
       "micro": [
-        1.25,
-        2.5
+        1.5,
+        3,
+        4.5
       ]
     },
     "dumbbell": {
