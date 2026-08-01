@@ -5,16 +5,15 @@
   "gear": {
     "main-cable": {
       "label": "dual cable stack",
-      "note": "Life Fitness Signature Series Dual Adjustable Pulley. Stack photographed 2026-07-31: label reads 2.5 to 97.5 in 5s and states 'Weight stack label indicates resistance for each handle' — pins confirmed PER-HANDLE. The two add-on micro weights were MEASURED from the log on 2026-08-01, not derived: of every distinct cable weight logged since 2026-07-11, the offsets above the pin are +1.5 (9, 14, 19, 24, 54), +3 (10.5, 15.5, 20.5, 25.5, 60.5) and +4.5 (27 = both on). Nothing lands on +1.25 or +2.5 except 23.75 and 53.75, which the app itself prescribed off its own wrong grid and which were then logged back. The earlier '5 lb physical / 4 = 1.25' figure was arithmetic, never an observation. Loadable per handle: pin, pin+1.5, pin+3, pin+4.5.",
+      "note": "Life Fitness Signature Series Dual Adjustable Pulley. VERIFIED AGAINST THE MANUFACTURER 2026-08-01, not inferred: 2 x 390 lb stacks, 4:1 ratio, max user resistance 97.5 lb per stack — so min 2.5 / step 5 / max 97.5 per handle is correct, and the stack photographed 2026-07-31 carries that exact label plus the line 'Weight stack label indicates resistance for each handle'. The OEM add-on increment weight for Signature Series Cable Motion is 5 lb (Life Fitness part 7711501); at 4:1 that is 1.25 lb per handle, and Life Fitness states the machine selects 'as little as 2 1/2 lbs of resistance in 1 1/4 lbs increments' at 1/4 resistance. Two add-ons -> loadable per handle: pin, pin+1.25, pin+2.5. UNRESOLVED: of the cable weights logged since 2026-07-11, eleven sit at pin+1.5, pin+3 or pin+4.5 (9, 14, 19, 24, 54 / 10.5, 15.5, 20.5, 25.5, 60.5 / 27) and none at pin+1.25 except 23.75 and 53.75, which the app itself prescribed. The manufacturer grid above is what the app uses; the discrepancy is real and unexplained. Two things would settle it: which position the resistance selector is in (this DAP has a 1/4 and a 1/2 setting, and 1/2 changes what every label number means), and the figure stamped on the add-on weights themselves.",
       "stack": {
         "min": 2.5,
         "step": 5,
         "max": 97.5
       },
       "micro": [
-        1.5,
-        3,
-        4.5
+        1.25,
+        2.5
       ]
     },
     "dumbbell": {
