@@ -1,0 +1,50 @@
+{
+  "role": "program",
+  "date": "2026-08-01",
+  "session": "PullA",
+  "reviewed_through": "2026-07-31",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "why": "You did face pulls on Push A last night and wrote \"Do you have a brain?\" next to them, and tonight's Pull A asks for them again — this drops them from Pull A only, so they stay on your two push days, where nothing else trains the back of the shoulder, and come off a day that already runs six sets of pulldowns and rows.",
+      "evidence": [
+        "2026-07-31:note",
+        "2026-07-31:face-pulls",
+        "2026-07-24:face-pulls",
+        "2026-07-24:lat-pulldown-wide",
+        "2026-07-24:seated-cable-row-wide"
+      ]
+    },
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PullB",
+      "why": "On Pull B you skipped the face pulls yourself and wrote that running the same corrective on back-to-back days was insane — this makes the plan say what you already did, leaving Pull B's thirteen other back sets to cover the rear delt and keeping face pulls on the two push days.",
+      "evidence": [
+        "2026-07-28:note",
+        "2026-07-27:face-pulls",
+        "2026-07-21:face-pulls",
+        "2026-07-28:smith-bent-over-row",
+        "2026-07-28:straight-arm-pulldown",
+        "2026-07-28:db-shrug"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "seated-cable-row-wide",
+      "scope": "PullA",
+      "sets": 4,
+      "why": "Pull A gives your biceps six direct sets and your only horizontal row three, and on 24 July all three row sets went at 105 for ten, eleven and ten with nothing falling off — this makes it four sets so the rowing on your back day at least matches the curling.",
+      "evidence": [
+        "2026-07-24:seated-cable-row-wide",
+        "2026-07-17:seated-cable-row-wide",
+        "2026-07-24:db-curl",
+        "2026-07-24:cable-hammer-curl"
+      ]
+    }
+  ]
+}

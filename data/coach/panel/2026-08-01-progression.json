@@ -1,0 +1,76 @@
+{
+  "role": "progression",
+  "date": "2026-08-01",
+  "session": "PullA",
+  "reviewed_through": "2026-07-31",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "sets": [
+        { "weight": 225, "reps": 5 },
+        { "weight": 265, "reps": 6 },
+        { "weight": 265, "reps": 6 },
+        { "weight": 265, "reps": 6 }
+      ],
+      "why": "On 24 Jul you pulled 265 for 5, 5, 5 — the bottom of the 5-6 range, so the pin stays at 265 tonight. The ask is 6 reps on all three work sets, which you have never done at 265; three sets of 6 is what buys 275 on the next Pull A.",
+      "evidence": ["2026-07-24:deadlift", "2026-07-17:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "hold",
+      "sets": [
+        { "weight": 135, "reps": 9 },
+        { "weight": 150, "reps": 8 },
+        { "weight": 150, "reps": 8 }
+      ],
+      "why": "You went 135 to 150 in one week and the third set fell to 7 on 24 Jul, one rep under the 8-10 range, so 150 is not paid for yet and does not move. First set goes to 9 at 135 (you have only done 8 there); 150 has to hold 8 on both work sets before it goes anywhere, and 10, 10, 10 at 150 is what earns 157.5.",
+      "evidence": ["2026-07-24:lat-pulldown-wide", "2026-07-17:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 11 },
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 11 }
+      ],
+      "why": "24 Jul at 105 was 10, 11, 10 — inside the 10-12 range but never at the top of it, so the stack stays on 105. Each set is asked for one more rep than last time; the 12 on set two is a new ask at 105 (your only 12 was at 97.5 on 17 Jul), and 12 on all three sets is what earns 112.5.",
+      "evidence": ["2026-07-24:seated-cable-row-wide", "2026-07-17:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 30, "reps": 9 },
+        { "weight": 30, "reps": 9 },
+        { "weight": 30, "reps": 8 }
+      ],
+      "why": "The 30s went 8, 8, 7 on 24 Jul and the last set dropped under the 8-10 range, so the 35s are not on the table. 9 reps at 30 is a new ask — your best there is 8 — and 10, 10, 10 with the 30s is what earns the 35s.",
+      "evidence": ["2026-07-24:db-curl", "2026-07-17:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 42.5, "reps": 11 },
+        { "weight": 42.5, "reps": 11 },
+        { "weight": 42.5, "reps": 11 }
+      ],
+      "why": "42.5 for a clean 10, 10, 10 on 24 Jul with the two-hand rope is the floor of the 10-12 range, not the top, so the pin holds. 11 reps at 42.5 is a new ask; three sets of 12 is what moves the pin up.",
+      "evidence": ["2026-07-24:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 29, "reps": 14 },
+        { "weight": 29, "reps": 14 }
+      ],
+      "why": "This is the one lift that paid for its raise: 27.5 for 15 and 15 on 31 Jul topped the 12-15 range on both sets, after 15 and 14 on 24 Jul and 15 and 12 on 23 Jul. The pin moves one micro plate to 29, which you have never pulled — 12 or better on both sets keeps it there.",
+      "evidence": ["2026-07-31:face-pulls", "2026-07-24:face-pulls", "2026-07-23:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
