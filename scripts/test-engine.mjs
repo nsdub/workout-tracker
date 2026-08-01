@@ -506,17 +506,16 @@ ok('every weight prescribed for a laddered lift is a loadable pin (full sweep)',
     }
   }
 });
-ok('a HELD weight is emitted exactly as logged, never rounded onto the grid', () => {
-  // The ladder is the app's MODEL of the machine, and as of 2026-08-01 the
-  // model and his entries disagree (eleven logged weights at pin+1.5/+3/+4.5
-  // against a manufacturer grid of pin+1.25/+2.5). The app picks its own
-  // weights off the grid; it does not rewrite his.
+ok('a HELD off-pin weight snaps to the machine grid', () => {
+  // The add-on weights are unlabelled, so the numbers he types are estimates
+  // (his words, 2026-08-01). An estimate is not evidence about the machine —
+  // it belongs on the nearest weight the machine can actually load.
   const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
-    { weight: 24, reps: 14 }, { weight: 24, reps: 14 }, // 24 is not on the modelled grid
+    { weight: 24, reps: 14 }, { weight: 24, reps: 14 }, // 24 is not loadable
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), meso);
   assert.equal(rx.basis, 'repeat');
-  assert.equal(rx.sets[0].weight, 24);
+  assert.equal(rx.sets[0].weight, 23.75);
 });
 ok('a COMPUTED weight still lands on a real pin — climbing off-pin never skips one', () => {
   const s = slot('PushA', 'face-pulls');

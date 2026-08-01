@@ -789,19 +789,17 @@ function editValue(x, s, si, field) {
     max: isW ? 2000 : 999,
     onConfirm(v) {
       if (isW) {
-        // What he types is what gets logged. The ± steppers still walk the
-        // machine's real pins, so the grid is right there when he wants it —
-        // but typing is the escape hatch, and a typed number is his statement
-        // of what he loaded. The app does not overwrite it. (Snapping on entry
-        // shipped in v73 on the reading that the stack is the authority; the
-        // manufacturer grid it snaps to disagrees with eleven of his own
-        // entries, so the app has no business rounding him off it.)
+        // Typed weights land on the machine's grid. The add-on weights are
+        // unlabelled, so what he types is an ESTIMATE (his words, 2026-08-01);
+        // snapping turns the estimate into the nearest weight the machine can
+        // actually load. Never silent — the toast says what it did.
+        const snapped = x.grid?.length && v > 0 ? engine.ladderNearest(x.grid, v) : v;
         const hit = [];
-        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = v; hit.push(j + 1); }
-        const where = hit.length > 1 ? `sets ${hit[0]}–${hit[hit.length - 1]}` : `set ${hit[0] ?? si + 1}`;
-        // Off-grid is worth SAYING, never worth silently correcting.
-        const odd = x.grid?.length && v > 0 && !x.grid.some((g) => Math.abs(g - v) < 1e-9);
-        toast(odd ? `Weight set for ${where} — ${fmtW(v)} isn’t on the app’s grid for this machine` : `Weight set for ${where}`);
+        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = snapped; hit.push(j + 1); }
+        const where = hit.length > 1 ? `sets ${hit[0]}\u2013${hit[hit.length - 1]}` : `set ${hit[0] ?? si + 1}`;
+        toast(snapped !== v
+          ? `${fmtW(v)} isn\u2019t on this stack \u2014 ${fmtW(snapped)} set for ${where}`
+          : `Weight set for ${where}`);
       } else s.reps = Math.round(v);
       // the confirmed number pops back on the card — the .fresh mechanism
       // replays val-pop through .no-entrance

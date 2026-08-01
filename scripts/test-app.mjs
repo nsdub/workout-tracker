@@ -953,18 +953,17 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
           || r.sets.length !== prev.length;
         assert.equal(moved, /brought up|snapped down|padded|cut to/.test(why),
           `${type}/${r.id}: weights ${moved ? 'moved but the card is silent' : 'held but the card claims a change'} — ${why}`);
-        // 4. A held weight is emitted EXACTLY as logged — the app does not
-        //    round his own entries onto a grid that his entries dispute.
-        //    (Weights the app CHOOSES are grid-checked separately below.)
-        //    It may only ever go UP (the envelope, which never steps backwards
-        //    mid-session) — never down.
-        r.sets.forEach((s, i) => {
-          const was = prev[i + off];
-          if (was) {
-            assert.ok((s.weight ?? 0) >= (was.weight ?? 0),
-              `${type}/${r.id} set ${i + 1}: card asks ${s.weight} lb, he already lifted ${was.weight}`);
-          }
-        });
+        // 4. Every weight the card prints is one the machine can load. The
+        //    add-on weights are unlabelled, so his typed numbers are estimates
+        //    (his words, 2026-08-01) — the grid is the only real model, and an
+        //    estimate belongs on it.
+        if (r.grid?.length) {
+          r.sets.forEach((s, i) => {
+            if (!(s.weight > 0)) return;
+            assert.ok(r.grid.some((v) => Math.abs(v - s.weight) < 1e-9),
+              `${type}/${r.id} set ${i + 1}: ${s.weight} lb is not loadable on this machine`);
+          });
+        }
         // 5. A rep ask BELOW what he logged only happens when he went past the
         //    top of the range — and the card has to say so, or the number just
         //    shrinks on screen for no visible reason.
