@@ -37,6 +37,48 @@ nowhere on it. He paid for the review that found it. Then it shipped anyway.
 - Findings about **user-visible claims** (any sentence or number the app
   displays) outrank findings about internal code quality, always.
 
+On 2026-08-01 it happened a third time, in a new shape again. The card he
+was standing in front of asked for 10 reps under its own note demanding 12
+— on 34 of 34 held lifts — and the daily trainer review, the entire premise
+of this app, had not run for two days because **no scheduled job existed**.
+Both were fixed. But over the same session I reversed my own position on one
+question six times, asserted a ¼/½ resistance selector on his machine that
+does not exist, and asked him twice for a number stamped on his add-on
+weights after he had told me they carry no printed figure and that he had
+been ESTIMATING. He had the answer the whole time. Five of the six positions
+existed only because I never asked where his numbers came from.
+
+Full enumeration: `docs/POSTMORTEM-2026-08-01.md`. Browsable: `/museum/`.
+
+## THE SEVEN RULES (added 2026-08-01, binding)
+
+1. **Check, then speak.** No claim about behaviour, hardware, or another
+   agent's work is stated before it is executed, fetched, or read. A search
+   summary is not a source — if the page did not load, the fact is not
+   established. Do not say "X is wrong" and verify afterwards.
+2. **Ask where a number came from before modelling on it.** A value a human
+   typed is a report, and reports have provenance: measured, read off a
+   label, or estimated. NEVER fit a model of physical equipment to
+   unattributed data. "Measured, not derived" is a lie if a person guessed it.
+3. **A closed route stays closed.** When he says he will not do something —
+   weigh a plate, read a label that isn't there — that is a constraint, not
+   an opening position. Re-asking is not diligence, it is not listening.
+4. **Never reverse a decision twice without new EXTERNAL evidence.** A
+   reversal requires a fact that did not exist at the previous decision, and
+   the commit must name that fact. Reasoning harder is not a fact. Each flip
+   changes numbers he is standing in front of.
+5. **Verify the system is ALIVE, not just correct.** Anything scheduled gets
+   a last-run check before its output is trusted, and the app says on screen
+   when the thing that should have run did not. E23 was invisible for two
+   days because nothing asked whether the job had fired.
+6. **An agent reporting it cannot do its job is a bug report.** The recovery
+   seat wrote "I cannot set a timed hold from here" twice and was read past.
+   Triage it.
+7. **Lead with the fact that changes his situation**, not the one that
+   defends mine. "The branch is pushed" was true and read as a lie because
+   the fact that mattered was "main is still v70 and your phone has none of
+   it."
+
 ## Hard rules for this repo
 
 - **"Start from scratch" is literal.** Any future rebuild: delete first in

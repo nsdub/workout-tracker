@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Museum of My Own Incompetence">
+  <rect width="512" height="512" rx="96" fill="#120d18"/>
+  <path d="M60 300 Q120 180 200 250 T340 210 T470 300 L470 470 L60 470 Z" fill="#a45cff" opacity=".22"/>
+  <circle cx="150" cy="140" r="76" fill="#ff4d2e" opacity=".3"/>
+  <!-- pediment: a museum that is falling over -->
+  <g transform="rotate(-4 256 300)">
+    <path d="M104 208 L256 118 L408 208 Z" fill="#f2c14e"/>
+    <rect x="112" y="222" width="288" height="20" rx="4" fill="#f2c14e"/>
+    <rect x="140" y="252" width="30" height="140" rx="6" fill="#f3ead7"/>
+    <rect x="212" y="252" width="30" height="140" rx="6" fill="#f3ead7"/>
+    <rect x="284" y="252" width="30" height="140" rx="6" fill="#f3ead7"/>
+    <rect x="356" y="252" width="30" height="140" rx="6" fill="#f3ead7" transform="rotate(13 371 322)"/>
+    <rect x="100" y="400" width="312" height="22" rx="5" fill="#f2c14e"/>
+  </g>
+  <path d="M330 96 l26 44 -52 0 z" fill="#ff4d2e"/>
+  <rect x="342" y="150" width="12" height="26" rx="6" fill="#ff4d2e"/>
+</svg>

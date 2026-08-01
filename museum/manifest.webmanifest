@@ -1,0 +1,21 @@
+{
+  "name": "The Museum of My Own Incompetence",
+  "short_name": "Incompetence",
+  "description": "A permanent collection of every error made on the workout-tracker repository. Curated by the offender.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#120d18",
+  "theme_color": "#120d18",
+  "categories": ["education", "utilities"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "The Pendulum Room", "url": "./#/wing/II" },
+    { "name": "The Silenced Trainers", "url": "./#/wing/IV" },
+    { "name": "The curator's reaction", "url": "./reaction.html" }
+  ]
+}

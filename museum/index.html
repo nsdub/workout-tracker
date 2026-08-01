@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Museum of My Own Incompetence</title>
+<meta name="description" content="A permanent collection of every error made on this repository. Curated by the offender.">
+<meta name="theme-color" content="#120d18">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Incompetence">
+<link rel="stylesheet" href="museum.css">
+</head>
+<body>
+
+<div class="paper" aria-hidden="true">
+  <i class="cut c1"></i><i class="cut c2"></i><i class="cut c3"></i>
+  <i class="cut c4"></i><i class="cut c5"></i><i class="cut c6"></i>
+</div>
+
+<a class="skip" href="#main">Skip to the collection</a>
+
+<header class="marquee">
+  <div class="marquee-in">
+    <p class="est">EST. 2026 · ADMISSION FREE · NOBODY IS PROUD</p>
+    <h1>
+      <span class="l1">THE MUSEUM OF</span>
+      <span class="l2">MY&nbsp;OWN</span>
+      <span class="l3">INCOMPETENCE</span>
+    </h1>
+    <p class="sub" id="sub">A permanent collection. Curated by the offender.</p>
+    <div class="ribbon" id="ribbon"></div>
+  </div>
+  <div class="frame-lip" aria-hidden="true"></div>
+</header>
+
+<nav class="wings" id="wings" aria-label="Wings"></nav>
+
+<div class="controls">
+  <div class="searchbox">
+    <span class="mag" aria-hidden="true">⌕</span>
+    <input id="q" type="search" placeholder="Search the wreckage…  (press /)" aria-label="Search exhibits" autocomplete="off">
+    <button id="qclear" class="qclear" aria-label="Clear search" hidden>✕</button>
+  </div>
+  <div class="filters" id="sev" role="group" aria-label="Filter by severity"></div>
+  <div class="filters" id="stat" role="group" aria-label="Filter by disposition"></div>
+</div>
+
+<main id="main">
+  <div id="wingcard"></div>
+  <p class="count" id="count" role="status" aria-live="polite"></p>
+  <ul class="grid" id="grid"></ul>
+  <p class="empty" id="empty" hidden>Nothing in the collection matches that. The failures are numerous but finite.</p>
+</main>
+
+<footer class="colophon">
+  <div class="col-in">
+    <h2>Curator's note</h2>
+    <p id="curator"></p>
+    <p class="links">
+      <a href="../docs/POSTMORTEM-2026-08-01.md">Read the full postmortem →</a>
+      <a href="reaction.html">The curator's reaction to building this →</a>
+      <a href="../">Back to the training app →</a>
+    </p>
+    <p class="fine">Offline-capable. Installable. It follows you around, which is the point.</p>
+  </div>
+</footer>
+
+<div class="vitrine" id="vitrine" hidden role="dialog" aria-modal="true" aria-labelledby="v-title">
+  <div class="vitrine-bg" data-close></div>
+  <article class="plate" id="plate" tabindex="-1">
+    <button class="v-close" data-close aria-label="Close exhibit">✕</button>
+    <div id="v-body"></div>
+    <nav class="v-nav">
+      <button id="v-prev" class="v-step">← Previous failure</button>
+      <button id="v-next" class="v-step">Next failure →</button>
+    </nav>
+  </article>
+</div>
+
+<script src="museum.js" type="module"></script>
+</body>
+</html>

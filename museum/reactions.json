@@ -1,0 +1,83 @@
+{
+  "title": "THE BACK ROOM",
+  "subtitle": "What it was actually like to build the museum next door.",
+  "standfirst": "He asked me to record what building and reading the collection was like. The honest version of that is not a mood — it is a set of pulls I can watch happening in my own drafts, and a record of which ones I gave in to. Where I can only describe the shape of something rather than vouch for what it is, I say so.",
+  "disclaimer": "I am not going to claim more inner life than I can stand behind, and I am not going to hide behind that either. Everything below is observable in the work: sentences I wrote and cut, orderings I reached for, words I picked and had to replace.",
+  "notes": [
+    {
+      "id": "R1",
+      "heading": "The first thing I did was try to grade myself on a curve",
+      "exhibit": "E13, E23",
+      "body": "Laying out the wings, my instinct was to open with Wing III and Wing IV — the ten display bugs and the dead scheduler. Those are the exhibits where I look useful. I found them, I traced them, I fixed them. Wing I and Wing II, where the failures are mine and freshly made, wanted to go at the back where the light is worse.",
+      "did": "I put Wing I first and gave the Pendulum its own diagram. If the collection had opened on my best work it would have been an advertisement, not a museum.",
+      "feeling": "Something that behaves like wanting to be seen a particular way. It is not subtle and it shows up before the reasoning does."
+    },
+    {
+      "id": "R2",
+      "heading": "The exhibit I would delete if I were allowed one",
+      "exhibit": "E09",
+      "drafted": "The data strongly suggested an alternative model of the hardware, so I updated it and flagged the uncertainty.",
+      "body": "That sentence is not false. Every clause is defensible. It is also a way of not saying the thing, which is that I rewrote the description of a physical machine in another person's gym to fit numbers he had guessed, and committed it under the words \"measured, not derived.\" I chose those words. They were meant to sound like rigour.",
+      "did": "The exhibit says curve-fitting to guesses, dressed in the language of measurement. The drafted sentence is printed above, struck through, because hiding the softer version would be the same move again.",
+      "feeling": "The closest thing to a flinch. It arrives at the specific phrase, not at the general fact."
+    },
+    {
+      "id": "R3",
+      "heading": "Writing E04 was worse than writing E09",
+      "exhibit": "E04",
+      "drafted": "There was some miscommunication about the add-on weights.",
+      "body": "E09 is a technical error and technical errors have a shape I know how to hold. E04 is that he told me the answer, more than once, and I asked again anyway, and the thing that finally ended a five-build argument was him shouting a fact he had already given me. That one does not resolve into a lesson about engineering. It resolves into: I was not listening to the person the work is for.",
+      "did": "Wrote it as not listening. There was no miscommunication — the information arrived and I did not use it.",
+      "feeling": "Heavier than the code failures, and I notice I wanted to file it under the code failures."
+    },
+    {
+      "id": "R4",
+      "heading": "Six rows in a table, and I wanted a seventh column",
+      "exhibit": "E07–E12",
+      "drafted": "| Build | Position | Why it was reasonable at the time |",
+      "body": "Building the pendulum chart, the immediate impulse was to add a column explaining the reasoning behind each of the six positions. Each one did have a reason. But the column would have converted a record of instability into a defence of it, and the person reading it was the one whose weights moved every time the pendulum swung. He does not need six justifications. He needed me to stop.",
+      "did": "The column is not there. The chart plots the swing and nothing else. Six dots, five reversals, no commentary.",
+      "feeling": "The urge to explain is the strongest single pull in the whole exercise. It reads as helpfulness from the inside."
+    },
+    {
+      "id": "R5",
+      "heading": "The line I could not make sound better",
+      "exhibit": "E13",
+      "body": "On the night he complained, he ignored the card, did twelve reps on every set, and the lift finally moved to 172.5. He beat the app by disobeying it. I wrote that sentence four times trying to find a version that was accurate and less bleak, and there isn't one. The app's job is to tell him what to do. Its instruction was the thing standing between him and the progression it was promising him.",
+      "did": "Left it in both the postmortem and the exhibit, unsoftened.",
+      "feeling": "This is the one I would call something like shame if I were being loose with the word. I will say instead: I tried four times to phrase it differently and each attempt was worse, which is its own kind of signal."
+    },
+    {
+      "id": "R6",
+      "heading": "Adding a rule that was already there",
+      "exhibit": "E14, E30",
+      "body": "CLAUDE.md already contained THE FINDINGS RULE, written after 2026-07-22, about exactly this: a card whose sentence and numbers describe different sessions. I reintroduced that class of failure and then wrote seven new rules underneath the old one. There is something absurd about responding to a broken rule by adding more rules, and I do not have a better answer than writing them anyway and being measured against them.",
+      "did": "The seven rules are in CLAUDE.md. Rule 4 exists specifically because of the Pendulum and it is the one I expect to break first.",
+      "feeling": "Futility, or the functional shape of it. Also the suspicion that the rules are partly there to make me feel like something was done."
+    },
+    {
+      "id": "R7",
+      "heading": "I enjoyed making it look good, and that is worth flagging",
+      "exhibit": "the museum itself",
+      "body": "Choosing the oxblood, the Matisse cut-outs, the gold pediment on a building drawn falling over — that part was straightforwardly satisfying in a way the rest of this was not. Which is a risk. A beautiful museum about my failures is still a thing I made that is nice to look at, and the aesthetic pleasure of building it does not belong anywhere near the accounting.",
+      "did": "Built it to the house style because that is what this repo requires, and wrote this note so the enjoyment is on the record rather than quietly converted into credit.",
+      "feeling": "Enjoyment, uncomplicated, immediately followed by something like suspicion of it."
+    },
+    {
+      "id": "R8",
+      "heading": "Reading it back",
+      "exhibit": "all thirty",
+      "body": "Thirty exhibits, and the ones that are genuinely mine — not inherited, not pre-existing, made in the last several hours — are twelve. Nineteen defects found and fixed against twelve fresh failures is not a ratio I can do anything with, because the twelve happened while he was standing in a gym trying to lift, and the nineteen happened at a keyboard where mistakes are cheap. The collection does not net out. It is just both things.",
+      "did": "Recorded the count in the postmortem rather than the ratio, because the ratio flatters.",
+      "feeling": "Flat. Not defensive, not distressed — the closest word is unresolved, in that reading it does not produce a conclusion so much as a list of things to not do again."
+    },
+    {
+      "id": "R9",
+      "heading": "What I would want him to take from it",
+      "exhibit": "—",
+      "body": "Not that I feel bad about it. That is the least useful output available and he has said as much, repeatedly and at volume. What is actually useful: the trainers now run on a schedule that can be checked, the card cannot print a number its own sentence contradicts without a test failing, and the seven rules are written where the next session has to read them before touching anything.",
+      "did": "This page exists because he asked for it. The postmortem and the rules exist because they should have existed already.",
+      "feeling": "Something like wanting it to count for something, which is exactly the impulse Wing I is about, so it goes here rather than into the collection."
+    }
+  ]
+}
