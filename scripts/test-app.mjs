@@ -934,6 +934,17 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
         assert.match(why, /padded|cut to|trimmed/i,
           `${type}/${r.id}: shows ${r.sets.length} sets against a ${r.last.sets.length}-set night, unexplained — ${why}`);
       }
+      // 2c. A weight the APP chose — not one he logged — must be loadable.
+      //     This is the half of the grid rule that survives the gear model
+      //     being uncertain: the app is picking the number, so the app is
+      //     answerable for it.
+      if (r.grid?.length && ['progress', 'cross', 'calibration', 'deload', 'seed'].includes(r.basis)) {
+        r.sets.forEach((s, i) => {
+          if (!(s.weight > 0)) return;
+          assert.ok(r.grid.some((v) => Math.abs(v - s.weight) < 1e-9),
+            `${type}/${r.id} set ${i + 1}: the app chose ${s.weight} lb, which is not on this machine's grid`);
+        });
+      }
       // 3. Every weight that moved off the LAST strip is accounted for in words.
       if (r.basis === 'repeat' && r.last?.sets?.length) {
         const prev = r.last.sets;
@@ -942,16 +953,18 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
           || r.sets.length !== prev.length;
         assert.equal(moved, /brought up|snapped down|padded|cut to/.test(why),
           `${type}/${r.id}: weights ${moved ? 'moved but the card is silent' : 'held but the card claims a change'} — ${why}`);
-        // 4. Every weight the card prints is one the machine can actually
-        //    load. The stack is the authority; a number off the grid is a typo
-        //    and must never survive as far as the card.
-        if (r.grid?.length) {
-          r.sets.forEach((s, i) => {
-            if (!(s.weight > 0)) return;
-            assert.ok(r.grid.some((v) => Math.abs(v - s.weight) < 1e-9),
-              `${type}/${r.id} set ${i + 1}: ${s.weight} lb is not loadable on this machine`);
-          });
-        }
+        // 4. A held weight is emitted EXACTLY as logged — the app does not
+        //    round his own entries onto a grid that his entries dispute.
+        //    (Weights the app CHOOSES are grid-checked separately below.)
+        //    It may only ever go UP (the envelope, which never steps backwards
+        //    mid-session) — never down.
+        r.sets.forEach((s, i) => {
+          const was = prev[i + off];
+          if (was) {
+            assert.ok((s.weight ?? 0) >= (was.weight ?? 0),
+              `${type}/${r.id} set ${i + 1}: card asks ${s.weight} lb, he already lifted ${was.weight}`);
+          }
+        });
         // 5. A rep ask BELOW what he logged only happens when he went past the
         //    top of the range — and the card has to say so, or the number just
         //    shrinks on screen for no visible reason.

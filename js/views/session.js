@@ -789,18 +789,19 @@ function editValue(x, s, si, field) {
     max: isW ? 2000 : 999,
     onConfirm(v) {
       if (isW) {
-        // Typed weights land on the machine's grid, same as the steppers
-        // already do (user's call, 2026-08-01: the stack is the authority).
-        // A weight the machine cannot load must never reach the log, or the
-        // prescription that copies it back is arguing with the hardware.
-        const snapped = x.grid?.length && v > 0 ? engine.ladderNearest(x.grid, v) : v;
+        // What he types is what gets logged. The ± steppers still walk the
+        // machine's real pins, so the grid is right there when he wants it —
+        // but typing is the escape hatch, and a typed number is his statement
+        // of what he loaded. The app does not overwrite it. (Snapping on entry
+        // shipped in v73 on the reading that the stack is the authority; the
+        // manufacturer grid it snaps to disagrees with eleven of his own
+        // entries, so the app has no business rounding him off it.)
         const hit = [];
-        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = snapped; hit.push(j + 1); }
+        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = v; hit.push(j + 1); }
         const where = hit.length > 1 ? `sets ${hit[0]}–${hit[hit.length - 1]}` : `set ${hit[0] ?? si + 1}`;
-        // Never snap in silence — if the grid is wrong, this is where he sees it.
-        toast(snapped !== v
-          ? `${fmtW(v)} isn’t on this stack — ${fmtW(snapped)} set for ${where}`
-          : `Weight set for ${where}`);
+        // Off-grid is worth SAYING, never worth silently correcting.
+        const odd = x.grid?.length && v > 0 && !x.grid.some((g) => Math.abs(g - v) < 1e-9);
+        toast(odd ? `Weight set for ${where} — ${fmtW(v)} isn’t on the app’s grid for this machine` : `Weight set for ${where}`);
       } else s.reps = Math.round(v);
       // the confirmed number pops back on the card — the .fresh mechanism
       // replays val-pop through .no-entrance
