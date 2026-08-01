@@ -1,0 +1,61 @@
+{
+  "role": "recovery",
+  "date": "2026-08-01",
+  "session": "PullA",
+  "reviewed_through": "2026-07-31",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "why": "Plainly: 265 for three top sets, same as 2026-07-24, and no plate goes on tonight. Two reasons, and neither is 'he seems tired'. First, he has not finished the rep range yet - the slot asks 5-6 and on 2026-07-24 he took 5, 5, 5 at 265, the floor, exactly as he took 5, 5, 5 at 255 on 2026-07-17. He has never touched a 6. Second, his last heavy hinge was two days ago and it was a harder one than the hinge that preceded his last deadlift: 2026-07-30 gave 205 for 9, 9 on the smith RDL where 2026-07-22 gave 205 for 8, 8. Same two-day gap, more accumulated hinge volume going in. Repeat 225x5 then 265 three times and let him chase the 6th rep on the first top set. If he gets 6/6/5 tonight the weight has earned the right to move; if he gets 5/5/5 again at short rest, it has not.",
+      "evidence": ["2026-07-24:deadlift", "2026-07-17:deadlift", "2026-07-30:smith-rdl", "2026-07-22:smith-rdl"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "hold",
+      "why": "150 is not finished. On 2026-07-24 he ran 135x8, 150x8, then 150x7 - the last set fell under the 8-rep minimum, and it fell there with the bell fully honoured (142 seconds against a prescribed 120). Extra rest and he still lost the rep, which means the weight is the limit, not the recovery. Repeat 135/150/150 and make him bank three clean 8s before anything moves.",
+      "evidence": ["2026-07-24:lat-pulldown-wide", "2026-07-28:lat-pulldown-close"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "why": "The 11 on the middle set looks like headroom and it is not - he bought it with 241 seconds between sets against a prescribed 120, double the rest, and the set on either side of it came back to 10 at normal rest. Read 105 as a genuine 10-rep weight in a session that starts with four sets of deadlift, and repeat it. Also carry his own words forward from that night: he says this and the lat pulldown are the same machine, so whatever the card says, he is not walking to a second station between them.",
+      "evidence": ["2026-07-24:seated-cable-row-wide", "2026-07-24:note", "2026-07-24:deadlift"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "why": "Same shape as the pulldown: on 2026-07-24 he got 30x8, 30x8, then 30x7, the third set under the 8-rep floor, and he took 129 and 140 seconds between sets against a prescribed 75 - nearly double the rest and the rep still went. Biceps also worked four days ago on 2026-07-28 at 25x10, 10, 9. Repeat 30 and let him finish 8/8/8.",
+      "evidence": ["2026-07-24:db-curl", "2026-07-28:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "abstain",
+      "why": "I will not put a number on this one and I want the reason on the record rather than hidden in a silent repeat. The 42.5 in the log is not a strength jump - on 2026-07-17 this lift was 17.5, and on 2026-07-24 he wrote that he was doing a two-hand rope hammer curl that day, which is a different implement reading a different stack. 42.5 is correct only if he picks up the rope again. Whoever prescribes tonight must say which implement the number belongs to, or ask him, rather than printing 42.5 as though 17.5 to 42.5 in seven days were progress.",
+      "evidence": ["2026-07-24:cable-hammer-curl", "2026-07-24:note", "2026-07-17:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "skip",
+      "why": "Cut them tonight. He did face pulls last night, 2026-07-31, two sets of 15 at 27.5, and they have appeared in six of his last nine logged sessions. On 2026-07-28 he refused them in writing and substituted his own movement, and after being handed them again on 2026-07-31 the note he left was three words long and it was not about his shoulders. Two sets of a corrective on back-to-back days buys nothing, and dropping them returns four to five minutes to a PullA that has run exactly 45 minutes both times it has been logged - which is close to the rest the deadlift is currently going without.",
+      "evidence": ["2026-07-31:face-pulls", "2026-07-31:note", "2026-07-28:note", "2026-07-27:face-pulls", "2026-07-24:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "why": "Take face pulls off Pull A permanently. Pull A always lands the day after Push A, and Push A already carries them - he did 27.5 for 15 and 15 on 2026-07-31 and Pull A is tonight, exactly as he did them on 2026-07-23 and then again on 2026-07-24. That is the same two sets of the same corrective on back-to-back days, twice in nine days, and it is the thing he told us in writing was insane. Two sets of face pulls the day after two sets of face pulls builds nothing; removing them here also returns four to five minutes to a Pull A that has run exactly 45 minutes both times it has been logged, which is close to the rest his deadlift is currently going without.",
+      "evidence": ["2026-07-31:face-pulls", "2026-07-31:note", "2026-07-24:face-pulls", "2026-07-23:face-pulls"]
+    },
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PullB",
+      "why": "Same removal, same reason, one session later in the week. Pull B always lands the day after Push B and Push B already carries them: 2026-07-20 into 2026-07-21, then 2026-07-27 into 2026-07-28. The second time he refused - he logged zero sets on 2026-07-28 and wrote that it is insane to run the same corrective back to back between days, and did his own movement instead. He has already deleted this slot himself; the plan should say so rather than reprinting it and making him refuse it every week. With Pull A and Pull B cleared, face pulls sit on Push A and Push B only, three days apart, never consecutive.",
+      "evidence": ["2026-07-28:note", "2026-07-27:face-pulls", "2026-07-21:face-pulls", "2026-07-20:face-pulls"]
+    }
+  ]
+}
