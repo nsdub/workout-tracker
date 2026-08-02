@@ -1,0 +1,134 @@
+{
+  "date": "2026-08-01",
+  "session_type": "PullA",
+  "phase": "meso1",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 225,
+          "reps": 5,
+          "at": 1785608992577
+        },
+        {
+          "weight": 265,
+          "reps": 4,
+          "at": 1785609209338
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1785609429529
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1785609683851,
+          "restEndedAt": 1785609669545
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 9,
+          "at": 1785609936586,
+          "restEndedAt": 1785609923860
+        },
+        {
+          "weight": 150,
+          "reps": 8,
+          "at": 1785610089572,
+          "restEndedAt": 1785610056597
+        },
+        {
+          "weight": 150,
+          "reps": 8,
+          "at": 1785610236843,
+          "restEndedAt": 1785610209583
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 11,
+          "at": 1785610407204,
+          "restEndedAt": 1785610356859
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1785610545838,
+          "restEndedAt": 1785610527223
+        },
+        {
+          "weight": 105,
+          "reps": 11,
+          "at": 1785610678996,
+          "restEndedAt": 1785610665847
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 9,
+          "at": 1785610910238,
+          "restEndedAt": 1785610799006
+        },
+        {
+          "weight": 30,
+          "reps": 9,
+          "at": 1785611065671,
+          "restEndedAt": 1785610985250
+        },
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1785611273055,
+          "restEndedAt": 1785611140679
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 42.5,
+          "reps": 11,
+          "at": 1785611445637,
+          "restEndedAt": 1785611348066
+        },
+        {
+          "weight": 42.5,
+          "reps": 11,
+          "at": 1785611563655,
+          "restEndedAt": 1785611520659
+        },
+        {
+          "weight": 42.5,
+          "reps": 10,
+          "at": 1785611691424,
+          "restEndedAt": 1785611638668
+        }
+      ]
+    }
+  ],
+  "world": "anglermarket",
+  "mins": 45,
+  "startedAt": 1785606424782
+}
