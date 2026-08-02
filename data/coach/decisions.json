@@ -289,5 +289,30 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-01T17:39:23.752Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "lat-pulldown-close",
+      "scope": "PullB",
+      "repMin": 8,
+      "repMax": 10,
+      "why": "Close-grip pulldown asks ten to twelve reps and you finished every 120 lb set at exactly ten on both of your last two Pull B nights — the weight only moves when every set reaches the top of the range, so this asks eight to ten and the tens you already do earn the next plate.",
+      "date": "2026-08-02"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-02T23:32:04.292Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 2,
+      "why": "Legs A asks four sets of calf raises and you have done exactly two both times this block, 260 for fifteen and fifteen — and because the weight only rises when you complete every set the plan asks for, those two perfect sets currently count for nothing, so this makes the prescription the two sets you actually do.",
+      "date": "2026-08-02"
+    },
+    "decision": "declined",
+    "decided_at": "2026-08-02T23:32:04.300Z"
   }
 ]
