@@ -1,0 +1,35 @@
+{
+  "role": "program",
+  "date": "2026-08-02",
+  "session": "PullA",
+  "reviewed_through": "2026-07-31",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "lat-pulldown-close",
+      "scope": "PullB",
+      "repMin": 8,
+      "repMax": 10,
+      "why": "Close-grip pulldown is the only lift in your program that has stopped moving: the slot asks 10 to 12 reps, you finished every 120 lb set at exactly 10 on both of your last two Pull B nights, and the weight only climbs when every set reaches the top of the range — so this asks 8 to 10, where the tens you already do earn the next plate.",
+      "evidence": [
+        "2026-07-21:lat-pulldown-close",
+        "2026-07-28:lat-pulldown-close",
+        "2026-07-24:lat-pulldown-wide"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 2,
+      "why": "Legs A asks four sets of calf raises and you have done exactly two both times this block, 260 for fifteen and fifteen, while still finishing the crunches and leg raises that come after them — so this is not you running out of session, and the prescription should be the two sets you actually do.",
+      "evidence": [
+        "2026-07-18:standing-calf-raise",
+        "2026-07-26:standing-calf-raise",
+        "2026-07-26:hanging-leg-raise"
+      ]
+    }
+  ]
+}

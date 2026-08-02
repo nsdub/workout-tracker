@@ -1,0 +1,44 @@
+{
+  "role": "recovery",
+  "date": "2026-08-02",
+  "session": "PullA",
+  "reviewed_through": "2026-07-31",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "why": "I am the brake and tonight I have nothing to brake with, so let me say that plainly instead of hiding a hold behind vague caution. He did not train on 2026-08-01, his last heavy hinge was 2026-07-30, and the last time he actually pulled from the floor was 2026-07-24 - nine days and a full day off. There is no pain note anywhere in the log and no fatigue signal I can point at. 265 repeats for one reason only, and it is not recovery: he has never finished the set. 2026-07-17 was 255 for 5, 5, 5 and 2026-07-24 was 265 for 5, 5, 5, both at the bottom of the range, and on 2026-07-24 the gap between his top sets stretched 145, 221, then 299 seconds to get them. Give him 225 then 265 three times, fresh, and see whether a 6 is in there.",
+      "evidence": ["2026-07-24:deadlift", "2026-07-17:deadlift", "2026-07-30:smith-rdl"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "hold",
+      "why": "150 is unfinished business. On 2026-07-24 he ran 135x8, 150x8, 150x7 - the last set dropped under 8 even though he took 142 seconds between sets against a prescribed 120, so extra rest did not save the rep and the weight is the limit, not his recovery. Tonight he is the freshest he has been in front of this lift, which makes it a clean test: repeat 135/150/150 and he either banks three 8s or he does not.",
+      "evidence": ["2026-07-24:lat-pulldown-wide", "2026-07-17:lat-pulldown-wide", "2026-07-28:lat-pulldown-close"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "why": "105 for 10, 11, 10 on 2026-07-24 looks like headroom and is not - the 11 was bought with 241 seconds between sets against a prescribed 120, and the sets either side of it came back to 10 at normal rest. Repeat 105 and read it as a real 10-rep weight in a session that opens with four sets of deadlift. Carry his own words forward too: on that night he wrote that this and the lat pulldown are the same machine, so the card should not send him to a station he says does not exist.",
+      "evidence": ["2026-07-24:seated-cable-row-wide", "2026-07-24:note", "2026-07-17:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 30, "reps": 8 },
+        { "weight": 30, "reps": 8 }
+      ],
+      "why": "Same weight, one less set. On 2026-07-24 he got 30x8, 30x8, 30x7 and the third set was the only one that broke the rep floor, with the time he spent on the set climbing 38, 54, then 65 seconds while his rest was being cut from 120 to 75 - that third set was already a grind, and it is immediately followed by three more sets of curling on the hammer curl. He has told us twice in writing what he thinks of set counts he cannot see the point of, most recently 'Why four sets' on 2026-07-30. Dropping the set that already failed costs him nothing and shortens the tail of a session he skipped last night.",
+      "evidence": ["2026-07-24:db-curl", "2026-07-17:db-curl", "2026-07-30:note", "2026-07-28:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "abstain",
+      "why": "I will not put a number on this and I want the reason on the record rather than buried in a silent repeat. On 2026-07-17 this lift was 17.5; on 2026-07-24 it reads 42.5, and on that same night he wrote that he was doing a two-hand rope cable hammer curl - a different implement pulling a different stack. 42.5 is only correct if he picks the rope up again. Whoever sets tonight's card has to name the implement the number belongs to, or ask him, instead of printing 17.5 to 42.5 in seven days as if it were progress.",
+      "evidence": ["2026-07-24:cable-hammer-curl", "2026-07-24:note", "2026-07-17:cable-hammer-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

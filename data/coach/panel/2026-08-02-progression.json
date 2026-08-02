@@ -1,0 +1,67 @@
+{
+  "role": "progression",
+  "date": "2026-08-02",
+  "session": "PullA",
+  "reviewed_through": "2026-07-31",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "push",
+      "sets": [
+        { "weight": 225, "reps": 6 },
+        { "weight": 265, "reps": 6 },
+        { "weight": 265, "reps": 6 },
+        { "weight": 265, "reps": 6 }
+      ],
+      "why": "On July 24 he finished all four sets at 5 reps, the bottom of the 5-6 range, with no set breaking down. The bar stays at 265 and the sixth rep is the price of the next jump; nine days off since that session means he is not short of recovery.",
+      "evidence": ["2026-07-24:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 9 },
+        { "weight": 150, "reps": 8 },
+        { "weight": 150, "reps": 8 }
+      ],
+      "why": "July 24 was 8, 8, then 7 at 150, so the last set fell under the bottom of the 8-10 range and 150 is not owned yet. Same weights, and the whole ask is to finish the third set at 8; the app's repeat card asking 10s is three reps past anything he has done here.",
+      "evidence": ["2026-07-24:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 11 },
+        { "weight": 105, "reps": 11 },
+        { "weight": 105, "reps": 10 },
+        { "weight": 105, "reps": 10 }
+      ],
+      "why": "He rowed 105 for 10, 11, 10 on July 24, sitting on the floor of the 10-12 range, and this slot is now four sets instead of three. The fourth set is already the volume increase, so 105 holds and only the first two sets are asked for an extra rep.",
+      "evidence": ["2026-07-24:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 30, "reps": 8 },
+        { "weight": 30, "reps": 8 },
+        { "weight": 30, "reps": 8 }
+      ],
+      "why": "July 24 was 8, 8, 7 with the 30s, so the third set dropped below the 8-10 range and the 35s would be a 17 percent jump onto a bar he has not cleared. Same dumbbell, and the ask is three honest sets of 8 before the next pin.",
+      "evidence": ["2026-07-24:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 42.5, "reps": 11 },
+        { "weight": 42.5, "reps": 11 },
+        { "weight": 42.5, "reps": 10 }
+      ],
+      "why": "Three clean sets of exactly 10 at 42.5 on July 24 with no decay across the sets, which is the floor of a 10-12 range and a sign there is room left. The stack pin stays where it is and the first two sets go to 11; clear 12s across and the weight moves next time.",
+      "evidence": ["2026-07-24:cable-hammer-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
