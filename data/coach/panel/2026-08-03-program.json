@@ -1,0 +1,26 @@
+{
+  "role": "program",
+  "date": "2026-08-03",
+  "session": "PushB",
+  "reviewed_through": "2026-08-02",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reorder",
+      "exercise": "overhead-cable-triceps",
+      "scope": "PushA",
+      "position": 4,
+      "why": "You already approved moving this ahead of the Push A lateral raise on 23 July, but that proposal carried no position for the app to apply, so nothing moved and it still ran sixth on both Push A nights since — this is the same change with the number it was missing.",
+      "evidence": ["2026-07-23:overhead-cable-triceps", "2026-07-31:overhead-cable-triceps"]
+    },
+    {
+      "kind": "reorder",
+      "exercise": "assisted-dips",
+      "scope": "PushB",
+      "position": 2,
+      "why": "Dips are a pressing movement, but on Push B they run sixth, behind six straight sets of crossovers and rear-delt flies — this moves them up behind the chest press so both of your Push B presses happen before the isolation work instead of after it.",
+      "evidence": ["2026-07-20:assisted-dips", "2026-07-27:assisted-dips"]
+    }
+  ]
+}

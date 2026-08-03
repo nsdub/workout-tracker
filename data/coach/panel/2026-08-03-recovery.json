@@ -1,0 +1,80 @@
+{
+  "role": "recovery",
+  "date": "2026-08-03",
+  "session": "PushB",
+  "reviewed_through": "2026-08-02",
+  "calls": [
+    {
+      "exercise": "face-pulls",
+      "stance": "skip",
+      "why": "Face pulls have already come off both pull days, so they now run twice a week on your two push days — tonight is the first of those since the change. Push B is the one session that already has the reverse pec deck working the same area, so this is the one place they are still doubled up.",
+      "evidence": ["2026-07-28:note", "2026-07-31:note", "2026-07-31:face-pulls", "2026-07-27:face-pulls", "2026-07-27:reverse-pec-deck"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "With face pulls off tonight, this is your only back-of-shoulder work in the session, so it stays in. Keep the weight where it was on July 27 rather than adding, because tonight is your fifth training day in a row.",
+      "evidence": ["2026-07-27:reverse-pec-deck", "2026-07-20:reverse-pec-deck", "2026-08-02:leg-press-low"]
+    },
+    {
+      "exercise": "smith-overhead-press",
+      "stance": "hold",
+      "why": "Tonight is your fifth training day without a full day off — your last one was July 29 — and Push B is your longest session of the week at 27 sets. Repeat what you pressed on July 27 rather than climbing on top of it.",
+      "evidence": ["2026-07-27:smith-overhead-press", "2026-08-02:leg-press-low", "2026-08-01:deadlift", "2026-07-24:deadlift"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "Three days ago your triceps ran out inside the session: 53.75 for 13, then 55 for 11, then 57.5 for only 8, and the rope pushdowns straight after went 60 for 8, 60 for 7, then you dropped to 55. Match your July 27 numbers tonight instead of adding weight.",
+      "evidence": ["2026-07-31:overhead-cable-triceps", "2026-07-31:rope-pushdown", "2026-07-27:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "hold",
+      "why": "This is the second triceps movement of the night and your triceps are the thing that faded three days ago. Same numbers as last Push B, no jump.",
+      "evidence": ["2026-07-27:reverse-grip-pushdown", "2026-07-31:overhead-cable-triceps", "2026-07-31:rope-pushdown"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "abstain",
+      "why": "You have pushed this two sessions running with no sign of struggling — 165 for 10 on July 27 and 165 for 12 on July 31 — so I have no recovery reason to slow it down. Whatever the load trainer sets, I do not object.",
+      "evidence": ["2026-07-27:machine-chest-press", "2026-07-31:machine-chest-press", "2026-07-20:machine-chest-press"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "abstain",
+      "why": "Your only note here was that you did the first two sets on the cable machine, which is an equipment choice rather than anything about recovery. Nothing in the log points either way.",
+      "evidence": ["2026-07-27:db-lateral-raise", "2026-07-27:note", "2026-07-20:db-lateral-raise"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "abstain",
+      "why": "Twelve clean reps on all three sets last Push B and no note from you. I have no recovery evidence about this one either way.",
+      "evidence": ["2026-07-27:cable-crossover-high-low", "2026-07-20:cable-crossover-high-low"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "abstain",
+      "why": "Three sets of twelve both times you have done these, with no note and no drop-off. Nothing here for me to brake.",
+      "evidence": ["2026-07-27:assisted-dips", "2026-07-20:assisted-dips"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PushB",
+      "why": "Push B already has the reverse pec deck working the back of your shoulders, so face pulls are doing the same job twice in one session — Push A has no reverse pec deck, so they stay on that day.",
+      "evidence": ["2026-07-27:reverse-pec-deck", "2026-07-20:reverse-pec-deck", "2026-07-27:face-pulls", "2026-07-31:face-pulls", "2026-07-28:note"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsA",
+      "sets": 2,
+      "why": "You asked whether three sets is right — both times you have done three on this day your third set fell to 10 reps after two sets of 12, so two is the honest answer unless a trainer can name a reason for the third.",
+      "evidence": ["2026-08-02:note", "2026-08-02:hanging-leg-raise", "2026-07-26:hanging-leg-raise"]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "role": "progression",
+  "date": "2026-08-03",
+  "session": "PushB",
+  "reviewed_through": "2026-08-02",
+  "calls": [
+    {
+      "exercise": "smith-overhead-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 8 },
+        { "weight": 115, "reps": 8 },
+        { "weight": 120, "reps": 8 },
+        { "weight": 125, "reps": 6 }
+      ],
+      "why": "Last time you finished 105, 115 and 120 all for 8 reps, which is the top of what this slot asks for, so the next step is earned. I want you to repeat those three exactly and then add a fourth set at 125 for 6. Your opener was 95 for 10 reps, which is two reps past the ceiling for a set that heavy in this slot, so it moves up to 105.",
+      "evidence": ["2026-07-27:smith-overhead-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 165, "reps": 8 },
+        { "weight": 172.5, "reps": 8 },
+        { "weight": 180, "reps": 8 }
+      ],
+      "why": "You pressed 165 for 10 on this day last week and then 165 for 12 on Friday, so 165 is no longer a top set, it is your opener. The app would only take you to 172.5; twelve clean reps at 165 three days ago says 180 for 8 is there. This is the biggest jump I am asking for tonight, and 180 is the highest the safety cap allows.",
+      "evidence": ["2026-07-27:machine-chest-press", "2026-07-31:machine-chest-press"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 12.5, "reps": 15 },
+        { "weight": 12.5, "reps": 15 },
+        { "weight": 15, "reps": 13 },
+        { "weight": 15, "reps": 13 }
+      ],
+      "why": "The app wanted to hand you 10-lb dumbbells for the first two sets, but your first two sets last week were on the cable machine and the 10.5 you typed was an estimate, so it is not a dumbbell number at all. Use the 12.5s for the first two and get 15 reps. The 15s stay where they are, because 13 and 12 reps is inside the range and not at the top of it, so no raise has been earned there yet.",
+      "evidence": ["2026-07-27:db-lateral-raise", "2026-07-27:note"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 13 },
+        { "weight": 25, "reps": 13 },
+        { "weight": 25, "reps": 13 }
+      ],
+      "why": "All three sets stopped at 12 reps, the bottom of the range, so the weight stays put — a raise here would be one the log has not paid for. The 25.5 you typed is not a setting this machine has; the real pin plus micro is 25, so that is what the card says. Beat 12 reps on every set and the weight goes up next time.",
+      "evidence": ["2026-07-27:cable-crossover-high-low"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "push",
+      "sets": [
+        { "weight": 90, "reps": 14 },
+        { "weight": 90, "reps": 13 },
+        { "weight": 90, "reps": 13 }
+      ],
+      "why": "Your first set hit 15 reps at 82.5, which is the top of the range, so that set has earned the next plate and becomes 90. The other two stay at 90 because 13 and 12 reps is short of the ceiling. All three sets at 90 tonight.",
+      "evidence": ["2026-07-27:reverse-pec-deck"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "You hit 12 reps on all three sets, which is the top of the range, so this lift has run out of room at the current assist setting. Same three sets of 12, but take one step less help from the machine. The app records dips as bodyweight and never sees the assist number, so I cannot print that setting on the card for you.",
+      "evidence": ["2026-07-27:assisted-dips"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "push",
+      "sets": [
+        { "weight": 55, "reps": 12 },
+        { "weight": 55, "reps": 11 },
+        { "weight": 55, "reps": 11 }
+      ],
+      "why": "On Friday you got 13 reps at 53.75, which is past the top of the range, so that weight is done — and you got 11 at 55, which is right in it. 57.5 gave you only 8 reps, so that is too heavy. All three sets at 55 tonight.",
+      "evidence": ["2026-07-27:overhead-cable-triceps", "2026-07-31:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "push",
+      "sets": [
+        { "weight": 25, "reps": 15 },
+        { "weight": 27.5, "reps": 14 }
+      ],
+      "why": "Your first set hit 15 reps at 23.75, the top of the range, so it goes up one micro plate to 25. The second set stays at 27.5 because 13 reps there is inside the range, not at the top of it — beat 13 and it moves next time.",
+      "evidence": ["2026-07-27:reverse-grip-pushdown"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 30, "reps": 12 },
+        { "weight": 30, "reps": 12 }
+      ],
+      "why": "Four sets in a row across two sessions, all at 27.5, all stopping at exactly 15 reps because 15 is the ceiling — that is the weight being too light, not you finishing the work. The app would nudge it to 28.75; I want 30, which is the most this lift is allowed to move in one step.",
+      "evidence": ["2026-07-27:face-pulls", "2026-07-31:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
