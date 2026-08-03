@@ -1,0 +1,183 @@
+{
+  "date": "2026-08-03",
+  "session_type": "PushB",
+  "phase": "meso1",
+  "week": 3,
+  "exercises": [
+    {
+      "id": "smith-overhead-press",
+      "name": "Smith Overhead Press",
+      "sets": [],
+      "note": "Did arnold presses instead bc smith machine unavailable. 40x6, 4 sets"
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 8,
+          "at": 1785792503448
+        },
+        {
+          "weight": 172.5,
+          "reps": 8,
+          "at": 1785792625566,
+          "restEndedAt": 1785792623464
+        },
+        {
+          "weight": 180,
+          "reps": 8,
+          "at": 1785792807947,
+          "restEndedAt": 1785792745575
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785792959583,
+          "restEndedAt": 1785792927960
+        },
+        {
+          "weight": 0,
+          "reps": 11,
+          "at": 1785793170280,
+          "restEndedAt": 1785793079615
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785793262673
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1785793399029,
+          "restEndedAt": 1785793382681
+        },
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1785793506787,
+          "restEndedAt": 1785793474045
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1785793624320,
+          "restEndedAt": 1785793581796
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1785793743204,
+          "restEndedAt": 1785793699333
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 14,
+          "at": 1785793878096,
+          "restEndedAt": 1785793818212
+        },
+        {
+          "weight": 25,
+          "reps": 14,
+          "at": 1785794006736,
+          "restEndedAt": 1785793953106
+        },
+        {
+          "weight": 25,
+          "reps": 13,
+          "at": 1785794127720,
+          "restEndedAt": 1785794081746
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 14,
+          "at": 1785794241159,
+          "restEndedAt": 1785794202727
+        },
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1785794351262,
+          "restEndedAt": 1785794316170
+        },
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1785794468246,
+          "restEndedAt": 1785794426273
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 11,
+          "at": 1785794589385,
+          "restEndedAt": 1785794543257
+        },
+        {
+          "weight": 55,
+          "reps": 11,
+          "at": 1785794694665,
+          "restEndedAt": 1785794664396
+        },
+        {
+          "weight": 55,
+          "reps": 10,
+          "at": 1785794793761,
+          "restEndedAt": 1785794769675
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 23.75,
+          "reps": 15,
+          "at": 1785794897197,
+          "restEndedAt": 1785794868770
+        },
+        {
+          "weight": 25,
+          "reps": 14,
+          "at": 1785795017740,
+          "restEndedAt": 1785794972205
+        }
+      ]
+    }
+  ],
+  "world": "steamgardens",
+  "mins": 42,
+  "startedAt": 1785784342277
+}
