@@ -1,0 +1,204 @@
+{
+  "date": "2026-08-02",
+  "session_type": "LegsA",
+  "phase": "meso1",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 180,
+          "reps": 8,
+          "at": 1785715425501
+        },
+        {
+          "weight": 220,
+          "reps": 8,
+          "at": 1785715579343
+        },
+        {
+          "weight": 240,
+          "reps": 8,
+          "at": 1785715728454
+        },
+        {
+          "weight": 240,
+          "reps": 8,
+          "at": 1785715875805
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 9,
+          "at": 1785716056176,
+          "restEndedAt": 1785716055831
+        },
+        {
+          "weight": 17.5,
+          "reps": 8,
+          "at": 1785716273631,
+          "restEndedAt": 1785716176193
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 15,
+          "at": 1785716423059,
+          "restEndedAt": 1785716393640
+        },
+        {
+          "weight": 135,
+          "reps": 15,
+          "at": 1785716547669,
+          "restEndedAt": 1785716513075
+        },
+        {
+          "weight": 135,
+          "reps": 15,
+          "at": 1785716694749,
+          "restEndedAt": 1785716637682
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 15,
+          "at": 1785716817805,
+          "restEndedAt": 1785716784758
+        },
+        {
+          "weight": 150,
+          "reps": 14,
+          "at": 1785716943007,
+          "restEndedAt": 1785716907818
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 15,
+          "at": 1785717100462,
+          "restEndedAt": 1785717033017
+        },
+        {
+          "weight": 97.5,
+          "reps": 15,
+          "at": 1785717246641,
+          "restEndedAt": 1785717177069
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 12,
+          "at": 1785717102058
+        },
+        {
+          "weight": 135,
+          "reps": 12,
+          "at": 1785717247436
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 280,
+          "reps": 15,
+          "at": 1785717727153,
+          "restEndedAt": 1785717686039
+        },
+        {
+          "weight": 280,
+          "reps": 14,
+          "at": 1785717818422,
+          "restEndedAt": 1785717802161
+        },
+        {
+          "weight": 280,
+          "reps": 15,
+          "at": 1785718238577,
+          "restEndedAt": 1785718202786
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 15,
+          "at": 1785717384606,
+          "restEndedAt": 1785717322446
+        },
+        {
+          "weight": 55,
+          "reps": 15,
+          "at": 1785717489760,
+          "restEndedAt": 1785717444616
+        },
+        {
+          "weight": 55,
+          "reps": 15,
+          "at": 1785717626026,
+          "restEndedAt": 1785717549782
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785717927166,
+          "restEndedAt": 1785717893430
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1785718029716,
+          "restEndedAt": 1785717987177
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1785718142778,
+          "restEndedAt": 1785718089722
+        }
+      ],
+      "note": "Are the trainers sure three sets is correct?"
+    }
+  ],
+  "world": "marina",
+  "mins": 47,
+  "startedAt": 1785715147854
+}
