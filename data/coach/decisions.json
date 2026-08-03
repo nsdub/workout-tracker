@@ -314,5 +314,52 @@
     },
     "decision": "declined",
     "decided_at": "2026-08-03T03:40:02.817Z"
+  },
+  {
+    "proposal": {
+      "kind": "remove",
+      "exercise": "face-pulls",
+      "scope": "PushB",
+      "why": "Push B already has the reverse pec deck working the back of your shoulders, so face pulls are doing that job twice in one session — Push A has no reverse pec deck, so they stay on that day.",
+      "date": "2026-08-03"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-03T19:12:19.284Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsA",
+      "sets": 2,
+      "why": "You asked whether three sets is right — both times you have done three on this day your third set came in at ten after two sets of twelve, so this makes it two if you would rather have the honest number.",
+      "date": "2026-08-03"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-03T19:12:19.293Z"
+  },
+  {
+    "proposal": {
+      "kind": "reorder",
+      "exercise": "overhead-cable-triceps",
+      "scope": "PushA",
+      "position": 4,
+      "why": "You already approved moving this ahead of the Push A lateral raise on 23 July, but that card carried no position for the app to apply, so nothing moved and it still ran sixth on both Push A nights since — this is the same change with the number it was missing.",
+      "date": "2026-08-03"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-03T19:12:19.297Z"
+  },
+  {
+    "proposal": {
+      "kind": "reorder",
+      "exercise": "assisted-dips",
+      "scope": "PushB",
+      "position": 2,
+      "why": "Dips are a pressing movement, but on Push B they run sixth, behind six straight sets of crossovers and rear-delt flies — this moves them up behind the chest press so both of your presses happen before the isolation work instead of after it.",
+      "date": "2026-08-03"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-03T19:12:19.302Z"
   }
 ]
