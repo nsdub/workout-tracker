@@ -1,0 +1,77 @@
+{
+  "role": "progression",
+  "date": "2026-08-04",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "sets": [
+        { "weight": 120, "reps": 10 },
+        { "weight": 140, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 10 }
+      ],
+      "why": "The app wanted to repeat 115/135/145/150 unchanged, but the two opening sets finished at the top of the 8-10 range last time (115x10, 135x10), so each earns one 5-lb step on the Smith bar. The top set stopped at 150x9, so 150 stays put until it gets its tenth rep, and 145 stays too - moving it to 150 would flatten the ladder into two identical top sets and make that tenth rep harder to reach.",
+      "evidence": ["2026-07-28:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 }
+      ],
+      "why": "All three sets hit 120x10 - the top of the 8-10 range on every set - and the lift is still flagged stalled, which means it has been sitting at 120 while clearing it cleanly. One 7.5-lb machine step to 127.5 is exactly what the log earned, and it is the app's own call here, so I am confirming it rather than correcting it.",
+      "evidence": ["2026-07-28:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 14 },
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 }
+      ],
+      "why": "Last time was 13, 12, 12 at 37.5 - inside the 12-15 range but nowhere near the top of it, so the weight has not been earned. The next pin on this machine is 45, a 20 percent jump on a small single-joint movement, so the weight holds and the target is one more rep per set. When all three reach 15, 45 is next.",
+      "evidence": ["2026-07-28:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 15 },
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 }
+      ],
+      "why": "70s went 14, 13, 13 - one to two reps short of the top of the 12-15 range on every set. The rack jumps straight from 70 to 80 with nothing between, so a weight step here is a 14 percent jump the log does not support. Hold 70 and chase one more rep per set; 80s come when all three sets hit 15.",
+      "evidence": ["2026-07-28:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "Two sets cleared 25x10 and the third stopped at 9, so the ladder is nearly earned but not earned yet. The next dumbbell is 30, a 20 percent jump, which is too much to hand over for a single missing rep. Hold 25 until all three sets close at 10, then take the 30s.",
+      "evidence": ["2026-07-28:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 32.5, "reps": 12 },
+        { "weight": 32.5, "reps": 12 },
+        { "weight": 32.5, "reps": 12 }
+      ],
+      "why": "The app wanted to repeat 37.5 for 15s, but at 37.5 the reps fell away to 12, 11, 10 - the last two sets landed under the slot's own 12-rep floor, so the weight is above what this slot supports. One 5-lb pin down to 32.5 puts all three sets back inside 12-15, and the load can come back up once he is finishing 15s there.",
+      "evidence": ["2026-07-28:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

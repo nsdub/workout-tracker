@@ -1,0 +1,35 @@
+{
+  "role": "program",
+  "date": "2026-08-04",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "swap",
+      "exercise": "face-pulls",
+      "replacement": "reverse-pec-deck",
+      "scope": "PushA",
+      "why": "Push A now ends with the only face pulls left in your week, the ones you wrote \"Do you have a brain?\" next to on 31 July, and this puts the reverse pec deck in that slot instead - it works the same back of the shoulder, and it is the machine you have carried from 82.5 to 90 without missing a set.",
+      "evidence": [
+        "2026-07-31:face-pulls",
+        "2026-07-31:note",
+        "2026-07-27:reverse-pec-deck",
+        "2026-08-03:reverse-pec-deck"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "This is not the cut to two sets you turned down yesterday - Legs A asks for four calf sets and you have done two, two and three, and the weight only moves when you finish every set the plan asks for, so your 280s can never earn the next step; this makes the plan say three, which is what you actually do.",
+      "evidence": [
+        "2026-07-18:standing-calf-raise",
+        "2026-07-26:standing-calf-raise",
+        "2026-08-02:standing-calf-raise"
+      ]
+    }
+  ]
+}

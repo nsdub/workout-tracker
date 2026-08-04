@@ -1,0 +1,61 @@
+{
+  "role": "recovery",
+  "date": "2026-08-04",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "cut",
+      "sets": [
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 9 }
+      ],
+      "why": "MY FIRST CHOICE IS A REST DAY, NOT PullB: he has trained five days straight (Jul 30, Jul 31, Aug 1, Aug 2, Aug 3) and today would be day six, where his two previous runs this block were four days and three days before he took Jul 25 and Jul 29 off. If the panel sends him in anyway, this lift gets cut from four sets to three: it is the heaviest spinal-loaded pull of the week and it lands only three days after deadlift 265x5x3 on Aug 1 with no rest day between. I drop the bottom 115 ramp set and keep his top set intact, so the peak stimulus survives and only the accumulated volume comes off. Separately: he logged on Aug 3 that the smith machine was unavailable and he substituted Arnold presses, so this session may need a barbell or chest-supported row fallback ready.",
+      "evidence": ["2026-07-28:smith-bent-over-row", "2026-08-01:deadlift", "2026-08-03:note"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "why": "Nothing in my slice objects to this lift. He put up 120 for 10/10/10 last time it came around with rest between sets running about 45 to 75 seconds, which is normal for him. Whatever load the progression seat sets, at the standing three sets.",
+      "evidence": ["2026-07-28:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "why": "Clean and stable at 37.5 for 13/12/12 last PullB, with rest gaps of about 45 to 55 seconds and no drift. No recovery reason to touch it.",
+      "evidence": ["2026-07-28:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "why": "70 lb per hand for 14/13/13 last PullB on short 33 to 43 second rests. Low systemic cost and no fatigue signal. Hold at three sets.",
+      "evidence": ["2026-07-28:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "why": "25 lb for 10/10/9 last PullB is a normal finish, so this one stays at three sets. I am taking the elbow-flexor volume off the reverse curl instead, because he already did six hard biceps sets on Aug 1 (db curl 30x9/9/8 and cable hammer curl 42.5x11/11/10) and that was only three days ago.",
+      "evidence": ["2026-07-28:incline-db-curl", "2026-08-01:db-curl", "2026-08-01:cable-hammer-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 37.5, "reps": 12 },
+        { "weight": 37.5, "reps": 12 }
+      ],
+      "why": "This is the one lift in PullB that has actually shown fatigue inside itself: on Jul 21 he held 37.5 for 12/12/12, and on Jul 28 the same load fell away across the sets at 12/11/10. It is also the last loaded work of the day, on day six, after Aug 1's six biceps sets. Cut it to two sets at 37.5 rather than let the third set be a junk set.",
+      "evidence": ["2026-07-21:cable-reverse-curl", "2026-07-28:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "skip",
+      "why": "He has already refused this one and told us why. On Jul 28 he logged zero sets and wrote: \"You're insane to have so many of the same corrective exercise back to back like this between days..I did angels and demons instead\". On Jul 31 he did them and wrote \"Do you have a brain?\", and on Aug 3 they do not appear in the session at all. He also trained rear delts yesterday on the reverse pec deck at 90 for 14/13/13, so prescribing face pulls today puts the same movement on back-to-back days, which is the exact thing he objected to. That is a closed route and I am not asking him again.",
+      "evidence": ["2026-07-28:note", "2026-07-31:face-pulls", "2026-07-31:note", "2026-08-03:reverse-pec-deck"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
