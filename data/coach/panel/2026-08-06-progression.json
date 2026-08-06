@@ -1,0 +1,103 @@
+{
+  "role": "progression",
+  "date": "2026-08-06",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "sets": [
+        { "weight": 120, "reps": 10 },
+        { "weight": 140, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 10 }
+      ],
+      "why": "The first three sets sat at 115/135/145 for three Pull B nights running and on July 28 every one of them hit the 10-rep ceiling, so repeating them unchanged is a wasted night — 115 and 135 go up a plate. 145 stays on purpose: the only number this lift has not paid for is the tenth rep at 150 (8 reps on July 21, 9 on July 28), and loading the feeder set would be the thing that costs him that rep.",
+      "evidence": [
+        "2026-07-28:smith-bent-over-row",
+        "2026-07-21:smith-bent-over-row",
+        "2026-07-13:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 }
+      ],
+      "why": "This is the one raise on the card that is fully paid for: 120 lb for a clean 10, 10, 10 on July 28 is every set at the top of the 8-10 range, and 120 has been the ceiling on this lift since July 13 — a fourth night at 120 is the definition of the silent copy-paste. 127.5 is the machine's smallest step up (7.5s), and he pulled the wide-grip version at 150 for 8 on August 1, so 127.5 close-grip is well inside what he is already doing.",
+      "evidence": [
+        "2026-07-28:lat-pulldown-close",
+        "2026-07-21:lat-pulldown-close",
+        "2026-07-13:lat-pulldown-close",
+        "2026-08-01:lat-pulldown-wide"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 }
+      ],
+      "why": "Three nights at 37.5 and he has never cleared 13 reps — July 21 gave 13/11/12 and July 28 gave 13/12/12, which is the bottom of a 12-15 range, not the top, so there is nothing here to spend. The weight itself is not the problem either: at 30 lb on July 13 he still only managed 13 and 12, so dropping back buys nothing. The number that changes is reps, and the app's standing 15-rep ask is three reps past anything he has actually done — 13 across all three sets is the real next step.",
+      "evidence": [
+        "2026-07-28:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown",
+        "2026-07-13:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 15 },
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 }
+      ],
+      "why": "70 is moving in the right direction — 12/12/12 on July 21 became 14/13/13 on July 28 — but the rack has nothing between 70 and 80, so the next step is a 14 percent jump that only 15/15/15 earns, and he is not there yet. Holding the weight and asking for one more rep on every set is the shortest honest route to 80, unlike the app's flat 15/15/15 which he has never hit at this weight.",
+      "evidence": [
+        "2026-07-28:db-shrug",
+        "2026-07-21:db-shrug",
+        "2026-07-13:db-shrug"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "He has been one rep short of clearing this for two sessions — 10/10/8 on July 21, 10/10/9 on July 28 — and the third set is the whole story. The rack jumps 25 to 30 with nothing in between, so a raise tonight is a 20 percent step bought with a set he has never finished. Two full rest days is exactly the night that last rep should land, and it earns 30 next time.",
+      "evidence": [
+        "2026-07-28:incline-db-curl",
+        "2026-07-21:incline-db-curl",
+        "2026-07-13:incline-db-curl",
+        "2026-08-01:db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 }
+      ],
+      "why": "37.5 is going backwards, not plateauing: two sets at that weight on July 21 gave 12 and 12, and running all three there on July 28 gave 12/11/10 — the last two sets fell under the 12-rep floor of the range, which means the load is wrong, not the effort. The app would print 37.5 for 15 reps, a number 5 reps past what he actually did. 35 is the nearest loadable step down (32.5 pin plus the add-on) and is a smaller retreat than 32.5, where he was already stuck at exactly 12.",
+      "evidence": [
+        "2026-07-28:cable-reverse-curl",
+        "2026-07-21:cable-reverse-curl",
+        "2026-07-13:cable-reverse-curl"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

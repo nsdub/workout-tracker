@@ -1,0 +1,51 @@
+{
+  "role": "recovery",
+  "date": "2026-08-06",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "why": "No brake here. He has had two full rest days and there is no pain note anywhere in the log, and the last Pull B was his best one: every set of the ramp went up a rep over the week before, 145 for 10 and 150 for 9. Take the weight.",
+      "evidence": ["2026-07-28:smith-bent-over-row", "2026-07-21:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "why": "He has finished 120 for a clean 10 on all three sets for two Pull B nights running, and the rep range is now 8 to 10, so he is at the top of it with no rep decay across sets. Nothing about that asks for a hold.",
+      "evidence": ["2026-07-28:lat-pulldown-close", "2026-07-21:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "why": "He has sat at 37.5 for 13, 12, 12 two Pull B nights in a row and has never reached the top of the 12 to 15 range, and this machine only steps in 7.5s, so the next notch is 45 — a 20 percent jump on a straight-arm shoulder-extension move he has not earned yet. Keep 37.5 and let him climb to 15.",
+      "evidence": ["2026-07-28:straight-arm-pulldown", "2026-07-21:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "why": "70 is going the right way — 12, 12, 12 became 14, 13, 13 — but he still has not touched 15 on any set, which is the top of the range. Nothing is wrong; he just has not finished this weight yet.",
+      "evidence": ["2026-07-28:db-shrug", "2026-07-21:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "why": "The third set at 25 has come up short of 10 on both of the last two Pull B nights — 8, then 9 — so he is not through this weight, and the dumbbell rack's next step of 30 is a 20 percent jump into the most stretched position the biceps sees all week.",
+      "evidence": ["2026-07-28:incline-db-curl", "2026-07-21:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 34, "reps": 12 },
+        { "weight": 34, "reps": 12 },
+        { "weight": 34, "reps": 12 }
+      ],
+      "why": "This one is genuinely too heavy, and it is getting worse rather than better: 37.5 gave him 12, 12 on the second and third sets on 07-21 and only 11 then 10 on 07-28, both under the 12-rep floor the plan asks for. 34 is loadable on the stack (32.5 plus the 1.5 micro) and should put all three sets back inside the range instead of two of them failing it.",
+      "evidence": ["2026-07-28:cable-reverse-curl", "2026-07-21:cable-reverse-curl", "2026-07-13:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

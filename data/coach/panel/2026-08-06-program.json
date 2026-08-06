@@ -1,0 +1,45 @@
+{
+  "role": "program",
+  "date": "2026-08-06",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "kind": "observation",
+      "exercise": "smith-overhead-press",
+      "scope": "PushB",
+      "why": "Push B's lead press has run as written on only two of your last four Push B nights — you pressed it on 12 and 27 July, it is absent from the 20 July log entirely, and on 3 August you wrote that the Smith was unavailable and did four sets of Arnold presses at 40 instead, which the app stored as zero sets so none of that work can ever move the slot; one busy machine is not a reason to change the program, so I am proposing nothing, but the panel should have the count if it happens a third time.",
+      "evidence": [
+        "2026-07-12:smith-overhead-press",
+        "2026-07-27:smith-overhead-press",
+        "2026-07-20:machine-chest-press",
+        "2026-08-03:note"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "lat-pulldown-close",
+      "scope": "PullB",
+      "why": "Tonight's dossier flags this lift as stalled, but the reason it stalled is the rep range you already changed on 3 August — under the old ten-to-twelve it took 120 for exactly ten on all three sets three Pull B nights running and never reached the top, and tonight is the first time the new eight-to-ten actually runs, so this slot needs no structural change at all and I am deliberately not putting a card in front of it.",
+      "evidence": [
+        "2026-07-13:lat-pulldown-close",
+        "2026-07-21:lat-pulldown-close",
+        "2026-07-28:lat-pulldown-close"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-bent-over-row",
+      "scope": "PullB",
+      "why": "Pull B is the cleanest session in your program — six slots, nineteen sets, and you have completed every prescribed set of all six on 13, 21 and 28 July, with the one dead slot on the day, the face pulls you refused in writing, already removed — so I am proposing no structure changes to it tonight rather than inventing churn on a session that works.",
+      "evidence": [
+        "2026-07-13:smith-bent-over-row",
+        "2026-07-21:smith-bent-over-row",
+        "2026-07-28:smith-bent-over-row",
+        "2026-07-28:note"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
