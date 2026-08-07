@@ -1,0 +1,85 @@
+{
+  "role": "program",
+  "date": "2026-08-07",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "kind": "observation",
+      "exercise": "cable-crunch",
+      "scope": "LegsA",
+      "why": "The plank-to-leg-raise swap you accepted on 22 July said in its own text that a Pallof press was the right answer and had to be added to the catalog first, and sixteen days on every core set you do is still spinal flexion — six cable crunches and four leg raises per cycle, nothing that resists rotation, against deadlifts at 265 and rows at 150; I am not putting a card in front of you because my evidence slice cannot tell me whether an anti-rotation movement exists in the catalog to name as the replacement, so this needs routing rather than a proposal.",
+      "evidence": [
+        "2026-08-02:cable-crunch",
+        "2026-08-02:hanging-leg-raise",
+        "2026-07-30:cable-crunch"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-overhead-press",
+      "scope": "PushB",
+      "why": "Carrying forward the count I opened on 6 August with no change: Push B's lead press ran as written on 12 and 27 July, is absent from the 20 July log, and on 3 August you wrote that the Smith was unavailable and did four sets of Arnold presses at 40, which stored as zero sets so none of that work can move the slot — no Push B has run since, so there is no new fact, and I am holding rather than reversing.",
+      "evidence": [
+        "2026-07-12:smith-overhead-press",
+        "2026-07-27:smith-overhead-press",
+        "2026-08-03:note"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "why": "Deliberate silence on two slots tonight: the Legs A calf raise cut to three sets and the Push A face-pull swap I proposed on 4 August are both still sitting undecided in your queue, so re-issuing either would just be the same card twice — the Legs A calf raise still asks four and you have done two, two and three, and that stays true until you rule on the card you already have.",
+      "evidence": [
+        "2026-07-18:standing-calf-raise",
+        "2026-07-26:standing-calf-raise",
+        "2026-08-02:standing-calf-raise",
+        "2026-07-31:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "straight-arm-pulldown",
+      "scope": "PullB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Straight-arm pulldown has sat at 37.5 for three Pull B nights running because it asks twelve to fifteen and your sets land at thirteen, twelve and twelve — the same block you cleared on the close-grip pulldown last week — so this asks ten to twelve and the twelves you already do earn the next step.",
+      "evidence": [
+        "2026-07-13:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown",
+        "2026-07-28:straight-arm-pulldown"
+      ]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "Push A's rope pushdown asks ten to twelve and the six sets you have done there came in at eight, seven, nine and eight, seven, eight — never once inside the range, with the weight falling inside the session both times — while the same job on Push B asks twelve to fifteen and lands at fifteen and fourteen with the load climbing, so this gives Push A the range that already works on the other day.",
+      "evidence": [
+        "2026-07-23:rope-pushdown",
+        "2026-07-31:rope-pushdown",
+        "2026-07-27:reverse-grip-pushdown",
+        "2026-08-03:reverse-grip-pushdown"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "The split squat is the only single-leg work in your week and the smallest slot in the program at two sets, against seven sets of leg press across both leg days, and you have completed both sets on both Legs A nights since it was added — I have no say over the weight, so a third set is the only way I can grow the one thing that shows a left-right gap on stage.",
+      "evidence": [
+        "2026-07-26:db-bulgarian-split-squat",
+        "2026-08-02:db-bulgarian-split-squat",
+        "2026-08-02:leg-press-low",
+        "2026-07-30:leg-press-high"
+      ]
+    }
+  ]
+}

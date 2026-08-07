@@ -1,0 +1,73 @@
+{
+  "role": "recovery",
+  "date": "2026-08-07",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "sets": [
+        { "weight": 115, "reps": 10 },
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 9 }
+      ],
+      "why": "This is the heaviest thing on his spine tonight and it is his first session back after three straight rest days, the longest break in this whole block. On July 28 every set under the top set held 10 reps but the 150 gave one back at 9, so the top set was already at its ceiling before the layoff; repeat July 28 exactly and let a clean 150x10 be what earns the next jump.",
+      "evidence": ["2026-07-28:smith-bent-over-row", "2026-07-21:smith-bent-over-row", "2026-08-03:note"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 13 },
+        { "weight": 70, "reps": 13 }
+      ],
+      "why": "He improved here on July 28 (70x14/13/13 up from 70x12/12/12) so the lift is moving, but there is no 75 lb dumbbell on his rack - the next rung above 70 is 80, a 14 percent jump. Adding that on the first session back is the wrong night for it; stay at 70 and let the reps keep climbing.",
+      "evidence": ["2026-07-28:db-shrug", "2026-07-21:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 9 }
+      ],
+      "why": "Two PullB sessions in a row he finished 10/10/8 and then 10/10/9 at 25 - the third set keeps falling short, so 25 is not finished yet. The next dumbbell up is 30, a 20 percent jump, and it should wait for three clean sets of 10 at 25 rather than be taken on faith.",
+      "evidence": ["2026-07-28:incline-db-curl", "2026-07-21:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 12 },
+        { "weight": 37.5, "reps": 11 },
+        { "weight": 37.5, "reps": 10 }
+      ],
+      "why": "This is the only PullB lift that went backwards between the two sessions - 37.5 for 12/12/12 on July 21 became 12/11/10 on July 28, a widening drop-off in the last slot of the session. Two sessions is thin evidence and I will say so, but the cost of holding a reverse curl for one night is nothing while adding load to a lift that is sliding wastes the night.",
+      "evidence": ["2026-07-28:cable-reverse-curl", "2026-07-21:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "skip",
+      "why": "He has told the trainers twice, in writing, that he will not keep doing this - once on the last PullB when he swapped in angels and demons instead, and again four days later. He has logged zero face-pull sets since July 27. That is a closed route, and printing it a third time is the app arguing with him instead of listening.",
+      "evidence": ["2026-07-28:note", "2026-07-31:note", "2026-07-21:face-pulls"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "abstain",
+      "why": "He hit 120 for 10/10/10 on July 28 with no decay across the three sets, and there is no pain, no fatigue signal and no rest drift arguing against him. I have no recovery objection to raising this and it belongs to the progression seat, not to me.",
+      "evidence": ["2026-07-28:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "abstain",
+      "why": "37.5 for 13/12/12 on July 28 against 13/11/12 the week before - flat, light, and nowhere near a joint or a limit. Nothing here for the brake to hold; whatever the progression seat wants is fine with me.",
+      "evidence": ["2026-07-28:straight-arm-pulldown", "2026-07-21:straight-arm-pulldown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

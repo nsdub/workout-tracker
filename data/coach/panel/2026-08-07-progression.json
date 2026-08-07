@@ -1,0 +1,77 @@
+{
+  "role": "progression",
+  "date": "2026-08-07",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "sets": [
+        { "weight": 125, "reps": 8 },
+        { "weight": 140, "reps": 8 },
+        { "weight": 150, "reps": 10 },
+        { "weight": 150, "reps": 10 }
+      ],
+      "why": "Last time he took 115, 135 and 145 for a full ten reps each and then fell one rep short at 150, so the ramp is eating the money set rather than preparing it. The bar weight stays at 150 until he owns ten reps there, but the warm-ups get shorter and heavier so he arrives fresh and gets a second working set at 150 instead of one.",
+      "evidence": ["2026-07-28:smith-bent-over-row", "2026-07-21:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 9 },
+        { "weight": 127.5, "reps": 9 },
+        { "weight": 127.5, "reps": 8 }
+      ],
+      "why": "This lift is flagged stalled but the log says the opposite: 120 lb carried one set on Jul 13, two sets on Jul 21, and all three sets for a clean ten on Jul 28, which is a ramp finishing, not a plateau. One pin up on this machine is 127.5, a weight he has already pulled for ten in December, so the pin moves and the reps start near the bottom of the band.",
+      "evidence": ["2026-07-28:lat-pulldown-close", "2026-07-21:lat-pulldown-close", "2026-07-13:lat-pulldown-close", "2025-12-18:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 12 }
+      ],
+      "why": "The app has been asking for fifteen reps at 37.5 for three sessions and he has never once done fifteen there: it was 13/11/12 on Jul 21 and 13/12/12 on Jul 28. The weight is right, the number on the card was not. Hold 37.5 and ask for the one rep he actually has to give on set two; the next pin, 45, comes when all three sets clear 13.",
+      "evidence": ["2026-07-28:straight-arm-pulldown", "2026-07-21:straight-arm-pulldown", "2026-07-13:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 15 },
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 }
+      ],
+      "why": "He added two, one and one rep at 70 last week, going from 12/12/12 to 14/13/13, so 70 is still paying out. The next dumbbell on the rack is 80, a fourteen percent jump with nothing in between, so he finishes the rep range at 70 before it moves.",
+      "evidence": ["2026-07-28:db-shrug", "2026-07-21:db-shrug", "2025-12-24:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 30, "reps": 8 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "25 lb is nearly used up at 10/10/9 and the rack has nothing between 25 and 30, so a straight jump would cost him the whole rep range on every set. He meets the 30s on the freshest set for eight, which is inside the band and a weight he handled in December, and keeps 25 for the two back-off sets.",
+      "evidence": ["2026-07-28:incline-db-curl", "2026-07-21:incline-db-curl", "2025-12-18:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 35, "reps": 13 },
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 }
+      ],
+      "why": "At 37.5 his sets fell away, 12 then 11 then 10, and 10 is below the twelve-rep floor this slot asks for, while the card was still printing fifteen. At 32.5 he did a clean 12/12/12 on Jul 13. 35 is the loadable notch between them on the cable stack, so all three sets should land in range and 37.5 gets re-earned rather than assumed.",
+      "evidence": ["2026-07-28:cable-reverse-curl", "2026-07-21:cable-reverse-curl", "2026-07-13:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
