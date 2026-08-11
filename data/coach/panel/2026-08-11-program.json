@@ -1,0 +1,46 @@
+{
+  "role": "program",
+  "date": "2026-08-11",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "straight-arm-pulldown",
+      "scope": "PullB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Still open from last week and it lands in tonight's session: both of your last two Pull B nights sat at the same weight and finished 13, 11, 12 and 13, 12, 12 — never the fifteen this slot asks for, so the weight can never move, and asking ten to twelve means the twelves you already do earn the next step.",
+      "evidence": [
+        "2026-07-21:straight-arm-pulldown",
+        "2026-07-28:straight-arm-pulldown"
+      ]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "Still open from last week: Push A's rope pushdown asks ten to twelve and your six sets there came in at eight, seven, nine and eight, seven, eight — not one set inside the range for the whole block, so the weight can never move, and twelve to fifteen makes it a slot you can actually finish.",
+      "evidence": [
+        "2026-07-23:rope-pushdown",
+        "2026-07-31:rope-pushdown"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Still open from last week, and this is not the cut to two sets you declined on 3 August — it is three: Legs A asks for four and you have done two, two and three, and because the weight only moves when you finish every set the plan asks for, three makes the prescription the work you actually do.",
+      "evidence": [
+        "2026-07-18:standing-calf-raise",
+        "2026-07-26:standing-calf-raise",
+        "2026-08-02:standing-calf-raise"
+      ]
+    }
+  ]
+}

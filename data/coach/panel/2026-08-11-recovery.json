@@ -1,0 +1,88 @@
+{
+  "role": "recovery",
+  "date": "2026-08-11",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "sets": [
+        { "weight": 115, "reps": 10 },
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 9 }
+      ],
+      "why": "Repeat 28 July exactly: 115, 135, 145, 150. Two things are true and I will not blur them. First, the log does not say why you stopped. The last session in it is 3 August; there is nothing on the 4th through the 10th, and I am not inventing a reason for eight days. Second, the log also does not show a body that was breaking down. On 3 August your machine chest press climbed 165, 172.5, 180 for eight clean reps each, and rest between sets never drifted upward — it sat at 75 seconds and if anything ran shorter in the back half. There is no pain note anywhere in this block, so there is no pain veto to spend and I am not manufacturing one. What that leaves is a hinge-loaded barbell row done first and cold, with your last Pull B fourteen days back on 28 July and your last pull loading of any kind on 1 August. Eight days does not cost you strength; it costs you the position. Get 150 for 9 again — the same set you already own — and the number goes up on a night when the log can tell us how the week went.",
+      "evidence": [
+        "2026-07-28:smith-bent-over-row",
+        "2026-08-03:machine-chest-press",
+        "2026-08-01:deadlift"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "skip",
+      "why": "Take it off tonight's card. On 28 July you refused it in writing — 'You're insane to have so many of the same corrective exercise back to back like this between days..I did angels and demons instead' — and it was put back in front of you three days later on 31 July, where you logged two sets and wrote 'Do you have a brain?'. It also lands on the same rear delts you already worked with three sets of reverse pec deck on 3 August. This is not a pain call and I am not dressing it as one: it is the one prescription in the entire block you have objected to twice, and putting it up a third time on your first session back after eight silent days is the cheapest possible way to lose you again. Nothing about tonight requires it.",
+      "evidence": [
+        "2026-07-28:note",
+        "2026-07-31:note",
+        "2026-07-31:face-pulls",
+        "2026-08-03:reverse-pec-deck"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 37.5, "reps": 12 },
+        { "weight": 37.5, "reps": 12 }
+      ],
+      "why": "Two sets at 37.5, not three. With face pulls off, this becomes the last lift of the night, and the last lift of the night is what you have been dropping: two sets logged on face pulls on 31 July, two sets on reverse grip pushdown to close 3 August, and the closing lift abandoned outright on 28 July. At 37.5 last time it also decayed inside the set count — 12, then 11, then 10 — so the third set was the one already going missing on its own. Prescribe two and get two, rather than prescribe three on a first night back and have the card end with an unfinished lift on it.",
+      "evidence": [
+        "2026-07-28:cable-reverse-curl",
+        "2026-07-31:face-pulls",
+        "2026-08-03:reverse-grip-pushdown",
+        "2026-07-28:note"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "why": "Stay at 120. You have finished every 120 lb set at exactly 10 reps on both recent Pull B nights, 21 and 28 July — you have not topped the range at this weight yet, so there is nothing to reward, and this machine steps in 7.5s. Coming back from eight days off with no explanation in the log, a known weight you have never actually finished is the right first hard set of the night. No objection from me to holding; I would object to moving it.",
+      "evidence": [
+        "2026-07-28:lat-pulldown-close",
+        "2026-07-21:lat-pulldown-close"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "why": "Hold 37.5. My only recovery-side objection here is the size of the available step: this machine moves in 7.5s, so the next weight up is 45, a 20 percent jump on a long-lever shoulder movement, on your first session in eight days. You have been at 37.5 for 13, 12, 12 on both 21 and 28 July, so nothing is pushing for the jump anyway. Chase reps here, not plates.",
+      "evidence": [
+        "2026-07-28:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "why": "Stay on the 25s. The next dumbbell that exists is 30, a 20 percent jump, onto the exact set you have been losing — your third set came in at 8 on 21 July and 9 on 28 July, never a clean 10. It is trending the right way on its own; nothing about eight days off argues for adding load to a set you have not yet completed.",
+      "evidence": [
+        "2026-07-28:incline-db-curl",
+        "2026-07-21:incline-db-curl"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "abstain",
+      "why": "No recovery view. Reps went up on their own across the last two Pull B nights at 70 — 12, 12, 12 on 21 July, then 14, 13, 13 on 28 July — with no fatigue signature and no complaint attached. Whether the next move is more reps at 70 or the 80s is a loading question, and it belongs to the progression seat, not to me.",
+      "evidence": [
+        "2026-07-28:db-shrug",
+        "2026-07-21:db-shrug"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

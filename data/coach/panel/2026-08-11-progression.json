@@ -1,0 +1,77 @@
+{
+  "role": "progression",
+  "date": "2026-08-11",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "sets": [
+        { "weight": 115, "reps": 10 },
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 10 }
+      ],
+      "why": "Same four weights as last time. Last session he got 10, 10, 10 and then 9 on the top set, so the top set is the one thing still owed before anything moves up. Get all four sets of 10 at 150 tonight and the weight goes up next PullB. This is also the first pull session in two weeks, which is a reason to repeat a load, not to add to one. The app was going to repeat these same numbers and that is the right answer here.",
+      "evidence": ["2026-07-28:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 }
+      ],
+      "why": "This is the one lift going up tonight. He did 120 for 10, 10 and 10 last time, which is the top of the rep range on every single set, so the raise is earned outright. This machine only moves in 7.5-pound steps, so 127.5 is the next thing that exists. The eight days off do not cancel a raise he already paid for, but they do decide the rep target: 8 reps is the bottom of the range, which is where the time off gets paid back. The app also wanted 127.5 for 8 and I agree with it. Note the app has this lift flagged as stalled because the weight itself has sat still, not because the reps were bad.",
+      "evidence": ["2026-07-28:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 }
+      ],
+      "why": "Same weight, one more rep asked of the last two sets. He got 13, 12 and 12 last time against a target range of 12 to 15, so he finished near the bottom of the range and has not earned more weight. The next step on this machine is 45, which is a 20 percent jump from 37.5, so he needs to be doing 15s here before that is sane. The app was going to repeat 37.5 and ask for 15 straight away; I would rather ask for 13 across, which is one honest rep of progress from where he actually finished.",
+      "evidence": ["2026-07-28:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 }
+      ],
+      "why": "Same 70s, chasing one extra rep on the last two sets. He got 14, 13 and 13 against a range of 12 to 15, so he is mid-range and the weight stays. The next dumbbells up are the 80s because the rack has nothing between 70 and 80, and that is a 14 percent jump, which he has not earned while he is still short of 15 reps. The app agreed on repeating 70 but asked for 15 on every set; 14 across is the rep he actually has to win first.",
+      "evidence": ["2026-07-28:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "Same 25s, and the whole job is the third set. He got 10, 10 and 9 last time against a range of 8 to 10, so he is one rep away from clearing it. The rack jumps straight from 25 to 30 with nothing in between, so moving up is a 20 percent increase on a small arm lift; he should own three clean sets of 10 before paying that. The app was going to repeat 25 for 10 and I agree.",
+      "evidence": ["2026-07-28:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 }
+      ],
+      "why": "Coming down 2.5 pounds, and this is where I disagree with the app. At 37.5 he got 12, then 11, then 10, against a range that starts at 12 reps. Two of the three sets finished under the bottom of the range, so this weight is currently too heavy to complete as written, and the app was going to hand him 37.5 again with a 15-rep target he has already missed twice. 35 is loadable: pin at 32.5 with both 1.25 micros on. Do all three sets of 12 at 35, then it climbs back.",
+      "evidence": ["2026-07-28:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
