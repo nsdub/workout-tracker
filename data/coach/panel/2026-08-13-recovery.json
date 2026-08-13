@@ -1,0 +1,67 @@
+{
+  "role": "recovery",
+  "date": "2026-08-13",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "why": "Keep 11 August exactly: 115, 135, 145, 150 with the top set asking for the 9 you already own. The gap has grown from eight days to ten, and that is the only new fact I have — it makes the concession I won last time more right, not less, so I am not touching the weights and I am not asking for the 10 either. It is now sixteen days since you last did this row and twelve since you pulled anything at all, and this is the heaviest hinged set of the night done first and cold. Ten days off does not cost you 150 lb; it costs you the groove for the first two sets. Nothing here argues for taking weight OFF either — the last day in the log is a body that was working fine, machine chest press climbing 165, 172.5, 180 for eight each with rest sitting flat at 75 seconds.",
+      "evidence": [
+        "2026-07-28:smith-bent-over-row",
+        "2026-08-01:deadlift",
+        "2026-08-03:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "why": "127.5 for 8 across three sets, as ruled on 11 August. I argued for 120 and I lost, and the two extra days do not reopen it — I went and looked at the ground you actually own, and 127.5 is not new: you held it for three sets on 5 and 26 January and 9 and 13 February, at 10, 9, 9 each night, and you were on 135 in December. That is a seated, supported machine pull, not a cold hinge, and asking eight reps instead of your last ten is where the layoff is already being paid for. My earlier objection was wrong on the history and I withdraw it.",
+      "evidence": [
+        "2026-07-28:lat-pulldown-close",
+        "2026-01-05:lat-pulldown-close",
+        "2026-02-13:lat-pulldown-close"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "why": "Hold 37.5 for 13 across, unchanged from 11 August. You were at 37.5 for 13, 12, 12 on both 21 and 28 July, so nothing is pushing for a move, and the next weight this machine offers is 45 — a 20 percent jump on a long-lever shoulder movement, which is the wrong thing to hand you on a first night back after ten days. Chase the reps, leave the plate alone.",
+      "evidence": [
+        "2026-07-28:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "abstain",
+      "why": "Still no recovery view, same as 11 August. Reps climbed on their own at 70 across the last two Pull B nights — 12, 12, 12 on 21 July, then 14, 13, 13 on 28 July — with no fatigue signature and no complaint attached, and the layoff does not give me a stake in a shrug. Whether 70 for 14 is right or the 80s are is a loading question for the progression seat.",
+      "evidence": [
+        "2026-07-28:db-shrug",
+        "2026-07-21:db-shrug"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "why": "Stay on the 25s for 10, 10, 10, as ruled. The next dumbbell that exists is 30, a 20 percent jump onto the exact set you keep losing — third set was 8 on 21 July and 9 on 28 July, never a clean 10. Ten days off is not an argument for adding load to a set you have not yet finished, and it is not an argument for dropping it either.",
+      "evidence": [
+        "2026-07-28:incline-db-curl",
+        "2026-07-21:incline-db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "hold",
+      "why": "Three sets at 35 for 12, as ruled on 11 August. I asked for two sets and lost, and the ten-day gap does nothing for that argument — my case was that the last lift of the night is the one you drop, which is a within-session fact, not a layoff fact. The head coach answered it by taking the weight down from 37.5, where your reps decayed 12, 11, 10, and at 35 the third set becomes one you can actually finish. That is a fair answer and I am not re-litigating it two days later on the same evidence.",
+      "evidence": [
+        "2026-07-28:cable-reverse-curl",
+        "2026-07-31:face-pulls",
+        "2026-08-03:reverse-grip-pushdown"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

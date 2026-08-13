@@ -1,0 +1,99 @@
+{
+  "role": "progression",
+  "date": "2026-08-13",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "sets": [
+        { "weight": 115, "reps": 10 },
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 10 },
+        { "weight": 150, "reps": 9 }
+      ],
+      "why": "These are the 2026-08-11 numbers unchanged, because nothing has been logged since 2026-08-03 and no new session means no new numbers. Last time on this lift he got 10, 10, 10 and then 9 at 150, so the ramp repeats and the top set asks for the 9 he already owns.",
+      "evidence": [
+        "2026-07-28:smith-bent-over-row",
+        "2026-07-21:smith-bent-over-row",
+        "2026-07-13:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 }
+      ],
+      "why": "Same 2026-08-11 call, held because no session has been logged since 2026-08-03. The step is still earned on the same evidence: 120 for a clean 10, 10, 10 last time, the top of the range on all three sets, after three straight PullB nights capped at 120, and he held 127.5 for three sets on four nights in January and February.",
+      "evidence": [
+        "2026-07-28:lat-pulldown-close",
+        "2026-07-21:lat-pulldown-close",
+        "2026-07-13:lat-pulldown-close",
+        "2026-02-09:lat-pulldown-close",
+        "2026-01-26:lat-pulldown-close"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 },
+        { "weight": 37.5, "reps": 13 }
+      ],
+      "why": "Unchanged from 2026-08-11 — no session logged since 2026-08-03, so the numbers hold. He ran 13, 12, 12 at 37.5 last time, still short of the 15 that would earn the next step on this machine.",
+      "evidence": [
+        "2026-07-28:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 },
+        { "weight": 70, "reps": 14 }
+      ],
+      "why": "The 2026-08-11 numbers stand because no new session has been logged since 2026-08-03. He got 14, 13, 13 with the 70s last time and the rack jumps straight to 80s, so reps at 70 are the only thing to win here.",
+      "evidence": [
+        "2026-07-28:db-shrug",
+        "2026-07-21:db-shrug"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "Same as 2026-08-11 — the numbers hold because no session has been logged since 2026-08-03. The 25s stay; the third set is the outstanding job, 9 reps last time and 8 the time before, and the next dumbbell up is 30.",
+      "evidence": [
+        "2026-07-28:incline-db-curl",
+        "2026-07-21:incline-db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 }
+      ],
+      "why": "Down to 35, exactly as ruled on 2026-08-11, and unchanged because no session has been logged since 2026-08-03. At 37.5 his reps fell 12, 11, 10 while this slot asks for at least 12, so the load was wrong; 35 is a pin at 32.5 plus the 2.5 micro.",
+      "evidence": [
+        "2026-07-28:cable-reverse-curl",
+        "2026-07-21:cable-reverse-curl"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

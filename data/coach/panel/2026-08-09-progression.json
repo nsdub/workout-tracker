@@ -1,0 +1,77 @@
+{
+  "role": "progression",
+  "date": "2026-08-09",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "sets": [
+        {"weight": 120, "reps": 8},
+        {"weight": 140, "reps": 8},
+        {"weight": 150, "reps": 8},
+        {"weight": 150, "reps": 10}
+      ],
+      "why": "The first three sets have climbed from 8 reps (07-13/07-21) to a clean 10 each on 07-28 — that's earned load, so they move up one step and reset to the bottom of the range. The top set missed its own cap by one rep (150x9), so it holds weight and re-attempts 10 instead of moving up blind.",
+      "evidence": ["2026-07-28:smith-bent-over-row", "2026-07-21:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        {"weight": 127.5, "reps": 8},
+        {"weight": 127.5, "reps": 8},
+        {"weight": 127.5, "reps": 8}
+      ],
+      "why": "Three PullB sessions in a row have topped out the 8-10 range at 120, ending in a clean 10/10/10 on 07-28. That's the double-progression trigger, not a stall to sit on. Move to 127.5, the next real 7.5 step on this stack, and reset to the bottom of the range.",
+      "evidence": ["2026-07-28:lat-pulldown-close", "2026-07-21:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        {"weight": 37.5, "reps": 13},
+        {"weight": 37.5, "reps": 12},
+        {"weight": 37.5, "reps": 12}
+      ],
+      "why": "37.5 has held for two straight sessions and reps have sat at the bottom of the 12-15 range both times (13/12/12 twice) — nowhere near the ceiling a weight bump would need. Hold the weight and ask him to match last session, not the flat 15/15/15 the app would otherwise repeat.",
+      "evidence": ["2026-07-28:straight-arm-pulldown", "2026-07-21:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        {"weight": 70, "reps": 15},
+        {"weight": 70, "reps": 14},
+        {"weight": 70, "reps": 13}
+      ],
+      "why": "70 lb is one session into being a clean hit — reps climbed from 12/12/12 to 14/13/13 last time, trending toward the cap but not there. Hold the weight and ask for one more rep per set than last time, not the flat 15/15/15 copy-paste.",
+      "evidence": ["2026-07-28:db-shrug", "2026-07-21:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        {"weight": 25, "reps": 10},
+        {"weight": 25, "reps": 10},
+        {"weight": 25, "reps": 10}
+      ],
+      "why": "25 lb dumbbells are one rep from clearing the range: 10/10/9 on 07-28, up from 10/10/8 the session before. Close enough to ask for a clean 10/10/10 again before touching load — and there's nothing between 25 and 30 to step to anyway.",
+      "evidence": ["2026-07-28:incline-db-curl", "2026-07-21:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        {"weight": 32.5, "reps": 12},
+        {"weight": 32.5, "reps": 12},
+        {"weight": 32.5, "reps": 12}
+      ],
+      "why": "37.5 has only produced one full session and reps fell across the sets (12/11/10), missing the 12-rep floor on the last two — a step down, not the flat line 'repeat' implies. Drop back to 32.5 for all three, the last weight he cleanly cleared 12 reps on every set, before pushing again.",
+      "evidence": ["2026-07-28:cable-reverse-curl", "2026-07-13:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

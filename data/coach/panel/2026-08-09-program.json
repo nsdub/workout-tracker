@@ -1,0 +1,125 @@
+{
+  "role": "program",
+  "date": "2026-08-09",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "kind": "observation",
+      "exercise": "smith-bent-over-row",
+      "scope": "PullB",
+      "why": "Phase calendar, and this is the seat that owns it: Meso 1 is written to run to 16 August with a deload booked 17-23 August at minus twenty percent load and about sixty percent sets, and your log carries nothing after 3 August. That leaves week 3 of 4 with no session in it and a scheduled back-off arriving eight days from now on top of a rest that has already happened. I am not moving the calendar on my own signal and I cannot tell from the log whether those days were rest, illness or unlogged training — this needs a human answer before the 17th, and I am raising it now rather than in the week it lands.",
+      "evidence": [
+        "2026-08-03:machine-chest-press",
+        "2026-08-03:note",
+        "2026-08-02:leg-press-low"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushA",
+      "why": "Counting what is left after four face-pull removals: the back of your shoulder is now trained by five sets per cycle — two face pulls on Push A and three reverse pec deck on Push B — and nothing on either pull day. Every removal was correct on its own terms and I am not asking to undo any of them, but the swap card sitting unanswered in your queue is the piece that puts the surviving work on the machine you actually finish, and until it is ruled on, Push A's two sets are the ones you wrote \"Do you have a brain?\" next to.",
+      "evidence": [
+        "2026-08-03:reverse-pec-deck",
+        "2026-07-27:reverse-pec-deck",
+        "2026-07-31:face-pulls",
+        "2026-07-28:note"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "lat-pulldown-close",
+      "scope": "PullB",
+      "why": "Tonight's balance, recorded without a card: Pull B gives your biceps six direct sets across incline curls and reverse curls and gives your lats three, and across the week it is twelve direct arm sets against six of pulldown, on a back that gets judged for width in March. The obvious fix is a fourth pulldown set — I am deliberately not asking for it tonight, because this lift is flagged stalled and is already taking its first load step since 13 July, and adding a set on the same night the weight moves would make neither change readable.",
+      "evidence": [
+        "2026-07-28:lat-pulldown-close",
+        "2026-07-28:incline-db-curl",
+        "2026-07-28:cable-reverse-curl",
+        "2026-08-01:db-curl"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-overhead-press",
+      "scope": "PushB",
+      "why": "Carrying the same count I opened on 6 August with no change and no reversal: Push B's lead press ran as written on 12 and 27 July, and on 3 August you wrote that the Smith was unavailable and did four sets of Arnold presses at 40, which stored zero sets, so that work cannot move the slot. No Push B has run since, so there is no new fact and nothing to decide on.",
+      "evidence": [
+        "2026-07-12:smith-overhead-press",
+        "2026-07-27:smith-overhead-press",
+        "2026-08-03:note"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "straight-arm-pulldown",
+      "scope": "PullB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Straight-arm pulldown asks twelve to fifteen and has sat at 37.5 for three Pull B nights, landing on 13, 11, 12 and then 13, 12, 12 — never the fifteen it needs before the weight can move. This is the same trap you cleared on the close-grip pulldown on 3 August: ask ten to twelve, and the twelves you already do earn the next step.",
+      "evidence": [
+        "2026-07-13:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown",
+        "2026-07-28:straight-arm-pulldown"
+      ]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "Push A's rope pushdown asks ten to twelve and your last six sets there came in at eight, seven, nine and eight, seven, eight, with the weight falling inside the session both nights — the only set that ever landed in the range was a single set back on 16 July. The same job on Push B asks twelve to fifteen and lands at fifteen and fourteen with the load climbing, so this gives Push A the range that already works on the other day.",
+      "evidence": [
+        "2026-07-16:rope-pushdown",
+        "2026-07-23:rope-pushdown",
+        "2026-07-31:rope-pushdown",
+        "2026-07-27:reverse-grip-pushdown",
+        "2026-08-03:reverse-grip-pushdown"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "The split squat is the only single-leg work in your week and the smallest slot in the program at two sets, against seven sets of leg press across both leg days, and you have finished both sets on every Legs A night since it was added — I have no say over the weight, so a third set is the only way I can grow the one thing that shows a left-right difference on stage.",
+      "evidence": [
+        "2026-07-26:db-bulgarian-split-squat",
+        "2026-08-02:db-bulgarian-split-squat",
+        "2026-08-02:leg-press-low",
+        "2026-07-30:leg-press-high"
+      ]
+    },
+    {
+      "kind": "swap",
+      "exercise": "face-pulls",
+      "replacement": "reverse-pec-deck",
+      "scope": "PushA",
+      "slot": { "sets": 2, "repMin": 12, "repMax": 15, "rest": 75 },
+      "why": "Open since 4 August: Push A holds the last face pulls in your week — the ones you wrote \"Do you have a brain?\" next to on 31 July and skipped for angels and demons on 28 July — and this puts the reverse pec deck in that slot instead, two sets of twelve to fifteen. Same back of the shoulder, and it is the machine you have carried from 82.5 to 90 without missing a set.",
+      "evidence": [
+        "2026-07-31:face-pulls",
+        "2026-07-31:note",
+        "2026-07-28:note",
+        "2026-07-27:reverse-pec-deck",
+        "2026-08-03:reverse-pec-deck"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Open since 4 August, and this is not the cut to two sets you turned down on 3 August: Legs A asks for four calf sets and you have done two, two and three, and because the weight only moves when you finish every set the plan asks for, your 280s can never earn the next step. This makes the prescription the three you actually do.",
+      "evidence": [
+        "2026-07-18:standing-calf-raise",
+        "2026-07-26:standing-calf-raise",
+        "2026-08-02:standing-calf-raise"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "role": "recovery",
+  "date": "2026-08-09",
+  "session": "PullB",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "cut",
+      "sets": [
+        { "weight": 115, "reps": 10 },
+        { "weight": 135, "reps": 10 },
+        { "weight": 145, "reps": 9 },
+        { "weight": 145, "reps": 9 }
+      ],
+      "why": "The last thing in your log is 3 August. Nothing on the 4th through the 8th, and the log gives no reason for that — I am not guessing at one. What I can say is what it means for tonight: six days without a session, and your last Pull B was 28 July, twelve days ago, so your back and biceps have not been loaded since Pull A on 1 August. Six days off does not cost you strength, but it does cost you the groove on a bent-over row, and this is the heaviest thing you touch all night, done cold, first. So the top set is capped at 145 twice instead of chasing 150 again. Same total work, one notch under your best, on the lift where a rusty position is what actually hurts you. If it moves clean tonight, 150 is there on Thursday with a body that has trained this week.",
+      "evidence": [
+        "2026-07-28:smith-bent-over-row",
+        "2026-07-21:smith-bent-over-row",
+        "2026-08-03:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 12 },
+        { "weight": 120, "reps": 12 },
+        { "weight": 120, "reps": 12 }
+      ],
+      "why": "Stay at 120. You have finished every single 120 lb set at exactly 10 reps on both of the last two Pull B nights — that is the floor of the range, three sessions running, and it is not a weight you have finished with yet. Tonight's job is 12 at 120, not 127.5. Coming off six untrained days, buying reps at a known load is the cheapest way back in; the plate goes up when 12 shows up.",
+      "evidence": [
+        "2026-07-28:lat-pulldown-close",
+        "2026-07-21:lat-pulldown-close"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 14 },
+        { "weight": 37.5, "reps": 14 },
+        { "weight": 37.5, "reps": 13 }
+      ],
+      "why": "Hold 37.5 and go after reps. This machine steps in 7.5s, so the next weight up is 45 — a 20 percent jump on a long-lever shoulder movement, which is not what a first session back is for. You did 13, 12, 12 last time. Ask for 14, 14, 13.",
+      "evidence": [
+        "2026-07-28:straight-arm-pulldown",
+        "2026-07-21:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 70, "reps": 15 },
+        { "weight": 70, "reps": 15 },
+        { "weight": 70, "reps": 15 }
+      ],
+      "why": "70 for three sets of 15. There is nothing between 70 and 80 on the rack, so the only move available is a 10 lb step, and you have not yet topped the rep range at 70 — 14, 13, 13 last time, 12s the time before. Finish the range first. After a layoff a shrug is also the lift most likely to get yanked instead of lifted; the weight staying put is what keeps it a shrug.",
+      "evidence": [
+        "2026-07-28:db-shrug",
+        "2026-07-21:db-shrug"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "25s again, and this time the third set is 10 too. Your third set has dropped off on both recent Pull B nights — 9 last time, 8 the time before — so the 30s, which are the next dumbbell that exists, would be a 20 percent jump onto a set you are already losing. Three honest tens closes it out.",
+      "evidence": [
+        "2026-07-28:incline-db-curl",
+        "2026-07-21:incline-db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 }
+      ],
+      "why": "Down to 35. At 37.5 last time you went 12, 11, 10 — two of the three sets finished under the 12-rep floor the lift is supposed to live in, and it decayed set to set. That is the definition of too much weight, and it is the last lift of the night on a night you are walking into after six days off. 35 is one stack notch down and should give you three clean twelves.",
+      "evidence": [
+        "2026-07-28:cable-reverse-curl",
+        "2026-07-21:cable-reverse-curl"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
