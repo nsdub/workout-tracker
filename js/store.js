@@ -61,7 +61,7 @@ let seq = 0;
 // crash an install whose persisted blob predates it.
 const SETTINGS_DEFAULTS = {
   owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '',
-  phaseOverride: null, haptics: true, restTimer: true, sound: true, cardio: {},
+  phaseOverride: null, dayOverride: null, haptics: true, restTimer: true, sound: true, cardio: {},
   pushUrl: '', // Cloudflare rest-alarm worker; empty = push disabled entirely
 };
 
@@ -169,9 +169,20 @@ export const store = {
   // Insert or replace (same date + session type re-log replaces).
   // Enqueue FIRST: if the history write below dies on quota, the entry is
   // already bound for GitHub and the night is not silently lost.
-  upsertEntry(entry, { enqueue = true, quiet = false } = {}) {
+  upsertEntry(entry, { enqueue = true, quiet = false, banked = false } = {}) {
     const path = this.entryPath(entry);
     if (enqueue) this.enqueue(path, entry);
+    // A banked NEW lifting night consumes the manual day pin — the six-day
+    // order now continues from what was actually done. Only a genuine bank
+    // (finishSession passes banked:true) clears it: remote pulls, seed
+    // imports, cardio, and reopened-night fixes (a replace, not a night
+    // trained forward) all keep the athlete's choice. Written silently; the
+    // caller's own emit carries the repaint.
+    if (banked && !entry.supplemental && this.settings.dayOverride
+      && !this.history.some((e) => this.entryPath(e) === path)) {
+      this.settings.dayOverride = null;
+      write(KEYS.settings, this.settings);
+    }
     this.history = this.history.filter((e) => this.entryPath(e) !== path);
     this.history.push(entry);
     this.history.sort((a, b) => a.date.localeCompare(b.date));

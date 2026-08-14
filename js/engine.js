@@ -281,7 +281,12 @@ export function sortedHistory(history) {
   return [...history].filter((e) => !e.supplemental).sort((a, b) => a.date.localeCompare(b.date));
 }
 
-export function rotationNext(plan, history) {
+export function rotationNext(plan, history, override = null) {
+  // Manual day pin (settings.dayOverride): after a break the athlete picks
+  // where the six-day order resumes; the pin is consumed when a new night is
+  // banked (store.upsertEntry). Only a session the plan knows is honored — a
+  // pin persisted under an older plan falls back to the automatic order.
+  if (override && plan.sessions?.[override]) return override;
   const rot = plan.rotation;
   const sorted = sortedHistory(history);
   const last = sorted[sorted.length - 1];

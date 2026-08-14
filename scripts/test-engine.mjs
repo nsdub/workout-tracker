@@ -47,6 +47,15 @@ ok('rotation continues after last imported session (PullB → LegsB)', () => {
 ok('empty history starts at PushA', () => {
   assert.equal(E.rotationNext(plan, []), 'PushA');
 });
+ok('manual day override wins over the rotation', () => {
+  assert.equal(E.rotationNext(plan, history, 'PushA'), 'PushA');
+});
+ok('a day override the plan does not know falls back to the rotation', () => {
+  assert.equal(E.rotationNext(plan, history, 'NotASession'), 'LegsB');
+});
+ok('a null day override keeps the automatic order', () => {
+  assert.equal(E.rotationNext(plan, history, null), 'LegsB');
+});
 
 // ——— Prescriptions ———
 const calib = E.phaseForDate(plan, '2026-07-15');

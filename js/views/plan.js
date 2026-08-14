@@ -7,7 +7,7 @@ import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
 import { optionSheet, confirmSheet, openSheet, toast, ICONS } from '../components.js';
 import { connectSheet, handleSeedFile, howtoSheet } from './session.js';
-import { applyWorld, UNIVERSES } from '../worlds.js';
+import { applyWorld, UNIVERSES, returnWorld } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { pushStatus, enablePush, disablePush } from '../push.js';
 import { previewSheet } from './preview.js';
@@ -43,7 +43,7 @@ export function render(el) {
   const today = todayStr();
   const info = engine.phaseForDate(plan, today, store.settings.phaseOverride);
   const stalls = engine.stalledLifts(plan, store.history);
-  const next = engine.rotationNext(plan, store.history);
+  const next = engine.rotationNext(plan, store.history, store.settings.dayOverride);
   const show = plan.show || { date: '2027-03-01', label: 'the show' };
   const showDays = Math.max(0, daysBetween(today, show.date));
   // LIFTING nights only — the gauge is labelled "nights this week" over the
@@ -79,6 +79,8 @@ export function render(el) {
       <div class="week-rows">${weekAhead(plan, next, today)}</div>
       <div class="cc-line" style="margin-top:9px">Train daily and this is the order. Rest any day — the order pauses, nothing is skipped.</div>
       <div class="cc-line dim">Cardio fits anywhere: 2–3 easy sessions a week, after lifting or on the rest day.</div>
+      ${store.settings.dayOverride ? `<div class="cc-line" style="margin-top:9px"><b>Set by hand:</b> tonight is ${esc(plan.sessions[store.settings.dayOverride]?.name ?? store.settings.dayOverride)}. Log it and the order continues from there.</div>` : ''}
+      <button class="btn quiet" id="wk-set" style="margin-top:10px">Set tonight’s workout</button>
     </div>
 
     ${info.phase?.type !== 'prep' ? `
@@ -499,6 +501,7 @@ function wire(info) {
   // ride the same dirty-draft confirm as picking a phase, or the old
   // override's weights survive into the new night.
   $('#clear-override', root)?.addEventListener('click', () => applyPhaseOverride(null));
+  $('#wk-set', root)?.addEventListener('click', dayOverrideSheet);
   $('#open-drawer', root).addEventListener('click', () => drawerSheet(info));
   $('#open-proposals', root)?.addEventListener('click', openProposals);
   $('#open-manual', root)?.addEventListener('click', manualSheet);
@@ -658,7 +661,7 @@ export function phaseOverrideSheet(info) {
 // prescribing the old phase's weights.
 function applyPhaseOverride(value, label = '') {
   const apply = () => {
-    store.clearDraft();
+    dropDraftForRebuild();
     store.saveSettings({ phaseOverride: value });
     toast(value ? `Locked: ${label}` : 'Back to automatic');
   };
@@ -668,6 +671,65 @@ function applyPhaseOverride(value, label = '') {
       title: 'Drop tonight’s logged sets?',
       body: 'Changing phase rebuilds tonight from scratch.',
       confirmLabel: 'Change phase', danger: true,
+      onConfirm: apply,
+    });
+  } else apply();
+}
+
+// Dropping a draft so it rebuilds hands a clean, unseen world draw back to
+// the universe pool first — the same refund switchSession does. Without it a
+// phase or day change quietly burned a draw and worlds repeated early.
+// A dirty or reopened draft's world is never refunded (seen / already dealt).
+function dropDraftForRebuild() {
+  const d = store.draft;
+  const dirty = d?.exercises?.some((x) => x.sets.some((s) => s.done));
+  if (d?.world && !dirty && !d.reopened) returnWorld(d.session_type, d.world);
+  store.clearDraft();
+}
+
+// The manual day pin: where the six-day order resumes after a break. The
+// athlete owns scheduling; the trainers own the numbers — picking a day here
+// never changes a weight, and the pin is consumed the moment a night is
+// banked, so the order continues from whatever was actually done.
+export function dayOverrideSheet() {
+  const plan = store.plan;
+  const auto = engine.rotationNext(plan, store.history); // what Automatic would pick
+  const lastByType = {};
+  for (const e of engine.sortedHistory(store.history)) lastByType[e.session_type] = e.date;
+  optionSheet({
+    title: 'Set tonight’s workout',
+    sub: 'The order continues from whatever you log',
+    options: [
+      { label: `Automatic — next is ${plan.sessions[auto]?.name ?? auto}`, selected: !store.settings.dayOverride, value: null },
+      ...plan.rotation.map((t) => ({
+        label: plan.sessions[t]?.name ?? t,
+        hint: t === auto ? 'Next up' : lastByType[t] ? `Last ${fmtDate(lastByType[t])}` : 'Never logged',
+        selected: store.settings.dayOverride === t,
+        value: t,
+      })),
+    ],
+    onPick(opt) {
+      if (opt.value === (store.settings.dayOverride ?? null)) return;
+      applyDayOverride(opt.value, opt.value ? (plan.sessions[opt.value]?.name ?? opt.value) : '');
+    },
+  });
+}
+
+// Same shape as applyPhaseOverride: the draft on the Today tab was built for
+// the old day, so every path through here rebuilds it behind the same
+// dirty-draft confirm.
+function applyDayOverride(value, label = '') {
+  const apply = () => {
+    dropDraftForRebuild();
+    store.saveSettings({ dayOverride: value });
+    toast(value ? `Tonight: ${label}. Once it’s logged the order continues from there.` : 'Back to the automatic order');
+  };
+  const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
+  if (dirty) {
+    confirmSheet({
+      title: 'Drop tonight’s logged sets?',
+      body: 'Changing the workout rebuilds tonight from scratch.',
+      confirmLabel: 'Change workout', danger: true,
       onConfirm: apply,
     });
   } else apply();

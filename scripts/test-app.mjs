@@ -137,6 +137,37 @@ await ok('upsertEntry inserts sorted and replaces same date+type', () => {
   assert.equal(store.history[1].exercises.length, 1);
   assert.equal(store.entryPath(store.history[1]), 'data/history/2026-07-11-legsa.json');
 });
+await ok('settings defaults include dayOverride:null for blobs that predate it', () => {
+  // the seeded blob at the top of this file has no dayOverride field
+  assert.equal(store.settings.dayOverride, null);
+});
+await ok('a banked NEW lifting night consumes the day pin', () => {
+  store.history = []; store.queue = [];
+  store.settings.dayOverride = 'PushA';
+  store.upsertEntry({ date: '2026-08-14', session_type: 'PushA', exercises: [] }, { banked: true });
+  assert.equal(store.settings.dayOverride, null);
+  assert.equal(JSON.parse(localStorage.getItem('p3.settings')).dayOverride, null, 'persisted, not just in memory');
+  store.history = []; store.queue = [];
+});
+await ok('re-finishing an EXISTING night (a replace) keeps the day pin', () => {
+  store.history = []; store.queue = [];
+  store.upsertEntry({ date: '2026-08-03', session_type: 'PushB', exercises: [] });
+  store.settings.dayOverride = 'PushA';
+  store.upsertEntry({ date: '2026-08-03', session_type: 'PushB', exercises: [{ id: 'x', name: 'x', sets: [] }] }, { banked: true });
+  assert.equal(store.settings.dayOverride, 'PushA', 'a reopened-night fix is not training forward');
+  store.settings.dayOverride = null;
+  store.history = []; store.queue = [];
+});
+await ok('cardio banks and non-banking writes (pull/seed) keep the day pin', () => {
+  store.history = []; store.queue = [];
+  store.settings.dayOverride = 'PushA';
+  store.upsertEntry({ date: '2026-08-14', session_type: 'cardio', supplemental: true, exercises: [] }, { banked: true });
+  assert.equal(store.settings.dayOverride, 'PushA', 'supplemental never consumes');
+  store.upsertEntry({ date: '2026-08-15', session_type: 'PullA', exercises: [] }); // pull/seed shape: no banked flag
+  assert.equal(store.settings.dayOverride, 'PushA', 'a write without banked never consumes');
+  store.settings.dayOverride = null;
+  store.history = []; store.queue = [];
+});
 await ok('pruneDraft drops stale clean drafts, keeps dirty ones', () => {
   store.draft = { date: '2020-01-01', exercises: [{ sets: [{ done: false }] }] };
   store.pruneDraft();

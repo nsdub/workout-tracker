@@ -90,9 +90,9 @@ Full enumeration: `docs/POSTMORTEM-2026-08-01.md`. Browsable: `/museum/`.
 - **Verification actually runs or isn't claimed.** Two suites, both must
   run from the repo root (they fail silently from subdirectories; this bit
   us once):
-  - `node scripts/test-engine.mjs` — 29 tests: progression, phases,
+  - `node scripts/test-engine.mjs` — 99 tests: progression, phases,
     stalls, PRs, validation, against the real plan + seed data.
-  - `node scripts/test-app.mjs` — 14 tests: util, store, sync (stubbed
+  - `node scripts/test-app.mjs` — 58 tests: util, store, sync (stubbed
     localStorage/fetch), including the two data-loss invariants:
     re-save during an in-flight upload is never lost, and queued local
     work is never overwritten by remote.

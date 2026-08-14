@@ -233,7 +233,7 @@ function ensureDraft(today, phaseInfo) {
     if (d) store.clearDraft(); // the stale clean draft's world was refunded above
     return null;
   }
-  const type = engine.rotationNext(store.plan, store.history);
+  const type = engine.rotationNext(store.plan, store.history, store.settings.dayOverride);
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
   announceWorld = true;
@@ -252,7 +252,7 @@ function renderBanked(today, phaseInfo) {
   root.classList.toggle('no-entrance', worldKey === lastWorldKey);
   lastWorldKey = worldKey;
   const sessionName = store.plan.sessions[entry.session_type]?.name ?? entry.session_type;
-  const nextType = engine.rotationNext(store.plan, store.history);
+  const nextType = engine.rotationNext(store.plan, store.history, store.settings.dayOverride);
   const nextName = store.plan.sessions[nextType]?.name ?? nextType;
   root.onclick = null;
   root.innerHTML = `
@@ -421,7 +421,7 @@ function renderWorldScreen(draft, phaseInfo) {
   const U = universeOf(draft.session_type);
   const W = worldDef(draft.session_type, draft.world);
   const session = store.plan.sessions[draft.session_type];
-  const isNext = engine.rotationNext(store.plan, store.history) === draft.session_type;
+  const isNext = engine.rotationNext(store.plan, store.history, store.settings.dayOverride) === draft.session_type;
   const phase = phaseInfo.phase;
   // A reopened night REPLACES its banked entry, so the header wears that
   // night's original chronological number — never history.length + 1, which
@@ -1083,7 +1083,7 @@ function briefingSheet() {
 }
 
 function switchSheet() {
-  const nextType = engine.rotationNext(store.plan, store.history);
+  const nextType = engine.rotationNext(store.plan, store.history, store.settings.dayOverride);
   const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
   const lastByType = {};
   for (const e of store.history) lastByType[e.session_type] = e.date;
@@ -1427,7 +1427,8 @@ function finishSession() {
   store.clearDraft();
   // quiet: the results ceremony owns the screen — the world rebuild waits for
   // the take-a-bow tap instead of tearing the stage mid-fanfare.
-  store.upsertEntry(entry, { quiet: true });
+  // banked: a NEW night consumes the manual day pin (store decides which).
+  store.upsertEntry(entry, { quiet: true, banked: true });
   clearDock();
   hideRestTimer();
   haptic([10, 60, 20, 60, 30]);
