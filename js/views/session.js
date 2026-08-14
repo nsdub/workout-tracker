@@ -618,9 +618,13 @@ function wire(draft, x, curIdx, noticeList = []) {
   });
   $('#notice-bar', root)?.addEventListener('click', (e) => {
     if (e.target.closest('#resume-discard')) return; // Discard owns its tap
-    // A proposals notice goes STRAIGHT to the decision, not to a list of
-    // notices that then makes him go find it on another tab.
-    if (noticeList[0]?.k === 'props') {
+    // A LONE proposals notice goes STRAIGHT to the decision, not to a list of
+    // one that then makes him go find it on another tab. But the bar wears a
+    // "+N" chip when other notices exist, and jumping past them made that chip
+    // a lie: on 2026-08-14 the flag saying every load would be cut 20% the
+    // following Monday sat behind it, reachable only by another route. With
+    // company, the tap opens the list — where the proposals row still jumps.
+    if (noticeList.length === 1 && noticeList[0]?.k === 'props') {
       window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'plan', proposals: true } }));
       return;
     }
@@ -1004,10 +1008,19 @@ function noticesSheet(list) {
     <h2>Tonight’s briefing</h2>
     <div class="sub">${list.length === 1 ? 'One thing to know' : `${list.length} things to know`}</div>
     <div class="opt-list">
-      ${list.map((n) => `<div class="opt notice-full">${esc(n.txt)}</div>`).join('')}
+      ${list.map((n) => (n.k === 'props'
+        ? `<div class="opt notice-full" id="nt-props" role="button" tabindex="0">${esc(n.txt)}</div>`
+        : `<div class="opt notice-full">${esc(n.txt)}</div>`)).join('')}
     </div>
     <button class="btn quiet" id="nt-close" style="margin-top:10px">Close</button>`, {
-    onOpen(sheet, close) { $('#nt-close', sheet).addEventListener('click', close); },
+    onOpen(sheet, close) {
+      $('#nt-close', sheet).addEventListener('click', close);
+      // The one notice in here that has somewhere to go still goes there.
+      $('#nt-props', sheet)?.addEventListener('click', () => {
+        close();
+        window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'plan', proposals: true } }));
+      });
+    },
   });
 }
 

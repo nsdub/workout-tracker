@@ -1,10 +1,10 @@
 {
   "kind": "protocol-seed",
-  "version": 3,
+  "version": 4,
   "plan": {
-    "version": 3,
+    "version": 4,
     "name": "Protocol v3",
-    "updated": "2026-07-23",
+    "updated": "2026-08-14",
     "gear": {
       "main-cable": {
         "label": "dual cable stack",
@@ -117,19 +117,9 @@
         "id": "meso1",
         "name": "Meso 1",
         "start": "2026-07-20",
-        "end": "2026-08-16",
-        "type": "build",
-        "note": "Progressive overload."
-      },
-      {
-        "id": "deload1",
-        "name": "Deload",
-        "start": "2026-08-17",
         "end": "2026-08-23",
-        "type": "deload",
-        "loadFactor": 0.8,
-        "setFactor": 0.6,
-        "note": "-20% load, ~60% sets, nothing under 4 RIR."
+        "type": "build",
+        "note": "Progressive overload. Extended one week and the 17-23 Aug back-off dropped: the 2026-08-14 panel ruled that eleven days away from the gym (4-13 Aug) had already shed the block's fatigue, so a scheduled -20% week would have started Meso 2 detrained."
       },
       {
         "id": "meso2",

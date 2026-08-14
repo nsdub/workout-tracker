@@ -1029,4 +1029,21 @@ await ok('no display site prefers the prescription over the weight actually dial
   }
 });
 
+// ——— The "+N" chip is a promise the tap has to keep ———
+// The world screen shows ONE notice with a "+N" chip for the rest. When the
+// top notice was the proposals nudge, the tap jumped straight to the proposals
+// sheet and the other notices never opened at all — so on 2026-08-14 the flag
+// saying every load would be cut 20% the following Monday sat behind a chip
+// that advertised it and a tap that went somewhere else. Source-level for the
+// same reason as the test above: the alternative is a DOM, and the rule is one
+// clause wide and easy to drop again.
+await ok('the notice bar never swallows the other notices behind the proposals shortcut', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
+  const shortcut = src.match(/if \(([^)]*?)noticeList\[0\]\?\.k === 'props'([^)]*?)\)/);
+  assert.ok(shortcut, 'the proposals shortcut moved or was renamed — re-point this test at it');
+  assert.match(shortcut[1] + shortcut[2], /noticeList\.length === 1/,
+    'the straight-to-proposals jump must fire only when it is the ONLY notice; otherwise the tap must open the full list');
+});
+
 console.log(`\n${n} app tests passed`);

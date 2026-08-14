@@ -28,16 +28,34 @@ ok('meso1 week 2', () => {
   const i = E.phaseForDate(plan, '2026-07-27');
   assert.equal(i.phase.id, 'meso1');
   assert.equal(i.week, 2);
-  assert.equal(i.weeks, 4);
+  // 5, not 4: the block absorbed the dropped 17-23 Aug back-off week.
+  assert.equal(i.weeks, 5);
 });
 ok('deload by date', () => {
-  assert.equal(E.phaseForDate(plan, '2026-08-20').phase.type, 'deload');
+  assert.equal(E.phaseForDate(plan, '2026-09-23').phase.type, 'deload');
+});
+// The 17-23 Aug back-off was dropped on 2026-08-14 (panel ruling: eleven days
+// away from the gym had already shed the block's fatigue). Meso 1 runs one week
+// longer instead, and the first deload of the program is now 21-27 September.
+// Pinned because the phase calendar fires on a DATE with nothing asking whether
+// it still makes sense — a silent revert would cut every load 20% for a week.
+ok('the dropped 17-23 Aug back-off stays dropped — that week is build', () => {
+  const i = E.phaseForDate(plan, '2026-08-20');
+  assert.equal(i.phase.id, 'meso1');
+  assert.equal(i.phase.type, 'build');
+  assert.equal(plan.phases.find((p) => p.id === 'deload1'), undefined);
+  assert.equal(plan.phases.find((p) => p.type === 'deload').start, '2026-09-21');
+});
+ok('Meso 2 still starts 24 August — nothing downstream moved', () => {
+  assert.equal(E.phaseForDate(plan, '2026-08-24').phase.id, 'meso2');
+  assert.equal(E.phaseForDate(plan, '2026-08-23').phase.id, 'meso1');
+  assert.equal(plan.phases.find((p) => p.id === 'assessment').start, '2026-11-02');
 });
 ok('prep continues past its end date', () => {
   assert.equal(E.phaseForDate(plan, '2027-06-01').phase.id, 'prep');
 });
 ok('manual override wins', () => {
-  assert.equal(E.phaseForDate(plan, '2026-07-27', 'deload1').phase.id, 'deload1');
+  assert.equal(E.phaseForDate(plan, '2026-07-27', 'deload2').phase.id, 'deload2');
 });
 
 // ——— Rotation ———
@@ -174,7 +192,7 @@ ok('pyramid weights progress per set', () => {
   assert.deepEqual(rx.sets.map((s) => s.weight), [235, 255, 265, 275]);
 });
 
-const deload = E.phaseForDate(plan, '2026-08-20');
+const deload = E.phaseForDate(plan, '2026-09-23');
 ok('deload: −20% load, ~60% sets (4 → 2)', () => {
   const h = [...history, mkEntry('2026-08-10', 'PushA', 'smith-incline-press', [
     { weight: 200, reps: 8 }, { weight: 200, reps: 8 }, { weight: 200, reps: 8 }, { weight: 200, reps: 7 },
@@ -206,13 +224,13 @@ ok('deload keeps the WORKING sets of a ramp, not the warm-ups', () => {
   // the headline % must be TRUE of the heaviest weight actually prescribed
   assert.equal(Math.round((Math.max(...rx.sets.map((s) => s.weight)) / rx.prevTop) * 100), rx.pct);
 });
-ok('meso 2 progresses off meso 1, skipping the deload entry', () => {
-  const meso2 = E.phaseForDate(plan, '2026-08-25');
+ok('meso 3 progresses off meso 2, skipping the deload entry', () => {
+  const meso3 = E.phaseForDate(plan, '2026-09-29');
   const h = [...history,
-    mkEntry('2026-08-10', 'PushA', 'smith-incline-press', [{ weight: 200, reps: 8 }, { weight: 200, reps: 8 }, { weight: 200, reps: 8 }, { weight: 200, reps: 8 }], 'meso1'),
-    mkEntry('2026-08-19', 'PushA', 'smith-incline-press', [{ weight: 160, reps: 6 }, { weight: 160, reps: 6 }], 'deload1'),
+    mkEntry('2026-09-15', 'PushA', 'smith-incline-press', [{ weight: 200, reps: 8 }, { weight: 200, reps: 8 }, { weight: 200, reps: 8 }, { weight: 200, reps: 8 }], 'meso2'),
+    mkEntry('2026-09-23', 'PushA', 'smith-incline-press', [{ weight: 160, reps: 6 }, { weight: 160, reps: 6 }], 'deload2'),
   ];
-  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), meso2);
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'smith-incline-press'), meso3);
   assert.equal(rx.basis, 'progress');
   assert.equal(rx.sets[0].weight, 205);
 });
@@ -364,7 +382,7 @@ ok('prescribe surfaces the real pct alongside the back-off weight', () => {
 });
 ok("deload: the app's own 80% weight never trips the deviation warning", () => {
   const h = [...history, ...meso1Push];
-  const { phase } = E.phaseForDate(plan, '2026-08-17');
+  const { phase } = E.phaseForDate(plan, '2026-09-21');
   const warns = E.validateSet(plan, h, 'smith-incline-press', 140, 6, { phase });
   assert.equal(warns.some((w) => w.code === 'dev'), false);
   // small weights are where the grid floor bites hardest: incline-db-curl
@@ -375,7 +393,7 @@ ok("deload: the app's own 80% weight never trips the deviation warning", () => {
 });
 ok('deload: a genuine typo still warns, with honest recomputable numbers', () => {
   const h = [...history, ...meso1Push];
-  const { phase } = E.phaseForDate(plan, '2026-08-17');
+  const { phase } = E.phaseForDate(plan, '2026-09-21');
   const warns = E.validateSet(plan, h, 'smith-incline-press', 40, 6, { phase });
   const m = warns.find((w) => w.code === 'dev')?.msg ?? '';
   const [, pct, dir, exp] = m.match(/(\d+)% (lighter|heavier) than expected for deload \(~(\d+) lb = 80% of your (\d+) lb average\)/) ?? [];
@@ -387,8 +405,8 @@ ok('deload: a genuine typo still warns, with honest recomputable numbers', () =>
 });
 ok('week after deload: deload entries are normalized, not averaged raw', () => {
   const h = [...history, ...meso1Push,
-    mkEntry('2026-08-17', 'PushA', 'smith-incline-press', mkSets(140, 6, 2), 'deload1')];
-  const { phase } = E.phaseForDate(plan, '2026-08-24');
+    mkEntry('2026-09-21', 'PushA', 'smith-incline-press', mkSets(140, 6, 2), 'deload2')];
+  const { phase } = E.phaseForDate(plan, '2026-09-28');
   const warns = E.validateSet(plan, h, 'smith-incline-press', 185, 6, { phase });
   assert.equal(warns.some((w) => w.code === 'dev'), false);
 });
@@ -563,15 +581,15 @@ ok('the card’s LAST strip is the visit prescribe actually read, fences and all
   // a deload entry is the most recent same-day-type visit, but the meso
   // prescription deliberately skips it — so the strip must show the meso
   // visit, not the deload, or the card contradicts its own sentence again.
-  const meso2 = E.phaseForDate(plan, '2026-08-25');
+  const meso3 = E.phaseForDate(plan, '2026-09-29');
   const h = [...history,
-    mkEntry('2026-08-10', 'PushA', 'machine-chest-press', mkSets(195, 10, 3), 'meso1'),
-    mkEntry('2026-08-19', 'PushA', 'machine-chest-press', mkSets(155, 6, 2), 'deload1'),
+    mkEntry('2026-09-15', 'PushA', 'machine-chest-press', mkSets(195, 10, 3), 'meso2'),
+    mkEntry('2026-09-23', 'PushA', 'machine-chest-press', mkSets(155, 6, 2), 'deload2'),
   ];
-  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso2);
-  assert.equal(rx.source.date, '2026-08-10', 'source must be the visit the numbers came from');
-  const row = E.previewSession(plan, h, 'PushA', meso2).find((r) => r.id === 'machine-chest-press');
-  assert.equal(row.last.date, '2026-08-10', 'the displayed strip must match that same visit');
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso3);
+  assert.equal(rx.source.date, '2026-09-15', 'source must be the visit the numbers came from');
+  const row = E.previewSession(plan, h, 'PushA', meso3).find((r) => r.id === 'machine-chest-press');
+  assert.equal(row.last.date, '2026-09-15', 'the displayed strip must match that same visit');
 });
 ok('a zero-weight set inside a real shape is never teleported to the cross top', () => {
   const h = [...history,
@@ -668,9 +686,9 @@ ok('older cross-day work never overrides this day’s own newer choice', () => {
 ok('deload entries never set the cross-day floor', () => {
   const h = [...history,
     mkEntry('2026-07-16', 'PushA', 'machine-chest-press', mkSets(150, 9, 3)),
-    mkEntry('2026-08-19', 'PushB', 'machine-chest-press', mkSets(160, 12, 3), 'deload1'),
+    mkEntry('2026-09-23', 'PushB', 'machine-chest-press', mkSets(160, 12, 3), 'deload2'),
   ];
-  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), E.phaseForDate(plan, '2026-08-25'));
+  const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), E.phaseForDate(plan, '2026-09-29'));
   assert.equal(rx.basis, 'repeat');
   assert.equal(rx.sets[0].weight, 150);
 });
@@ -743,7 +761,7 @@ ok('a packet goes stale by the CALENDAR, not just by new logs', () => {
   assert.equal(E.coachFresh(h, coach, '2026-07-25'), true, 'inside the window');
   assert.equal(E.coachFresh(h, coach, '2026-07-26'), false, 'past the window');
   // and the prescription itself falls back to the standing rules
-  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), E.phaseForDate(plan, '2026-08-20'), coach);
+  const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), E.phaseForDate(plan, '2026-09-23'), coach);
   assert.equal(rx.basis, 'deload', 'a stale packet must never override a deload week');
 });
 ok('a loaded ask on a bodyweight slot is malformed; a zero-weight ask on a loaded slot is too', () => {
