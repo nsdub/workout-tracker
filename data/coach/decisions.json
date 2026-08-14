@@ -361,5 +361,61 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-03T19:12:19.302Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "Still open and unanswered, and it is on tonight's card: Push A's rope pushdown asks ten to twelve and your six sets there came in at eight, seven, nine and eight, seven, eight — not one set inside the range all block, so the weight can never move, and twelve to fifteen makes it a slot you can actually finish.",
+      "date": "2026-08-14"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-14T23:20:09.701Z"
+  },
+  {
+    "proposal": {
+      "kind": "swap",
+      "exercise": "face-pulls",
+      "replacement": "reverse-pec-deck",
+      "scope": "PushA",
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "Still open and unanswered, and it is also on tonight's card: Push A is the last place face pulls are still in your week, and it is the one prescription you have objected to in writing twice — \"I did angels and demons instead\" on 28 July and \"Do you have a brain?\" on 31 July — so this puts the reverse pec deck in that slot instead, two sets of twelve to fifteen. Same back of the shoulder, and it is the machine you have carried from 82.5 to 90 without missing a set.",
+      "date": "2026-08-14"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-14T23:20:09.709Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "straight-arm-pulldown",
+      "scope": "PullB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Still open — you have not had a session since this went on your card: both your last two Pull B nights sat at 37.5 and finished 13, 11, 12 and 13, 12, 12 — never the fifteen this slot asks for, so the weight can never move, and asking ten to twelve means the twelves you already do earn the next step.",
+      "date": "2026-08-14"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-14T23:20:09.712Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Still open and unanswered, and this is not the cut to two sets you declined on 3 August — it is three: Legs A asks for four and you have done two, two and three, and because the weight only moves when you finish every set the plan asks for, three makes the prescription the work you actually do.",
+      "date": "2026-08-14"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-14T23:20:09.715Z"
   }
 ]
