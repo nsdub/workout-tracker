@@ -1,0 +1,131 @@
+{
+  "role": "progression",
+  "date": "2026-08-14",
+  "session": "PushA",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 7 },
+        { "weight": 170, "reps": 7 },
+        { "weight": 170, "reps": 7 },
+        { "weight": 175, "reps": 7 }
+      ],
+      "why": "Same four weights as your last Push A on 31 July, with one more rep asked on the first three sets. That night you got 6, 6, 6 and then 7 at 175 — the bottom of what this card asks for — so the bar has not earned a jump, and a week earlier at 165 you were getting 8s. It has also been two weeks since you touched it. You told us today the gap was not empty, but none of that lifting was written down, so it is a report rather than a measurement and it is not something to add weight on. If 175 gives you 8 tonight, the next Push A opens at 180.",
+      "evidence": [
+        "2026-07-31:smith-incline-press",
+        "2026-07-23:smith-incline-press",
+        "2026-07-16:smith-incline-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 157.5, "reps": 10 },
+        { "weight": 165, "reps": 10 },
+        { "weight": 172.5, "reps": 10 }
+      ],
+      "why": "Every set goes up one plate, 7.5 pounds. On 31 July you finished 12 reps on all three sets at 150, 157.5 and 165 — the top of what this card asks, on every set — and three days later on Push B you pressed 165, 172.5 and 180 for 8s on the same machine. So 172.5 for 10 is inside weight you have already moved, and the 157.5 opener is lighter than a set you did for 12. Two weeks off does not undo a night where you finished everything at the ceiling. Repeating 31 July here would hand you a card you already beat.",
+      "evidence": [
+        "2026-07-31:machine-chest-press",
+        "2026-08-03:machine-chest-press",
+        "2026-07-27:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "sets": [
+        { "weight": 13.75, "reps": 15 },
+        { "weight": 15, "reps": 14 },
+        { "weight": 15, "reps": 14 }
+      ],
+      "why": "Same pins, same small plates, one more rep on each set. Worth knowing why this looks stuck: the weight genuinely has not changed in three sessions even though the printed number did. The 14 and 15.5 you logged on 16 and 23 July and the 13.75 and 15 you logged on 31 July are the same two settings on the stack, just written the way it actually loads. At that setting you went 12/12/12, then 14/13/13, then 14/13/13 again. Reps are the way out, not the pin — the next pin above 15 is 17.5, a big step on a fly. Fifteen on all three and the pin moves.",
+      "evidence": [
+        "2026-07-31:cable-crossover-low-high",
+        "2026-07-23:cable-crossover-low-high",
+        "2026-07-16:cable-crossover-low-high"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 40, "reps": 10 },
+        { "weight": 40, "reps": 9 },
+        { "weight": 40, "reps": 9 }
+      ],
+      "why": "The 35s come off. On 31 July you got 12 reps with them — two past the top of what this card asks — then moved to the 40s and got 9 and 9, which is right where it wants you. On 23 July the 35s gave you 12 as well. And on 3 August, with the smith machine taken, you pressed the 40s overhead for four sets of six. So all three sets run at 40: ten on the fresh set, then the two nines you already own. Nothing here is heavier than a weight you have pressed; the light set is what changes. Three tens at 40 and the 45s come out.",
+      "evidence": [
+        "2026-07-31:db-shoulder-press",
+        "2026-07-23:db-shoulder-press",
+        "2026-08-03:note"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "cut",
+      "sets": [
+        { "weight": 55, "reps": 12 },
+        { "weight": 55, "reps": 11 },
+        { "weight": 55, "reps": 11 }
+      ],
+      "why": "The top set comes down, 57.5 to 55. At 57.5 on 31 July you got 8 reps, two short of the least this card asks for, and three days later you ran 55 for 11, 11 and 10 — all three inside the range. 55 is the weight you actually own here, so all three sets sit there instead of climbing into a number that already failed. One thing is in your favour tonight: this lift now runs fifth, ahead of the lateral raise. It ran sixth on 31 July and seventh on 3 August, so your arms are fresher for it than on either of those nights. Twelve on all three and 57.5 comes back.",
+      "evidence": [
+        "2026-07-31:overhead-cable-triceps",
+        "2026-08-03:overhead-cable-triceps",
+        "2026-07-27:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 10, "reps": 13 },
+        { "weight": 10, "reps": 13 },
+        { "weight": 10, "reps": 13 }
+      ],
+      "why": "Same setting as 31 July, one more rep on each set. The number on the card reads 10 instead of 10.5 and nothing on the machine changes with it: 10.5 is not a weight this stack can make. The pin at 7.5 plus the small add-on plate is 10, and that is what you have been lifting all along. At that setting you have gone 10 reps, then 11, then 12 — and on 31 July you held the same weight for all three sets for the first time, instead of stripping down to 7.5 by the last one like the two sessions before. That is the progress here. Fifteens across and the pin goes to 12.5.",
+      "evidence": [
+        "2026-07-31:cable-lateral-raise",
+        "2026-07-23:cable-lateral-raise",
+        "2026-07-16:cable-lateral-raise"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "cut",
+      "sets": [
+        { "weight": 55, "reps": 11 },
+        { "weight": 55, "reps": 10 },
+        { "weight": 55, "reps": 10 }
+      ],
+      "why": "This has been too heavy for two sessions straight. On 23 July: 8 reps at 60.5, then 7 at 57.5, then 9 at 52.5. On 31 July: 8 at 60, 7 at 60, then you dropped to 55 and got 8. Not one of those six sets reached the 10 this card asks for. Standing rules would print 60 for 12 tonight, which is a number the log says twice that you cannot hit. So it comes down to 55 for all three sets, where landing inside the range is the whole job — and 55 is not new ground, you held 57.5 for 12 on 16 July. Three sets of 12 at 55 and 57.5 goes back on.",
+      "evidence": [
+        "2026-07-31:rope-pushdown",
+        "2026-07-23:rope-pushdown",
+        "2026-07-16:rope-pushdown"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 28.75, "reps": 14 },
+        { "weight": 28.75, "reps": 14 }
+      ],
+      "why": "Up by the smallest plate on the stack, 1.25 pounds. You finished 15 and 15 at 27.5 on three separate nights — 24 July, 27 July, 31 July — the top of what this card asks every time, so the step is earned. It stays a micro-step on purpose: earlier this year this lift was allowed to climb quickly, reached 40 pounds and then stopped moving for nine sessions. The rep target drops from 15 to 14 to pay for the extra plate. This is also the only rear-shoulder work left on Push A, since Push A has no reverse pec deck.",
+      "evidence": [
+        "2026-07-31:face-pulls",
+        "2026-07-27:face-pulls",
+        "2026-07-24:face-pulls",
+        "2026-02-24:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

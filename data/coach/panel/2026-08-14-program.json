@@ -1,0 +1,121 @@
+{
+  "role": "program",
+  "date": "2026-08-14",
+  "session": "PushA",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "kind": "observation",
+      "exercise": "smith-incline-press",
+      "scope": "PushA",
+      "why": "THE CALENDAR, and this is the seat that owns it. Start with the part that costs you something: if nobody rules on this, then on Monday 17 August the app cuts every load in your program by twenty percent and about forty percent of your sets, for seven days, automatically — the back-off week is already written into the plan and it fires on a date, not on how you are training. My ruling is that it should not run as written. A deload exists to shed the fatigue of a block of hard training; the block it was written for is thirteen lifting nights, all of them between 20 July and 3 August, and there is nothing in the log in the eleven days since. That fatigue has already been shed. Running the back-off on the 17th means you would train at most three re-entry nights, then spend a week lifting twenty percent lighter than weights you last touched on 3 August, and start Meso 2 on the 24th detrained. Your legs make it starker: Legs A last ran on 2 August and Legs B on 30 July, so with three nights left before the 17th, your protected leg days would meet the back-off having run about twice in three weeks. So: my call is to extend the build week through 23 August in place of the deload, leave Meso 2 starting on the 24th exactly where it is, and let the back-off already booked for 21-27 September be the first one you take — by then it follows five straight weeks of training you have actually logged, and nothing downstream of it moves, including Assessment on 2 November. What you told the panel today is why I am moving it rather than deleting it: the eleven days were not rest and not illness, they were improvised lifting you did not log, plus basketball and jogging. That report carries no loads, no dates and no volumes, so I am treating it as unquantified training and refusing to model anything on it — but it means you are detrained in these specific lifts while your calves, hamstrings and knees have just taken impact work you have not done in this block, which is an argument about how the first week back is loaded, and that belongs to the progression and recovery seats, not to me. Here is what could make me wrong: if the unlogged lifting was heavy and frequent, you are carrying more fatigue than the log shows and my ruling leaves you with no scheduled break until 21 September. That is recoverable — a back-off week can be called at any point if the first two weeks back read badly — and it is a smaller risk than cutting the loads of a man who has not lifted them in a fortnight. Last thing, and it is mine to own: I raised this exact question on 9 August and asked for a human answer before the 17th. That packet was never committed, so it never reached your phone, and this seat then filed nothing on the 11th and the 13th to carry it forward. You should have had eight days with this. You have three.",
+      "evidence": [
+        "2026-07-31:smith-incline-press",
+        "2026-08-03:machine-chest-press",
+        "2026-08-02:leg-press-low",
+        "2026-07-30:smith-rdl"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "machine-chest-press",
+      "scope": "PushA",
+      "why": "Why the ruling above arrives as words instead of a card you can tap. The app can only ask you Yes/No questions of seven kinds — add, remove, swap, volume, reorder, rep range, keep — and every one of them acts on a single exercise slot. There is no kind that can move a phase, so a calendar change cannot be rendered on your plan screen at all, and a packet that invented one would be rejected before it reached you. That is a real gap and it is the reason a decision worth three weeks of training has to travel by prose. The mechanism I think should exist: a `phase` proposal kind — a card that names the phase, its current dates and its proposed dates, answered Yes/No and recorded in decisions.json exactly like every other structural change — and, alongside it, the app should say on screen when a phase boundary is about to change your numbers, before the week it lands rather than on the night it lands. This lift is the plain example of what a silent boundary does: you pressed 165, 172.5 and 180 for eight on 3 August and 150 to 165 for twelves on 31 July, and on 17 August those become numbers about twenty percent lower with no card, no question and no explanation on the card itself.",
+      "evidence": [
+        "2026-08-03:machine-chest-press",
+        "2026-07-31:machine-chest-press"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "why": "One structural consequence of what you reported today, recorded without a card because the card for it is already in your queue. Basketball and jogging are calf and hamstring work whether or not they are written down, and they are the kind you have not done in this block — the log holds one cardio session in the whole of it. Your first Legs A back still asks for four sets of standing calf raises, and the record on that slot is two sets, two sets and three; on Legs B you wrote \"Why four sets\" next to the fourth. I am not proposing anything new tonight on the back of an unmeasured report — the volume card asking to make Legs A three sets is already sitting unanswered on your plan screen and it is the same fix. It matters more this week than it did last week, because until it is answered the app keeps asking for a fourth set you do not do, and the weight can never move as a result.",
+      "evidence": [
+        "2026-08-02:standing-calf-raise",
+        "2026-07-30:standing-calf-raise",
+        "2026-07-30:note"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "why": "Declaring a proposal I am deliberately NOT re-filing tonight, so it is not lost by silence. On 9 August I proposed taking the Bulgarian split squat from two sets to three — it is the only single-leg work in your week and you have finished both sets on every Legs A since it was added. That packet was never committed, so you never saw it, and it is still unanswered. I am holding it rather than putting it back in front of you tonight for two reasons: you are re-entering after eleven days in which you ran and played basketball, and the split squat is the one slot in your program that asks for balance under load, which is exactly the thing unaccustomed leg fatigue degrades first; and you already have four cards waiting, so a fifth reduces the chance any of them get answered. My commitment is that I re-file it once two Legs A nights are logged. If you would rather rule on it now, say so and it goes back on the card.",
+      "evidence": [
+        "2026-07-26:db-bulgarian-split-squat",
+        "2026-08-02:db-bulgarian-split-squat"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-overhead-press",
+      "scope": "PushB",
+      "why": "Carried unchanged from 6 and 9 August, with no new fact and nothing to decide: Push B's lead press ran as written on 12 and 27 July, and on 3 August you wrote that the Smith machine was unavailable and did four sets of Arnold presses at 40, which stored zero sets against the slot, so that work cannot move it. No Push B has run since. I am repeating it rather than re-deriving it because it becomes live the moment you next hit a Push B: that slot's most recent real data will be 27 July, and if the machine is unavailable again, logging the substitute under the slot it replaces is what keeps it counting.",
+      "evidence": [
+        "2026-07-12:smith-overhead-press",
+        "2026-07-27:smith-overhead-press",
+        "2026-08-03:note"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "Still open and unanswered, and it is on tonight's card: Push A's rope pushdown asks ten to twelve and your six sets there came in at eight, seven, nine and eight, seven, eight — not one set inside the range all block, so the weight can never move, and twelve to fifteen makes it a slot you can actually finish.",
+      "evidence": [
+        "2026-07-23:rope-pushdown",
+        "2026-07-31:rope-pushdown"
+      ]
+    },
+    {
+      "kind": "swap",
+      "exercise": "face-pulls",
+      "replacement": "reverse-pec-deck",
+      "scope": "PushA",
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "Still open and unanswered, and it is also on tonight's card: Push A is the last place face pulls are still in your week, and it is the one prescription you have objected to in writing twice — \"I did angels and demons instead\" on 28 July and \"Do you have a brain?\" on 31 July — so this puts the reverse pec deck in that slot instead, two sets of twelve to fifteen. Same back of the shoulder, and it is the machine you have carried from 82.5 to 90 without missing a set.",
+      "evidence": [
+        "2026-07-28:note",
+        "2026-07-31:note",
+        "2026-07-31:face-pulls",
+        "2026-07-27:reverse-pec-deck",
+        "2026-08-03:reverse-pec-deck"
+      ]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "straight-arm-pulldown",
+      "scope": "PullB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Still open — you have not had a session since this went on your card: both your last two Pull B nights sat at 37.5 and finished 13, 11, 12 and 13, 12, 12 — never the fifteen this slot asks for, so the weight can never move, and asking ten to twelve means the twelves you already do earn the next step.",
+      "evidence": [
+        "2026-07-21:straight-arm-pulldown",
+        "2026-07-28:straight-arm-pulldown"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Still open and unanswered, and this is not the cut to two sets you declined on 3 August — it is three: Legs A asks for four and you have done two, two and three, and because the weight only moves when you finish every set the plan asks for, three makes the prescription the work you actually do.",
+      "evidence": [
+        "2026-07-18:standing-calf-raise",
+        "2026-07-26:standing-calf-raise",
+        "2026-08-02:standing-calf-raise"
+      ]
+    }
+  ]
+}

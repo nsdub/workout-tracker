@@ -1,0 +1,117 @@
+{
+  "role": "recovery",
+  "date": "2026-08-14",
+  "session": "PushA",
+  "reviewed_through": "2026-08-03",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 6 },
+        { "weight": 170, "reps": 6 },
+        { "weight": 170, "reps": 6 },
+        { "weight": 175, "reps": 7 }
+      ],
+      "why": "Run 31 July again, set for set. This is the heaviest and coldest set of the night and it is fourteen days since you last did it. You told us today that the eleven quiet days had lifting, basketball and jogging in them, so you are not out of shape and I am not treating tonight as a comeback from nothing. But none of it is written down: I do not know when you last pressed anything heavy, or how much. That is a reason to repeat a night I can actually see, not to guess upward. It is not a reason to take weight off either — 175 for seven was clean, and it came off a full three minutes of rest. If the second set at 170 feels foreign, leave the top set where it is instead of chasing the eighth rep. One fact that is the program seat's to rule on and not mine: the deload booked for 17 August is three days away and this build week has one session in it.",
+      "evidence": [
+        "2026-07-31:smith-incline-press",
+        "2026-07-23:smith-incline-press",
+        "2026-08-03:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "abstain",
+      "why": "I have no readiness objection here and I am not going to invent one. You pressed 150, 157.5 and 165 for twelve each on 31 July, all three at the top of what this slot asks, and the very last thing in your whole log is this same machine on 3 August at 165, 172.5 and 180 for eight apiece. It is a seated machine on a fixed path, so a layoff costs you less on this lift than on anything else on the card, and basketball and jogging do nothing at all to a chest press. Whoever sets the number should know one thing though: the 180 on 3 August was the first lift you actually loaded that night, and on Push A this one comes after four sets of incline. Those two 165s are not the same 165.",
+      "evidence": [
+        "2026-07-31:machine-chest-press",
+        "2026-08-03:machine-chest-press",
+        "2026-07-31:smith-incline-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "sets": [
+        { "weight": 13.75, "reps": 14 },
+        { "weight": 15, "reps": 13 },
+        { "weight": 15, "reps": 13 }
+      ],
+      "why": "The same three sets as 31 July. Your reps were fourteen, thirteen and thirteen against a slot that asks twelve to fifteen, so nothing there earned a move, and the machine has no small step to offer anyway — above 15 the next real setting is 17.5, which is close to a fifth more weight in one go. This is also the one lift tonight where your shoulder is stretched out at the far end with nothing supporting it, which is the worst place on the card to find out what fourteen days did. Get the fifteen reps and the weight moves on merit.",
+      "evidence": [
+        "2026-07-31:cable-crossover-low-high",
+        "2026-07-23:cable-crossover-low-high"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 35, "reps": 10 },
+        { "weight": 40, "reps": 9 },
+        { "weight": 40, "reps": 9 }
+      ],
+      "why": "The 35s for the opener, the 40s for the two work sets. You did 35 then 40 for nine twice on 31 July, and the only overhead work anywhere in the log since is your own note on 3 August — the Smith was taken, so you did four sets of Arnold presses with the 40s for six. The 40s are not in doubt. What I am protecting is the first set: this is the least supported lift of the night, you have to get the dumbbells up to your shoulders before the set even begins, and after fourteen days that entry is worth taking easy. The next dumbbell above 40 is 45, an eighth more weight in a single step, and that is not a first-night-back number.",
+      "evidence": [
+        "2026-07-31:db-shoulder-press",
+        "2026-08-03:note",
+        "2026-07-23:db-shoulder-press"
+      ]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "hold",
+      "why": "Leave this exactly where it was. 31 July was the first night you held one setting for all three sets — twelve, twelve and twelve — instead of stripping weight partway through the way you did on both 23 July and 16 July. Twelve is the bottom of the range this slot asks for, so there is nothing here to move up yet, and it is the smallest lift on the card. A first night back should not be spending anything on it.",
+      "evidence": [
+        "2026-07-31:cable-lateral-raise",
+        "2026-07-23:cable-lateral-raise",
+        "2026-07-16:cable-lateral-raise"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "sets": [
+        { "weight": 53.75, "reps": 12 },
+        { "weight": 55, "reps": 11 },
+        { "weight": 55, "reps": 11 }
+      ],
+      "why": "55 is the ceiling tonight and 57.5 does not go back on the card. On 31 July you went 53.75 for thirteen, 55 for eleven, then 57.5 for eight — this slot asks for at least ten, so that last set missed the floor. On 3 August, on the same 75 seconds of rest but with the weight sitting flat at 55 the whole way, you got eleven, eleven and ten. Flat at 55 works. Climbing past it does not. And whatever is left of your triceps after this lift is what the rope pushdown straight afterwards has to work with.",
+      "evidence": [
+        "2026-07-31:overhead-cable-triceps",
+        "2026-08-03:overhead-cable-triceps",
+        "2026-07-31:rope-pushdown"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "cut",
+      "sets": [
+        { "weight": 52.5, "reps": 12 },
+        { "weight": 52.5, "reps": 11 },
+        { "weight": 52.5, "reps": 10 }
+      ],
+      "why": "Down to 52.5 and it stays there for all three sets. Two Push A nights in a row the weight has fallen apart inside the exercise. On 23 July you went 60.5 for eight, 57.5 for seven, then 52.5 for nine. On 31 July you went 60 for eight, 60 for seven, then stripped to 55 and did eight of those five seconds later. This slot asks for ten to twelve reps and your last six sets here all came in under ten — the only time you have ever landed inside the range on Push A was a single set back on 16 July. So this is not a tired-night problem, it is a weight that has never been right for where this lift sits in the session. 52.5 is the number you got nine reps out of when you were already cooked; going into it fresh, all three sets should finish inside the range. If they do, it goes back up next Push A having actually earned it.",
+      "evidence": [
+        "2026-07-31:rope-pushdown",
+        "2026-07-23:rope-pushdown",
+        "2026-07-16:rope-pushdown",
+        "2026-07-31:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "skip",
+      "why": "Off the card tonight — the same call I have made every time these have come up since 1 August. On 28 July you wrote that it was insane to have so many of the same corrective exercise back to back between days and that you did angels and demons instead. Three days later the app asked for them again on Push A, you did the two sets anyway, and you wrote 'Do you have a brain?' next to them. They have since come off both pull days and off Push B, and Push A is the last slot still holding them. The card asking whether the reverse pec deck should take that slot instead has been sitting unanswered in your queue since 4 August — that one is the program seat's proposal and yours to rule on, not mine. My part is narrower than that. These are the last two sets of your first night back after eleven days, they are the item on the card you have now told us twice in writing you are finished with, and there is no pain recorded anywhere in your log that makes me need them tonight.",
+      "evidence": [
+        "2026-07-31:face-pulls",
+        "2026-07-31:note",
+        "2026-07-28:note",
+        "2026-08-03:reverse-pec-deck"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
