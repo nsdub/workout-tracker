@@ -1858,6 +1858,10 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 .sp-set.cur { border-color: var(--acc); color: var(--ink); background: transparent; }
 .sp-set.done { opacity: .45; text-decoration: line-through; }
 .sp-set.skip { opacity: .35; }
+/* dialled-in ≠ plan: the plan's number stays on the chip, struck through */
+.sp-set.edited { border-color: var(--ink2); border-style: dashed; }
+.sp-set .rx { opacity: .55; font-size: 11px; margin-right: 4px; }
+.np-alt { margin-top: 8px; }
 .chipper.coach { border-color: var(--acc); color: var(--acc); }
 
 /* THE RECEIPT — who set tonight's numbers, counted not claimed */

@@ -411,8 +411,17 @@ function whyBlock(x) {
   // is worse than the text it hides.
   if (plain.length <= 90) return `<div class="basis-line">${body}</div>`;
   const open = whyOpen.has(x.id);
+  // The header quotes the PRESCRIPTION, because the body explains the
+  // prescription. Reading the live weight here meant an edit put "Why 55 lb"
+  // over reasoning that produced 50 — a number the program never asked for,
+  // explained by a sentence about a number no longer on screen. When his
+  // dialled number differs it is named beside the plan's, never instead of it.
+  const topLive = Math.max(0, ...x.sets.map((s) => s.weight ?? s.rxWeight ?? 0));
+  const rxs = x.sets.map((s) => s.rxWeight).filter((w) => w != null);
+  const topRx = rxs.length ? Math.max(0, ...rxs) : topLive;
+  const drift = topRx !== topLive ? ` · you dialled ${fmtW(topLive)}` : '';
   return `<details class="why"${open ? ' open' : ''} data-ex="${esc(x.id)}">
-    <summary>Why ${fmtW(Math.max(0, ...x.sets.map((s) => s.weight ?? s.rxWeight ?? 0)))} lb${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
+    <summary>Why ${fmtW(topRx)} lb${drift}${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
     <div class="basis-line">${body}</div>
   </details>`;
 }
@@ -567,7 +576,10 @@ function renderWorldScreen(draft, phaseInfo) {
             const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
             const cls = s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : '';
             const edited = s.rxWeight != null && s.weight !== s.rxWeight;
-            return `<span class="sp-set ${cls}${edited ? ' edited' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
+            // An edited set never hides the program: the plan's number stays
+            // on the chip, struck through, beside the weight he dialled in.
+            const rx = edited ? `<s class="rx num">${s.rxWeight === 0 ? 'BW' : fmtW(s.rxWeight)}</s>` : '';
+            return `<span class="sp-set ${cls}${edited ? ' edited' : ''}">${rx}<b class="num">${txt}</b><i>×${s.reps}</i></span>`;
           }).join('')}
         </div>
         <div class="c-vals">
@@ -779,11 +791,16 @@ function editValue(x, s, si, field) {
   const isW = field === 'weight';
   const repTxt = x.repMin === x.repMax ? `${x.repMin}` : `${x.repMin}–${x.repMax}`;
   const unitTxt = x.repUnit === 'sec' ? 'seconds' : 'reps';
+  // A weight edit touches ONE set unless he says otherwise. The old
+  // write-forward-by-default cascade overwrote every remaining set the moment
+  // he adjusted one, erasing the program's numbers from the card (his words,
+  // 2026-08-14). Carrying a weight forward is still one tap — but it is HIS
+  // tap, on a button that says how many sets it hits.
+  const ahead = isW ? x.sets.filter((q, j) => j > si && !q.done).length : 0;
+  const rxTxt = isW && s.rxWeight != null ? ` · plan says ${s.rxWeight === 0 ? 'BW' : `${fmtW(s.rxWeight)} lb`}` : '';
   numpadSheet({
     title: `${x.name} — set ${si + 1}`,
-    // Plain English on the cascade: a weight edit writes forward, and the
-    // user gets told so BEFORE and AFTER (the toast below), never silently.
-    sub: isW ? `target ${repTxt} ${unitTxt} — this weight applies to this and the remaining sets` : unitTxt,
+    sub: isW ? `target ${repTxt} ${unitTxt}${rxTxt}` : unitTxt,
     value: isW ? s.weight ?? 0 : s.reps,
     unit: isW ? 'lb' : (x.repUnit === 'sec' ? 's' : ''),
     step: isW ? x.inc : 1,
@@ -791,7 +808,9 @@ function editValue(x, s, si, field) {
     grid: isW ? x.grid ?? null : null,
     decimals: isW,
     max: isW ? 2000 : 999,
-    onConfirm(v) {
+    confirmLabel: ahead ? 'This set only' : 'Lock it in',
+    altLabel: ahead ? `This + ${ahead} remaining set${ahead > 1 ? 's' : ''}` : null,
+    onConfirm(v, { alt } = {}) {
       if (isW) {
         // Typed weights land on the machine's grid. The add-on weights are
         // unlabelled, so what he types is an ESTIMATE (his words, 2026-08-01);
@@ -799,8 +818,14 @@ function editValue(x, s, si, field) {
         // actually load. Never silent — the toast says what it did.
         const snapped = x.grid?.length && v > 0 ? engine.ladderNearest(x.grid, v) : v;
         const hit = [];
-        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = snapped; hit.push(j + 1); }
-        const where = hit.length > 1 ? `sets ${hit[0]}\u2013${hit[hit.length - 1]}` : `set ${hit[0] ?? si + 1}`;
+        const end = alt ? x.sets.length : si + 1;
+        for (let j = si; j < end; j++) if (!x.sets[j].done) { x.sets[j].weight = snapped; hit.push(j + 1); }
+        // A range like "sets 2 to 5" is only claimed when the run is unbroken;
+        // a done set in the middle keeps its logged weight, so a gapped
+        // hit-list is spelled out.
+        const where = hit.length > 1
+          ? (hit[hit.length - 1] - hit[0] === hit.length - 1 ? `sets ${hit[0]}\u2013${hit[hit.length - 1]}` : `sets ${hit.join(', ')}`)
+          : `set ${hit[0] ?? si + 1}`;
         toast(snapped !== v
           ? `${fmtW(v)} isn\u2019t on this stack \u2014 ${fmtW(snapped)} set for ${where}`
           : `Weight set for ${where}`);
@@ -984,7 +1009,10 @@ export function howtoSheet(exId) {
         ${ex.sets.map((s) => {
           const w = s.weight ?? s.rxWeight; // the live number, same as the card's strip
           const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
-          return `<span class="sp-set${s.done ? ' done' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
+          // and, same as the card's strip, an edit never hides the plan
+          const edited = s.rxWeight != null && s.weight !== s.rxWeight;
+          const rx = edited ? `<s class="rx num">${s.rxWeight === 0 ? 'BW' : fmtW(s.rxWeight)}</s>` : '';
+          return `<span class="sp-set${s.done ? ' done' : ''}${edited ? ' edited' : ''}">${rx}<b class="num">${txt}</b><i>×${s.reps}</i></span>`;
         }).join('')}
       </div>
       <div class="basis-line" style="margin:6px 0 0">${BASIS[ex.basis]?.(ex) ?? ''}</div>

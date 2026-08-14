@@ -106,7 +106,7 @@ export function openSheet(html, { onOpen } = {}) {
   return close;
 }
 
-export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, min = 0, max = 2000, decimals = true, grid = null, onConfirm }) {
+export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, min = 0, max = 2000, decimals = true, grid = null, confirmLabel = 'Lock it in', altLabel = null, onConfirm }) {
   let current = value ?? 0;
   let typing = false;
   let buffer = '';
@@ -124,7 +124,8 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
       <button class="np-key" data-k="0">0</button>
       <button class="np-key fn" data-k="del" aria-label="delete">${ICONS.backspace}</button>
     </div>
-    <button class="btn primary" id="np-ok">Lock it in</button>`, {
+    <button class="btn primary" id="np-ok">${esc(confirmLabel)}</button>
+    ${altLabel ? `<button class="btn quiet np-alt" id="np-ok-alt">${esc(altLabel)}</button>` : ''}`, {
     onOpen(sheet, close) {
       const display = $('#np-v', sheet);
       const render = () => { display.textContent = typing ? (buffer || '0') : fmtW(current); };
@@ -166,13 +167,14 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
           else if (buffer.replace('.', '').length < 6) buffer += k;
           // Whisper on throwaway keystrokes — the impact belongs to the commit.
           haptic(2); sfx('tap'); render(); pulse(false);
-        } else if (e.target.closest('#np-ok')) {
+        } else if (e.target.closest('#np-ok') || e.target.closest('#np-ok-alt')) {
+          const alt = !!e.target.closest('#np-ok-alt');
           const v = typing ? parseFloat(buffer || '0') : current;
           // Locking in the working weight is the decisive beat: punctuate it
           // with a distinct pattern + a confirmation cue, not the flat per-key buzz.
           haptic([14, 22, 14]); sfx('objDone');
           close();
-          onConfirm(Math.min(max, Math.max(min, isNaN(v) ? 0 : v)));
+          onConfirm(Math.min(max, Math.max(min, isNaN(v) ? 0 : v)), { alt });
         }
       });
     },
