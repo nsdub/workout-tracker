@@ -1,0 +1,197 @@
+{
+  "date": "2026-08-14",
+  "session_type": "PushA",
+  "phase": "meso1",
+  "week": 4,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 6,
+          "at": 1786749890591
+        },
+        {
+          "weight": 175,
+          "reps": 6,
+          "at": 1786750027865
+        },
+        {
+          "weight": 175,
+          "reps": 7,
+          "at": 1786750143340
+        },
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1786750239491
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1786750441568,
+          "restEndedAt": 1786750419502
+        },
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1786750533293
+        },
+        {
+          "weight": 172.5,
+          "reps": 10,
+          "at": 1786750708651,
+          "restEndedAt": 1786750653304
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 13.75,
+          "reps": 14,
+          "at": 1786750911568,
+          "restEndedAt": 1786750828662
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1786751040913,
+          "restEndedAt": 1786750986578
+        },
+        {
+          "weight": 15,
+          "reps": 12,
+          "at": 1786751156012,
+          "restEndedAt": 1786751115923
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 10,
+          "at": 1786751248637,
+          "restEndedAt": 1786751231021
+        },
+        {
+          "weight": 40,
+          "reps": 9,
+          "at": 1786751376069,
+          "restEndedAt": 1786751368647
+        },
+        {
+          "weight": 40,
+          "reps": 9,
+          "at": 1786751498396,
+          "restEndedAt": 1786751496078
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 53.75,
+          "reps": 12,
+          "at": 1786751645215,
+          "restEndedAt": 1786751618407
+        },
+        {
+          "weight": 55,
+          "reps": 11,
+          "at": 1786751753323,
+          "restEndedAt": 1786751720236
+        },
+        {
+          "weight": 55,
+          "reps": 9,
+          "at": 1786751843242
+        }
+      ]
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 13,
+          "at": 1786752015636,
+          "restEndedAt": 1786751918251
+        },
+        {
+          "weight": 10,
+          "reps": 13,
+          "at": 1786752160414,
+          "restEndedAt": 1786752090644
+        },
+        {
+          "weight": 10,
+          "reps": 10,
+          "at": 1786752307592,
+          "restEndedAt": 1786752235423
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 52.5,
+          "reps": 14,
+          "at": 1786752426762,
+          "restEndedAt": 1786752382602
+        },
+        {
+          "weight": 52.5,
+          "reps": 11,
+          "at": 1786752525723,
+          "restEndedAt": 1786752501770
+        },
+        {
+          "weight": 52.5,
+          "reps": 10,
+          "at": 1786752645445,
+          "restEndedAt": 1786752600733
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1786752763533,
+          "restEndedAt": 1786752720453
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1786752978847,
+          "restEndedAt": 1786752838541
+        }
+      ]
+    }
+  ],
+  "world": "bamboo",
+  "mins": 51,
+  "startedAt": 1786749623042
+}
