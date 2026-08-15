@@ -1,0 +1,160 @@
+{
+  "date": "2026-08-15",
+  "session_type": "PullB",
+  "phase": "meso1",
+  "week": 4,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 115,
+          "reps": 10,
+          "at": 1786804576346
+        },
+        {
+          "weight": 135,
+          "reps": 9,
+          "at": 1786804759342,
+          "restEndedAt": 1786804756366
+        },
+        {
+          "weight": 145,
+          "reps": 10,
+          "at": 1786804973682,
+          "restEndedAt": 1786804939352
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1786805188278,
+          "restEndedAt": 1786805153694
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 8,
+          "at": 1786805410780,
+          "restEndedAt": 1786805368297
+        },
+        {
+          "weight": 127.5,
+          "reps": 8,
+          "at": 1786805545065,
+          "restEndedAt": 1786805530808
+        },
+        {
+          "weight": 127.5,
+          "reps": 8,
+          "at": 1786805709269,
+          "restEndedAt": 1786805665074
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 10,
+          "at": 1786805866382,
+          "restEndedAt": 1786805829279
+        },
+        {
+          "weight": 45,
+          "reps": 10,
+          "at": 1786805989277,
+          "restEndedAt": 1786805941394
+        },
+        {
+          "weight": 45,
+          "reps": 10,
+          "at": 1786806126864,
+          "restEndedAt": 1786806064287
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 70,
+          "reps": 15,
+          "at": 1786806263571,
+          "restEndedAt": 1786806201871
+        },
+        {
+          "weight": 70,
+          "reps": 15,
+          "at": 1786806379748,
+          "restEndedAt": 1786806338580
+        },
+        {
+          "weight": 70,
+          "reps": 15,
+          "at": 1786806542363,
+          "restEndedAt": 1786806454762
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1786806907594,
+          "restEndedAt": 1786806617371
+        },
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1786807027198,
+          "restEndedAt": 1786806982608
+        },
+        {
+          "weight": 25,
+          "reps": 9,
+          "at": 1786807177567,
+          "restEndedAt": 1786807102205
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1786807349728,
+          "restEndedAt": 1786807252576
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1786807462597,
+          "restEndedAt": 1786807424737
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1786807612682,
+          "restEndedAt": 1786807537604
+        }
+      ]
+    }
+  ],
+  "world": "parrots",
+  "mins": 51,
+  "startedAt": 1786804427723
+}
