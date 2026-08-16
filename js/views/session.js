@@ -8,6 +8,7 @@ import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { BASIS, previewSheet, provenance, provenanceText } from './preview.js';
+import { undecidedProposals, proposalLine } from '../proposals.js';
 
 // A "night" is a LIFTING night. store.history also holds conditioning entries
 // (supplemental: true, written by the cardio logger), and counting those
@@ -462,18 +463,16 @@ function renderWorldScreen(draft, phaseInfo) {
   // Program changes waiting on him. These were three screens deep in Mission
   // behind a scroll; a decision the trainers are blocked on belongs on the
   // screen he is actually looking at.
-  const undecided = (() => {
-    const props = store.coach?.proposals ?? [];
-    if (!props.length) return 0;
-    const pid = (q) => `${q.date ?? store.coach?.date ?? ''}:${q.kind}:${q.exercise}:${q.scope ?? 'all'}`;
-    const done = new Set(store.decisions.map((x) => `${x.proposal?.date ?? ''}:${x.proposal?.kind}:${x.proposal?.exercise}:${x.proposal?.scope ?? 'all'}`));
-    return props.filter((q) => !done.has(pid(q))).length;
-  })();
+  const openProps = undecidedProposals();
+  const undecided = openProps.length;
+  // Trainer flags carry `who`, not a "Trainer: " stamp baked into the text —
+  // the bar prepends the attribution to its ONE line, and the briefing groups
+  // them under one header instead of printing the same word seven times.
   const noticeList = [
-    ...coachFlags.filter((f) => f.kind === 'pain').map((f) => ({ p: 0, k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? 'check this before you lift'}` })),
-    undecided ? { p: 1, k: 'props', ic: 'pencil', txt: `${undecided} program change${undecided === 1 ? '' : 's'} waiting on your yes or no — tap to decide` } : null,
+    ...coachFlags.filter((f) => f.kind === 'pain').map((f) => ({ p: 0, k: 'coach', who: 'trainer', ic: 'warn', txt: f.note ?? 'check this before you lift' })),
+    undecided ? { p: 1, k: 'props', ic: 'pencil', txt: `${undecided} program change${undecided === 1 ? '' : 's'} waiting on your yes or no — tap to decide`, props: openProps } : null,
     draft.date !== todayStr() ? { p: 1, k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
-    ...coachFlags.filter((f) => f.kind !== 'pain').map((f) => ({ p: 2, k: 'coach', ic: 'warn', txt: `Trainer: ${f.note ?? f.kind ?? 'see this morning’s review'}` })),
+    ...coachFlags.filter((f) => f.kind !== 'pain').map((f) => ({ p: 2, k: 'coach', who: 'trainer', ic: 'warn', txt: f.note ?? f.kind ?? 'see this morning’s review' })),
     streak >= 6 ? { p: 3, k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
     isNext ? null : { p: 4, k: 'offrot', ic: 'compass', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
     phase?.type === 'deload' ? { p: 5, k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
@@ -501,7 +500,7 @@ function renderWorldScreen(draft, phaseInfo) {
     ${topNotice ? `
     <div class="notice" id="notice-bar" role="button" tabindex="0">
       <span class="n-ic" aria-hidden="true">${ICONS[topNotice.ic] ?? ''}</span>
-      <span class="n-txt">${esc(topNotice.txt)}</span>
+      <span class="n-txt">${topNotice.who === 'trainer' ? 'Trainer: ' : ''}${esc(topNotice.txt)}</span>
       ${noticeList.length > 1 ? `<span class="n-more">+${noticeList.length - 1}</span>` : ''}
       ${topNotice.k === 'resume' ? `<button id="resume-discard">Discard</button>` : ''}
     </div>` : ''}
@@ -1001,17 +1000,34 @@ export function howtoSheet(exId) {
 }
 
 // Every active notice, in full plain-English sentences — the bar on the world
-// screen shows only the loudest one, this is where the rest live.
+// screen shows only the loudest one, this is where the rest live. Three
+// blocks, not a flat list: the decision waiting on him comes first WITH the
+// actual changes named and a real button ("2 changes waiting" with the
+// changes invisible — and a tap-to-decide row that .notice-full's
+// pointer-events:none made untappable — sent him hunting), then this
+// morning's trainer notes under ONE header instead of a "Trainer:" stamp on
+// every row, then the app's own notices.
 function noticesSheet(list) {
   if (!list.length) return;
+  const props = list.find((n) => n.k === 'props');
+  const trainer = list.filter((n) => n.who === 'trainer');
+  const rest = list.filter((n) => n !== props && n.who !== 'trainer');
+  const row = (n) => `<div class="opt notice-full">${esc(n.txt)}</div>`;
   openSheet(`
     <h2>Tonight’s briefing</h2>
     <div class="sub">${list.length === 1 ? 'One thing to know' : `${list.length} things to know`}</div>
-    <div class="opt-list">
-      ${list.map((n) => (n.k === 'props'
-        ? `<div class="opt notice-full" id="nt-props" role="button" tabindex="0">${esc(n.txt)}</div>`
-        : `<div class="opt notice-full">${esc(n.txt)}</div>`)).join('')}
-    </div>
+    ${props ? `
+    <div class="brief-props">
+      <div class="bp-head">Your trainers want ${props.props.length === 1 ? 'one program change' : `${props.props.length} program changes`} — your call</div>
+      ${props.props.map((q) => `<div class="bp-line">${proposalLine(q)}</div>`).join('')}
+      <button class="btn primary" id="nt-props">Answer yes or no</button>
+    </div>` : ''}
+    ${trainer.length ? `
+    <div class="sub" style="margin:${props ? 14 : 0}px 0 6px">From this morning’s trainer review</div>
+    <div class="opt-list">${trainer.map(row).join('')}</div>` : ''}
+    ${rest.length ? `
+    ${trainer.length || props ? `<div class="sub" style="margin:14px 0 6px">Also tonight</div>` : ''}
+    <div class="opt-list">${rest.map(row).join('')}</div>` : ''}
     <button class="btn quiet" id="nt-close" style="margin-top:10px">Close</button>`, {
     onOpen(sheet, close) {
       $('#nt-close', sheet).addEventListener('click', close);
