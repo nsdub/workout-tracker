@@ -1368,17 +1368,57 @@ export function renderDock() {
       <span class="xp-track"><i style="width:${pct}%"></i></span>
     </span>
     <button class="btn primary" id="finish-btn">${esc(U.copy.finish)}</button>`;
-  bar.querySelector('#finish-btn').addEventListener('click', () => {
-    const dn = store.draft?.exercises.reduce((n, x) => n + x.sets.filter((s) => s.done).length, 0) ?? 0;
-    const tt = store.draft?.exercises.reduce((n, x) => n + x.sets.filter((s) => !s.skipped).length, 0) ?? 0;
-    if (dn < tt) {
-      confirmSheet({
-        title: `Finish with ${dn} of ${tt} sets?`,
-        body: 'Unlogged sets are dropped from the record.',
-        confirmLabel: U.copy.finish,
-        onConfirm: finishSession,
+  bar.querySelector('#finish-btn').addEventListener('click', finishSheet);
+}
+
+// THE WEIGH-OUT — the last screen before tonight banks. The scale reading
+// lives here, on the way out the door, because "log your bodyweight" buried
+// two taps deep in the kit sheet produced one reading since January and a
+// trainer note about it every morning since. Skipping is always allowed —
+// an empty field banks the night exactly as before.
+function finishSheet() {
+  const d = store.draft;
+  if (!d) return;
+  const U = universeOf(d.session_type);
+  const dn = d.exercises.reduce((n, x) => n + x.sets.filter((s) => s.done).length, 0);
+  const tt = d.exercises.reduce((n, x) => n + x.sets.filter((s) => !s.skipped).length, 0);
+  const lastBw = [...store.history].reverse().find((e) => e.bodyweight);
+  openSheet(`
+    <h2>${esc(U.copy.finish)}</h2>
+    <div class="sub">${dn} of ${tt} sets logged${dn < tt ? ' — unlogged sets are dropped from the record' : ''}</div>
+    <div class="card">
+      <div class="field">
+        <label>Bodyweight tonight (lb)</label>
+        <input id="fs-bw" type="text" inputmode="decimal" autocomplete="off"
+          placeholder="${lastBw ? `last: ${fmtW(lastBw.bodyweight)}` : 'step on the scale'}"
+          value="${d.bodyweight != null ? fmtW(d.bodyweight) : ''}">
+      </div>
+    </div>
+    <div class="basis-line" style="margin:2px 2px 0">${lastBw
+      ? `Your last reading is <b>${fmtW(lastBw.bodyweight)} lb</b> from ${fmtDate(lastBw.date)}. Leave it blank and tonight still banks.`
+      : 'No reading on record. Leave it blank and tonight still banks.'}</div>
+    <button class="btn primary" id="fs-go" style="margin-top:12px">${esc(U.copy.finish)}</button>
+    <button class="btn quiet" id="fs-back" style="margin-top:8px">Keep lifting</button>`, {
+    onOpen(sheet, close) {
+      $('#fs-back', sheet).addEventListener('click', close);
+      $('#fs-go', sheet).addEventListener('click', () => {
+        const raw = $('#fs-bw', sheet).value.trim();
+        if (raw === '') {
+          // blank means "not tonight" — it never erases a number he already
+          // logged through the kit sheet earlier in the session
+        } else {
+          const v = Number(raw.replace(/[^\d.]/g, ''));
+          if (!Number.isFinite(v) || v < 60 || v > 500) {
+            toast('That doesn’t read like a bodyweight in lb', 'bad');
+            return;
+          }
+          store.draft.bodyweight = Math.round(v * 10) / 10;
+          store.saveDraft(store.draft);
+        }
+        close();
+        finishSession();
       });
-    } else finishSession();
+    },
   });
 }
 
