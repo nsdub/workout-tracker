@@ -1,0 +1,151 @@
+{
+  "date": "2026-08-16",
+  "session_type": "LegsB",
+  "phase": "meso1",
+  "week": 4,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1786914478035
+        },
+        {
+          "weight": 185,
+          "reps": 9,
+          "at": 1786914645177
+        },
+        {
+          "weight": 205,
+          "reps": 9,
+          "at": 1786914813621
+        }
+      ]
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 180,
+          "reps": 12,
+          "at": 1786915018799,
+          "restEndedAt": 1786914993630
+        },
+        {
+          "weight": 180,
+          "reps": 11,
+          "at": 1786915160874
+        },
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1786915294635
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1786915796304,
+          "restEndedAt": 1786915724355
+        },
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1786915907526,
+          "restEndedAt": 1786915886312
+        },
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1786916036906,
+          "restEndedAt": 1786915997534
+        },
+        {
+          "weight": 142.5,
+          "reps": 12,
+          "at": 1786916163585,
+          "restEndedAt": 1786916126918
+        }
+      ],
+      "note": "Trainer: confirming that you want me doing four sets of leg curls on the same day as rdl. Too many hamstrings or just right?"
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1786916288129,
+          "restEndedAt": 1786916253593
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1786916365135,
+          "restEndedAt": 1786916363136
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1786916455292,
+          "restEndedAt": 1786916440143
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1786915452678
+        },
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1786915561576,
+          "restEndedAt": 1786915512692
+        },
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1786915664345,
+          "restEndedAt": 1786915621584
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1786916568418,
+          "restEndedAt": 1786916530299
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1786916664344,
+          "restEndedAt": 1786916628428
+        }
+      ]
+    }
+  ],
+  "world": "icebar",
+  "bodyweight": 206,
+  "mins": 36,
+  "startedAt": 1786912328656
+}
