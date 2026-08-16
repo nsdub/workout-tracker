@@ -417,5 +417,30 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-14T23:20:09.715Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsB",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "The hanging leg raise carries no weight, so reps are the only thing about it that can ever grow — and the card asks you for your best set from last time, capped at the top of the range. On Legs B you did twelve and twelve, which is that cap, so this slot is now frozen at twelve and cannot ask for more no matter how easy it gets. Twelve to fifteen makes twelve the floor instead of the ceiling, and means a thirteen you take on your own sticks and becomes the new ask.",
+      "date": "2026-08-15"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-16T20:32:05.890Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Legs A's split squat goes from two sets to three. It is the only single-leg work in your week and the smallest slot in the program, and you have finished both sets on every Legs A since it was added. The program trainer wanted to hold this until two more Legs A nights are logged, which puts it in September — I am putting it in front of you now instead, because a question you cannot answer is worse than one you decline.",
+      "date": "2026-08-15"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-16T20:32:05.900Z"
   }
 ]
