@@ -11,6 +11,7 @@ import { applyWorld, UNIVERSES, returnWorld } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { pushStatus, enablePush, disablePush } from '../push.js';
 import { previewSheet } from './preview.js';
+import { propId, allProposals, undecidedProposals, proposalLine } from '../proposals.js';
 
 let root = null;
 
@@ -139,24 +140,15 @@ export function render(el) {
 // drop a dead slot, swap a movement, cut a set count — but only the athlete
 // can accept one, and accepting it changes tonight immediately. plan.json is
 // never rewritten; the decision is one line in data/coach/decisions.json.
-const propId = (p) => `${p.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
+// Identity, listing and the one-line description live in js/proposals.js,
+// shared with the session briefing so both screens tell the same story.
 
 export function openProposalsSheet() { openProposals(); }
 
 function openProposals() {
   const plan = store.plan;
-  const raw = (store.coach?.proposals ?? []).map((p) => ({ ...p, date: p.date ?? store.coach?.date ?? null }));
+  const raw = allProposals();
   const decidedBy = new Map(store.decisions.map((d) => [propId(d.proposal), d]));
-  const name = (id) => engine.exMeta(plan, id)?.name ?? id;
-  const VERB = {
-    remove: (p) => `Drop <b>${esc(name(p.exercise))}</b>${p.scope ? ` from ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
-    add: (p) => `Add <b>${esc(name(p.exercise))}</b>${p.scope ? ` to ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
-    swap: (p) => `Swap <b>${esc(name(p.exercise))}</b> for <b>${esc(name(p.replacement))}</b>${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
-    reorder: (p) => `Move <b>${esc(name(p.exercise))}</b> earlier${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
-    volume: (p) => `Change <b>${esc(name(p.exercise))}</b>${p.sets ? ` to ${p.sets} sets` : '’s volume'}`,
-    reprange: (p) => `<b>${esc(name(p.exercise))}</b> reps → ${p.repMin}–${p.repMax}${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
-    keep: (p) => `Put <b>${esc(name(p.exercise))}</b> back${p.scope ? ` on ${esc(plan.sessions[p.scope]?.name ?? p.scope)}` : ''}`,
-  };
   const APPLIES = { remove: true, add: true, swap: true, reorder: true, volume: true, reprange: true, keep: true };
 
   // Marks are held locally and applied together on Save — tapping used to
@@ -180,7 +172,7 @@ function openProposals() {
         return `
         <div class="pv-row prop" data-id="${esc(id)}">
           <div class="pv-head">
-            <span class="pv-name">${VERB[p.kind]?.(p) ?? esc(`${p.kind} ${p.exercise}`)}</span>
+            <span class="pv-name">${proposalLine(p, plan)}</span>
             <span class="pv-tag ${d?.decision === 'accepted' ? 'up' : ''}">${d ? esc(d.decision) : esc(p.from ?? 'trainer')}</span>
           </div>
           ${(() => {
@@ -271,8 +263,7 @@ function stallOwner(s) {
 function proposalsCard() {
   const props = store.coach?.proposals ?? [];
   if (!props.length) return '';
-  const decided = new Set(store.decisions.map((d) => propId(d.proposal)));
-  const open = props.filter((p) => !decided.has(propId({ ...p, date: p.date ?? store.coach?.date ?? null })));
+  const open = undecidedProposals();
   return `
     <div class="console-card">
       <h3>Program changes your trainers want</h3>

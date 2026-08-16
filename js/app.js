@@ -5,6 +5,7 @@ import * as worlds from './worlds.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
 import { toast, sheetPopHandled, gamePopHandled } from './components.js';
+import { undecidedProposals } from './proposals.js';
 import { initAudio, sfx } from './audio.js';
 import * as session from './views/session.js';
 import * as log from './views/log.js';
@@ -26,9 +27,7 @@ function renderActive() {
 function renderPendingDot() {
   const dot = $('#mission-dot');
   if (!dot) return;
-  const props = store.coach?.proposals ?? [];
-  const decided = new Set(store.decisions.map((d) => `${d.proposal?.date ?? ''}:${d.proposal?.kind}:${d.proposal?.exercise}:${d.proposal?.scope ?? 'all'}`));
-  const open = props.filter((p) => !decided.has(`${p.date ?? store.coach?.date ?? ''}:${p.kind}:${p.exercise}:${p.scope ?? 'all'}`));
+  const open = undecidedProposals();
   dot.hidden = open.length === 0;
   dot.textContent = open.length > 9 ? '9+' : String(open.length);
 }
