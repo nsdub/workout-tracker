@@ -1,0 +1,83 @@
+{
+  "role": "recovery",
+  "date": "2026-08-15",
+  "session": "LegsB",
+  "reviewed_through": "2026-08-15",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 185, "reps": 9 },
+        { "weight": 205, "reps": 9 }
+      ],
+      "why": "Three sets instead of four, same ramp, same top load. Two things stack here and neither is on the RDL's own record. First, this is his first leg session since 2026-08-02 and his first Smith RDL since 2026-07-30 — if LegsB lands on the 16th that is fourteen days without any leg work and seventeen since this lift last ran. Second, last night (2026-08-15) he pulled four sets of Smith bent-over row and finished at 150x10 — the same hinge and the same spinal-erector load, twenty-four hours earlier. If it lands on the 16th it is also his third training day in a row. I am not touching 205: he has held it for 8, 8 and 9 reps across three LegsB sessions and it is not a load he is fighting. I am removing the fourth exposure, which is the one that costs the most and buys the least on a re-entry day. If the progression seat wants four sets, this is the lift I want it argued on, not conceded.",
+      "evidence": [
+        "2026-07-30:smith-rdl",
+        "2026-07-22:smith-rdl",
+        "2026-08-15:smith-bent-over-row",
+        "2026-08-02:leg-press-low",
+        "2026-08-14:smith-incline-press"
+      ]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "hold",
+      "why": "Repeat 2026-07-30 exactly: 160x12, 160x12, 180x10. No load added. Nothing was earned to spend — the 180 set came in at 10 reps, the bottom of the 10-12 this slot asks for, and that was on legs that had trained four days earlier. This will be the first quad-dominant press in fourteen days (last one 2026-08-02, leg press 240x8). A repeat is the honest number here; adding a pin to a set that already fell to the floor of its range would be inventing progress.",
+      "evidence": [
+        "2026-07-30:leg-press-high",
+        "2026-07-22:leg-press-high",
+        "2026-08-02:leg-press-low"
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "Repeat 2026-07-30: four sets at 135. He went 11, 11, 11, 12 there — inside the 10-12 the slot asks for, with only the last set reaching the top. I am keeping all four sets rather than trimming here, because I already removed a Smith RDL set and that is hamstring volume off the same day; cutting curls too would take the posterior chain down twice for one problem. No load change on a first leg day back.",
+      "evidence": [
+        "2026-07-30:leg-curl",
+        "2026-07-22:leg-curl",
+        "2026-08-02:leg-curl"
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "cut",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 }
+      ],
+      "why": "Three sets, and I am writing the numbers out so they cannot drift. He was granted three calf sets on LegsB — that cut was proposed and accepted on 2026-07-22 and it is live in the effective plan today. The next time LegsB actually ran, on 2026-07-30, the card asked for four anyway and he logged four and wrote 'Why four sets' next to them. That question has never been answered, and 2026-07-30 was the last LegsB, so this is the first chance to answer it. Tonight is that chance and the answer has to be three. These three are literally his first three sets from 2026-07-30 — 260x15, 280x13, 280x13, all inside the 12-15 the slot asks for and all real leg-press pins. The only set I am removing is the fourth, which is the one that fell to 12 and the one he objected to. If any seat writes a four-set override here, he gets told 'no' in silence for the second time on the same question.",
+      "evidence": [
+        "2026-07-30:standing-calf-raise",
+        "2026-07-30:note",
+        "2026-07-22:standing-calf-raise",
+        "2026-08-02:standing-calf-raise"
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Repeat 2026-07-30: three sets at 55. He did 14, 13, 13 there and 15, 15, 15 at the same 55 on LegsA on 2026-08-02, so the load is not in question and the slot costs almost nothing systemically. 55 is a valid pin on the cable stack. No reason to move it on a re-entry day, and no reason to brake it either.",
+      "evidence": [
+        "2026-07-30:cable-crunch",
+        "2026-08-02:cable-crunch"
+      ]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Repeat 2026-07-30: two sets, bodyweight, 12 reps. His written objection on this slot — 'What the fuck..why did you put this in terms of seconds' — is genuinely fixed, and I checked rather than assumed: the slot came from a plank swap and used to inherit plank's 60-second unit, but the effective plan now builds it as two sets of 10-12 REPS, bodyweight, with no seconds anywhere. Two sets of 12 sits at the top of that range and is exactly what he did last time. Related but separate: he asked on 2026-08-02 whether three sets was right on the LegsA version of this lift; that was answered by cutting LegsA to two. LegsB has always been two and stays two. Any override written here must carry weight 0 and a rep count — never a duration.",
+      "evidence": [
+        "2026-07-30:hanging-leg-raise",
+        "2026-07-30:note",
+        "2026-08-02:hanging-leg-raise",
+        "2026-08-02:note"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

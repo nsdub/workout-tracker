@@ -1,0 +1,107 @@
+{
+  "role": "progression",
+  "date": "2026-08-15",
+  "session": "LegsB",
+  "reviewed_through": "2026-08-15",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "push",
+      "sets": [
+        { "weight": 155, "reps": 10 },
+        { "weight": 185, "reps": 10 },
+        { "weight": 205, "reps": 10 },
+        { "weight": 205, "reps": 10 }
+      ],
+      "why": "Same four weights as 30 July, one more rep asked on every set. On 15 July you got 8, 8, 8, 7. On 22 July, 8, 8, 8, 8. On 30 July, 8, 9, 9, 9. That is three sessions parked at 205 and one rep short of the top of the 8-10 range on the two heavy sets — 205 for ten twice is the whole job tonight, and it is what buys the ten pounds. The 155 opener has been logged at eight three sessions running while you were doing nine at 205; ten there is not the hard part of this card. On the layoff: this session has not run in 16 days, your last leg day of any kind was 2 August, and nothing was logged at all between 4 and 13 August — but the two sessions since you came back were not soft. On 14 August you completed a chest press card that had gone up 7.5 pounds on every set, 157.5, 165 and 172.5 all for ten, and on 15 August you rowed 150 for ten where 28 July gave you nine. Nothing in those two nights says you lost strength, so this card does not take any back. Ten on all four and the next Legs B opens at 215.",
+      "evidence": [
+        "2026-07-30:smith-rdl",
+        "2026-07-22:smith-rdl",
+        "2026-07-15:smith-rdl",
+        "2026-08-14:machine-chest-press",
+        "2026-07-31:machine-chest-press",
+        "2026-08-15:smith-bent-over-row",
+        "2026-07-28:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "sets": [
+        { "weight": 180, "reps": 12 },
+        { "weight": 180, "reps": 11 },
+        { "weight": 180, "reps": 10 }
+      ],
+      "why": "160 is retired. On 30 July you finished 160 for twelve twice — the top of this card's 10-12 range, on both sets — and then closed at 180 for ten. The card would otherwise re-print 160 for two of three sets, handing you a weight you already maxed out the reps on. So the whole session runs at 180, which is the next pin on the leg press (20-pound steps, nothing between 160 and 180). The opening set asks twelve because it comes fresh, where your only 180 set so far came last and tired; the back two ask for the ten you have already proved at that pin. Twelve on all three and the next pin is 200.",
+      "evidence": [
+        "2026-07-30:leg-press-high",
+        "2026-07-22:leg-press-high",
+        "2026-07-15:leg-press-high"
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 12 },
+        { "weight": 142.5, "reps": 12 },
+        { "weight": 142.5, "reps": 12 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "The newest leg-curl data is Legs A on 2 August, and it settles this: 135 for fifteen, twice. Fifteen is three reps past the top of this card's 10-12 range. On 30 July, this Legs B card asked 142.5 and the log came back 135 for 11, 11, 11, 12 — the pin did not move that night, so 142.5 is not a fresh idea, it is unfinished business, and the evidence for it is stronger now than it was then. One step of this machine's 7.5-pound increment, all four sets at the top of the range. Twelve on all four and it steps to 150.",
+      "evidence": [
+        "2026-08-02:leg-curl",
+        "2026-07-30:leg-curl",
+        "2026-07-26:leg-curl"
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 300, "reps": 12 },
+        { "weight": 300, "reps": 12 },
+        { "weight": 300, "reps": 12 }
+      ],
+      "why": "280 has been the working pin for four sessions: twelve on 15 July, twelve and twelve on 22 July, 13, 13, 12 on 30 July, and then 15, 14, 15 on 2 August. That last night is two sets at the top of the 12-15 range and one a single rep off it — 280 is finished. The leg press has no pin between 280 and 300, so the step is twenty pounds and the rep ask drops to twelve, the bottom of the range, which is three fewer reps than you just did at 280. The card would otherwise print 280 for fifteen three times, which is the 2 August session copied back at you. This is three sets, the number you were granted on 22 July, not the four the log shows on 30 July.",
+      "evidence": [
+        "2026-08-02:standing-calf-raise",
+        "2026-07-30:standing-calf-raise",
+        "2026-07-22:standing-calf-raise",
+        "2026-07-15:standing-calf-raise"
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 60, "reps": 12 },
+        { "weight": 60, "reps": 12 },
+        { "weight": 60, "reps": 12 }
+      ],
+      "why": "On 2 August you did 55 for fifteen, fifteen and fifteen — the top of the 12-15 range on every set, which is exactly the condition for the weight to go up. The card would print 55 for fifteen again, which is that night handed straight back. This machine moves in 5-pound steps, so 60 is the next setting, and the ask resets to twelve. The trend backs it up: 50 for fifteen across the board on 22 July, 55 for 13, 12, 12 on 26 July, 55 for 14, 13, 13 on 30 July, then a clean sweep at 55 on 2 August.",
+      "evidence": [
+        "2026-08-02:cable-crunch",
+        "2026-07-30:cable-crunch",
+        "2026-07-26:cable-crunch",
+        "2026-07-22:cable-crunch"
+      ]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "Two sets of twelve, unchanged, and I want to be straight about why rather than let it look like a copy. On 30 July you did twelve and twelve here; on 2 August, twelve, twelve and ten. Twelve is the top of this card's 10-12 range and there is no weight on this movement to add, so there is no number left for me to move — every load lever I have is already at its stop. That means this slot has now topped out three sittings running and I cannot progress it from my seat: changing the rep range, or adding load, is a structure question and belongs to the program seat, not to me. Flagging it rather than quietly re-printing twelve for a fourth time.",
+      "evidence": [
+        "2026-07-30:hanging-leg-raise",
+        "2026-08-02:hanging-leg-raise",
+        "2026-07-18:hanging-leg-raise"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,95 @@
+{
+  "role": "program",
+  "date": "2026-08-15",
+  "session": "LegsB",
+  "reviewed_through": "2026-08-15",
+  "calls": [
+    {
+      "kind": "observation",
+      "exercise": "standing-calf-raise",
+      "scope": "LegsB",
+      "why": "Lead with what is actually different on tonight's card, because three answers you have been owed all land at once. The last Legs B you ran was 30 July, and on it you did four sets of calf press and wrote \"Why four sets\" next to them. Tonight that slot asks three. Leg extension, which you did three sets of on 22 July and skipped on the 30th, is gone from Legs B entirely — it lives on Legs A only now. And the hanging leg raise, which on 30 July printed as a sixty-second hold and got \"why did you put this in terms of seconds\" written next to it, asks reps. Those are three accepted decisions that have had no Legs B to land on until tonight; this is the first night the plan on your phone matches the answers you gave. Tonight's Legs B is six slots and nineteen sets, against nine slots and twenty-three on Legs A.",
+      "evidence": [
+        "2026-07-30:standing-calf-raise",
+        "2026-07-30:note",
+        "2026-07-22:leg-extension",
+        "2026-08-02:standing-calf-raise"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "why": "Answering the promise I made on 14 August rather than letting it lapse: I said I was holding the split-squat two-sets-to-three proposal and would re-file it once two Legs A nights were logged. Zero Legs A nights have been logged since. So I am holding it again, and the honest reason is that nothing has changed — there is no new fact, and re-filing on the same evidence I already deferred on would be me reasoning harder rather than learning anything. The case is unchanged and still good: it is the only single-leg work in your week, the smallest slot in the program, and you have finished both sets every Legs A since it was added. The cost of the hold is real and you should see it — at one leg night per six-day rotation, two Legs A nights lands somewhere around the start of September, which is inside Meso 2, not Meso 1. If you would rather rule on it now instead of waiting, say so and it goes on the card tomorrow.",
+      "evidence": [
+        "2026-07-26:db-bulgarian-split-squat",
+        "2026-08-02:db-bulgarian-split-squat",
+        "2026-08-02:leg-press-low"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-rdl",
+      "scope": "LegsB",
+      "why": "The composition problem the calendar ruling did not solve, stated plainly so it is on the record before Meso 2 opens. Meso 1 now runs to 23 August and this is week 4 of 5 — eight days left. In that block your leg days have run twice each and the last of them was 2 August; tonight is your first leg night in sixteen days. Push and pull have both run twice in the last two days. That is not the rotation being wrong — the eleven-day gap simply happened to land where it did — but it means the two sessions that carry every hamstring, quad and calf set in your program are the two with the least recent data going into a new mesocycle, and that is why several of the calls in this packet are holds rather than cards. There is nothing to propose about it: the fix is leg nights, not structure.",
+      "evidence": [
+        "2026-07-30:smith-rdl",
+        "2026-08-02:leg-press-low",
+        "2026-08-14:smith-incline-press",
+        "2026-08-15:smith-bent-over-row"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "plank",
+      "scope": "LegsB",
+      "why": "An open finding from 22 July that has never been given an answer, handed to you rather than left to rot. On that day you DECLINED removing the plank from Legs B — you wanted it kept — and a different card in the same batch swapped it out for the hanging leg raise anyway, and you accepted that one. The result is that the plank now appears in no session at all, and every core set you own is spinal flexion: six cable crunches and four leg raises a week, nothing that resists rotation and nothing isometric. The audit card that made the swap said so itself and said a Pallof press would be the right answer once it existed. I checked the catalogue: thirty-seven movements, and there is no anti-rotation exercise in it. I also checked whether I could simply put the plank back with an add card, and I cannot — the add path does not carry the seconds unit, so a plank added that way would print on your card as sixty REPS rather than a sixty-second hold. That is the same class of bug that gave you \"2 x 60 sec\" hanging leg raises on 30 July. So this is an open question for you, not a card: the movement needs adding to the plan and the add path needs to be able to express a timed hold before any of us can propose it. Nobody has done either in twenty-four days.",
+      "evidence": [
+        "2026-07-15:plank",
+        "2026-07-22:plank",
+        "2026-07-30:hanging-leg-raise",
+        "2026-08-02:cable-crunch"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "leg-curl",
+      "scope": "LegsB",
+      "why": "An A/B divergence that is not real, recorded for the progression seat because the fix is a number and I do not set numbers. Leg curl runs on both leg days and both days sit at exactly 135 lb. Legs A asks twelve to fifteen and on 2 August you did fifteen, fifteen, fifteen. Legs B asks ten to twelve and on 30 July you did eleven, eleven, eleven, twelve — same machine, same load, four days apart. The split is supposed to give you a heavier exposure and a lighter one, and instead it gives you one weight with two labels on it, and you obey whichever label is in front of you. The rep ranges are mine and they are already correct; what is wrong is that Legs B's heavier slot is carrying a weight you took for fifteen reps on the other day. No card from me.",
+      "evidence": [
+        "2026-07-26:leg-curl",
+        "2026-07-30:leg-curl",
+        "2026-08-02:leg-curl"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "cable-crunch",
+      "scope": "LegsB",
+      "why": "Something I am watching and deliberately NOT filing, so it is not lost and not oversold. On your last two leg nights you ran the cable crunch before the calf press, which is the opposite of the order the plan asks for. On the three leg nights before those you ran it in the order written. Two out of five is a drift, not a habit, and I am not spending one of your cards on reordering two finishers on the strength of two sessions. If the next two leg nights run crunch-then-calf again, I will file the reorder then and say that this is why.",
+      "evidence": [
+        "2026-07-15:cable-crunch",
+        "2026-07-22:cable-crunch",
+        "2026-07-26:cable-crunch",
+        "2026-07-30:cable-crunch",
+        "2026-08-02:cable-crunch"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsB",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "The hanging leg raise carries no weight, so reps are the only thing about it that can ever grow — and the card asks you for your best set from last time, capped at the top of the range. On Legs B you did twelve and twelve, which is that cap, so this slot is now frozen at twelve and cannot ask for more no matter how easy it gets. Twelve to fifteen makes twelve the floor instead of the ceiling, and means a thirteen you take on your own sticks and becomes the new ask.",
+      "evidence": [
+        "2026-07-26:hanging-leg-raise",
+        "2026-07-30:hanging-leg-raise",
+        "2026-08-02:hanging-leg-raise"
+      ]
+    }
+  ]
+}
