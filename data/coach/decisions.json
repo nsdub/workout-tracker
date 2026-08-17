@@ -442,5 +442,42 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-16T20:32:05.900Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushA",
+      "sets": 3,
+      "why": "Face pulls have now come off all four of your days, so the back of your shoulder is down to five sets in the whole week and only two of them are on Push A — a night that carries thirteen sets of chest and front-shoulder work — and on 14 August you took both of those two at 90 for twelve without dropping a rep, so this makes Push A three sets, the same three you already do on Push B.",
+      "date": "2026-08-17"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-17T23:47:20.616Z"
+  },
+  {
+    "proposal": {
+      "kind": "reorder",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushA",
+      "position": 4,
+      "why": "This is the other half of the card above, and they only work together: your last exercise has come in short on 3, 14 and 16 August, and on Push A the lift sitting last is the reverse pec deck, so adding a third set without moving it just puts more work in the spot that already gets eaten — this runs it fifth, straight after the shoulder press and ahead of the triceps and lateral raises, so your rear delts get a fresh slot instead of the dregs.",
+      "date": "2026-08-17"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-17T23:47:20.625Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "You accepted exactly this change on Legs B yesterday and Legs A still has the old ceiling on it — the hanging leg raise carries no weight, so reps are the only thing about it that can grow, and on both 26 July and 2 August your first two Legs A sets finished at twelve, which is the top of what that slot asks, so it is frozen there and can never ask for more; twelve to fifteen makes twelve the floor instead of the ceiling on both leg days.",
+      "date": "2026-08-17"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-17T23:47:20.628Z"
   }
 ]
