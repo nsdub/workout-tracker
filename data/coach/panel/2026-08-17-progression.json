@@ -1,0 +1,98 @@
+{
+  "role": "progression",
+  "date": "2026-08-17",
+  "session": "PushA",
+  "reviewed_through": "2026-08-14",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 175, "reps": 8 },
+        { "weight": 175, "reps": 8 },
+        { "weight": 175, "reps": 8 },
+        { "weight": 175, "reps": 8 }
+      ],
+      "why": "Last time your reps went UP as the night went on: 165 for 6, then 175 for 6, 7 and 8. The 165 opener is lighter than what you finished on, so it is not testing you. Same top weight as last time, just all four sets at 175, and the job is 8 on every one before it moves again.",
+      "evidence": ["2026-08-14:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 157.5, "reps": 12 },
+        { "weight": 165, "reps": 12 },
+        { "weight": 172.5, "reps": 12 }
+      ],
+      "why": "You got exactly 10 on all three sets last time. That is the bottom of the 10-12 range, so the weight is right but not yet earned. Same three weights again; when all three reach 12 the whole ladder goes up.",
+      "evidence": ["2026-08-14:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "sets": [
+        { "weight": 13.75, "reps": 15 },
+        { "weight": 15, "reps": 15 },
+        { "weight": 15, "reps": 15 }
+      ],
+      "why": "Last time was 14, then 13, then 12 reps - inside the 12-15 range but sliding down, and nothing hit 15. Nothing has been earned here, so the weights stay put. Get 15 on all three before this moves.",
+      "evidence": ["2026-08-14:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 40, "reps": 10 },
+        { "weight": 40, "reps": 10 },
+        { "weight": 40, "reps": 10 }
+      ],
+      "why": "You hit the top of the range, 10 reps, on the 35s last time, and then pressed the 40s for 9 twice. The 35s have done their job - 40 is the next dumbbell on the rack, so all three sets start there. Nine reps on set one is a fine night; ten is the target.",
+      "evidence": ["2026-08-14:db-shoulder-press"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "cut",
+      "sets": [
+        { "weight": 53.75, "reps": 12 },
+        { "weight": 53.75, "reps": 12 },
+        { "weight": 53.75, "reps": 12 }
+      ],
+      "why": "Set three came in at 9 reps last time, under the 10-rep floor - that is too heavy, not too light. You got a clean 12 at 53.75, so all three sets sit there and 55 comes off the card until 53.75 gives you 12 across.",
+      "evidence": ["2026-08-14:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "cut",
+      "sets": [
+        { "weight": 10, "reps": 15 },
+        { "weight": 10, "reps": 15 },
+        { "weight": 8.75, "reps": 15 }
+      ],
+      "why": "Two sets of 13 were fine, then the third dropped to 10 reps - below the 12-rep floor. The first two weights stay; the last set drops one micro plate to 8.75 so it finishes inside the range instead of dying short.",
+      "evidence": ["2026-08-14:cable-lateral-raise"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "cut",
+      "sets": [
+        { "weight": 52.5, "reps": 15 },
+        { "weight": 47.5, "reps": 15 },
+        { "weight": 47.5, "reps": 15 }
+      ],
+      "why": "At 52.5 you went 14, then 11, then 10 - the last two sets fell under the 12-rep floor, so the back half of this lift is overloaded. Keep the opener at 52.5, which you handled, and drop one pin to 47.5 for sets two and three so all three land in 12-15.",
+      "evidence": ["2026-08-14:rope-pushdown"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "sets": [
+        { "weight": 90, "reps": 15 },
+        { "weight": 90, "reps": 15 }
+      ],
+      "why": "Both sets came in at 12 reps last time - the bottom of the 12-15 range, so the weight is honest but nothing was earned. Stay at 90 and chase 15.",
+      "evidence": ["2026-08-14:reverse-pec-deck"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

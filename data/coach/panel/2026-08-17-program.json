@@ -1,0 +1,94 @@
+{
+  "role": "program",
+  "date": "2026-08-17",
+  "session": "PushA",
+  "reviewed_through": "2026-08-16",
+  "calls": [
+    {
+      "kind": "observation",
+      "exercise": "leg-curl",
+      "scope": "LegsB",
+      "why": "You asked whether four sets of leg curls on RDL night is too much, and the answer from your own log is no — on 16 August you took all four at 142.5 for twelve, twelve, twelve and twelve, which is the top of what that slot asks, with nothing falling off across the four, and the one set that did go missing that night was the fourth RDL, which runs first on the card and so cannot have been paid for by curls that come after it. I first filed this as a card for you to tap and I was wrong to: tapping Yes on it would have changed nothing in your program, so the app would have shown it as applied while leaving the four sets exactly where they already are. An answer is not a program change, and this seat only gets to spend a card on a program change. So it travels as words in tonight's brief instead, and my position on the record is that four is right and I am not proposing to touch it.",
+      "evidence": [
+        "2026-08-16:leg-curl",
+        "2026-08-16:note",
+        "2026-08-16:smith-rdl",
+        "2026-07-30:leg-curl"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-rdl",
+      "scope": "LegsB",
+      "why": "The context behind that leg-curl answer, recorded so it is not just my opinion. On 16 August the only slot on Legs B that came up short was the RDL — three sets where the plan asks four, 155 for eight then 185 and 205 for nine. The RDL is the first thing on that card and the leg curls are the third, so the curls cannot have taken that set; whatever ended it happened before they started, on a 36-minute night that is the shortest leg session in the log. On 30 July, the only other Legs B in the block, he finished all four RDL sets and all four curl sets. One short set on one night is not a pattern and I am not spending a card on it, but if the fourth RDL set goes missing again on the next Legs B I will file then and say this is why.",
+      "evidence": [
+        "2026-08-16:smith-rdl",
+        "2026-08-16:leg-curl",
+        "2026-07-30:smith-rdl",
+        "2026-07-30:leg-curl"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "smith-overhead-press",
+      "scope": "PushB",
+      "why": "A zero in my own evidence that is not what it looks like, disclosed rather than acted on. The weekly volume table shows the Push B overhead press at zero sets, which reads like a dead slot. It is not one: on 3 August he wrote next to it that the Smith machine was unavailable and he did four sets of Arnold presses at 40 instead, and on 27 July he ran the slot as written for four sets up to 120 for eight. That is one equipment collision, not a slot he is refusing. No card, and the zero should not be read as evidence by any other seat.",
+      "evidence": [
+        "2026-08-03:note",
+        "2026-07-27:smith-overhead-press"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "why": "Something visible on tonight's own day that I am deliberately not filing yet. On 14 August the last four slots of Push A all drifted under their asks by the third set — triceps 12, 11, 9; lateral raise 13, 13, 10; pushdown 14, 11, 10; crossover 14, 13, 12. That looks like a day whose back half is too long. But the fix he already accepted for exactly this, widening the Push A pushdown to twelve-to-fifteen, was decided the same night that session was logged and has not had a single Push A to land on. Filing a volume cut on top of an untested change would be me re-deciding a question he already answered. Tonight is the first night that change runs; I will judge the tail of Push A on what happens under it.",
+      "evidence": [
+        "2026-08-14:rope-pushdown",
+        "2026-08-14:cable-lateral-raise",
+        "2026-08-14:overhead-cable-triceps",
+        "2026-08-14:cable-crossover-low-high"
+      ]
+    },
+    {
+      "kind": "observation",
+      "exercise": "leg-press-low",
+      "scope": "LegsA",
+      "why": "A stall flag the head coach should discount, and a calendar fact nobody can propose away. Legs A leg press is marked stalled, but the newest data behind that mark is from 2 August — Legs A has not run in fifteen days, because the eleven-day training gap happened to swallow it. Meso 1 ends on 23 August and Legs A comes up once before then, so the block closes with one leg-press night of evidence against a stall called on two-week-old numbers. I have no proposal here: a phase cannot be moved by a card from this seat, and the missing input is a Legs A night, not a change to the program.",
+      "evidence": [
+        "2026-08-02:leg-press-low",
+        "2026-08-14:smith-incline-press",
+        "2026-08-16:leg-curl"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushA",
+      "sets": 3,
+      "why": "Face pulls have now come off all four of your days, so the back of your shoulder is down to five sets in the whole week and only two of them are on Push A — a night that carries thirteen sets of chest and front-shoulder work — and on 14 August you took both of those two at 90 for twelve without dropping a rep, so this makes Push A three sets, the same three you already do on Push B.",
+      "evidence": [
+        "2026-08-14:reverse-pec-deck",
+        "2026-08-03:reverse-pec-deck",
+        "2026-07-31:face-pulls",
+        "2026-08-14:smith-incline-press"
+      ]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsA",
+      "repMin": 12,
+      "repMax": 15,
+      "why": "You accepted exactly this change on Legs B yesterday and Legs A still has the old ceiling on it — the hanging leg raise carries no weight, so reps are the only thing about it that can grow, and on both 26 July and 2 August your first two Legs A sets finished at twelve, which is the top of what that slot asks, so it is frozen there and can never ask for more; twelve to fifteen makes twelve the floor instead of the ceiling on both leg days.",
+      "evidence": [
+        "2026-08-02:hanging-leg-raise",
+        "2026-07-26:hanging-leg-raise",
+        "2026-08-16:hanging-leg-raise"
+      ]
+    }
+  ]
+}

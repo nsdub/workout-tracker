@@ -1,0 +1,71 @@
+{
+  "role": "recovery",
+  "date": "2026-08-17",
+  "session": "PushA",
+  "reviewed_through": "2026-08-16",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "Last Push day your reps went UP across the top sets (6, then 7, then 8 at the same weight), so nothing here is worn out. Tonight is your fourth training day in a row, so keep this exactly where it is rather than adding to it.",
+      "evidence": ["2026-08-14:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "Three clean sets of 10 last Push day with no fall-off, and it looked the same the Push day before. Nothing in my slice says to change it.",
+      "evidence": ["2026-08-14:machine-chest-press", "2026-08-03:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "14, 13, then 12 reps last time. That is the normal small slide across sets, not fatigue. Leave it alone.",
+      "evidence": ["2026-08-14:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "10, 9, 9 last Push day, which is fine. One caution I cannot resolve from my seat: on two of those three sets you logged the set within a few seconds of the rest timer ending, so I genuinely cannot tell how long you actually rested. If you were cutting rest short there, that will show up as a bad set before it shows up as anything else.",
+      "evidence": ["2026-08-14:db-shoulder-press"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "cut",
+      "why": "Two working sets tonight, not three. Your reps fell 12, 11, 9 last Push day and 11, 11, 10 the Push day before, so the third set is the one that keeps arriving already tired. On a fourth straight training day I would rather you keep the first two honest.",
+      "evidence": ["2026-08-14:overhead-cable-triceps", "2026-08-03:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "cut",
+      "why": "Two sets tonight, not three. At the same weight you got 13, 13, then 10 last Push day; the third set lost a quarter of its reps. Two good sets beat three where the last one is a fade.",
+      "evidence": ["2026-08-14:cable-lateral-raise"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "skip",
+      "why": "Skip this one tonight. It is your second triceps exercise of the session, and it arrives after the first one has already dropped to 9 reps. Last Push day it went 14, then 11, then 10 at one unchanged weight. On day four in a row, this is the set of work with the least to gain and the most fatigue behind it.",
+      "evidence": ["2026-08-14:rope-pushdown", "2026-08-14:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "Keep it as it is, but move it up the order if you can. It is last in line and it keeps getting eaten: only two sets got logged last Push day, and the final one took about two and a half minutes between the rest bell and the log against a typical set of well under a minute. The trims I asked for above are there to buy this one its full work.",
+      "evidence": ["2026-08-14:reverse-pec-deck", "2026-08-03:reverse-pec-deck"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "This is my answer to the question you wrote on Sunday, not a change for tonight. Four sets of leg curls after RDLs is fine for you right now, and here is why I say so instead of guessing: all four sets were the same weight for 12 reps, with no drop at all, and the RDLs ahead of them climbed 8, 9, 9 as the weight went up. Hamstrings that were overcooked would have shown it in that fourth set. Keep the four. If they are still sore two days later, say so in a note and I will cut it to three.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-16:smith-rdl", "2026-08-16:note"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "rope-pushdown",
+      "grounds": "fatigue",
+      "why": "Fatigue grounds, not pain, so the head coach can overrule this if the program needs it. Tonight is your fourth training day in a row in the last week of a five-week build block with no deload until after 23 Aug, and your Push day already carries two triceps exercises. The tightest turnaround in this stretch was about 14 hours between finishing Push A on the 14th and starting Pull B on the morning of the 15th. Dropping the second triceps movement is the cheapest way to take load off that week without touching anything you are actually progressing on.",
+      "evidence": ["2026-08-14:rope-pushdown", "2026-08-14:reverse-pec-deck", "2026-08-15:smith-bent-over-row", "2026-08-16:leg-curl"]
+    }
+  ],
+  "structure_proposals": []
+}
