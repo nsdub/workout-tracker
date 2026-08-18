@@ -479,5 +479,72 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-17T23:47:20.628Z"
+  },
+  {
+    "proposal": {
+      "kind": "add",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "why": "Nothing corrective has been in front of you for over two weeks - face pulls came off all four days between 1 and 14 August, and the only two left, hip adductor and hip abductor, sit on Legs A, which you last logged on 2 August - so this puts three sets back on Pull A, your shortest session, as the only external-rotation movement in the program.",
+      "slot": {
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 27.5
+      },
+      "date": "2026-08-18"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-18T12:37:13.081Z"
+  },
+  {
+    "proposal": {
+      "kind": "add",
+      "exercise": "face-pulls",
+      "scope": "PullB",
+      "why": "Pull B is the other day with no rear-shoulder or cuff work on it at all, and a second face-pull slot here means that cuff work lands twice a cycle instead of once.",
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 27.5
+      },
+      "date": "2026-08-18"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-18T12:37:13.090Z"
+  },
+  {
+    "proposal": {
+      "kind": "add",
+      "exercise": "hip-abductor",
+      "scope": "LegsB",
+      "position": 3,
+      "why": "Legs B is the only leg day with no hip work at all, and it is the day you hinge heavy, which is exactly where hip stability earns its keep - two sets of twelve to fifteen at 135, the weight you carried on 2 August, slotted after the leg curls.",
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75,
+        "seed": 135
+      },
+      "date": "2026-08-18"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-18T12:37:13.093Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "sets": 2,
+      "why": "The third set of rope pushdowns is the one that never holds - 14, 11 then 10 reps on 14 August, and on 17 August you dropped from 52.5 to 47.5 to finish it - so Push A ends on two hard sets instead of three at the tail of an eight-exercise day.",
+      "date": "2026-08-18"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-18T12:37:13.096Z"
   }
 ]
