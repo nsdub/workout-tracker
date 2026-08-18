@@ -1,0 +1,200 @@
+{
+  "date": "2026-08-17",
+  "session_type": "PushA",
+  "phase": "meso1",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1787011454412
+        },
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1787011622301
+        },
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1787011785217
+        },
+        {
+          "weight": 175,
+          "reps": 9,
+          "at": 1787011957019
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1787012133166
+        },
+        {
+          "weight": 165,
+          "reps": 12,
+          "at": 1787012314642,
+          "restEndedAt": 1787012253177
+        },
+        {
+          "weight": 172.5,
+          "reps": 12,
+          "at": 1787012468666,
+          "restEndedAt": 1787012434652
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 13.75,
+          "reps": 15,
+          "at": 1787012631415,
+          "restEndedAt": 1787012588691
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1787012776248,
+          "restEndedAt": 1787012706430
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1787012950960,
+          "restEndedAt": 1787012851272
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 40,
+          "reps": 10,
+          "at": 1787013086457,
+          "restEndedAt": 1787013025970
+        },
+        {
+          "weight": 40,
+          "reps": 10,
+          "at": 1787013167223
+        },
+        {
+          "weight": 40,
+          "reps": 10,
+          "at": 1787013312151,
+          "restEndedAt": 1787013287230
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 15,
+          "at": 1787013454877,
+          "restEndedAt": 1787013432165
+        },
+        {
+          "weight": 90,
+          "reps": 15,
+          "at": 1787013584279,
+          "restEndedAt": 1787013529887
+        },
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1787013705359,
+          "restEndedAt": 1787013659289
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 75,
+          "reps": 12,
+          "at": 1787013848411,
+          "restEndedAt": 1787013780372
+        },
+        {
+          "weight": 75,
+          "reps": 12,
+          "at": 1787013960906,
+          "restEndedAt": 1787013923426
+        }
+      ],
+      "note": "Machine taken. Tricep ext machine instead"
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 13,
+          "at": 1787014113570,
+          "restEndedAt": 1787014035917
+        },
+        {
+          "weight": 10,
+          "reps": 12,
+          "at": 1787014266437,
+          "restEndedAt": 1787014188575
+        },
+        {
+          "weight": 10,
+          "reps": 11,
+          "at": 1787014404972,
+          "restEndedAt": 1787014341447
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 52.5,
+          "reps": 15,
+          "at": 1787014534165,
+          "restEndedAt": 1787014479983
+        },
+        {
+          "weight": 47.5,
+          "reps": 13,
+          "at": 1787014666051,
+          "restEndedAt": 1787014609174
+        },
+        {
+          "weight": 47.5,
+          "reps": 11,
+          "at": 1787014816967,
+          "restEndedAt": 1787014741059
+        }
+      ],
+      "note": "Why are there no corrective exercises in any of the program?"
+    }
+  ],
+  "world": "snowtemple",
+  "bodyweight": 207,
+  "mins": 56,
+  "startedAt": 1787010444502
+}
