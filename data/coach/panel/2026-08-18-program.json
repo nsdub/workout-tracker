@@ -1,0 +1,55 @@
+{
+  "role": "program",
+  "date": "2026-08-18",
+  "session": "PullA",
+  "reviewed_through": "2026-08-17",
+  "calls": [],
+  "structure_proposals": [
+    {
+      "kind": "add",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "why": "Nothing corrective has been in front of you for over two weeks - face pulls came off all four days between 1 and 14 August, and the only two left, hip adductor and hip abductor, sit on Legs A, which you last logged on 2 August - so this puts three sets back on Pull A, your shortest session, as the only external-rotation movement in the program.",
+      "evidence": [
+        "2026-08-17:note",
+        "2026-07-31:face-pulls",
+        "2026-08-17:reverse-pec-deck"
+      ],
+      "slot": {
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60
+      }
+    },
+    {
+      "kind": "add",
+      "exercise": "face-pulls",
+      "scope": "PullB",
+      "why": "Pull B is the other day with no rear-shoulder or cuff work on it at all, and a second face-pull slot here means that cuff work lands twice a cycle instead of once.",
+      "evidence": [
+        "2026-08-17:note",
+        "2026-08-15:straight-arm-pulldown",
+        "2026-07-21:face-pulls"
+      ],
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60
+      }
+    },
+    {
+      "kind": "volume",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "why": "The third set of rope pushdowns is the one that never holds - 14, 11 then 10 reps on 14 August, and on 17 August you dropped from 52.5 to 47.5 to finish it - so Push A ends on two hard sets instead of three at the tail of an eight-exercise day.",
+      "evidence": [
+        "2026-08-17:rope-pushdown",
+        "2026-08-14:rope-pushdown",
+        "2026-08-17:overhead-cable-triceps"
+      ],
+      "sets": 2
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "role": "recovery",
+  "date": "2026-08-18",
+  "session": "PullA",
+  "reviewed_through": "2026-08-17",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "cut",
+      "sets": [
+        {
+          "weight": 225,
+          "reps": 5
+        },
+        {
+          "weight": 265,
+          "reps": 5
+        },
+        {
+          "weight": 265,
+          "reps": 5
+        }
+      ],
+      "why": "Three sets tonight instead of four, at the same weights you pulled on 1 August. Two things stack up: you have not deadlifted in seventeen days, and this is your fifth training day in a row, two days after RDLs at 205 and four sets of leg curls. Nothing in what I watch says you are beaten up - no pain written down, rest between sets steady at about seventy-five seconds all week, bodyweight up a pound. So I am not pulling the lift. But the deadlift is the one thing on this card where being wrong costs you a back instead of a rep, so the fourth set is the cheapest thing to give back on day five. The weight stays where you left it - tonight is not the night to add to it.",
+      "evidence": [
+        "2026-08-01:deadlift",
+        "2026-08-16:smith-rdl",
+        "2026-08-16:leg-curl"
+      ]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "why": "Four sets, and I am leaving it at four. You agreed to move this slot from three sets to four on 1 August. Trimming it back tonight without a single thing in your log pointing at it would be me quietly undoing a decision you already made. Rows are cheap; the deadlift is where I spend the cut.",
+      "evidence": [
+        "2026-08-01:seated-cable-row-wide"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "abstain",
+      "why": "I have no opinion here. Nothing I look at - your notes, rest between sets, session length, bodyweight - says anything about this lift. What weight it should be is the other trainer's call, not mine.",
+      "evidence": [
+        "2026-08-01:lat-pulldown-wide"
+      ]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "abstain",
+      "why": "No opinion. Three sets of curls is not what makes or breaks a fifth day in a row, and you gave me nothing on this lift to react to.",
+      "evidence": [
+        "2026-08-01:db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "abstain",
+      "why": "No opinion. This is your fourth curl slot in four training days counting the incline curls and reverse curls on 15 August, which I noticed - but you finished all six of those sets at the top of the range, so there is no evidence your arms are behind. I am not going to invent a reason to cut a set.",
+      "evidence": [
+        "2026-08-15:incline-db-curl",
+        "2026-08-15:cable-reverse-curl"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "add",
+      "exercise": "hip-abductor",
+      "scope": "LegsB",
+      "position": 3,
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75,
+        "seed": 135
+      },
+      "why": "You asked on 17 August why there are no corrective exercises anywhere in the program. Here is the accurate version, because \"none\" is not quite it: the exercise list marks three movements as correctives - face pulls, hip adductor and hip abductor. Every UPPER-body corrective is gone. Face pulls came off Pull A and Pull B on 1 August, off Push B on 3 August and off Push A on 14 August, so nothing above the waist is left. The two that survive, hip adductor and hip abductor, sit only on Legs A - and Legs A has not run since 2 August, sixteen days ago, so in practice you have not touched a corrective in over two weeks. How the upper-body ones vanished matters too. Reading your 28 July note again, you did not object to corrective work - you objected to the same corrective landing on back-to-back days, and you did angels and demons instead. The program answered that by deleting it everywhere. That was an over-read, and it is on us, not you. So: hip abductor onto Legs B, two sets of twelve to fifteen at 135 pounds, slotted straight after the leg curls and before the calf raises. It was on your Legs B as recently as 15 July and you did it, and 135 is the weight you carried on 2 August. Legs B is currently the only leg day with no hip work at all, and it is the day you hinge heavy, which is exactly where hip stability earns its keep. It runs once a week, so it never lands back-to-back with anything. One thing I cannot fix from this seat: there is no shoulder-rotation movement and no anti-rotation core movement anywhere in the app's exercise list, so the angels and demons you did on your own cannot be prescribed to you until that list itself is changed. That is an open item for the head coach, and I am flagging it rather than pretending the hip abductor covers it.",
+      "evidence": [
+        "2026-08-17:note",
+        "2026-07-28:note",
+        "2026-07-15:hip-abductor",
+        "2026-08-02:hip-abductor"
+      ]
+    }
+  ]
+}

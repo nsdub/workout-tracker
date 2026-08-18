@@ -1,0 +1,65 @@
+{
+  "role": "progression",
+  "date": "2026-08-18",
+  "session": "PullA",
+  "reviewed_through": "2026-08-17",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "cut",
+      "sets": [
+        { "weight": 225, "reps": 6 },
+        { "weight": 245, "reps": 6 },
+        { "weight": 245, "reps": 6 },
+        { "weight": 245, "reps": 6 }
+      ],
+      "why": "Last time you pulled 225 for 5, then 265 for 4, 5 and 5 — the card asked for 6 on all four and you got 6 on none of them, and the 4 was under the bottom of the range. That was seventeen days ago with ten days out of the gym since, so repeating 265 tonight would be asking for reps you have never done, on your first heavy pull back. 245 for six is a little under your best set from that night, and the deal is simple: six on all three and it goes to 255 next Pull A.",
+      "evidence": ["2026-08-01:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "hold",
+      "sets": [
+        { "weight": 135, "reps": 10 },
+        { "weight": 150, "reps": 9 },
+        { "weight": 150, "reps": 9 }
+      ],
+      "why": "You got 9 at 135 and then 8 and 8 at 150 — the very bottom of the 8-10 range, so 150 is not paid for yet. Same weights, and the target is one more rep than you actually did rather than the 10s the app keeps printing at you. When both 150 sets reach 10 it moves to 157.5.",
+      "evidence": ["2026-08-01:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 11 },
+        { "weight": 105, "reps": 11 },
+        { "weight": 105, "reps": 10 }
+      ],
+      "why": "This is the one lift on the day that held up: 11, 12 and 11 at 105 with nothing falling off at the end. The step here is the fourth set, not a heavier pin — the slot became four sets on 1 August and only three are on the log, so tonight is the first time that fourth set actually gets done. Weight stays at 105 while the extra set is new work.",
+      "evidence": ["2026-08-01:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 30, "reps": 10 },
+        { "weight": 30, "reps": 9 },
+        { "weight": 30, "reps": 9 }
+      ],
+      "why": "9, 9 and 8 at the 30s last time — you were losing a rep by the end, not running out of range. The next dumbbell on the rack is 35, which is a 17 percent jump, so that one has to be earned properly: 10, 10, 10 at the 30s and it moves.",
+      "evidence": ["2026-08-01:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 42.5, "reps": 12 },
+        { "weight": 42.5, "reps": 12 },
+        { "weight": 42.5, "reps": 11 }
+      ],
+      "why": "11, 11 and 10 at 42.5 last time — inside the 10-12 range the whole way but never at the top of it, and it was the fifth thing on a night where everything came in at the bottom. Hold 42.5; the cable has a small add-on weight, so when you get 12 on all three it only needs to go to 43.75.",
+      "evidence": ["2026-08-01:cable-hammer-curl", "2026-08-01:db-curl"]
+    }
+  ]
+}
