@@ -1,0 +1,34 @@
+{
+  "role": "program",
+  "date": "2026-08-19",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-18",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "scope": "LegsA",
+      "sets": 4,
+      "why": "Legs A gives the front of your leg nine sets — leg press, split squats and extensions — against three of leg curl and no hinge at all, and on 2 August all three of those curl sets finished at the top of the range at 135 for fifteen, fifteen and fifteen, so this makes it four; the card below takes that same set off Legs B, so your week's hamstring total does not move.",
+      "evidence": ["2026-08-02:leg-curl", "2026-07-26:leg-curl", "2026-08-02:leg-press-low"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "scope": "LegsB",
+      "sets": 3,
+      "why": "You asked in writing on 16 August whether four sets of leg curls on the same day as your RDLs is too many hamstrings — Legs B is the one day you hinge, and it is the only leg day carrying both, so this is that fourth set moving to Legs A rather than disappearing, and your weekly curl volume stays at seven.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-16:note", "2026-08-16:smith-rdl"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "leg-press-low",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "On all three Legs A nights your first leg-press set has been a build-up — 160, 160 and 180 against top sets of 220, 220 and 240 — so the four sets the plan asks for are really three of work plus a ramp, and at three minutes of rest each this is the most expensive slot on your longest session; three sets prices it as what it already is, and with the leg-curl set added above the night stays the same length.",
+      "evidence": ["2026-08-02:leg-press-low", "2026-07-26:leg-press-low", "2026-07-18:leg-press-low"]
+    }
+  ]
+}

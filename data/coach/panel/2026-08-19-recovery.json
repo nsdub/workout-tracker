@@ -1,0 +1,81 @@
+{
+  "role": "recovery",
+  "date": "2026-08-19",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-18",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 180, "reps": 8 },
+        { "weight": 220, "reps": 8 },
+        { "weight": 240, "reps": 8 }
+      ],
+      "why": "Tonight is the sixth training day in a row, which he has never done in this log, and it lands about 24 hours after four deadlift sets topping 255 for 6. Keep the ramp and the 240 top set but drop the second top set, and do not raise the weight — 240 was only good for 8 and 8 on 2 August when he was four days into a streak, not six.",
+      "evidence": ["2026-08-02:leg-press-low", "2026-07-26:leg-press-low", "2026-08-18:deadlift", "2026-08-16:leg-press-high"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "skip",
+      "why": "This is the only lift on the card that depends on balance and single-leg stabilizers, it was just raised from two sets to three and has never been run at three, and both things it needs — coordination and fresh legs — are what a sixth straight day and yesterday's deadlifts take away first. Skipping one night costs the smallest slot in the program almost nothing; the three-set decision stands and starts on the next Legs A.",
+      "evidence": ["2026-08-02:db-bulgarian-split-squat", "2026-07-26:db-bulgarian-split-squat", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 15 },
+        { "weight": 135, "reps": 15 },
+        { "weight": 135, "reps": 15 }
+      ],
+      "why": "He topped the rep range here on 2 August so a raise is earned, but the hamstrings already took heavy Smith RDL plus four sets at 142.5 on the 16th and four deadlift sets yesterday. Repeat 2 August exactly tonight and take the raise on the next Legs A, when he is not six days deep.",
+      "evidence": ["2026-08-02:leg-curl", "2026-08-16:leg-curl", "2026-08-16:smith-rdl", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "Two seated isolation sets with the leg press already trimmed by a set. He ran 142.5 for 15 and 150 for 14 with no decay on 2 August, so this slot is inside tolerance even on a tired night.",
+      "evidence": ["2026-08-02:leg-extension", "2026-07-26:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "Two light machine sets, no systemic cost, and 97.5 for 15 twice was clean last time. Nothing in the last five days has loaded the adductors.",
+      "evidence": ["2026-08-02:hip-adductor", "2026-07-26:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "Same two-set superset partner as the adductor, 135 for 12 twice with no trouble, and the abductors are untouched by anything in this streak.",
+      "evidence": ["2026-08-02:hip-abductor", "2026-07-26:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "He finished all three sets at 300 for 12 three days ago on Legs B, so three sets is proven tolerance and calves are the cheapest thing on this card. No objection to whatever load the progression seat asks for.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-08-02:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Three clean sets at 60 for 12 on the 16th, and he already ran cable crunches the day after 265 for 5 deadlifts on 2 August with no decay, so the day-after-deadlift pattern is precedented here.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-08-02:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Bodyweight, two sets, twelve and twelve clean three days ago. Grip is the only thing carrying yesterday's pulling load and two hanging sets will not be what breaks it.",
+      "evidence": ["2026-08-16:hanging-leg-raise", "2026-08-02:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "grounds": "fatigue",
+      "why": "Sixth consecutive training day, roughly 24 hours after four heavy deadlift sets, and day five already showed the first real within-set decay of the streak — dumbbell curls fell 10 to 8 to 7 and the rows walked down 12, 11, 11, 10. A balance-dependent single-leg lift being debuted at a new set count is the wrong thing to put in front of him tonight, and the proposal that added it named exactly this off-ramp. This is a one-night veto on fatigue grounds, not a reversal of the three-set decision.",
+      "evidence": ["2026-08-18:db-curl", "2026-08-18:seated-cable-row-wide", "2026-08-18:deadlift", "2026-08-02:db-bulgarian-split-squat"]
+    }
+  ],
+  "structure_proposals": []
+}

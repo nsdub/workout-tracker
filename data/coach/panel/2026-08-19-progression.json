@@ -1,0 +1,106 @@
+{
+  "role": "progression",
+  "date": "2026-08-19",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-18",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 180, "reps": 10 },
+        { "weight": 220, "reps": 9 },
+        { "weight": 240, "reps": 9 },
+        { "weight": 240, "reps": 8 }
+      ],
+      "why": "On Aug 2 he moved up to 180/220/240/240 but every set landed on 8 reps, the bottom of the 8-10 range, so the weight is not free yet and the next 20-lb pin is not earned; the step this session is reps at the same four pins, not load. The app would reprint those weights asking 10 reps on all four sets, which is a rep target he has never hit at 240 and is why the lift reads as stalled.",
+      "evidence": ["2026-08-02:leg-press-low", "2026-07-26:leg-press-low", "2026-07-18:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "push",
+      "sets": [
+        { "weight": 17.5, "reps": 9 },
+        { "weight": 17.5, "reps": 9 },
+        { "weight": 17.5, "reps": 8 }
+      ],
+      "why": "Both times this lift has run he logged only two sets and topped out at 9 reps, so the card asking 17.5 for three sets of 10 is a target he has never come close to and the next dumbbell pin at 20 per hand is a long way off it. Hold 17.5 and set the reps where all three sets are finishable, because finishing the third set is the actual progress here.",
+      "evidence": ["2026-08-02:db-bulgarian-split-squat", "2026-07-26:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 15 },
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 13 }
+      ],
+      "why": "He hit the top of the range on all three sets on Aug 2 at 120/135/135, which earns the 7.5-lb step to 127.5/142.5/142.5, and he has already carried 142.5 for four sets of 12 on Aug 16, so restarting at 12 would be re-doing work he has done. Set one at 127.5 sits below weights he has already taken to 15 reps.",
+      "evidence": ["2026-08-02:leg-curl", "2026-08-16:leg-curl", "2026-07-26:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "push",
+      "sets": [
+        { "weight": 150, "reps": 14 },
+        { "weight": 150, "reps": 14 }
+      ],
+      "why": "He finished 142.5 at the top of the range and got 150 for 14 on Aug 2, up from 150 for 11 two weeks earlier, so 142.5 has nothing left to give and both sets move to 150. Fifteen on both is what buys the next 7.5-lb step to 157.5, which is not earned yet.",
+      "evidence": ["2026-08-02:leg-extension", "2026-07-26:leg-extension", "2026-07-18:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 }
+      ],
+      "why": "Both sets hit 15 reps at 97.5 on Aug 2, the top of the range, which earns the 7.5-lb step to 105. Twelve is the honest landing after a jump: the last time he stepped up here, from 90 to 97.5, he came back down to 13 and 12 reps before climbing again.",
+      "evidence": ["2026-08-02:hip-adductor", "2026-07-26:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 13 },
+        { "weight": 135, "reps": 13 }
+      ],
+      "why": "He stepped up to 135 on Aug 2 and got 12 and 12, the bottom of the range, so the weight holds and the reps move by one. The card would ask 135 for 15 twice, a three-rep jump on both sets in one session, which is the range top pasted on rather than a step he has earned.",
+      "evidence": ["2026-08-02:hip-abductor", "2026-07-26:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 12 }
+      ],
+      "why": "He carried 300 for three sets of 12 on Aug 16, so 300 is the right pin, but the card copies that day forward and asks 15 reps on all three, three more per set than he has ever done at this weight. The next leg-press pin is 320 and that only opens once 300 goes for 15.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-08-02:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 60, "reps": 13 },
+        { "weight": 60, "reps": 13 },
+        { "weight": 60, "reps": 13 }
+      ],
+      "why": "Three sets of 15 at 55 on Aug 2 earned the 5-lb step, and he took 60 for three sets of 12 on Aug 16; reprinting 60 for 12 is an exact copy of three days ago and asks for nothing new. One more rep per set is the smallest real step, and 15s across the board buys 65.",
+      "evidence": ["2026-08-02:cable-crunch", "2026-08-16:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 0, "reps": 13 },
+        { "weight": 0, "reps": 13 }
+      ],
+      "why": "This is bodyweight, so reps are the only thing that can move, and he has opened with 12 and 12 in every leg session since July 18 because the card reprints 12 every time and nothing ever asks for more. Thirteen is the step, and the range runs to 15.",
+      "evidence": ["2026-08-16:hanging-leg-raise", "2026-08-02:hanging-leg-raise", "2026-07-30:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
