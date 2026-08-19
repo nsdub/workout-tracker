@@ -1,0 +1,158 @@
+{
+  "date": "2026-08-18",
+  "session_type": "PullA",
+  "phase": "meso1",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 225,
+          "reps": 6,
+          "at": 1787103439808
+        },
+        {
+          "weight": 245,
+          "reps": 6,
+          "at": 1787103677662
+        },
+        {
+          "weight": 255,
+          "reps": 6,
+          "at": 1787103891466
+        },
+        {
+          "weight": 255,
+          "reps": 6,
+          "at": 1787104126388
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1787104344169
+        },
+        {
+          "weight": 150,
+          "reps": 9,
+          "at": 1787104498516,
+          "restEndedAt": 1787104464179
+        },
+        {
+          "weight": 150,
+          "reps": 9,
+          "at": 1787104659619,
+          "restEndedAt": 1787104618529
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787104817515,
+          "restEndedAt": 1787104779627
+        },
+        {
+          "weight": 105,
+          "reps": 11,
+          "at": 1787104963639,
+          "restEndedAt": 1787104937529
+        },
+        {
+          "weight": 105,
+          "reps": 11,
+          "at": 1787105120879,
+          "restEndedAt": 1787105083648
+        },
+        {
+          "weight": 105,
+          "reps": 10,
+          "at": 1787105270234,
+          "restEndedAt": 1787105240891
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 10,
+          "at": 1787105462228,
+          "restEndedAt": 1787105390241
+        },
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1787105580268,
+          "restEndedAt": 1787105537235
+        },
+        {
+          "weight": 30,
+          "reps": 7,
+          "at": 1787105722434,
+          "restEndedAt": 1787105655276
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 11,
+          "at": 1787105851159,
+          "restEndedAt": 1787105797440
+        },
+        {
+          "weight": 30,
+          "reps": 12,
+          "at": 1787105957750,
+          "restEndedAt": 1787105926173
+        },
+        {
+          "weight": 30,
+          "reps": 11,
+          "at": 1787106071943,
+          "restEndedAt": 1787106032758
+        }
+      ],
+      "note": "Cables taken. Did dumbbell hammer curls"
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 13,
+          "at": 1787106174969,
+          "restEndedAt": 1787106146951
+        },
+        {
+          "weight": 22.5,
+          "reps": 15,
+          "at": 1787106275019,
+          "restEndedAt": 1787106234978
+        }
+      ],
+      "note": "I also did one set of cable \"door hinges\""
+    }
+  ],
+  "world": "ballroom",
+  "mins": 47,
+  "startedAt": 1787056639764
+}
