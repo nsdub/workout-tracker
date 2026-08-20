@@ -1,0 +1,64 @@
+{
+  "role": "recovery",
+  "date": "2026-08-20",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-18",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "why": "Standing numbers stand: 180x8, 220x8, 240x8, three sets. Two separate things were bundled into yesterday's card and only one of them has died. The rest day is real, so the tired-legs reason for the low reps is gone, and I do not block the other trainer putting 10 reps on the 180 and 9 on the 220 - he pressed 180 for 12, 11 and 10 on the high-foot version four days ago on legs day, so ten reps at 180 is nowhere near his limit. I am not writing those numbers myself because I have no new training data to move a number on. What I do hold hard is the set count. On 2 August he did four sets here, ending 240x8 twice. Tonight is the first time he has touched this session in 18 days and it is also the first time the split squat is set at three sets instead of two. Three sets of leg press plus a third split squat set is the volume step for tonight; a fourth leg press set on top of that is one step too many. If the head coach puts the fourth leg press set back, I want the third split squat set taken off - not both.",
+      "evidence": ["2026-08-02:leg-press-low", "2026-08-16:leg-press-high", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "why": "I am dropping my veto from yesterday and I want to be plain about why: it does not survive the rest day. My grounds were that it would be his sixth training day in a row and that it landed one day after four deadlift sets topping out at 255x6. He rested instead, and the deadlifts are now two days and a full day off behind him. That was the whole of my case and it is gone, so the veto goes with it. Numbers stand at 17.5 for 9, 9 and 8. One thing I am watching rather than blocking: he has only ever done this lift for two sets, on 26 July and again on 2 August, so tonight is a 50 percent jump in sets on the one lift where running out of strength means losing your balance with weight in both hands. It also comes straight after leg press. If he wobbles or has to put a foot down, the third set is the one to drop on the spot, not the reps.",
+      "evidence": ["2026-08-02:db-bulgarian-split-squat", "2026-07-26:db-bulgarian-split-squat", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "Numbers stand: 127.5x15, then 142.5 for 13 and 13. Four days ago he did four straight sets of 142.5x12 without dropping a single rep, so asking for 13 across three sets is not a stretch. He also wrote a direct question to his trainers that day and nobody has answered it: 'confirming that you want me doing four sets of leg curls on the same day as rdl. Too many hamstrings or just right?' The head coach owes him an answer. Mine, for the record: tonight is three sets, not four, and there is no deadlift or Romanian deadlift on tonight's card, so the pile-up he is asking about does not happen tonight. His question was about legs day B, and that still needs answering by whoever owns that session.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-16:note", "2026-08-02:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "Numbers stand: 150 for 14 and 14, two sets. He got 150x14 as his second set on 2 August after a set at 142.5, so repeating 14 at that weight is the same work he has already done, not a step up. Two sets is light enough that it is not where any recovery risk lives tonight. No reason to touch it.",
+      "evidence": ["2026-08-02:leg-extension", "2026-07-26:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "Numbers stand: 105 for 12 and 12. He has been at 97.5 for 13 and 12 on 26 July and 15 and 15 on 2 August, so the reps have been dropped to pay for the heavier pin. Two sets on a hip machine at the end of the session is not a fatigue problem and I have nothing new to justify moving it.",
+      "evidence": ["2026-08-02:hip-adductor", "2026-07-26:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "Numbers stand: 135 for 13 and 13. He did 135 for 12 and 12 on 2 August, so this is one extra rep a set. Separate matter the head coach must answer: on 17 August he wrote 'Why are there no corrective exercises in any of the program?' That is a fair question and it has gone unanswered. The honest reply is that the adductor and abductor machines plus face pulls are the closest thing the program has to that work, and if he wants real corrective work it has to be added on purpose by whoever owns the program, not smuggled in. I am not proposing a change - I am saying he asked and deserves a reply.",
+      "evidence": ["2026-08-02:hip-abductor", "2026-08-17:note"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "Numbers stand: 300 for 13, 13 and 12. Four days ago he did 300 for 12, 12 and 12 with almost no rest between the sets - the timestamps show he started the second set about two seconds after the rest timer ended. Clean, non-fading sets, so one more rep on the first two is fine. Worth knowing he complained 'Why four sets' about calves on 30 July; tonight is three, so that one is already answered.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-07-30:note", "2026-08-02:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Numbers stand: 60 for 13, 13 and 13. He did 60 for 12, 12 and 12 four days ago without fading. Abs are not a recovery constraint after a rest day and there is nothing here to brake.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-08-02:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Numbers stand: bodyweight for 13 and 13, two sets. He hit 12 and 12 on 16 August. He asked on 2 August, 'Are the trainers sure three sets is correct?' - and on that day his third set fell to 10 reps, which says he was right. Tonight is two sets, so his question has been acted on even if nobody told him. Somebody should tell him. That is the third set-count question he has written into his log in three weeks and none has been answered on screen; the head coach should close all three.",
+      "evidence": ["2026-08-02:note", "2026-08-16:hanging-leg-raise", "2026-08-02:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,105 @@
+{
+  "role": "progression",
+  "date": "2026-08-20",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-18",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 180, "reps": 10 },
+        { "weight": 220, "reps": 9 },
+        { "weight": 240, "reps": 8 }
+      ],
+      "why": "This is the one lift I move off the card that was sent yesterday, and here is the new fact: that card asked 180, 220 and 240 all for 8 because he was heading into his sixth straight training day, and that day never happened — he rested instead, so he starts tonight fresh. Eight reps on all three is exactly the first three sets he already did on Aug 2, so as written it asks for nothing new; I put the reps back on the two lighter sets and leave the top set at 240 for 8 untouched, because he has not trained this session in eighteen days and the heaviest set is not the place to find out. The set count stays at three, as the card had it — that cut is not mine to undo.",
+      "evidence": ["2026-08-02:leg-press-low", "2026-07-26:leg-press-low", "2026-07-18:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "push",
+      "sets": [
+        { "weight": 17.5, "reps": 9 },
+        { "weight": 17.5, "reps": 9 },
+        { "weight": 17.5, "reps": 8 }
+      ],
+      "why": "Nothing has been logged on this lift since Aug 2, so the card he did not use is still the right card and I am restating it unchanged. Both times it has run he stopped after two sets and topped out at 9 reps, so the weight holds at 17.5 in each hand — the next dumbbell up is 20 — and the reps are set where a third set is actually finishable, because finishing the third set is the progress here.",
+      "evidence": ["2026-08-02:db-bulgarian-split-squat", "2026-07-26:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 127.5, "reps": 15 },
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 13 }
+      ],
+      "why": "Unchanged from the card he did not use, and the reasoning is unchanged too: on Aug 2 he hit the top of the range on all three sets at 120, 135 and 135, which earns the one-notch step on this machine to 127.5 and 142.5. He has already carried 142.5 for four sets of 12 on Aug 16, so asking 12 again would be redoing work he has done, and 127.5 on the first set sits under weights he has already taken to 15.",
+      "evidence": ["2026-08-02:leg-curl", "2026-08-16:leg-curl", "2026-07-26:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "push",
+      "sets": [
+        { "weight": 150, "reps": 14 },
+        { "weight": 150, "reps": 14 }
+      ],
+      "why": "Restated from the unused card; no leg extension has been logged since Aug 2, so the evidence behind it has not moved. He finished 142.5 at the top of the range and took 150 for 14 that day, up from 150 for 11 two weeks before, so 142.5 has nothing left to give and both sets run at 150. Fifteen on both is what opens the next notch at 157.5, and it is not open yet.",
+      "evidence": ["2026-08-02:leg-extension", "2026-07-26:leg-extension", "2026-07-18:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 }
+      ],
+      "why": "Same numbers as the unused card, same reason: both sets reached 15 reps at 97.5 on Aug 2, the top of the range, which earns the one-notch step to 105. Twelve is the honest landing after a jump — last time he stepped up here, from 90 to 97.5, the reps dropped to 13 and 12 before climbing back.",
+      "evidence": ["2026-08-02:hip-adductor", "2026-07-26:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 13 },
+        { "weight": 135, "reps": 13 }
+      ],
+      "why": "Unchanged from the unused card. He stepped up to 135 on Aug 2 and got 12 and 12, the bottom of the range, so the weight holds and the reps move by one. The app on its own would print 135 for 15 twice, a three-rep jump on both sets in one night, which is the top of the range pasted on rather than a step he has earned.",
+      "evidence": ["2026-08-02:hip-abductor", "2026-07-26:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 12 }
+      ],
+      "why": "Restated from the unused card; the last calf work was Aug 16 and that is already inside this number. He carried 300 for three sets of 12 that day, so 300 is the right load, but the app would copy that day forward and ask 15 on all three, which is three more reps per set than he has ever done at this weight. The next platform load is 320 and it opens when 300 goes for 15.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-08-02:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 60, "reps": 13 },
+        { "weight": 60, "reps": 13 },
+        { "weight": 60, "reps": 13 }
+      ],
+      "why": "Unchanged from the unused card. Three sets of 15 at 55 on Aug 2 earned the 5-lb step, and he took 60 for three sets of 12 on Aug 16, so reprinting 60 for 12 would be an exact copy of that night and asks for nothing. One more rep on each set is the smallest real step, and 15s across the board buys 65.",
+      "evidence": ["2026-08-02:cable-crunch", "2026-08-16:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 0, "reps": 13 },
+        { "weight": 0, "reps": 13 }
+      ],
+      "why": "Unchanged from the unused card. This is bodyweight, so reps are the only thing that can move, and he has opened with 12 and 12 in every leg session since July 18 because the card reprints 12 every time and nothing ever asks for more. Thirteen is the step and the range runs to 15.",
+      "evidence": ["2026-08-16:hanging-leg-raise", "2026-08-02:hanging-leg-raise", "2026-07-30:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

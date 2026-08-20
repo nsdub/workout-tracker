@@ -1,0 +1,30 @@
+{
+  "role": "program",
+  "date": "2026-08-20",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-18",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "add",
+      "exercise": "hip-adductor",
+      "scope": "LegsB",
+      "position": 4,
+      "why": "Legs B just got the hip abductor back but not its partner, so the outside of your hip is now worked twice a cycle and the inside only once — this puts the adductor back beside it on your heavy hinge day, two sets of twelve to fifteen, the way you used to run the pair on Legs B.",
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "evidence": [
+        "2026-08-16:smith-rdl",
+        "2026-08-02:hip-adductor",
+        "2026-07-26:hip-adductor",
+        "2026-01-06:hip-adductor",
+        "2026-08-16:note"
+      ]
+    }
+  ]
+}
