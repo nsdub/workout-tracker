@@ -1,0 +1,198 @@
+{
+  "date": "2026-08-20",
+  "session_type": "LegsA",
+  "phase": "meso1",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1787272675807
+        },
+        {
+          "weight": 220,
+          "reps": 9,
+          "at": 1787272786440
+        },
+        {
+          "weight": 240,
+          "reps": 8,
+          "at": 1787272973923,
+          "restEndedAt": 1787272966450
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 9,
+          "at": 1787273165222,
+          "restEndedAt": 1787273153933
+        },
+        {
+          "weight": 17.5,
+          "reps": 9,
+          "at": 1787273331337,
+          "restEndedAt": 1787273285234
+        },
+        {
+          "weight": 17.5,
+          "reps": 8,
+          "at": 1787273569098,
+          "restEndedAt": 1787273451348
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 15,
+          "at": 1787273764924,
+          "restEndedAt": 1787273689118
+        },
+        {
+          "weight": 142.5,
+          "reps": 13,
+          "at": 1787273894699,
+          "restEndedAt": 1787273854937
+        },
+        {
+          "weight": 142.5,
+          "reps": 13,
+          "at": 1787274042619,
+          "restEndedAt": 1787273984720
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 13,
+          "at": 1787274177271,
+          "restEndedAt": 1787274132632
+        },
+        {
+          "weight": 150,
+          "reps": 13,
+          "at": 1787274295177,
+          "restEndedAt": 1787274267279
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787274453625,
+          "restEndedAt": 1787274385191
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787274602722,
+          "restEndedAt": 1787274536228
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 13,
+          "at": 1787274461220
+        },
+        {
+          "weight": 135,
+          "reps": 13,
+          "at": 1787274603574
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 300,
+          "reps": 13,
+          "at": 1787274455736
+        },
+        {
+          "weight": 300,
+          "reps": 13,
+          "at": 1787275413521,
+          "restEndedAt": 1787275406301
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1787275522707,
+          "restEndedAt": 1787275488533
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 13,
+          "at": 1787274758896,
+          "restEndedAt": 1787274678584
+        },
+        {
+          "weight": 60,
+          "reps": 13,
+          "at": 1787274888167,
+          "restEndedAt": 1787274818909
+        },
+        {
+          "weight": 60,
+          "reps": 13,
+          "at": 1787274995834,
+          "restEndedAt": 1787274948182
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 13,
+          "at": 1787275078310,
+          "restEndedAt": 1787275055845
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1787275217213,
+          "restEndedAt": 1787275138324
+        }
+      ]
+    }
+  ],
+  "world": "trailhead",
+  "mins": 47,
+  "startedAt": 1787272448096
+}
