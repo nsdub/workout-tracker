@@ -1,0 +1,197 @@
+{
+  "date": "2026-08-23",
+  "session_type": "PushB",
+  "phase": "meso1",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "smith-overhead-press",
+      "name": "Smith Overhead Press",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 6,
+          "at": 1787512956913
+        },
+        {
+          "weight": 115,
+          "reps": 6,
+          "at": 1787513121950
+        },
+        {
+          "weight": 125,
+          "reps": 6,
+          "at": 1787513254806
+        },
+        {
+          "weight": 135,
+          "reps": 6,
+          "at": 1787513427366
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 67.5,
+          "reps": 10,
+          "at": 1787513656931,
+          "restEndedAt": 1787513607375
+        },
+        {
+          "weight": 67.5,
+          "reps": 10,
+          "at": 1787513818848,
+          "restEndedAt": 1787513776945
+        },
+        {
+          "weight": 75,
+          "reps": 10,
+          "at": 1787513981409,
+          "restEndedAt": 1787513938904
+        }
+      ],
+      "note": "Different gym. Hammer strength mts chest press"
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1787514143375,
+          "restEndedAt": 1787514101424
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1787514270401,
+          "restEndedAt": 1787514263389
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1787514460364,
+          "restEndedAt": 1787514390407
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1787514670419,
+          "restEndedAt": 1787514580391
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1787514815548,
+          "restEndedAt": 1787514745431
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1787515005926,
+          "restEndedAt": 1787514890564
+        }
+      ],
+      "note": "Four sets seems like a lot for such a small muscle group? Are you sure four is the right number? I will do it if you are sure"
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 15,
+          "at": 1787515223514,
+          "restEndedAt": 1787515080944
+        },
+        {
+          "weight": 27.5,
+          "reps": 14,
+          "at": 1787515381256,
+          "restEndedAt": 1787515298551
+        },
+        {
+          "weight": 27.5,
+          "reps": 14,
+          "at": 1787515536039,
+          "restEndedAt": 1787515456268
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 7.5,
+          "reps": 13,
+          "at": 1787516858335,
+          "restEndedAt": 1787516393102
+        },
+        {
+          "weight": 7.5,
+          "reps": 12,
+          "at": 1787516977091,
+          "restEndedAt": 1787516933351
+        }
+      ],
+      "note": "Machine taken. Did reverse cable pulls instead"
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 57.5,
+          "reps": 12,
+          "at": 1787515812931,
+          "restEndedAt": 1787515611049
+        },
+        {
+          "weight": 57.5,
+          "reps": 12,
+          "at": 1787515940603,
+          "restEndedAt": 1787515887943
+        },
+        {
+          "weight": 57.5,
+          "reps": 9,
+          "at": 1787516052051,
+          "restEndedAt": 1787516015614
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 16,
+          "at": 1787516193758,
+          "restEndedAt": 1787516127061
+        },
+        {
+          "weight": 25,
+          "reps": 15,
+          "at": 1787516318067,
+          "restEndedAt": 1787516268768
+        }
+      ]
+    }
+  ],
+  "world": "nebula",
+  "bodyweight": 207,
+  "mins": 67,
+  "startedAt": 1787512115943
+}
