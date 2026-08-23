@@ -546,5 +546,59 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-18T12:37:13.096Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "leg-press-low",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "On all three Legs A nights your first leg-press set has been a build-up - 160, 160 and 180 against top sets of 220, 220 and 240 - so the four sets the plan asks for are really three of work plus a ramp, and at three minutes of rest each this is the most expensive slot on your longest session; tonight's card already runs three, and this makes it the standing shape.",
+      "date": "2026-08-20"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-23T19:08:31.844Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "scope": "LegsA",
+      "sets": 4,
+      "why": "Legs A gives the front of your leg nine sets - leg press, split squats and extensions - against three of leg curl and no hinge at all, and on 2 August all three of those curl sets finished at the top of the range at 135 for fifteen, so this makes it four; the card below takes that same set off Legs B, so your week's hamstring total does not move.",
+      "date": "2026-08-20"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-23T19:08:31.855Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "scope": "LegsB",
+      "sets": 3,
+      "why": "Read this one carefully: on 18 August I answered your written question by telling you four sets on Legs B is right, and no Legs B has been logged since, so nothing new has happened - this is the program trainer asking a different question, whether that fourth set is better spent on Legs A where you have nine quad sets and no hinge at all, rather than on the one day you already deadlift-pattern with RDLs. Accepting moves the set; declining keeps four on Legs B exactly as I told you, and No is a real answer.",
+      "date": "2026-08-20"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-23T19:08:31.859Z"
+  },
+  {
+    "proposal": {
+      "kind": "add",
+      "exercise": "hip-adductor",
+      "scope": "LegsB",
+      "position": 4,
+      "slot": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "Legs B just got the hip abductor back but not its partner, so the outside of your hip is now worked twice a cycle and the inside only once - this puts the adductor back beside it on your heavy hinge day, two sets of twelve to fifteen, the way you ran the pair on Legs B last winter.",
+      "date": "2026-08-20"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-08-23T19:08:31.864Z"
   }
 ]
