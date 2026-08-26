@@ -1,0 +1,172 @@
+{
+  "date": "2026-08-25",
+  "session_type": "PullB",
+  "phase": "meso2",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 115,
+          "reps": 10,
+          "at": 1787701908604
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1787702044105
+        },
+        {
+          "weight": 145,
+          "reps": 10,
+          "at": 1787702187330
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1787702344177
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 10,
+          "at": 1787702524923,
+          "restEndedAt": 1787702524201
+        },
+        {
+          "weight": 127.5,
+          "reps": 10,
+          "at": 1787702651560,
+          "restEndedAt": 1787702644940
+        },
+        {
+          "weight": 127.5,
+          "reps": 8,
+          "at": 1787702813855,
+          "restEndedAt": 1787702771570
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 11,
+          "at": 1787702949148,
+          "restEndedAt": 1787702933864
+        },
+        {
+          "weight": 45,
+          "reps": 11,
+          "at": 1787703100077,
+          "restEndedAt": 1787703024157
+        },
+        {
+          "weight": 45,
+          "reps": 11,
+          "at": 1787703287467
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 80,
+          "reps": 12,
+          "at": 1787703411379,
+          "restEndedAt": 1787703362481
+        },
+        {
+          "weight": 80,
+          "reps": 12,
+          "at": 1787703526017,
+          "restEndedAt": 1787703486395
+        },
+        {
+          "weight": 80,
+          "reps": 12,
+          "at": 1787703671453,
+          "restEndedAt": 1787703601030
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1787703828812,
+          "restEndedAt": 1787703746467
+        },
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1787703952136,
+          "restEndedAt": 1787703903822
+        },
+        {
+          "weight": 25,
+          "reps": 9,
+          "at": 1787704110037,
+          "restEndedAt": 1787704027148
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1787704264961,
+          "restEndedAt": 1787704185049
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1787704389423,
+          "restEndedAt": 1787704339973
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1787704538982,
+          "restEndedAt": 1787704464433
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 12,
+          "at": 1787704648397,
+          "restEndedAt": 1787704613991
+        },
+        {
+          "weight": 27.5,
+          "reps": 12,
+          "at": 1787786330706
+        }
+      ]
+    }
+  ],
+  "world": "antenna",
+  "startedAt": 1787662728074
+}
