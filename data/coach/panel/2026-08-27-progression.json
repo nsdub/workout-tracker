@@ -1,0 +1,96 @@
+{
+  "role": "progression",
+  "date": "2026-08-27",
+  "session": "LegsB",
+  "reviewed_through": "2026-08-25",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "push",
+      "sets": [
+        { "weight": 155, "reps": 10 },
+        { "weight": 185, "reps": 10 },
+        { "weight": 205, "reps": 10 },
+        { "weight": 205, "reps": 9 }
+      ],
+      "why": "On Aug 16 he ran 155 for 8, 185 for 9 and 205 for 9, and stopped after three sets. His best top set is 205 for 9, which he has now hit twice, on Jul 30 and again on Aug 16, so 205 for 10 is the rung he is standing on. The two lighter sets have sat at 8 and 9 only because the card kept asking 8, so they go to 10; the fourth set is set at 9, matching the best fourth set he has ever done, on Jul 30. Ten on all four is what opens 215.",
+      "evidence": ["2026-08-16:smith-rdl", "2026-07-30:smith-rdl", "2026-07-22:smith-rdl", "2026-07-15:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "sets": [
+        { "weight": 180, "reps": 12 },
+        { "weight": 180, "reps": 12 },
+        { "weight": 180, "reps": 11 }
+      ],
+      "why": "Aug 16 was 180 for 12, then 11, then 10 — he faded across the three sets. The app would print 180 for 12 three times, which asks a two-rep jump on the set that has been fading. Holding 180 and asking 12, 12 and 11 closes that fade from the back end, where the work actually went missing. The next pin on this machine is 200 and it opens when all three sets reach 12.",
+      "evidence": ["2026-08-16:leg-press-high", "2026-07-30:leg-press-high", "2026-07-22:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 150, "reps": 10 },
+        { "weight": 150, "reps": 10 },
+        { "weight": 150, "reps": 10 }
+      ],
+      "why": "On Aug 16 he carried 142.5 for four straight sets of 12, the top of this range on every set, which is exactly what earns the one-notch step to 150 on this machine. Four days later on Legs A he took the same 142.5 for 13 twice, so that weight has nothing left to give him. Ten reps is the bottom of the range and the honest place to land the night after a step up.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-20:leg-curl", "2026-08-02:leg-curl", "2026-07-30:leg-curl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 14 },
+        { "weight": 135, "reps": 14 }
+      ],
+      "why": "The app would print a lighter 127.5 first set and then 135, both for 15, which drops the opening weight and pastes the top of the range on at the same time. He did 135 for 13 and 13 on Aug 20, up from 135 for 12 and 12 on Aug 2, so the weight holds and one more rep on each set is the step he has earned. Fifteen on both is what buys 142.5.",
+      "evidence": ["2026-08-20:hip-abductor", "2026-08-02:hip-abductor", "2026-07-15:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "The app would print 105 for 12 twice, which is the Aug 20 sets copied across word for word and asks him for nothing. He moved up to 105 that night off 97.5 for 15 and 15 on Aug 2, and landed at 12 and 12, the bottom of the range. Thirteen on both is the next rung, and 15 on both opens 112.5.",
+      "evidence": ["2026-08-20:hip-adductor", "2026-08-02:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 300, "reps": 14 },
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 13 }
+      ],
+      "why": "The app would ask 15 on all three sets at 300, which is three more reps than his last set has ever managed at that load. He went 12, 12, 12 on Aug 16 and 13, 13, 12 on Aug 20, so one more rep on the opener and one more on the closer is the real step. The next platform load is 320 and it opens when 300 goes 15 across.",
+      "evidence": ["2026-08-20:standing-calf-raise", "2026-08-16:standing-calf-raise", "2026-08-02:standing-calf-raise", "2026-07-30:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 60, "reps": 14 },
+        { "weight": 60, "reps": 14 },
+        { "weight": 60, "reps": 14 }
+      ],
+      "why": "He did three sets of 13 at 60 on Aug 20, up from three sets of 12 at the same weight on Aug 16. The app prints 15 across, two more reps per set than he has done here. Fourteen is the single-rep step, and 15 across is what buys 65 on this machine.",
+      "evidence": ["2026-08-20:cable-crunch", "2026-08-16:cable-crunch", "2026-07-30:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 0, "reps": 13 },
+        { "weight": 0, "reps": 13 }
+      ],
+      "why": "This is bodyweight, so reps are the only thing that can move. The app prints 12 and 12, which is the same pair it printed on Jul 30 and Aug 16 and is actually less than he already did on Aug 20, when he opened with 13. Thirteen on both sets is the step, and the range runs to 15.",
+      "evidence": ["2026-08-20:hanging-leg-raise", "2026-08-16:hanging-leg-raise", "2026-08-02:hanging-leg-raise", "2026-07-30:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,39 @@
+{
+  "role": "program",
+  "date": "2026-08-27",
+  "session": "LegsB",
+  "reviewed_through": "2026-08-25",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "db-lateral-raise",
+      "scope": "PushB",
+      "sets": 3,
+      "why": "You asked on 23 August whether four sets is right for such a small muscle group, and the answer is no — Push B already opens with four sets of overhead press and Push A adds three cable lateral raises on top, so this makes it the three sets you actually did that night, all of them at fifteen reps.",
+      "evidence": [
+        "2026-08-23:db-lateral-raise",
+        "2026-08-23:note",
+        "2026-08-17:cable-lateral-raise",
+        "2026-08-03:db-lateral-raise",
+        "2026-07-20:db-lateral-raise"
+      ]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "cable-reverse-curl",
+      "scope": "PullB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "The cable reverse curl asks twelve to fifteen reps and your last five Pull B nights have never once put a set above twelve — eleven, eleven, eleven at 37.5 on both 15 and 25 August — so the weight can never move, and asking ten to twelve makes the twelves you already did in July the thing that earns the next step.",
+      "evidence": [
+        "2026-08-25:cable-reverse-curl",
+        "2026-08-15:cable-reverse-curl",
+        "2026-07-28:cable-reverse-curl",
+        "2026-07-21:cable-reverse-curl",
+        "2026-07-13:cable-reverse-curl"
+      ]
+    }
+  ]
+}

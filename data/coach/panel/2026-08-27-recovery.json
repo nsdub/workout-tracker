@@ -1,0 +1,63 @@
+{
+  "role": "recovery",
+  "date": "2026-08-27",
+  "session": "LegsB",
+  "reviewed_through": "2026-08-25",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 185, "reps": 9 },
+        { "weight": 205, "reps": 9 }
+      ],
+      "why": "On 16 August the card asked for four sets of RDL and you did three. On that same night you wrote asking whether the hamstring work on this day was too much. That is the same vote cast twice, once in the log and once in words, and I am taking it seriously. Look at what the four sets actually are: 155, then 185, then 205 - the first two are a run-up to the working weight, so four sets is two real ones plus a ramp. Three is what you did and three is what the card should say, so you are not quietly dropping a set on your own again. The three weights here are exactly the ones you lifted on 16 August. Whether they move tonight is the progression trainer's decision, not mine - I am only setting how many.",
+      "evidence": ["2026-08-16:smith-rdl", "2026-08-16:note", "2026-07-30:smith-rdl", "2026-07-22:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "hold",
+      "why": "On 16 August you did 180 for 12, then 11, then 10. Reps sliding across three hard sets is what a set of twelve is supposed to do, and nothing anywhere in the log says it cost you anything afterwards. On 30 July the same slot ran 160, 160, 180 and finished fine too. I have no reason to touch this.",
+      "evidence": ["2026-08-16:leg-press-high", "2026-07-30:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "This is the direct answer to the question you wrote on 16 August. Leg curl on Legs B went from four sets to three on 23 August, so tonight's card asks three. Now the honest part, because that change on its own does not do what you asked about: on 16 August you did three RDL sets and four curl sets - seven hamstring sets on the night. Four RDL and three curls is seven again. The number you questioned would come back unchanged. It only actually drops if the fourth RDL set comes off too, which is what I am asking for above. With both, tonight is six hamstring sets on this day instead of seven. So the plain answer to you is: not dangerous, but it was one set more than it needed to be, and it is coming down.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-16:note", "2026-08-16:smith-rdl", "2026-08-20:leg-curl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "This was added to Legs B on 18 August and tonight is the first Legs B that actually carries it - it was not on the 16 August card. Two sets, and a week ago on Legs A you did 135 for thirteen twice at the tail of a long session without a problem, so I am letting it in. I do want one thing on record: this lift and the adductor take tonight from six lifts to eight, the longest Legs B you have run. If something has to come out later for time, it is these two, not the RDL.",
+      "evidence": ["2026-08-20:hip-abductor", "2026-08-16:leg-press-high"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "Same story as the abductor - added on 20 August, first appearance on this day. On 20 August you did 105 for twelve, twice, and it cost you nothing. Two easy sets on a hip machine are not what makes a leg night hard, so I am not blocking them.",
+      "evidence": ["2026-08-20:hip-adductor", "2026-08-16:leg-press-high"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "You wrote 'Why four sets' on this exact lift on 30 July. It was cut to three and it has stayed three, and on 16 August you did 300 for twelve, three times, without losing a rep. That question is answered and I am not reopening it.",
+      "evidence": ["2026-07-30:note", "2026-07-30:standing-calf-raise", "2026-08-16:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "60 for twelve three times on 16 August, 60 for thirteen three times on 20 August. Steady, cheap, and you have never written a word against it. Hold.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-08-20:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Two sets, and you have finished both every time - twelve and twelve on 16 August, thirteen and twelve on 20 August. Your 2 August note asking whether three sets was right was answered by cutting it to two, and the 30 July complaint about this being written in seconds is gone from the card. There is nothing left here for me to fix.",
+      "evidence": ["2026-08-16:hanging-leg-raise", "2026-08-20:hanging-leg-raise", "2026-08-02:note", "2026-07-30:note"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
