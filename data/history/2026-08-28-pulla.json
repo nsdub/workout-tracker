@@ -1,0 +1,160 @@
+{
+  "date": "2026-08-28",
+  "session_type": "PullA",
+  "phase": "meso2",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 235,
+          "reps": 6,
+          "at": 1787961952683
+        },
+        {
+          "weight": 255,
+          "reps": 5,
+          "at": 1787962246857,
+          "restEndedAt": 1787962192700
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1787962546818,
+          "restEndedAt": 1787962486881
+        },
+        {
+          "weight": 265,
+          "reps": 5,
+          "at": 1787962839390,
+          "restEndedAt": 1787962786869
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1787963074960
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1787963235333,
+          "restEndedAt": 1787963194995
+        },
+        {
+          "weight": 150,
+          "reps": 7,
+          "at": 1787963396233,
+          "restEndedAt": 1787963355343
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787963553108,
+          "restEndedAt": 1787963516240
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787963779126,
+          "restEndedAt": 1787963673120
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787963977001,
+          "restEndedAt": 1787963899152
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1787964198965,
+          "restEndedAt": 1787964097011
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 9,
+          "at": 1787964361681,
+          "restEndedAt": 1787964319016
+        },
+        {
+          "weight": 30,
+          "reps": 9,
+          "at": 1787964478515,
+          "restEndedAt": 1787964436694
+        },
+        {
+          "weight": 30,
+          "reps": 9,
+          "at": 1787964612657,
+          "restEndedAt": 1787964553523
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1787964773585,
+          "restEndedAt": 1787964687666
+        },
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1787964910248,
+          "restEndedAt": 1787964848601
+        },
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1787965042458,
+          "restEndedAt": 1787964985260
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1787965167648,
+          "restEndedAt": 1787965117472
+        },
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1787965280774,
+          "restEndedAt": 1787965227658
+        }
+      ],
+      "note": "Why three? I think two. Did you read athleanx?"
+    }
+  ],
+  "world": "vents",
+  "mins": 55,
+  "startedAt": 1787960912438
+}
