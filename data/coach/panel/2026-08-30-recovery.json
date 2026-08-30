@@ -1,0 +1,67 @@
+{
+  "role": "recovery",
+  "date": "2026-08-30",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-28",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "sets": [{"weight": 180, "reps": 10}, {"weight": 220, "reps": 9}, {"weight": 240, "reps": 8}],
+      "why": "He pulled 265 for 5 two days ago, his heaviest logged deadlift, and that session already ran slow. Repeat the 2026-08-20 ramp and cap the top set at 240 this week; do not let the ramp reach 260 on the first heavy-leg day after that pull.",
+      "evidence": ["2026-08-20:leg-press-low", "2026-08-28:deadlift"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "why": "Reps fell across the sets on 2026-08-20 at 17.5 (9, 9, 8) and the last set needed the longest gap of that block. Same load, no added set.",
+      "evidence": ["2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [{"weight": 142.5, "reps": 12}, {"weight": 142.5, "reps": 12}, {"weight": 142.5, "reps": 12}],
+      "why": "On 2026-08-16 he wrote and asked the trainer directly whether four sets of leg curls on RDL day was too much hamstring, and nobody answered him. Three sets here, at the load he already holds. Whoever owns hamstring volume must answer that question in writing this packet.",
+      "evidence": ["2026-08-16:note", "2026-08-16:leg-curl", "2026-08-20:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "Only two sets were logged on 2026-08-20, both 150 for 13. Either a third was prescribed and not done, or two is the standing number and the plan disagrees with itself. Reconcile it before adding load; hold at 150 either way.",
+      "evidence": ["2026-08-20:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "abstain",
+      "why": "Two clean sets at 105 for 12 with no fatigue or pain signal. The load call is not mine.",
+      "evidence": ["2026-08-20:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "abstain",
+      "why": "Nothing recovery-relevant. Flagging data quality only: the abductor, adductor and first calf-raise sets on 2026-08-20 carry timestamps within about eight seconds of each other, so that block was entered from memory rather than logged live. Do not read set timing from that session.",
+      "evidence": ["2026-08-20:hip-abductor", "2026-08-20:hip-adductor", "2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [{"weight": 300, "reps": 12}, {"weight": 300, "reps": 12}, {"weight": 300, "reps": 12}],
+      "why": "Three sets, not four. He has logged exactly three on both recent leg days and reps are already climbing at 300. A fourth set has been re-imposed by override before; it does not come back through this seat.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "abstain",
+      "why": "60 for 12 then 60 for 13 across two sessions, no drift. Nothing for me here.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-08-20:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Bodyweight, so no number from me by rule. He has logged two sets on both leg days, never three. If the prescription says three, that gap is two sessions old and should be closed by asking him, not by printing three again.",
+      "evidence": ["2026-08-16:hanging-leg-raise", "2026-08-20:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

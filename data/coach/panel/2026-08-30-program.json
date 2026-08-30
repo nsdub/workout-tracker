@@ -1,0 +1,37 @@
+{
+  "role": "program",
+  "date": "2026-08-30",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-28",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "leg-curl",
+      "scope": "LegsA",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Your leg curl asks twelve to fifteen reps on Legs A but ten to twelve on Legs B, and it is the same machine at the same 142.5 on both — on 20 August your best Legs A set was thirteen, which is inside the range but not the top, so the weight can never move, while the identical 142.5 for twelve on Legs B on 16 August is the top of its range and earns the next step; this makes Legs A ten to twelve so the only hamstring work on that day can actually progress.",
+      "evidence": ["2026-08-20:leg-curl", "2026-08-16:leg-curl"]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "cable-crunch",
+      "scope": "LegsA",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "The cable crunch asks twelve to fifteen and you finished at thirteen on Legs A and twelve on Legs B, both at 60 lb, so the stack has nothing that can ever move it — and unlike the hanging leg raise, which carries no weight and needs the high range you accepted, this one is loaded, so ten to twelve makes the twelves you already do earn the next plate.",
+      "evidence": ["2026-08-20:cable-crunch", "2026-08-16:cable-crunch"]
+    },
+    {
+      "kind": "reprange",
+      "exercise": "cable-crunch",
+      "scope": "LegsB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Same change on the other leg day, and they belong together — the Legs B cable crunch sits at the same 60 lb and finished at twelve on 16 August, so leaving it at twelve to fifteen would freeze it on one day while the other one climbs.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-08-20:cable-crunch"]
+    }
+  ]
+}

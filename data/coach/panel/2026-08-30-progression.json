@@ -1,0 +1,103 @@
+{
+  "role": "progression",
+  "date": "2026-08-30",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-28",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 200, "reps": 10 },
+        { "weight": 220, "reps": 10 },
+        { "weight": 240, "reps": 9 }
+      ],
+      "why": "He finished the 180 opener at the top of the 8-10 range, so that set earns one 20-lb selectorized step to 200. The 220 and 240 sets only made 9 and 8, so those weights hold and the ask is one more rep each.",
+      "evidence": ["2026-08-20:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 9 }
+      ],
+      "why": "9/9/8 at 17.5 never reached the top of the 8-10 range, so the weight stays. The next dumbbell up is 20, a step he has not earned yet; the rep step is the honest progression here.",
+      "evidence": ["2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 14 },
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "He topped the range at 127.5 and then held 13 twice at 142.5, so the opener moves up to 142.5 and the whole slot runs at that weight. Only three sets were logged against a four-set slot, so the fourth set is prescribed at the bottom of the rep range.",
+      "evidence": ["2026-08-20:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 14 },
+        { "weight": 150, "reps": 14 }
+      ],
+      "why": "Both sets landed on 13 in a 12-15 slot, so 150 stays and he chases 14. A weight step before he sees 15 would just push him back to the bottom of the range.",
+      "evidence": ["2026-08-20:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "12 and 12 is the floor of the 12-15 slot, so this is the one lift tonight with no case for more weight. Hold 105 and add a rep to each set.",
+      "evidence": ["2026-08-20:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 135, "reps": 14 },
+        { "weight": 135, "reps": 14 }
+      ],
+      "why": "13 and 13 at 135 sits mid-range, so the weight holds and the ask is one more rep per set. 15s at 135 is what buys the next weight step.",
+      "evidence": ["2026-08-20:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 300, "reps": 14 },
+        { "weight": 300, "reps": 14 },
+        { "weight": 300, "reps": 13 }
+      ],
+      "why": "13/13/12 fell short of the top of the 12-15 range and the third set drifted down, so 300 stays. The next leg-press pin is 320 and that is too big a jump off a fading set.",
+      "evidence": ["2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 60, "reps": 14 },
+        { "weight": 60, "reps": 14 },
+        { "weight": 60, "reps": 14 }
+      ],
+      "why": "Three flat sets of 13 at 60 with no drop-off says he has room inside the range, so the reps move before the load does. The micro step to 61.25 is available once he holds 15s.",
+      "evidence": ["2026-08-20:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "abstain",
+      "sets": [],
+      "why": "This slot carries no external load, and the engine's override validator requires a weight above zero, so any number I write here would be rejected rather than shown. The app's own bodyweight basis already carries his 13 and 12 forward; a rep target for this one needs to travel as prose, not as an override.",
+      "evidence": ["2026-08-20:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
