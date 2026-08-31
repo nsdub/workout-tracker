@@ -1,0 +1,23 @@
+{
+  "role": "program",
+  "date": "2026-08-31",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-28",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "incline-db-curl",
+      "scope": "PullB",
+      "sets": 2,
+      "why": "Your last four Pull B nights ran the incline curl at exactly ten, ten, nine — the same three numbers on 21 and 28 July and again on 15 and 25 August — so the first two sets have hit the top of the range every single time and only the third one falls short, which is the one thing stopping this slot from ever moving; this makes it two sets, the same fix you accepted on the rope pushdown in August for the identical pattern.",
+      "evidence": [
+        "2026-07-21:incline-db-curl",
+        "2026-07-28:incline-db-curl",
+        "2026-08-15:incline-db-curl",
+        "2026-08-25:incline-db-curl"
+      ]
+    }
+  ]
+}
