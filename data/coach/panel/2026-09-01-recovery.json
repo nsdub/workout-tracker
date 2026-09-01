@@ -1,0 +1,66 @@
+{
+  "role": "recovery",
+  "date": "2026-09-01",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-28",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "sets": [{"weight": 200, "reps": 10}, {"weight": 220, "reps": 10}, {"weight": 240, "reps": 9}],
+      "why": "Restating my 2026-08-31 position unchanged, because nothing has been logged since 2026-08-28 and re-deriving would move a number he is standing in front of for no reason. The 240 cap stays: he pulled 265 for 5 on 2026-08-28 and the top set does not go past the 240 he already completed on 2026-08-20. The 200 opener is accepted, as it was on 08-31.",
+      "evidence": ["2026-08-20:leg-press-low", "2026-08-28:deadlift"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "why": "Unchanged from 2026-08-31. Reps fell across the sets on 2026-08-20 at 17.5 (9, 9, 8) and the last set took the longest working stretch of that block, so the load stays where it is and no fourth set gets added. Same weight, one more rep asked than he hit — a fair ask off three rest days.",
+      "evidence": ["2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "I DEPART from my 2026-08-31 call here, and the departure is a correction of my own error, not a new reading of the evidence. On 08-30 and 08-31 I pushed this down to three sets, and on 08-31 I wrote that a re-imposed fourth set would be the third lift in eight days where a prescribed set count was too high, alongside the lateral raise (2026-08-23) and face pulls (2026-08-28). That grouping was wrong. Those two are counts the coach set and he pushed back on. The fourth LegsA leg-curl set is one HE accepted on 2026-08-23, in a pair of cards that moved the set off LegsB rather than adding it — the LegsB card told him in writing that declining was a real answer and he accepted anyway. Presenting his own accepted decision as a third instance of a count being imposed on him misstates the record, and it was the whole load-bearing argument for my cut. Setting that aside, this seat has no recovery grounds left: the 2026-08-20 log shows 127.5x15 then 142.5x13 and 142.5x13 with no rep decay between the two working sets and no pain note, and 2026-08-29 through 2026-08-31 were full rest days, so the hamstring-proximity argument from the 265 deadlift on 2026-08-28 is weaker tonight than it was on 08-31. I hold the standing four sets. The load stays 142.5, where he already works — I do not ratify any increase above it under this hold. Tonight is the first LegsA to actually run four; if reps fall on the fourth set, that is the signal, and it will be in the log for the next panel rather than assumed now.",
+      "evidence": ["2026-08-20:leg-curl", "2026-08-28:deadlift", "2026-08-23:note"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "Unchanged from 2026-08-31. Two sets at 150 for 13 on 2026-08-20, and the standing sheet now asks for two — the set-count mismatch I raised on 2026-08-30 is closed. Nothing recovery-relevant left here.",
+      "evidence": ["2026-08-20:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "abstain",
+      "why": "Unchanged from 2026-08-31. Two clean sets at 105 for 12 on 2026-08-20 with no pain note and no fatigue signal. The load call is not mine.",
+      "evidence": ["2026-08-20:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "abstain",
+      "why": "Unchanged from 2026-08-31. Nothing recovery-relevant. Repeating the verified data-quality flag: on 2026-08-20 the first sets of hip-adductor, standing-calf-raise and hip-abductor carry timestamps 1778s, 1780s and 1785s into the session — seven seconds apart across three different machines — and the cable-crunch sets are stamped before the last two calf sets. That block was entered from memory, so its 951-second calf 'rest' is an artifact. Do not read fatigue from 2026-08-20 timing.",
+      "evidence": ["2026-08-20:hip-abductor", "2026-08-20:hip-adductor", "2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [{"weight": 300, "reps": 14}, {"weight": 300, "reps": 14}, {"weight": 300, "reps": 13}],
+      "why": "Unchanged from 2026-08-31. Three sets, not four. He logged exactly three at 300 on 2026-08-20 and the standing sheet honours that; I restate the numbers so the fourth set cannot come back by omission, as a calf set has been re-imposed by override before. Weight and reps are the standing sheet's own.",
+      "evidence": ["2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "abstain",
+      "why": "Unchanged from 2026-08-31. Three sets at 60 for 13 on 2026-08-20, no drift within the session. Nothing for this seat.",
+      "evidence": ["2026-08-20:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Unchanged from 2026-08-31. Bodyweight, so no number from me by rule. He logged two sets on 2026-08-20 and the standing sheet asks for two — the three-versus-two gap I raised on 2026-08-30 is closed.",
+      "evidence": ["2026-08-20:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

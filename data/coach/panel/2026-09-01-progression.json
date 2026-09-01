@@ -1,0 +1,106 @@
+{
+  "role": "progression",
+  "date": "2026-09-01",
+  "session": "LegsA",
+  "reviewed_through": "2026-08-28",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 200, "reps": 10 },
+        { "weight": 220, "reps": 10 },
+        { "weight": 240, "reps": 9 }
+      ],
+      "why": "Restated weight-for-weight from my 2026-08-31 call; no leg session has been logged since, so the evidence is identical and the number does not move. The case is still 2026-08-20: the 180 opener finished at the top of the 8-10 range and earns one 20-lb selectorized pin to 200, while 220 and 240 only made 9 and 8 and therefore hold with a one-rep ask.",
+      "evidence": ["2026-08-20:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 9 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged. 9/9/8 at 17.5 on 2026-08-20 never touched the top of the 8-10 range, and the next dumbbell on the rack is 20, which he has not earned.",
+      "evidence": ["2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 14 },
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged. On 2026-08-20 he topped the range at 127.5 and then held 13 twice at 142.5, so the whole four-set slot runs at 142.5 (a real pin on this machine's 7.5-lb increment); only three sets were logged against a four-set slot, so the fourth opens at the bottom of the range.",
+      "evidence": ["2026-08-20:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 14 },
+        { "weight": 150, "reps": 14 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged. Both sets landed on 13 in a 12-15 slot on 2026-08-20, so 150 stays and the ask is 14.",
+      "evidence": ["2026-08-20:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged. 12 and 12 on 2026-08-20 is the floor of the 12-15 slot, which is the weakest case for more weight of anything tonight.",
+      "evidence": ["2026-08-20:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 135, "reps": 14 },
+        { "weight": 135, "reps": 14 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged. 13 and 13 at 135 on 2026-08-20 sits mid-range, so the weight stays and one more rep per set is what buys the next step.",
+      "evidence": ["2026-08-20:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 300, "reps": 14 },
+        { "weight": 300, "reps": 14 },
+        { "weight": 300, "reps": 13 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged. 13/13/12 on 2026-08-20 fell short of the top of the range and drifted down on the last set; this runs on the leg press, whose next pin is 320, too large a jump off a fading set.",
+      "evidence": ["2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 60, "reps": 14 },
+        { "weight": 60, "reps": 14 },
+        { "weight": 60, "reps": 14 }
+      ],
+      "why": "Numbers restated from 2026-08-31 unchanged: three flat sets of 13 at 60 on 2026-08-20 with no drop-off means the reps move before the load. I am correcting an ERROR in my own 08-31 and 08-30 reasoning for this lift, which offered him a 1.25-lb micro step to 61.25: despite its name he does this on the Technogym abdominal-crunch machine, which steps in 5s, so 61.25 is not a weight this machine can hold. The next real step is 65, and it waits until he holds 15s.",
+      "evidence": ["2026-08-20:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 13 },
+        { "weight": 0, "reps": 13 }
+      ],
+      "why": "Restated from 2026-08-31 unchanged: a bodyweight slot held at 13 and 13. He logged 13 then 12 on 2026-08-20, so the ask is to match the first set twice; no load belongs on this one.",
+      "evidence": ["2026-08-20:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
