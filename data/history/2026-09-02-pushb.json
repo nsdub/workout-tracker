@@ -1,0 +1,168 @@
+{
+  "date": "2026-09-02",
+  "session_type": "PushB",
+  "phase": "meso2",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-overhead-press",
+      "name": "Smith Overhead Press",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 8,
+          "at": 1788373799602
+        },
+        {
+          "weight": 45,
+          "reps": 8,
+          "at": 1788373803343
+        },
+        {
+          "weight": 45,
+          "reps": 8,
+          "at": 1788373865744
+        },
+        {
+          "weight": 50,
+          "reps": 5,
+          "at": 1788373984243
+        }
+      ],
+      "note": "New gym. No smith machine. Dumbbell press"
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 8,
+          "at": 1788374084904
+        },
+        {
+          "weight": 127.5,
+          "reps": 8,
+          "at": 1788374173248
+        },
+        {
+          "weight": 157.5,
+          "reps": 8,
+          "at": 1788374275255
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1788374408346,
+          "restEndedAt": 1788374395267
+        },
+        {
+          "weight": 15,
+          "reps": 12,
+          "at": 1788374519935,
+          "restEndedAt": 1788374483362
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1788374692018,
+          "restEndedAt": 1788374594943
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1788374848820,
+          "restEndedAt": 1788374767026
+        },
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1788375038060,
+          "restEndedAt": 1788374923826
+        },
+        {
+          "weight": 25,
+          "reps": 12,
+          "at": 1788375216737,
+          "restEndedAt": 1788375113069
+        }
+      ],
+      "note": "Dumbbell fly"
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 13,
+          "at": 1788375361771,
+          "restEndedAt": 1788375291745
+        },
+        {
+          "weight": 90,
+          "reps": 14,
+          "at": 1788375487874,
+          "restEndedAt": 1788375436784
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 11,
+          "at": 1788375782613,
+          "restEndedAt": 1788375562881
+        },
+        {
+          "weight": 55,
+          "reps": 10,
+          "at": 1788375880696,
+          "restEndedAt": 1788375857622
+        },
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1788376069365,
+          "restEndedAt": 1788375955704
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1788376178707,
+          "restEndedAt": 1788376144373
+        },
+        {
+          "weight": 27.5,
+          "reps": 14,
+          "at": 1788376316213,
+          "restEndedAt": 1788376253723
+        }
+      ]
+    }
+  ],
+  "world": "inferno",
+  "mins": 42,
+  "startedAt": 1788373596670
+}
