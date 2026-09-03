@@ -625,5 +625,68 @@
     },
     "decision": "accepted",
     "decided_at": "2026-08-28T01:47:09.173Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "leg-curl",
+      "scope": "LegsA",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Your leg curl asks twelve to fifteen reps on Legs A but ten to twelve on Legs B, and it is the same machine at the same 142.5 on both — on 20 August your top Legs A sets were 142.5 for thirteen and thirteen, inside the range but never the top, so the weight can never move, while the identical 142.5 for twelve on Legs B on 16 August is the top of its range and earns the next step; this makes Legs A ten to twelve so the only hamstring work on that day can actually progress.",
+      "date": "2026-09-02"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-03T20:28:06.395Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "cable-crunch",
+      "scope": "LegsA",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "The cable crunch asks twelve to fifteen and you finished all three sets at thirteen on Legs A and all three at twelve on Legs B, both at 60 — and that machine has no small plate, so its next step is 65 and you can never reach it from inside this range; unlike the hanging leg raise, which carries no weight and needs the high range you accepted, this one is loaded, so ten to twelve makes the twelves you already do earn the next step.",
+      "date": "2026-09-02"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-03T20:28:06.402Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "cable-crunch",
+      "scope": "LegsB",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Same change on the other leg day, and they belong together — the Legs B cable crunch sits at the same 60 and finished at twelve on 16 August, so leaving it at twelve to fifteen would freeze it on one day while the other one climbs.",
+      "date": "2026-09-02"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-03T20:28:06.408Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "incline-db-curl",
+      "scope": "PullB",
+      "sets": 2,
+      "why": "Your last four Pull B nights ran the incline curl at 25 for ten, ten and then eight on 21 July and nine on 28 July, 15 August and 25 August — the first two sets hit the top of the range every single time and only the third one falls short, which is the one thing stopping this slot from ever moving; this makes it two sets, the same fix you accepted on the rope pushdown.",
+      "date": "2026-09-02"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-03T20:28:06.412Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "sets": 2,
+      "why": "You asked on 28 August why Pull A calls for three face pull sets when you think two is right, and you did two that night — Pull B already runs two, so this makes the two days agree with each other and with you.",
+      "date": "2026-09-02"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-03T20:28:06.415Z"
   }
 ]
