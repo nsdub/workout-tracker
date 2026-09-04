@@ -1,0 +1,81 @@
+{
+  "role": "recovery",
+  "date": "2026-09-04",
+  "session": "PullB",
+  "reviewed_through": "2026-09-02",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "why": "Read his last note before printing anything on this card. On 2026-09-02 he wrote 'New gym. No smith machine.' Tonight's session opens with a smith bent-over row, and the last number for it (150 for 10, on 2026-08-25) was set on a smith machine at a gym he may no longer be training in. When the same substitution happened on 2026-09-02 the printed load collapsed from the 105-135 smith range down to 45 and 50 dumbbells, because a counterbalanced smith bar and a free implement are not the same load. He also could not finish the last dumbbell set, stopping at 5 reps. So a 150 on tonight's card is not conservative, it is meaningless if the machine is not there. I hold at the last logged prescription and I am handing the head coach the open question rather than guessing: if he is still at the new gym, this lift needs a named substitute and its own starting weight, not a carried-over smith number. Separately, the 2026-09-02 opening lifts carry no rest timestamps at all and two sets are stamped 3.7 seconds apart, so those entries were recalled and typed in afterwards, not timed live. Do not build a ramp on them.",
+      "evidence": [
+        "2026-09-02:note",
+        "2026-09-02:smith-overhead-press",
+        "2026-08-25:smith-bent-over-row",
+        "2026-09-02:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "why": "On 2026-08-25 he held 127.5 for 10 and 10, then took a full 120 seconds of rest and still only got 8 on the third set. The rest was not short, so the drop is the load, not the recovery. That is the current weight already reaching its limit at the prescribed rep target. No increase tonight. Same caution as the row applies if the pulldown stack at the new gym is not the one these numbers came from.",
+      "evidence": [
+        "2026-08-25:lat-pulldown-close",
+        "2026-09-02:note"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "why": "45 for 11, 11 and 11 on 2026-08-25, dead flat, and the gap before the third set stretched to 187 seconds against roughly 75 seconds everywhere else that night. I cannot tell from the log whether he needed that time or the station was occupied, and station waits are real for him, he logged one on 2026-08-23. Either way there is no evidence of surplus here, so nothing to spend. Hold.",
+      "evidence": [
+        "2026-08-25:straight-arm-pulldown",
+        "2026-08-23:note"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "why": "This is the one lift on the card with no fatigue signal at all. 80 for 12, 12 and 12 on 2026-08-25 on steady 75 second rests, work time never climbing. I have no recovery objection to the progression seat asking for more here and I am not braking it. My only constraint is equipment, not fatigue: 80 is the top of the dumbbell rack these numbers came from, and on 2026-09-02 he reported being at a new gym, so a heavier dumbbell may simply not exist in front of him. If the panel wants more from this lift, add reps rather than assume a dumbbell that has not been confirmed to be on the rack.",
+      "evidence": [
+        "2026-08-25:db-shrug",
+        "2026-09-02:note"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "why": "Third set faded from 10 to 10 to 9 at 25 on 2026-08-25 on even 75 second rests, and the work time on that last set ran 83 seconds, the longest of the lift. The same third-set fade shows on his other curl day, where db-curl sat at 9, 9 and 9 on 2026-08-28. Biceps are being asked for the same thing twice a week and are answering slightly short both times. Hold the load, let him finish the sets.",
+      "evidence": [
+        "2026-08-25:incline-db-curl",
+        "2026-08-28:db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "hold",
+      "why": "37.5 for 11, 11 and 11 on 2026-08-25 with rests of roughly 80, 50 and 75 seconds. Perfectly even, no fade, but also no set where he beat the target, so there is nothing here that earns an increase and nothing that justifies a cut. Hold.",
+      "evidence": [
+        "2026-08-25:cable-reverse-curl"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "cut",
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 15 }
+      ],
+      "why": "Two sets, same weight. He asked for this in writing on 2026-08-28: 'Why three? I think two.' He is not guessing, he has already voted with his behaviour. He logged two sets on 2026-08-25 and two sets on 2026-08-28. And the second set on 2026-08-25 carries a timestamp 22.7 hours after the first, which means the session actually ended after one set of face pulls and the second was entered the following day. A third set has not survived contact with the gym twice running. The rear delts are also already getting three sets of reverse pec deck on his push days, on 2026-08-27 and again on 2026-09-02, so cutting the third face-pull set does not leave that muscle unworked. Give him the two sets he asked for at the 27.5 by 15 he actually completed on 2026-08-28, and let the card stop arguing with him.",
+      "evidence": [
+        "2026-08-28:note",
+        "2026-08-28:face-pulls",
+        "2026-08-25:face-pulls",
+        "2026-08-27:reverse-pec-deck",
+        "2026-09-02:reverse-pec-deck"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

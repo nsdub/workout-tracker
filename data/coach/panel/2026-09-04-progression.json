@@ -1,0 +1,86 @@
+{
+  "role": "progression",
+  "date": "2026-09-04",
+  "session": "PullB",
+  "reviewed_through": "2026-09-02",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "sets": [
+        { "weight": 120, "reps": 10 },
+        { "weight": 140, "reps": 10 },
+        { "weight": 150, "reps": 9 },
+        { "weight": 155, "reps": 8 }
+      ],
+      "why": "He finished every one of the four rungs at 10 reps, the top of the 8-10 range, on the last PullB, after leaving only one rung short the session before. That is the full range delivered across the whole ramp, so every rung goes up 5 lb and the new top set re-enters at 8.",
+      "evidence": ["2026-08-25:smith-bent-over-row", "2026-08-15:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "sets": [
+        { "weight": 127.5, "reps": 10 },
+        { "weight": 127.5, "reps": 10 },
+        { "weight": 127.5, "reps": 10 }
+      ],
+      "why": "The weight is right but not yet paid off: 8/8/8 two sessions ago became 10/10/8 last time, so the third set is still short of the 8-10 top. The gate for a step to 135 is 10/10/10 at 127.5 tonight, and nothing less.",
+      "evidence": ["2026-08-25:lat-pulldown-close", "2026-08-15:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 45, "reps": 12 },
+        { "weight": 45, "reps": 12 },
+        { "weight": 45, "reps": 12 }
+      ],
+      "why": "He went 10/10/10 then 11/11/11 at 45, so he is climbing but has not touched 12, the top of the 10-12 range, on any set. One more rep on each set earns the move to 52.5, the next pin on this machine.",
+      "evidence": ["2026-08-25:straight-arm-pulldown", "2026-08-15:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "push",
+      "sets": [
+        { "weight": 80, "reps": 13 },
+        { "weight": 80, "reps": 13 },
+        { "weight": 80, "reps": 13 }
+      ],
+      "why": "He maxed the 12-15 range at 70 with 15/15/15, then moved to the 80s and got 12/12/12 on the first outing there, so 80 is one session old and the reps are still at the floor. Ask for 13 across, not a repeat of 12; 80 is the heaviest pair on the rack, so reps are the only road left on this lift.",
+      "evidence": ["2026-08-25:db-shrug", "2026-08-15:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 30, "reps": 8 },
+        { "weight": 30, "reps": 8 }
+      ],
+      "why": "This is flagged stalled because 25 lb produced the identical 10/10/9 line two PullB sessions running; the third set was the only one that ever fell short, and the slot is now 2 sets, so both surviving sets have hit the top of the 8-10 range twice. What breaks the stall is the weight, not another try at the same number: 30 is the next dumbbell pin and he already curls the 30s for 9 on PullA. If he cannot reach 8 on both sets, that is the answer and we go back to 25 needing 10/10.",
+      "evidence": ["2026-08-25:incline-db-curl", "2026-08-15:incline-db-curl", "2026-08-28:db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 38.75, "reps": 10 },
+        { "weight": 38.75, "reps": 10 },
+        { "weight": 38.75, "reps": 10 }
+      ],
+      "why": "Frozen at exactly 37.5 x 11/11/11 in both of the last two PullB sessions, and asking for a twelfth rep has now failed twice, so repeating 37.5 is the stall, not a plan. What breaks it is the 1.25 lb micro add-on: 38.75 is a real load increase and lands at 10, the bottom of the slot's new 10-12 range, which is where a stuck lift should re-enter. If he cannot hold 10 on all three sets at 38.75, drop back to 37.5 with 12/12/12 as the standing target.",
+      "evidence": ["2026-08-25:cable-reverse-curl", "2026-08-15:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 30, "reps": 12 },
+        { "weight": 30, "reps": 12 }
+      ],
+      "why": "The app wants to repeat 27.5 off the last PullB, where he got 12/12, but the newer evidence is PullA six days ago: 27.5 for 15/15, the top of the 12-15 range on both sets. That was earned, so add the 2.5 lb micro for 30 and restart at 12.",
+      "evidence": ["2026-08-28:face-pulls", "2026-08-25:face-pulls", "2026-08-18:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

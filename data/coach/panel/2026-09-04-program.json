@@ -1,0 +1,24 @@
+{
+  "role": "program",
+  "date": "2026-09-04",
+  "session": "PullB",
+  "reviewed_through": "2026-09-02",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reorder",
+      "exercise": "cable-lateral-raise",
+      "scope": "PushA",
+      "position": 4,
+      "why": "The cable lateral raise is the only side-delt work on Push A, and two reorders you accepted in August put the overhead triceps and then the reverse pec deck ahead of it, leaving it seventh of eight — on 27 August the session ended after the sixth exercise, so your side delts got nothing while your rear delts got all three sets, and every side-delt set logged in the last two weeks came from the dumbbell lateral raise on Push B; this moves it up to fifth, straight after the shoulder press, so it is done before the triceps tail rather than after it.",
+      "evidence": [
+        "2026-08-27:overhead-cable-triceps",
+        "2026-08-17:cable-lateral-raise",
+        "2026-08-17:reverse-pec-deck",
+        "2026-08-23:db-lateral-raise",
+        "2026-09-02:db-lateral-raise"
+      ]
+    }
+  ]
+}
