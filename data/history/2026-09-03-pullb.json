@@ -1,0 +1,164 @@
+{
+  "date": "2026-09-03",
+  "session_type": "PullB",
+  "phase": "meso2",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 8,
+          "at": 1788467525777
+        },
+        {
+          "weight": 140,
+          "reps": 8,
+          "at": 1788467526321
+        },
+        {
+          "weight": 150,
+          "reps": 8,
+          "at": 1788467527331
+        },
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1788467527916
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 77,
+          "reps": 10,
+          "at": 1788467537526
+        },
+        {
+          "weight": 83,
+          "reps": 10,
+          "at": 1788467540904
+        },
+        {
+          "weight": 88,
+          "reps": 10,
+          "at": 1788467543799
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 22,
+          "reps": 10,
+          "at": 1788467520558
+        },
+        {
+          "weight": 46,
+          "reps": 12,
+          "at": 1788467642703
+        },
+        {
+          "weight": 46,
+          "reps": 12,
+          "at": 1788467798073,
+          "restEndedAt": 1788467717712
+        }
+      ],
+      "note": "New gym. First set machine. Second and third sets cable cross"
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 80,
+          "reps": 15,
+          "at": 1788467945280,
+          "restEndedAt": 1788467873150
+        },
+        {
+          "weight": 80,
+          "reps": 15,
+          "at": 1788468124325,
+          "restEndedAt": 1788468032903
+        },
+        {
+          "weight": 80,
+          "reps": 15,
+          "at": 1788468294060,
+          "restEndedAt": 1788468199344
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1788468471850,
+          "restEndedAt": 1788468369071
+        },
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1788468634640,
+          "restEndedAt": 1788468546858
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 10,
+          "at": 1788468749540,
+          "restEndedAt": 1788468709645
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1788468854516,
+          "restEndedAt": 1788468824549
+        },
+        {
+          "weight": 37.5,
+          "reps": 10,
+          "at": 1788468975754,
+          "restEndedAt": 1788468929525
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1788469136892,
+          "restEndedAt": 1788469050762
+        },
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1788469141921
+        }
+      ]
+    }
+  ],
+  "world": "kraken",
+  "mins": 27,
+  "startedAt": 1788467437684
+}
