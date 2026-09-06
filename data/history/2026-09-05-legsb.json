@@ -1,0 +1,185 @@
+{
+  "date": "2026-09-05",
+  "session_type": "LegsB",
+  "phase": "meso2",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 8,
+          "at": 1788639055962
+        },
+        {
+          "weight": 155,
+          "reps": 10,
+          "at": 1788639248676,
+          "restEndedAt": 1788639235981
+        },
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1788639512206,
+          "restEndedAt": 1788639428689
+        },
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1788639785399,
+          "restEndedAt": 1788639692218
+        }
+      ],
+      "note": "Barbell"
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1788640003829,
+          "restEndedAt": 1788639965412
+        },
+        {
+          "weight": 140,
+          "reps": 12,
+          "at": 1788640209894,
+          "restEndedAt": 1788640183839
+        },
+        {
+          "weight": 160,
+          "reps": 12,
+          "at": 1788640399546,
+          "restEndedAt": 1788640389905
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1788640541209
+        },
+        {
+          "weight": 130,
+          "reps": 10,
+          "at": 1788640657338,
+          "restEndedAt": 1788640631220
+        },
+        {
+          "weight": 145,
+          "reps": 10,
+          "at": 1788640831827,
+          "restEndedAt": 1788640747346
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 15,
+          "at": 1788640939256,
+          "restEndedAt": 1788640921841
+        },
+        {
+          "weight": 135,
+          "reps": 15,
+          "at": 1788640940088
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1788641103273,
+          "restEndedAt": 1788641015103
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1788641104044
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 240,
+          "reps": 15,
+          "at": 1788641245281,
+          "restEndedAt": 1788641179051
+        },
+        {
+          "weight": 260,
+          "reps": 15,
+          "at": 1788641383126,
+          "restEndedAt": 1788641320291
+        },
+        {
+          "weight": 260,
+          "reps": 13,
+          "at": 1788641508199,
+          "restEndedAt": 1788641458135
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 65,
+          "reps": 10,
+          "at": 1788641757284,
+          "restEndedAt": 1788641583207
+        },
+        {
+          "weight": 65,
+          "reps": 10,
+          "at": 1788641834686,
+          "restEndedAt": 1788641817297
+        },
+        {
+          "weight": 65,
+          "reps": 10,
+          "at": 1788642143505,
+          "restEndedAt": 1788641894697
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1788715421914
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1788715422890
+        }
+      ]
+    }
+  ],
+  "world": "groomer",
+  "startedAt": 1788637345470
+}
