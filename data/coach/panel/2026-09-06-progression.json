@@ -1,0 +1,96 @@
+{
+  "role": "progression",
+  "date": "2026-09-06",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-03",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 135, "reps": 10 },
+        { "weight": 155, "reps": 10 },
+        { "weight": 175, "reps": 10 },
+        { "weight": 175, "reps": 10 }
+      ],
+      "why": "I trust the movement and the rep target, not the number: 205 was set on the old gym's smith machine, whose bar counterweight is baked into that figure, and on 2026-09-03 the same-name machine at the new gym read 77-88 where the old one read 127.5, so carried loads are not comparable. He also only completed 3 of 4 sets on 2026-08-16 and missed the 8-10 target on the first set, so there was nothing to push even before the move; this re-enters at a load he can verify on whatever bar is actually there.",
+      "evidence": ["2026-08-16:smith-rdl", "2026-09-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "hold",
+      "sets": [
+        { "weight": 180, "reps": 12 },
+        { "weight": 180, "reps": 12 },
+        { "weight": 180, "reps": 12 }
+      ],
+      "why": "Repeat is right for the wrong reason and still right: on 2026-08-16 he went 12, 11, 10 at 180, which is a failed set-three, so no increase was earned. Trust the 180 only as an old-building stack position, since a leg press at the new gym may be plate-loaded or scaled differently; the honest instruction here is the 3x10-12 target, and the weight is whatever gets him there.",
+      "evidence": ["2026-08-16:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 142.5, "reps": 12 },
+        { "weight": 142.5, "reps": 12 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "He genuinely earned a jump: 142.5 for 12, 12, 12, 12 on 2026-08-16 and 142.5x13 twice on 2026-08-20, both topping the range. But 150 is a pin slot on a machine he no longer uses, and the app's progression would put him on an unverified stack at a number he has never touched anywhere. I trust the effort level, not the 142.5, so I hold rather than push and let the first set at the new gym re-establish the scale.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-20:leg-curl", "2026-09-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 135, "reps": 13 },
+        { "weight": 135, "reps": 13 }
+      ],
+      "why": "The app's cross would prescribe 135x15, a rep count he has not hit; on 2026-08-20 both sets stopped at 13, mid-range. Trust the 13-rep ceiling, not the 135 itself, because that plate number belongs to the old gym's abductor stack and this was three weeks ago.",
+      "evidence": ["2026-08-20:hip-abductor", "2026-08-02:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 }
+      ],
+      "why": "105 for 12 and 12 on 2026-08-20 sits at the bottom of the 12-15 window, so nothing was earned even on the old machine. I trust the rep result fully and the 105 not at all until he has seen the new gym's adductor stack once.",
+      "evidence": ["2026-08-20:hip-adductor", "2026-08-02:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 13 },
+        { "weight": 300, "reps": 13 }
+      ],
+      "why": "The app would print 300x15 three times, a number he has never once produced: 12, 12, 12 on 2026-08-16 and 13, 13, 12 on 2026-08-20. I am correcting the rep target down to what he has actually done. The 300 is a calf-press reading off the old leg press and carries none of my confidence at a new machine.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 60, "reps": 12 },
+        { "weight": 60, "reps": 12 },
+        { "weight": 60, "reps": 12 }
+      ],
+      "why": "60x12 x3 on 2026-08-16 then 60x13 x3 on 2026-08-20 is a clean earn, so on the old cable stack 65 would be correct. Cables are exactly where the gym change bites hardest, though: his close-grip pulldown moved from 127.5 to 77-88 on 2026-09-03, so a cable pin number is the least transferable figure in this session. Holding at 60 means the first set measures the new stack instead of guessing at it.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-08-20:cable-crunch", "2026-09-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 0, "reps": 14 },
+        { "weight": 0, "reps": 13 }
+      ],
+      "why": "This is the only slot today I trust completely: bodyweight carries between buildings, so nothing here was invalidated by the move. He did 12, 12 on 2026-08-16 and 13, 12 on 2026-08-20, climbing inside the 12-15 window, so one more rep on each set is the real progression while the loaded lifts wait for their scales to be re-established.",
+      "evidence": ["2026-08-16:hanging-leg-raise", "2026-08-20:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

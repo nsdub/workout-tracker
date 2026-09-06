@@ -1,0 +1,56 @@
+{
+  "role": "program",
+  "date": "2026-09-06",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-03",
+  "calls": [
+    {
+      "exercise": "leg-curl",
+      "stance": "keep",
+      "why": "Answering the question he asked on 2026-08-16 and never got back: four sets of leg curls on RDL day was too much, and LegsB already carries three. The effective plan prescribes 3 sets of leg curls in LegsB, so there is nothing left to cut and no proposal is needed. LegsA keeps 4 sets, and LegsA has no hinge on it.",
+      "evidence": ["2026-08-16:note", "2026-08-16:leg-curl", "2026-08-20:leg-curl"]
+    },
+    {
+      "exercise": "smith-incline-press",
+      "stance": "keep",
+      "why": "Open question for the athlete, not a proposal: PushA still opens with a smith incline press and the new gym has no smith machine, but there is no incline press in the plan's exercise catalog to swap it to, so I cannot name a replacement that would pass. Left as-is deliberately; it needs a new catalog entry before it can be fixed.",
+      "evidence": ["2026-08-27:smith-incline-press", "2026-09-02:note"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "keep",
+      "why": "On 2026-09-03 this one slot was logged across two different machines mid-session. That is a load-history problem, not a composition problem, so I am leaving the slot in place and handing it to the load seat rather than spending a proposal card on it.",
+      "evidence": ["2026-09-03:straight-arm-pulldown", "2026-09-03:note"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "swap",
+      "exercise": "smith-rdl",
+      "replacement": "deadlift",
+      "scope": "LegsB",
+      "slot": { "sets": 3, "repMin": 8, "repMax": 10, "rest": 150 },
+      "why": "Your new gym has no smith machine, so tomorrow's leg day opens with the barbell deadlift instead — 3 sets of 8 to 10, lighter and higher-rep than your Pull A sets of 5 to 6.",
+      "evidence": ["2026-08-16:smith-rdl", "2026-09-02:note"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "replacement": "db-shoulder-press",
+      "scope": "PushB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 150 },
+      "why": "On 2026-09-02 you pressed dumbbells at 45 and 50 into a slot whose history says 135 on a smith machine you no longer have — this renames the slot to the dumbbell press you are actually doing, 4 sets of 8 to 10.",
+      "evidence": ["2026-09-02:smith-overhead-press", "2026-09-02:note"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-bent-over-row",
+      "replacement": "seated-cable-row-wide",
+      "scope": "PullB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 120 },
+      "why": "Pull B opens with a smith row the new gym does not have, so it becomes the wide seated cable row — 4 sets of 8 to 10, heavier and lower-rep than the same row on Pull A.",
+      "evidence": ["2026-09-03:smith-bent-over-row", "2026-09-02:note"]
+    }
+  ]
+}

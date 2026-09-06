@@ -1,0 +1,65 @@
+{
+  "role": "recovery",
+  "date": "2026-09-06",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-03",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "cut",
+      "why": "This is his first loaded hinge in 21 days and the heaviest thing on the card, and the new gym has no smith machine at all, so whatever load is printed here was set on a machine he no longer has. Three sets, not four, on whatever hinge the new gym actually allows, and the top set should finish with at least three reps left in the tank. I am not naming a weight because my seat holds no leg loads.",
+      "evidence": ["2026-08-16:smith-rdl", "2026-09-02:note"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "cut",
+      "why": "Two working sets, not three, on the way back from three weeks off. The leg press at the new gym is a different machine on a different scale, so the first set is for finding the number, not for hitting one; log what the machine reads rather than the old figure.",
+      "evidence": ["2026-08-16:leg-press-high", "2026-09-03:note"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "Answering the question he asked on 2026-08-16 and never got a reply to: yes, RDLs plus leg curls is a lot of hamstring in one day, and on a normal week it is still defensible because the two hit different ends of the muscle. Today it is not, so the fix is fewer RDL sets, not fewer curls — the curl is the safer of the pair and the one less likely to leave him unable to walk on Monday. Keep three sets here.",
+      "evidence": ["2026-08-16:leg-curl", "2026-08-16:smith-rdl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "Two sets on a small isolation machine is low risk even cold, and hips that have not been loaded in three weeks are exactly what should be warm before the hinge. Leave it at two.",
+      "evidence": ["2026-08-02:hip-abductor", "2026-08-20:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "Same as the abductor — two sets, low risk, and useful groin work before a first hinge back. Expect the machine at the new gym to sit at a different number and log the new one.",
+      "evidence": ["2026-08-02:hip-adductor", "2026-08-20:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "Three sets, and specifically not four. He has already been granted three here, and on 2026-08-23 he pushed back on four sets for a small muscle and said he would do it only if we were sure. Do not let this quietly come back as four.",
+      "evidence": ["2026-08-16:standing-calf-raise", "2026-08-23:note"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Three sets is fine — the abs did not detrain in three weeks the way the legs did. The old weight will not transfer: the cable numbers he logged at the new gym on 2026-09-03 land off every increment his old stack had, so treat the first set as re-finding the pin.",
+      "evidence": ["2026-08-16:cable-crunch", "2026-09-03:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Bodyweight, two sets, unchanged. Nothing about the lay-off or the gym change touches this one, and it is the one slot on the card whose load is guaranteed to be the same as last time.",
+      "evidence": ["2026-08-16:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "smith-rdl",
+      "grounds": "fatigue",
+      "why": "Four heavy RDL sets as the opener of the first leg session in 21 days, at a prescription written before the lay-off and for a machine the new gym does not have. This is the classic place to get hurt, and it also sits in front of three more sets of direct hamstring work. Advisory, not absolute: cut to three sets at a load he could do for ten, and the head coach can overrule this if the tables say otherwise — but not by keeping both the fourth set and the pre-gap weight.",
+      "evidence": ["2026-08-16:smith-rdl", "2026-09-02:note"]
+    }
+  ],
+  "structure_proposals": []
+}
