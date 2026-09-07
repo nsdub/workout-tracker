@@ -1,0 +1,95 @@
+{
+  "role": "recovery",
+  "date": "2026-09-07",
+  "session": "PushA",
+  "reviewed_through": "2026-09-05",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "cut",
+      "why": "Three sets, and the numbers are 40 per hand for 8, then 45 per hand for 8, then 45 per hand for 8 — two dumbbells, on whatever incline bench the new gym has. I ran the card with no override for this lift and it prints 175, 175, 175, 180 on a smith machine he has not had since 2026-09-02, so writing nothing here does not honour my veto, it publishes the exact figure the veto exists to remove. 45 per hand is not a guess: it is the load he pressed for 8 three sets running on 2026-08-27 with dumbbells, and again on 2026-09-02 when the smith overhead slot became a dumbbell press, where 50 broke down to 5 reps. Incline is a stronger position than overhead, so 45 for 8 should be comfortable — which is the point. Tonight is for establishing a real incline number at the new gym, not for defending an old one. The opening set at 40 is for finding the bench angle and getting the bells into position, not for the log.",
+      "evidence": ["2026-08-27:smith-incline-press", "2026-08-27:db-shoulder-press", "2026-09-02:smith-overhead-press", "2026-09-02:note"],
+      "sets": [
+        { "weight": 40, "reps": 8 },
+        { "weight": 45, "reps": 8 },
+        { "weight": 45, "reps": 8 }
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "cut",
+      "why": "I checked what silence prints here and I was wrong to leave it silent: the card falls back to this lift's last PushA, which is 2026-08-27 at the old gym, so it asks 165, 172.5, 180 for 12 — not the new-gym numbers at all. He has actually pressed this machine once, on 2026-09-02, at 97.5, 127.5 and 157.5 for 8 each. Those are the numbers, in that order, at those reps. It is a ramp with one working set on the end, which is exactly what he did, and every figure sits on the 7.5-lb selector this stack moves in. Four different working scales in 16 days across three machines is why I will not carry 180 across: that number was measuring which machine he stood at, not him.",
+      "evidence": ["2026-08-17:machine-chest-press", "2026-08-23:machine-chest-press", "2026-08-23:note", "2026-08-27:machine-chest-press", "2026-09-02:machine-chest-press"],
+      "sets": [
+        { "weight": 97.5, "reps": 8 },
+        { "weight": 127.5, "reps": 8 },
+        { "weight": 157.5, "reps": 8 }
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "No sets from me, and that is deliberate: a straight repeat is what I want. The card prints 15, 17.5, 17.5 for 15, which are old-gym cable figures on a stack that has never been logged at the new gym — but this is a fly at under 20 lb per handle, so the direction of the error is harmless. If the new stack is scaled differently he finds that out on the first set and the load is too light, which costs him nothing. I am not spending a prescription on a lift where being wrong means an easy set.",
+      "evidence": ["2026-08-27:cable-crossover-low-high", "2026-09-02:cable-crossover-high-low", "2026-09-02:note"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "No sets from me. I checked the card: it prints 45 for 10, three sets, and 45 is exactly the weight I want. This is the one PushA lift whose equipment survived the gym change intact, and 45 for 8 is confirmed on both 2026-08-27 and 2026-09-02. The 10-rep ask is a target, not an order — he pressed 8 on both those days and 50 fell apart at 5 reps on 2026-09-02, so I expect 8 again and that is fine. What matters is that nobody reaches for 50 this week, and the card does not.",
+      "evidence": ["2026-08-27:db-shoulder-press", "2026-09-02:smith-overhead-press", "2026-09-02:note"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "cut",
+      "why": "New call — I had none on this lift in my first pass and I should have. With no override the card pulls a cross-day figure and asks 100 for 12, three sets. He has never done that. On 2026-09-02 at the new gym he got 100 for 13 on the first set, then dropped to 90 for 14 and stopped at two sets — that is a lift telling you 100 does not hold for three sets. 90 for 15 is proven at both gyms: three clean sets of it on 2026-08-27 and 90 for 14 at the new gym on 2026-09-02. Three sets of 90.",
+      "evidence": ["2026-08-27:reverse-pec-deck", "2026-09-02:reverse-pec-deck"],
+      "sets": [
+        { "weight": 90, "reps": 15 },
+        { "weight": 90, "reps": 15 },
+        { "weight": 90, "reps": 15 }
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "cut",
+      "why": "Silence prints 57.5 for 12, three sets, and that is an old-gym number set on 2026-08-27 in a single set before the session ended. At the new gym on 2026-09-02 he opened at 55 for 11, held 55 for 10, and then had to come down to 50 for the third set. So 50 is the only load on this lift he finished a set at without dropping, at the gym he is actually standing in. Three sets of 50 for 12 — it is a real, completable ask, and it takes 57.5 off the card. It is a pin plus the small add-on on this stack, and he logged 50 there on 2026-09-02, so it exists on the machine.",
+      "evidence": ["2026-08-27:overhead-cable-triceps", "2026-09-02:overhead-cable-triceps"],
+      "sets": [
+        { "weight": 50, "reps": 12 },
+        { "weight": 50, "reps": 12 },
+        { "weight": 50, "reps": 12 }
+      ]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "hold",
+      "why": "No sets from me, deliberately. The card prints 10 for 15, three sets. That is an old-gym cable figure last touched on 2026-08-17, where reps were already falling 13, 12, 11 — but it is 10 lb on a lateral raise. There is no load here big enough to be dangerous if the new stack is scaled differently, and the first set finds the pin. Same reasoning as the crossover: a wrong number that can only be too light does not need my seat.",
+      "evidence": ["2026-08-17:cable-lateral-raise", "2026-08-27:reverse-pec-deck", "2026-09-02:db-lateral-raise"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "cut",
+      "why": "Two sets, at 27.5 for 15, and I am naming the weight this time. My first pass said 'no weight named' and left it, which I now know prints 52.5 for 15 — the old-gym stack number I had just called unusable. 27.5 is not a guess either: on 2026-09-02 he did the pushdown station at the new gym reverse-grip at 27.5 for 15 and 27.5 for 14, so it is the same stack, the same station, one grip apart, and 27.5 is a figure that machine demonstrably produces. 15 reps is the top of this slot's range and what he actually hit there. If it turns out light, that is next week's problem and the log will say so.",
+      "evidence": ["2026-08-17:rope-pushdown", "2026-08-27:overhead-cable-triceps", "2026-09-02:reverse-grip-pushdown"],
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 15 }
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "why": "Flagging plainly that this lift is NOT on tonight's card — reverse-pec-deck occupies its slot in PushA — so this is a note for the next pull day and carries no sets by design. It keeps getting typed in rather than lifted: on 2026-08-25 the second set was keyed 22.7 hours after the first, and on 2026-09-03 the second set was keyed 5 seconds after the first. It logged clean on 2026-08-28 at 27.5 for 15 twice, which is the number to repeat when it next appears.",
+      "evidence": ["2026-08-25:face-pulls", "2026-08-28:face-pulls", "2026-09-03:face-pulls"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "smith-incline-press",
+      "grounds": "fatigue",
+      "why": "The veto stands, and I am correcting my own grounds. I filed this as 'injury' in my first pass. That was wrong and I should not have done it: there is no pain and no injury language anywhere in his log, and 'injury' is the one label the head coach may never override, so using it for a risk I inferred rather than a fact I read was taking unoverridable power on evidence I do not have. I am refiling it under fatigue, which leaves it advisory. I also want on the record that the failure mode I described — a loaded bar coming down on his chest — was a smith-machine picture applied to a lift that will now be dumbbells, where the failure mode is setting them down. What I actually object to is unchanged and still real: the card asks 175, 175, 175, 180 for a machine he has not had since 2026-09-02, and we watched this transfer fail once already — smith-overhead-press ran 105 to 135 on the bar on 2026-08-23, and when the same slot became dumbbells on 2026-09-02 the honest load was 45 and 50 still broke down to 5 reps. The first pressing lift tonight must be logged as a new baseline. My prescription is in calls[]: 40 for 8, then 45 for 8 twice. Overrule me if the tables say otherwise — but not by printing 180, and not by leaving the lift silent, because silent and 180 are the same thing.",
+      "evidence": ["2026-08-23:smith-overhead-press", "2026-08-27:smith-incline-press", "2026-09-02:smith-overhead-press", "2026-09-02:note"]
+    }
+  ],
+  "structure_proposals": []
+}
