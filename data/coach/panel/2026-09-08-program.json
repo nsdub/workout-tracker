@@ -1,0 +1,60 @@
+{
+  "role": "program",
+  "date": "2026-09-08",
+  "session": "PushA",
+  "reviewed_through": "2026-09-05",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "swap",
+      "exercise": "smith-incline-press",
+      "replacement": "assisted-dips",
+      "scope": "PushA",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 12, "rest": 150 },
+      "why": "Your new gym has no smith machine and your exercise list has no incline press at all, so tonight's opener becomes assisted dips at 4 sets of 8 to 12 — the only chest compound left in the list that needs no smith machine and no new load history, since it is bodyweight; answer No if the new gym has no dip station either and I will find you something else.",
+      "evidence": ["2026-08-27:smith-incline-press", "2026-09-02:note", "2026-08-23:assisted-dips"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "replacement": "db-shoulder-press",
+      "scope": "PushB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 150 },
+      "why": "On 2 September you pressed dumbbells at 45 and 50 into a slot still named for a smith machine the new gym does not have, so this renames it to the dumbbell shoulder press you are actually doing — 4 sets of 8 to 10 instead of the smith bar's 6 to 8.",
+      "evidence": ["2026-09-02:smith-overhead-press", "2026-09-02:note"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-bent-over-row",
+      "replacement": "seated-cable-row-wide",
+      "scope": "PullB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 120 },
+      "why": "Pull B still opens with a smith row the new gym does not have and your list has no barbell row to rename it to, so it becomes the wide seated cable row at 4 sets of 8 to 10 — heavier and lower-rep than the same row on Pull A.",
+      "evidence": ["2026-09-03:smith-bent-over-row", "2026-09-03:note"]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-rdl",
+      "replacement": "deadlift",
+      "scope": "LegsB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 150 },
+      "why": "You already ran this slot with a barbell on 5 September and wrote so on the card, but it is still named Smith RDL and your list has no RDL, so it becomes the deadlift at 4 sets of 8 to 10 — same four sets you did, lighter and higher-rep than your Pull A sets of 5 to 6.",
+      "evidence": ["2026-09-05:smith-rdl", "2026-09-05:note"]
+    },
+    {
+      "kind": "remove",
+      "exercise": "rope-pushdown",
+      "scope": "PushA",
+      "why": "Push A is eight lifts long and on 27 August it stopped part-way through the sixth, so the rope pushdown — your second triceps isolation of the night, sitting dead last behind three sets of overhead extensions — got none of its sets at all, and on 17 August, the one Push A you did finish, it went backwards inside the set: 52.5 for fifteen, then 47.5 for thirteen, then 47.5 for eleven.",
+      "evidence": ["2026-08-17:rope-pushdown", "2026-08-27:overhead-cable-triceps", "2026-08-17:smith-incline-press"]
+    },
+    {
+      "kind": "keep",
+      "exercise": "face-pulls",
+      "scope": "PullA",
+      "why": "Open question for you, not a change: you asked on 17 August why there are no corrective exercises in the program, and the accurate answer is that there are three — face pulls here on Pull A and again on Pull B, and the hip adductor and abductor on both leg days — but they are all either below the waist or a rowing-plane pull, and there is no shoulder-rotation or anti-rotation movement anywhere in the app's exercise list for me to put on a card, so this slot stays exactly as it is until that list itself is changed, which is a change to the app and needs your word rather than mine.",
+      "evidence": ["2026-08-17:note", "2026-08-28:face-pulls", "2026-07-28:note"]
+    }
+  ]
+}

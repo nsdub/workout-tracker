@@ -1,0 +1,201 @@
+{
+  "role": "progression",
+  "date": "2026-09-08",
+  "session": "PushA",
+  "reviewed_through": "2026-09-05",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 175,
+          "reps": 7
+        },
+        {
+          "weight": 175,
+          "reps": 7
+        },
+        {
+          "weight": 175,
+          "reps": 7
+        },
+        {
+          "weight": 180,
+          "reps": 8
+        }
+      ],
+      "why": "Nothing was earned on 2026-08-27: he held 175 for only 6 reps on all three back-off sets after doing 175x8 three times on 2026-08-17, so reps went backwards at the same load and the top set stays at the 180x8 he already completed. The smith bar at the new gym is the open question, not his strength - smith-bent-over-row on 2026-09-03 read 120-155 against 115-150 at the old gym and smith-rdl on 2026-09-05 read 135-180 against 155-205, both close enough to carry, while smith-overhead-press on 2026-09-02 read 45-50 against 105-135, which cannot be the same apparatus. The incline station has never been logged in this building, so set one is the reading: if 175 does not feel like the 175 he lifted on 2026-08-27, the bar tare differs and every number in this row is void.",
+      "evidence": [
+        "2026-08-27:smith-incline-press",
+        "2026-08-17:smith-incline-press",
+        "2026-09-03:smith-bent-over-row",
+        "2026-09-05:smith-rdl",
+        "2026-09-02:smith-overhead-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 12
+        },
+        {
+          "weight": 142.5,
+          "reps": 12
+        },
+        {
+          "weight": 157.5,
+          "reps": 10
+        }
+      ],
+      "why": "The number on his card drops from 165/172.5/180 to 127.5/142.5/157.5, and that is a change of stack, not a cut in effort: on 2026-09-02 the new gym's chest press took 97.5/127.5/157.5 where the old one took 165/172.5/180 on 2026-08-27, so the old figures describe a machine he no longer touches and must not be carried. I build only on the one reading I have in this building - 157.5 for 8 was the top of that ramp, and the slot now asks 10-12, so the top set stays at 157.5 and earns reps before it earns load, with the middle rung filled to 142.5, which is on this stack's 7.5 ladder and sits between two pins he already pressed.",
+      "evidence": [
+        "2026-09-02:machine-chest-press",
+        "2026-08-27:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 15,
+          "reps": 14
+        },
+        {
+          "weight": 17.5,
+          "reps": 13
+        },
+        {
+          "weight": 17.5,
+          "reps": 13
+        }
+      ],
+      "why": "He bought the jump to 15/17.5/17.5 on 2026-08-27 with reps, dropping from 15,15,15 at 13.75/15/15 on 2026-08-17 to 12,12,12, which is the bottom of the 12-15 range - that load is not paid off yet, so no increase. I ask for one more rep per set rather than the 15,15,15 a flat repeat would print, because 12 to 15 in one session is not a step he has ever made. Cable weights do carry buildings: cable-crossover-high-low ran 25 on 2026-08-23 and 25 again on 2026-09-02, so the pulley scale is the same and only the reps moved.",
+      "evidence": [
+        "2026-08-27:cable-crossover-low-high",
+        "2026-08-17:cable-crossover-low-high",
+        "2026-08-23:cable-crossover-high-low",
+        "2026-09-02:cable-crossover-high-low"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 9
+        },
+        {
+          "weight": 45,
+          "reps": 9
+        },
+        {
+          "weight": 45,
+          "reps": 9
+        }
+      ],
+      "why": "A 45-lb dumbbell weighs 45 lb in any building, so this is the one lift tonight where the old number carries without an argument - the only risk is that the new rack does not stock 45s, in which case take 40. He moved 40x10,10,10 on 2026-08-17 to 45x8,8,8 on 2026-08-27, which is the bottom of the 8-10 window on a load he has had exactly one session with, so 50 is not earned; one more rep per set is.",
+      "evidence": [
+        "2026-08-27:db-shoulder-press",
+        "2026-08-17:db-shoulder-press"
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 13
+        },
+        {
+          "weight": 100,
+          "reps": 12
+        },
+        {
+          "weight": 90,
+          "reps": 14
+        }
+      ],
+      "why": "This is the one lift with a real step earned in the new building: on 2026-09-02 he opened at 100 for 13, which beats the 90x15,15,15 he did on 2026-08-27, and 100 is a pin he actually pulled here rather than a figure carried across town. He did not hold it though - set two fell back to 90 and there was no set three - so I take the second set up to 100 and leave the third at 90 instead of the flat three-by-100 a straight cross-day read would print.",
+      "evidence": [
+        "2026-09-02:reverse-pec-deck",
+        "2026-08-27:reverse-pec-deck"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 11
+        },
+        {
+          "weight": 55,
+          "reps": 11
+        },
+        {
+          "weight": 55,
+          "reps": 10
+        }
+      ],
+      "why": "57.5 is off the table: on 2026-09-02 he ran 55x11, 55x10 and then had to drop to 50 for the third set, so he cannot yet hold 55 across three sets, and the lone 57.5x12 on 2026-08-27 was a single set on the old gym's pulley. The job tonight is the third set - same 55 all the way through, which is one more set at that load than he has completed here.",
+      "evidence": [
+        "2026-09-02:overhead-cable-triceps",
+        "2026-08-27:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 14
+        },
+        {
+          "weight": 10,
+          "reps": 13
+        },
+        {
+          "weight": 10,
+          "reps": 12
+        }
+      ],
+      "why": "This has not been logged since 2026-08-17 - it was skipped on 2026-08-27 - and that last session read 13, 12, 11 at 10, which fades inside the set and never reaches the top of the 12-15 window, so there is nothing to add load to after three weeks off. One rep per set is the whole ask. The cable stack reads the same in this building, since cable-crossover-high-low took 25 on 2026-09-02 exactly as it did on 2026-08-23, so 10 should still be 10.",
+      "evidence": [
+        "2026-08-17:cable-lateral-raise",
+        "2026-08-23:cable-crossover-high-low",
+        "2026-09-02:cable-crossover-high-low"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "cut",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 15
+        },
+        {
+          "weight": 45,
+          "reps": 15
+        }
+      ],
+      "why": "This lift has been sliding for a month and the app wants to reprint the top of the slide: 60/60/55 on 2026-07-31, 52.5x14,11,10 on 2026-08-14, then 52.5x15 followed by a collapse to 47.5x13 and 47.5x11 on 2026-08-17, after which it was skipped entirely on 2026-08-27. He has failed to hold 47.5 for 15 twice, so repeating 52.5 asks for a set he has never completed twice in a row. The slot is two sets now, not three, so I reset one notch below the load he actually failed at and let him finish both sets clean before anything climbs again.",
+      "evidence": [
+        "2026-08-17:rope-pushdown",
+        "2026-08-14:rope-pushdown",
+        "2026-07-31:rope-pushdown"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
