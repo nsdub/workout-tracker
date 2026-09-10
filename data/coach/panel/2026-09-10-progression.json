@@ -1,0 +1,112 @@
+{
+  "role": "progression",
+  "date": "2026-09-10",
+  "session": "PullA",
+  "reviewed_through": "2026-09-08",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "cut",
+      "sets": [
+        { "weight": 245, "reps": 6 },
+        { "weight": 255, "reps": 6 },
+        { "weight": 255, "reps": 6 },
+        { "weight": 255, "reps": 6 }
+      ],
+      "why": "265 has produced five reps and never six, on three separate sessions: 07-24 (5/5/5), 08-01 (4/5/5) and 08-28 (5/5). The app wants to repeat 235/255/265/265 for a fourth try at the same wall. 255 for six is proven — he did 255x6 twice on 08-18 and finished that whole session in range. So the top set comes down 10 lb to the last weight that actually yields six reps, the opener goes up from 235 to 245, and the fourth set stays at 255: 24 reps in range tonight against 21 on 08-28. 265 gets re-attempted next PullA off a base of 255x6x3 instead of 255x6x2. The gym change does not touch this lift: the deadlift was always a hand-loaded barbell, never the smith, so the plate reading means the same thing in the new building. Do not read the smith-rdl drop (205 on the old smith 08-16, 180 on a free bar 09-05) as lost strength — that is a counterbalanced-bar artifact, and it does not apply here.",
+      "evidence": [
+        "2026-08-28:deadlift",
+        "2026-08-18:deadlift",
+        "2026-08-01:deadlift",
+        "2026-07-24:deadlift",
+        "2026-08-16:smith-rdl",
+        "2026-09-05:smith-rdl"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "cut",
+      "sets": [
+        { "weight": 83, "reps": 10 },
+        { "weight": 88, "reps": 10 },
+        { "weight": 94, "reps": 8 }
+      ],
+      "why": "The app will put 135/150/150 on the card. Those are old-gym numbers on a selectorized stack, and this is the first PullA since he changed gyms on 09-02. The only pulldown he has done in the new building is the close grip on 09-03: 77x10, 83x10, 88x10. The same lift at the old gym on 08-25 was 127.5x10, 127.5x10, 127.5x8. Whatever the new tower is calibrated in, it is not the old one, and its selectable weights on 09-03 stepped roughly five to six pounds apart, not 7.5. At the old gym his wide grip ran about 18 percent above his close grip (150 vs 127.5); applying that to his verified new-gym top of 88 lands near 104, so 135/150 is not a small overshoot, it is roughly a third too heavy and he will fail the first set. I am prescribing off weights he has verifiably selected on that tower: 83 and 88 are two of the three pins he used on 09-03, and the top set is one observed step past his verified top. If 94 is not a pin on that stack, the nearest one above it is the intent. This is a calibration night, not a test; next PullA gets a real number to progress from. Note he was still ramping on 09-03 and stopped at 88 with a clean ten, so this may prove light — that is the correct direction to be wrong on iron with no reading.",
+      "evidence": [
+        "2026-08-28:lat-pulldown-wide",
+        "2026-09-03:lat-pulldown-close",
+        "2026-08-25:lat-pulldown-close",
+        "2026-08-18:lat-pulldown-wide"
+      ]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 }
+      ],
+      "why": "He earned this step at the old gym and I am refusing to spend it here. On 08-28 he hit 105x12 on all four sets, top of the 10-12 window, so the app is right that 112.5 is due. It is due on a machine he has not touched since the move: there is no row logged anywhere on or after 09-02. Machine scales at the new gym have not shifted by any single factor I can apply — the straight-arm pulldown reads the same (45 on 08-25, 46 on 09-03), the reverse pec deck reads the same or higher (90 on 08-27, 100 on 09-08), while the close pulldown fell about a third and the chest press fell from 180 to 157.5. So there is no honest conversion, and pushing a load into a stack with zero readings is guessing dressed as progression. Hold 105 for one night to get a reading, and the step to 112.5 gets taken next PullA off a new-gym number. If 105x12x4 comes up easy on the new machine that is itself the datum we need.",
+      "evidence": [
+        "2026-08-28:seated-cable-row-wide",
+        "2026-08-18:seated-cable-row-wide",
+        "2026-09-03:straight-arm-pulldown",
+        "2026-08-25:straight-arm-pulldown",
+        "2026-09-08:machine-chest-press",
+        "2026-08-27:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 30, "reps": 10 },
+        { "weight": 30, "reps": 10 },
+        { "weight": 30, "reps": 10 }
+      ],
+      "why": "Dumbbells weigh the same in any building, and he has confirmed it himself since the move: db shrugs went 80 on 08-25 and 80 on 09-03, incline db curls 25 on 08-25 and 25 on 09-03. So the 30 on the card is a real number, not a stale one. He has not earned the next pin though. On 08-28 he got 9, 9, 9 in an 8-10 window, and the rack's next pair up is 35 — a 16.7 percent jump off three sets that fell one rep short. Hold 30 and take all three sets to 10. That cashes into 35 next PullA on evidence instead of on optimism.",
+      "evidence": [
+        "2026-08-28:db-curl",
+        "2026-09-03:db-shrug",
+        "2026-08-25:db-shrug",
+        "2026-09-03:incline-db-curl",
+        "2026-08-25:incline-db-curl"
+      ]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 37.5, "reps": 10 },
+        { "weight": 37.5, "reps": 10 },
+        { "weight": 37.5, "reps": 10 }
+      ],
+      "why": "This is the one lift tonight where the app's step up is both earned and portable, and I am backing it. On 08-28 he hit 35x12 on all three sets, the ceiling of the 10-12 window, so the pin moves. It moves in the new gym too because the cable stack came across intact: cable reverse curls read 37.5 on 08-25 at the old gym and 37.5 on 09-03 at the new one, and face pulls read 27.5 at both. 37.5 is a genuine stack pin (2.5 base plus seven 5-lb plates), no micro needed. Reset the reps to 10 and climb the window again.",
+      "evidence": [
+        "2026-08-28:cable-hammer-curl",
+        "2026-09-03:cable-reverse-curl",
+        "2026-08-25:cable-reverse-curl",
+        "2026-09-03:face-pulls",
+        "2026-08-28:face-pulls"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        { "weight": 28.75, "reps": 12 },
+        { "weight": 28.75, "reps": 12 }
+      ],
+      "why": "The only PullA lift with a reading from inside the new gym. He did 27.5x15 twice on 09-03 — top of the 12-15 window — and 27.5x15 twice on 08-28 at the old gym before that, so the load is confirmed at the building he will be standing in tonight and the step is confirmed by two sessions at the ceiling. 28.75 is the pin at 27.5 plus one 1.25-lb add-on, which is a real loadable notch on this stack; it is not the retired 1.5 micro. Two sets, per the slot. Reps back to 12 and climb.",
+      "evidence": [
+        "2026-09-03:face-pulls",
+        "2026-08-28:face-pulls",
+        "2026-08-25:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

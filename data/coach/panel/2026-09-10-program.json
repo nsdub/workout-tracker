@@ -1,0 +1,36 @@
+{
+  "role": "program",
+  "date": "2026-09-10",
+  "session": "PullA",
+  "reviewed_through": "2026-09-08",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "replacement": "db-shoulder-press",
+      "scope": "PushB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 180 },
+      "why": "On 2 September you pressed dumbbells in this slot and wrote \"New gym. No smith machine. Dumbbell press\", so this renames the Push B opener to the dumbbell shoulder press you are actually doing and asks for 4 sets of 8 to 10 instead of the smith bar's 6 to 8 — it will open at the weight you are already pressing on Push A, so nothing about the load changes, only the name and the rep ask.",
+      "evidence": [
+        "2026-09-02:smith-overhead-press",
+        "2026-09-02:note",
+        "2026-09-08:db-shoulder-press"
+      ]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-rdl",
+      "replacement": "deadlift",
+      "scope": "LegsB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 180 },
+      "why": "You ran this slot with a barbell on 5 September and wrote \"Barbell\" on the card, so this renames the Legs B opener to the deadlift — the only barbell hinge anywhere in the app's exercise list — and keeps the same four sets at 8 to 10 reps, well clear of the heavy fives you pull on Pull A; the first Legs B card after this comes up blank and asks you to set the working weight, which is the one you already used on 5 September.",
+      "evidence": [
+        "2026-09-05:smith-rdl",
+        "2026-09-05:note",
+        "2026-08-28:deadlift"
+      ]
+    }
+  ]
+}

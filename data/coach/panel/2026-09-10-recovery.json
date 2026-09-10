@@ -1,0 +1,72 @@
+{
+  "role": "recovery",
+  "date": "2026-09-10",
+  "session": "PullA",
+  "reviewed_through": "2026-09-08",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "sets": [
+        { "weight": 235, "reps": 6 },
+        { "weight": 255, "reps": 5 },
+        { "weight": 265, "reps": 5 },
+        { "weight": 265, "reps": 5 }
+      ],
+      "why": "Repeat 28 August exactly. The last time this lift went up it cost reps everywhere: on 18 August you pulled 225, 245, 255, 255 for six every set, and on 28 August at 235, 255, 265, 265 you got six on the opener and five on all three sets above it. Five is the floor of the 5-6 range, so the top set is already sitting on the bottom of the range it is allowed to live in. It is also thirteen days since you last pulled at all, and this is the heaviest lift in the program standing first in the night. Same four sets, same weights, no addition.",
+      "evidence": ["2026-08-28:deadlift", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "abstain",
+      "why": "I will not put a number on this one and I want the head coach to know why rather than have a guess printed on the card. This lift has never been logged at the new gym. The 150 from 28 August is an old-gym number, and the plan itself carries no seed for this slot, only the note that the logs conflict at 150 versus 90. The closest evidence is its sister lift: the close-grip pulldown read 127.5 at the old gym on 25 August and 77, 83, 88 at the new gym on 3 September, which is not the same stack and does not even step in fives. Set the pin by feel on the first set, leave two reps in reserve, and log whatever the machine actually says. Three sets is the right count and should not grow: on 28 August the third set fell from ten to seven after the deadlifts.",
+      "evidence": ["2026-08-28:lat-pulldown-wide", "2026-09-03:lat-pulldown-close", "2026-08-25:lat-pulldown-close", "2026-09-03:note"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 },
+        { "weight": 105, "reps": 12 }
+      ],
+      "why": "Four sets stays, the weight stays. On 28 August you got twelve on all four sets at 105, the top of the 10-12 range, which is what will make the progression seat want to add. Here is the part that argues against adding: at the same 105 on 18 August those four sets read 12, 11, 11, 10, and the time between the app ending your rest and you logging the set ran 26 to 37 seconds. On 28 August, with the reps held at twelve, that same interval ran 78 to 106 seconds on every set. That interval is not pure set time, it includes walking back and tapping the log, but it roughly tripled at an identical load, so the fourth twelve was bought rather than free. Repeat it and see if it comes back cheaper. On the number itself: cable loads carried across the 2 September gym move unchanged, face pulls at 27.5 on 28 August and again on 3 September, cable reverse curl at 37.5 on 25 August and again on 3 September, so 105 is the right figure to repeat and not a stranded old-gym number.",
+      "evidence": ["2026-08-28:seated-cable-row-wide", "2026-08-18:seated-cable-row-wide", "2026-08-28:face-pulls", "2026-09-03:face-pulls", "2026-08-25:cable-reverse-curl", "2026-09-03:cable-reverse-curl"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 30, "reps": 9 },
+        { "weight": 30, "reps": 9 },
+        { "weight": 30, "reps": 9 }
+      ],
+      "why": "Stay at 30. You have never carried ten across all three sets at this weight: 18 August was 10, 8, 7 and 28 August was 9, 9, 9. Ten is the top of the 8-10 range, so the slot has not earned a rise, and the job tonight is turning that third nine into a ten. Dumbbell numbers did carry across the gym move, the 80 lb shrugs read the same on 25 August and 3 September, so 30 is a real number at the new place.",
+      "evidence": ["2026-08-28:db-curl", "2026-08-18:db-curl", "2026-08-25:db-shrug", "2026-09-03:db-shrug"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 },
+        { "weight": 35, "reps": 12 }
+      ],
+      "why": "35 for twelve, three sets, exactly as on 28 August, where nothing fell off across the three sets. Head coach, read this one as a soft hold: this is the one lift on the card I have no recovery objection to raising. The elbow flexors are not overworked, and my 35 is a repeat rather than a brake. If the progression seat argues for the next rung, rule for them and I will not treat it as an override.",
+      "evidence": ["2026-08-28:cable-hammer-curl", "2026-08-18:cable-hammer-curl", "2026-09-03:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 15 }
+      ],
+      "why": "Two sets at 27.5 for fifteen. The set count is settled and should not be reopened: the question you wrote on 28 August, asking why Pull A called for three when you thought two, was answered and the cut to two sets was accepted on 3 September, and two is what you have actually logged every time this lift has appeared, on 18 August, 25 August, 28 August and 3 September. The weight also holds. Fifteen is the top of the 12-15 range, which is the trigger that would normally move the pin, but this slot was deliberately given a rep range in July to stop a corrective climbing by load every session, and the back of your shoulder already took two sets of reverse pec deck at 100 for twelve on 8 September, two days ago. 27.5 carried across the gym move unchanged, so it is the number the new stack will take.",
+      "evidence": ["2026-08-28:note", "2026-08-28:face-pulls", "2026-09-03:face-pulls", "2026-08-25:face-pulls", "2026-08-18:face-pulls", "2026-09-08:reverse-pec-deck"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
