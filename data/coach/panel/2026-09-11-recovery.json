@@ -1,0 +1,141 @@
+{
+  "role": "recovery",
+  "date": "2026-09-11",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-10",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 140, "reps": 10 },
+        { "weight": 180, "reps": 10 },
+        { "weight": 200, "reps": 10 }
+      ],
+      "why": "I ran the card to see what silence prints here, and it prints 180, 220, 240 for ten. That is a 20 August number off a leg press you have not stood at since 2 September, and it is the heaviest thing on tonight's card, standing first. Three reasons to come down. One: the last time you pressed 240 you got eight reps, the bottom of what this slot allows, and the card is asking you for ten. Two: you have not done this lift at all in 22 days. Three, and this is the number that decides it: the only leg press you have logged at the new gym was the high-foot version on 5 September, and there you finished at 160 for twelve, where on the old machine that same lift was running 180. So the new sled read about 20 lb heavier in your hands than the old one, and the card wants to hand you 240 on it cold. 140 is the ramp set and it is there to tell you what the machine feels like. 200 is the working number. If 200 for ten is easy, log it and say so, and this moves next week off real evidence instead of an old machine's memory.",
+      "evidence": [
+        "2026-08-20:leg-press-low",
+        "2026-08-02:leg-press-low",
+        "2026-07-26:leg-press-low",
+        "2026-09-05:leg-press-high",
+        "2026-08-16:leg-press-high",
+        "2026-09-02:note"
+      ]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "cut",
+      "sets": [
+        { "weight": 17.5, "reps": 9 },
+        { "weight": 17.5, "reps": 9 }
+      ],
+      "why": "Two sets tonight, not three, and 17.5 per hand. The weight is right and I am not touching it: dumbbells came across the gym move unchanged, the 80 lb shrugs read 80 on 25 August at the old place and 80 on 3 September at the new one, and the 45s overhead read 45 on 27 August and 45 on 8 September. So 17.5 exists and means the same thing. The set is what I am cutting, for one night only. This is the only balance lift in your week, it is 22 days since you last did it, and the bench and the rack are both new to you. You have also never actually finished three: on 20 August, the one time the card asked for three, it went nine, nine, eight. The card asks for ten on every set and you have never hit ten on this lift at any weight. Do two clean ones, weaker leg first, and if it feels solid the third set comes back next LegsA.",
+      "evidence": [
+        "2026-08-20:db-bulgarian-split-squat",
+        "2026-08-02:db-bulgarian-split-squat",
+        "2026-07-26:db-bulgarian-split-squat",
+        "2026-08-25:db-shrug",
+        "2026-09-03:db-shrug",
+        "2026-08-27:db-shoulder-press",
+        "2026-09-08:db-shoulder-press"
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "No numbers from me, because I checked and the card already has this one right. It prints 130, 145, 145, 145, which are the new gym's figures from 5 September, not old-gym ones — it is the only lift on tonight's card that picked up the newer machine. 145 is also proof the new leg curl is a different stack: 145 does not exist on the old machine, which stepped 127.5, 135, 142.5, 150. So leave it. Two things to expect rather than fear. The card asks twelve and on 5 September all three sets came in at ten, which is the floor of the range, so ten is the honest number here and hitting ten is not a failure. And you deadlifted yesterday, where every set came in a rep under 28 August and the top set dropped from 265 to 255 — that is the same muscle, 24 hours ago. If the fourth set lands at eight, log the eight. That is information, not a miss.",
+      "evidence": [
+        "2026-09-05:leg-curl",
+        "2026-08-20:leg-curl",
+        "2026-08-16:leg-curl",
+        "2026-09-10:deadlift",
+        "2026-08-28:deadlift"
+      ]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "cut",
+      "sets": [
+        { "weight": 130, "reps": 15 },
+        { "weight": 130, "reps": 15 }
+      ],
+      "why": "This is the lift with the thinnest evidence on the card and I want to say so plainly rather than hide it in a number. Leg extension was taken off Legs B, so it only appears here, which means the last time you did it was 20 August at the old gym. You have never touched a leg extension at the new gym, not once. The card prints 150 for fifteen anyway. I am not confident 150 is even a notch on the new machine — its sister machine, the leg curl, turned out to step in fives there instead of the old sevens-and-a-half, and that is the only reading we have of that corner of the gym. So treat tonight as a baseline night, not a defence of 150. Set the pin near 130, or the nearest notch under it if 130 is not there, and take fifteen with about two left in the tank. Then log what the machine actually said. Next week I will have a real number instead of an inherited one.",
+      "evidence": [
+        "2026-08-20:leg-extension",
+        "2026-08-02:leg-extension",
+        "2026-09-05:leg-curl",
+        "2026-09-02:note"
+      ]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "105 for two sets, exactly what the card says, and it is right for once by luck rather than by design — the card took it from 20 August, but you also did 105 for twelve, twice, at the new gym on 5 September, so the number survives the move. The card asks fifteen and you did twelve; twelve is inside the range and fine. One thing I am NOT using as evidence: both sets on 5 September were keyed less than a second apart, because this is supersetted with the abductor and you logged the pair together. That tells me nothing about how long anything took, so I have not built a fatigue argument on it.",
+      "evidence": [
+        "2026-09-05:hip-adductor",
+        "2026-08-20:hip-adductor"
+      ]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "135 for two sets, as printed. This one you have already confirmed at the new gym: on 5 September you did 127.5 for fifteen and then 135 for fifteen, so 135 is both loadable there and a weight you completed at the top of the range six days ago. Those two figures are 7.5 apart, which also tells me that machine steps in sevens-and-a-half like the old one. No objection from me. Same caveat as the adductor — the two sets were keyed within a second of each other because you log the superset as a pair, so I have read the reps and ignored the clock.",
+      "evidence": [
+        "2026-09-05:hip-abductor",
+        "2026-08-20:hip-abductor"
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "cut",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 }
+      ],
+      "why": "The card prints 300 for fifteen, three times. Do not load 300. That is a 20 August figure off the old sled, and six days ago, on 5 September, on the sled you will actually be standing at tonight, you ran 240 for fifteen, 260 for fifteen, and then 260 for thirteen. So the card is asking for 40 lb more than you did last week and more reps than you managed at the lighter weight. 260 is the right number: you already got fifteen at it on the second set, so fifteen is a real target and not a wish, and the third set coming in at thirteen last time is exactly what the third set is for. Three sets is the settled count and I am not reopening it.",
+      "evidence": [
+        "2026-09-05:standing-calf-raise",
+        "2026-08-20:standing-calf-raise",
+        "2026-08-16:standing-calf-raise",
+        "2026-07-30:note"
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "65 for ten, three sets, as printed — no change from me. The cable stacks did not change scale when the gym did, and this is the one lift on tonight's card where the card is quoting your new-gym self back to you: 65 for ten, three times, on 5 September. That was a genuine step up from the 60 you were doing at the old place. It is the last loaded thing in the session and it is an ab lift, so there is nothing here for my seat to brake.",
+      "evidence": [
+        "2026-09-05:cable-crunch",
+        "2026-08-20:cable-crunch"
+      ]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Two sets, bodyweight, thirteen reps as printed. No objection. You carry no load here, the set count was already cut from three to two after you asked on 2 August whether three was right, and twelve to thirteen is what you actually do. One honest note about my evidence: the two sets logged on 5 September were keyed in about twenty hours after the rest of that session, so I am taking the reps as your report and not reading anything at all into the timing.",
+      "evidence": [
+        "2026-09-05:hanging-leg-raise",
+        "2026-08-20:hanging-leg-raise",
+        "2026-08-02:note"
+      ]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "leg-press-low",
+      "grounds": "fatigue",
+      "why": "One veto tonight, on fatigue grounds, which means it is advisory and the head coach may overrule it — I am not claiming pain or injury, because there is none. I read every note in the last six sessions and there is not one pain word anywhere in them: the notes are 'New gym. No smith machine. Dumbbell press', 'Dumbbell fly', 'New gym. First set machine. Second and third sets cable cross', 'Barbell', 'One armed dumbbell row', and a question about set counts. Nothing hurts, and I will not invent a worry to get leverage. What I am vetoing is the specific figure 240 as the top set of the first lift tonight. Three facts stack up behind that. First, 22 days since this lift was last done, and it is the only squat-pattern loading in the program. Second, it is a machine you have never used: the one new-gym leg press reading we have, high-foot on 5 September, came in 20 lb under the old machine's numbers for the same movement, so 240 here is not the 240 that is in the log. Third, and this is the fact that arrived since my last packet: yesterday's deadlifts came in below the session I had prescribed as a straight repeat. On 28 August you pulled 235 for six, then 255, 265, 265 for five. Yesterday you pulled 235 for five, 255 for four, 255 for four, and stopped at three sets. Every set lost a rep, the top weight dropped ten pounds, and a set disappeared. That is your posterior chain 24 hours before a leg night, and it is not a number I reasoned my way to, it is what the log says. My replacement numbers are in calls[]: 140, 180, 200. If the progression seat has a case for more, rule for them — but not by printing 240, and not by leaving this lift silent, because silent and 240 are the same thing. Last item, and it is a gap rather than a signal: no bodyweight has been entered since 23 August, 207 lb, so I cannot tell whether he is eating into a deficit heading toward the 1 March show. That is the one piece of evidence that would change how much leg volume I would sign off on, and I do not have it.",
+      "evidence": [
+        "2026-09-10:deadlift",
+        "2026-08-28:deadlift",
+        "2026-08-18:deadlift",
+        "2026-08-20:leg-press-low",
+        "2026-09-05:leg-press-high",
+        "2026-09-02:note",
+        "2026-09-10:note"
+      ]
+    }
+  ],
+  "structure_proposals": []
+}

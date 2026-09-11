@@ -1,0 +1,106 @@
+{
+  "role": "progression",
+  "date": "2026-09-11",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-10",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 160, "reps": 10 },
+        { "weight": 200, "reps": 10 },
+        { "weight": 220, "reps": 8 }
+      ],
+      "why": "The 180/220/240 the app wants to show you is from the old gym on 2026-08-20, and this leg press reads lower: on 2026-09-05 you opened it at 120/140/160 with feet high and all three sets were clean 12s. Tonight is the first time you put your feet low on this machine, so ramp into it and stop at 220; if 220 goes for 10 clean you take 240 next LegsA.",
+      "evidence": ["2026-08-20:leg-press-low", "2026-09-05:leg-press-high", "2026-08-16:leg-press-high"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 9 }
+      ],
+      "why": "Dumbbells weigh the same at both gyms, so this one number carries over honestly. Last time you got 9, 9 and 8 at 17.5 per hand, which is short of the 10 you need, so stay at 17.5 and beat those reps. Three sets of 10 earns 20s.",
+      "evidence": ["2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 130, "reps": 12 },
+        { "weight": 145, "reps": 12 },
+        { "weight": 145, "reps": 12 },
+        { "weight": 145, "reps": 10 }
+      ],
+      "why": "This machine did not change scale in the move: you pulled 142.5 for 13 twice at the old gym on 2026-08-20 and 145 for 10 at the new one on 2026-09-05, so 145 is real here. Open at 130 and then hold 145 for the rest. The fourth set at 145 is new volume, so 10 reps is the target there, not 12.",
+      "evidence": ["2026-08-20:leg-curl", "2026-09-05:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "cut",
+      "sets": [
+        { "weight": 105, "reps": 15 },
+        { "weight": 135, "reps": 15 }
+      ],
+      "why": "Nobody has touched this machine at the new gym. The 150 the app wants to show you is an old-gym number from 2026-08-20 and there is no reading here to back it up, so tonight these two sets are the reading, the same way you opened the leg press at 120/140/160 and the leg curl at 100/130/145 on 2026-09-05. Log what 135 actually feels like and that sets the number next LegsA.",
+      "evidence": ["2026-08-20:leg-extension", "2026-09-05:leg-press-high", "2026-09-05:leg-curl"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "This machine reads the same at both gyms, 105 for 12 and 12 on 2026-08-20 and again 105 for 12 and 12 on 2026-09-05. Twice you stopped at 12 when the card asked for 15, so the weight stays and the job is one extra rep. Two sets of 15 earns 112.5.",
+      "evidence": ["2026-08-20:hip-adductor", "2026-09-05:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "Same machine reading at both gyms, and on 2026-09-05 you finished 135 for 15, which is the top of the range, so you have earned the next pin. 142.5 both sets.",
+      "evidence": ["2026-08-20:hip-abductor", "2026-09-05:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 12 }
+      ],
+      "why": "The 300 the app wants to show you is from the old gym on 2026-08-20. On this leg press you did 240 for 15, 260 for 15 and 260 for 13 on 2026-09-05, so 260 is your real top set here and 280 is the next pin up from it. Start at 260 and take 280 for the last two.",
+      "evidence": ["2026-08-20:standing-calf-raise", "2026-09-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 65, "reps": 11 },
+        { "weight": 65, "reps": 11 },
+        { "weight": 65, "reps": 10 }
+      ],
+      "why": "Cables did not change scale in the move, and 65 is already the new-gym number: you did 65 for 10, 10 and 10 on 2026-09-05, which is the bottom of the range. Stay at 65 and add a rep to the first two sets. Three sets of 12 earns 70.",
+      "evidence": ["2026-09-05:cable-crunch", "2026-08-20:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 0, "reps": 13 },
+        { "weight": 0, "reps": 13 }
+      ],
+      "why": "No weight and no machine, so the gym change does not touch this one. You did 13 and 12 on 2026-08-20 and 12 and 12 on 2026-09-05, so the ask is 13 and 13.",
+      "evidence": ["2026-08-20:hanging-leg-raise", "2026-09-05:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
