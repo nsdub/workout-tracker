@@ -1,0 +1,46 @@
+{
+  "role": "program",
+  "date": "2026-09-12",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-10",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "remove",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsA",
+      "why": "Your two leg days run the same lifts from the fourth one on, so Legs A gives up the hanging leg raise and keeps the cable crunch while Legs B keeps both, which finally makes the two days different and takes tonight from 24 sets down to 22.",
+      "evidence": [
+        "2026-08-20:hanging-leg-raise",
+        "2026-08-20:cable-crunch",
+        "2026-09-05:hanging-leg-raise",
+        "2026-09-05:cable-crunch"
+      ]
+    },
+    {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "replacement": "db-shoulder-press",
+      "scope": "PushB",
+      "slot": { "sets": 4, "repMin": 8, "repMax": 10, "rest": 180 },
+      "why": "On 2 September you pressed dumbbells in this slot and wrote 'New gym. No smith machine. Dumbbell press', so the Push B opener takes the name of the lift you are actually doing.",
+      "evidence": [
+        "2026-09-02:smith-overhead-press",
+        "2026-09-02:note"
+      ]
+    },
+    {
+      "kind": "remove",
+      "exercise": "cable-lateral-raise",
+      "scope": "PushA",
+      "why": "This has sat at the same 10 pounds since the middle of August without the reps climbing, and Push B already gives you three sets of dumbbell lateral raises.",
+      "evidence": [
+        "2026-08-14:cable-lateral-raise",
+        "2026-08-17:cable-lateral-raise",
+        "2026-09-08:cable-lateral-raise",
+        "2026-09-02:db-lateral-raise"
+      ]
+    }
+  ]
+}

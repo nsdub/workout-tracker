@@ -1,0 +1,103 @@
+{
+  "role": "recovery",
+  "date": "2026-09-12",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-10",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "sets": [
+        { "weight": 140, "reps": 10 },
+        { "weight": 180, "reps": 10 },
+        { "weight": 200, "reps": 10 }
+      ],
+      "why": "Two full days off since 2026-09-10 make 140/180/200 comfortably recoverable, but 200 stays the ceiling because he has not run this pattern since the gym changed and the press he did run topped at 160x12 on the high-foot variant.",
+      "evidence": ["2026-09-05:leg-press-high", "2026-09-10:deadlift", "2026-09-02:note"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 9 }
+      ],
+      "why": "I argued two sets yesterday and lost; nothing has been logged since, and the extra rest day makes my case weaker rather than stronger, so three sets stand.",
+      "evidence": ["2026-09-05:leg-press-high", "2026-09-10:deadlift"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 130, "reps": 12 },
+        { "weight": 145, "reps": 12 },
+        { "weight": 145, "reps": 12 },
+        { "weight": 145, "reps": 10 }
+      ],
+      "why": "The ask of 145x12 sits above the 145x10 he managed on 2026-09-05, but that was already true when this was ruled yesterday and two days of rest only helps, so it holds.",
+      "evidence": ["2026-09-05:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 15 },
+        { "weight": 135, "reps": 15 }
+      ],
+      "why": "Two light-to-moderate sets on a machine nobody has read at the new gym are a calibration reading, not a recovery cost; I lost this yesterday and have no new fact to reopen it.",
+      "evidence": ["2026-09-02:note", "2026-09-03:note"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "Same weight he handled for 12 clean reps twice on 2026-09-05, and one more rep after two rest days is within reach.",
+      "evidence": ["2026-09-05:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "Two sets on a small accessory carry almost no recovery cost even though 142.5 is above the 127.5/135 he used on 2026-09-05, and that gap existed yesterday too.",
+      "evidence": ["2026-09-05:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 }
+      ],
+      "why": "His third set at 260 fell to 13 reps on 2026-09-05, so 15x3 is a real ask, but that evidence is not new and two days off is the one thing that changed, in his favour.",
+      "evidence": ["2026-09-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 65, "reps": 11 },
+        { "weight": 65, "reps": 11 },
+        { "weight": 65, "reps": 10 }
+      ],
+      "why": "One extra rep on two of the three sets he already did at 65 on 2026-09-05, at the end of the session where it costs nothing to stop short.",
+      "evidence": ["2026-09-05:cable-crunch"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "leg-press-low",
+      "grounds": "fatigue",
+      "why": "Re-affirming yesterday's ceiling and nothing more: the top set stops at 200 tonight, because he has not trained this pattern since the gym changed on 2026-09-02 and the one press he has run at the new gym topped at 160x12; this is not a veto on the lift and not a veto on 200, only on going past it.",
+      "evidence": ["2026-09-05:leg-press-high", "2026-09-02:note", "2026-09-10:deadlift"]
+    }
+  ],
+  "structure_proposals": []
+}

@@ -1,0 +1,96 @@
+{
+  "role": "progression",
+  "date": "2026-09-12",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-10",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 140, "reps": 10 },
+        { "weight": 180, "reps": 10 },
+        { "weight": 200, "reps": 10 }
+      ],
+      "why": "the 180/220/240 was read on the old gym's sled 23 days ago and the only reading of the new gym's leg press — the calf press on 5 Sep — came in 40 lb under the old one, so tonight re-reads the machine rather than assuming it carries the old numbers",
+      "evidence": ["2026-08-20:leg-press-low", "2026-09-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "push",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 9 }
+      ],
+      "why": "dumbbells moved with him so the weight is unchanged, and he finished 9/9/8 last time — the job is the missing reps, not a heavier bell",
+      "evidence": ["2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 130, "reps": 12 },
+        { "weight": 145, "reps": 12 },
+        { "weight": 145, "reps": 12 },
+        { "weight": 145, "reps": 10 }
+      ],
+      "why": "130 and 145 are pins he himself put in on this gym's machine on 5 Sep, 145x10 sits at the bottom of the 10-12 range so it gets chased to the top, and the slot's fourth set is new work so it only asks 10",
+      "evidence": ["2026-09-05:leg-curl", "2026-08-20:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "cut",
+      "sets": [
+        { "weight": 105, "reps": 15 },
+        { "weight": 135, "reps": 15 }
+      ],
+      "why": "nobody has read this machine at the new gym — it was skipped on 5 Sep — so tonight is a deliberate two-step ramp to find the scale instead of a blind repeat of the old gym's 150",
+      "evidence": ["2026-08-20:leg-extension", "2026-09-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "105x12 twice read the same at both gyms, so this machine did not move in the change and the only thing left to earn is one more rep",
+      "evidence": ["2026-09-05:hip-adductor", "2026-08-20:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 142.5, "reps": 13 },
+        { "weight": 142.5, "reps": 12 }
+      ],
+      "why": "he closed 135x15 on this gym's machine on 5 Sep, which is the top of the range on the top pin he used, so the next 7.5 step is earned and the reps reset to the bottom of the range",
+      "evidence": ["2026-09-05:hip-abductor", "2026-08-20:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 }
+      ],
+      "why": "300 was the old gym's sled — on this one he did 240x15, 260x15, 260x13 on 5 Sep, so the ask is holding 260 for all three sets before the weight moves again",
+      "evidence": ["2026-09-05:standing-calf-raise", "2026-08-20:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 65, "reps": 11 },
+        { "weight": 65, "reps": 11 },
+        { "weight": 65, "reps": 10 }
+      ],
+      "why": "65x10 three times on 5 Sep sits at the floor of the 10-12 range, so one rep on the first two sets is the smallest honest step before 65 is finished",
+      "evidence": ["2026-09-05:cable-crunch", "2026-08-20:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
