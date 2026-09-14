@@ -688,5 +688,70 @@
     },
     "decision": "accepted",
     "decided_at": "2026-09-03T20:28:06.415Z"
+  },
+  {
+    "proposal": {
+      "kind": "remove",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsA",
+      "why": "Your two leg days run the same lifts from the fourth one on, so Legs A gives up the hanging leg raise and keeps the cable crunch while Legs B keeps both, which finally makes the two days different.",
+      "date": "2026-09-11"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-14T10:36:57.035Z"
+  },
+  {
+    "proposal": {
+      "kind": "swap",
+      "exercise": "smith-overhead-press",
+      "replacement": "db-shoulder-press",
+      "scope": "PushB",
+      "slot": {
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "why": "On 2 September you pressed dumbbells in this slot and wrote \"New gym. No smith machine. Dumbbell press\", so the Push B opener takes the name of the lift you are actually doing and asks for 4 sets of 8 to 10 instead of the smith bar's 6 to 8 — the name and the rep ask change, nothing else.",
+      "date": "2026-09-11"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-14T10:36:57.035Z"
+  },
+  {
+    "proposal": {
+      "kind": "remove",
+      "exercise": "cable-lateral-raise",
+      "scope": "PushA",
+      "why": "This has sat at the same 10 pounds since the middle of August without the reps ever climbing, and Push B already gives you three sets of dumbbell lateral raises, which is the lift you told us on 23 August you thought was getting too many sets for such a small muscle.",
+      "date": "2026-09-11"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-14T10:36:57.035Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "assisted-dips",
+      "scope": "PushB",
+      "repMin": 12,
+      "repMax": 20,
+      "why": "You finished 12 reps — the top of this slot's range — on every set the last two times you did dips, and because the slot carries no weight there is nothing else that can go up, so this raises the range to 12 to 20 reps and makes reps the thing that climbs.",
+      "date": "2026-09-14"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-14T10:36:57.035Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushB",
+      "sets": 2,
+      "why": "Push B asks for 24 sets a night and the one you keep leaving behind is the third set of reverse pec deck — two sets on 23 August, two again on 2 September, and the last time you did three was 3 August — so this makes the written ask two sets instead of three.",
+      "date": "2026-09-14"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-14T10:36:57.035Z"
   }
 ]
