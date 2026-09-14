@@ -8,7 +8,7 @@
 //   5 THE CAMPAIGN   the star map, folded behind a tap instead of mid-page
 // Everything else — the rulebook, sync, device switches — is two buttons at
 // the bottom. Nothing on this page scrolls past a decision to reach a fact.
-import { $, esc, fmtW, todayStr, fmtDate, daysBetween, weekKey, haptic, syncErrorHint } from '../util.js';
+import { $, esc, fmtW, fmtWU, fmtWUnit, todayStr, fmtDate, daysBetween, weekKey, haptic, syncErrorHint } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
@@ -149,7 +149,7 @@ function beaconCard(plan, stalls) {
     <b>⚠ Distress beacons</b>
     ${stalls.map((s) => {
       const d = engine.stallDetail(plan, store.history, s.sessionType, s.id);
-      return `<span>${esc(s.name)} <i>(${esc(s.sessionType)})</i>${d ? ` — top set stuck at <span class="num">${fmtW(d.weight)}</span> for ${d.sessions} session${d.sessions === 1 ? '' : 's'}` : ''}</span>
+      return `<span>${esc(s.name)} <i>(${esc(s.sessionType)})</i>${d ? ` — top set stuck at <span class="num">${fmtWUnit(d.weight, engine.unitFor(plan, s.id))}</span> for ${d.sessions} session${d.sessions === 1 ? '' : 's'}` : ''}</span>
       <span class="mc-beacon-sub">${stallOwner(s)}</span>`;
     }).join('')}
   </div>`;
@@ -163,7 +163,8 @@ function stallOwner(s) {
     : null;
   const day = s.sessionType.replace(/([AB])$/, ' $1');
   if (o?.sets?.length) {
-    return `Your trainers set ${esc(o.sets.map((q) => `${fmtW(q.weight)}×${q.reps}`).join(', '))} for your next ${esc(day)}.`;
+    const u = store.plan ? engine.unitFor(store.livePlan(), s.id) : 'lb';
+    return `Your trainers set ${esc(o.sets.map((q) => `${fmtWU(q.weight, u)}×${q.reps}`).join(', '))}${u === 'kg' ? ' kg' : ''} for your next ${esc(day)}.`;
   }
   return `Your trainers see this every morning — they set this lift on ${esc(day)} days.`;
 }
@@ -499,9 +500,8 @@ function incrementList(plan) {
     for (const slot of session.exercises) {
       const meta = engine.exMeta(plan, slot.id);
       if (meta.bodyweight) continue;
-      const label = meta.gear
-        ? `to the next real pin on your ${plan.gear?.[meta.gear]?.label ?? 'cable stack'} (+1.5 or +2 lb)`
-        : `by ${engine.increment(plan, slot.id)} lb`;
+      const unit = engine.unitFor(plan, slot.id);
+      const label = `by ${engine.incrementShown(plan, slot.id)} ${unit}`;
       if (!groups.has(label)) groups.set(label, new Set());
       groups.get(label).add(meta.name);
     }

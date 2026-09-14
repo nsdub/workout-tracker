@@ -20,7 +20,7 @@ globalThis.fetch = (...args) => fetchImpl(...args);
 // Seed a settings blob that PREDATES the cardio field (defaults-merge test)
 localStorage.setItem('p3.settings', JSON.stringify({ owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '' }));
 
-const { fmtW, weekKey, daysBetween, sessionMins, restWorkStats, mmss } = await import('../js/util.js');
+const { fmtW, fmtWU, fmtWUnit, fmtSetLine, weekKey, daysBetween, sessionMins, restWorkStats, mmss } = await import('../js/util.js');
 const { store } = await import('../js/store.js');
 const { flushQueue, pullRemote, importSeedBundle } = await import('../js/github.js');
 
@@ -41,6 +41,18 @@ await ok('fmtW keeps stack fractions, trims integers, dashes null', () => {
   assert.equal(fmtW(172.5), '172.5');
   assert.equal(fmtW(185), '185');
   assert.equal(fmtW(null), '—');
+});
+await ok('fmtWU shows a stored lb weight in the machine’s unit, rounded like a dial', () => {
+  assert.equal(fmtWU(115.743, 'kg'), '52.5');
+  assert.equal(fmtWU(110.231, 'kg'), '50');
+  assert.equal(fmtWU(185, 'lb'), '185');
+  assert.equal(fmtWU(185), '185');            // lb is the default
+  assert.equal(fmtWU(185, 'bogus'), '185');   // an unknown unit reads as lb
+  assert.equal(fmtWU(null, 'kg'), '—');
+  assert.equal(fmtWUnit(115.743, 'kg'), '52.5 kg');
+  assert.equal(fmtWUnit(185, 'lb'), '185 lb');
+  assert.equal(fmtSetLine([{ weight: 110.231, reps: 10 }, { weight: 110.231, reps: 10 }], { unit: 'kg' }), '2 × 50 × 10');
+  assert.equal(fmtSetLine([{ weight: 110.231, reps: 10 }, { weight: 115.743, reps: 8 }], { unit: 'kg' }), '50×10 · 52.5×8');
 });
 await ok('daysBetween', () => {
   assert.equal(daysBetween('2026-07-11', '2027-03-01'), 233);
@@ -965,36 +977,24 @@ await ok('no card claims a repeat it did not make, and none asks for reps its ow
         assert.match(why, /padded|cut to|trimmed/i,
           `${type}/${r.id}: shows ${r.sets.length} sets against a ${r.last.sets.length}-set night, unexplained — ${why}`);
       }
-      // 2c. A weight the APP chose — not one he logged — must be loadable.
-      //     This is the half of the grid rule that survives the gear model
-      //     being uncertain: the app is picking the number, so the app is
-      //     answerable for it.
-      if (r.grid?.length && ['progress', 'cross', 'calibration', 'deload', 'seed'].includes(r.basis)) {
-        r.sets.forEach((s, i) => {
-          if (!(s.weight > 0)) return;
-          assert.ok(r.grid.some((v) => Math.abs(v - s.weight) < 1e-9),
-            `${type}/${r.id} set ${i + 1}: the app chose ${s.weight} lb, which is not on this machine's grid`);
-        });
-      }
+      // 2c. v84 retired the machine ladders: there is no grid a chosen weight
+      //     has to sit on any more, so no loadability check here. The rows
+      //     must still carry the unit the card shows them in.
+      assert.ok(r.unit === 'lb' || r.unit === 'kg', `${type}/${r.id}: no display unit on the row`);
       // 3. Every weight that moved off the LAST strip is accounted for in words.
       if (r.basis === 'repeat' && r.last?.sets?.length) {
         const prev = r.last.sets;
         const off = Math.max(0, prev.length - r.sets.length);
         const moved = r.sets.some((s, i) => (s.weight ?? 0) !== (prev[i + off]?.weight ?? 0))
           || r.sets.length !== prev.length;
-        assert.equal(moved, /brought up|snapped down|padded|cut to/.test(why),
+        assert.equal(moved, /brought up|lowered|padded|cut to/.test(why),
           `${type}/${r.id}: weights ${moved ? 'moved but the card is silent' : 'held but the card claims a change'} — ${why}`);
-        // 4. Every weight the card prints is one the machine can load. The
-        //    add-on weights are unlabelled, so his typed numbers are estimates
-        //    (his words, 2026-08-01) — the grid is the only real model, and an
-        //    estimate belongs on it.
-        if (r.grid?.length) {
-          r.sets.forEach((s, i) => {
-            if (!(s.weight > 0)) return;
-            assert.ok(r.grid.some((v) => Math.abs(v - s.weight) < 1e-9),
-              `${type}/${r.id} set ${i + 1}: ${s.weight} lb is not loadable on this machine`);
-          });
-        }
+        // 4. A held weight is printed exactly as he logged it — no machine
+        //    model rewrites his number (v84).
+        r.sets.forEach((s, i) => {
+          const was = prev[i + off]?.weight ?? 0;
+          if (s.weight > 0 && was > 0) assert.ok(s.weight >= was, `${type}/${r.id} set ${i + 1}: ${s.weight} is below the ${was} he logged`);
+        });
         // 5. A rep ask BELOW what he logged only happens when he went past the
         //    top of the range — and the card has to say so, or the number just
         //    shrinks on screen for no visible reason.

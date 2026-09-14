@@ -1,3 +1,5 @@
+import { toKg } from './engine.js';
+
 export const $ = (sel, root = document) => root.querySelector(sel);
 
 export function esc(s) {
@@ -6,11 +8,23 @@ export function esc(s) {
   ));
 }
 
-// Weights render without trailing .0 and with .5/.25 kept (stack pins like 172.5)
+// Weights render without trailing .0 and with .5/.25 kept (172.5 stays 172.5)
 export function fmtW(w) {
   if (w == null || Number.isNaN(w)) return '—';
   return Number.isInteger(w) ? String(w) : String(Math.round(w * 100) / 100);
 }
+
+// A stored weight (always lb) shown in the unit the machine reads in. The
+// kg figure is rounded to two decimals so a typed 52.5 comes back as 52.5,
+// not 52.49999. Pass unit 'kg' or 'lb'; anything else reads as lb.
+export function fmtWU(w, unit = 'lb') {
+  if (w == null || Number.isNaN(w)) return '—';
+  if (unit === 'kg') return fmtW(Math.round(toKg(w) * 100) / 100);
+  return fmtW(w);
+}
+
+// Same, with the unit written after it — "52.5 kg", "185 lb".
+export const fmtWUnit = (w, unit = 'lb') => (w == null || Number.isNaN(w) ? '—' : `${fmtWU(w, unit)} ${unit === 'kg' ? 'kg' : 'lb'}`);
 
 export function todayStr(d = new Date()) {
   const p = (n) => String(n).padStart(2, '0');
@@ -128,10 +142,10 @@ export function haptic(pattern = 10) {
 // One night's prescribed sets as a line a lifter can read at a glance.
 // Identical sets collapse ("3 × 160 × 10"); a ramp lists every rung
 // ("155×8 · 185×8 · 205×8"), because the ramp IS the instruction.
-export function fmtSetLine(sets, { repUnit = null, bodyweight = false } = {}) {
+export function fmtSetLine(sets, { repUnit = null, bodyweight = false, unit = 'lb' } = {}) {
   if (!sets?.length) return '—';
   const reps = (r) => `${r}${repUnit === 'sec' ? 's' : ''}`;
-  const wt = (w) => (bodyweight || !w ? 'BW' : `${fmtW(w)}`);
+  const wt = (w) => (bodyweight || !w ? 'BW' : `${fmtWU(w, unit)}`);
   const same = sets.every((s) => s.weight === sets[0].weight && s.reps === sets[0].reps);
   if (same) {
     const w = sets[0].weight;

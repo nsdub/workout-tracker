@@ -86,20 +86,19 @@ ok('calibration: 90% rounded DOWN to the program grid, never off it (170 → 150
   assert.equal(rx.sets[0].weight, 150);
   assert.equal(rx.sets[0].reps, 6);
 });
-ok('calibration: cables/machines land on real, loadable weights', () => {
+ok('calibration: cables/machines floor to the lift’s own step — no machine model, no pin snap', () => {
+  // v84: the gym changes and the machines change with it (2026-09-02 and
+  // since). The app no longer carries a ladder of one gym's pins; a back-off
+  // rounds DOWN to the lift's increment and nothing else.
   const w = (id) => E.prescribe(plan, history, 'PushA', slot('PushA', id), calib).sets[0].weight;
-  assert.equal(w('machine-chest-press'), 135);        // 135 is exactly 90% AND on the grid — no floor needed
-  // The cable-stack lifts snap to the machine's REAL pins (5 lb plates + two
-  // 1.5 micros), never to the fictional 2.5 grid the old tests demanded:
-  assert.equal(w('cable-crossover-low-high'), 13.75); // 13.95 → pin 13.75 (12.5 + one 1.25 micro)
-  assert.equal(w('rope-pushdown'), 50);               // 51.75 → pin 50 (47.5 + both micros); 50.5 does not exist on a 4:1 DAP
-  assert.equal(w('cable-lateral-raise'), 8.75);       // 9.45 → pin 8.75 (7.5 + one 1.25 micro)
+  assert.equal(w('machine-chest-press'), 135);        // 150 × 0.9 = 135, on the 5 lb step
+  assert.equal(w('cable-crossover-low-high'), 10);    // 15.5 × 0.9 = 13.95 → floored to 5 = 10
+  assert.equal(w('rope-pushdown'), 50);               // 57.5 × 0.9 = 51.75 → 50
+  assert.equal(w('cable-lateral-raise'), 5);          // 10.5 × 0.9 = 9.45 → 5 (never below one step)
 });
-ok('calibration: the leg press floors to a REAL 20-lb pin (240 → 200, never the nonexistent 210)', () => {
+ok('calibration: the leg press floors to the 10 lb lower step (240 → 210)', () => {
   const rx = E.prescribe(plan, history, 'LegsA', slot('LegsA', 'leg-press-low'), calib);
-  // 240 × 0.9 = 216. The leg press is selectorized in 20s, so 210 doesn't exist;
-  // floor to the pin at or below target = 200. (The old test rounded to a fake 10-grid.)
-  assert.equal(rx.sets[0].weight, 200);
+  assert.equal(rx.sets[0].weight, 210); // 240 × 0.9 = 216 → floored to 10
 });
 ok('calibration: null seed → verify', () => {
   const rx = E.prescribe(plan, history, 'PullA', slot('PullA', 'lat-pulldown-wide'), calib);
@@ -124,15 +123,13 @@ const mkEntry = (date, type, id, sets, phase = 'meso1') => ({
   exercises: [{ id, name: id, sets }],
 });
 
-ok('double progression: all sets at top → up one machine pin, reps reset to min', () => {
+ok('double progression: all sets at top → up one increment, reps reset to min', () => {
   const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
     { weight: 195, reps: 10 }, { weight: 195, reps: 10 }, { weight: 195, reps: 10 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'progress');
-  // The chest press moves in 7.5s (15-lb stack + a 7.5 micro), so 195 climbs to
-  // 202.5, the next real pin — not the +5 = 200 the old test assumed (200 isn't loadable).
-  assert.equal(rx.sets[0].weight, 202.5);
+  assert.equal(rx.sets[0].weight, 200); // 195 + the 5 lb upper step
   assert.equal(rx.sets[0].reps, 8);
 });
 ok('double progression: +10 for deadlift', () => {
@@ -347,7 +344,7 @@ ok('smashing the ceiling by 2+ reps earns a double jump', () => {
     { weight: 195, reps: 12 }, { weight: 195, reps: 12 }, { weight: 195, reps: 12 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
-  assert.equal(rx.sets[0].weight, 210); // double jump = two machine pins (195 → 202.5 → 210)
+  assert.equal(rx.sets[0].weight, 205); // double jump = two 5 lb steps
 });
 ok('rep PR at a held weight is detected; matching reps are not', () => {
   assert.equal(E.isRepPR(history, 'deadlift', 255, 7), true);  // best at 255 is 6
@@ -441,18 +438,13 @@ ok('calibration exit: a top far under the reduced ask never teleports to the see
   const h = [...history, mkEntry('2026-07-16', 'PullB', 'incline-db-curl', mkSets(12.5, 10, 3), 'calibration')];
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'incline-db-curl'), E.phaseForDate(plan, '2026-07-21'));
   assert.equal(rx.basis, 'progress');
-  // incline curl is a DUMBBELL now — it climbs to the next real dumbbell (15),
-  // not 12.5+5=17.5 which would skip the 15 lb pair that exists on the rack.
-  assert.equal(rx.sets[0].weight, 15);
+  assert.equal(rx.sets[0].weight, 17.5); // 12.5 + 5, one honest step — never a teleport to the seed
 });
-ok('calibration exit: face-pulls climb one REAL pin (22.5 → 23.75, never the nonexistent 24)', () => {
+ok('calibration exit: face-pulls climb one plain step (22.5 → 27.5)', () => {
   const h = [...history, mkEntry('2026-07-15', 'PushA', 'face-pulls', mkSets(22.5, 15, 2), 'calibration')];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), E.phaseForDate(plan, '2026-07-21'));
-  // The DAP is 4:1 with two 5-lb (=1.25/handle) micros: 22.5 → 23.75 (+1 micro)
-  // → 25 (+both) → 27.5 (next stack pin). The old +2.5 rule asked for 25 in one
-  // jump; the real next pin is 23.75.
   assert.equal(rx.basis, 'progress');
-  assert.equal(rx.sets[0].weight, 23.75);
+  assert.equal(rx.sets[0].weight, 27.5);
 });
 ok('isolation lifts never double-jump, whatever the rep surplus', () => {
   // compound branch is pinned by the machine-chest-press double-jump test above
@@ -497,85 +489,78 @@ ok('supplemental conditioning entry never moves rotation, PRs, or prescriptions'
   assert.doesNotThrow(() => E.isRepPR(withCardio, 'zz', 200, 6));
 });
 
-// ——— Machine ladder: prescriptions land on pins that physically exist ———
-const LADDER = E.ladderFor(plan, 'face-pulls');
-ok('gear can be an explicit pin list (the irregular dumbbell rack)', () => {
-  const dl = E.ladderFor(plan, 'db-curl');
-  assert.ok(Array.isArray(dl) && dl.length, 'dumbbells resolve to a ladder');
-  assert.deepEqual(dl.slice(0, 4), [2.5, 5, 7.5, 10]);      // 2.5 steps at the light end
-  assert.equal(E.ladderUp(dl, 15), 17.5);                    // still 2.5 up here
-  assert.equal(E.ladderUp(dl, 20), 25);                      // 5 steps in the middle
-  assert.equal(E.ladderUp(dl, 50), 60);                      // 10 steps at the top
-  assert.equal(E.ladderNearest(dl, 22), 20);                 // no 22.5 dumbbell exists
+// ——— Units and gyms: any weight he types is a weight he lifted ———
+ok('the plan carries no machine ladders any more', () => {
+  assert.equal(plan.gear, undefined);
+  assert.equal(Object.values(plan.exercises).some((m) => m.gear), false);
+  assert.equal(E.ladderFor, undefined); // the concept is gone, not hidden
 });
-ok('the cable ladder is the Life Fitness DAP (4:1): 5 lb per-handle pins + two 1.25 micros', () => {
-  // 5 lb physical add-on ÷ 4:1 ratio = 1.25 lb per handle each, two of them.
-  assert.deepEqual(LADDER.slice(0, 6), [2.5, 3.75, 5, 7.5, 8.75, 10]);
-  assert.equal(LADDER[LADDER.length - 1], 100); // 97.5 pin + both micros (2 × 1.25)
-  assert.equal(E.ladderUp(LADDER, 22.5), 23.75);
-  assert.equal(E.ladderUp(LADDER, 23.75), 25);
-  assert.equal(E.ladderUp(LADDER, 25), 27.5);
-  assert.equal(E.ladderUp(LADDER, 100), null); // top of the stack: no higher pin
-  assert.equal(E.ladderDown(LADDER, 20.25), 20);
-  assert.equal(E.ladderNearest(LADDER, 25), 25); // 25 = 22.5 + both micros, a real pin
-});
-ok('every weight prescribed for a laddered lift is a loadable pin (full sweep)', () => {
-  for (const [type, session] of Object.entries(plan.sessions)) {
-    for (const sl of session.exercises) {
-      const ladder = E.ladderFor(plan, sl.id); // each gear type has its OWN pins
-      if (!ladder) continue;
-      const pins = new Set(ladder);
-      for (const ph of [calib, meso]) {
-        for (const s of E.prescribe(plan, history, type, sl, ph).sets) {
-          if (s.weight != null) assert.ok(pins.has(s.weight), `${type}/${sl.id}: ${s.weight} is not a pin`);
-        }
-      }
-    }
-  }
-});
-ok('a HELD off-pin weight snaps to the machine grid', () => {
-  // The add-on weights are unlabelled, so the numbers he types are estimates
-  // (his words, 2026-08-01). An estimate is not evidence about the machine —
-  // it belongs on the nearest weight the machine can actually load.
+ok('a HELD off-grid weight is repeated exactly as logged', () => {
   const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
-    { weight: 24, reps: 14 }, { weight: 24, reps: 14 }, // 24 is not loadable
+    { weight: 24, reps: 14 }, { weight: 24, reps: 14 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'face-pulls'), meso);
   assert.equal(rx.basis, 'repeat');
-  assert.equal(rx.sets[0].weight, 23.75);
+  assert.equal(rx.sets[0].weight, 24); // never snapped to somebody else's stack
 });
-ok('a COMPUTED weight still lands on a real pin — climbing off-pin never skips one', () => {
+ok('a COMPUTED raise is the logged weight plus one step, wherever it started', () => {
   const s = slot('PushA', 'face-pulls');
   const h = [...history, mkEntry('2026-07-22', 'PushA', 'face-pulls', [
     { weight: 24, reps: s.repMax }, { weight: 24, reps: s.repMax },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', s, meso);
   assert.equal(rx.basis, 'progress');
-  assert.equal(rx.sets[0].weight, 25); // the first REAL pin above 24
-});
-ok('at the top of the stack the weight holds AND the earned reps hold', () => {
-  const h = [...history, mkEntry('2026-07-22', 'PullA', 'cable-hammer-curl', mkSets(100, 12, 3))];
-  const rx = E.prescribe(plan, h, 'PullA', slot('PullA', 'cable-hammer-curl'), meso);
-  assert.equal(rx.sets[0].weight, 100); // top of the stack (97.5 + both micros); never an imaginary heavier pin
-  assert.equal(rx.sets[0].reps, 12);      // a raise that doesn't exist must not reset reps to the floor
-  assert.equal(rx.increment, 0);          // the card renders the honest "top of the stack" line off this
+  assert.equal(rx.sets[0].weight, 29);
 });
 ok('a zero-weight set is never climbed FROM on the progress path either', () => {
   // the same anomaly applyCross already refused to touch: +5 from 0 invents a
-  // 5 lb "working set"; a ladder step from 0 lands on the lightest pin.
-  // reps 10 = repMax exactly → the single +5 step (12 would earn the
-  // compound double-jump and muddy what this test is pinning)
+  // 5 lb "working set". reps 10 = repMax exactly → the single +5 step (12
+  // would earn the compound double-jump and muddy what this test is pinning)
   const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', [
     { weight: 0, reps: 10 }, { weight: 195, reps: 10 }, { weight: 195, reps: 10 },
   ])];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
   assert.equal(rx.basis, 'progress');
-  assert.deepEqual(rx.sets.map((s) => s.weight), [0, 202.5, 202.5]); // 195 → next chest pin
-  const lad = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', [
-    { weight: 0, reps: 15 }, { weight: 25, reps: 15 },
-  ])];
-  const lrx = E.prescribe(plan, lad, 'PullB', slot('PullB', 'face-pulls'), meso);
-  assert.equal(lrx.sets[0].weight, 0, 'a ladder step from 0 must not land on the lightest pin');
+  assert.deepEqual(rx.sets.map((s) => s.weight), [0, 200, 200]);
+});
+ok('lb ⇄ kg round-trips at the precision a dial shows', () => {
+  assert.equal(E.roundW(E.toLb(52.5)), 115.743);
+  assert.equal(Math.round(E.toKg(115.743) * 100) / 100, 52.5);
+  assert.equal(Math.round(E.toKg(E.roundW(E.toLb(50))) * 100) / 100, 50);
+});
+ok('unitFor: exercise > plan default > lb; a gym profile overlays unit and swap without touching the plan', () => {
+  assert.equal(E.unitFor(plan, 'deadlift'), 'lb');
+  const kgPlan = { ...plan, units: 'kg' };
+  assert.equal(E.unitFor(kgPlan, 'deadlift'), 'kg');
+  const prof = { deadlift: { unit: 'kg', as: 'Trap bar deadlift' }, 'db-curl': { unit: 'nonsense', as: '  ' }, junk: null };
+  const live = E.applyGymProfile(plan, prof);
+  assert.equal(E.unitFor(live, 'deadlift'), 'kg');
+  assert.equal(live.exercises.deadlift.as, 'Trap bar deadlift');
+  assert.equal(E.unitFor(live, 'db-curl'), 'lb');       // an invalid unit is ignored
+  assert.equal(live.exercises['db-curl'].as, undefined); // a blank swap is no swap
+  assert.equal(plan.exercises.deadlift.unit, undefined); // the signed plan is untouched
+  assert.equal(E.applyGymProfile(plan, {}), plan);       // no profile, same object
+});
+ok('a kg machine steps in kg: +2.5 kg, and back-offs floor to the kg step', () => {
+  const live = E.applyGymProfile(plan, { 'machine-chest-press': { unit: 'kg' } });
+  assert.ok(Math.abs(E.increment(live, 'machine-chest-press') - 5.5116) < 1e-3); // 2.5 kg in lb
+  assert.equal(E.incrementShown(live, 'machine-chest-press'), 2.5);
+  assert.equal(E.incrementShown(plan, 'machine-chest-press'), 5);
+  const kg = (lb) => Math.round(E.toKg(lb) * 100) / 100;
+  // held at 50 kg, every set at the top of the range → 52.5 kg next time
+  const h = [...history, mkEntry('2026-07-21', 'PushA', 'machine-chest-press', mkSets(E.roundW(E.toLb(50)), 10, 3))];
+  const rx = E.prescribe(live, h, 'PushA', slot('PushA', 'machine-chest-press'), meso);
+  assert.equal(rx.basis, 'progress');
+  assert.equal(kg(rx.sets[0].weight), 52.5);
+  // deload: 80% of 50 kg = 40 kg, already on the 2.5 kg step
+  const drx = E.prescribe(live, h, 'PushA', slot('PushA', 'machine-chest-press'), deload);
+  assert.equal(kg(drx.sets[0].weight), 40);
+  // calibration off the 150 lb seed on a kg machine: 135 lb = 61.23 kg → floored to 60 kg
+  const crx = E.prescribe(live, history, 'PushA', slot('PushA', 'machine-chest-press'), calib);
+  assert.equal(kg(crx.sets[0].weight), 60);
+  // and the deviation warning speaks kg on a kg machine
+  const warns = E.validateSet(live, h, 'machine-chest-press', E.toLb(20), 8, { phase: meso.phase });
+  assert.match(warns.find((w) => w.code === 'dev')?.msg ?? '', /kg\)$/);
 });
 ok('the card’s LAST strip is the visit prescribe actually read, fences and all', () => {
   // a deload entry is the most recent same-day-type visit, but the meso
@@ -730,19 +715,29 @@ ok('the moment a session the trainer has not seen is logged, overrides expire', 
   assert.equal(rx.basis, 'repeat'); // standing rules take back over, honestly
 });
 ok('a runaway coach raise is capped two honest steps above proven work', () => {
-  // best face-pull since calibration: 25. Cap = two pins up = 28.75.
+  // best face-pull since calibration: 25. Cap = two 5 lb steps up = 35.
   const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25, 15, 2))];
   const coach = coachPkt([{ exercise: 'face-pulls', sets: mkSets(60, 15, 2) }]);
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, coach);
   assert.equal(rx.basis, 'coach');
-  assert.equal(rx.sets[0].weight, 28.75);
+  assert.equal(rx.sets[0].weight, 35);
+  assert.deepEqual(rx.coach.asked, [60, 60]); // the card says what was asked
 });
-ok('coach weights snap to real pins; reps clamp to the validation ceiling', () => {
+ok('a kg override from the trainer is capped in kg steps too', () => {
+  const live = E.applyGymProfile(plan, { 'face-pulls': { unit: 'kg' } });
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(E.roundW(E.toLb(10)), 15, 2))];
+  const coach = coachPkt([{ exercise: 'face-pulls', sets: mkSets(E.toLb(30), 15, 2) }]);
+  const rx = E.prescribe(live, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, coach);
+  assert.equal(rx.basis, 'coach');
+  assert.equal(Math.round(E.toKg(rx.sets[0].weight) * 100) / 100, 15); // 10 + 2 × 2.5 kg
+});
+ok('coach weights land as written; reps clamp to the validation ceiling', () => {
   const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25, 15, 2))];
   const coach = coachPkt([{ exercise: 'face-pulls', sets: [{ weight: 24, reps: 15 }, { weight: 24, reps: 99 }] }]);
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'face-pulls'), mesoNow, coach);
-  assert.equal(rx.sets[0].weight, 23.75); // 24 does not exist on the stack → snaps to 23.75
+  assert.equal(rx.sets[0].weight, 24); // whatever the trainer wrote, no stack to snap to
   assert.equal(rx.sets[1].reps, 30);
+  assert.equal(rx.coach.asked, null);
 });
 ok('a session-scoped override never leaks onto another day; unscoped applies anywhere', () => {
   const h = [...history, mkEntry('2026-07-20', 'PushB', 'face-pulls', mkSets(25, 15, 2))];

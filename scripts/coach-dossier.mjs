@@ -71,9 +71,10 @@ const slots = (plan.sessions[nextSession]?.exercises ?? []).map((slot) => {
     name: E.exMeta(plan, slot.id).name,
     slot: { sets: slot.sets, repMin: slot.repMin, repMax: slot.repMax, rest: slot.rest, superset: slot.superset ?? null },
     appWillPrescribe: { basis: rx.basis, sets: rx.sets, cross: rx.cross ?? null, note: rx.note ?? null },
-    lastSameDay: same ? { date: same.entry.date, sets: same.ex.sets, note: same.ex.note ?? null } : null,
+    unit: E.unitFor(plan, slot.id),
+    lastSameDay: same ? { date: same.entry.date, gym: same.entry.gym ?? null, as: same.ex.as ?? null, unit: same.ex.unit ?? 'lb', sets: same.ex.sets, note: same.ex.note ?? null } : null,
     lastAnywhere: any && any.entry.date !== (same?.entry.date ?? null)
-      ? { date: any.entry.date, session: any.entry.session_type, sets: any.ex.sets, note: any.ex.note ?? null } : null,
+      ? { date: any.entry.date, session: any.entry.session_type, gym: any.entry.gym ?? null, as: any.ex.as ?? null, unit: any.ex.unit ?? 'lb', sets: any.ex.sets, note: any.ex.note ?? null } : null,
     stalled: E.isStalled(plan, history, nextSession, slot),
   };
 });
@@ -82,16 +83,16 @@ const dossier = {
   generated_for: today,
   phase: phaseInfo.phase ? { id: phaseInfo.phase.id, type: phaseInfo.phase.type, week: phaseInfo.week, of: phaseInfo.weeks } : null,
   next_session: nextSession,
-  latest_entry: latest ? { date: latest.date, session: latest.session_type, mins: latest.mins ?? null, bodyweight: latest.bodyweight ?? null } : null,
+  latest_entry: latest ? { date: latest.date, session: latest.session_type, gym: latest.gym ?? null, mins: latest.mins ?? null, bodyweight: latest.bodyweight ?? null } : null,
   pain_notes: painNotes,
   stalled_lifts: E.stalledLifts(plan, history),
   next_session_slots: slots,
   recent_entries: recent.map((e) => e.supplemental
     ? { date: e.date, conditioning: e.conditioning ?? null }
     : {
-      date: e.date, session: e.session_type, phase: e.phase, mins: e.mins ?? null,
+      date: e.date, session: e.session_type, phase: e.phase, mins: e.mins ?? null, gym: e.gym ?? null,
       bodyweight: e.bodyweight ?? null, notes: e.notes ?? null,
-      exercises: (e.exercises ?? []).map((x) => ({ id: x.id, sets: x.sets, ...(x.note ? { note: x.note } : {}) })),
+      exercises: (e.exercises ?? []).map((x) => ({ id: x.id, ...(x.as ? { as: x.as } : {}), ...(x.unit ? { unit: x.unit } : {}), sets: x.sets, ...(x.note ? { note: x.note } : {}) })),
     }),
   bodyweight_trend: history.filter((e) => e.bodyweight).slice(-6).map((e) => ({ date: e.date, lb: e.bodyweight })),
   // Pacing: REAL median rest vs work per recent session, split by the work-start
@@ -116,7 +117,7 @@ const dossier = {
     const timed = rests.length >= 2;
     return { date: e.date, session: e.session_type, rest_med_s: timed ? med(rests) : null, work_med_s: timed ? med(works) : null, timed_sets: rests.length };
   }),
-  gear_note: 'Exercises with meta.gear in plan.json load only real hardware pins (user-confirmed): main-cable = Life Fitness DAP, 4:1, per-handle 2.5..97.5 by 5 + two 1.25 micros (5-lb add-on / 4); dumbbell = 2.5s to 20, 5s to 50, then 60/70/80; leg-press = 20-lb selectorized steps; chest-press = 15-lb stack + 7.5 micro. The engine snaps and caps every coach override to the exercise\'s own ladder; write loadable weights anyway.',
+  gear_note: 'v84: there is NO machine model any more. He changes gyms often (2026-09-02 and since) and each gym\'s machines differ, so the app no longer snaps weights to a ladder of pins. Every weight in this file is in POUNDS; a set logged on a kg-labelled machine also carries `kg` (the dial reading) and its exercise carries `unit: "kg"`. An exercise with `as` is what he ACTUALLY did in that slot at that gym (e.g. "Barbell" for a smith slot) — treat it as the lift performed. Entries carry `gym` where he named one; numbers from different gyms are different machines and do not compare 1:1. Write overrides in lb; the engine only caps a raise at two steps above proven work.',
   // ——— structure evidence, for the PROGRAM seat ———
   session_composition: Object.fromEntries(Object.entries(plan.sessions).map(([t, s]) => [t,
     s.exercises.map((x) => `${x.id} ${x.sets}×${x.repMin}-${x.repMax}${x.superset ? ` (superset:${x.superset})` : ''}`)])),

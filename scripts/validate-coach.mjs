@@ -2,7 +2,7 @@
 // Gate for data/coach/latest.json: the daily trainer review may only be
 // committed if this passes. Validates the packet's shape and freshness, then
 // prints exactly what the app will prescribe WITH the packet applied — every
-// place the engine's snap/cap changed a coach ask is flagged loudly so the
+// place the engine's cap changed a coach ask is flagged loudly so the
 // reviewing agent can rethink before shipping numbers it didn't intend.
 // Usage: node scripts/validate-coach.mjs [path] [YYYY-MM-DD]
 import { readFileSync, readdirSync } from 'node:fs';
@@ -177,7 +177,7 @@ for (const slot of plan.sessions[type].exercises) {
     o.sets.slice(0, rx.sets.length).forEach((s, i) => {
       if (s.weight !== rx.sets[i].weight || Math.round(s.reps) !== rx.sets[i].reps) {
         altered = true;
-        console.log(`    ⚠ engine ALTERED your ask on set ${i + 1}: you wrote ${s.weight}×${s.reps}, the app will show ${rx.sets[i].weight}×${rx.sets[i].reps} (pin snap / safety cap)`);
+        console.log(`    ⚠ engine ALTERED your ask on set ${i + 1}: you wrote ${s.weight}×${s.reps}, the app will show ${rx.sets[i].weight}×${rx.sets[i].reps} (safety cap: two steps above proven work)`);
       }
     });
   }

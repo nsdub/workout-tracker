@@ -2,7 +2,7 @@
 // GitHub is the durable source of truth, fed by the sync queue.
 import { todayStr } from './util.js';
 // engine is pure logic with no imports of its own — no cycle.
-import { effectivePlan as engineEffectivePlan } from './engine.js';
+import { effectivePlan as engineEffectivePlan, applyGymProfile } from './engine.js';
 
 const KEYS = {
   settings: 'p3.settings',
@@ -63,6 +63,11 @@ const SETTINGS_DEFAULTS = {
   owner: 'nsdub', repo: 'workout-tracker', branch: 'main', token: '',
   phaseOverride: null, dayOverride: null, haptics: true, restTimer: true, sound: true, cardio: {},
   pushUrl: '', // Cloudflare rest-alarm worker; empty = push disabled entirely
+  // Where he is lifting, by name, and what he knows about each gym's
+  // machines: gyms[name][exerciseId] = { unit: 'kg'|'lb', as: 'Barbell' }.
+  // He switches gyms often; the app must switch with him in one tap.
+  gym: '',
+  gyms: {},
 };
 
 export const store = {
@@ -139,9 +144,42 @@ export const store = {
   },
 
   // The plan the app actually runs: the signed program plus every structural
-  // change the athlete has accepted. plan.json is never rewritten.
+  // change the athlete has accepted, plus what he knows about the machines at
+  // the gym he is standing in. plan.json is never rewritten.
   livePlan() {
-    return this.plan ? engineEffectivePlan(this.plan, this.decisions) : this.plan;
+    if (!this.plan) return this.plan;
+    return applyGymProfile(engineEffectivePlan(this.plan, this.decisions), this.gymProfile());
+  },
+
+  // The current gym's per-exercise facts (unit, substitute). The '' key is
+  // "no gym named yet" so the toggles work before he has typed a gym name.
+  gymProfile(gym = this.settings.gym ?? '') {
+    const g = this.settings.gyms ?? {};
+    const p = g[gym];
+    return p && typeof p === 'object' && !Array.isArray(p) ? p : {};
+  },
+
+  // Patch one exercise's facts at the current gym: { unit } or { as }.
+  // null/'' clears a field; an emptied exercise is dropped from the profile.
+  setGymFact(exId, patch) {
+    const gym = this.settings.gym ?? '';
+    const gyms = { ...(this.settings.gyms ?? {}) };
+    const prof = { ...(gyms[gym] ?? {}) };
+    const cur = { ...(prof[exId] ?? {}), ...patch };
+    for (const k of Object.keys(cur)) if (cur[k] == null || cur[k] === '') delete cur[k];
+    if (Object.keys(cur).length) prof[exId] = cur; else delete prof[exId];
+    gyms[gym] = prof;
+    this.saveSettings({ gyms });
+  },
+
+  setGym(name) {
+    const gym = String(name ?? '').trim();
+    const gyms = { ...(this.settings.gyms ?? {}) };
+    // Naming the gym for the first time: whatever he taught the app while it
+    // was unnamed (a kg toggle, a swap) was learned AT this gym, so it moves
+    // over with him instead of vanishing the moment he types the name.
+    if (gym && !gyms[gym]) gyms[gym] = !this.settings.gym && Object.keys(gyms[''] ?? {}).length ? { ...gyms[''] } : {};
+    this.saveSettings({ gym, gyms });
   },
 
   setCoach(coach) {

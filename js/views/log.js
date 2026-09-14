@@ -1,10 +1,10 @@
 // THE ATLAS — zoom out of the worlds and into the cosmos they float in.
 // Every finished night is a planet on a winding star-path; months are
 // sectors; PR nights wear a crown. Lifts are charted as constellations.
-import { $, esc, fmtW, fmtDate, monthLabel, dayParts, sessionMins, haptic } from '../util.js';
+import { $, esc, fmtW, fmtWU, fmtDate, monthLabel, dayParts, sessionMins, haptic } from '../util.js';
 import { sfx } from '../audio.js';
 import { store } from '../store.js';
-import { topSet, increment, ladderFor } from '../engine.js';
+import { topSet, increment } from '../engine.js';
 import { confirmSheet, toast, hideRestTimer, ICONS } from '../components.js';
 import { flushQueue } from '../github.js';
 import { applyWorld, UNIVERSES, worldDef, returnWorld } from '../worlds.js';
@@ -257,13 +257,13 @@ function renderDetail() {
         <span>
           <h1>${esc(name)}</h1>
           <div class="m">${esc(world)}</div>
-          <div class="m dim">${fmtDate(entry.date, { year: true })}${mins ? ` · ${mins} min` : ''}${entry.bodyweight ? ` · bw ${fmtW(entry.bodyweight)} lb` : ''}${phase ? ` · ${esc(phase)}` : ''}</div>
+          <div class="m dim">${fmtDate(entry.date, { year: true })}${mins ? ` · ${mins} min` : ''}${entry.bodyweight ? ` · bw ${fmtW(entry.bodyweight)} lb` : ''}${phase ? ` · ${esc(phase)}` : ''}${entry.gym ? ` · @ ${esc(entry.gym)}` : ''}</div>
         </span>
       </div>
       ${entry.exercises.map((x) => {
         const top = topSet(x.sets);
-        return `<div class="d-ex"><div class="n">${esc(x.name)}</div>
-          <div class="d-sets">${x.sets.map((s) => `<span class="d-set ${top && s === top ? 'top' : ''}"><b class="num">${fmtW(s.weight)}</b>×${s.reps}</span>`).join('')}</div>
+        return `<div class="d-ex"><div class="n">${esc(x.as || x.name)}${x.as ? ` <span class="d-as">for ${esc(x.name)}</span>` : ''}</div>
+          <div class="d-sets">${x.sets.map((s) => `<span class="d-set ${top && s === top ? 'top' : ''}"><b class="num">${fmtWU(s.weight, x.unit === 'kg' ? 'kg' : 'lb')}</b>×${s.reps}</span>`).join('')}${x.unit === 'kg' ? '<span class="d-unit">kg</span>' : ''}</div>
           ${x.note ? `<div class="d-note">“${esc(x.note)}”</div>` : ''}
         </div>`;
       }).join('')}
@@ -340,10 +340,9 @@ function draftFromEntry(entry) {
       // re-finishing silently deletes it from the record (found by the v45
       // adversarial review): finishSession persists only logNote.
       logNote: x.note ?? null,
-      // inc drives the numpad's ± stepper: resolve the real per-exercise grid
+      // inc drives the numpad's ± stepper: resolve the real per-exercise step
       // (5/10 lb on the barbells) exactly like buildDraft, never a flat 2.5.
       bump: 0, pct: null, stalled: false, inc: (slot && increment(store.plan, slot.id)) || 2.5, adhoc: !slot,
-      grid: slot ? ladderFor(store.plan, slot.id) : null,
       sets: x.sets.map((s) => ({ weight: s.weight, reps: s.reps, rxWeight: s.weight, done: true, ...(s.at ? { at: s.at } : {}) })),
     };
   });

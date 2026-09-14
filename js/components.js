@@ -106,17 +106,27 @@ export function openSheet(html, { onOpen } = {}) {
   return close;
 }
 
-export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, min = 0, max = 2000, decimals = true, grid = null, onConfirm }) {
+// Any number he can type is a number he can log — the steppers are a
+// convenience walking the lift's own increment, never a fence. When `units`
+// is given (['lb', 'kg']) the unit label is a toggle: the value converts in
+// place, the step swaps with it, and onConfirm receives (value, unit) in the
+// unit showing at the moment he locks it in.
+export function numpadSheet({ title, sub = '', value = 0, unit = '', units = null, step = 5, stepKg = 2.5, min = 0, max = 9999, decimals = true, onConfirm, onUnit = null }) {
   let current = value ?? 0;
   let typing = false;
   let buffer = '';
+  let curUnit = unit;
+  const stepNow = () => (curUnit === 'kg' ? stepKg : step);
+  const toggle = !!(units && units.length > 1);
   openSheet(`
     <h2>${esc(title)}</h2>
     ${sub ? `<div class="sub">${esc(sub)}</div>` : ''}
     <div class="np-display">
-      <button class="np-step" data-d="-1">${grid?.length ? '− pin' : `−${fmtW(step)}`}</button>
-      <div class="np-value num"><span id="np-v">${fmtW(current)}</span>${unit ? `<span class="unit"> ${esc(unit)}</span>` : ''}</div>
-      <button class="np-step" data-d="1">${grid?.length ? '+ pin' : `+${fmtW(step)}`}</button>
+      <button class="np-step" data-d="-1">−<span id="np-s1">${fmtW(stepNow())}</span></button>
+      <div class="np-value num"><span id="np-v">${fmtW(current)}</span>${unit ? (toggle
+        ? `<button class="unit np-unit" id="np-unit" aria-label="switch unit"> ${esc(unit)} <i>⇄</i></button>`
+        : `<span class="unit"> ${esc(unit)}</span>`) : ''}</div>
+      <button class="np-step" data-d="1">+<span id="np-s2">${fmtW(stepNow())}</span></button>
     </div>
     <div class="np-grid">
       ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button class="np-key" data-k="${n}">${n}</button>`).join('')}
@@ -143,20 +153,26 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
       sheet.addEventListener('click', (e) => {
         const stepBtn = e.target.closest('.np-step');
         const key = e.target.closest('.np-key');
-        if (stepBtn) {
-          if (typing) { current = parseFloat(buffer || '0'); typing = false; }
-          const d = Number(stepBtn.dataset.d);
-          if (grid?.length) {
-            // Walk the machine's real pins: +/− lands on a weight that exists,
-            // never on step-arithmetic the stack can't load. Past either end
-            // the value HOLDS — a plus that lowers (typed 150 → top pin) or a
-            // minus that raises (0 → first pin) would invert the button.
-            current = d > 0
-              ? (grid.find((v) => v > current + 1e-9) ?? current)
-              : ([...grid].reverse().find((v) => v < current - 1e-9) ?? current);
-          } else {
-            current = Math.min(max, Math.max(min, +(current + step * d).toFixed(2)));
+        const unitBtn = e.target.closest('#np-unit');
+        if (unitBtn) {
+          // lb ⇄ kg: the number on screen converts so what he is looking at
+          // stays the same weight, then rounds to what a dial would show.
+          if (typing) { current = parseFloat(buffer || '0') || 0; typing = false; }
+          const next = units[(units.indexOf(curUnit) + 1) % units.length];
+          if (next !== curUnit) {
+            const f = curUnit === 'kg' && next === 'lb' ? 1 / 0.45359237 : curUnit === 'lb' && next === 'kg' ? 0.45359237 : 1;
+            current = Math.round(current * f * 100) / 100;
+            curUnit = next;
+            unitBtn.innerHTML = ` ${esc(curUnit)} <i>⇄</i>`;
+            $('#np-s1', sheet).textContent = fmtW(stepNow());
+            $('#np-s2', sheet).textContent = fmtW(stepNow());
+            onUnit?.(curUnit);
           }
+          haptic(6); sfx('tap'); render(); pulse(true);
+        } else if (stepBtn) {
+          if (typing) { current = parseFloat(buffer || '0') || 0; typing = false; }
+          const d = Number(stepBtn.dataset.d);
+          current = Math.min(max, Math.max(min, +(current + stepNow() * d).toFixed(2)));
           haptic(5); sfx('tap'); render(); pulse(true);
         } else if (key && !key.disabled) {
           const k = key.dataset.k;
@@ -172,7 +188,7 @@ export function numpadSheet({ title, sub = '', value = 0, unit = '', step = 5, m
           // with a distinct pattern + a confirmation cue, not the flat per-key buzz.
           haptic([14, 22, 14]); sfx('objDone');
           close();
-          onConfirm(Math.min(max, Math.max(min, isNaN(v) ? 0 : v)));
+          onConfirm(Math.min(max, Math.max(min, isNaN(v) ? 0 : v)), curUnit);
         }
       });
     },

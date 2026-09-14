@@ -5,86 +5,62 @@ export function roundLoad(w) {
   return Math.round(w / 2.5) * 2.5;
 }
 
-// ——— Load ladders (machines whose loadable weights are NOT an arithmetic grid) ———
-// The user's dual cable stack pins 2.5 → 97.5 in 5 lb plates, plus two 1.5 lb
-// micro weights that can ride on top (one or both). Loadable weights are
-// S, S+1.5, S+3 — steps of 1.5/1.5/2, and a naive "+2.5" from ANY loadable
-// weight lands on a pin that does not exist. Exercises on such a machine name
-// a gear profile (plan.gear) and every weight the engine emits for them is
-// snapped to a real pin.
+// ——— Units ———
+// Every weight the engine stores, compares, or emits is in POUNDS. A machine
+// labelled in kilograms is a display fact: the athlete types kg, the app keeps
+// lb, and the card shows kg again. No machine ladders, no pin snapping — the
+// gyms change (2026-09-02 and since), the machines change with them, and a
+// weight he can type is a weight he lifted.
+export const KG_PER_LB = 0.45359237;
+export const toKg = (lb) => lb * KG_PER_LB;
+export const toLb = (kg) => kg / KG_PER_LB;
+// Round a weight to the precision a stored number needs: three decimals keep
+// a kg entry exact on the way back (52.5 kg → 115.743 lb → 52.5 kg).
+export const roundW = (w) => (w == null ? w : Math.round(w * 1000) / 1000);
+export const DEFAULT_KG_STEP = 2.5;
 
-export function gearLadder(gear) {
-  // Some hardware isn't an arithmetic stack at all — a dumbbell rack steps by
-  // 2.5 at the light end, 5 in the middle, 10 at the top. Such gear lists its
-  // loadable weights explicitly as `pins`.
-  if (Array.isArray(gear.pins)) return [...new Set(gear.pins)].sort((a, b) => a - b);
-  const { min, step, max } = gear.stack;
-  const out = [];
-  for (let s = min; s <= max + 1e-9; s += step) {
-    out.push(+s.toFixed(2));
-    for (const m of gear.micro ?? []) out.push(+(s + m).toFixed(2));
+// The unit this lift is shown and typed in: the exercise's own (a gym-profile
+// overlay sets it per machine), else the plan's default, else lb.
+export function unitFor(plan, id) {
+  const u = exMeta(plan, id).unit ?? plan.units ?? 'lb';
+  return u === 'kg' ? 'kg' : 'lb';
+}
+
+// A gym profile is the athlete's own per-machine facts at ONE gym: which unit
+// a machine reads in, and what he actually does in a slot there ("Barbell",
+// "one-arm dumbbell row"). Overlaid on the plan's exercises the same way
+// accepted decisions overlay its sessions — plan.json is never rewritten.
+export function applyGymProfile(plan, profile) {
+  if (!profile || !Object.keys(profile).length) return plan;
+  const exercises = { ...plan.exercises };
+  for (const [id, p] of Object.entries(profile)) {
+    if (!p || typeof p !== 'object') continue;
+    const base = exercises[id] ?? { name: id };
+    const next = { ...base };
+    if (p.unit === 'kg' || p.unit === 'lb') next.unit = p.unit;
+    if (typeof p.as === 'string' && p.as.trim()) next.as = p.as.trim();
+    exercises[id] = next;
   }
-  return [...new Set(out)].sort((a, b) => a - b);
-}
-
-export function ladderFor(plan, id) {
-  const g = exMeta(plan, id).gear;
-  const def = g && plan.gear ? plan.gear[g] : null;
-  return def ? gearLadder(def) : null;
-}
-
-// Largest pin ≤ w (never below the lightest pin) — back-off weeks must not
-// round UP past their target.
-export function ladderDown(ladder, w) {
-  let best = ladder[0];
-  for (const v of ladder) { if (v <= w + 1e-9) best = v; else break; }
-  return best;
-}
-
-// Closest pin to w; ties break UP. Used when repeating a logged weight that
-// isn't on the ladder (hand-typed or from another machine's grid).
-export function ladderNearest(ladder, w) {
-  let best = ladder[0];
-  for (const v of ladder) {
-    if (Math.abs(v - w) < Math.abs(best - w) - 1e-9) best = v;
-    else if (Math.abs(v - w) <= Math.abs(best - w) + 1e-9 && v > best) best = v;
-  }
-  return best;
-}
-
-// The next pin(s) strictly above w — the ladder's own "+increment". Null at
-// the top of the stack: a lift that can't go heavier keeps its weight and
-// chases reps. An off-pin w (hand-typed) climbs to the first REAL pin above
-// it, never skipping one via a nearest-snap.
-export function ladderUp(ladder, w, rungs = 1) {
-  let cur = w;
-  let out = null;
-  for (let n = 0; n < rungs; n++) {
-    const next = ladder.find((v) => v > cur + 1e-9);
-    if (next == null) return out;
-    out = next;
-    cur = next;
-  }
-  return out;
+  return { ...plan, exercises };
 }
 
 // Back-off weeks (calibration 90%, deload 80%) must never round UP past their
-// target and must land on the program's OWN increment grid — 5 lb upper /
-// 10 lb lower — so every prescribed weight is actually loadable (a rope stack
-// has no 72.5, a cable no 27.5). Rounds the reduced load DOWN to that
+// target and must land on the lift's OWN increment grid — 5 lb upper / 10 lb
+// lower, or 2.5 kg on a kg machine. Rounds the reduced load DOWN to that
 // increment; a loaded lift is never dropped below a single increment.
 export function backoffLoad(w, inc) {
   if (!(inc > 0)) return roundLoad(w); // no known increment → legacy 2.5 grid
-  return Math.max(inc, Math.floor(w / inc) * inc);
+  // 1e-4 of a step of slack: a stored kg weight is rounded to 0.001 lb, and
+  // without it 80% of 50 kg (a clean 16 steps) floors to 15 steps = 37.5 kg.
+  return roundW(Math.max(inc, Math.floor(w / inc + 1e-4) * inc));
 }
 
 // The grid snap means "90%" is almost never 90% — 185 × 0.9 lands at 165,
 // which is really 89%. One place computes both the weight and the ratio it
 // actually is, so every label downstream can tell the truth instead of
-// asserting the nominal target. A ladder (real machine pins) outranks the
-// arithmetic grid when the exercise has one.
-export function backoffInfo(base, factor, inc, ladder = null) {
-  const weight = ladder ? ladderDown(ladder, base * factor) : backoffLoad(base * factor, inc);
+// asserting the nominal target.
+export function backoffInfo(base, factor, inc) {
+  const weight = backoffLoad(base * factor, inc);
   return { weight, pct: Math.round((weight / base) * 100) };
 }
 
@@ -92,16 +68,29 @@ export function exMeta(plan, id) {
   return plan.exercises[id] || { name: id };
 }
 
+// The progression step for a lift, IN POUNDS. A kg machine steps in kg
+// (2.5 by default, or the exercise's own incrementKg) and the lb figure is
+// that step converted, so a prescription lands on a number the kg dial shows.
 export function increment(plan, id) {
   const meta = exMeta(plan, id);
   if (meta.bodyweight) return 0;
-  // A lift that lives on its own grid — 2.5 lb dumbbell steps, a fractional
-  // cable stack — can say so per-exercise; the upper/lower rule is only the
+  if (unitFor(plan, id) === 'kg') {
+    const kg = typeof meta.incrementKg === 'number' && meta.incrementKg > 0 ? meta.incrementKg : DEFAULT_KG_STEP;
+    return toLb(kg); // exact — rounding it here drifts a floored 40 kg to 37.5
+  }
+  // A lift that lives on its own grid — 2.5 lb dumbbell steps, a 7.5 lb
+  // stack — can say so per-exercise; the upper/lower rule is only the
   // default, not a law of the gym.
   if (typeof meta.increment === 'number' && meta.increment > 0) return meta.increment;
   return plan.rules.progression.lowerExercises.includes(id)
     ? plan.rules.progression.lowerIncrement
     : plan.rules.progression.upperIncrement;
+}
+
+// The same step in the unit the lift is shown in — what the numpad's ± walks.
+export function incrementShown(plan, id) {
+  const inc = increment(plan, id);
+  return unitFor(plan, id) === 'kg' ? Math.round(toKg(inc) * 100) / 100 : inc;
 }
 
 // ——— Structural decisions (the trainers change the PROGRAM, not just loads) ———
@@ -452,8 +441,8 @@ export function crossDayBest(plan, history, sessionType, slot, afterDate = null)
 // the prefills ONLY while the review is fresh — the moment a session is
 // logged that the trainer hasn't seen, every override expires and the
 // standing rules take back over (and the UI says so). The engine never
-// trusts the packet blindly: weights snap to real pins and are capped near
-// what this lift has actually demonstrated.
+// trusts the packet blindly: weights are capped near what this lift has
+// actually demonstrated.
 
 // A packet is fresh only while BOTH hold: nothing has been logged that the
 // trainer hasn't seen, AND it isn't stale by the calendar. Without the age
@@ -479,7 +468,7 @@ function coachOverrideFor(coach, sessionType, exId) {
 // set this lift has shown since calibration (deloads excluded), or above the
 // seed when it hasn't been logged yet. A trainer can hold or cut without
 // limit; a runaway raise gets clamped.
-function coachCap(plan, history, slot, ladder, inc) {
+function coachCap(plan, history, slot, inc) {
   const since = calibrationStart(plan);
   const skip = deloadPhaseIds(plan);
   let base = 0;
@@ -491,7 +480,7 @@ function coachCap(plan, history, slot, ladder, inc) {
   }
   if (!base && slot.seed != null) base = slot.seed;
   if (!base) return Infinity;
-  return ladder ? (ladderUp(ladder, base, 2) ?? ladder[ladder.length - 1]) : base + 2 * inc;
+  return roundW(base + 2 * inc);
 }
 
 // Builds the pre-filled targets for one exercise slot of a session template.
@@ -500,26 +489,22 @@ function coachCap(plan, history, slot, ladder, inc) {
 export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = null) {
   const { phase } = phaseInfo;
   const inc = increment(plan, slot.id);
-  const ladder = ladderFor(plan, slot.id);
   const meta = exMeta(plan, slot.id);
   const nSets = phase?.type === 'deload' ? Math.max(1, Math.round(slot.sets * (phase.setFactor ?? 0.6))) : slot.sets;
   const mk = (w, r) => Array.from({ length: nSets }, () => ({ weight: w, reps: r }));
-  // Every weight this engine emits for a laddered lift is a pin that exists.
-  const snapRx = (w) => (ladder && w > 0 ? ladderNearest(ladder, w) : w);
-
-  // The trainer's word comes first — but only fresh, snapped, and capped.
+  // The trainer's word comes first — but only fresh and capped.
   // Bodyweight slots USED to be excluded here on the grounds that there was
   // "nothing to prescribe but reps". There is: the plank went 60s → 45s and
   // the recovery seat wrote "your card will still say 60 because I cannot set
   // a timed hold from here" in two consecutive reviews. It was right, and the
   // hole was here. A bodyweight override carries weight 0 and the reps (or
-  // seconds) it wants; the cap and the pin snap have nothing to do on it.
+  // seconds) it wants; the cap has nothing to do on it.
   if (coach && coachFresh(history, coach, phaseInfo?.date ?? null)) {
     const o = coachOverrideFor(coach, sessionType, slot.id);
     const shaped = o && Array.isArray(o.sets) && o.sets.length && o.sets.every((s) => s.reps > 0
       && (meta.bodyweight ? (s.weight ?? 0) === 0 : s.weight > 0));
     if (shaped) {
-      const cap = coachCap(plan, history, slot, ladder, inc);
+      const cap = coachCap(plan, history, slot, inc);
       // A REP ceiling must not be applied to SECONDS. The plan's own plank is
       // 2 × 60 sec; clamping it at maxReps (30) made a 60-second hold
       // inexpressible — the trainer would have asked for 45 and the card would
@@ -531,13 +516,13 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
       // A packet restoring the full count would make that notice false, so the
       // deload's set budget wins over the trainer's count (its weights don't).
       const askSets = o.sets.slice(0, phase?.type === 'deload' ? nSets : slot.sets + 2);
-      // A bodyweight slot carries no load, so there is no pin to snap to and
-      // no weight ceiling to cap against — only the hold or the rep count.
+      // A bodyweight slot carries no load, so there is no weight ceiling to
+      // cap against — only the hold or the rep count.
       const sets = askSets.map((s) => ({
-        weight: meta.bodyweight ? 0 : snapRx(Math.min(cap, s.weight)),
+        weight: meta.bodyweight ? 0 : Math.min(cap, s.weight),
         reps: clamp(Math.round(s.reps), 1, maxReps),
       }));
-      // If the pin snap or the safety cap moved the trainer's number, the card
+      // If the safety cap moved the trainer's number, the card
       // MUST say so — otherwise it quotes a reason for 50 while prefilling
       // 50.5, and the athlete is reading a justification for a weight that is
       // not on screen.
@@ -568,7 +553,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
 
   if (phase?.type === 'calibration') {
     if (slot.seed == null) return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
-    const bo = backoffInfo(slot.seed, phase.loadFactor ?? 0.9, inc, ladder);
+    const bo = backoffInfo(slot.seed, phase.loadFactor ?? 0.9, inc);
     return { sets: mk(bo.weight, slot.repMin), basis: 'calibration', prevTop: slot.seed, pct: bo.pct };
   }
 
@@ -588,14 +573,14 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     const sets = Array.from({ length: nSets }, (_, i) => {
       const src = baseSets[Math.min(i + off, baseSets.length - 1)];
       return {
-        weight: src.weight > 0 ? backoffInfo(src.weight, factor, inc, ladder).weight : src.weight,
+        weight: src.weight > 0 ? backoffInfo(src.weight, factor, inc).weight : src.weight,
         reps: slot.repMin,
       };
     });
     // pct describes the TOP set — a ramped base means every set carries its
     // own ratio, and the headline should match the heaviest bar of the day.
     const top = topSet(baseSets);
-    return { sets, basis: 'deload', prevTop: top?.weight ?? null, pct: top ? backoffInfo(top.weight, factor, inc, ladder).pct : null };
+    return { sets, basis: 'deload', prevTop: top?.weight ?? null, pct: top ? backoffInfo(top.weight, factor, inc).pct : null };
   }
 
   // The floor set elsewhere in the rotation: face pulls close four different
@@ -615,8 +600,8 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     // the all-zero shape (a verify slot) adopts the cross weight wholesale.
     return {
       sets: top > 0
-        ? sets.map((s) => ({ ...s, weight: s.weight > 0 ? snapRx(s.weight + delta) : s.weight }))
-        : sets.map((s) => ({ ...s, weight: snapRx(cross.weight) })),
+        ? sets.map((s) => ({ ...s, weight: s.weight > 0 ? roundW(s.weight + delta) : s.weight }))
+        : sets.map((s) => ({ ...s, weight: cross.weight })),
       basis: 'cross',
       prevTop,
       cross,
@@ -632,7 +617,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
       if (lifted) return lifted; // real recent work beats "verify" every time
       return { sets: mk(null, slot.repMin), basis: 'verify', prevTop: null, note: slot.seedNote };
     }
-    const seeded = mk(snapRx(slot.seed), slot.repMin);
+    const seeded = mk(slot.seed, slot.repMin);
     return applyCross(seeded, null) ?? { sets: seeded, basis: 'seed', prevTop: null, note: slot.seedNote };
   }
 
@@ -655,7 +640,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   // far under (20 against a 25 ask, seed 30) hasn't earned a teleport to a
   // weight it never touched — it climbs one honest jump from where it stands.
   const seedEarned = fromCalibration && slot.seed != null && prevTop != null
-    && prevTop >= backoffInfo(slot.seed, lastPhase?.loadFactor ?? 0.9, inc, ladder).weight;
+    && prevTop >= backoffInfo(slot.seed, lastPhase?.loadFactor ?? 0.9, inc).weight;
   // THE ASK, not the memory of last time. While the weight is held, the ONLY
   // thing that earns the raise is repMax on every set — that is exactly what
   // progressionMet tests, and exactly what the card's own sentence promises
@@ -677,22 +662,14 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   const sets = Array.from({ length: nSets }, (_, i) => {
     const src = prev[Math.min(i + off, prev.length - 1)];
     // A set saved without a weight is an anomaly, not a rung to climb from:
-    // adding an increment to 0 invents a 7.5 lb "working set", and a ladder
-    // step from 0 lands on the lightest pin. Same rule applyCross already
-    // uses — leave the anomaly exactly where it is.
+    // adding an increment to 0 invents a 7.5 lb "working set". Same rule
+    // applyCross already uses — leave the anomaly exactly where it is.
     if (!(src.weight > 0)) return { weight: src.weight, reps: grow ? slot.repMin : askReps(src) };
-    // RESOLVED 2026-08-01, by the athlete: the add-on weights on that stack
-    // carry no label, so he ESTIMATED the numbers he typed. His off-grid
-    // entries were never evidence about the machine — they were guesses. The
-    // manufacturer grid is the only real model, and a guess belongs on it.
-    if (!grow) return { weight: snapRx(src.weight), reps: askReps(src) };
-    // On a ladder the "+increment" is the next real pin. At the very top of
-    // the stack there is no raise to give — hold the weight AND the earned
-    // reps; resetting to repMin would trade 12s for a raise that doesn't exist.
-    const up = ladder ? ladderUp(ladder, src.weight, rungs) : src.weight + jump;
-    if (up == null) return { weight: snapRx(src.weight), reps: clamp(src.reps, slot.repMin, slot.repMax) };
-    let w = up;
-    if (seedEarned) w = Math.max(w, snapRx(slot.seed));
+    // Held: the weight he logged, to the decimal. Whatever he typed at
+    // whatever gym is the only model of the machine the app has.
+    if (!grow) return { weight: src.weight, reps: askReps(src) };
+    let w = roundW(src.weight + jump);
+    if (seedEarned) w = Math.max(w, slot.seed);
     return { weight: w, reps: slot.repMin };
   });
   const newTop = Math.max(0, ...sets.map((s) => s.weight ?? 0));
@@ -700,9 +677,9 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   // the card can display THAT session rather than re-deriving "most recent"
   // with a different fence and contradicting itself.
   const source = { date: last.entry.date, entry: last.entry, ex: last.ex };
-  // Per-set rises, so a MIXED shape at the ladder ceiling (set 1 climbs, the
-  // top two hold) can't be labelled "top of the stack, weight holds" while
-  // set 1 in fact went up. Zero only when nothing moved at all.
+  // Per-set rises, so a MIXED shape (set 1 climbs, the top two hold) can't
+  // be labelled "weight holds" while set 1 in fact went up. Zero only when
+  // nothing moved at all.
   const rose = grow ? Math.max(0, ...sets.map((s, i) => (s.weight ?? 0) - (prev[Math.min(i, prev.length - 1)].weight ?? 0))) : 0;
   const base = {
     sets,
@@ -742,7 +719,8 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
       superset: slot.superset ?? null,
       rest: slot.rest ?? 90,
       inc: increment(plan, slot.id) || 2.5,
-      grid: ladderFor(plan, slot.id),
+      unit: unitFor(plan, slot.id),
+      as: meta.as ?? null, // what he actually does in this slot at this gym
       sets: rx.sets,
       basis: rx.basis,
       prevTop: rx.prevTop ?? null,
@@ -760,6 +738,7 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
       last: sameDay ? {
         date: sameDay.entry.date,
         session: sameDay.entry.session_type,
+        gym: sameDay.entry.gym ?? null,
         sets: performedOrder(sameDay.ex.sets),
         note: sameDay.ex.note ?? null,
         deload: deloadPhaseIds(plan).includes(sameDay.entry.phase),
@@ -768,6 +747,7 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
       other: other ? {
         date: other.entry.date,
         session: other.entry.session_type,
+        gym: other.entry.gym ?? null,
         sets: performedOrder(other.ex.sets),
         note: other.ex.note ?? null,
         newer: !sameDay || other.entry.date > sameDay.entry.date,
@@ -915,13 +895,17 @@ export function validateSet(plan, history, exId, weight, reps, { phase = null, p
       const dev = Math.abs(weight - expect) / expect;
       if (dev > (plan.rules.validation.deviationPct ?? 25) / 100) {
         // show percent against the SAME rounded number we display, so the
-        // arithmetic in the message checks out by hand
-        const expShown = Math.round(expect);
-        const pct = Math.round((Math.abs(weight - expShown) / expShown) * 100);
-        const dir = weight < expShown ? 'lighter' : 'heavier';
+        // arithmetic in the message checks out by hand — in the unit the
+        // lift is shown in, or the sentence quotes a number the card never shows
+        const unit = unitFor(plan, exId);
+        const shown = (lb) => Math.round(unit === 'kg' ? toKg(lb) : lb);
+        const expShown = shown(expect);
+        const wShown = unit === 'kg' ? toKg(weight) : weight;
+        const pct = Math.round((Math.abs(wShown - expShown) / expShown) * 100);
+        const dir = wShown < expShown ? 'lighter' : 'heavier';
         const msg = factor === 1
-          ? `${pct}% ${dir} than your recent top sets (avg ${expShown} lb)`
-          : `${pct}% ${dir} than expected for ${phase.type} (~${expShown} lb = ${Math.round(factor * 100)}% of your ${Math.round(avg)} lb average)`;
+          ? `${pct}% ${dir} than your recent top sets (avg ${expShown} ${unit})`
+          : `${pct}% ${dir} than expected for ${phase.type} (~${expShown} ${unit} = ${Math.round(factor * 100)}% of your ${shown(avg)} ${unit} average)`;
         warnings.push({ code: 'dev', msg });
       }
     }

@@ -2,83 +2,6 @@
   "version": 4,
   "name": "Protocol v3",
   "updated": "2026-08-14",
-  "gear": {
-    "main-cable": {
-      "label": "dual cable stack",
-      "note": "Life Fitness Signature Series Dual Adjustable Pulley. Pins verified two ways 2026-08-01: the manufacturer publishes 2 x 390 lb stacks, 4:1 ratio, 97.5 lb max user resistance per stack, and the stack he photographed 2026-07-31 carries exactly that label plus the line 'Weight stack label indicates resistance for each handle'. So min 2.5 / step 5 / max 97.5 per handle is right. Micros: the OEM add-on increment weight for Signature Series Cable Motion is 5 lb (Life Fitness part 7711501); at 4:1 that is 1.25 lb per handle, two of them, so loadable per handle is pin, pin+1.25, pin+2.5. RESOLVED by the athlete 2026-08-01: the add-on weights on his machine carry NO printed figure, so the numbers he typed for cable lifts were ESTIMATES, not readings. Entries like 10.5, 15.5, 14, 54 and 60.5 are guesses at an unlabelled plate and are not evidence about the hardware — do not model the grid off them. The app snaps typed and repeated cable weights onto this grid and says so on screen when it moves one.",
-      "stack": {
-        "min": 2.5,
-        "step": 5,
-        "max": 97.5
-      },
-      "micro": [
-        1.25,
-        2.5
-      ]
-    },
-    "dumbbell": {
-      "label": "dumbbell rack",
-      "note": "Photographed 2026-07-23, top pair user-confirmed 80 (Hampton rubber-hex): 2.5-lb steps to 20, 5-lb steps to 50, then 60/70/80. Per-hand weight.",
-      "pins": [
-        2.5,
-        5,
-        7.5,
-        10,
-        12.5,
-        15,
-        17.5,
-        20,
-        25,
-        30,
-        35,
-        40,
-        45,
-        50,
-        60,
-        70,
-        80
-      ]
-    },
-    "leg-press": {
-      "label": "leg press stack",
-      "note": "User-confirmed 2026-07-23: Technogym selectorized, 20-lb steps (10, 20, then 40, 60, 80 …). NOT plate-loaded.",
-      "pins": [
-        10,
-        20,
-        40,
-        60,
-        80,
-        100,
-        120,
-        140,
-        160,
-        180,
-        200,
-        220,
-        240,
-        260,
-        280,
-        300,
-        320,
-        340,
-        360,
-        380,
-        400
-      ]
-    },
-    "chest-press": {
-      "label": "chest press stack",
-      "note": "User-confirmed 2026-07-23: main stack moves in 15s with a 7.5-lb micro selector (loadable: multiples of 7.5).",
-      "stack": {
-        "min": 15,
-        "step": 15,
-        "max": 300
-      },
-      "micro": [
-        7.5
-      ]
-    }
-  },
   "units": "lb",
   "show": {
     "date": "2027-03-01",
@@ -230,8 +153,7 @@
         "Set the seat so the handles sit at mid-chest. Shoulder blades squeezed into the pad, chest up, feet flat.",
         "Press to just short of elbow lockout, then lower until the hands are near chest level with a stretch across the pecs. Keep the shoulders pinned back the entire rep."
       ],
-      "role": "compound",
-      "gear": "chest-press"
+      "role": "compound"
     },
     "cable-crossover-low-high": {
       "name": "Cable Crossover (low→high)",
@@ -240,7 +162,6 @@
         "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
         "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "db-shoulder-press": {
@@ -250,8 +171,7 @@
         "Seated with back support. Dumbbells start at shoulder height, palms forward or slightly turned in, forearms vertical.",
         "Press up and slightly together to lockout overhead, then lower under control until the dumbbells are back at ear-to-shoulder level. Ribs down, no arching off the pad."
       ],
-      "role": "compound",
-      "gear": "dumbbell"
+      "role": "compound"
     },
     "cable-lateral-raise": {
       "name": "Cable Lateral Raise",
@@ -260,7 +180,6 @@
         "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
         "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "overhead-cable-triceps": {
@@ -270,7 +189,6 @@
         "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
         "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "rope-pushdown": {
@@ -279,7 +197,6 @@
         "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
         "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "face-pulls": {
@@ -289,7 +206,6 @@
         "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
         "Think external rotation, not rowing: hands finish above the elbows every rep."
       ],
-      "gear": "main-cable",
       "role": "corrective"
     },
     "deadlift": {
@@ -331,8 +247,7 @@
         "Curl without moving the upper arm — elbows stay at the ribs. Squeeze at the top, lower slowly to a full hang.",
         "If the shoulders swing to start the rep, the weight is doing the curl, not the biceps."
       ],
-      "role": "hypertrophy",
-      "gear": "dumbbell"
+      "role": "hypertrophy"
     },
     "cable-hammer-curl": {
       "name": "Cable Hammer Curl",
@@ -340,7 +255,6 @@
         "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
         "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "leg-press-low": {
@@ -352,8 +266,7 @@
         "Lower until the knees reach roughly 90° or as deep as possible without the lower back curling off the pad. Press through the whole foot to just short of knee lockout.",
         "The tailbone lifting off the seat is the depth limit. Never let the knees slam into lockout."
       ],
-      "role": "compound",
-      "gear": "leg-press"
+      "role": "compound"
     },
     "leg-extension": {
       "name": "Leg Extension",
@@ -404,8 +317,7 @@
         "Let the platform push you into a deep stretch and pause a beat, then drive up through the balls of the feet to full extension and squeeze.",
         "The pause at the bottom kills the Achilles bounce — the bounce is the main reason calves stall. Never let the knees bend and unrack the weight."
       ],
-      "role": "hypertrophy",
-      "gear": "leg-press"
+      "role": "hypertrophy"
     },
     "cable-crunch": {
       "name": "Cable Crunch",
@@ -445,8 +357,7 @@
         "Raise out and slightly forward to shoulder height, leading with the elbows, pinkies no higher than thumbs. Lower on a 2–3 second count.",
         "Past shoulder height it becomes traps. Lighter and stricter beats heavier and swung, 25 sets a week says so."
       ],
-      "role": "hypertrophy",
-      "gear": "dumbbell"
+      "role": "hypertrophy"
     },
     "cable-crossover-high-low": {
       "name": "Cable Crossover (high→low)",
@@ -455,7 +366,6 @@
         "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
         "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "reverse-pec-deck": {
@@ -485,7 +395,6 @@
         "Straight or EZ bar on a high pulley, underhand grip, elbows at the sides.",
         "Push down to lockout keeping the palms up, squeeze, and return under control. The underhand grip forces stricter elbows and biases the medial head."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "smith-bent-over-row": {
@@ -525,8 +434,7 @@
         "Elevate the shoulders straight up toward the ears, pause a full second at the top, and lower slowly to a stretch.",
         "Straight up and down — rolling the shoulders adds nothing but wear."
       ],
-      "role": "hypertrophy",
-      "gear": "dumbbell"
+      "role": "hypertrophy"
     },
     "incline-db-curl": {
       "name": "Incline DB Curl",
@@ -535,8 +443,7 @@
         "Curl with the upper arms staying behind the torso, squeeze, and lower to a full stretch of the long head.",
         "The arms hanging behind the body is the entire point — if the elbows drift forward it's a standing curl on a slant."
       ],
-      "role": "hypertrophy",
-      "gear": "dumbbell"
+      "role": "hypertrophy"
     },
     "cable-reverse-curl": {
       "name": "Cable Reverse Curl",
@@ -544,7 +451,6 @@
         "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
         "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
       ],
-      "gear": "main-cable",
       "role": "hypertrophy"
     },
     "smith-rdl": {
@@ -566,8 +472,7 @@
         "Feet high on the platform, slightly wider than shoulders. High placement biases glutes and hamstrings.",
         "Lower deep, keeping the pelvis flat on the pad, then drive through the heels to just short of lockout."
       ],
-      "role": "compound",
-      "gear": "leg-press"
+      "role": "compound"
     },
     "plank": {
       "name": "Plank",
@@ -584,7 +489,6 @@
       "name": "DB Bulgarian Split Squat",
       "compound": true,
       "role": "compound",
-      "gear": "dumbbell",
       "howto": [
         "Stand about a stride in front of the flat bench, a dumbbell in each hand at your sides, and rest the top of your rear foot on the bench. Set the front foot far enough forward that at the bottom the front knee stacks over the ankle, not way past the toes.",
         "Lower straight down by bending the front knee until the front thigh is about parallel, feeling a stretch through the front-leg quad and glute — torso tall, weight through the front heel and mid-foot. Drive up through the front foot; don't push off the back foot.",

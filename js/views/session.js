@@ -1,6 +1,6 @@
 // LIFT — one objective at a time inside its world. Giant numbers, one giant
 // world-verb button, trophies for banked sets. Backend logic untouched.
-import { $, esc, fmtW, todayStr, fmtDate, haptic, sessionMins, weekKey, fmtSetLine, restWorkStats, mmss } from '../util.js';
+import { $, esc, fmtW, fmtWU, fmtWUnit, todayStr, fmtDate, haptic, sessionMins, weekKey, fmtSetLine, restWorkStats, mmss } from '../util.js';
 import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../github.js';
@@ -15,6 +15,15 @@ import { undecidedProposals, proposalLine } from '../proposals.js';
 // inflated every night number on screen. Delegates to the engine's own fence
 // so there is one definition, not a second one drifting beside it.
 const liftNights = (h = store.history) => engine.sortedHistory(h);
+
+// Per-lift facts that live in the GYM PROFILE, not the draft: the unit a
+// machine reads in and what he actually does in the slot here. Read live, so
+// switching gyms mid-session flips the card without rebuilding the night.
+const unitOf = (id) => (store.plan ? engine.unitFor(store.livePlan(), id) : 'lb');
+const asOf = (id) => store.livePlan()?.exercises?.[id]?.as ?? null;
+const gymName = () => (store.settings.gym || '').trim();
+// A set line in the unit the card is showing ("45×8  45×8  50×5").
+const setsLine = (sets, unit) => (sets ?? []).map((s) => `${fmtWU(s.weight, unit)}×${Number(s.reps) || 0}`).join('  ');
 
 let root = null;
 let focusIdx = null;
@@ -309,7 +318,8 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
       date: perf.entry.date,
       day: store.plan.sessions[perf.entry.session_type]?.name ?? perf.entry.session_type,
       sets: engine.performedOrder(perf.ex.sets),
-      setsAll: engine.performedOrder(perf.ex.sets).map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`).join('  '),
+      gym: perf.entry.gym ?? null, // where that night was lifted, if the app knew
+      as: perf.ex.as ?? null,      // what he actually did in the slot that night
       tag: store.plan.phases.find((p) => p.id === perf.entry.phase)?.type === 'deload' ? 'deload' : null,
     } : null;
     const prev = strip(sameDay);
@@ -336,11 +346,6 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
       pct: rx.pct ?? null,
       stalled: engine.isStalled(plan, store.history, sessionType, slot),
       inc: engine.increment(plan, slot.id) || 2.5,
-      // real machine pins for this lift (null = plain grid) — the numpad
-      // steppers walk these instead of inventing weights that don't exist
-      grid: engine.ladderFor(plan, slot.id),
-      // rxWeight: the engine's own prescription, kept per set so validateSet
-      // can grant it immunity — the app never second-guesses its own numbers
       // rxWeight/rxReps: the engine's own prescription, kept per set so
       // validateSet can grant it immunity AND so an edit is detectable — a
       // weight the user dialed in must never be silently overwritten.
@@ -405,7 +410,8 @@ function oddOneOut(draft, x) {
 // per exercise so expanding it survives logging a set.
 const whyOpen = new Set();
 function whyBlock(x) {
-  const body = BASIS[x.basis]?.(x) ?? '';
+  // the sentence quotes weights in the unit the card shows them in
+  const body = BASIS[x.basis]?.({ ...x, unit: unitOf(x.id) }) ?? '';
   if (!body) return '';
   const plain = body.replace(/<[^>]+>/g, '');
   // short enough to just read? then no toggle — a control that saves nothing
@@ -413,7 +419,7 @@ function whyBlock(x) {
   if (plain.length <= 90) return `<div class="basis-line">${body}</div>`;
   const open = whyOpen.has(x.id);
   return `<details class="why"${open ? ' open' : ''} data-ex="${esc(x.id)}">
-    <summary>Why ${fmtW(Math.max(0, ...x.sets.map((s) => s.weight ?? s.rxWeight ?? 0)))} lb${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
+    <summary>Why ${fmtWUnit(Math.max(0, ...x.sets.map((s) => s.weight ?? s.rxWeight ?? 0)), unitOf(x.id))}${x.coachRx?.dissent ? ' · the room split' : ''}</summary>
     <div class="basis-line">${body}</div>
   </details>`;
 }
@@ -475,14 +481,23 @@ function renderWorldScreen(draft, phaseInfo) {
     ...coachFlags.filter((f) => f.kind !== 'pain').map((f) => ({ p: 2, k: 'coach', who: 'trainer', ic: 'warn', txt: f.note ?? f.kind ?? 'see this morning’s review' })),
     streak >= 6 ? { p: 3, k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
     isNext ? null : { p: 4, k: 'offrot', ic: 'compass', txt: 'Off the rotation tonight — allowed. Days get pushed, never skipped.' },
-    phase?.type === 'deload' ? { p: 5, k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (snapped to the weight grid), 60% sets, 4+ RIR' } : null,
-    phase?.type === 'calibration' ? { p: 5, k: 'cal', ic: 'gauge', txt: 'Calibration week — seeds at ~90%, snapped to the weight grid' } : null,
+    phase?.type === 'deload' ? { p: 5, k: 'deload', ic: 'snowflake', txt: 'Deload week — target −20% load (rounded down to each lift’s own step), 60% sets, 4+ RIR' } : null,
+    phase?.type === 'calibration' ? { p: 5, k: 'cal', ic: 'gauge', txt: 'Calibration week — seeds at ~90%, rounded down to each lift’s own step' } : null,
     // Array#sort is stable, so packet order survives within a rank.
   ].filter(Boolean).sort((a, b) => (a.p ?? 9) - (b.p ?? 9));
   const topNotice = noticeList[0];
 
   const repRange = `${x.repMin === x.repMax ? x.repMin : `${x.repMin}–${x.repMax}`}`;
   const repUnitTxt = x.repUnit === 'sec' ? 'sec' : 'reps';
+  // The unit this machine reads in and what he actually does in the slot at
+  // THIS gym — both his own facts, both one tap to change on the card.
+  const unit = unitOf(x.id);
+  const as = asOf(x.id);
+  const gym = gymName();
+  const loaded = x.basis !== 'bodyweight' && !store.plan.exercises[x.id]?.bodyweight;
+  // A last-time strip from a different gym is a reading from other hardware —
+  // say so beside the date instead of letting the number pass as this room's.
+  const gymTag = (p) => (p?.gym && gym && p.gym !== gym ? ` · @ ${esc(p.gym)}` : '');
 
   // The moment of earning survives .no-entrance: the set logged (or un-skip
   // restored) within the last ~1.5s renders as .fresh, and the CSS replays its
@@ -496,6 +511,7 @@ function renderWorldScreen(draft, phaseInfo) {
     <header class="world-head">
       <div class="world-name">${esc(W.name)}</div>
       <div class="mission-line">${esc(U.name)} — ${esc(session.name)} · night ${missionNo} · ${fmtDate(draft.date)}</div>
+      <button class="gym-chip${gym ? '' : ' unset'}" id="gym-chip">${gym ? `@ ${esc(gym)}` : 'Which gym tonight?'}</button>
     </header>
     ${topNotice ? `
     <div class="notice" id="notice-bar" role="button" tabindex="0">
@@ -514,9 +530,11 @@ function renderWorldScreen(draft, phaseInfo) {
           <button class="pg" id="pg-next" aria-label="next act" ${focusIdx === draft.exercises.length - 1 ? 'disabled' : ''}>${ICONS.chevR}</button>
         </div>
       </div>
-      <h1 class="obj-name"><button id="open-howto" data-ex="${esc(x.id)}">${esc(x.name)}<span class="qm">?</span></button></h1>
+      <h1 class="obj-name"><button id="open-howto" data-ex="${esc(x.id)}">${esc(as || x.name)}<span class="qm">?</span></button></h1>
+      ${as ? `<div class="obj-as">in place of <b>${esc(x.name)}</b>${gym ? ` at ${esc(gym)}` : ''} — your swap</div>` : ''}
       <div class="obj-meta">
         <span class="chipper">${x.sets.length} × ${repRange}${x.repUnit === 'sec' ? 's' : ''}</span>
+        ${loaded ? `<button class="chipper unit-chip" id="unit-chip" aria-label="switch this machine between pounds and kilograms"><b>${unit}</b><i>⇄ ${unit === 'kg' ? 'lb' : 'kg'}</i></button>` : ''}
         ${oddOneOut(draft, x)}
         ${x.stalled ? '<span class="chipper warn">stalled</span>' : ''}
         ${x.basis === 'verify' ? '<span class="chipper warn">verify</span>' : ''}
@@ -530,11 +548,11 @@ function renderWorldScreen(draft, phaseInfo) {
       ${x.prev || x.other || x.prevNote ? `
       <div class="last-strip">
         ${x.prev ? `
-        <div class="ls-r"><b>${esc((x.prev.day || 'last').toUpperCase())}</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}</span></div>
-        <div class="ls-sets num">${esc(x.prev.setsAll)}</div>` : ''}
+        <div class="ls-r"><b>${esc((x.prev.day || 'last').toUpperCase())}</b><span class="d">${fmtDate(x.prev.date)}${x.prev.tag ? ` · ${x.prev.tag}` : ''}${gymTag(x.prev)}${x.prev.as ? ` · ${esc(x.prev.as)}` : ''}</span></div>
+        <div class="ls-sets num">${esc(setsLine(x.prev.sets, unit))}</div>` : ''}
         ${x.other ? `
-        <div class="ls-r ls-other"><b>${esc(x.other.day.toUpperCase())}</b><span class="d">${fmtDate(x.other.date)}${x.other.tag ? ` · ${x.other.tag}` : ''}</span></div>
-        <div class="ls-sets num ls-other-sets">${esc(x.other.setsAll)}</div>` : ''}
+        <div class="ls-r ls-other"><b>${esc(x.other.day.toUpperCase())}</b><span class="d">${fmtDate(x.other.date)}${x.other.tag ? ` · ${x.other.tag}` : ''}${gymTag(x.other)}${x.other.as ? ` · ${esc(x.other.as)}` : ''}</span></div>
+        <div class="ls-sets num ls-other-sets">${esc(setsLine(x.other.sets, unit))}</div>` : ''}
         ${x.prevNote ? `<div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div>` : ''}
         ${whyBlock(x)}
       </div>` : whyBlock(x)}
@@ -542,7 +560,7 @@ function renderWorldScreen(draft, phaseInfo) {
       ${x.sets.some((s) => s.done) ? `
         <div class="trophy-note">${esc(U.copy.trophyNote)}</div>
         <div class="trophies">
-          ${x.sets.map((s, si) => s.done ? `<button class="trophy${isFresh(s) ? ' fresh' : ''}" data-si="${si}"><span class="num">${fmtW(s.weight)}×${s.reps}${s.pr ? ' ★' : ''}</span><span class="tb">↩ tap again to take back</span></button>` : '').join('')}
+          ${x.sets.map((s, si) => s.done ? `<button class="trophy${isFresh(s) ? ' fresh' : ''}" data-si="${si}"><span class="num">${fmtWU(s.weight, unit)}×${s.reps}${s.pr ? ' ★' : ''}</span><span class="tb">↩ tap again to take back</span></button>` : '').join('')}
         </div>` : ''}
 
       ${lastWarned ? `<div class="warnbox">${ICONS.warn} ${esc(lastWarned.warn)}<button class="dismiss" id="warn-dismiss" aria-label="dismiss warning">${ICONS.close}</button></div>` : ''}
@@ -563,14 +581,14 @@ function renderWorldScreen(draft, phaseInfo) {
             // 10 across the strip, 10.5 in the console, one card. The weight
             // now tracks the edit exactly as the reps beside it always have.
             const w = s.weight ?? s.rxWeight;
-            const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
+            const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtWU(w, unit));
             const cls = s.done ? 'done' : s.skipped ? 'skip' : si === curIdx ? 'cur' : '';
             const edited = s.rxWeight != null && s.weight !== s.rxWeight;
             return `<span class="sp-set ${cls}${edited ? ' edited' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
           }).join('')}
         </div>
         <div class="c-vals">
-          <button class="g-val${freshField === 'weight' ? ' fresh' : ''}" id="g-w">${cur.weight == null ? '—' : fmtW(cur.weight)}<u>lb</u></button>
+          <button class="g-val${freshField === 'weight' ? ' fresh' : ''}" id="g-w">${cur.weight == null ? '—' : fmtWU(cur.weight, unit)}<u>${unit}</u></button>
           <span class="c-x">×</span>
           <button class="g-val${freshField === 'reps' ? ' fresh' : ''}" id="g-r">${cur.reps}<u>${x.repUnit === 'sec' ? 'sec' : 'reps'}</u></button>
         </div>
@@ -609,6 +627,14 @@ function wire(draft, x, curIdx, noticeList = []) {
   });
   $('#open-howto', root).addEventListener('click', (e) => howtoSheet(e.currentTarget.dataset.ex));
   $('#ex-note', root)?.addEventListener('click', (e) => exerciseNoteSheet(Number(e.currentTarget.dataset.oi)));
+  $('#gym-chip', root)?.addEventListener('click', () => gymSheet());
+  $('#unit-chip', root)?.addEventListener('click', () => {
+    const next = unitOf(x.id) === 'kg' ? 'lb' : 'kg';
+    store.setGymFact(x.id, { unit: next });
+    haptic(6); sfx('tap');
+    render(root);
+    toast(`${x.name} now reads in ${next === 'kg' ? 'kilograms' : 'pounds'}${gymName() ? ` at ${gymName()}` : ''} — same weights, shown in ${next}`, 'ok', 2600);
+  });
   $('#ss-jump', root)?.addEventListener('click', (e) => {
     const t = Number(e.currentTarget.dataset.oi);
     navDir = t >= focusIdx ? 'next' : 'prev';
@@ -778,31 +804,39 @@ function editValue(x, s, si, field) {
   const isW = field === 'weight';
   const repTxt = x.repMin === x.repMax ? `${x.repMin}` : `${x.repMin}–${x.repMax}`;
   const unitTxt = x.repUnit === 'sec' ? 'seconds' : 'reps';
+  const unit = unitOf(x.id);
+  const later = x.sets.slice(si + 1).filter((q) => !q.done && !q.skipped);
+  // Later sets follow this edit ONLY while they were asking the same weight
+  // as this one — a flat prescription moves as a block, a ramp keeps its
+  // rungs. Overwriting every later set with the edited number was how a
+  // 45 / 50 / 50 / 50 card became 47.5 / 47.5 / 47.5 / 47.5 from one tap.
+  const sameAsThis = later.filter((q) => (q.weight ?? q.rxWeight ?? null) === (s.weight ?? s.rxWeight ?? null));
+  const cascade = isW && sameAsThis.length && sameAsThis.length === later.length;
   numpadSheet({
-    title: `${x.name} — set ${si + 1}`,
-    // Plain English on the cascade: a weight edit writes forward, and the
-    // user gets told so BEFORE and AFTER (the toast below), never silently.
-    sub: isW ? `target ${repTxt} ${unitTxt} — this weight applies to this and the remaining sets` : unitTxt,
-    value: isW ? s.weight ?? 0 : s.reps,
-    unit: isW ? 'lb' : (x.repUnit === 'sec' ? 's' : ''),
+    title: `${asOf(x.id) || x.name} — set ${si + 1}`,
+    sub: isW
+      ? `target ${repTxt} ${unitTxt}${cascade ? ` — sets ${si + 1}–${x.sets.length} share this weight, so they move together` : sameAsThis.length ? ` — the later sets that matched this one move with it` : later.length ? ' — later sets keep their own weights' : ''}`
+      : unitTxt,
+    value: isW ? (s.weight == null ? 0 : (unit === 'kg' ? Math.round(engine.toKg(s.weight) * 100) / 100 : s.weight)) : s.reps,
+    unit: isW ? unit : (x.repUnit === 'sec' ? 's' : ''),
+    units: isW ? ['lb', 'kg'] : null,
     step: isW ? x.inc : 1,
-    // laddered lifts: the +/− steppers walk the machine's REAL pins
-    grid: isW ? x.grid ?? null : null,
+    stepKg: isW ? engine.DEFAULT_KG_STEP : 1,
     decimals: isW,
-    max: isW ? 2000 : 999,
-    onConfirm(v) {
+    max: isW ? 9999 : 999,
+    onUnit(u) {
+      // the toggle inside the numpad is the same fact as the chip on the card
+      if (u !== unitOf(x.id)) store.setGymFact(x.id, { unit: u });
+    },
+    onConfirm(v, u) {
       if (isW) {
-        // Typed weights land on the machine's grid. The add-on weights are
-        // unlabelled, so what he types is an ESTIMATE (his words, 2026-08-01);
-        // snapping turns the estimate into the nearest weight the machine can
-        // actually load. Never silent — the toast says what it did.
-        const snapped = x.grid?.length && v > 0 ? engine.ladderNearest(x.grid, v) : v;
-        const hit = [];
-        for (let j = si; j < x.sets.length; j++) if (!x.sets[j].done) { x.sets[j].weight = snapped; hit.push(j + 1); }
-        const where = hit.length > 1 ? `sets ${hit[0]}\u2013${hit[hit.length - 1]}` : `set ${hit[0] ?? si + 1}`;
-        toast(snapped !== v
-          ? `${fmtW(v)} isn\u2019t on this stack \u2014 ${fmtW(snapped)} set for ${where}`
-          : `Weight set for ${where}`);
+        const lb = u === 'kg' ? engine.roundW(engine.toLb(v)) : engine.roundW(v);
+        const hit = [si + 1];
+        s.weight = lb;
+        for (const q of sameAsThis) { q.weight = lb; hit.push(x.sets.indexOf(q) + 1); }
+        const where = hit.length > 1 ? `sets ${hit[0]}\u2013${hit[hit.length - 1]}` : `set ${hit[0]}`;
+        const kept = later.length - sameAsThis.length;
+        toast(`${fmtWUnit(lb, u)} set for ${where}${kept ? ` — ${kept} later set${kept === 1 ? ' keeps its' : 's keep their'} own weight` : ''}`);
       } else s.reps = Math.round(v);
       // the confirmed number pops back on the card — the .fresh mechanism
       // replays val-pop through .no-entrance
@@ -879,7 +913,7 @@ function logSet(x, s, U) {
   burstAt(consoleEl?.querySelector('.g-log') ?? root.querySelector('.obj-done'), { pr: s.pr });
 
   if (s.pr) {
-    prOverlay(U.copy.pr, s.repPr ? `${fmtW(s.weight)}×${s.reps}` : `${fmtW(s.weight)} lb`);
+    prOverlay(U.copy.pr, s.repPr ? `${fmtWU(s.weight, unitOf(x.id))}×${s.reps}` : fmtWUnit(s.weight, unitOf(x.id)));
     // the whole world reacts: scene sprites surge, panels shake (CSS per universe)
     document.documentElement.classList.add('pr-moment');
     setTimeout(() => document.documentElement.classList.remove('pr-moment'), 3000);
@@ -972,24 +1006,27 @@ export function howtoSheet(exId) {
   const meta = store.plan?.exercises[exId];
   const ex = store.draft?.exercises.find((x) => x.id === exId);
   const name = meta?.name ?? ex?.name ?? exId;
+  const as = asOf(exId);
   const range = ex ? (ex.repMin === ex.repMax ? `${ex.repMin}` : `${ex.repMin}–${ex.repMax}`) : null;
   const unit = ex?.repUnit === 'sec' ? 'sec' : 'reps';
+  const wu = unitOf(exId);
   openSheet(`
-    <h2>${esc(name)}</h2>
+    <h2>${esc(as || name)}</h2>
+    ${as ? `<div class="sub">Your swap for ${esc(name)}${gymName() ? ` at ${esc(gymName())}` : ''} — the guide below is for the program's lift</div>` : ''}
     ${ex ? `
     <div class="sub">Tonight — ${ex.sets.length} × ${range} ${unit}</div>
     <div class="card ex-tonight">
       <div class="set-plan">
         ${ex.sets.map((s) => {
           const w = s.weight ?? s.rxWeight; // the live number, same as the card's strip
-          const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtW(w));
+          const txt = w == null ? '—' : (w === 0 ? 'BW' : fmtWU(w, wu));
           return `<span class="sp-set${s.done ? ' done' : ''}"><b class="num">${txt}</b><i>×${s.reps}</i></span>`;
         }).join('')}
       </div>
-      <div class="basis-line" style="margin:6px 0 0">${BASIS[ex.basis]?.(ex) ?? ''}</div>
+      <div class="basis-line" style="margin:6px 0 0">${BASIS[ex.basis]?.({ ...ex, unit: wu }) ?? ''}</div>
     </div>` : ''}
-    ${ex?.prev ? `<div class="sub">${esc(ex.prev.day)} · ${fmtDate(ex.prev.date)}${ex.prev.tag ? ` · ${esc(ex.prev.tag)}` : ''} — <span class="num">${esc(ex.prev.setsAll)}</span></div>` : ''}
-    ${ex?.other ? `<div class="sub">${esc(ex.other.day)} · ${fmtDate(ex.other.date)}${ex.other.tag ? ` · ${esc(ex.other.tag)}` : ''} — <span class="num">${esc(ex.other.setsAll)}</span></div>` : ''}
+    ${ex?.prev ? `<div class="sub">${esc(ex.prev.day)} · ${fmtDate(ex.prev.date)}${ex.prev.tag ? ` · ${esc(ex.prev.tag)}` : ''}${ex.prev.gym ? ` · @ ${esc(ex.prev.gym)}` : ''} — <span class="num">${esc(setsLine(ex.prev.sets, wu))}</span></div>` : ''}
+    ${ex?.other ? `<div class="sub">${esc(ex.other.day)} · ${fmtDate(ex.other.date)}${ex.other.tag ? ` · ${esc(ex.other.tag)}` : ''}${ex.other.gym ? ` · @ ${esc(ex.other.gym)}` : ''} — <span class="num">${esc(setsLine(ex.other.sets, wu))}</span></div>` : ''}
     ${ex?.prevNote ? `<div class="sub" style="font-style:italic">“${esc(ex.prevNote.text)}” — your note, ${fmtDate(ex.prevNote.date)}</div>` : ''}
     ${meta?.howto
       ? `<div class="howto">${meta.howto.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`
@@ -1050,7 +1087,7 @@ function briefingSheet() {
         const dn = e.sets.filter((s) => s.done).length;
         const done = dn === e.sets.length;
         return `<button class="opt ${i === focusIdx ? 'selected' : ''}" data-oi="${i}">
-          <span class="opt-main">${esc(e.name)}<span class="opt-sets num">${esc(fmtSetLine(e.sets, { repUnit: e.repUnit, bodyweight: !e.sets.some((s) => s.weight) }))}</span></span>
+          <span class="opt-main">${esc(asOf(e.id) || e.name)}<span class="opt-sets num">${esc(fmtSetLine(e.sets, { repUnit: e.repUnit, bodyweight: !e.sets.some((s) => s.weight), unit: unitOf(e.id) }))}</span></span>
           <span class="hint num${done ? ' ok' : ''}">${dn}/${e.sets.length}</span>
         </button>`;
       }).join('')}
@@ -1063,6 +1100,7 @@ function briefingSheet() {
       <button class="opt" id="chip-notes">Field notes<span class="hint">${d.notes ? '●' : '+'}</span></button>
       <button class="opt" id="chip-cardio">Conditioning<span class="hint">${conditioningToday() ? '● logged today' : '+ log'}</span></button>
       <button class="opt" id="switch-session">Swap the day<span class="hint">${esc(store.plan.sessions[d.session_type].name)}</span></button>
+      <button class="opt" id="chip-gym">Gym<span class="hint">${gymName() ? esc(gymName()) : 'not set'}</span></button>
     </div>
     <div class="sub" style="margin:14px 0 6px">Who set tonight’s numbers</div>
     <div class="opt-list">${(() => {
@@ -1107,6 +1145,49 @@ function briefingSheet() {
       $('#chip-notes', sheet).addEventListener('click', () => { close(); notesSheet(); });
       $('#chip-cardio', sheet).addEventListener('click', () => { close(); conditioningSheet(); });
       $('#switch-session', sheet).addEventListener('click', () => { close(); switchSheet(); });
+      $('#chip-gym', sheet).addEventListener('click', () => { close(); gymSheet(); });
+    },
+  });
+}
+
+// ——— The gym ———
+// He switches gyms often. The gym is a name he types once; everything the
+// app learns about a machine (kg or lb, what stands in for a lift) is filed
+// under that name and comes back the next time he picks it. Nothing here
+// changes a prescribed number — it changes how the number is shown and what
+// the slot is called.
+export function gymSheet() {
+  const cur = gymName();
+  const known = Object.keys(store.settings.gyms ?? {}).filter(Boolean).sort();
+  openSheet(`
+    <h2>Which gym?</h2>
+    <div class="sub">Each gym remembers its own machines — kg or lb, and what you do in place of a lift</div>
+    ${known.length ? `<div class="opt-list">${known.map((g) => {
+      const facts = Object.keys(store.gymProfile(g)).length;
+      return `<button class="opt${g === cur ? ' selected' : ''}" data-g="${esc(g)}">${esc(g)}<span class="hint">${facts ? `${facts} machine${facts === 1 ? '' : 's'} known` : 'nothing known yet'}</span></button>`;
+    }).join('')}</div>` : ''}
+    <div class="card" style="margin-top:${known.length ? 10 : 0}px"><div class="field"><label>${known.length ? 'Or a new gym' : 'Name the gym'}</label><input id="gym-in" placeholder="e.g. Equinox Bryant Park" autocapitalize="words"></div></div>
+    <div class="row-btns">
+      ${cur ? `<button class="btn quiet" id="gym-clear">No gym tonight</button>` : ''}
+      <button class="btn primary" id="gym-save">Use this gym</button>
+    </div>`, {
+    onOpen(sheet, close) {
+      const pick = (g) => {
+        store.setGym(g);
+        haptic(10); sfx('objDone');
+        close(); render(root);
+        toast(g ? `Lifting at ${g} — its machines’ units and swaps are on` : 'No gym set — units and swaps go back to the defaults', 'ok', 2800);
+      };
+      sheet.addEventListener('click', (e) => {
+        const b = e.target.closest('.opt[data-g]');
+        if (b) pick(b.dataset.g);
+      });
+      $('#gym-save', sheet).addEventListener('click', () => {
+        const v = $('#gym-in', sheet).value.trim();
+        if (!v) return toast('Type the gym’s name', 'bad');
+        pick(v);
+      });
+      $('#gym-clear', sheet)?.addEventListener('click', () => pick(''));
     },
   });
 }
@@ -1173,19 +1254,33 @@ function exerciseNoteSheet(idx) {
   if (!x) return;
   openSheet(`
     <h2>Note · ${esc(x.name)}</h2>
-    <div class="sub">Just this exercise — your trainer reads it in the 6 AM review, and it shows on this card next time</div>
-    <div class="card"><div class="field"><textarea id="exn-in" placeholder="How did it feel? Form cues, a tweak or pain, machine seat/pin, reps in reserve, energy — anything worth remembering next time.">${esc(x.logNote || '')}</textarea></div></div>
+    <div class="sub">Your trainer reads it in the 6 AM review, and it shows on this card next time</div>
+    <div class="card">
+      <div class="field"><label>Doing something else here${gymName() ? ` (at ${esc(gymName())})` : ''}?</label>
+        <input id="exn-as" placeholder="e.g. Barbell, or One-arm dumbbell row" value="${esc(asOf(x.id) || '')}" autocapitalize="sentences">
+        <div class="field-hint">The card takes this name from now on at this gym. Blank = the program's lift.</div>
+      </div>
+      <div class="field"><label>Note for tonight</label>
+        <textarea id="exn-in" placeholder="How did it feel? Form cues, a tweak or pain, machine seat setting, reps in reserve, energy — anything worth remembering next time.">${esc(x.logNote || '')}</textarea>
+      </div>
+    </div>
     <div class="row-btns">
-      ${x.logNote ? `<button class="btn quiet" id="exn-clear">Clear</button>` : ''}
-      <button class="btn primary" id="exn-save">Save note</button>
+      ${x.logNote ? `<button class="btn quiet" id="exn-clear">Clear note</button>` : ''}
+      <button class="btn primary" id="exn-save">Save</button>
     </div>`, {
     onOpen(sheet, close) {
       $('#exn-save', sheet).addEventListener('click', () => {
         const v = $('#exn-in', sheet).value.trim();
+        const as = $('#exn-as', sheet).value.trim();
+        const asWas = asOf(x.id) || '';
         store.draft.exercises[idx].logNote = v || null;
         store.saveDraft(store.draft);
+        if (as !== asWas) store.setGymFact(x.id, { as: as || null });
         close(); render(root);
-        if (v) toast('Note saved — your trainer reads it at 6 AM, and it’ll be on this card next time', 'ok');
+        const bits = [];
+        if (as !== asWas) bits.push(as ? `this slot is “${as}”${gymName() ? ` at ${gymName()}` : ''} from now on` : `back to ${x.name}`);
+        if (v) bits.push('note saved — your trainer reads it at 6 AM');
+        if (bits.length) toast(bits.join(' · '), 'ok', 3200);
       });
       $('#exn-clear', sheet)?.addEventListener('click', () => {
         store.draft.exercises[idx].logNote = null;
@@ -1300,7 +1395,8 @@ function addExerciseSheet() {
           date: past.entry.date,
           day: store.plan.sessions[past.entry.session_type]?.name ?? past.entry.session_type,
           sets: engine.performedOrder(past.ex.sets),
-          setsAll: engine.performedOrder(past.ex.sets).map((s) => `${fmtW(s.weight)}×${Number(s.reps) || 0}`).join('  '),
+          gym: past.entry.gym ?? null,
+          as: past.ex.as ?? null,
           tag: store.plan.phases.find((p) => p.id === past.entry.phase)?.type === 'deload' ? 'deload' : null,
         } : null;
         const top = past ? engine.topSet(past.ex.sets) : null;
@@ -1310,7 +1406,6 @@ function addExerciseSheet() {
           note: past ? null : 'Added tonight — set the weight you use',
           prevTop: top?.weight ?? null, logNote: null, bump: 0, stalled: false,
           inc: engine.increment(store.plan, id) || 5,
-          grid: engine.ladderFor(store.plan, id),
           prev, other: null, srcDate: past?.entry.date ?? null,
           sets: Array.from({ length: sets }, () => ({
             weight: top?.weight ?? null, reps: top?.reps ?? 10, done: false,
@@ -1430,12 +1525,26 @@ function finishSession() {
   const d = store.draft;
   const U = universeOf(d.session_type);
   const W = worldDef(d.session_type, d.world);
+  const gym = gymName();
   const exercises = d.exercises
-    .map((x) => ({
-      id: x.id, name: x.name,
-      sets: x.sets.filter((s) => s.done).map((s) => ({ weight: s.weight ?? 0, reps: s.reps, ...(s.at ? { at: s.at } : {}), ...(s.restEndedAt ? { restEndedAt: s.restEndedAt } : {}) })),
-      ...(x.logNote && x.logNote.trim() ? { note: x.logNote.trim() } : {}),
-    }))
+    .map((x) => {
+      const unit = unitOf(x.id);
+      const as = asOf(x.id);
+      return {
+        id: x.id, name: x.name,
+        // What he did in the slot, when it wasn't the program's lift, and the
+        // unit the machine read in — `weight` stays lb for every reader, the
+        // kg figure rides beside it so a human reading the file sees the dial.
+        ...(as ? { as } : {}),
+        ...(unit === 'kg' ? { unit: 'kg' } : {}),
+        sets: x.sets.filter((s) => s.done).map((s) => ({
+          weight: s.weight ?? 0, reps: s.reps,
+          ...(unit === 'kg' && s.weight > 0 ? { kg: Math.round(engine.toKg(s.weight) * 100) / 100 } : {}),
+          ...(s.at ? { at: s.at } : {}), ...(s.restEndedAt ? { restEndedAt: s.restEndedAt } : {}),
+        })),
+        ...(x.logNote && x.logNote.trim() ? { note: x.logNote.trim() } : {}),
+      };
+    })
     // Keep a lift that carries EITHER performance or a note. Dropping
     // note-only acts deleted "left shoulder tweak, skipped it" seconds after
     // the app promised the trainer would read it — precisely the note most
@@ -1463,6 +1572,7 @@ function finishSession() {
 
   const entry = { date: d.date, session_type: d.session_type, phase: d.phase, week: d.week, exercises };
   if (d.world) entry.world = d.world;
+  if (gym) entry.gym = gym;
   if (d.bodyweight) entry.bodyweight = d.bodyweight;
   if (d.notes) entry.notes = d.notes;
   if (mins) entry.mins = mins;
