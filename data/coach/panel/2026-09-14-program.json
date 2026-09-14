@@ -1,0 +1,22 @@
+{
+  "role": "program",
+  "date": "2026-09-14",
+  "session": "PushB",
+  "reviewed_through": "2026-09-13",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushB",
+      "sets": 2,
+      "why": "Push B asks for 24 sets a night and the one you keep leaving behind is the third set of reverse pec deck — two sets on 23 August, two again on 2 September, and the last time you did three was 3 August — so this makes the written ask two sets instead of three.",
+      "evidence": [
+        "2026-08-03:reverse-pec-deck",
+        "2026-08-23:reverse-pec-deck",
+        "2026-09-02:reverse-pec-deck"
+      ]
+    }
+  ]
+}

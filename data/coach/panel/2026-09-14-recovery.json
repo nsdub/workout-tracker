@@ -1,0 +1,81 @@
+{
+  "role": "recovery",
+  "date": "2026-09-14",
+  "session": "PushB",
+  "reviewed_through": "2026-09-13",
+  "calls": [
+    {
+      "exercise": "smith-overhead-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 45, "reps": 8 },
+        { "weight": 45, "reps": 8 },
+        { "weight": 45, "reps": 8 },
+        { "weight": 45, "reps": 8 }
+      ],
+      "why": "At the new gym there is no smith machine, so this is a dumbbell press. He took 45 for eight reps three times and then tried 50 and got five, which is under the six-rep floor. Stay on the 45s for all four sets this week.",
+      "evidence": ["2026-09-02:smith-overhead-press", "2026-09-02:note"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "abstain",
+      "why": "He has not done dips since 23 August at the old gym, and on the first Push B at the new gym they were skipped with no comment. I have no evidence about whether the new gym has an assist machine, so I am not calling this one either way.",
+      "evidence": ["2026-08-23:assisted-dips", "2026-09-02:note"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 142.5, "reps": 10 },
+        { "weight": 157.5, "reps": 8 },
+        { "weight": 157.5, "reps": 8 }
+      ],
+      "why": "The two light sets on 2 September were him working out the scale on a machine he had never touched, not real work sets. His actual top weight is 157.5, which he has now pressed for eight on Push B and for eleven and ten on Push A. Cap it at 157.5 tonight and add nothing.",
+      "evidence": ["2026-09-02:machine-chest-press", "2026-09-08:machine-chest-press"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "hold",
+      "why": "On the same dumbbells his reps slipped from fifteen across the board on 23 August to twelve and thirteen on 2 September. The 15s are still the right weight, so repeat them rather than going up.",
+      "evidence": ["2026-08-23:db-lateral-raise", "2026-09-02:db-lateral-raise"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 20, "reps": 12 },
+        { "weight": 20, "reps": 12 },
+        { "weight": 20, "reps": 12 }
+      ],
+      "why": "He did these as dumbbell flys at the new gym and got ten, ten and twelve reps with the 25s, which is below the twelve-rep floor on two of the three sets. If it is dumbbell flys again tonight, use the 20s so the reps land in range; the old gym's cable numbers do not carry over to a dumbbell.",
+      "evidence": ["2026-09-02:cable-crossover-high-low", "2026-09-02:note"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "He has taken two sets here on each of his last two push days, at 100 for twelve to fourteen reps both times, which is inside the target range. Keep 100 and do not add weight; I am not asking for a third set tonight.",
+      "evidence": ["2026-09-02:reverse-pec-deck", "2026-09-08:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "This is the lift that falls over at the end of the night. He had to drop to 50 for the third set on 2 September, and on 8 September the third set was only nine reps at 55, under the ten-rep floor. Stay at 55 and add nothing until all three sets come back in range.",
+      "evidence": ["2026-09-02:overhead-cable-triceps", "2026-09-08:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "hold",
+      "why": "Fifteen and fourteen reps at 27.5 on 2 September is the top of the range, but this sits last on the card and the last lift is where he runs out of time — on 13 September the closing lift got two sets instead of three. Keep 27.5 and take the sets that fit.",
+      "evidence": ["2026-09-02:reverse-grip-pushdown", "2026-09-13:cable-crunch"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "overhead-cable-triceps",
+      "grounds": "fatigue",
+      "why": "No weight increase here tonight. The third set has failed at 55 on both of the last two push days — he dropped to 50 to finish it on 2 September and managed only nine reps on 8 September. Adding load now would just move the failure to the second set.",
+      "evidence": ["2026-09-02:overhead-cable-triceps", "2026-09-08:overhead-cable-triceps"]
+    }
+  ],
+  "structure_proposals": []
+}

@@ -1,0 +1,108 @@
+{
+  "role": "progression",
+  "date": "2026-09-14",
+  "session": "PushB",
+  "reviewed_through": "2026-09-13",
+  "calls": [
+    {
+      "exercise": "smith-overhead-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 45, "reps": 8 },
+        { "weight": 50, "reps": 6 },
+        { "weight": 50, "reps": 6 },
+        { "weight": 50, "reps": 6 }
+      ],
+      "why": "There is no smith machine at the new gym, so this is a dumbbell overhead press, and 45 lb is finished: he pressed it for 8, 8, 8 on Sep 2 and the Sep 8 dumbbell shoulder press went 9, 9, 9 at the same weight. The 50s have only been tried once, as a tired fourth set on his first day in the new building, and gave 5 reps, so the ask is 6 — one more than he has ever done there.",
+      "evidence": ["2026-09-02:smith-overhead-press", "2026-09-02:note", "2026-09-08:db-shoulder-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 157.5, "reps": 10 },
+        { "weight": 165, "reps": 9 },
+        { "weight": 165, "reps": 8 }
+      ],
+      "why": "Left alone the app would repeat Sep 2's 97.5 / 127.5 / 157.5 ramp, but Sep 8 on this same new-gym machine he opened at 142.5 for 12 and then did 157.5 for 11 and for 10 — every set at or past the top of the 8-to-10 range. 165 is the next pin on this stack, so the two working sets go there and the opener starts where he finished.",
+      "evidence": ["2026-09-08:machine-chest-press", "2026-09-02:machine-chest-press"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "He finished 12 reps on all three sets on Aug 23 and was at 12, 11, 12 on Aug 3, so he is sitting on the ceiling of this slot and it cannot go up without added load. I am holding rather than pushing because this lift was not done at all on Sep 2 and we have no reading of it at the new gym yet — tonight is the reading.",
+      "evidence": ["2026-08-23:assisted-dips", "2026-08-03:assisted-dips"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "push",
+      "sets": [
+        { "weight": 12.5, "reps": 15 },
+        { "weight": 15, "reps": 14 },
+        { "weight": 15, "reps": 14 }
+      ],
+      "why": "The app would ask for 15 reps at 15 lb on both top sets, which is a number he just missed — on Sep 2 those sets came in at 12 and 13. Dumbbells weigh the same at both gyms, so the honest step is reps, not weight: 14 on each top set beats Sep 2, and holding 15 reps there again is what earns the 17.5s.",
+      "evidence": ["2026-09-02:db-lateral-raise", "2026-08-23:db-lateral-raise"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 15, "reps": 13 },
+        { "weight": 15, "reps": 13 },
+        { "weight": 15, "reps": 13 }
+      ],
+      "why": "The 25 lb on the Sep 2 card was dumbbell flyes, not this machine — his own note says so — so repeating 25 would put a dumbbell number on a cable stack. The only genuine reading of the new gym's crossover is Sep 8, where the low-to-high version went 13.75 for 14 and then 15 for 13 twice, so 15 is the right starting point and tonight establishes the high-to-low direction on this hardware.",
+      "evidence": ["2026-09-02:cable-crossover-high-low", "2026-09-02:note", "2026-09-08:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "sets": [
+        { "weight": 100, "reps": 13 },
+        { "weight": 100, "reps": 12 },
+        { "weight": 100, "reps": 12 }
+      ],
+      "why": "The app would print 15 reps at 100, but at 100 he got 13 on Sep 2 and 12, 12 on Sep 8 — 15 is not in reach yet, so the weight stays and the reps say what is actually being asked for. He also stopped after two sets on both of those days; the third set is written because the plan calls for three, and if it does not happen tonight that is worth someone knowing.",
+      "evidence": ["2026-09-08:reverse-pec-deck", "2026-09-02:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "sets": [
+        { "weight": 55, "reps": 11 },
+        { "weight": 55, "reps": 10 },
+        { "weight": 52.5, "reps": 10 }
+      ],
+      "why": "The app would ask for 12 reps at 55 three times, and he has not hit 12 at 55 on either recent day: Sep 8 went 11, 10, 9 and Sep 2 went 11, 10 and then he dropped the last set to 50 himself. Weight holds on the first two sets, and the third comes down one notch to 52.5 so all three land inside the 10-to-12 range instead of repeating a number he keeps falling under.",
+      "evidence": ["2026-09-08:overhead-cable-triceps", "2026-09-02:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "push",
+      "sets": [
+        { "weight": 28.75, "reps": 15 },
+        { "weight": 28.75, "reps": 13 }
+      ],
+      "why": "This one has climbed cleanly and carried across the move: 23.75 on Aug 3, 25 on Aug 23, then 27.5 on Sep 2 for 15 and 14 reps — the top of the range on the first set. The stack's 1.25 lb micro gives 28.75, which is the smallest real step this machine can make, so it takes it rather than repeating 27.5 for a third time.",
+      "evidence": ["2026-09-02:reverse-grip-pushdown", "2026-08-23:reverse-grip-pushdown", "2026-08-03:reverse-grip-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "exercise": "assisted-dips",
+      "kind": "reprange",
+      "scope": "PushB",
+      "repMin": 12,
+      "repMax": 20,
+      "why": "You finished 12 reps — the top of this slot's range — on every set the last two times you did dips, and because the slot carries no weight there is nothing else that can go up, so this raises the range to 12 to 20 reps and makes reps the thing that climbs; it is a reps change, not a machine change, so it holds whatever the dip station at the new gym turns out to be, which we still have not seen.",
+      "evidence": ["2026-08-23:assisted-dips", "2026-08-03:assisted-dips", "2026-09-02:note"]
+    }
+  ]
+}
