@@ -1,0 +1,108 @@
+{
+  "role": "recovery",
+  "date": "2026-09-15",
+  "session": "PullB",
+  "reviewed_through": "2026-09-14",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "skip",
+      "why": "All four sets from the last PullB were typed in within about two seconds of each other, so 120/140/150/155 are numbers he remembered afterwards, not numbers anyone watched him lift — and he had written the day before that the new gym has no smith machine, so we do not even know what he rowed on. Loading a heavy bent-over row off unverified numbers on his third training day in a row is the one thing tonight I want off the board.",
+      "evidence": [
+        "2026-09-03:smith-bent-over-row",
+        "2026-09-02:smith-overhead-press",
+        "2026-09-13:leg-press-low",
+        "2026-09-14:smith-overhead-press"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "hold",
+      "sets": [
+        { "weight": 77, "reps": 10 },
+        { "weight": 83, "reps": 10 },
+        { "weight": 88, "reps": 10 }
+      ],
+      "why": "Those three sets were all entered inside about six seconds, so they are recalled numbers and nothing should be built on top of them — repeat them and get one honest, live-logged session first. The wide-grip pulldown four days ago also dropped from 93 back to 88 and lost a rep on the last set, so 88 is already the edge on that stack.",
+      "evidence": [
+        "2026-09-03:lat-pulldown-close",
+        "2026-09-10:lat-pulldown-wide"
+      ]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 46, "reps": 12 },
+        { "weight": 46, "reps": 12 },
+        { "weight": 46, "reps": 12 }
+      ],
+      "why": "His own note says the first set was on a machine and the other two were on the cable crossover, so that exercise is currently two different pieces of equipment wearing one name. Three sets at 46 on the cable, which is the only part of it that was actually logged live, so next time the number means one thing.",
+      "evidence": [
+        "2026-09-03:straight-arm-pulldown"
+      ]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [
+        { "weight": 80, "reps": 15 },
+        { "weight": 80, "reps": 15 },
+        { "weight": 80, "reps": 15 }
+      ],
+      "why": "This one was logged live and he finished every rep, so there is nothing wrong with it — but it is the third training day in a row after a forty-minute leg day and a sixty-eight-minute push day, and that is not the night to add weight. Repeat it.",
+      "evidence": [
+        "2026-09-03:db-shrug",
+        "2026-09-13:leg-press-low",
+        "2026-09-14:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 25, "reps": 10 },
+        { "weight": 25, "reps": 10 }
+      ],
+      "why": "He got two sets in at 25 last time, not three, in a session that ran only twenty-seven minutes. Keep it at two sets at the same weight tonight rather than trying to win the missing set back on a third straight training day.",
+      "evidence": [
+        "2026-09-03:incline-db-curl",
+        "2026-09-03:smith-bent-over-row",
+        "2026-09-14:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "abstain",
+      "why": "Three sets at 37.5 logged live with the shortest rests of that session and reps holding at 10, 11, 10. I have no recovery reason to push it or pull it back — that call belongs to whoever holds the progression numbers.",
+      "evidence": [
+        "2026-09-03:cable-reverse-curl"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "why": "At the same 27.5 he did fifteen reps on 2026-09-03 and only thirteen on 2026-09-10, so the weight is already going the wrong way. It has also landed dead last both times and only ever got two sets, one of which was typed in five seconds after the one before it. Do not add load to it.",
+      "evidence": [
+        "2026-09-03:face-pulls",
+        "2026-09-10:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "smith-bent-over-row",
+      "grounds": "fatigue",
+      "why": "Tonight is his third training day in a row at the end of the last hard week, and the one other time he trained back-to-back the PullB that followed collapsed to twenty-seven minutes with eight of its twenty sets typed in from memory in about twenty seconds — the bent-over row's four sets among them. A heavy loaded row is the wrong lift to run on day three off numbers nobody measured.",
+      "evidence": [
+        "2026-09-03:smith-bent-over-row",
+        "2026-09-03:lat-pulldown-close",
+        "2026-09-03:straight-arm-pulldown",
+        "2026-09-02:smith-overhead-press",
+        "2026-09-13:leg-press-low",
+        "2026-09-14:smith-overhead-press"
+      ]
+    }
+  ],
+  "structure_proposals": []
+}

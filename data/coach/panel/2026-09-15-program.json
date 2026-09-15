@@ -1,0 +1,23 @@
+{
+  "role": "program",
+  "date": "2026-09-15",
+  "session": "PullB",
+  "reviewed_through": "2026-09-14",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "db-shoulder-press",
+      "scope": "PushA",
+      "repMin": 10,
+      "repMax": 12,
+      "why": "Both push days now press dumbbells overhead at 8-10 reps, and PushB does it first and heaviest, so take the PushA sets up to 10-12 and let the two days stop being the same set — exactly how your chest press already splits 10-12 on PushA and 8-10 on PushB.",
+      "evidence": [
+        "2026-09-08:db-shoulder-press",
+        "2026-09-08:machine-chest-press",
+        "2026-09-14:machine-chest-press"
+      ]
+    }
+  ]
+}

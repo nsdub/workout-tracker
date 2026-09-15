@@ -1,0 +1,86 @@
+{
+  "role": "progression",
+  "date": "2026-09-15",
+  "session": "PullB",
+  "reviewed_through": "2026-09-14",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 9 },
+        { "weight": 140, "reps": 9 },
+        { "weight": 150, "reps": 8 },
+        { "weight": 155, "reps": 8 }
+      ],
+      "why": "On 3 September every one of the four sets stopped at eight reps, which is the bottom of what this slot asks for, so the weights stay exactly where they were. The card you would otherwise have seen asked for ten reps at all four weights, and you have not done ten at any of them here. Add one rep on the two lighter sets and hold the top two.",
+      "evidence": ["2026-09-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [
+        { "weight": 82, "reps": 8 },
+        { "weight": 88, "reps": 8 },
+        { "weight": 93, "reps": 8 }
+      ],
+      "why": "On 3 September you got ten reps on all three sets at 77, 83 and 88, which is the top of what this slot asks for, so every set goes up five pounds and the rep target drops back to eight. If this stack has no five-pound step, take the next notch up from last time and log the number you actually used.",
+      "evidence": ["2026-09-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "push",
+      "sets": [
+        { "weight": 46, "reps": 12 },
+        { "weight": 51, "reps": 10 },
+        { "weight": 51, "reps": 10 }
+      ],
+      "why": "Your note from 3 September says the first set was on a machine and the other two on the cable cross, so that night was two different pieces of equipment in one slot. Do all three on the cable cross: open at 46, which you did for twelve twice, then two sets five pounds up. If you end up starting on the machine again, that first set is 22 for ten, the same as last time.",
+      "evidence": ["2026-09-03:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "push",
+      "sets": [
+        { "weight": 85, "reps": 12 },
+        { "weight": 85, "reps": 12 },
+        { "weight": 85, "reps": 12 }
+      ],
+      "why": "Three sets of fifteen at 80 on 3 September is the top of this slot on every set, so the dumbbells go up five pounds and the rep target resets to twelve. If this rack has no 85s, take the next pair up and log what you used.",
+      "evidence": ["2026-09-03:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 27.5, "reps": 9 },
+        { "weight": 27.5, "reps": 8 }
+      ],
+      "why": "Ten reps on both sets at 25 on 3 September is the top of this slot, so the 27.5s are earned. If this rack jumps straight from 25 to 30, take the 30s and get eight — that is still inside the range.",
+      "evidence": ["2026-09-03:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 37.5, "reps": 11 },
+        { "weight": 37.5, "reps": 11 },
+        { "weight": 37.5, "reps": 10 }
+      ],
+      "why": "The app has this one flagged as stuck, and 3 September shows why: ten, eleven and ten reps at 37.5, all short of the twelve that would earn more weight. The weight does not move and the card no longer pretends you are hitting twelve — beat eleven on the first two sets and the next step is yours.",
+      "evidence": ["2026-09-03:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [
+        { "weight": 27.5, "reps": 15 },
+        { "weight": 27.5, "reps": 14 }
+      ],
+      "why": "You did fifteen and fifteen at 27.5 on 3 September, but a week later on 10 September, on the same weight, both sets came in at thirteen. The more recent night is the one that counts, so the weight holds at 27.5 instead of going up to 32.5. Clear both sets again and it moves.",
+      "evidence": ["2026-09-03:face-pulls", "2026-09-10:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
