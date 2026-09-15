@@ -1,0 +1,183 @@
+{
+  "date": "2026-09-15",
+  "session_type": "PullB",
+  "phase": "meso2",
+  "week": 4,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 9,
+          "at": 1789480141608
+        },
+        {
+          "weight": 140,
+          "reps": 9,
+          "at": 1789480413399,
+          "restEndedAt": 1789480321697
+        },
+        {
+          "weight": 150,
+          "reps": 8,
+          "at": 1789480520748
+        },
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1789480869448,
+          "restEndedAt": 1789480700765
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 77,
+          "reps": 10,
+          "at": 1789481067132,
+          "restEndedAt": 1789481049484
+        },
+        {
+          "weight": 83,
+          "reps": 10,
+          "at": 1789481230164,
+          "restEndedAt": 1789481187149
+        },
+        {
+          "weight": 88,
+          "reps": 10,
+          "at": 1789481432931,
+          "restEndedAt": 1789481350178
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 22.046,
+          "reps": 10,
+          "kg": 10,
+          "at": 1789481623213,
+          "restEndedAt": 1789481552939
+        },
+        {
+          "weight": 22.046,
+          "reps": 10,
+          "kg": 10,
+          "at": 1789481770436,
+          "restEndedAt": 1789481698227
+        },
+        {
+          "weight": 22.046,
+          "reps": 10,
+          "kg": 10,
+          "at": 1789481967820,
+          "restEndedAt": 1789481845448
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 77.162,
+          "reps": 15,
+          "kg": 35,
+          "at": 1789482134119,
+          "restEndedAt": 1789482042831
+        },
+        {
+          "weight": 77.162,
+          "reps": 15,
+          "kg": 35,
+          "at": 1789482367243,
+          "restEndedAt": 1789482209131
+        },
+        {
+          "weight": 77.162,
+          "reps": 15,
+          "kg": 35,
+          "at": 1789482582941,
+          "restEndedAt": 1789482448160
+        }
+      ],
+      "note": "35kg is heaviest dumbbell"
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 44.092,
+          "reps": 12,
+          "kg": 20,
+          "at": 1789482796617,
+          "restEndedAt": 1789482657957
+        },
+        {
+          "weight": 44.092,
+          "reps": 12,
+          "kg": 20,
+          "at": 1789482921829,
+          "restEndedAt": 1789482871632
+        }
+      ],
+      "note": "EZ bar curl"
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 36,
+          "reps": 10,
+          "at": 1789483106539,
+          "restEndedAt": 1789482996840
+        },
+        {
+          "weight": 36,
+          "reps": 11,
+          "at": 1789483415075,
+          "restEndedAt": 1789483181549
+        },
+        {
+          "weight": 36,
+          "reps": 10,
+          "at": 1789483426661
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27,
+          "reps": 13,
+          "at": 1789483522223,
+          "restEndedAt": 1789483501675
+        },
+        {
+          "weight": 27,
+          "reps": 13,
+          "at": 1789483650862,
+          "restEndedAt": 1789483582234
+        }
+      ]
+    }
+  ],
+  "world": "storm",
+  "mins": 58,
+  "startedAt": 1789462105733
+}
