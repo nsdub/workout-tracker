@@ -1,0 +1,22 @@
+{
+  "role": "program",
+  "date": "2026-09-16",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-15",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reorder",
+      "exercise": "hanging-leg-raise",
+      "scope": "LegsB",
+      "position": 6,
+      "why": "The hanging leg raise is the only thing left that makes Legs B different from Legs A, but it sits dead last on a twenty-two set night, and on 5 September both its sets were typed one second apart a day after the rest of the session — this runs it ahead of the cable crunch instead of at the tail.",
+      "evidence": [
+        "2026-09-05:hanging-leg-raise",
+        "2026-09-05:cable-crunch",
+        "2026-08-16:hanging-leg-raise"
+      ]
+    }
+  ]
+}

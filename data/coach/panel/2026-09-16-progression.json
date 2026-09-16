@@ -1,0 +1,183 @@
+{
+  "role": "progression",
+  "date": "2026-09-16",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-15",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 155,
+          "reps": 10
+        },
+        {
+          "weight": 190,
+          "reps": 8
+        },
+        {
+          "weight": 190,
+          "reps": 8
+        }
+      ],
+      "why": "Last time both heavy sets hit 180 for 10, which is the top of the 8-10 range, so the weight has been earned. Go up one step to 190 and start back at 8 reps; the 135 and 155 sets stay as the build-up.",
+      "evidence": [
+        "2026-09-05:smith-rdl"
+      ]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 130,
+          "reps": 10
+        },
+        {
+          "weight": 150,
+          "reps": 10
+        },
+        {
+          "weight": 170,
+          "reps": 10
+        }
+      ],
+      "why": "All three sets finished at 12 reps last time, the top of the range, so every set goes up one step of 10 lb. Start each at 10 reps and work back up to 12.",
+      "evidence": [
+        "2026-09-05:leg-press-high"
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 110,
+          "reps": 12
+        },
+        {
+          "weight": 130,
+          "reps": 12
+        },
+        {
+          "weight": 145,
+          "reps": 12
+        }
+      ],
+      "why": "I am working from the 5 Sep leg day, because that is the one where you did the full three sets and went up to 145. You only got 10 reps at 145, so the top weight stays until you get 12. The one change is the opening set: on 13 Sep you did 130 for 12 twice, so starting at 100 is too light and it moves to 110.",
+      "evidence": [
+        "2026-09-05:leg-curl",
+        "2026-09-13:leg-curl"
+      ]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 12
+        },
+        {
+          "weight": 145,
+          "reps": 12
+        }
+      ],
+      "why": "Going off the 5 Sep leg day, where you did 127.5 and 135 for 15 reps each - that is the heavier and more recent proof on this slot. On 13 Sep you only did 110, well under what you have already shown here, so it does not hold the weight back. Second set goes up one step to 145. If 135 feels much harder than it did on 5 Sep, stop there and say so.",
+      "evidence": [
+        "2026-09-05:hip-abductor",
+        "2026-09-13:hip-abductor"
+      ]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 15
+        },
+        {
+          "weight": 105,
+          "reps": 15
+        }
+      ],
+      "why": "Both leg days agree on this one: 105 on 5 Sep for 12 and 105 on 13 Sep for 13. The reps are creeping up but you have not reached 15 yet, so the weight stays and the job tonight is 15 reps on both sets.",
+      "evidence": [
+        "2026-09-05:hip-adductor",
+        "2026-09-13:hip-adductor"
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 240,
+          "reps": 15
+        },
+        {
+          "weight": 260,
+          "reps": 15
+        },
+        {
+          "weight": 260,
+          "reps": 15
+        }
+      ],
+      "why": "I am using the 5 Sep reading because it is the heavier one - three sets up to 260, where 13 Sep was only two sets at 240. You finished 260 for 15 once and then dropped to 13 on the last set, so 260 is not done yet. Same weights tonight, and the target is 15 on all three.",
+      "evidence": [
+        "2026-09-05:standing-calf-raise",
+        "2026-09-13:standing-calf-raise"
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 65,
+          "reps": 12
+        },
+        {
+          "weight": 65,
+          "reps": 12
+        },
+        {
+          "weight": 65,
+          "reps": 12
+        }
+      ],
+      "why": "Both leg days were at 65: 10 reps each set on 5 Sep, 11 each on 13 Sep. The reps are moving in the right direction but 12 is the number that earns more weight, so hold 65 and get 12 on all three.",
+      "evidence": [
+        "2026-09-05:cable-crunch",
+        "2026-09-13:cable-crunch"
+      ]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 13
+        },
+        {
+          "weight": 0,
+          "reps": 13
+        }
+      ],
+      "why": "This is bodyweight, so there is no weight to add - the only way up is reps. You have sat on 12 and 12, which is the bottom of the range, so tonight is one more rep per set.",
+      "evidence": [
+        "2026-09-05:hanging-leg-raise"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
