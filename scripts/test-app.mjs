@@ -1046,4 +1046,183 @@ await ok('the notice bar never swallows the other notices behind the proposals s
     'the straight-to-proposals jump must fire only when it is the ONLY notice; otherwise the tap must open the full list');
 });
 
+// ——— ONE TAP CHANGES ONE SET ———
+// Reported from the gym on 2026-09-17: "when I change the weight on the first
+// set, the weights of all future sets get changed to the same weight." It did.
+// The edit cascaded to every later set that shared the edited set's weight,
+// and a flat prescription — which is most of them — is every set. Moving the
+// rest is now an explicit second tap, so this pins BOTH halves: the write
+// touches one set, and the offer moves exactly the sets it named.
+await ok('a weight edit writes the set it was given and no other', async () => {
+  const { setWeight, spreadWeight, setNums } = await import('../js/views/session.js');
+  // The flat card that started it: four sets all asking 50.
+  const flat = { sets: [0, 1, 2, 3].map(() => ({ weight: 50, reps: 10, rxWeight: 50, rxReps: 10, done: false })) };
+  const rest = setWeight(flat, 0, 47.5);
+  assert.deepEqual(flat.sets.map((s) => s.weight), [47.5, 50, 50, 50],
+    'editing set 1 moved sets he never touched');
+  assert.equal(rest.length, 3, 'the offer should cover the three sets still asking 50');
+  const moved = spreadWeight(flat, rest, 47.5);
+  assert.equal(moved.length, 3);
+  assert.deepEqual(flat.sets.map((s) => s.weight), [47.5, 47.5, 47.5, 47.5],
+    'the explicit offer must move every set it named');
+
+  // A ramp keeps its rungs, and a set already in the books is never rewritten.
+  const ramp = { sets: [
+    { weight: 45, reps: 10, rxWeight: 45, done: true },
+    { weight: 50, reps: 10, rxWeight: 50 },
+    { weight: 55, reps: 10, rxWeight: 55 },
+    { weight: 60, reps: 10, rxWeight: 60, skipped: true },
+  ] };
+  const r2 = setWeight(ramp, 1, 52.5);
+  assert.deepEqual(ramp.sets.map((s) => s.weight), [45, 52.5, 55, 60]);
+  assert.deepEqual(r2.map((s) => s.weight), [55], 'a logged or skipped set is not on offer');
+  // The card claims a range only when the numbers are consecutive: "sets 2–4"
+  // over a 2-and-4 move names set 3 as moved when it was not.
+  assert.equal(setNums([2]), '2');
+  assert.equal(setNums([2, 3, 4]), '2–4');
+  assert.equal(setNums([2, 4]), '2, 4');
+  // Set 1 dialled to what set 2 already asks: nothing left to offer.
+  const same = { sets: [{ weight: 50, rxWeight: 50, reps: 10 }, { weight: 60, rxWeight: 60, reps: 10 }] };
+  assert.deepEqual(setWeight(same, 0, 60), [], 'a set already asking that weight is not an offer');
+});
+
+// ——— A PROGRAM CHANGE NEVER DELETES PERFORMED WORK ———
+// Reported the same night: "when I accept a trainer suggestion, all my workout
+// progress from the day is reset." Accepting called store.clearDraft() — every
+// set logged that evening, deleted, with no confirm and no undo, and it fired
+// even when he DECLINED everything because the clear sat outside the accepted
+// branch. rebaseDraft rebuilds the night under the live plan instead.
+await ok('accepting a program change keeps every logged set, even on a dropped lift', async () => {
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const E = await import('../js/engine.js');
+  const { rebaseDraft } = await import('../js/views/session.js');
+  const read = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
+  const signed = read('data/plan.json');
+  const history = readdirSync(new URL('../data/history', import.meta.url))
+    .filter((f) => f.endsWith('.json')).map((f) => read(`data/history/${f}`))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  store.plan = signed;
+  store.coach = null;
+  store.setDecisions([]);
+  store.replaceHistory(history);
+  const type = signed.rotation[0];
+  const slots = signed.sessions[type].exercises;
+
+  // A night in progress: first lift half logged, second lift's opening set
+  // dialled off the prescription, third lift carrying a note and no sets.
+  const phaseInfo = E.phaseForDate(signed, '2026-09-17');
+  const draft = {
+    date: '2026-09-17', session_type: type, world: 'w1',
+    phase: phaseInfo.phase?.id ?? null, week: phaseInfo.week,
+    startedAt: 1_700_000_000_000, bodyweight: 214, notes: 'knee felt fine',
+    exercises: slots.map((slot, i) => ({
+      id: slot.id, name: slot.id, repMin: slot.repMin, repMax: slot.repMax,
+      inc: 5, logNote: i === 2 ? 'cable frayed, used the other stack' : null,
+      sets: [0, 1, 2].map((k) => ({
+        weight: 100 + k * 10, reps: 10, rxWeight: 100 + k * 10, rxReps: 10,
+        done: i === 0 && k < 2, at: i === 0 && k < 2 ? 1_700_000_000_000 + k : undefined,
+      })),
+    })),
+  };
+  // The second lift's opening set dialled by hand — his number, not the plan's.
+  draft.exercises[1].sets[0].weight = 137.5;
+  store.saveDraft(draft);
+
+  // He accepts a change that DROPS the lift he has already worked, which is
+  // the worst case for this: the program no longer asks for it and the old
+  // code's rebuild had nowhere to put the two sets he had performed.
+  store.decide({ kind: 'remove', exercise: slots[0].id, scope: type, date: '2026-09-17' }, 'accepted');
+  assert.ok(!store.livePlan().sessions[type].exercises.some((s) => s.id === slots[0].id),
+    'the removal did not reach the live plan — re-point this test');
+
+  const kept = rebaseDraft();
+  const d = store.draft;
+  assert.ok(d, 'the night must survive a program change');
+  assert.equal(kept.sets, 2, 'both logged sets must be reported as kept');
+  assert.equal(d.world, 'w1', 'a rebuild must not draw a new world mid-night');
+  assert.equal(d.startedAt, 1_700_000_000_000, 'the night keeps its own start time');
+  assert.equal(d.bodyweight, 214);
+  assert.equal(d.notes, 'knee felt fine');
+
+  const dropped = d.exercises.find((x) => x.id === slots[0].id);
+  assert.ok(dropped, 'the dropped lift still carried logged work — it must stay on the card');
+  assert.equal(dropped.sets.filter((s) => s.done).length, 2, 'his two logged sets are gone');
+  assert.deepEqual(dropped.sets.filter((s) => s.done).map((s) => s.weight), [100, 110],
+    'the logged weights must come across exactly as performed');
+  assert.equal(dropped.sets.length, 2, 'what the program no longer asks for should not linger as an ask');
+
+  const edited = d.exercises.find((x) => x.id === slots[1].id);
+  assert.equal(edited.sets[0].weight, 137.5, 'a weight he dialled in was overwritten by the rebuild');
+  const noted = d.exercises.find((x) => x.id === slots[2].id);
+  assert.equal(noted.logNote, 'cable frayed, used the other stack', 'his note for the trainers was dropped');
+  // Every logged set in the night, still there.
+  assert.equal(
+    d.exercises.reduce((t, x) => t + x.sets.filter((s) => s.done).length, 0), 2,
+    'the night lost logged sets somewhere in the rebase',
+  );
+  store.setDecisions([]);
+  store.clearDraft();
+});
+
+// A reopened night is him editing an entry already banked. Its acts came from
+// that entry, not from the program, so a change accepted today must not
+// rewrite what he did last week — and the message must not claim it landed in
+// a card it never touched.
+await ok('a change accepted while editing a past night leaves that night alone', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { rebaseDraft } = await import('../js/views/session.js');
+  const read = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
+  store.plan = read('data/plan.json');
+  store.setDecisions([]);
+  const reopened = {
+    date: '2026-09-13', session_type: store.plan.rotation[0], world: 'w1', reopened: true,
+    exercises: [{ id: 'nothing-in-the-plan', name: 'X', inc: 5, sets: [{ weight: 90, reps: 9, done: true }] }],
+  };
+  store.saveDraft(reopened);
+  const out = rebaseDraft();
+  assert.deepEqual(out, { held: true }, 'a reopened night must be reported as held, not rebased');
+  assert.deepEqual(store.draft, reopened, 'the reopened night was modified');
+  store.clearDraft();
+});
+
+// ——— The note line is a receipt, not an echo ———
+// "The app shows me my note from the prior session. Useless. I'm writing the
+// note for the trainer." So the card reports what happened to the note. The
+// claim has to be earned: only the review whose stated coverage reaches that
+// date may be said to have read it.
+await ok('the card reports where a note went and never claims an unread review', async () => {
+  const { noteReceipt } = await import('../js/views/session.js');
+  store.coach = { date: '2026-09-17', reviewed_through: '2026-09-15' };
+  const read = noteReceipt('2026-09-13');
+  assert.match(read, /was in the review/, 'a note the panel demonstrably read should say so');
+  const unread = noteReceipt('2026-09-16');
+  assert.match(unread, /no review has read it yet/,
+    'a note dated after the review’s own coverage must not be claimed as reviewed');
+  store.coach = null;
+  assert.match(noteReceipt('2026-09-16'), /saved with that session/,
+    'with no packet at all the line must claim nothing about a review');
+  // And none of the three quotes the note back at him.
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
+  assert.equal(src.match(/prevNote\.text/g), null,
+    'the lift card is echoing the note text again — it goes to the trainers, the Atlas holds the text');
+});
+
+// The decision path must never reach for clearDraft again. Source-level on
+// purpose: the alternative is driving a sheet through a DOM, and the rule is
+// one call wide — exactly the size of thing that gets re-added by a later
+// edit that "rebuilds tonight under the new program".
+await ok('the proposal decision path cannot delete the night', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../js/views/plan.js', import.meta.url), 'utf8');
+  const start = src.indexOf('function openProposals()');
+  const end = src.indexOf('// ——— the rulebook ———');
+  assert.ok(start > 0 && end > start, 'openProposals moved or was renamed — re-point this test at the decision sheet');
+  const sheet = src.slice(start, end);
+  assert.equal(sheet.match(/store\.clearDraft\(\)/g), null,
+    'the decision sheet is clearing the draft again — a program change must rebase the night, not delete it');
+  assert.match(sheet, /rebaseDraft\(\)/,
+    'the decision sheet must rebase tonight so an accepted change reaches the card he is looking at');
+});
+
 console.log(`\n${n} app tests passed`);

@@ -13,12 +13,12 @@ import { store } from '../store.js';
 import * as engine from '../engine.js';
 import { flushQueue, pullRemote } from '../github.js';
 import { optionSheet, confirmSheet, openSheet, toast, ICONS } from '../components.js';
-import { connectSheet, handleSeedFile } from './session.js';
+import { connectSheet, handleSeedFile, rebaseDraft } from './session.js';
 import { applyWorld, UNIVERSES, returnWorld } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { pushStatus, enablePush, disablePush } from '../push.js';
 import { previewSheet } from './preview.js';
-import { propId, allProposals, undecidedProposals, proposalLine } from '../proposals.js';
+import { propId, allProposals, undecidedProposals, proposalLine, proposalText } from '../proposals.js';
 
 let root = null;
 
@@ -448,17 +448,51 @@ function openProposals() {
         }
         if (e.target.closest('#mc-save')) {
           const n = marks.size;
+          // Record each decision and WATCH THE LIVE PLAN as it lands. A
+          // proposal can be accepted and move nothing (the program already
+          // reads that way, or an earlier decision covers it) — and the app
+          // used to announce every acceptance as "applied to tonight"
+          // regardless. He accepted two such changes on 17 September and had
+          // no way to tell the difference between a program that changed and
+          // one that did not, which is most of why he stopped believing the
+          // reviews were real. Each one is now reported as what it was.
+          const applied = [];
+          const inert = [];
           for (const [id, decision] of marks) {
             const p = raw.find((q) => propId(q) === id);
-            if (p) store.decide(p, decision);
+            if (!p) continue;
+            const before = JSON.stringify(store.livePlan().sessions);
+            store.decide(p, decision);
+            if (decision !== 'accepted') continue;
+            (JSON.stringify(store.livePlan().sessions) === before ? inert : applied).push(p);
           }
-          const accepted = [...marks.values()].filter((v) => v === 'accepted').length;
           haptic([12, 40, 12]);
           close();
-          store.clearDraft(); // tonight rebuilds under the new program
-          toast(accepted
-            ? `Saved — ${accepted} change${accepted === 1 ? '' : 's'} applied to tonight`
-            : `Saved — ${n} declined, nothing changed`, 'ok', 3200);
+          // A program change is never a reason to delete work already
+          // performed. This used to throw the whole draft away — every set
+          // logged tonight, gone, and gone even when he declined everything.
+          const kept = applied.length ? rebaseDraft() : null;
+          // Every decision saved gets a word here. A message that named only
+          // what worked is the "lie by selection" the findings rule is about.
+          const live = store.livePlan();
+          const parts = [];
+          if (applied.length) {
+            // "in tonight's card" is only true when tonight's card was the
+            // thing rebuilt. A held night (a reopened past entry) gets the
+            // change in the program and nowhere else, and says so.
+            const where = kept?.held ? 'in your program from the next night on' : 'in tonight’s card';
+            parts.push(`${proposalText(applied[0], live)}${applied.length > 1 ? ` (+${applied.length - 1} more)` : ''} — ${where}`);
+          }
+          if (inert.length) {
+            parts.push(`${inert.length === 1 ? 'one accepted change leaves' : `${inert.length} accepted changes leave`} the program exactly as it reads now`);
+          }
+          if (kept?.sets) {
+            parts.push(`your ${kept.sets} logged set${kept.sets === 1 ? '' : 's'} ${kept.sets === 1 ? 'is' : 'are'} untouched`);
+          } else if (kept?.held) {
+            parts.push('the night you have open is untouched');
+          }
+          if (!parts.length) parts.push(`${n} declined — nothing changed`);
+          toast(parts.join(' · '), 'ok', 5600);
           setTimeout(() => render(root), 200);
         }
       });

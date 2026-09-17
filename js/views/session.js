@@ -24,6 +24,31 @@ const asOf = (id) => store.livePlan()?.exercises?.[id]?.as ?? null;
 const gymName = () => (store.settings.gym || '').trim();
 // A set line in the unit the card is showing ("45×8  45×8  50×5").
 const setsLine = (sets, unit) => (sets ?? []).map((s) => `${fmtWU(s.weight, unit)}×${Number(s.reps) || 0}`).join('  ');
+// Set numbers as "2", "2–4" or "2, 4". A range is written ONLY when the
+// numbers are consecutive: "sets 2–4" over a 2-and-4 change names set 3 as
+// moved when it did not, and every number this app says out loud has to be
+// one he can check against the strip.
+export const setNums = (nums) => (nums.every((n, i) => i === 0 || n === nums[i - 1] + 1) && nums.length > 1
+  ? `${nums[0]}–${nums[nums.length - 1]}`
+  : nums.join(', '));
+
+// A note he wrote on this lift last time. The card used to quote it back to
+// him, which he has no use for — he writes notes FOR the trainers, to change
+// the program or as a record. So the card reports what happened to it instead
+// of reciting it. The packet states the latest logged date its dossier
+// covered, so a note on or before that date was in the file the panel read;
+// that, and only that, is claimed as reviewed. With no such date the line
+// claims nothing about a review — the note is in the record either way,
+// because the dossier is built from the same history files the app writes.
+export function noteReceipt(date) {
+  const pkt = store.coach;
+  const through = pkt?.reviewed_through ?? null;
+  if (through && date && date <= through) {
+    return `Your ${fmtDate(date)} note was in the review your trainers ran${pkt.date ? ` ${fmtDate(pkt.date)}` : ''}`;
+  }
+  if (through) return `Your ${fmtDate(date)} note is in the record — no review has read it yet`;
+  return `Your ${fmtDate(date)} note is saved with that session`;
+}
 
 let root = null;
 let focusIdx = null;
@@ -361,6 +386,86 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
   };
 }
 
+// ——— Re-basing a live night on a changed program ———
+// Accepting a trainer proposal used to call store.clearDraft(): every set he
+// had logged tonight was deleted, with no warning and no undo — and it fired
+// even when he DECLINED everything, because the clear sat outside the
+// accepted branch. A structural change is a change to the program. It is
+// never a reason to throw away work already performed.
+//
+// So the night is rebuilt under the live plan and every set he touched is
+// carried across, in place. Two rules decide what survives:
+//   - A set that is logged, skipped, or dialled away from the prescription is
+//     HIS. It carries over exactly, and so does everything before it (the
+//     untouched set he is standing on keeps its position in the strip).
+//   - A lift the change removed from the program KEEPS the work already done
+//     on it. A night that happened cannot be un-happened by a plan edit; its
+//     remaining unperformed sets go, because the program no longer asks.
+// Returns { sets } — the logged sets that came through — so the caller can
+// tell him what survived instead of asking him to trust it, or { held: true }
+// for a night this must not touch at all.
+export function rebaseDraft() {
+  const d = store.draft;
+  if (!d?.exercises) return null;
+  // A REOPENED night is him editing a night already banked. Its acts came from
+  // that entry, not from the program, and a change he accepts today has no
+  // business rewriting what he did last Tuesday — so it is held as it is.
+  if (d.reopened) return { held: true };
+  // A session the live plan no longer describes has nothing to rebuild from;
+  // leaving the night alone beats throwing it away.
+  if (!store.livePlan()?.sessions?.[d.session_type]) return { held: true };
+  const phaseInfo = engine.phaseForDate(store.plan, d.date, store.settings.phaseOverride);
+  // Same date, same session, SAME WORLD: a fresh draw here would burn a world
+  // out of the pool mid-night and swap the stage he is looking at.
+  const fresh = buildDraft(d.date, d.session_type, phaseInfo, d.world ?? null);
+  // Night-level facts belong to the night, not to the program.
+  fresh.startedAt = d.startedAt ?? fresh.startedAt;
+  fresh.bodyweight = d.bodyweight ?? null;
+  fresh.notes = d.notes ?? '';
+  if (d.deliberate) fresh.deliberate = true;
+  if (d.origMins != null) fresh.origMins = d.origMins;
+
+  const touched = (s) => s.done || s.skipped
+    || (s.rxWeight != null && s.weight !== s.rxWeight)
+    || (s.rxReps != null && s.reps !== s.rxReps);
+  // Sets up to and including the last one he touched. Filtering instead would
+  // slide set 3 into set 1's place when only set 3 was edited.
+  const his = (x) => x.sets.slice(0, x.sets.reduce((n, s, i) => (touched(s) ? i : n), -1) + 1);
+  // Same lift twice in one night (a superset pairs by slot) matches by
+  // occurrence, so the second pairing never inherits the first one's sets.
+  const seen = new Map();
+  const take = (id) => {
+    const n = seen.get(id) ?? 0;
+    seen.set(id, n + 1);
+    return d.exercises.filter((x) => x.id === id)[n] ?? null;
+  };
+  const carried = new Set();
+  for (const x of fresh.exercises) {
+    const was = take(x.id);
+    if (!was) continue;
+    carried.add(was);
+    const kept = his(was);
+    // Sets beyond what he touched take the new prescription; a volume cut
+    // below what he already did never deletes the extra sets he performed.
+    x.sets = [...kept, ...x.sets.slice(kept.length)];
+    if (was.logNote) x.logNote = was.logNote;
+    if (was.adhoc) x.adhoc = was.adhoc;
+  }
+  // Work on a lift the change dropped: keep the act, keep the work, drop what
+  // the program no longer asks for.
+  for (let i = d.exercises.length - 1; i >= 0; i--) {
+    const was = d.exercises[i];
+    if (carried.has(was)) continue;
+    const kept = his(was);
+    if (!kept.some((s) => s.done) && !was.logNote) continue;
+    fresh.exercises.splice(Math.min(i, fresh.exercises.length), 0, { ...was, sets: kept, offProgram: true });
+  }
+
+  store.saveDraft(fresh);
+  focusIdx = null; // the order can have moved; land on the first act still owing
+  return { sets: fresh.exercises.reduce((n, x) => n + x.sets.filter((s) => s.done).length, 0) };
+}
+
 function switchSession(type) {
   const today = todayStr();
   const phaseInfo = engine.phaseForDate(store.plan, today, store.settings.phaseOverride);
@@ -545,6 +650,11 @@ function renderWorldScreen(draft, phaseInfo) {
         if (!p) return '';
         return `<div class="ss-strip"><div class="ss-line"><span class="ss-tag">SUPERSET</span><span class="ss-txt">straight into <b>${esc(p.name)}</b> — rest after both</span></div><button class="ss-jump" id="ss-jump" data-oi="${draft.exercises.indexOf(p)}">${esc(p.name)} ⇄</button></div>`;
       })()}
+      <!-- A lift an accepted change took OUT of the program, still on the
+           card because he had already worked it tonight. Saying so is the
+           whole point: the alternative is an act sitting there with no
+           explanation for why the program no longer lists it. -->
+      ${x.offProgram ? `<div class="basis-line">Taken out of the program by a change you accepted — the ${x.sets.filter((s) => s.done).length} set${x.sets.filter((s) => s.done).length === 1 ? '' : 's'} you already logged still bank tonight</div>` : ''}
       ${x.prev || x.other || x.prevNote ? `
       <div class="last-strip">
         ${x.prev ? `
@@ -553,7 +663,7 @@ function renderWorldScreen(draft, phaseInfo) {
         ${x.other ? `
         <div class="ls-r ls-other"><b>${esc(x.other.day.toUpperCase())}</b><span class="d">${fmtDate(x.other.date)}${x.other.tag ? ` · ${x.other.tag}` : ''}${gymTag(x.other)}${x.other.as ? ` · ${esc(x.other.as)}` : ''}</span></div>
         <div class="ls-sets num ls-other-sets">${esc(setsLine(x.other.sets, unit))}</div>` : ''}
-        ${x.prevNote ? `<div class="ls-note">${ICONS.pencil} “${esc(x.prevNote.text)}” <span class="d">— your note, ${fmtDate(x.prevNote.date)}</span></div>` : ''}
+        ${x.prevNote ? `<div class="ls-note">${ICONS.pencil} ${noteReceipt(x.prevNote.date)}</div>` : ''}
         ${whyBlock(x)}
       </div>` : whyBlock(x)}
 
@@ -800,22 +910,40 @@ function wire(draft, x, curIdx, noticeList = []) {
 
 // ——— Set actions ———
 
+// ONE TAP CHANGES ONE SET. Editing set 1 used to drag every later set that
+// shared its weight with it, and on a flat prescription that is every set —
+// he dialled one number and watched four move. An earlier build was worse
+// still and overwrote later sets that had never matched. So the write is this
+// function and nothing else: the tapped set, and no weight he did not dial.
+// It returns the later sets still asking for a different number, which is
+// what the toast offers to move — the offer is separate from the write, which
+// is what makes the rule checkable outside a browser.
+export function setWeight(x, si, lb) {
+  const s = x.sets?.[si];
+  if (!s) return [];
+  s.weight = lb;
+  return x.sets.slice(si + 1).filter((q) => !q.done && !q.skipped && (q.weight ?? q.rxWeight ?? null) !== lb);
+}
+
+// He tapped the offer. A set logged or skipped between the toast appearing and
+// the tap landing is no longer his to overwrite, so it is re-checked here
+// rather than trusted from when the list was built. Returns what moved.
+export function spreadWeight(x, rest, lb) {
+  const moved = rest.filter((q) => !q.done && !q.skipped && x.sets.includes(q));
+  for (const q of moved) q.weight = lb;
+  return moved;
+}
+
 function editValue(x, s, si, field) {
   const isW = field === 'weight';
   const repTxt = x.repMin === x.repMax ? `${x.repMin}` : `${x.repMin}–${x.repMax}`;
   const unitTxt = x.repUnit === 'sec' ? 'seconds' : 'reps';
   const unit = unitOf(x.id);
   const later = x.sets.slice(si + 1).filter((q) => !q.done && !q.skipped);
-  // Later sets follow this edit ONLY while they were asking the same weight
-  // as this one — a flat prescription moves as a block, a ramp keeps its
-  // rungs. Overwriting every later set with the edited number was how a
-  // 45 / 50 / 50 / 50 card became 47.5 / 47.5 / 47.5 / 47.5 from one tap.
-  const sameAsThis = later.filter((q) => (q.weight ?? q.rxWeight ?? null) === (s.weight ?? s.rxWeight ?? null));
-  const cascade = isW && sameAsThis.length && sameAsThis.length === later.length;
   numpadSheet({
     title: `${asOf(x.id) || x.name} — set ${si + 1}`,
     sub: isW
-      ? `target ${repTxt} ${unitTxt}${cascade ? ` — sets ${si + 1}–${x.sets.length} share this weight, so they move together` : sameAsThis.length ? ` — the later sets that matched this one move with it` : later.length ? ' — later sets keep their own weights' : ''}`
+      ? `target ${repTxt} ${unitTxt}${later.length ? ` — set ${si + 1} only` : ''}`
       : unitTxt,
     value: isW ? (s.weight == null ? 0 : (unit === 'kg' ? Math.round(engine.toKg(s.weight) * 100) / 100 : s.weight)) : s.reps,
     unit: isW ? unit : (x.repUnit === 'sec' ? 's' : ''),
@@ -831,12 +959,21 @@ function editValue(x, s, si, field) {
     onConfirm(v, u) {
       if (isW) {
         const lb = u === 'kg' ? engine.roundW(engine.toLb(v)) : engine.roundW(v);
-        const hit = [si + 1];
-        s.weight = lb;
-        for (const q of sameAsThis) { q.weight = lb; hit.push(x.sets.indexOf(q) + 1); }
-        const where = hit.length > 1 ? `sets ${hit[0]}\u2013${hit[hit.length - 1]}` : `set ${hit[0]}`;
-        const kept = later.length - sameAsThis.length;
-        toast(`${fmtWUnit(lb, u)} set for ${where}${kept ? ` — ${kept} later set${kept === 1 ? ' keeps its' : 's keep their'} own weight` : ''}`);
+        const rest = setWeight(x, si, lb);
+        toast(`${fmtWUnit(lb, u)} set for set ${si + 1}${later.length ? ' only' : ''}`, 'ok', rest.length ? 6000 : 2400, rest.length ? {
+          action: {
+            label: `${rest.length === 1 ? 'Set' : 'Sets'} ${setNums(rest.map((q) => x.sets.indexOf(q) + 1))} too`,
+            fn() {
+              const moved = spreadWeight(x, rest, lb);
+              if (!moved.length) return toast('Those sets are already in the books', 'bad');
+              store.saveDraft(store.draft);
+              haptic(6);
+              sfx('tap');
+              toast(`${fmtWUnit(lb, u)} across ${moved.length === 1 ? 'set' : 'sets'} ${setNums(moved.map((q) => x.sets.indexOf(q) + 1))}`);
+              render(root);
+            },
+          },
+        } : {});
       } else s.reps = Math.round(v);
       // the confirmed number pops back on the card — the .fresh mechanism
       // replays val-pop through .no-entrance
@@ -1027,7 +1164,7 @@ export function howtoSheet(exId) {
     </div>` : ''}
     ${ex?.prev ? `<div class="sub">${esc(ex.prev.day)} · ${fmtDate(ex.prev.date)}${ex.prev.tag ? ` · ${esc(ex.prev.tag)}` : ''}${ex.prev.gym ? ` · @ ${esc(ex.prev.gym)}` : ''} — <span class="num">${esc(setsLine(ex.prev.sets, wu))}</span></div>` : ''}
     ${ex?.other ? `<div class="sub">${esc(ex.other.day)} · ${fmtDate(ex.other.date)}${ex.other.tag ? ` · ${esc(ex.other.tag)}` : ''}${ex.other.gym ? ` · @ ${esc(ex.other.gym)}` : ''} — <span class="num">${esc(setsLine(ex.other.sets, wu))}</span></div>` : ''}
-    ${ex?.prevNote ? `<div class="sub" style="font-style:italic">“${esc(ex.prevNote.text)}” — your note, ${fmtDate(ex.prevNote.date)}</div>` : ''}
+    ${ex?.prevNote ? `<div class="sub" style="font-style:italic">${noteReceipt(ex.prevNote.date)} — the text is in the Atlas entry</div>` : ''}
     ${meta?.howto
       ? `<div class="howto">${meta.howto.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`
       : `<div class="howto"><p>No field guide for this one.</p></div>`}

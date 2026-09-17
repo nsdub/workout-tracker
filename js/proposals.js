@@ -24,20 +24,31 @@ export function undecidedProposals() {
   return allProposals().filter((p) => !done.has(propId(p)));
 }
 
-// One plain-English line per proposal. Returns HTML: names are escaped,
-// <b> is the only markup.
-export function proposalLine(p, plan = store.plan) {
-  const name = (id) => engine.exMeta(plan, id)?.name ?? id;
+// One plain-English line per proposal, written once. `proposalLine` returns
+// HTML for the sheets (names escaped, <b> the only markup) and
+// `proposalText` returns the same sentence in plain text for a toast, which
+// sets textContent and would otherwise print the tags. Two describers drifted
+// apart the moment one of them was edited, so there is only this one.
+function describe(p, plan, b, e) {
+  const name = (id) => e(engine.exMeta(plan, id)?.name ?? id);
   const where = p.scope ? (plan.sessions[p.scope]?.name ?? p.scope) : null;
-  const on = where ? ` on ${esc(where)}` : '';
+  const on = where ? ` on ${e(where)}` : '';
   switch (p.kind) {
-    case 'remove': return `Drop <b>${esc(name(p.exercise))}</b>${where ? ` from ${esc(where)}` : ''}`;
-    case 'add': return `Add <b>${esc(name(p.exercise))}</b>${where ? ` to ${esc(where)}` : ''}`;
-    case 'swap': return `Swap <b>${esc(name(p.exercise))}</b> for <b>${esc(name(p.replacement))}</b>${on}`;
-    case 'reorder': return `Move <b>${esc(name(p.exercise))}</b> earlier${on}`;
-    case 'volume': return `Change <b>${esc(name(p.exercise))}</b>${p.sets ? ` to ${p.sets} sets` : '’s volume'}${on}`;
-    case 'reprange': return `<b>${esc(name(p.exercise))}</b> reps → ${p.repMin}–${p.repMax}${on}`;
-    case 'keep': return `Put <b>${esc(name(p.exercise))}</b> back${on}`;
-    default: return esc(`${p.kind} ${p.exercise}`);
+    case 'remove': return `Drop ${b(name(p.exercise))}${where ? ` from ${e(where)}` : ''}`;
+    case 'add': return `Add ${b(name(p.exercise))}${where ? ` to ${e(where)}` : ''}`;
+    case 'swap': return `Swap ${b(name(p.exercise))} for ${b(name(p.replacement))}${on}`;
+    case 'reorder': return `Move ${b(name(p.exercise))} earlier${on}`;
+    case 'volume': return `Change ${b(name(p.exercise))}${p.sets ? ` to ${p.sets} sets` : '’s volume'}${on}`;
+    case 'reprange': return `${b(name(p.exercise))} reps → ${p.repMin}–${p.repMax}${on}`;
+    case 'keep': return `Put ${b(name(p.exercise))} back${on}`;
+    default: return e(`${p.kind} ${p.exercise}`);
   }
+}
+
+export function proposalLine(p, plan = store.plan) {
+  return describe(p, plan, (s) => `<b>${s}</b>`, esc);
+}
+
+export function proposalText(p, plan = store.plan) {
+  return describe(p, plan, (s) => s, (s) => s);
 }
