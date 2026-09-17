@@ -139,21 +139,54 @@ const trajectoryOf = (exId) => {
   return out;
 };
 
+// The slot's history SPLIT BY WHAT HE ACTUALLY DID IN IT. `as` is the app's
+// "Doing something else here": on 2026-09-17 the Calf Press slot carries
+// as: "Kettlebell swing/thrusts" at 35/40/45, and read as a calf press that
+// is a collapse from 300. It is not a calf press. A single number for "this
+// lift's best" over a mixed slot is a lie in either direction, so the seat
+// gets one row per movement and can never conflate them.
+//
+// This file cannot know which movement he is doing TONIGHT — the gym profile
+// that holds the current `as` lives in his phone's settings and is not synced
+// to the repo. So the split is reported and the panel reads it.
+const topOf = (v) => Number(String(v.top ?? '').split('×')[0]) || 0;
+const byMovement = (traj) => {
+  const out = {};
+  for (const v of traj) {
+    const key = v.as ?? '(the program’s lift)';
+    const row = (out[key] ??= { visits: 0, first: v.date, last: v.date, best_top: null, best_on: null });
+    row.visits++;
+    row.last = v.date;
+    const w = topOf(v);
+    if (w > 0 && (row.best_top == null || w > topOf({ top: row.best_top }))) { row.best_top = v.top; row.best_on = v.date; }
+  }
+  return out;
+};
+
 // Plain arithmetic, NOT a conclusion: the last visit's top set against the
-// median top set of the visits before it. It is here so the seat can SEE that
-// a night sits far off the lift's own trailing level and ask why — a gym, a
-// different machine, a real drop, a typo. Nothing in this file decides which;
-// the panel has to read the trajectory, the gym and the note and say.
+// median top set of the visits before it — COMPARED ONLY AGAINST THE SAME
+// MOVEMENT, or the number is a calf press measured against a kettlebell
+// swing. It is here so the seat can see that a night sits off this movement's
+// own trailing level and ask why: a gym, a different machine, a kg dial, a
+// real drop, a typo. Nothing in this file decides which.
 const offTrailing = (traj) => {
-  if (traj.length < 4) return null;
-  const tops = traj.map((v) => Number(String(v.top ?? '').split('×')[0]) || 0).filter((w) => w > 0);
-  if (tops.length < 4) return null;
+  const lastVisit = traj[traj.length - 1];
+  if (!lastVisit) return null;
+  const movement = lastVisit.as ?? null;
+  const same = traj.filter((v) => (v.as ?? null) === movement);
+  const tops = same.map(topOf).filter((w) => w > 0);
+  if (tops.length < 4) {
+    // Too little of THIS movement to have a trailing level. That is itself
+    // worth saying — one night of a substitute is not a baseline.
+    return movement || tops.length ? { movement, visits_of_this_movement: tops.length, trailing_median_top: null } : null;
+  }
   const last = tops[tops.length - 1];
   const before = tops.slice(0, -1).slice(-6).sort((a, b) => a - b);
   const m = before.length >> 1;
   const med = before.length % 2 ? before[m] : (before[m - 1] + before[m]) / 2;
   if (!(med > 0)) return null;
   return {
+    movement,
     last_top: last,
     trailing_median_top: med,
     pct_of_trailing: Math.round((last / med) * 100),
@@ -176,18 +209,19 @@ const slots = (plan.sessions[nextSession]?.exercises ?? []).map((slot) => {
     lastAnywhere: any && any.entry.date !== (same?.entry.date ?? null)
       ? { date: any.entry.date, session: any.entry.session_type, gym: any.entry.gym ?? null, as: any.ex.as ?? null, unit: any.ex.unit ?? 'lb', sets: any.ex.sets, note: any.ex.note ?? null } : null,
     stalled: E.isStalled(plan, history, nextSession, slot),
-    // The heaviest top set this lift has ever carried, WITH the night it was
-    // carried on — read off the trajectory so the date is the real one
-    // (engine.allTimeBest returns the set, which carries no date).
+    // The heaviest top set this slot has ever carried, WITH the night it was
+    // carried on AND what he was doing — a best with no movement attached is
+    // how a kettlebell swing and a calf press end up in the same number.
     all_time_best: (() => {
       let best = null;
       for (const v of trajectory) {
-        const w = Number(String(v.top ?? '').split('×')[0]) || 0;
+        const w = topOf(v);
         if (w > 0 && (!best || w > best.weight)) best = { weight: w, top: v.top, date: v.date, session: v.session, gym: v.gym ?? null, as: v.as ?? null };
       }
       return best;
     })(),
     last_vs_trailing: offTrailing(trajectory),
+    by_movement: byMovement(trajectory),
     trajectory,
   };
 });

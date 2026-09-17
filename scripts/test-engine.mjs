@@ -968,4 +968,78 @@ ok('an accepted change flows into the actual prescription', () => {
   assert.equal(rows.some((r) => r.id === 'plank'), true, 'untouched slots survive');
 });
 
+// ——— A SLOT'S LOAD HISTORY IS ONLY THE NIGHTS HE DID THE SAME MOVEMENT ———
+// 2026-09-17: the Calf Press slot was logged `as: "Kettlebell swing/thrusts"`
+// at 35/40/45. He had told the app exactly what he did — the app's own "Doing
+// something else here" — and nothing in the load chain read the field, so a
+// kettlebell swing became the calf press's new level and the next build
+// session would have asked 40/45/50 of a proven 300 lb calf press. The gym
+// profile carries what he does in the slot NOW; a night logged under anything
+// else is a different exercise.
+ok('a substitute night never seeds the slot it was logged in', () => {
+  const h = [
+    { date: '2026-08-02', session_type: 'LegsB', phase: 'meso1', exercises: [{ id: 'standing-calf-raise', sets: [{ weight: 280, reps: 15 }, { weight: 280, reps: 15 }, { weight: 280, reps: 15 }, { weight: 280, reps: 15 }] }] },
+    { date: '2026-08-20', session_type: 'LegsB', phase: 'meso1', exercises: [{ id: 'standing-calf-raise', sets: [{ weight: 300, reps: 13 }, { weight: 300, reps: 13 }, { weight: 300, reps: 12 }, { weight: 300, reps: 12 }] }] },
+    // the kettlebell night, logged in the calf press slot
+    { date: '2026-09-05', session_type: 'LegsB', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', as: 'Kettlebell swing/thrusts', sets: [{ weight: 35, reps: 15 }, { weight: 40, reps: 15 }, { weight: 45, reps: 15 }] }] },
+  ];
+  const meso2 = E.phaseForDate(plan, '2026-09-10');
+
+  // Back on the calf press: the kettlebell night is not this movement's
+  // history and is skipped. 300×12-13 across the board is the top of the
+  // 12-15 ask, so the progression trigger fires off THAT night.
+  const onProgram = E.prescribe(plan, h, 'LegsB', slot('LegsB', 'standing-calf-raise'), meso2);
+  assert.equal(onProgram.source.date, '2026-08-20',
+    `read from ${onProgram.source.date} — a kettlebell swing is being read as a calf press`);
+  assert.ok(onProgram.sets.every((s) => s.weight >= 300),
+    `prescribed ${onProgram.sets.map((s) => s.weight).join('/')} — the slot regressed to the substitute's weights`);
+
+  // Still doing kettlebell swings here: that IS the movement, so its own
+  // night is the one to build from and the calf press numbers are irrelevant.
+  const sub = E.applyGymProfile(plan, { 'standing-calf-raise': { as: 'Kettlebell swing/thrusts' } });
+  const onSub = E.prescribe(sub, h, 'LegsB', slot('LegsB', 'standing-calf-raise'), meso2);
+  assert.equal(onSub.source.date, '2026-09-05');
+  assert.ok(onSub.sets.every((s) => s.weight <= 50),
+    `prescribed ${onSub.sets.map((s) => s.weight).join('/')} for a kettlebell swing — it read the calf press history`);
+
+  // A record belongs to the movement that set it, in both directions.
+  assert.equal(E.allTimeBest(h, 'standing-calf-raise', { as: null }).weight, 300);
+  assert.equal(E.allTimeBest(h, 'standing-calf-raise', { as: 'Kettlebell swing/thrusts' }).weight, 45);
+  assert.equal(E.isPR(h, 'standing-calf-raise', 50, 15, { as: 'Kettlebell swing/thrusts' }), true,
+    '50 lb beats every kettlebell night logged — that is a record for this movement');
+  assert.equal(E.isPR(h, 'standing-calf-raise', 50, 15, { as: null }), false,
+    '50 lb is not a calf press record against 300');
+  // Unfenced still means unfenced: every existing caller keeps its behaviour.
+  assert.equal(E.allTimeBest(h, 'standing-calf-raise').weight, 300);
+
+  // Three substitute nights in a row are not this movement stalling.
+  const subRun = [
+    h[0], h[1],
+    { date: '2026-09-05', session_type: 'LegsB', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', as: 'Kettlebell swing/thrusts', sets: [{ weight: 45, reps: 15 }] }] },
+    { date: '2026-09-11', session_type: 'LegsB', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', as: 'Kettlebell swing/thrusts', sets: [{ weight: 45, reps: 15 }] }] },
+    { date: '2026-09-17', session_type: 'LegsB', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', as: 'Kettlebell swing/thrusts', sets: [{ weight: 45, reps: 15 }] }] },
+  ];
+  assert.equal(E.isStalled(plan, subRun, 'LegsB', slot('LegsB', 'standing-calf-raise')), false,
+    'the calf press was flagged as stalled on three nights he spent swinging a kettlebell');
+  assert.equal(E.isStalled(sub, subRun, 'LegsB', slot('LegsB', 'standing-calf-raise')), true,
+    'the kettlebell swing HAS sat at 45 for three sessions and that is a real stall');
+});
+
+// Progress made on another day only carries across if it was the same
+// movement — applyCross lifts a whole shape onto "proven" work, and a
+// substitute is not proof about this slot's lift.
+ok('cross-day progress does not carry from a substitute', () => {
+  const h = [
+    { date: '2026-09-02', session_type: 'LegsA', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', as: 'Kettlebell swing/thrusts', sets: [{ weight: 45, reps: 15 }] }] },
+    { date: '2026-09-04', session_type: 'LegsB', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', sets: [{ weight: 240, reps: 15 }, { weight: 240, reps: 15 }] }] },
+    { date: '2026-09-09', session_type: 'LegsA', phase: 'meso2', exercises: [{ id: 'standing-calf-raise', sets: [{ weight: 285, reps: 15 }] }] },
+  ];
+  const s = slot('LegsB', 'standing-calf-raise');
+  const cross = E.crossDayBest(plan, h, 'LegsB', s, '2026-09-04');
+  assert.equal(cross.weight, 285, 'the same movement on another day still carries');
+  const sub = E.applyGymProfile(plan, { 'standing-calf-raise': { as: 'Kettlebell swing/thrusts' } });
+  const crossSub = E.crossDayBest(sub, h, 'LegsB', s, null);
+  assert.equal(crossSub.weight, 45, 'a substitute slot must read the substitute’s cross-day work, not the lift’s');
+});
+
 console.log(`\n${n} engine tests passed`);

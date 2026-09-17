@@ -1008,7 +1008,11 @@ function logSet(x, s, U) {
   // With it, the gap to the previous set splits honestly into rest (prev→bell)
   // and work (bell→now); without it the whole gap was silently called "rest".
   const bellAt = restBellAt();
-  const bestBefore = Math.max(engine.allTimeBest(store.history, x.id)?.weight ?? 0, draftBest(x.id));
+  // A RECORD BELONGS TO THE MOVEMENT THAT SET IT. Fenced on `as` — what he is
+  // doing in this slot at this gym — so a 45 lb kettlebell swing logged in the
+  // Calf Press slot is neither crowned a PR against nothing nor measured
+  // against a 300 lb calf press.
+  const bestBefore = Math.max(engine.allTimeBest(store.history, x.id, { as: asOf(x.id) })?.weight ?? 0, draftBest(x.id));
   s.done = true;
   // First log stamps the performance time; an unlog→edit→relog CORRECTION
   // keeps the original stamp. Restamping here let a routine typo fix scramble
@@ -1029,7 +1033,7 @@ function logSet(x, s, U) {
   s.warn = warnings.length ? warnings.map((w) => w.msg).join(' — ') : null;
   s.warnDismissed = false;
   s.pr = !warnings.length && !x.adhoc && s.reps >= 1 && bestBefore > 0 && (s.weight ?? 0) > bestBefore;
-  s.repPr = !s.pr && !warnings.length && !x.adhoc && engine.isRepPR(store.history, x.id, s.weight ?? 0, s.reps);
+  s.repPr = !s.pr && !warnings.length && !x.adhoc && engine.isRepPR(store.history, x.id, s.weight ?? 0, s.reps, { as: asOf(x.id) });
   if (s.repPr) s.pr = true; // rep PRs at a held weight count as records too
   store.saveDraft(store.draft);
   haptic(s.pr ? [15, 40, 25] : 12);

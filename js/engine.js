@@ -289,7 +289,26 @@ export function rotationNext(plan, history, override = null) {
 // Most recent logged performance of an exercise within a session type.
 // sinceDate fences off the legacy import; skipPhases fences off deload entries
 // so a meso never progresses off deload loads.
-export function lastPerformance(history, sessionType, exId, { sinceDate = null, skipPhases = [] } = {}) {
+// A SLOT'S LOAD HISTORY IS ONLY THE NIGHTS HE DID THE SAME MOVEMENT.
+// `as` is what he actually did in the slot at that gym — the app's "Doing
+// something else here". On 2026-09-17 the Calf Press slot carries
+// as: "Kettlebell swing/thrusts", logged 35/40/45. Nothing in this chain read
+// that field, so the app took a kettlebell swing as the calf press's new
+// level: the next Legs B would have asked 40/45/50 of a man with a proven
+// 300 lb calf press, and the trainers' dossier said the same. He had told the
+// app exactly what he did; the app just wasn't reading it.
+//
+// Pass the `as` key to fence a reader — `as: null` means the program's own
+// lift, a string means that substitute, and OMITTING the key leaves the
+// reader unfenced. Display sites stay unfenced on purpose: the card shows
+// that night WITH its `as` label, which is the honest thing to show.
+const asOf = (ex) => (typeof ex?.as === 'string' && ex.as.trim() ? ex.as.trim() : null);
+const wants = (opts) => ('as' in opts ? (typeof opts.as === 'string' && opts.as.trim() ? opts.as.trim() : null) : undefined);
+const movementOk = (ex, want) => want === undefined || asOf(ex) === want;
+
+export function lastPerformance(history, sessionType, exId, opts = {}) {
+  const { sinceDate = null, skipPhases = [] } = opts;
+  const want = wants(opts);
   const sorted = sortedHistory(history);
   for (let i = sorted.length - 1; i >= 0; i--) {
     const e = sorted[i];
@@ -297,7 +316,7 @@ export function lastPerformance(history, sessionType, exId, { sinceDate = null, 
     if (sinceDate && e.date < sinceDate) break;
     if (skipPhases.includes(e.phase)) continue;
     const ex = e.exercises.find((x) => x.id === exId);
-    if (ex && ex.sets.length) return { entry: e, ex };
+    if (ex && ex.sets.length && movementOk(ex, want)) return { entry: e, ex };
   }
   return null;
 }
@@ -305,11 +324,12 @@ export function lastPerformance(history, sessionType, exId, { sinceDate = null, 
 // Most recent logged performance of an exercise in ANY session type — the
 // honest answer to "what did I lift last time?" for lifts that live on
 // several days of the rotation.
-export function lastPerformanceAnywhere(history, exId) {
+export function lastPerformanceAnywhere(history, exId, opts = {}) {
+  const want = wants(opts);
   const sorted = sortedHistory(history);
   for (let i = sorted.length - 1; i >= 0; i--) {
     const ex = sorted[i].exercises.find((x) => x.id === exId);
-    if (ex && ex.sets.length) return { entry: sorted[i], ex };
+    if (ex && ex.sets.length && movementOk(ex, want)) return { entry: sorted[i], ex };
   }
   return null;
 }
@@ -325,14 +345,15 @@ export function lastNotedPerformance(history, exId) {
   return null;
 }
 
-export function performances(history, sessionType, exId, limit = Infinity) {
+export function performances(history, sessionType, exId, limit = Infinity, opts = {}) {
+  const want = wants(opts);
   const out = [];
   const sorted = sortedHistory(history);
   for (let i = sorted.length - 1; i >= 0 && out.length < limit; i--) {
     const e = sorted[i];
     if (e.session_type !== sessionType) continue;
     const ex = e.exercises.find((x) => x.id === exId);
-    if (ex && ex.sets.length) out.push({ entry: e, ex });
+    if (ex && ex.sets.length && movementOk(ex, want)) out.push({ entry: e, ex });
   }
   return out.reverse();
 }
@@ -347,12 +368,13 @@ export function topSet(sets) {
 }
 
 // All-time best working weight (ignores 0-rep misses), across every session type.
-export function allTimeBest(history, exId) {
+export function allTimeBest(history, exId, opts = {}) {
+  const want = wants(opts);
   let best = null;
   for (const e of history) {
     if (e.supplemental || !e.exercises) continue; // conditioning entries hold no lifts
     for (const x of e.exercises) {
-      if (x.id !== exId) continue;
+      if (x.id !== exId || !movementOk(x, want)) continue;
       const t = topSet(x.sets);
       if (t && (!best || t.weight > best.weight)) best = t;
     }
@@ -410,6 +432,9 @@ const normalizeSets = (sets) => envelopeUp(performedOrder(sets));
 // strength day never inflates a 15-rep day. Deload entries lift light on
 // purpose and never speak here; supplemental entries are already fenced.
 export function crossDayBest(plan, history, sessionType, slot, afterDate = null) {
+  // Same fence as the rest of the load chain: a substitute done on another
+  // day is not proof about THIS slot's movement.
+  const want = exMeta(plan, slot.id)?.as ?? null;
   const skip = deloadPhaseIds(plan);
   const since = calibrationStart(plan);
   let best = null;
@@ -425,7 +450,7 @@ export function crossDayBest(plan, history, sessionType, slot, afterDate = null)
     if (afterDate && e.date < afterDate) continue;
     if (skip.includes(e.phase)) continue;
     const ex = e.exercises.find((x) => x.id === slot.id);
-    if (!ex) continue;
+    if (!ex || asOf(ex) !== (typeof want === 'string' && want.trim() ? want.trim() : null)) continue;
     for (const s of ex.sets) {
       if (!(s.weight > 0) || (s.reps ?? 0) < slot.repMin) continue;
       if (!best || s.weight > best.weight || (s.weight === best.weight && e.date > best.date)) {
@@ -544,7 +569,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   }
 
   if (meta.bodyweight) {
-    const last = lastPerformance(history, sessionType, slot.id, { sinceDate: calibrationStart(plan) });
+    const last = lastPerformance(history, sessionType, slot.id, { sinceDate: calibrationStart(plan), as: meta.as ?? null });
     // Anchor on the BEST set of the last visit, not whichever happened to be
     // logged first — a 9,8,10 day proved 10, and that's the bar to hold.
     const reps = last ? clamp(topSet(last.ex.sets)?.reps ?? slot.repMin, slot.repMin, slot.repMax) : slot.repMin;
@@ -557,7 +582,11 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
     return { sets: mk(bo.weight, slot.repMin), basis: 'calibration', prevTop: slot.seed, pct: bo.pct };
   }
 
-  const fence = { sinceDate: calibrationStart(plan), skipPhases: phase?.type === 'deload' ? [] : deloadPhaseIds(plan) };
+  // Fenced on the movement: `as` is what he does in this slot at this gym, and
+  // a night logged under a different one is a different exercise (see
+  // lastPerformance). Without this the Calf Press slot progressed off a
+  // kettlebell swing.
+  const fence = { sinceDate: calibrationStart(plan), skipPhases: phase?.type === 'deload' ? [] : deloadPhaseIds(plan), as: meta.as ?? null };
   const last = lastPerformance(history, sessionType, slot.id, fence);
 
   if (phase?.type === 'deload') {
@@ -764,7 +793,8 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
 // met progression-trigger on the newest performance clears it.
 export function isStalled(plan, history, sessionType, slot) {
   const since = calibrationStart(plan);
-  const perfs = performances(history, sessionType, slot.id).filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
+  const perfs = performances(history, sessionType, slot.id, Infinity, { as: exMeta(plan, slot.id).as ?? null })
+    .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
   if (perfs.length < 3) return false;
   const recent = perfs.slice(-4);
   const tops = recent.map((p) => topSet(p.ex.sets) ?? { weight: 0, reps: 0 });
@@ -816,7 +846,7 @@ export function stalledLifts(plan, history) {
 // handling it.
 export function stallDetail(plan, history, sessionType, exId) {
   const since = calibrationStart(plan);
-  const perfs = performances(history, sessionType, exId)
+  const perfs = performances(history, sessionType, exId, Infinity, { as: exMeta(plan, exId).as ?? null })
     .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
   const recent = perfs.slice(-4);
   if (!recent.length) return null;
@@ -828,20 +858,21 @@ export function stallDetail(plan, history, sessionType, exId) {
 
 // ——— PR detection ———
 
-export function isPR(history, exId, weight, reps) {
+export function isPR(history, exId, weight, reps, opts = {}) {
   if (reps < 1 || !weight) return false;
-  const best = allTimeBest(history, exId);
+  const best = allTimeBest(history, exId, opts);
   return !best || weight > best.weight;
 }
 
 // Best reps ever achieved at exactly this weight (rep-PR detection).
-export function isRepPR(history, exId, weight, reps) {
+export function isRepPR(history, exId, weight, reps, opts = {}) {
   if (!weight || reps < 1) return false;
+  const want = wants(opts);
   let best = null;
   for (const e of history) {
     if (e.supplemental || !e.exercises) continue; // conditioning entries hold no lifts
     for (const x of e.exercises) {
-      if (x.id !== exId) continue;
+      if (x.id !== exId || !movementOk(x, want)) continue;
       for (const s of x.sets) {
         if (s.weight === weight && s.reps >= 1) best = Math.max(best ?? 0, s.reps);
       }
