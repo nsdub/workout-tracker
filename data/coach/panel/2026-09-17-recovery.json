@@ -1,0 +1,67 @@
+{
+  "role": "recovery",
+  "date": "2026-09-17",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-15",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "cut",
+      "sets": [{"weight": 135, "reps": 8}, {"weight": 155, "reps": 8}, {"weight": 155, "reps": 8}],
+      "why": "Same call as yesterday, same weights, and nothing new has been logged to move them. Your deadlift reps already dropped last week (235x6/255x5/265x5/265x5 on Aug 28 became 235x5/255x4/255x4 on Sep 10), so the heavy hinge is the lift already telling you it is tired. Three sets, stop at 155 instead of 180.",
+      "evidence": ["2026-09-05:smith-rdl", "2026-08-28:deadlift", "2026-09-10:deadlift", "2026-09-15:smith-bent-over-row"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "hold",
+      "why": "You pressed 140/160/180 for 10 on leg day A four days ago, at the tail of a build block that is in its last week. Repeat last LegsB's 120/140/160 for 12 and add nothing tonight.",
+      "evidence": ["2026-09-05:leg-press-high", "2026-09-13:leg-press-low"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "cut",
+      "sets": [{"weight": 130, "reps": 10}, {"weight": 130, "reps": 10}],
+      "why": "You did leg curls four days ago at 130 for 12 twice, and the RDL still comes first tonight, so your hamstrings get hit twice inside five days. Two sets at the same 130, no third set.",
+      "evidence": ["2026-09-13:leg-curl", "2026-09-05:leg-curl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "The Sep 5 pair (127.5 then 135) was stamped 2026-09-05T20:42:19Z and 2026-09-05T20:42:20Z, less than a second apart, so the second set was remembered afterwards, not recorded as you lifted, and I will not build on it. Sep 13's 110x12 sets were stamped 2026-09-13T20:31:18Z and 2026-09-13T20:33:28Z, real time, so stay at 110 for two sets.",
+      "evidence": ["2026-09-13:hip-abductor", "2026-09-05:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "Same problem as the abductor: the Sep 5 pair is stamped 2026-09-05T20:45:03Z and 2026-09-05T20:45:04Z, entered a second apart from memory. The trustworthy number is Sep 13's 105 for 13, so repeat 105 and leave it there.",
+      "evidence": ["2026-09-13:hip-adductor", "2026-09-05:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "At 260 your third set fell to 13 reps on Sep 5, and you were back at 240 for 15 twice on Sep 13. Stay at 240 tonight rather than chasing 260 in the last week of a build block.",
+      "evidence": ["2026-09-05:standing-calf-raise", "2026-09-13:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "You crunched 65 for 11 twice four days ago. Same 65 tonight, and two sets is enough with abs already worked this week.",
+      "evidence": ["2026-09-13:cable-crunch", "2026-09-05:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Last time's two sets of 12 carry stamps of 2026-09-06T17:23:41Z and 2026-09-06T17:23:42Z, about twenty hours after that session's last real set at 2026-09-05T21:02:23Z, so they were typed in the next day from memory and nobody actually knows what you did. Repeat two bodyweight sets and stop each one when your form goes, not at a number.",
+      "evidence": ["2026-09-05:hanging-leg-raise", "2026-09-05:cable-crunch"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "smith-rdl",
+      "grounds": "fatigue",
+      "why": "No load increase on the RDL tonight - same veto I placed yesterday, and here is what changed and what did not. Yesterday I called tonight your fourth training day in a row; I cannot say that now, because 2026-09-16 has no logged session and logs in this repo often arrive a day or more late, so either you rested yesterday or you trained and it has not synced, and I do not know which. The two facts the veto actually rests on are untouched: your deadlift dropped from 235x6/255x5/265x5/265x5 on Aug 28 to 235x5/255x4/255x4 on Sep 10, and your last logged bodyweight is 207 lb on Aug 23, 25 days ago, so there is still no recovery signal to read. This is tiredness, not pain - the head coach can overrule it if he has a reason.",
+      "evidence": ["2026-08-28:deadlift", "2026-09-10:deadlift", "2026-09-05:smith-rdl", "2026-08-23:note"]
+    }
+  ],
+  "structure_proposals": []
+}

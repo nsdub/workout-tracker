@@ -1,0 +1,96 @@
+{
+  "role": "progression",
+  "date": "2026-09-17",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-15",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "push",
+      "sets": [
+        { "weight": 135, "reps": 10 },
+        { "weight": 155, "reps": 10 },
+        { "weight": 190, "reps": 8 },
+        { "weight": 190, "reps": 8 }
+      ],
+      "why": "Unchanged from my 16 Sep call on the same evidence. Last time both heavy sets hit 180 for 10, the top of the 8-10 range, and those sets were logged minutes apart during the session, so they are real work. Go up one step to 190 and start back at 8 reps; 135 and 155 stay as the build-up.",
+      "evidence": ["2026-09-05:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "push",
+      "sets": [
+        { "weight": 130, "reps": 10 },
+        { "weight": 150, "reps": 10 },
+        { "weight": 170, "reps": 10 }
+      ],
+      "why": "Unchanged from my 16 Sep call on the same evidence. All three sets finished at 12 reps last time, the top of the range, and each was logged three minutes after the one before it, so every set goes up one step of 10 lb. Start each at 10 reps and work back up to 12.",
+      "evidence": ["2026-09-05:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 110, "reps": 12 },
+        { "weight": 130, "reps": 12 },
+        { "weight": 145, "reps": 12 }
+      ],
+      "why": "Unchanged from my 16 Sep call on the same evidence. I am working from the 5 Sep leg day because that is where you did the full three sets up to 145; you got 10 reps at 145, so the top weight stays until you get 12. The opener stays at 110 rather than 100 because on 13 Sep you did 130 for 12 twice.",
+      "evidence": ["2026-09-05:leg-curl", "2026-09-13:leg-curl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 127.5, "reps": 15 },
+        { "weight": 135, "reps": 12 }
+      ],
+      "why": "This differs from my 16 Sep call (135 and 145) and the reason is a defect in that file: it pushed the top set to 145 on the strength of '135 for 15' on 5 Sep, but that set was typed in 0.8 seconds after the set before it, so it was recalled after the fact and never measured. The set that is actually measured is 127.5 for 15, so 127.5 stays as the opener and 135 becomes the set you earn tonight at the bottom of the range instead of a step you are already assumed to be past.",
+      "evidence": ["2026-09-05:hip-abductor", "2026-09-13:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 15 },
+        { "weight": 105, "reps": 15 }
+      ],
+      "why": "Unchanged from my 16 Sep call on the same evidence. The 13 Sep pair is 105 for 13 twice, logged over two minutes apart, so it stands on its own without leaning on 5 Sep. The reps are creeping up but 15 has not been reached, so the weight stays and the job tonight is 15 on both sets.",
+      "evidence": ["2026-09-05:hip-adductor", "2026-09-13:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 240, "reps": 15 },
+        { "weight": 260, "reps": 15 },
+        { "weight": 260, "reps": 15 }
+      ],
+      "why": "Unchanged from my 16 Sep call on the same evidence. I am using the 5 Sep reading because it is the heavier one, three sets up to 260, where 13 Sep was two sets at 240; all three 5 Sep sets are minutes apart and measured. You finished 260 for 15 once and then dropped to 13 on the last set, so 260 is not done yet. Same weights, target 15 on all three.",
+      "evidence": ["2026-09-05:standing-calf-raise", "2026-09-13:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 65, "reps": 12 },
+        { "weight": 65, "reps": 12 },
+        { "weight": 65, "reps": 12 }
+      ],
+      "why": "Unchanged from my 16 Sep call on the same evidence. Both leg days were at 65, ten reps a set on 5 Sep and eleven a set on 13 Sep, all logged minutes apart. The reps are moving the right way but 12 is the number that earns more weight, so hold 65 and get 12 on all three.",
+      "evidence": ["2026-09-05:cable-crunch", "2026-09-13:cable-crunch"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "This differs from my 16 Sep call (13 and 13) and the reason is a defect in that file: it added a rep on the basis that you 'have sat on 12 and 12', but both of those sets were stamped the next morning, about twenty hours after the rest of that session, and one second apart from each other. They were written from memory, so there is no measured rep count to add to. Repeat 12 and 12 tonight so this lift gets a real reading, and it moves next time.",
+      "evidence": ["2026-09-05:hanging-leg-raise"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
