@@ -1225,4 +1225,79 @@ await ok('the proposal decision path cannot delete the night', async () => {
     'the decision sheet must rebase tonight so an accepted change reaches the card he is looking at');
 });
 
+// ——— WHAT THE TRAINER WHO SETS YOUR WEIGHTS CAN SEE ———
+// Raised 2026-09-17: "a trainer needs to be thinking holistically about all
+// my progress, not just 3 sets of data." It could not. The progression seat's
+// slice carried two visits per lift out of 85 logged nights, plus
+// appWillPrescribe — the app's own arithmetic, offered as an anchor before
+// the seat had read anything. Both numbers he caught came through that gap:
+// one barbell night at a new gym took the smith incline press from 175-195 to
+// 155, and one night on another machine took the calf raise from 240-300 to
+// 45. The seat now gets the lift's whole trajectory and no anchor.
+await ok('the progression seat gets each lift’s full history and none of the app’s arithmetic', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const { readFileSync } = await import('node:fs');
+  const root = new URL('..', import.meta.url).pathname;
+  const run = (slice) => JSON.parse(execFileSync(process.execPath,
+    [`${root}scripts/coach-dossier.mjs`, `--slice=${slice}`], { cwd: root, encoding: 'utf8', maxBuffer: 64 << 20 }));
+
+  const prog = run('progression');
+  assert.ok(prog.next_session_slots?.length, 'the progression slice lost its slot table');
+  for (const s of prog.next_session_slots) {
+    assert.ok(!('appWillPrescribe' in s),
+      `${s.id}: the seat is being handed the app's own prescription again — it exists to second-guess that number, not to be anchored on it`);
+    assert.ok(Array.isArray(s.trajectory), `${s.id}: no trajectory — the seat is back to coaching load off one visit`);
+    // Every visit of this lift in the log, not a window. A lift he has done
+    // more than twice must show more than twice.
+    const dates = s.trajectory.map((v) => v.date);
+    assert.deepEqual([...dates].sort(), dates, `${s.id}: trajectory is not in chronological order`);
+    assert.equal(new Set(dates).size, dates.length, `${s.id}: a night appears twice in the trajectory`);
+    if (s.trajectory.length) {
+      assert.ok(s.all_time_best?.date, `${s.id}: an all-time best with no night attached is not checkable`);
+      const best = s.all_time_best.weight;
+      const tops = s.trajectory.map((v) => Number(String(v.top ?? '').split('×')[0]) || 0);
+      assert.equal(best, Math.max(...tops), `${s.id}: all_time_best disagrees with the trajectory it was read from`);
+    }
+  }
+  // The head coach keeps the anchor — writing no override MEANS the app's
+  // arithmetic draws that card — but not the trajectories, or the slice is
+  // the whole dossier again.
+  const head = run('head');
+  assert.ok(head.next_session_slots.every((s) => 'appWillPrescribe' in s),
+    'the head coach cannot rule on what it is declining to change without seeing the app’s number');
+  assert.ok(head.next_session_slots.every((s) => !('trajectory' in s)),
+    'the head slice carries the full trajectories again — that is the cost the slicing exists to avoid');
+  // The recovery seat stays the brake: the athlete's words and body, no load
+  // tables to argue with.
+  const rec = run('recovery');
+  assert.ok(!('next_session_slots' in rec), 'the recovery seat has been handed load arithmetic it was not asked to argue');
+  assert.ok(Array.isArray(rec.pain_notes) && Array.isArray(rec.bodyweight_trend), 'the recovery seat lost its own evidence');
+
+  // NO WINDOW. "It needs to be aware of my whole history" — 2026-09-17. Every
+  // seat that reasons about him gets all of it, and the count is checked
+  // against the log on disk so a re-introduced cutoff fails here rather than
+  // quietly narrowing what a trainer can see.
+  const { readdirSync } = await import('node:fs');
+  const onDisk = readdirSync(new URL('../data/history', import.meta.url)).filter((f) => f.endsWith('.json')).length;
+  for (const [name, d] of [['progression', prog], ['recovery', rec]]) {
+    assert.equal(d.entries?.length, onDisk,
+      `the ${name} seat sees ${d.entries?.length} of ${onDisk} logged nights — a window was put back`);
+    assert.ok(d.entries[0].date < d.entries[d.entries.length - 1].date, `${name}: entries are not oldest-first`);
+  }
+  // A break in training outranks almost everything in a load decision and was
+  // invisible behind the old cutoff. His log carries a 136-day one.
+  for (const [name, d] of [['progression', prog], ['recovery', rec], ['head', head]]) {
+    assert.ok(Array.isArray(d.layoffs), `${name}: no layoffs signal`);
+    assert.ok(d.layoffs.some((g) => g.days > 100), `${name}: the 136-day break in the log is not being reported`);
+  }
+  // The recovery seat gets every note he has ever written, not a fortnight of
+  // them — he writes them FOR the panel.
+  const notesOnDisk = readdirSync(new URL('../data/history', import.meta.url))
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => JSON.parse(readFileSync(new URL(`../data/history/${f}`, import.meta.url), 'utf8')))
+    .reduce((t, e) => t + (e.notes ? 1 : 0) + (e.exercises ?? []).filter((x) => x.note).length, 0);
+  assert.equal(rec.notes_all?.length, notesOnDisk,
+    `the recovery seat sees ${rec.notes_all?.length} of ${notesOnDisk} notes he has written`);
+});
+
 console.log(`\n${n} app tests passed`);

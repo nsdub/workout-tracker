@@ -1252,7 +1252,7 @@ function briefingSheet() {
       // whole — several hundred words in a sheet you open to check a weight.
       // It lives one tap away instead.
       const src = p.automatic
-        ? `the 6 AM review of ${esc(fmtDate(p.date))}`
+        ? `the daily review of ${esc(fmtDate(p.date))}`
         : `a review written by hand on ${esc(fmtDate(p.date))}`;
       const head = p.trainer.length
         ? `<b>${p.trainer.length} of ${p.total}</b> lifts set by ${src}.`
@@ -1370,7 +1370,7 @@ function bodyweightSheet() {
 function notesSheet() {
   openSheet(`
     <h2>Field notes</h2>
-    <div class="sub">The whole night — your trainer reads this in tomorrow’s 6 AM review</div>
+    <div class="sub">The whole night — your trainers read this in the next daily review</div>
     <div class="card"><div class="field"><textarea id="notes-in" placeholder="How did tonight go overall? Sleep, energy, gym — anything worth knowing at the next program revision.">${esc(store.draft.notes)}</textarea></div></div>
     <button class="btn primary" id="notes-save">Save</button>`, {
     onOpen(sheet, close) {
@@ -1391,7 +1391,7 @@ function exerciseNoteSheet(idx) {
   if (!x) return;
   openSheet(`
     <h2>Note · ${esc(x.name)}</h2>
-    <div class="sub">Your trainer reads it in the 6 AM review, and it shows on this card next time</div>
+    <div class="sub">Your trainers read it in the next daily review; this card then says which review picked it up</div>
     <div class="card">
       <div class="field"><label>Doing something else here${gymName() ? ` (at ${esc(gymName())})` : ''}?</label>
         <input id="exn-as" placeholder="e.g. Barbell, or One-arm dumbbell row" value="${esc(asOf(x.id) || '')}" autocapitalize="sentences">
@@ -1416,7 +1416,7 @@ function exerciseNoteSheet(idx) {
         close(); render(root);
         const bits = [];
         if (as !== asWas) bits.push(as ? `this slot is “${as}”${gymName() ? ` at ${gymName()}` : ''} from now on` : `back to ${x.name}`);
-        if (v) bits.push('note saved — your trainer reads it at 6 AM');
+        if (v) bits.push('note saved — your trainers read it in the next daily review');
         if (bits.length) toast(bits.join(' · '), 'ok', 3200);
       });
       $('#exn-clear', sheet)?.addEventListener('click', () => {

@@ -437,7 +437,7 @@ export function crossDayBest(plan, history, sessionType, slot, afterDate = null)
 }
 
 // ——— Coach directives: the daily trainer review ———
-// The 6 AM trainer agent commits data/coach/latest.json. Its overrides drive
+// The daily trainer agent commits data/coach/latest.json. Its overrides drive
 // the prefills ONLY while the review is fresh — the moment a session is
 // logged that the trainer hasn't seen, every override expires and the
 // standing rules take back over (and the UI says so). The engine never

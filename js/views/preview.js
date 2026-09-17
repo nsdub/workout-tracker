@@ -202,7 +202,7 @@ export function provenance(rows, coach = store.coach, fresh = false) {
     fresh,
     date: coach?.date ?? null,
     reviewedThrough: coach?.reviewed_through ?? null,
-    // 'scheduled-task' = the autonomous 6 AM run. Anything else was a human
+    // 'scheduled-task' = the autonomous daily run. Anything else was a human
     // or a Claude session writing the packet by hand, and must say so.
     automatic: producer === 'scheduled-task',
     producer,
@@ -218,8 +218,8 @@ export function provenanceText(p) {
       : `<b>No trainer review has ever been applied.</b> All ${p.total} lifts come from the standing rules — the app's own arithmetic on your log.`;
   }
   const src = p.automatic
-    ? `the automatic 6 AM review of ${esc(fmtDate(p.date))}`
-    : `a review written by hand on ${esc(fmtDate(p.date))} <b>(not the automatic 6 AM run)</b>`;
+    ? `the automatic daily review of ${esc(fmtDate(p.date))}`
+    : `a review written by hand on ${esc(fmtDate(p.date))} <b>(not the automatic daily run)</b>`;
   return `<b>${p.trainer.length} of ${p.total} lifts</b> were set by ${src}, which read your log through ${esc(fmtDate(p.reviewedThrough))}. The other ${p.rules.length} came from the standing rules. Each lift says which on its own card.`;
 }
 

@@ -33,7 +33,7 @@ if (!ISO.test(pkt.date ?? '')) fail('date missing or not YYYY-MM-DD');
 if (!ISO.test(pkt.reviewed_through ?? '')) fail('reviewed_through missing or not YYYY-MM-DD');
 if (typeof pkt.brief !== 'string' || !pkt.brief.trim()) fail('brief missing — the athlete reads this');
 // PROVENANCE IS NOT OPTIONAL. The app tells the athlete whether the automatic
-// 6 AM run produced these numbers or a human/session hand-wrote them, and it
+// scheduled run produced these numbers or a human/session hand-wrote them, and it
 // can only be honest if the packet says so. `scheduled-task` is a claim ONLY
 // the scheduled run may make.
 const PRODUCERS = ['scheduled-task', 'interactive-session'];
