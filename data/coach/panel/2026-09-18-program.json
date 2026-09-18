@@ -1,0 +1,23 @@
+{
+  "role": "program",
+  "date": "2026-09-18",
+  "session": "PushA",
+  "reviewed_through": "2026-09-17",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "reprange",
+      "exercise": "overhead-cable-triceps",
+      "scope": "PushB",
+      "repMin": 8,
+      "repMax": 10,
+      "why": "Overhead cable triceps is the identical three sets of 10 to 12 on both push days, and you ran it at 55 pounds on 8 September and again on 55 pounds on 14 September, finishing on 9 reps both nights — under the bottom of the range both times — so this takes Push B to 8 to 10 and lets the two push days stop being the same set, the way your chest press already splits 10 to 12 on Push A and 8 to 10 on Push B.",
+      "evidence": [
+        "2026-09-08:overhead-cable-triceps",
+        "2026-09-14:overhead-cable-triceps",
+        "2026-09-14:machine-chest-press"
+      ]
+    }
+  ]
+}

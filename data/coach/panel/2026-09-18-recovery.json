@@ -1,0 +1,67 @@
+{
+  "role": "recovery",
+  "date": "2026-09-18",
+  "session": "PushA",
+  "reviewed_through": "2026-09-17",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "He has trained five of the last six days going into the last hard week before the 21st, and the only barbell-incline data point is one session — 155x8 three times with no failed reps. Do not add load on top of that. He logged three sets where the plan asks four, and I am not claiming to know why; I only say tonight is not the night to push it.",
+      "evidence": ["2026-09-08:smith-incline-press", "2026-09-13:leg-press-low", "2026-09-14:machine-chest-press", "2026-09-15:smith-bent-over-row", "2026-09-17:smith-rdl"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "This looks like a fall — 172.5x12 on 17 Aug down to 157.5x10 on 8 Sep — but he changed gyms in between, so that is a different machine and not a fatigue reading. I have no recovery objection to it.",
+      "evidence": ["2026-09-08:machine-chest-press", "2026-08-17:machine-chest-press", "2026-09-14:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "The same three sets at 13.75-15 lb for 13-15 reps on both 14 Aug and 8 Sep, with no rep decay inside either session. Nothing here says he is under-recovered.",
+      "evidence": ["2026-09-08:cable-crossover-low-high", "2026-08-14:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "45x8 for three sets on 27 Aug became 45x9 for three sets on 8 Sep. Reps went up at the same load, so there is no recovery reason to hold him back here.",
+      "evidence": ["2026-09-08:db-shoulder-press", "2026-08-27:db-shoulder-press"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "100x12 twice on 8 Sep and 99x12 three times on 14 Sep, flat reps across every set. No fatigue signal on this slot.",
+      "evidence": ["2026-09-08:reverse-pec-deck", "2026-09-14:reverse-pec-deck"]
+    },
+    {
+      "exercise": "cable-lateral-raise",
+      "stance": "cut",
+      "sets": [{ "weight": 10, "reps": 12 }, { "weight": 10, "reps": 12 }],
+      "why": "On 23 Aug he wrote that four sets seemed like a lot for such a small muscle and said he would do it if we were sure. Nobody answered him, and since then the lateral raise has gone from three sets to the two he finished on 8 Sep. Two sets at the 10 lb he last completed is the answer to his question instead of another month of silence.",
+      "evidence": ["2026-09-08:cable-lateral-raise", "2026-08-14:cable-lateral-raise", "2026-08-23:db-lateral-raise", "2026-08-23:note"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "55 lb sliding 12 to 9 reps on 14 Sep and 11 to 9 on 8 Sep is the normal drop at a fixed load across three sets, not accumulating fatigue. Leave it where it is.",
+      "evidence": ["2026-09-08:overhead-cable-triceps", "2026-09-14:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "cut",
+      "sets": [{ "weight": 45, "reps": 12 }, { "weight": 45, "reps": 12 }],
+      "why": "This is the slot that shrinks when the night runs long — 52.5 and 47.5 for three sets on 17 Aug became 45 for two on 8 Sep — and his triceps already get three sets of overhead cable work on the same session. Two sets at what he last completed.",
+      "evidence": ["2026-09-08:rope-pushdown", "2026-08-17:rope-pushdown", "2026-09-08:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "cut",
+      "sets": [{ "weight": 27.5, "reps": 15 }, { "weight": 27.5, "reps": 15 }],
+      "why": "He wrote \"Why three? I think two\" on 28 Aug, after telling us on 28 Jul that we had stacked too many of the same corrective back to back between days. The last time face pulls were logged on a PushA he did exactly two sets at 27.5. Give him the two he asked for.",
+      "evidence": ["2026-08-28:face-pulls", "2026-08-28:note", "2026-07-28:note", "2026-07-31:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
