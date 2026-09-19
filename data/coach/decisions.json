@@ -778,5 +778,18 @@
     },
     "decision": "accepted",
     "decided_at": "2026-09-17T14:34:44.038Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "overhead-cable-triceps",
+      "scope": "PushB",
+      "repMin": 8,
+      "repMax": 10,
+      "why": "Overhead cable triceps is the last lift that is identical on both push days — three sets of 10 to 12, run at 55 pounds on 8 September and again at 55 on 14 September, finishing on 9 reps under the bottom of the range both nights; this takes Push B to 8 to 10 so the two days stop being the same set, the way your chest press already splits.",
+      "date": "2026-09-19"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-19T20:23:16.097Z"
   }
 ]
