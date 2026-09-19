@@ -1,0 +1,57 @@
+{
+  "role": "recovery",
+  "date": "2026-09-19",
+  "session": "PushA",
+  "reviewed_through": "2026-09-17",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "I argued this one yesterday on a fatigue case built on 'fifth session in six days' and I withdraw it: he did not train on 2026-09-18, so tonight is the fifth session in seven days and the premise no longer holds. No new lifting has been logged since 2026-09-17, so I have no new reason to move the number. Two facts I am handing over rather than acting on: his only exposure to this movement since the gym change is 2026-09-08, where he logged three sets and not four, and the slot is still named smith-incline-press while he wrote 'Barbell' on it — the new gym has no smith machine. Neither is a recovery objection to the load.",
+      "evidence": ["2026-09-08:smith-incline-press", "2026-09-08:note", "2026-08-27:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "The 157.5 asked for tonight sits under what he handled three days before the last log — 165x10 twice on 2026-09-14 — so the ask is not above his demonstrated capacity on this machine. The 11 and 10 he got at 157.5 on 2026-09-08 were his first session on it after the gym change. No recovery objection.",
+      "evidence": ["2026-09-08:machine-chest-press", "2026-09-14:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "cut",
+      "sets": [
+        { "weight": 13.75, "reps": 15 },
+        { "weight": 15, "reps": 14 },
+        { "weight": 15, "reps": 13 }
+      ],
+      "why": "This is my one departure, and it is here because my own call yesterday rested on a statement that is false. I wrote that 2026-08-14 and 2026-09-08 showed 'no rep decay inside either session' and held on that basis. Both sessions decayed: 2026-08-14 was 14, 13, 12 and 2026-09-08 was 14, 13, 13. He has never completed three flat sets of 15 at this gym; the single flat 15/15/15 in the log is 2026-08-17, before the move. Asking for 15, 15, 15 is asking him to break a decay pattern on all three sets at once on the strength of a premise nobody checked. I am not asking for less than he did — 15/14/13 is plus one on set one, plus one on set two, and level with his best set three. Weight is unchanged.",
+      "evidence": ["2026-09-08:cable-crossover-low-high", "2026-08-14:cable-crossover-low-high", "2026-08-17:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "45 lb moved from 8 reps for three sets on 2026-08-27 to 9 reps for three sets on 2026-09-08, flat across every set both times. Reps rising at a fixed load is the opposite of an under-recovery signal. Nothing new since the last review.",
+      "evidence": ["2026-09-08:db-shoulder-press", "2026-08-27:db-shoulder-press"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "I checked whether three sets at 100 was a jump from the two sets he logged on 2026-09-08, and it is not: on 2026-09-14 he completed three flat sets of 12 at 99.2 lb with no decay. The three-set shape at this load is already proven and the packet is only asking one more rep. No objection.",
+      "evidence": ["2026-09-08:reverse-pec-deck", "2026-09-14:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "55 lb produced 11, 10, 9 on 2026-09-08 and 12, 10, 9 on 2026-09-14. That is a normal within-session drop at a fixed load, repeated consistently, not accumulating fatigue. Load is unchanged tonight and no new session has been logged, so I have nothing to add.",
+      "evidence": ["2026-09-08:overhead-cable-triceps", "2026-09-14:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "why": "I was wrong here yesterday: I asked for 45x12 twice when he had already completed 45x13 and 45x12 on 2026-09-08, which would have walked a stalled lift backwards. I am not re-arguing it and I am not proposing a number. One fact stays on the table without a change attached: set two on this lift has fallen below set one every time it has been logged, including 52.5/47.5/47.5 on 2026-08-17, so a flat 14 and 14 is a shape he has not yet produced. That belongs to whoever owns the ramp, not to me.",
+      "evidence": ["2026-09-08:rope-pushdown", "2026-08-17:rope-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,20 @@
+{
+  "role": "program",
+  "date": "2026-09-19",
+  "session": "PushA",
+  "reviewed_through": "2026-09-17",
+  "calls": [
+    {
+      "scope": "PushA",
+      "stance": "abstain",
+      "why": "Push A's shape already changed twice in the last five days — the cable lateral raise came out on 14 September and the shoulder press rep range moved on 17 September — and tonight is the first time you actually run that new shape, because your last Push A was 8 September. Nothing has been logged since Legs B on the 17th, so I am looking at exactly the evidence I looked at yesterday, and I am not spending your tap changing this session a third time before either of us has seen it run once.",
+      "evidence": [
+        "2026-09-08:cable-lateral-raise",
+        "2026-09-08:db-shoulder-press",
+        "2026-09-17:leg-curl"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

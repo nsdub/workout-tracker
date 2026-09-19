@@ -1,0 +1,87 @@
+{
+  "role": "progression",
+  "date": "2026-09-19",
+  "session": "PushA",
+  "reviewed_through": "2026-09-17",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "push",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 160, "reps": 6 },
+        { "weight": 160, "reps": 6 },
+        { "weight": 160, "reps": 6 }
+      ],
+      "why": "Unchanged from yesterday's card, because nothing has been logged since: your last Push A is still 8 Sep, where you pressed this slot with a barbell and finished 155 for 8, 8 and 8 — the top of the 6-8 range on every set, minutes apart, so that is measured work. That earns one step: 160 on the three working sets starting at 6 reps, with 155 as the opener you already own. The 180 on 27 Aug was the old gym's smith bar carrying a different tare, so it is not tonight's target.",
+      "evidence": ["2026-09-08:smith-incline-press", "2026-09-08:note", "2026-08-27:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 12 },
+        { "weight": 157.5, "reps": 12 },
+        { "weight": 157.5, "reps": 12 }
+      ],
+      "why": "Same numbers as yesterday, with one number in the explanation corrected: 14 Sep read 160 for 10, then 165 for 10 and 165 for 9 — not 165 for 10 twice, as yesterday's card said. It still does not get carried onto tonight, because that night's pec deck and lateral raises were dialled in kilos where 8 Sep read in pounds, and its overhead slot was a barbell where 2 Sep was dumbbells; that is a different room, and a machine number does not cross rooms. From 8 Sep the opener is the one thing earned: 142.5 for 12 is the top of the 10-12 range, so it goes to 150, a load you have already pressed on this machine. The working sets gave 11 and 10 at 157.5 and stay there until both read 12.",
+      "evidence": ["2026-09-08:machine-chest-press", "2026-09-14:machine-chest-press", "2026-09-14:reverse-pec-deck", "2026-09-02:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "sets": [
+        { "weight": 13.75, "reps": 15 },
+        { "weight": 15, "reps": 15 },
+        { "weight": 15, "reps": 15 }
+      ],
+      "why": "Unchanged. The 17.5 you handled on 27 Aug was the old gym's pulley, the last Push A before the move, so it does not transfer; the only reading of this crossover since is 8 Sep at 13.75 for 14 then 15 for 13 twice. Weights hold and the reps are the whole job — 15 on all three is a number you already completed at exactly these loads on 17 Aug, so it is a repeat, not a reach, and hitting it is what moves this to 17.5 where you are now training.",
+      "evidence": ["2026-09-08:cable-crossover-low-high", "2026-08-27:cable-crossover-low-high", "2026-08-17:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "sets": [
+        { "weight": 45, "reps": 10 },
+        { "weight": 45, "reps": 10 },
+        { "weight": 45, "reps": 10 }
+      ],
+      "why": "Unchanged. A 45-lb dumbbell weighs 45 lb in any building, so the gym change does not touch this slot: 45 for 8, 8, 8 on 27 Aug became 45 for 9, 9, 9 on 8 Sep, which is real progress but does not earn 50. What moved is the target, not the load — this slot is written 10-12, so those 9s now sit under the floor. Same 45, 10 on all three, and 12 on all three is what earns the 50s.",
+      "evidence": ["2026-09-08:db-shoulder-press", "2026-08-27:db-shoulder-press", "2026-08-17:db-shoulder-press"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "sets": [
+        { "weight": 100, "reps": 13 },
+        { "weight": 100, "reps": 13 },
+        { "weight": 100, "reps": 13 }
+      ],
+      "why": "Same numbers as yesterday, resting on the two Push-room readings alone: 100 for 13 on 2 Sep and 100 for 12 and 12 on 8 Sep. So your best set at this load is 13 in a 12-15 range, the top is not close, and the weight cannot move. Yesterday's card also leaned on 14 Sep's 45 kg for 12, 12, 12 — that is a kilo-dialled machine in the other room and I am not treating it as the same stack, though it points the same way. Three sets are written because the plan asks for three and 8 Sep stopped after two.",
+      "evidence": ["2026-09-08:reverse-pec-deck", "2026-09-02:reverse-pec-deck", "2026-09-14:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "sets": [
+        { "weight": 55, "reps": 12 },
+        { "weight": 55, "reps": 11 },
+        { "weight": 55, "reps": 10 }
+      ],
+      "why": "Unchanged. Two sessions six days apart tell the same story at 55: 11, 10, 9 on 8 Sep and 12, 10, 9 on 14 Sep. The first set is fine and the last set drops out of the 10-12 range every single time, so the load stays and the third set is the job — 10 reps on it is the first thing this lift has to prove, and 12 on all three is what earns 57.5.",
+      "evidence": ["2026-09-08:overhead-cable-triceps", "2026-09-14:overhead-cable-triceps", "2026-09-02:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "sets": [
+        { "weight": 45, "reps": 14 },
+        { "weight": 45, "reps": 14 }
+      ],
+      "why": "Unchanged, and still the only lift on this card flagged stalled. The cut to 45 on 8 Sep did its job — 13 and 12 reps put both sets inside the 12-15 range for the first time since this lift started sliding in July, where 17 Aug fell from 52.5 for 15 to 47.5 for 13 and then 11. Weight holds at 45 and the reps climb: 14 on both tonight, and 15 on both is what finally moves this to 50. It lives on Push A alone, so 8 Sep is still the newest reading of it.",
+      "evidence": ["2026-09-08:rope-pushdown", "2026-08-17:rope-pushdown", "2026-08-14:rope-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
