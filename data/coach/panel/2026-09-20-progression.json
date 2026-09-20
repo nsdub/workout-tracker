@@ -1,0 +1,77 @@
+{
+  "role": "progression",
+  "date": "2026-09-20",
+  "session": "PullA",
+  "reviewed_through": "2026-09-19",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "sets": [
+        {"weight": 235, "reps": 5},
+        {"weight": 255, "reps": 5},
+        {"weight": 255, "reps": 5},
+        {"weight": 255, "reps": 5}
+      ],
+      "why": "Last time 255 only gave you 4 reps twice and the fourth set never happened, so the app's plan of 255 for 6 reps three times is asking you to beat a night you did not finish. Same weights as last time, but all four sets, and five reps is the target - not six.",
+      "evidence": ["2026-09-10:deadlift", "2026-08-28:deadlift", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "push",
+      "sets": [
+        {"weight": 93, "reps": 10},
+        {"weight": 93, "reps": 9},
+        {"weight": 93, "reps": 8}
+      ],
+      "why": "At the new gym you got 93 for a clean 10 on the middle set, so 93 is proven - put it on all three sets instead of dropping back to 88. The old gym's 150 is a different machine and does not count here.",
+      "evidence": ["2026-09-10:lat-pulldown-wide", "2026-08-28:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "sets": [
+        {"weight": 55, "reps": 10},
+        {"weight": 55, "reps": 10},
+        {"weight": 55, "reps": 10},
+        {"weight": 55, "reps": 10}
+      ],
+      "why": "You have never logged a cable row at this gym - last time you did one-armed dumbbell rows at 55, and the 105 in your history is the old gym's machine. So the only number anyone can stand behind is 55 for 10, four sets. If you end up on a cable row instead, log whatever weight gives you 10 to 12 and that becomes the starting point.",
+      "evidence": ["2026-09-10:seated-cable-row-wide", "2026-08-28:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        {"weight": 50, "reps": 10},
+        {"weight": 50, "reps": 10},
+        {"weight": 50, "reps": 9}
+      ],
+      "why": "This is the 50 lb barbell you curled last time, not 50 lb dumbbells. You got 10, 10, 8 - so all three sets at 10 is not earned yet. Same bar, one more rep on the last set, and the weight goes up next block.",
+      "evidence": ["2026-09-10:db-curl", "2026-08-28:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "hold",
+      "sets": [
+        {"weight": 35, "reps": 12},
+        {"weight": 35, "reps": 11},
+        {"weight": 35, "reps": 11}
+      ],
+      "why": "35 at this gym gave you 11, 11, 10 last time - a bit short of the 12s you were getting before the move. Stay at 35 and chase the reps back up rather than adding weight on the last hard night.",
+      "evidence": ["2026-09-10:cable-hammer-curl", "2026-08-28:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [
+        {"weight": 27.5, "reps": 14},
+        {"weight": 27.5, "reps": 13}
+      ],
+      "why": "You hit 15 and 15 at 27.5 on the 3rd, then 13s on the 10th and 13s again at 27 on the 15th. The weight is right, the reps slid - hold 27.5 and aim for 14 on the first set.",
+      "evidence": ["2026-09-10:face-pulls", "2026-09-15:face-pulls", "2026-09-03:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

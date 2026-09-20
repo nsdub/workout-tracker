@@ -1,0 +1,26 @@
+{
+  "role": "program",
+  "date": "2026-09-20",
+  "session": "PullA",
+  "reviewed_through": "2026-09-19",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Legs A asks for four sets of leg curl and you have never once done four — three on 26 July, three on 2 August, three on 20 August and two on 13 September — so this writes the ask as three sets, the number you actually run and the same number Legs B already asks for.",
+      "evidence": ["2026-09-13:leg-curl", "2026-08-20:leg-curl", "2026-08-02:leg-curl"]
+    },
+    {
+      "kind": "volume",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "sets": 2,
+      "why": "The Bulgarian split squat asks for three sets and you stopped at two on 26 July, two on 2 August and two again on 13 September — only 20 August got three — so this makes the written ask two sets, the same fix you took on the rope pushdown, the incline curl and the reverse pec deck.",
+      "evidence": ["2026-09-13:db-bulgarian-split-squat", "2026-08-02:db-bulgarian-split-squat", "2026-07-26:db-bulgarian-split-squat"]
+    }
+  ]
+}

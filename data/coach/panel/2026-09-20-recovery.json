@@ -1,0 +1,46 @@
+{
+  "role": "recovery",
+  "date": "2026-09-20",
+  "session": "PullA",
+  "reviewed_through": "2026-09-19",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "why": "Same weight as last time, three sets, and no jump tonight. You pulled a 66-minute push session last night and this is the last hard day before the deload, so this is the worst night of the block to chase a bigger number. Last time out you did three sets instead of four and that was the right read - do not add the fourth back.",
+      "evidence": ["2026-09-10:deadlift", "2026-08-28:deadlift", "2026-09-19:smith-incline-press", "2026-09-10:note"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "hold",
+      "why": "Three sets at the same weight. It has been steady at three sets for both of your last two Pull A nights with nothing going wrong, and there is no reason to spend extra on it the night before a deload.",
+      "evidence": ["2026-09-10:lat-pulldown-wide", "2026-08-28:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "why": "Four sets, same weight. Last time the row machine was the pulldown station so you did one-arm dumbbell rows instead - if that happens again, swapping is fine and it does not count as a missed lift.",
+      "evidence": ["2026-09-10:seated-cable-row-wide", "2026-08-28:seated-cable-row-wide", "2026-09-10:note"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "abstain",
+      "why": "No pain, no fatigue signal, and curls cost almost nothing in recovery terms. I have no brake to apply here - the load call belongs to the progression seat.",
+      "evidence": ["2026-09-10:db-curl", "2026-08-28:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "abstain",
+      "why": "Same reasoning as the curls: three sets every Pull A, nothing sore, nothing to slow down. Progression seat's call.",
+      "evidence": ["2026-09-10:cable-hammer-curl", "2026-08-28:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "why": "Two sets, the way you have actually been doing them since late August. You have told us three times that the face-pull volume is too high, and you settled on two on your own - that stays two tonight.",
+      "evidence": ["2026-09-10:face-pulls", "2026-08-28:face-pulls", "2026-08-28:note"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
