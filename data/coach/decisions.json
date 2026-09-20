@@ -791,5 +791,29 @@
     },
     "decision": "accepted",
     "decided_at": "2026-09-19T20:23:16.097Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "leg-curl",
+      "scope": "LegsA",
+      "sets": 3,
+      "why": "Read this before you answer: on 23 August you said yes to taking Legs A leg curl UP from three sets to four, to stop the front of your leg out-earning the back. You have run Legs A once since — 13 September — and did two sets. This card asks whether to write it back down to three, the number Legs B already asks. Saying no keeps the four you chose.",
+      "date": "2026-09-20"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-20T11:03:59.074Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "db-bulgarian-split-squat",
+      "scope": "LegsA",
+      "sets": 2,
+      "why": "Same kind of question: on 16 August you said yes to taking the split squat UP from two sets to three. You did three on 20 August, right after you agreed, then two again on 13 September. This card asks whether to write it back to two. Saying no keeps the three you chose, and the honest read is that you have managed it once.",
+      "date": "2026-09-20"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-20T11:03:59.085Z"
   }
 ]
