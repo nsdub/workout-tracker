@@ -1,0 +1,136 @@
+{
+  "date": "2026-09-21",
+  "session_type": "LegsA",
+  "phase": "deload2",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1790009740214
+        },
+        {
+          "weight": 160,
+          "reps": 11,
+          "at": 1790009886267
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 15.432,
+          "reps": 10,
+          "kg": 7,
+          "at": 1790010143267,
+          "restEndedAt": 1790010066279
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1790010270281,
+          "restEndedAt": 1790010263277
+        },
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1790010392874,
+          "restEndedAt": 1790010360332
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1790010497782,
+          "restEndedAt": 1790010482890
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 90.39,
+          "reps": 12,
+          "kg": 41,
+          "at": 1790010611230,
+          "restEndedAt": 1790010587833
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 90.39,
+          "reps": 12,
+          "kg": 41,
+          "at": 1790010618507
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "as": "Calf raise",
+      "sets": [
+        {
+          "weight": 220,
+          "reps": 12,
+          "at": 1790010702858,
+          "restEndedAt": 1790010693516
+        },
+        {
+          "weight": 220,
+          "reps": 12,
+          "at": 1790010814134,
+          "restEndedAt": 1790010777869
+        }
+      ],
+      "note": "Your weight suggestions make zero sense"
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1790010999165,
+          "restEndedAt": 1790010889141
+        },
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1790011389839,
+          "restEndedAt": 1790011059240
+        }
+      ]
+    }
+  ],
+  "world": "watchtower",
+  "mins": 27,
+  "startedAt": 1790003676535
+}
