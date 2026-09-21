@@ -815,5 +815,17 @@
     },
     "decision": "accepted",
     "decided_at": "2026-09-20T11:03:59.085Z"
+  },
+  {
+    "proposal": {
+      "kind": "volume",
+      "exercise": "db-lateral-raise",
+      "scope": "PushB",
+      "sets": 4,
+      "why": "The cable lateral raise came off Push A on 11 September, which leaves these three sets as the only direct side-delt work in your whole week, against seven weekly sets of overhead pressing. This asks to put the fourth set back — the same fourth set you ran on 3 August. You should know it reverses itself: your program trainer cut this to three on 27 August, right after you asked whether four was really right for such a small muscle. Those two decisions leaned on each other — August's cut pointed at Push A's cable raises, and September's removal pointed at Push B's dumbbell raises — so the reason for the cut is now gone. Saying yes still leaves you with less side-delt work than you had in August.",
+      "date": "2026-09-21"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-21T17:01:00.746Z"
   }
 ]
