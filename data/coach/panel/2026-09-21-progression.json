@@ -1,0 +1,70 @@
+{
+  "role": "progression",
+  "date": "2026-09-21",
+  "session": "PullA",
+  "reviewed_through": "2026-09-19",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "sets": [
+        {"weight": 200, "reps": 5},
+        {"weight": 200, "reps": 5}
+      ],
+      "why": "This is deload week, so the bar comes down on purpose. Last time 255 gave you 4 reps instead of 5 and you stopped after three sets, so there is nothing to chase here. Two sets of 5 at 200, and they should feel like you could do four more.",
+      "evidence": ["2026-09-10:deadlift", "2026-08-28:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "push",
+      "sets": [
+        {"weight": 75, "reps": 8},
+        {"weight": 75, "reps": 8}
+      ],
+      "why": "You pulled 93 for a clean 10 at this gym, so a proper 20 percent cut is about 75, not the 67.5 the app wants - that is closer to a 28 percent cut and it is too light to be worth the trip. If 75 is not on the stack, take the next notch below it.",
+      "evidence": ["2026-09-10:lat-pulldown-wide", "2026-09-15:lat-pulldown-close", "2026-08-28:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "push",
+      "sets": [
+        {"weight": 45, "reps": 10},
+        {"weight": 45, "reps": 10}
+      ],
+      "why": "Last time this slot was one-armed dumbbell rows at 55 per hand, and you have still never logged an actual cable row at this gym. So keep the dumbbell: 45 in each hand for 10, two sets per arm. The app's 37.5 is a cable-stack number for a machine that is not in your log, and 37.5 is not a dumbbell you are likely to find on the rack.",
+      "evidence": ["2026-09-10:seated-cable-row-wide", "2026-09-10:note", "2026-08-28:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        {"weight": 40, "reps": 8},
+        {"weight": 40, "reps": 8}
+      ],
+      "why": "Read this one carefully: 40 means the barbell loaded to 40, because last time you curled a 50 lb bar here, not 50 lb dumbbells. If you end up with dumbbells instead, use 25 in each hand - your dumbbell curls were 30s, and the same 20 percent comes off those.",
+      "evidence": ["2026-09-10:db-curl", "2026-09-10:note", "2026-08-28:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "push",
+      "sets": [
+        {"weight": 27.5, "reps": 10},
+        {"weight": 27.5, "reps": 10}
+      ],
+      "why": "35 has given you 11, 11, 10 two sessions running, so it is a real number and 20 percent off it is 27.5 - a notch you have already used on the cables here. The app's 25 cuts nearly 30 percent, which is more rest than this lift needs.",
+      "evidence": ["2026-09-10:cable-hammer-curl", "2026-08-28:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "push",
+      "sets": [
+        {"weight": 22.5, "reps": 12},
+        {"weight": 22.5, "reps": 12}
+      ],
+      "why": "Keep both sets. You have been doing 13 to 15 reps at 27 or 27.5 for weeks and never close to failing, so this lift is not what is tiring you out - cutting it to one set takes away shoulder work in the week your shoulders are meant to be recovering. Drop the weight to 22.5 and do the two sets.",
+      "evidence": ["2026-09-10:face-pulls", "2026-09-15:face-pulls", "2026-09-03:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

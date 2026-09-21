@@ -1,0 +1,77 @@
+{
+  "role": "recovery",
+  "date": "2026-09-21",
+  "session": "PullA",
+  "reviewed_through": "2026-09-19",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "cut",
+      "sets": [
+        { "weight": 185, "reps": 5 },
+        { "weight": 185, "reps": 5 }
+      ],
+      "why": "This is the lift I am braking hardest, and not because anything hurts. I read every note in the log by hand and there is no pain, no soreness, no tweak, no joint complaint anywhere in it — so I am not vetoing on pain and I will not pretend to. The reason is the bar itself. On 2026-08-28 you pulled 235x6, 255x5, 265x5, 265x5. On 2026-09-10, eleven days ago and the last Pull A on record, you pulled 235x5, 255x4, 255x4 — one set fewer, ten pounds lighter on top, and a rep off every set. That is the whole picture moving the wrong way at once on the only lift here that can put you on the floor for a week. A deload week exists for exactly this, so I am asking for two sets of five at 185. That is about 73% of your last top set, it is a weight you have used as a warm-up all summer, and it is unmistakably four or more reps in reserve, which is what the deload note demands. Keep the groove, spend nothing.",
+      "evidence": ["2026-09-10:deadlift", "2026-08-28:deadlift", "2026-08-18:deadlift", "2026-09-10:note"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "cut",
+      "sets": [
+        { "weight": 66, "reps": 10 },
+        { "weight": 66, "reps": 10 }
+      ],
+      "why": "Straight deload math on a lift with no fatigue signal in it. On 2026-09-10 you did 88x10, 93x10, 88x9 — you went up a pin and came back down, which is a normal within-session call, not a warning. 66 lb is 30 kg, and the new gym's stacks are in kilos: your logged numbers there land on 35, 37.5, 40 and 42.5 kg exactly. I picked 66 rather than 70 because 70 is not a pin you can actually select, and I would rather you be a notch light than guessing. Two sets instead of three, per the deload set budget.",
+      "evidence": ["2026-09-10:lat-pulldown-wide", "2026-08-28:lat-pulldown-wide", "2026-09-15:lat-pulldown-close"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "cut",
+      "sets": [
+        { "weight": 44, "reps": 10 },
+        { "weight": 44, "reps": 10 }
+      ],
+      "why": "Read this one carefully, because the slot name and what you actually do have come apart. You have not done a wide cable row since the gym change — on 2026-09-10 you wrote 'One armed dumbbell row' and did four sets of 55 per hand. So I am pricing the row you actually perform, not the one the plan is still named after: 44 lb a hand, which is the 20 kg dumbbell you already used on 2026-09-15, for two sets of ten. If you do find a proper wide cable row station this week, use a weight that would be a comfortable ten with three or four left in you and stop there — do not go hunting for the old 105.",
+      "evidence": ["2026-09-10:seated-cable-row-wide", "2026-09-10:note", "2026-08-28:seated-cable-row-wide", "2026-09-15:incline-db-curl"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 40, "reps": 10 },
+        { "weight": 40, "reps": 10 }
+      ],
+      "why": "Eighty percent of the 50 you handled on 2026-09-10, two sets instead of three. One thing I will not quietly pass over: two of your three sets that day are stamped 2026-09-10 15:45:20 and 2026-09-10 15:45:21 — one and a bit seconds apart. Those two were typed in together after the fact, not timed as they happened. I am still using them, because a recalled ten at 50 is still a ten at 50, but nobody on this panel should treat that session's set-by-set detail as measured.",
+      "evidence": ["2026-09-10:db-curl", "2026-09-10:note", "2026-08-28:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 27.5, "reps": 11 },
+        { "weight": 27.5, "reps": 11 }
+      ],
+      "why": "This lift has been the steadiest thing on the day: 35 lb on 2026-08-18, 35 on 2026-08-28, 35 on 2026-09-10, with reps sitting around eleven and twelve every time. Nothing is wrong with it, which is why it gets the plain deload treatment and nothing more — 27.5 is eighty percent of 35, two sets instead of three.",
+      "evidence": ["2026-09-10:cable-hammer-curl", "2026-08-28:cable-hammer-curl", "2026-08-18:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [
+        { "weight": 27.5, "reps": 13 },
+        { "weight": 27.5, "reps": 13 }
+      ],
+      "why": "I am writing the numbers down here specifically so nobody shaves this one. The deload's set budget, applied blindly, turns your two sets into one, and cutting the only shoulder-health work on the day during the week set aside for recovery is backwards. Two sets at 27.5 for thirteen costs you nothing to recover from — that is exactly what you did on 2026-09-10 and again on 2026-09-15 — and it is the only external rotation and only back-of-the-shoulder work on Pull A. You asked on 2026-08-28 why it was three and said you thought two was right; you got two, and two is what I am defending. Same weight, same reps, no cut.",
+      "evidence": ["2026-09-10:face-pulls", "2026-08-28:face-pulls", "2026-08-28:note", "2026-09-15:face-pulls"]
+    }
+  ],
+  "vetoes": [
+    {
+      "exercise": "deadlift",
+      "grounds": "fatigue",
+      "why": "Advisory, and aimed at the head coach rather than at you. I am on record against any Pull A deadlift prescription this week that asks for more than two sets or for more than 185 on the bar. You already voted with your own hands eleven days ago: the plan asked four sets and you did three, and the top weight came down from 265 to 255 with a rep missing off each one. The last lower-body session in between, 2026-09-17, cannot settle the question either way — twenty-one sets are stamped inside twenty-three minutes, three RDL sets six seconds apart, so that file is a recollection, not a measurement. When the evidence is a regression plus an unreadable session, the deload week takes the conservative side.",
+      "evidence": ["2026-09-10:deadlift", "2026-08-28:deadlift", "2026-09-17:smith-rdl"]
+    }
+  ],
+  "structure_proposals": []
+}

@@ -1,0 +1,21 @@
+{
+  "role": "program",
+  "date": "2026-09-21",
+  "session": "PullA",
+  "reviewed_through": "2026-09-19",
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "db-lateral-raise",
+      "scope": "PushB",
+      "sets": 4,
+      "why": "The cable lateral raise came off Push A on 11 September, and that leaves these three sets as the only direct side-delt work in your entire week, against seven weekly sets of overhead press. I am putting the fourth set back — the same fourth set you ran on 3 August — and I am only re-asking because Push A lost its raise; when I cut this to three on 27 August, Push A still had one.",
+      "evidence": [
+        "2026-09-08:cable-lateral-raise",
+        "2026-09-19:db-shoulder-press",
+        "2026-09-14:db-lateral-raise",
+        "2026-08-03:db-lateral-raise"
+      ]
+    }
+  ]
+}
