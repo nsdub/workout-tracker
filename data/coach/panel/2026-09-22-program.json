@@ -1,0 +1,34 @@
+{
+  "role": "program",
+  "date": "2026-09-22",
+  "session": "PushB",
+  "reviewed_through": "2026-09-21",
+  "calls": [],
+  "vetoes": [],
+  "structure_proposals": [
+    {
+      "kind": "volume",
+      "exercise": "assisted-dips",
+      "scope": "PushB",
+      "sets": 4,
+      "why": "Every set of dips you have ever logged is bodyweight, so the weight on this one can never go up — reps are the only thing that can climb. The range was raised to 12-20 reps on 14 September and that same night you finished on 19, which used up nearly all of the new room in a single session. A fourth set is the only lever left. Saying yes makes Push B a 25-set night instead of 24.",
+      "evidence": [
+        "2026-08-03:assisted-dips",
+        "2026-08-23:assisted-dips",
+        "2026-09-14:assisted-dips"
+      ]
+    },
+    {
+      "kind": "volume",
+      "exercise": "reverse-pec-deck",
+      "scope": "PushB",
+      "sets": 3,
+      "why": "Your third set of reverse pec deck was cut last week because you had stopped doing it — two sets on 23 August, two on 2 September. That cut was decided on the morning of 14 September, a few minutes before you walked into the gym, and that night you did all three sets, twelve reps each. That is a fact the cut did not have. This asks to write the third set back before Meso 3 starts on 28 September.",
+      "evidence": [
+        "2026-08-23:reverse-pec-deck",
+        "2026-09-02:reverse-pec-deck",
+        "2026-09-14:reverse-pec-deck"
+      ]
+    }
+  ]
+}

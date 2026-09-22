@@ -1,0 +1,66 @@
+{
+  "role": "recovery",
+  "date": "2026-09-22",
+  "session": "PushB",
+  "reviewed_through": "2026-09-21",
+  "calls": [
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "sets": [{ "weight": 35, "reps": 10 }, { "weight": 35, "reps": 10 }],
+      "why": "This slot was swapped in and has never been logged on a PushB, so the deload branch has no last visit to back off from and the card opens the night with a blank weight and a 'verify' chip. He pressed 45 lb for 9 three times on 2026-09-19, three days ago, so 35 lb is 0.8 of that rounded to a dumbbell he has actually used on this lift, and his own 10 reps are kept so the load carries the deload rather than a rep cut on top of it.",
+      "evidence": ["2026-09-19:db-shoulder-press", "2026-09-08:db-shoulder-press", "2026-09-14:smith-overhead-press", "2026-09-02:note"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "sets": [{ "weight": 130, "reps": 10 }, { "weight": 130, "reps": 10 }],
+      "why": "130 lb is a fair 79% of the 165 he pressed on 2026-09-14 and I do not want it moved, but he also pressed 160x12 twice on 2026-09-19 and this is the third repeat of his chest in four days. Keep the weight the app chose and keep his own 10 reps, so the cut lands in one place instead of load, sets and reps all at once."
+      ,
+      "evidence": ["2026-09-14:machine-chest-press", "2026-09-19:machine-chest-press"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "hold",
+      "why": "Bodyweight from a bench, and he went 15, 17, 19 on 2026-09-14, so two sets of twelve is a genuine back-off with nothing to argue about. No change.",
+      "evidence": ["2026-09-14:assisted-dips", "2026-08-23:assisted-dips"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "cut",
+      "sets": [{ "weight": 11, "reps": 15 }, { "weight": 11, "reps": 15 }],
+      "why": "On 2026-09-14 he logged this lift in kilos — 6 kg then 7 kg — so the deload step is 5 kg, which is 11 lb, and 11 lb is a dumbbell that exists on a kg rack. The app's number for this slot comes out at about 65% of his 7 kg rather than the 80% the card claims, and it is not a kg dumbbell at all; this is the same shape of error he complained about on 2026-09-21.",
+      "evidence": ["2026-09-14:db-lateral-raise", "2026-09-02:db-lateral-raise", "2026-08-23:note"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "hold",
+      "sets": [{ "weight": 20, "reps": 15 }, { "weight": 20, "reps": 15 }],
+      "why": "20 lb is a real back-off from the 27 he used on 2026-09-14 and I leave the load alone. Reps go back to 15, which is where he actually works this fly, because a light fly for 12 is not worth the trip.",
+      "evidence": ["2026-09-14:cable-crossover-high-low", "2026-09-02:note"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "cut",
+      "sets": [{ "weight": 77, "reps": 12 }],
+      "why": "His most recent PushB log for this machine is explicitly 45 kg for 12, three times, so the deload target is 36 kg and the nearest real stack step below it is 35 kg, which is 77 lb. One set only: he already did three sets of 100 lb on this machine on 2026-09-19.",
+      "evidence": ["2026-09-14:reverse-pec-deck", "2026-09-19:reverse-pec-deck", "2026-08-23:note"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "sets": [{ "weight": 40, "reps": 12 }, { "weight": 40, "reps": 12 }],
+      "why": "40 lb is the right deload off the 55 he has held since 2026-08-03 and I am not touching it. Reps go to 12, his own number on this lift on both 2026-09-14 and 2026-09-19, because 40x8 after a month of 55x12 is not a set.",
+      "evidence": ["2026-09-14:overhead-cable-triceps", "2026-09-19:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "hold",
+      "sets": [{ "weight": 20, "reps": 15 }],
+      "why": "20 lb off the 27 he did for 13 and 15 on 2026-09-14 is a proper back-off and stays. Reps to 15 to match what he actually does here; one set is enough on the fourth training day in a row.",
+      "evidence": ["2026-09-14:reverse-grip-pushdown", "2026-09-02:reverse-grip-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

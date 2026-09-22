@@ -1,0 +1,88 @@
+{
+  "role": "progression",
+  "date": "2026-09-22",
+  "session": "PushB",
+  "reviewed_through": "2026-09-21",
+  "calls": [
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "cut",
+      "sets": [
+        { "weight": 35, "reps": 9 },
+        { "weight": 35, "reps": 9 }
+      ],
+      "why": "This slot has no PushB history at all — his last three pressing sessions put it in PushA at 45x9 across the board (2026-08-27, 2026-09-08, 2026-09-19), so 45 is the honest baseline and 0.8x45 = 36 lb. 36 is not a dumbbell; 35 is, and he owns it (35x12 on 2026-07-23), so 35 is the real 20% cut rather than a made-up number.",
+      "evidence": ["2026-09-19:db-shoulder-press", "2026-09-08:db-shoulder-press", "2026-08-27:db-shoulder-press", "2026-07-23:db-shoulder-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "cut",
+      "sets": [
+        { "weight": 130, "reps": 10 },
+        { "weight": 130, "reps": 10 }
+      ],
+      "why": "Same-day top was 165x10 on 2026-09-14 and he repeated 160x12 on 2026-09-19, so 165 is the number to take 20% off: 0.8x165 = 132, and 130 is the nearest step down on the 150/160/165 line he actually logged on both those days. The slot is flagged stalled, but a stall is a meso-3 decision — nothing gets chased inside a deload week.",
+      "evidence": ["2026-09-14:machine-chest-press", "2026-09-19:machine-chest-press", "2026-09-02:machine-chest-press"]
+    },
+    {
+      "exercise": "assisted-dips",
+      "stance": "cut",
+      "sets": [
+        { "weight": 0, "reps": 12 },
+        { "weight": 0, "reps": 12 }
+      ],
+      "why": "2026-09-14 is logged as \"Dips from bench\" at 0x15/17/19 — a different, easier movement than the assisted dip he was doing at 0x12x3 on 2026-08-23, so those reps are not a baseline and I will not scale off them. A bodyweight lift cannot be deloaded by 20% of load, so the cut is volume: two sets of 12, stopped well short.",
+      "evidence": ["2026-09-14:assisted-dips", "2026-08-23:assisted-dips", "2026-08-03:assisted-dips"]
+    },
+    {
+      "exercise": "db-lateral-raise",
+      "stance": "cut",
+      "sets": [
+        { "weight": 13.228, "reps": 13 },
+        { "weight": 13.228, "reps": 13 }
+      ],
+      "why": "These are kg dumbbells — 2026-09-14 reads 6 kg and 7 kg, not 13.2 and 15.4 lb. 10 lb is 4.5 kg and is not a dumbbell on that rack, so any prescription at 10 is unpickable. 0.8 x 7 kg = 5.6 kg, and the real bells either side are 5 kg (29% off) and 6 kg (14% off); 6 kg is the one he already warmed with on 2026-09-14, so take 6 kg.",
+      "evidence": ["2026-09-14:db-lateral-raise", "2026-09-02:db-lateral-raise", "2026-08-23:db-lateral-raise"]
+    },
+    {
+      "exercise": "cable-crossover-high-low",
+      "stance": "cut",
+      "sets": [
+        { "weight": 21, "reps": 13 },
+        { "weight": 21, "reps": 13 }
+      ],
+      "why": "Top on 2026-09-14 was 27 per side, so a true 20% is 21.6. I cannot name this gym's notches, but 19, 25 and 27 all appear in his own logs, which puts 21 on the same line; take the first setting at or below 21.6 if 21 is not there.",
+      "evidence": ["2026-09-14:cable-crossover-high-low", "2026-09-02:cable-crossover-high-low", "2026-07-20:cable-crossover-high-low"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "cut",
+      "sets": [
+        { "weight": 77.162, "reps": 12 }
+      ],
+      "why": "2026-09-14 is 45 kg x12 three times, and the 90 and 100 lb readings on 2026-08-27 and 2026-09-19 are 40 kg and 45 kg written in pounds — the stack moves in 5 kg steps. 0.8 x 45 kg = 36 kg, so the real notch is 35 kg (77.2 lb), 22% off, which is the closest a 5 kg stack gets to the 20%.",
+      "evidence": ["2026-09-14:reverse-pec-deck", "2026-09-19:reverse-pec-deck", "2026-08-27:reverse-pec-deck", "2026-09-02:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "cut",
+      "sets": [
+        { "weight": 45, "reps": 9 },
+        { "weight": 45, "reps": 9 }
+      ],
+      "why": "He has been pinned at 55 for four sessions straight (2026-09-02, 09-08, 09-14, 09-19), so 0.8 x 55 = 44. 40 would be 27% off, not a deload but a demotion on a lift he is holding cleanly; the stack has shown 50 and 55 at this gym, so 45 is the next real step and is the 20% number. Set at 45.",
+      "evidence": ["2026-09-14:overhead-cable-triceps", "2026-09-19:overhead-cable-triceps", "2026-09-08:overhead-cable-triceps", "2026-09-02:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "reverse-grip-pushdown",
+      "stance": "cut",
+      "sets": [
+        { "weight": 21, "reps": 14 }
+      ],
+      "why": "27x13 and 27x15 on 2026-09-14, 27.5 the session before, so 0.8 x 27 = 21.6 and 21 is the same call as the crossover — they read off the same stack (25, 27, 27.5 in both). One set is what 0.6 leaves of a two-set slot.",
+      "evidence": ["2026-09-14:reverse-grip-pushdown", "2026-09-02:reverse-grip-pushdown", "2026-08-23:reverse-grip-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
