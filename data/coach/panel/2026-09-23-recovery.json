@@ -1,0 +1,59 @@
+{
+  "role": "recovery",
+  "date": "2026-09-23",
+  "session": "PullB",
+  "reviewed_through": "2026-09-22",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "cut",
+      "sets": [{ "weight": 125, "reps": 9 }, { "weight": 125, "reps": 9 }],
+      "why": "Two sets at 125 for 9, no ramp. 125 is a true fifth off the 155 he actually rowed on 2026-09-15 (0.8 x 155 = 124) and 5 lb steps are proven in his own log at this gym, so it is a bar he can load. His own 9 reps stay: the set cut from four to two is the whole deload here, and it is the only cut this lift gets. On the streak, which is the thing I was asked to rule on: tonight is his fifth straight training day, and I am not calling it a problem. His plan runs six on, one off, so five in a row is the schedule, not an overreach, and the last two days were 27 and 28 minutes of deload work. The number that looked like a fifth-day collapse is not one: he logged 8 reps of dips last night against 19 on 2026-09-14, but 2026-09-14 is logged as bench dips and 2026-09-22 as dips on the bars. Every bodyweight dip set in his log since 2025-12-02 sits between 7 and 14 reps, so 8 is his normal number for that movement, not a warning. The real fatigue mark is 2026-09-20, where the same deadlift loads he pulled on 2026-09-10 gave him fewer reps (235 for 4 instead of 5, 255 for 3 and 3 instead of 4 and 4) under his own note that it was too early in the morning. That was the last hard day before this week, and it is exactly what a deload is for. It is also why I want this row light rather than absent.",
+      "evidence": ["2026-09-15:smith-bent-over-row", "2026-09-03:smith-bent-over-row", "2026-09-20:deadlift", "2026-09-10:deadlift", "2026-09-22:assisted-dips", "2026-09-14:assisted-dips", "2026-09-20:note"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "cut",
+      "sets": [{ "weight": 77, "reps": 10 }, { "weight": 77, "reps": 10 }],
+      "why": "Two sets at 77 for 10. A mechanical fifth off his top set of 88 would be 70.4, and I will not print 70.4 because I have no evidence that setting exists. The only four settings this machine has ever shown in his log at this gym are 77, 83, 88 and 93, spaced six, five and five pounds apart, which is what a 2.5 kg stack looks like after rounding. 77 is the lightest pin he has actually used here, twice, so it is the lightest honest number on the card. That makes this a 12.5% load cut rather than 20%, and I am saying so out loud instead of inventing a pin to hit the label. The set cut from three to two carries the rest of it, and his own 10 reps stay.",
+      "evidence": ["2026-09-15:lat-pulldown-close", "2026-09-03:lat-pulldown-close", "2026-09-20:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "cut",
+      "sets": [{ "weight": 17.637, "reps": 10 }, { "weight": 17.637, "reps": 10 }],
+      "why": "8 kg, which is 17.637 lb, for 10, two sets. He ran this at 10 kg for 10, three times, on 2026-09-15, and a fifth off 10 kg is 8 kg exactly, a whole setting rather than something between notches. One warning attached to this slot: on 2026-09-03 it holds two different machines in one night, 22 lb on a machine for the first set and 46 lb on the cable crossover for the next two. That is the same fault that produced his complaint on 2026-09-21, a slot carrying two scales at once, so if he starts tonight on the machine rather than the cable this number means nothing and he should pick his own light setting.",
+      "evidence": ["2026-09-15:straight-arm-pulldown", "2026-09-03:straight-arm-pulldown", "2026-09-03:note", "2026-09-21:note"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "cut",
+      "sets": [{ "weight": 61.729, "reps": 15 }, { "weight": 61.729, "reps": 15 }],
+      "why": "28 kg, which is 61.729 lb, for 15, two sets. He shrugged 35 kg for 15 three times on 2026-09-15 and told us in the same note that 35 is the heaviest dumbbell in the building, so 35 is a real ceiling and not a choice, and a fifth off it is 28 kg exactly. What I cannot check is whether a 28 lives on that rack: his logged bells run 6, 7, 12.5, 15, 17.5 and 35 kg, which is not a regular ladder. If there is no 28, take the bell below it and tell us which one it was. I am not going to pretend to see a rack I have never seen. His own 15 reps stay and the third set is what the deload takes.",
+      "evidence": ["2026-09-15:db-shrug", "2026-09-03:db-shrug", "2026-09-15:note", "2026-09-22:db-lateral-raise"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "cut",
+      "sets": [{ "weight": 35.274, "reps": 12 }],
+      "why": "16 kg on the EZ bar, which is 35.274 lb, for 12, one set. He curled a 20 kg EZ bar for 12 twice on 2026-09-15, and a fifth off that is 16 kg, a whole bar setting. Two things about this one are open rather than settled, and I would rather he read them here than find them on the card. First, this slot is stored on two scales: 25 lb dumbbells in each hand through 2026-09-03, then a 20 kg bar held in both hands on 2026-09-15. Those numbers cannot be compared, and 35 lb is meaningless if he picks up dumbbells tonight — that is exactly the two-scale fault that put a 57% weight under an 80% label on his split squat card on 2026-09-21. Second, 12 reps is above this slot's own 8 to 10 range. I am keeping it because 12 is what he did with this bar and the ruling this week is that his own working reps survive the deload, but it is a departure and I am naming it rather than burying it.",
+      "evidence": ["2026-09-15:incline-db-curl", "2026-09-03:incline-db-curl", "2026-09-15:note", "2026-09-21:db-bulgarian-split-squat", "2026-09-21:note"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [{ "weight": 27, "reps": 10 }, { "weight": 27, "reps": 10 }],
+      "why": "27 for 10, two sets. He ran 36 for 10, 11, 10 on 2026-09-15, so a fifth off is 28.8, and 28.8 is not a number I can show exists on that stack. 27 is a setting he has pinned on a cable at this gym as recently as 2026-09-20, so it is real and it is the first proven one at or below 28.8. If the reverse-curl stack has no 27 on it, take the notch below. His own 10 reps stay and the third set is the deload.",
+      "evidence": ["2026-09-15:cable-reverse-curl", "2026-09-03:cable-reverse-curl", "2026-09-20:face-pulls", "2026-09-22:reverse-grip-pushdown"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [{ "weight": 27, "reps": 13 }],
+      "why": "27 for 13, one set, weight unchanged. This is the one slot tonight I am deliberately not deloading, and it is a departure from the rule the rest of this file follows. He did 27 for 13 three days ago on 2026-09-20 and again on 2026-09-15 with no complaint, and a 21 lb face pull does not do anything for a cuff that 27 was not already doing easily. Cutting it would be a third cut on the only slot in the night that is recovery work rather than training. The set cut from two to one stands. Worth knowing: he has asked about face-pull volume twice, on 2026-07-28 and 2026-08-28, and tonight's single set is the smallest it has ever been.",
+      "evidence": ["2026-09-20:face-pulls", "2026-09-15:face-pulls", "2026-09-03:face-pulls", "2026-08-28:note", "2026-07-28:note"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

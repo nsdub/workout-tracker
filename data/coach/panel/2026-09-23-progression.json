@@ -1,0 +1,78 @@
+{
+  "role": "progression",
+  "date": "2026-09-23",
+  "session": "PullB",
+  "reviewed_through": "2026-09-22",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "cut",
+      "sets": [
+        { "weight": 125, "reps": 9 },
+        { "weight": 125, "reps": 9 }
+      ],
+      "why": "Top set on 2026-09-15 was 155x8, so a true fifth off is 124, and he loads this bar in 5 lb steps (150 then 155 the same night), which makes 125 the real bar rather than the 120 a round-down would give. Nine reps is his own number from that night at 120 and at 140 — 125 sits between them — so the rep target is not the bottom of the 8-10 range dressed up as a prescription.",
+      "evidence": ["2026-09-15:smith-bent-over-row", "2026-09-03:smith-bent-over-row", "2026-08-25:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "cut",
+      "sets": [
+        { "weight": 70, "reps": 10 },
+        { "weight": 70, "reps": 10 }
+      ],
+      "why": "He has run this identically twice at the new gym — 77, 83, 88 for 10 each on 2026-09-03 and again on 2026-09-15 — so 88 is the number to take a fifth off, and that is 70.4. Ten reps is what he did on all six of those sets, and if 70 is not a setting on that stack take the first notch below it.",
+      "evidence": ["2026-09-15:lat-pulldown-close", "2026-09-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "cut",
+      "sets": [
+        { "weight": 17.637, "reps": 10 },
+        { "weight": 17.637, "reps": 10 }
+      ],
+      "why": "This is a kg machine — 2026-09-15 reads 10 kg flat for 10, three times — so the fifth off is 8 kg, which is 17.637 lb; a pound figure that is not an exact kg lands on a dial he cannot set. If 8 is not on that stack take 7.5 kg (16.535 lb), but if it only moves in 5 kg jumps stay at 10 kg rather than halve the load, and let the drop from three sets to two be the deload.",
+      "evidence": ["2026-09-15:straight-arm-pulldown", "2026-09-03:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "cut",
+      "sets": [
+        { "weight": 60.627, "reps": 15 },
+        { "weight": 60.627, "reps": 15 }
+      ],
+      "why": "2026-09-15 is 35 kg for 15 three times, and he wrote that night that 35 is the heaviest bell in the rack — that is a ceiling he hit, not a limit he reached, so the reps stay at his own 15. A fifth off 35 kg is 28, which is not a dumbbell on a 2.5 kg rack; 27.5 kg is, and it is proven in the building because he rowed with a 27.5 kg bell on 2026-09-20, so 60.627 lb it is.",
+      "evidence": ["2026-09-15:db-shrug", "2026-09-15:note", "2026-09-20:seated-cable-row-wide", "2026-09-03:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 33.069, "reps": 12 }
+      ],
+      "why": "He logged this as an EZ bar curl at 20 kg for 12 twice on 2026-09-15, so the fifth off is 16 kg and fixed curl bars normally step 15 then 17.5 — take the 15 kg bar (33.069 lb), or a 16 kg one if that rack has it. Twelve reps is his own figure and it stays, even though it is above this slot's 8-10 range.",
+      "evidence": ["2026-09-15:incline-db-curl", "2026-09-15:note", "2026-09-03:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 28, "reps": 11 },
+        { "weight": 28, "reps": 11 }
+      ],
+      "why": "36 for 10, 11 and 10 on 2026-09-15 puts the true fifth at 28.8, so 28, or 27 if 28 is not there — 27 is a setting his cables definitely have, since his face pulls read 27 on that same night. The slot is flagged stalled and I am leaving it alone: a stall is a Meso 3 decision and nothing gets chased inside a deload week.",
+      "evidence": ["2026-09-15:cable-reverse-curl", "2026-09-03:cable-reverse-curl", "2026-09-15:face-pulls"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "cut",
+      "sets": [
+        { "weight": 21, "reps": 13 }
+      ],
+      "why": "27 for 13 twice on 2026-09-15 and again on 2026-09-20, so a fifth off is 21.6 and 21 is the notch — and 21 is not a guess, he ran two different cable lifts at exactly 21 last night. Thirteen is his own rep count on both of those sessions, and one set is what 60% leaves of a two-set slot.",
+      "evidence": ["2026-09-15:face-pulls", "2026-09-20:face-pulls", "2026-09-22:cable-crossover-high-low", "2026-09-22:reverse-grip-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
