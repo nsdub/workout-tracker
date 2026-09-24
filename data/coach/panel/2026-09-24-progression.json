@@ -1,0 +1,85 @@
+{
+  "role": "progression",
+  "date": "2026-09-24",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-23",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 155, "reps": 8 }
+      ],
+      "why": "His top set last LegsB (2026-09-17) was 185 for 8, and a fifth off that is 148. 148 is not a load he has put on this bar. 155 is: he pulled it for 10 on 2026-09-05 and it is 16% under last week's top. 135 would be 27% under, which is more than this week calls for. Eight reps is what he did on every set on 2026-09-17. The slot is flagged stalled, but that is a Meso 3 question and nothing gets chased in a deload.",
+      "evidence": ["2026-09-17:smith-rdl", "2026-09-05:smith-rdl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "cut",
+      "sets": [
+        { "weight": 140, "reps": 10 },
+        { "weight": 140, "reps": 10 }
+      ],
+      "why": "Last week's top was 170 for 10 (2026-09-17), so a fifth off is 136. This leg press moves in 10 lb steps and he has used 140 on it (2026-09-05, 140 for 12), so 140 is the nearest setting he has proven. Ten reps is his own number from all three sets last week. Two sets instead of three.",
+      "evidence": ["2026-09-17:leg-press-high", "2026-09-05:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "cut",
+      "sets": [
+        { "weight": 110, "reps": 12 },
+        { "weight": 110, "reps": 12 }
+      ],
+      "why": "2026-09-17 went 110, 130, 145, all for 12, so a fifth off 145 is 116. The settings he has used on this machine near that are 110 and 130. 130 is only 10% off, which is not a deload, so the call is 110. He opened with 110 for 12 last week, so it is a weight and rep count he has actually done. On Monday's LegsA deload he did this curl at 100 for 10, twice. 110 for 12 keeps tonight in line with that.",
+      "evidence": ["2026-09-17:leg-curl", "2026-09-21:leg-curl", "2026-09-05:leg-curl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "cut",
+      "sets": [
+        { "weight": 90.39, "reps": 12 }
+      ],
+      "why": "Last LegsB was 110 for 12 and 15 (2026-09-17), so a fifth off is 88. On Monday he read this machine in kilograms and set it at 41 kg (90.39 lb) for 12 (2026-09-21). That is the deload number he already chose on this machine, so it is repeated exactly, as one set of the slot's two.",
+      "evidence": ["2026-09-17:hip-abductor", "2026-09-21:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "cut",
+      "sets": [
+        { "weight": 90.39, "reps": 12 }
+      ],
+      "why": "Same numbers as the abductor: 110 for 12 and 15 on 2026-09-17 gives 88 after a fifth off, and on 2026-09-21 he set this machine at 41 kg (90.39 lb) for 12. Repeat that exact dial setting for one set.",
+      "evidence": ["2026-09-17:hip-adductor", "2026-09-21:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "cut",
+      "sets": [
+        { "weight": 240, "reps": 15 },
+        { "weight": 240, "reps": 15 }
+      ],
+      "why": "Last week's slot (2026-09-17) was kettlebell swings, a different movement, so it tells us nothing about calf loads. The last real calf press on LegsB was 2026-09-05: 240 for 15, then 260 for 15 and 13. A true fifth off 260 is 208, but at this gym he has only logged 240 and 260 on this lift. 208 would be a card he can't set, and that is the kind of number he objected to on Monday. So it is 240 for his own 15 (he did 240 for 15 on both 2026-09-05 and 2026-09-13). The deload comes mostly from going from three sets to two. The 220 he did on Monday was logged as a different lift ('Calf raise'), so I have not carried it over to the leg press.",
+      "evidence": ["2026-09-05:standing-calf-raise", "2026-09-13:standing-calf-raise", "2026-09-17:standing-calf-raise", "2026-09-21:standing-calf-raise"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "sets": [],
+      "why": "Bodyweight, so there is no load to prescribe. He did 12 and 10 on 2026-09-17 and 12 and 12 on 2026-09-05. For a deload, one set of about 10 clean reps, stopping well short of failure, is enough. The stalled flag is a Meso 3 problem, not something to push this week.",
+      "evidence": ["2026-09-17:hanging-leg-raise", "2026-09-05:hanging-leg-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "cut",
+      "sets": [
+        { "weight": 50, "reps": 10 },
+        { "weight": 50, "reps": 10 }
+      ],
+      "why": "Last LegsB was 55 for 11, 10, 10 (2026-09-17), and a fifth off is 44. Since the gym change the lightest he has set this crunch at is 50. He did 50 for 10, twice, as Monday's deload (2026-09-21). So tonight repeats exactly that: two sets instead of three, at his own 10 reps.",
+      "evidence": ["2026-09-17:cable-crunch", "2026-09-21:cable-crunch", "2026-09-13:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

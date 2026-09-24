@@ -1,0 +1,65 @@
+{
+  "role": "recovery",
+  "date": "2026-09-24",
+  "session": "LegsB",
+  "reviewed_through": "2026-09-23",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "cut",
+      "sets": [{ "weight": 155, "reps": 8 }, { "weight": 155, "reps": 8 }],
+      "why": "Two sets of 155 for 8 on the barbell, no ramp. His last Legs B on 2026-09-17 says 185 for 8 on top, but those three RDL sets were typed six and five seconds apart, so that row is his memory of the night rather than a record of it. The last RDL that was actually timed set by set is 2026-09-05, 180 for 10 on the barbell. A fifth off either figure lands at 144 to 148, and I will not print a number he has never loaded on this lift. The two real bars nearest that are 135 and 155, both on this barbell at this gym. 155 is the closer one, about 14 to 16 percent off his top, and he has already moved it for 10 on 2026-09-05, so 8 reps is well inside what he owns. His own 8 reps stay and the sets go from four to two. This is the one lift tonight I watched closely as the brake. His last heavy hinge, the deadlift on 2026-09-20, came in with fewer reps than the same loads gave him on 2026-09-10, under his own note that it was too early in the morning. The deadlift since then was cut to deload weights, and nothing logged this week has missed a prescribed rep, so a light two-set RDL is fine. It does not need a veto.",
+      "evidence": ["2026-09-17:smith-rdl", "2026-09-05:smith-rdl", "2026-09-05:note", "2026-09-20:deadlift", "2026-09-10:deadlift", "2026-09-20:note"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "cut",
+      "sets": [{ "weight": 140, "reps": 10 }, { "weight": 140, "reps": 10 }],
+      "why": "Two sets of 140 for 10. On 2026-09-17 he logged 130, 150, 170 for 10, but all three sets are stamped inside one second of each other, so they were typed in afterwards. The timed record is 2026-09-05: 120, 140, 160 for 12. A fifth off 170 is 136, and 140 is a setting he has actually used with his feet high on this machine at this gym (2026-09-05). His own 10 reps stay, and the three sets drop to two.",
+      "evidence": ["2026-09-17:leg-press-high", "2026-09-05:leg-press-high", "2026-09-21:leg-press-low"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "cut",
+      "sets": [{ "weight": 110, "reps": 12 }, { "weight": 110, "reps": 12 }],
+      "why": "Two sets of 110 for 12. His leg curls on 2026-09-17 were timed properly, roughly two minutes apart, so 110, 130, 145 for 12 is a real record. A fifth off 145 is 116. The settings he has used on this machine since the gym change are 100, 110, 130 and 145. 110 is the nearest one, about 24 percent off, and he did 12 reps with it that same night. That puts it a bit past a fifth. I am choosing the lighter side because this slot follows the RDL on the same hamstrings, which he asked us about himself on 2026-08-16. His Legs A curl this week was 100 for 10, twice, with no problem. His own 12 reps stay and the sets go from three to two.",
+      "evidence": ["2026-09-17:leg-curl", "2026-09-05:leg-curl", "2026-09-21:leg-curl", "2026-08-16:note"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "cut",
+      "sets": [{ "weight": 90.39, "reps": 12 }],
+      "why": "One set of 41 kg, which is 90.39 lb, for 12. This machine reads in kilograms. The 110 lb he logged on 2026-09-17 is 50 kg, and a fifth off 50 kg is 40. He used 41 kg on this same machine three days ago (2026-09-21) for 12, so that is a setting that exists and a load he has already done this week. The slot has two sets, and this week every two-set slot has been done as one set (2026-09-21, 2026-09-22 and 2026-09-23), so I am keeping that pattern.",
+      "evidence": ["2026-09-17:hip-abductor", "2026-09-21:hip-abductor", "2026-09-22:reverse-pec-deck", "2026-09-23:incline-db-curl"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "cut",
+      "sets": [{ "weight": 90.39, "reps": 12 }],
+      "why": "One set of 41 kg, which is 90.39 lb, for 12. The reasoning is the same as for the abductor: 110 lb is 50 kg on 2026-09-17, a fifth off is 40 kg, and he used 41 kg on this machine for 12 on 2026-09-21. On both 2026-09-17 and 2026-09-21 the abductor and adductor sets were entered within seconds of each other. That suggests he runs the two as a pair or logs them together afterwards. It changes nothing about the load.",
+      "evidence": ["2026-09-17:hip-adductor", "2026-09-21:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "cut",
+      "sets": [{ "weight": 220, "reps": 12 }, { "weight": 220, "reps": 12 }],
+      "why": "Two sets of 220 for 12 on the calf press. The last Legs B entry in this slot, 2026-09-17, is not a calf raise. He logged it as kettlebell swings or thrusts at 35, 40 and 45, all typed within about ten seconds of each other. A different movement cannot be deloaded into a calf-raise number, and taking a fifth off 45 would give a figure that means nothing on a calf machine. I would bet that kind of number is behind his note on 2026-09-21 that our weight suggestions make zero sense. The last real Legs B calf work, timed set by set, is 2026-09-05: 240, 260, 260 on the leg-press calf press. A fifth off 260 is 208. The nearest load he has actually used is 220, which he did for 12 twice three days ago (2026-09-21), so it is proven on this equipment this week. That is about 15 percent off rather than 20. I am saying so instead of inventing a 210 plate stack. His own 12 reps and two of the three sets.",
+      "evidence": ["2026-09-17:standing-calf-raise", "2026-09-21:standing-calf-raise", "2026-09-21:note", "2026-09-05:standing-calf-raise", "2026-09-13:standing-calf-raise"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "cut",
+      "why": "One set, bodyweight, of his own 12. No weight goes on this card because it has none. On 2026-09-17 he did 12 and then 10, about a minute and a half apart, so those are real. Following the two-set-to-one pattern this week, only the set count comes off. The 2026-09-05 pair was typed a day after the session, so I am not counting it.",
+      "evidence": ["2026-09-17:hanging-leg-raise", "2026-09-05:hanging-leg-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "cut",
+      "sets": [{ "weight": 50, "reps": 10 }, { "weight": 50, "reps": 10 }],
+      "why": "Two sets of 50 for 10. On 2026-09-17 he did 55 for 11, 10 and 10. A fifth off 55 is 44. The closest real setting would be 45, but the only 45s in his log at this gym are from other cable stations (the overhead triceps on 2026-09-22), and I cannot tell whether that is the same stack. 50 is the lightest weight he has actually crunched with here, twice for 10 on 2026-09-21. That is a 9 percent cut on load. Taking the sets from three to two covers the rest, and his own 10 reps stay.",
+      "evidence": ["2026-09-17:cable-crunch", "2026-09-21:cable-crunch", "2026-09-22:overhead-cable-triceps"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
