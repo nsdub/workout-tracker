@@ -1,0 +1,138 @@
+{
+  "date": "2026-09-24",
+  "session_type": "LegsB",
+  "phase": "deload2",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-rdl",
+      "name": "Smith RDL",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1790262046278
+        },
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1790262254531,
+          "restEndedAt": 1790262226368
+        }
+      ]
+    },
+    {
+      "id": "leg-press-high",
+      "name": "Leg Press (feet high)",
+      "sets": [
+        {
+          "weight": 140,
+          "reps": 10,
+          "at": 1790262367064
+        },
+        {
+          "weight": 140,
+          "reps": 10,
+          "at": 1790262500975
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 110,
+          "reps": 12,
+          "at": 1790262623463
+        },
+        {
+          "weight": 110,
+          "reps": 12,
+          "at": 1790262730936,
+          "restEndedAt": 1790262713480
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 90.39,
+          "reps": 12,
+          "kg": 41,
+          "at": 1790262844841,
+          "restEndedAt": 1790262820946
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 90.39,
+          "reps": 12,
+          "kg": 41,
+          "at": 1790262846443
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "as": "Calf raise",
+      "sets": [
+        {
+          "weight": 220,
+          "reps": 12,
+          "at": 1790262953014,
+          "restEndedAt": 1790262921452
+        },
+        {
+          "weight": 220,
+          "reps": 12,
+          "at": 1790263045093,
+          "restEndedAt": 1790263028027
+        }
+      ]
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1790263148594,
+          "restEndedAt": 1790263120108
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1790263276293,
+          "restEndedAt": 1790263208602
+        },
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1790266189693,
+          "restEndedAt": 1790263336330
+        }
+      ]
+    }
+  ],
+  "world": "springs",
+  "gym": "Warsaw",
+  "mins": 69,
+  "startedAt": 1790260457320
+}
