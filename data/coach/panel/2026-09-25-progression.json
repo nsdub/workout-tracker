@@ -1,0 +1,52 @@
+{
+  "role": "progression",
+  "date": "2026-09-25",
+  "session": "PushA",
+  "reviewed_through": "2026-09-24",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "Has not earned a step. On 19 Sept he climbed to 165 and the last set fell to 5 reps, under the 6-rep floor; his best since July is 180×8 on 27 Aug. For Meso 3 the goal is 8 clean reps at 165 on all four sets before going heavier. He has never logged this lift at the Warsaw gym, so that machine has no number yet.",
+      "evidence": ["2026-09-19:smith-incline-press", "2026-08-27:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "This is the one PushA lift that has earned a step. On 19 Sept he got 12 reps, the top of the range, on every set (150, 160, 160). That was on the machine at the earlier gym. The 130×10 on 22 Sept was a deload on the Warsaw machine, a different machine, so it tells us nothing about a step.",
+      "evidence": ["2026-09-19:machine-chest-press", "2026-09-22:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "Close to a step but not there yet. On 19 Sept he did 14×15, then 16×14 and 16×14, so the two 16 lb sets are one rep short of 15. The last time he went heavier (17.5 on 27 Aug) he got only 12s. Stay at 16 until all sets reach 15.",
+      "evidence": ["2026-09-19:cable-crossover-low-high", "2026-08-27:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "Stuck. At 45 lb he has done 9 reps on every set on both 8 Sept and 19 Sept, under the 10-rep floor. The last weight where he got 10 on all three sets was 40, on 17 Aug. For Meso 3 either the dumbbells go back to 40 or the reps have to climb at 45. Nothing has been earned. The Warsaw kg dumbbells (15 and 17.5 kg on 22 Sept) are a deload and a different rack.",
+      "evidence": ["2026-09-19:db-shoulder-press", "2026-09-08:db-shoulder-press", "2026-08-17:db-shoulder-press", "2026-09-22:db-shoulder-press"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "Holding, not growing. He has been at about 100 lb for 12 reps on 8, 14 and 19 Sept: the bottom of the 12–15 range, with no extra reps. No step is earned. The next move is more reps at the same weight, not more weight. The 35 kg on 22 Sept was on the Warsaw machine and does not compare.",
+      "evidence": ["2026-09-19:reverse-pec-deck", "2026-09-14:reverse-pec-deck", "2026-09-08:reverse-pec-deck", "2026-09-22:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "Stalled. He has used 55 lb on every visit since 2 Sept and has never got 12 on all three sets. 19 Sept was his best of those (12, 11, 10). No step is earned. For Meso 3 the head coach should treat this as a stuck lift that needs a change of approach, not a heavier weight. The 45×9 on 22 Sept was a deload on the Warsaw cable and does not compare.",
+      "evidence": ["2026-09-19:overhead-cable-triceps", "2026-09-14:overhead-cable-triceps", "2026-09-08:overhead-cable-triceps", "2026-09-22:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "why": "Went backwards. At 45 lb he got 13 and 12 reps on 8 Sept, then 11 and 11 on 19 Sept, under the 12-rep floor. No step is earned. He needs 12 or more back on both sets at 45 before the weight moves.",
+      "evidence": ["2026-09-19:rope-pushdown", "2026-09-08:rope-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

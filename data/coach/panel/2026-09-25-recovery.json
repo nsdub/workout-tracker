@@ -1,0 +1,53 @@
+{
+  "role": "recovery",
+  "date": "2026-09-25",
+  "session": "PushA",
+  "reviewed_through": "2026-09-24",
+  "summary": "Today, 2026-09-25, is his rest day after six sessions in a row from 2026-09-19 to 2026-09-24. I read every note in that week by hand. There are three: 'Too early in morning' on the deadlift (2026-09-20), 'Last set reverse db curl' (2026-09-20), and 'Your weight suggestions make zero sense' on the calf raise (2026-09-21). None of them mentions pain, a tweak, soreness or illness. Nothing in his whole log does. The automatic pain search flags one line from 2026-08-23, and that line is a question about how many sets to do, not a pain report. The four deload sessions were short and even: 27, 28 and 31 minutes, with most sets about 1.5 to 2.5 minutes apart. Last night's Legs B shows 69 minutes, but that number is the time from his first set (2026-09-24T15:00:46Z) to his last (2026-09-24T16:09:49Z). Everything up to the first cable crunch set, at 2026-09-24T15:21:16Z, took about 20 minutes. The second cable crunch set was logged at 2026-09-24T16:09:49Z, 48 minutes 33 seconds after the first. The rest timer for that set had ended at 2026-09-24T15:22:16Z. The log does not say why, and I am not guessing. There are two other gaps like it. On 2026-09-20 the second face-pull set is stamped 2026-09-21T15:14:32Z, about 27.5 hours after the first, so it was typed in the next day. On 2026-09-20 and 2026-09-21 the hip abductor and adductor sets are stamped 2 and 7 seconds apart. His last bodyweight is 207 lb on 2026-08-23. That is 33 days old, and none of the six sessions this week has one. No cardio or conditioning work is logged this month, so I cannot judge his conditioning. Push muscles were last trained on 2026-09-22 (Push B, deload, two sets each, 28 minutes). By tomorrow they will have had four days off. I see no grounds for a veto.",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "No objection from recovery. The last time he did this lift was the hard end-of-block Push A on 2026-09-19: 155 for 8, 160 for 6, 165 for 6, 165 for 5. The sets were 3 to 4.5 minutes apart and no note was attached. Since then his chest has only done two deload sets on the machine press (2026-09-22). Nothing in the week points to pain or leftover fatigue, and he will have rested since 2026-09-24. Recovery will not block whatever deload weight the 6 AM run sets.",
+      "evidence": ["2026-09-19:smith-incline-press", "2026-09-22:machine-chest-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "No objection. He did 12 reps on all three sets on 2026-09-19. On 2026-09-22 he did 130 for 10 twice, about two minutes apart, in a 28-minute session, with no note. Nothing suggests he is still fatigued.",
+      "evidence": ["2026-09-19:machine-chest-press", "2026-09-22:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "No objection. On 2026-09-19 he did 14 to 15 reps across three sets, and on 2026-09-22 he did the high-to-low version for 13 twice, about 2.5 minutes apart. Neither day has a note, and his chest has had no other work since then.",
+      "evidence": ["2026-09-19:cable-crossover-low-high", "2026-09-22:cable-crossover-high-low"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "No objection. His shoulders have no complaint anywhere in the log. He did 45 for 9 on all three sets on 2026-09-19, and two light deload sets for 10 on 2026-09-22, less than two minutes apart. Between that and tomorrow his shoulders only did rows and pulldowns on 2026-09-23, and those finished without a note.",
+      "evidence": ["2026-09-19:db-shoulder-press", "2026-09-22:db-shoulder-press", "2026-09-23:smith-bent-over-row"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "No objection. His rear delts did 12 reps on all three sets on 2026-09-19, one deload set of 12 on 2026-09-22, and face pulls for 13 on 2026-09-23. That is steady and there is no note. They will have had three days off by tomorrow.",
+      "evidence": ["2026-09-19:reverse-pec-deck", "2026-09-22:reverse-pec-deck", "2026-09-23:face-pulls"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "No objection. On 2026-09-19 the reps dropped from 12 to 11 to 10 across the three sets, which is ordinary fatigue within one session. The deload sets on 2026-09-22 were 45 for 9, twice, about two minutes apart. Neither day has a note, so I read no strain into it. His elbows and triceps have had no complaint in the log.",
+      "evidence": ["2026-09-19:overhead-cable-triceps", "2026-09-22:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "why": "No objection. He did 45 for 11 twice on 2026-09-19, and one reverse-grip pushdown set for 14 on 2026-09-22, with no note. This is the last push slot in the session and nothing in the week argues for trimming it.",
+      "evidence": ["2026-09-19:rope-pushdown", "2026-09-22:reverse-grip-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
