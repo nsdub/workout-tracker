@@ -1,0 +1,76 @@
+{
+  "role": "recovery",
+  "date": "2026-09-26",
+  "session": "PushA",
+  "reviewed_through": "2026-09-24",
+  "summary": "Tonight, 2026-09-26, is Push A, the last night of the deload week. Nothing has been logged since yesterday's panel: the newest file is still 2026-09-24 LegsB, and 2026-09-25 was a rest day. So there is no new fact, and I hold yesterday's stance on every lift: hold, no sets, no vetoes. I re-read the raw logs for 2026-09-22 (PushB), 2026-09-23 (PullB) and 2026-09-24 (LegsB) by hand. None of them has a single note, and none has a bodyweight. The only line the pain search flags in the whole log is from 2026-08-23, and it is a question about set count, not a pain report. His push muscles were last trained on 2026-09-22, four days before tonight. His last logged bodyweight is still 207 lb on 2026-08-23, now 34 days old. I see no grounds for a veto.",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "Holding yesterday's stance: no objection. Nothing has been logged since 2026-09-24, so there is no new fact to move on. His last time on this lift was the hard end-of-block Push A on 2026-09-19 (155x8, 160x6, 165x6, 165x5), sets 3 to 4.5 minutes apart, no note. Since then his chest only did two deload sets on the machine press on 2026-09-22. Recovery will not block whatever deload weight the 6 AM run sets for tonight.",
+      "evidence": [
+        "2026-09-19:smith-incline-press",
+        "2026-09-22:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "Holding: no objection. 12 reps on all three sets on 2026-09-19, then 130x10 twice about two minutes apart on 2026-09-22, no note. Nothing has been logged since that suggests fatigue.",
+      "evidence": [
+        "2026-09-19:machine-chest-press",
+        "2026-09-22:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "Holding: no objection. 14 to 15 reps across three sets on 2026-09-19, and the high-to-low version for 13 twice on 2026-09-22, no notes. No other chest work since.",
+      "evidence": [
+        "2026-09-19:cable-crossover-low-high",
+        "2026-09-22:cable-crossover-high-low"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "Holding: no objection. No shoulder complaint anywhere in the log. 45x9 on all three sets on 2026-09-19, two light deload sets of 10 on 2026-09-22. Since then his shoulders only did rows and pulldowns on 2026-09-23, with no note.",
+      "evidence": [
+        "2026-09-19:db-shoulder-press",
+        "2026-09-22:db-shoulder-press",
+        "2026-09-23:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "Holding: no objection. 12 reps on all three sets on 2026-09-19, one deload set of 12 on 2026-09-22, face pulls for 13 on 2026-09-23, no notes. Tonight is three days after that last rear-delt work.",
+      "evidence": [
+        "2026-09-19:reverse-pec-deck",
+        "2026-09-22:reverse-pec-deck",
+        "2026-09-23:face-pulls"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "Holding: no objection. Reps went 12, 11, 10 on 2026-09-19, which is ordinary within-session fatigue; deload sets on 2026-09-22 were 45x9 twice, about two minutes apart. No note either day, no elbow or triceps complaint in the log.",
+      "evidence": [
+        "2026-09-19:overhead-cable-triceps",
+        "2026-09-22:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "why": "Holding: no objection. 45x11 twice on 2026-09-19 and one reverse-grip pushdown set of 14 on 2026-09-22, no note. Nothing argues for trimming the last push slot.",
+      "evidence": [
+        "2026-09-19:rope-pushdown",
+        "2026-09-22:reverse-grip-pushdown"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

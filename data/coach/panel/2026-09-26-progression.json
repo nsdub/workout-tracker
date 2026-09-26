@@ -1,0 +1,52 @@
+{
+  "role": "progression",
+  "date": "2026-09-26",
+  "session": "PushA",
+  "reviewed_through": "2026-09-24",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "Nothing new has been logged since yesterday's review, so yesterday's call stands: tonight uses the app's own deload numbers. This lift has not earned a step anyway. On 19 Sept he went up to 165 and the last set dropped to 5 reps, below the 6-rep floor. His best since July is 180 x 8 on 27 Aug. He has not done this lift at the Warsaw gym yet, so that machine has no number.",
+      "evidence": ["2026-09-19:smith-incline-press", "2026-08-27:smith-incline-press"]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "Nothing new logged, so this repeats yesterday's call and tonight uses the deload numbers. This is the one PushA lift that has earned a step: on 19 Sept he did 12 reps, the top of the range, on every set (150, 160, 160). That was at the earlier gym. Save the step for Meso 3, when it has to be set on the Warsaw machine. The 130 x 10 on 22 Sept was a deload set on that Warsaw machine and can't be compared with the old one.",
+      "evidence": ["2026-09-19:machine-chest-press", "2026-09-22:machine-chest-press"]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "Nothing new logged, so this repeats yesterday's call and tonight uses the deload numbers. He's close to a step but not there. On 19 Sept he did 14 x 15, then 16 x 14 twice, so each 16 lb set was one rep short of 15. The last time he went heavier (17.5 on 27 Aug) he only got 12s.",
+      "evidence": ["2026-09-19:cable-crossover-low-high", "2026-08-27:cable-crossover-low-high"]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "Nothing new logged, so this repeats yesterday's call and tonight uses the deload numbers. The lift is stuck. At 45 lb he got 9 reps on every set on both 8 Sept and 19 Sept, below the 10-rep floor. The last weight where he got 10 on all three sets was 40, on 17 Aug. The 15 and 17.5 kg dumbbells on 22 Sept were a deload on a different rack and can't be compared.",
+      "evidence": ["2026-09-19:db-shoulder-press", "2026-09-08:db-shoulder-press", "2026-08-17:db-shoulder-press", "2026-09-22:db-shoulder-press"]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "Nothing new logged, so this repeats yesterday's call and tonight uses the deload numbers. He has stayed at about 100 lb for 12 reps on 8, 14 and 19 Sept, the bottom of the 12-15 range. He hasn't earned more weight; the next step is more reps at this weight. The 35 kg on 22 Sept was on the Warsaw machine and can't be compared.",
+      "evidence": ["2026-09-19:reverse-pec-deck", "2026-09-14:reverse-pec-deck", "2026-09-08:reverse-pec-deck", "2026-09-22:reverse-pec-deck"]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "Nothing new logged, so this repeats yesterday's call and tonight uses the deload numbers. The lift has stalled. His first set has been 55 lb on every visit since 2 Sept, and he has never got 12 reps on all three sets. His best was 19 Sept (12, 11, 10). In Meso 3 it needs a different approach, not more weight. The 45 x 9 on 22 Sept was a deload on the Warsaw cable and can't be compared.",
+      "evidence": ["2026-09-19:overhead-cable-triceps", "2026-09-14:overhead-cable-triceps", "2026-09-08:overhead-cable-triceps", "2026-09-02:overhead-cable-triceps", "2026-09-22:overhead-cable-triceps"]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "why": "Nothing new logged, so this repeats yesterday's call and tonight uses the deload numbers. The lift went backwards. At 45 lb he did 13 and 12 on 8 Sept, then 11 and 11 on 19 Sept, below the 12-rep floor. He needs 12 or more on both sets at 45 before the weight goes up.",
+      "evidence": ["2026-09-19:rope-pushdown", "2026-09-08:rope-pushdown"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
