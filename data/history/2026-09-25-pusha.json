@@ -1,0 +1,134 @@
+{
+  "date": "2026-09-25",
+  "session_type": "PushA",
+  "phase": "deload2",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 6,
+          "at": 1790358397870
+        },
+        {
+          "weight": 135,
+          "reps": 6,
+          "at": 1790358579955,
+          "restEndedAt": 1790358577886
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 125,
+          "reps": 10,
+          "at": 1790359180196,
+          "restEndedAt": 1790358759966
+        },
+        {
+          "weight": 125,
+          "reps": 10,
+          "at": 1790359341383,
+          "restEndedAt": 1790359300216
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 11,
+          "reps": 12,
+          "at": 1790359475430,
+          "restEndedAt": 1790359461396
+        },
+        {
+          "weight": 10,
+          "reps": 12,
+          "at": 1790359629168,
+          "restEndedAt": 1790359550441
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 33.069,
+          "reps": 10,
+          "kg": 15,
+          "at": 1790359764819,
+          "restEndedAt": 1790359704181
+        },
+        {
+          "weight": 33.069,
+          "reps": 10,
+          "kg": 15,
+          "at": 1790359939215,
+          "restEndedAt": 1790359884834
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 77.162,
+          "reps": 12,
+          "kg": 35,
+          "at": 1790360097342,
+          "restEndedAt": 1790360059225
+        },
+        {
+          "weight": 77.162,
+          "reps": 12,
+          "kg": 35,
+          "at": 1790360237423,
+          "restEndedAt": 1790360172364
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 41,
+          "reps": 10,
+          "at": 1790360490214,
+          "restEndedAt": 1790360312438
+        },
+        {
+          "weight": 41,
+          "reps": 10,
+          "at": 1790360494034
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1790525354052
+        }
+      ]
+    }
+  ],
+  "world": "summit",
+  "gym": "Warsaw",
+  "startedAt": 1790357902405
+}
