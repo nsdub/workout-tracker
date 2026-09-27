@@ -851,5 +851,18 @@
     },
     "decision": "accepted",
     "decided_at": "2026-09-22T14:01:15.275Z"
+  },
+  {
+    "proposal": {
+      "kind": "reprange",
+      "exercise": "db-shrug",
+      "scope": "PullB",
+      "repMin": 12,
+      "repMax": 20,
+      "why": "You wrote \"35kg is heaviest dumbbell\" on 15 September and then shrugged it for fifteen reps on all three sets — the top of the range — the same fifteens you hit on 3 September. The weight has nowhere to go and neither do the reps, so this lift has no way to get harder in Meso 3. This opens the top of the range to twenty reps. The bottom stays at twelve, so nothing else about the slot changes.",
+      "date": "2026-09-26"
+    },
+    "decision": "accepted",
+    "decided_at": "2026-09-27T16:36:02.440Z"
   }
 ]
