@@ -1,0 +1,120 @@
+{
+  "date": "2026-09-27",
+  "session_type": "PullA",
+  "phase": "deload2",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 209.439,
+          "reps": 5,
+          "kg": 95,
+          "at": 1790526473038
+        },
+        {
+          "weight": 209.439,
+          "reps": 5,
+          "kg": 95,
+          "at": 1790526709999
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 71,
+          "reps": 8,
+          "at": 1790526943718
+        },
+        {
+          "weight": 77,
+          "reps": 8,
+          "at": 1790527078517,
+          "restEndedAt": 1790527063733
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "as": "Db row",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 44.092,
+          "reps": 10,
+          "kg": 20,
+          "at": 1790527257059,
+          "restEndedAt": 1790527198532
+        },
+        {
+          "weight": 44.092,
+          "reps": 10,
+          "kg": 20,
+          "at": 1790527379601,
+          "restEndedAt": 1790527377072
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 22.046,
+          "reps": 8,
+          "kg": 10,
+          "at": 1790527596210,
+          "restEndedAt": 1790527499608
+        },
+        {
+          "weight": 22.046,
+          "reps": 8,
+          "kg": 10,
+          "at": 1790527651098
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1790527748630,
+          "restEndedAt": 1790527726108
+        },
+        {
+          "weight": 25,
+          "reps": 10,
+          "at": 1790527851259,
+          "restEndedAt": 1790527823637
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 20,
+          "reps": 12,
+          "at": 1790527976847,
+          "restEndedAt": 1790527926331
+        }
+      ]
+    }
+  ],
+  "world": "reef",
+  "gym": "Warsaw",
+  "mins": 25,
+  "startedAt": 1790525359880
+}
