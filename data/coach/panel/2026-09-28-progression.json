@@ -1,0 +1,77 @@
+{
+  "role": "progression",
+  "date": "2026-09-28",
+  "session": "PullA",
+  "reviewed_through": "2026-09-25",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "cut",
+      "sets": [
+        {"weight": 235, "reps": 5},
+        {"weight": 245, "reps": 5},
+        {"weight": 245, "reps": 5},
+        {"weight": 245, "reps": 5}
+      ],
+      "why": "This comes off the last hard night before the deload, 20 Sept, not the deload itself. 255 has now missed the 5-rep floor on two hard nights in a row: 4 and 4 on 10 Sept, then 3 and 3 on 20 Sept. On 20 Sept, 245 was the heaviest weight that gave him 5 clean reps, and on 18 Aug he did 245 for 6. So the working sets come down 10 lb to 245 for 5, on all three. Going back to 255 for a third straight miss would not be progress. 255 comes back once 245 gives him 6 on every set.",
+      "evidence": ["2026-09-20:deadlift", "2026-09-10:deadlift", "2026-08-18:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "hold",
+      "sets": [
+        {"weight": 93, "reps": 10},
+        {"weight": 93, "reps": 10},
+        {"weight": 93, "reps": 9}
+      ],
+      "why": "On 20 Sept he did 93 for 9 on all three sets, and on 10 Sept he did 93 for 10 once. The weight goes up only when all three sets reach 10, the top of the 8 to 10 range, so it stays at 93. The job tonight is more reps: 10 on the first two sets. The old gym's 150 was a different machine, so it does not count. He has never logged this lift at the Warsaw gym, so if tonight is there, 93 is a first reading and not a number that has been checked.",
+      "evidence": ["2026-09-20:lat-pulldown-wide", "2026-09-10:lat-pulldown-wide"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "hold",
+      "sets": [
+        {"weight": 60.627, "reps": 10},
+        {"weight": 60.627, "reps": 10},
+        {"weight": 60.627, "reps": 10},
+        {"weight": 60.627, "reps": 10}
+      ],
+      "why": "On 20 Sept this slot was done as a dumbbell row with the 27.5 kg dumbbell (60.627 lb), 10 reps on three sets. The slot has four sets and the fourth has never been done at that weight, so nothing has been earned yet. The same weight goes on all four sets tonight. The 55 lb dumbbell on 10 Sept came from a rack marked in pounds, and the old gym's 105 was a cable machine. Neither compares with this weight. If he does a cable row tonight instead, that machine has no number yet, so he should log whatever weight gives him 10 to 12 reps.",
+      "evidence": ["2026-09-20:seated-cable-row-wide", "2026-09-10:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "hold",
+      "sets": [
+        {"weight": 27.558, "reps": 10},
+        {"weight": 27.558, "reps": 10},
+        {"weight": 27.558, "reps": 10}
+      ],
+      "why": "On 20 Sept he curled 12.5 kg dumbbells (27.558 lb) for 10 and 10, which is the top of the 8 to 10 range. His third set was at 8 kg, which is much lighter, so the third set at 12.5 kg has never been done. He needs all three sets at 12.5 kg for 10 before the dumbbells go up to 15 kg. The 50 lb curls on 10 Sept used different equipment on a rack marked in pounds. Also, his first two sets that night were saved one second apart, so the first was typed in afterwards from memory and cannot be used.",
+      "evidence": ["2026-09-20:db-curl", "2026-09-10:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "hold",
+      "sets": [
+        {"weight": 36, "reps": 12},
+        {"weight": 36, "reps": 12},
+        {"weight": 36, "reps": 11}
+      ],
+      "why": "On 20 Sept he did 36 for 12 and 12, the top of the 10 to 12 range, then dropped to 35 for 11 on the last set. That is two out of three sets, not all three. Tonight all three sets are at 36, and the target on the last set is 11. When he gets 36 for 12 on all three, the weight goes up 5 lb. On 10 Sept he did 35 for 11, 11 and 10, so the reps are moving the right way.",
+      "evidence": ["2026-09-20:cable-hammer-curl", "2026-09-10:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [
+        {"weight": 27, "reps": 14},
+        {"weight": 27, "reps": 13}
+      ],
+      "why": "At 27 he has done 13 reps on every set: 15 Sept, 20 Sept, and the deload night at the Warsaw gym on 23 Sept. That is near the bottom of the 12 to 15 range, so the weight stays. The second set on 20 Sept was saved more than a day after the session, so it was typed in from memory and does not count. Only the first set that night was measured live. The next step is reps: 14 on the first set. The weight goes up only after both sets reach 15.",
+      "evidence": ["2026-09-20:face-pulls", "2026-09-15:face-pulls", "2026-09-23:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,69 @@
+{
+  "role": "recovery",
+  "date": "2026-09-28",
+  "session": "PullA",
+  "reviewed_through": "2026-09-25",
+  "summary": "Tonight, 2026-09-28, is Pull A, the first night of the new build block after the deload week. There is no pain or injury report anywhere in his log: the only line the pain search flags is from 2026-08-23, and it is a question about set count, not a complaint. His pulling muscles were last trained on 2026-09-23 (a light deload Pull B), five days ago, and his lower back last worked on 2026-09-24 (two light sets of Smith RDL), four days ago. Nothing is logged for 2026-09-26 or 2026-09-27, so he has had at least two days off, though logs often arrive late, so I cannot rule out an unlogged session. I have no grounds for a veto and I do not want to slow the build week. My one brake is the deadlift: on 2026-09-20 he got 3 reps twice at 255 lb, below the 5 to 6 the plan asks for, and wrote that it was too early in the morning. I ask that the deadlift not go above 255 lb tonight. Everything else is clear to push. Two logging facts matter for whoever reads these numbers. First, several sets were typed in after the fact, not recorded live: on 2026-09-25 the rope pushdown set is stamped 2026-09-27T16:09Z, about 46 hours after the rest of the session, and the two overhead triceps sets are stamped under 4 seconds apart; on 2026-09-20 the second face pull set is stamped 2026-09-21T15:14Z, about 27 and a half hours after the first. Those sets are recollections and should not be used to justify a weight increase. Second, his last logged bodyweight is 207 lb on 2026-08-23, now 36 days old, so I cannot say anything about his weight or conditioning trend.",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "hold",
+      "why": "No pain, but a real fatigue signal. At this gym he did 255x4 twice on 2026-09-10, then on 2026-09-20 he got 245x5 and 255x3 twice, with the note 'Too early in morning'. That is under the 5 to 6 reps the plan asks for on both of the last two nights he pulled from the floor. The deload week has passed since, and his back only did two light sets of Smith RDL on 2026-09-24, so he should be fresh, but I would not ask for more than 255 lb on the top sets until he gets 5 reps there. Not a veto.",
+      "evidence": [
+        "2026-09-10:deadlift",
+        "2026-09-20:deadlift",
+        "2026-09-20:note",
+        "2026-09-24:smith-rdl"
+      ]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "push",
+      "why": "No objection. 93x9 on all three sets on 2026-09-20, sets about three minutes apart and recorded live, no note. The close-grip pulldown on 2026-09-23 was two easy deload sets of 10. Nothing in the log argues against adding load tonight.",
+      "evidence": [
+        "2026-09-20:lat-pulldown-wide",
+        "2026-09-23:lat-pulldown-close"
+      ]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "push",
+      "why": "No objection. He does this as a one-arm dumbbell row at this gym (note on 2026-09-10). On 2026-09-20 he got 10 reps on all three sets with 27.5 kg, sets four to four and a half minutes apart and recorded live. The only rowing since was two deload sets of Smith row on 2026-09-23. No note, no complaint.",
+      "evidence": [
+        "2026-09-10:note",
+        "2026-09-20:seated-cable-row-wide",
+        "2026-09-23:smith-bent-over-row"
+      ]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "push",
+      "why": "No objection. On 2026-09-20 he got 10 reps on both working sets with 12.5 kg dumbbells, then switched the last set to a lighter reverse curl by his own choice (his note says so). That is a choice, not a pain report. His biceps last worked on 2026-09-23, one incline curl set and two reverse curl sets, five days before tonight.",
+      "evidence": [
+        "2026-09-20:db-curl",
+        "2026-09-20:note",
+        "2026-09-23:incline-db-curl",
+        "2026-09-23:cable-reverse-curl"
+      ]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "push",
+      "why": "No objection. 36x12, 36x12, then 35x11 on 2026-09-20, all recorded live a little over two minutes apart. Losing one rep on the last set is ordinary tiredness at the end of an arm block, not a warning sign.",
+      "evidence": [
+        "2026-09-20:cable-hammer-curl"
+      ]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "why": "No recovery concern, but the reps have not reached the 15 the plan asks for: 27x13 on 2026-09-20 and 27x13 again on 2026-09-23. Also, the second 2026-09-20 set is stamped 2026-09-21T15:14Z, about 27 and a half hours after the first, so it was typed in from memory, not recorded at the gym. Only one live-recorded set at this weight exists per night. I would keep the weight where it is until he gets 15.",
+      "evidence": [
+        "2026-09-20:face-pulls",
+        "2026-09-23:face-pulls"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

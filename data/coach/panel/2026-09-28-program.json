@@ -1,0 +1,47 @@
+{
+  "role": "program",
+  "date": "2026-09-28",
+  "session": "PullA",
+  "reviewed_through": "2026-09-25",
+  "summary": "No changes to the program tonight. Every session from 21 to 25 September was the scheduled deload week, where the plan itself asks for about 60% of the sets, so the short set counts that week (two sets where the card normally says three or four) are the plan working, not slots being skipped. They say nothing about whether a slot is the right size. Looking at the last full training weeks before the deload (8 to 20 September), every slot in Pull A was done: deadlift, wide pulldown, row, dumbbell curl, hammer curl and two sets of face pulls, on both 10 and 20 September. The two push days, the two pull days and the two leg days now differ from each other in lifts, rep ranges or order. No slot has gone unlogged, and the shrug change you accepted on 27 September has not had a Pull B night yet. Meso 3 starts tonight and runs four weeks to 25 October, then there is a deload and the November assessment. That calendar stands. One thing for the other seats: the Pull A row slot is named seated cable row, but at the new gym you have done it as a one-arm dumbbell row both times (10 September, and 20 September marked as a dumbbell row). That is your gym's swap setting doing its job, so I am not renaming the slot for every gym. But the 'stalled' flag on this lift compares cable-row weights against dumbbell-row weights and should not be read as a real stall.",
+  "calls": [
+    {
+      "exercise": "deadlift",
+      "stance": "abstain",
+      "why": "Deadlift stays first on Pull A at four sets of five to six. It is your only heavy pull from the floor, and on 20 September you did all four sets, with the short reps put down to the early hour in your note rather than to too many sets.",
+      "evidence": ["2026-09-20:deadlift", "2026-09-20:note", "2026-09-10:deadlift"]
+    },
+    {
+      "exercise": "lat-pulldown-wide",
+      "stance": "abstain",
+      "why": "Wide pulldown stays at three sets of eight to ten. You did all three on both Pull A nights at the new gym, and Pull B already covers the close grip, so the two pull days are not repeating each other.",
+      "evidence": ["2026-09-20:lat-pulldown-wide", "2026-09-10:lat-pulldown-wide", "2026-09-15:lat-pulldown-close"]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "stance": "abstain",
+      "why": "The row stays at four sets of ten to twelve. At the new gym you have done it as a one-arm dumbbell row both times, which your gym's swap setting already handles, so the slot keeps its name, and the 'stalled' flag here compares dumbbell weights to the old cable weights and is not a real stall.",
+      "evidence": ["2026-09-10:seated-cable-row-wide", "2026-09-10:note", "2026-09-20:seated-cable-row-wide", "2026-08-28:seated-cable-row-wide"]
+    },
+    {
+      "exercise": "db-curl",
+      "stance": "abstain",
+      "why": "Dumbbell curl stays at three sets of eight to ten. You did all three on both recent Pull A nights, and with the hammer curl it gives Pull A six curl sets against seven sets of pulldowns and rows, which is a sensible balance.",
+      "evidence": ["2026-09-20:db-curl", "2026-09-10:db-curl"]
+    },
+    {
+      "exercise": "cable-hammer-curl",
+      "stance": "abstain",
+      "why": "Hammer curl stays at three sets of ten to twelve. You did all three on 10 and 20 September, and it is the only neutral-grip curl in your week.",
+      "evidence": ["2026-09-20:cable-hammer-curl", "2026-09-10:cable-hammer-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "abstain",
+      "why": "Face pulls stay at two sets of twelve to fifteen. That is the number you asked for on 28 August, and you have done exactly two on every full Pull A night since.",
+      "evidence": ["2026-08-28:face-pulls", "2026-08-28:note", "2026-09-10:face-pulls", "2026-09-20:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
