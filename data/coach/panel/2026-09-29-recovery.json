@@ -1,0 +1,58 @@
+{
+  "role": "recovery",
+  "date": "2026-09-29",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-27",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "why": "No pain or injury note on legs anywhere in the log, and the deload week just ended. On 21 Sept he did 2 easy sets (120 x 10, 160 x 11) and on 24 Sept leg-press-high at the Warsaw gym went 140 x 10 twice with no complaint. Recovery has no objection to going back to build-phase loading. I am not setting a number: the 13 Sept session (140/160/180 x 10) has no gym recorded, so I cannot say it was the same machine he uses now.",
+      "evidence": ["2026-09-13:leg-press-low", "2026-09-21:leg-press-low", "2026-09-24:leg-press-high"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "why": "The last two logs don't agree on units. On 13 Sept he logged 17.5 x 8 and 17.5 x 10 with no unit. On 21 Sept he logged one set at 7 kg x 10. Until the weight is confirmed, nothing supports a jump. Recovery sees no pain or fatigue reason to cut it. Hold at what he actually used last.",
+      "evidence": ["2026-09-13:db-bulgarian-split-squat", "2026-09-21:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "why": "At the Warsaw gym on 24 Sept he went 110 x 12 twice, up from 100 x 10 twice on 21 Sept, with no note. The 16 Aug question about hamstring volume on the RDL day was about the LegsB day, not this one. Tonight is LegsA with no RDL, and there has been no leg work since 24 Sept, so the hamstrings have had 5 days. No recovery objection to a build-week step.",
+      "evidence": ["2026-09-21:leg-curl", "2026-09-24:leg-curl", "2026-08-16:note"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "abstain",
+      "why": "The only deload log is a single set of 105 x 12 on 21 Sept, and that session has no gym recorded. There are no Warsaw-gym leg-extension data at all. I have no pain or fatigue evidence either way, so I leave the load to the other seats. They should know this machine is unread at the current gym.",
+      "evidence": ["2026-09-21:leg-extension", "2026-09-13:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "why": "He did 41 kg x 12 on both 21 and 24 Sept (24 Sept at Warsaw), with no note. That is well below the 105 x 13 on 13 Sept, but that session has no gym recorded, so the two numbers may be from different machines. No recovery objection to returning to build volume.",
+      "evidence": ["2026-09-21:hip-adductor", "2026-09-24:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "why": "Same as the adductor: 41 kg x 12 on both 21 and 24 Sept, the second at Warsaw, with no note or pain. No recovery objection to returning to build volume.",
+      "evidence": ["2026-09-21:hip-abductor", "2026-09-24:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "On 21 Sept his note read, verbatim: \"Your weight suggestions make zero sense\". He then did 220 x 12 twice, and repeated exactly that at Warsaw on 24 Sept. That is not a pain or fatigue signal, so no cut. But the prescription clearly didn't match his machine, and the number that fits his machine is the one he picked himself twice. Hold at the load he actually used until whoever owns this lift explains the numbers. On 17 Sept the lift was replaced with kettlebell swings/thrusts, so there are no calf-raise data from that day.",
+      "evidence": ["2026-09-21:standing-calf-raise", "2026-09-21:note", "2026-09-24:standing-calf-raise", "2026-09-17:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "why": "He did 50 x 10 twice on both 21 and 24 Sept (24 Sept at Warsaw), down from 65 x 11 on 13 Sept. There is no note or pain on record for the trunk. No recovery objection to going back to build loading.",
+      "evidence": ["2026-09-13:cable-crunch", "2026-09-21:cable-crunch", "2026-09-24:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

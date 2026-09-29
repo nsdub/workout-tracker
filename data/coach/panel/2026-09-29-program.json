@@ -1,0 +1,35 @@
+{
+  "role": "program",
+  "date": "2026-09-29",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-27",
+  "summary": "No changes to the program tonight. Legs A is the first leg night of meso 3, and its shape was settled on 20 September when you chose to write leg curl back to three sets and the split squat back to two. You have not had a full Legs A night since then: 21 September was the deload, where the plan itself asks for fewer sets, so the one set of leg extension and two of leg press that night are the plan working, not slots being dropped. On the last full Legs A night, 13 September, every one of the eight slots was logged. The two leg days still differ: Legs A leads with low-foot leg press and split squats and keeps leg extension, while Legs B leads with the Smith RDL and high-foot leg press and carries the hanging leg raise. Leg curl, the hip machines, calves and cable crunch appear on both days by design, so the back of the leg gets six curl sets a week against two of extension. Meso 3 runs four weeks from 28 September to 25 October, then a deload and the November assessment; that calendar stands. Tonight gives the first real look at the two-set split squat and three-set leg curl you chose, so there is nothing to judge them on yet.",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "abstain",
+      "why": "Low-foot leg press stays first on Legs A at three sets of eight to ten. It is the heavy quad lift that separates this day from Legs B, and you did all three sets on 13 September.",
+      "evidence": ["2026-09-13:leg-press-low", "2026-08-20:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "abstain",
+      "why": "Split squat stays at two sets. That is the number you chose on 20 September, and tonight is the first full Legs A since, so there is no new evidence to change it.",
+      "evidence": ["2026-09-13:db-bulgarian-split-squat", "2026-08-20:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "abstain",
+      "why": "Leg curl stays at three sets, matching Legs B, as you chose on 20 September. Tonight is the first full Legs A night to test it.",
+      "evidence": ["2026-09-13:leg-curl", "2026-09-17:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "abstain",
+      "why": "Leg extension stays at two sets of twelve to fifteen. You did two on 13 September; the single set on 21 September was the deload asking for less.",
+      "evidence": ["2026-09-13:leg-extension", "2026-09-21:leg-extension"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

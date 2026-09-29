@@ -1,0 +1,94 @@
+{
+  "role": "progression",
+  "date": "2026-09-29",
+  "session": "LegsA",
+  "reviewed_through": "2026-09-27",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 140, "reps": 10 },
+        { "weight": 160, "reps": 10 },
+        { "weight": 170, "reps": 8 }
+      ],
+      "why": "Your only leg press since the gym change that counts is Sept 21: 160 lb for 11 reps, one rep past the top of the 8-10 range, on a deload night. That earns one 10 lb step on the last set. Ramp 140, 160, then 170 for 8. The old 190-240 lb numbers came from a different machine and are not used. The gym wasn't named on Sept 21, so if tonight's leg press is a different machine, start from 160 lb for 10 instead.",
+      "evidence": ["2026-09-21:leg-press-low", "2026-09-13:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 15.43, "reps": 10 },
+        { "weight": 15.43, "reps": 10 }
+      ],
+      "why": "On Sept 21 you did one set of 10 with the 7 kg dumbbells (15.43 lb each). Tonight is two sets, so keep 7 kg and get 10 on both sets. Once both sets reach 10, go up to the next heavier dumbbell.",
+      "evidence": ["2026-09-21:db-bulgarian-split-squat", "2026-09-13:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 110, "reps": 12 },
+        { "weight": 120, "reps": 10 },
+        { "weight": 120, "reps": 10 }
+      ],
+      "why": "In Warsaw on Sept 24 you did 110 lb for 12 on both sets, the top of the 10-12 range. That earns one 10 lb step. Do the first set at 110 for 12, then 120 for 10 on sets two and three. The app's 145 lb comes from an older machine and is not used.",
+      "evidence": ["2026-09-24:leg-curl", "2026-09-21:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        { "weight": 105, "reps": 13 },
+        { "weight": 105, "reps": 13 }
+      ],
+      "why": "Your last leg extension was one set of 105 lb for 12 on Sept 21. That is the bottom of the 12-15 range, so the weight stays at 105 and the goal is 13 on both sets. The app's 132.5/147.5 came from an older machine and is not used. Nothing from Warsaw yet on this lift.",
+      "evidence": ["2026-09-21:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 90.39, "reps": 13 },
+        { "weight": 90.39, "reps": 13 }
+      ],
+      "why": "41 kg (90.39 lb) for 12, one set each on Sept 21 and in Warsaw on Sept 24. 12 is the bottom of the 12-15 range, so stay on 41 kg and aim for 13 on both sets. Move up 2.5 kg when both sets reach 15.",
+      "evidence": ["2026-09-24:hip-adductor", "2026-09-21:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "sets": [
+        { "weight": 90.39, "reps": 13 },
+        { "weight": 90.39, "reps": 13 }
+      ],
+      "why": "41 kg (90.39 lb) for 12, one set each on Sept 21 and in Warsaw on Sept 24. 12 is the bottom of the 12-15 range, so stay on 41 kg and aim for 13 on both sets. Move up 2.5 kg when both sets reach 15.",
+      "evidence": ["2026-09-24:hip-abductor", "2026-09-21:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 220, "reps": 13 },
+        { "weight": 220, "reps": 13 },
+        { "weight": 220, "reps": 13 }
+      ],
+      "why": "For this slot you now do a calf raise, not the leg-press calf press. You did it at 220 lb for 12 on both sets on Sept 21 and again in Warsaw on Sept 24. The 240 lb suggestion came from the old leg-press calf press, which is a different lift, and is dropped. Stay at 220, add the third set, and aim for 13 on each.",
+      "evidence": ["2026-09-24:standing-calf-raise", "2026-09-21:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 50, "reps": 11 },
+        { "weight": 50, "reps": 11 },
+        { "weight": 50, "reps": 11 }
+      ],
+      "why": "50 lb for 10 on both sets on Sept 21 and in Warsaw on Sept 24. 10 is the bottom of the 10-12 range, so stay at 50, add the third set, and aim for 11 on each. The app's 65 lb came from the previous gym's cable and is not used.",
+      "evidence": ["2026-09-24:cable-crunch", "2026-09-21:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
