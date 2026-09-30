@@ -1,0 +1,157 @@
+{
+  "date": "2026-09-28",
+  "session_type": "LegsA",
+  "phase": "meso3",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 8,
+          "at": 1790617063065,
+          "restEndedAt": 1790617048103
+        },
+        {
+          "weight": 170,
+          "reps": 8,
+          "at": 1790617237234
+        },
+        {
+          "weight": 190,
+          "reps": 8,
+          "at": 1790617409065
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 10,
+          "kg": 7.94,
+          "at": 1790618388822,
+          "restEndedAt": 1790617896773
+        },
+        {
+          "weight": 17.5,
+          "reps": 10,
+          "kg": 7.94,
+          "at": 1790618389782
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 145,
+          "reps": 12,
+          "at": 1790616615263,
+          "restEndedAt": 1790616516948
+        },
+        {
+          "weight": 145,
+          "reps": 12,
+          "at": 1790616718239,
+          "restEndedAt": 1790616705281
+        },
+        {
+          "weight": 145,
+          "reps": 12,
+          "at": 1790616822526,
+          "restEndedAt": 1790616808247
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 145,
+          "reps": 12,
+          "at": 1790616871514
+        },
+        {
+          "weight": 150,
+          "reps": 12,
+          "at": 1790616958090
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 110,
+          "reps": 15,
+          "kg": 49.9,
+          "at": 1790616364806
+        },
+        {
+          "weight": 110,
+          "reps": 15,
+          "kg": 49.9,
+          "at": 1790616441257,
+          "restEndedAt": 1790616441203
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 110,
+          "reps": 15,
+          "kg": 49.9,
+          "at": 1790616366189
+        },
+        {
+          "weight": 110,
+          "reps": 15,
+          "kg": 49.9,
+          "at": 1790616441934
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "as": "Calf raise",
+      "sets": [
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1790617661959,
+          "restEndedAt": 1790617589077
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1790617693830
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1790617821763,
+          "restEndedAt": 1790617768845
+        }
+      ]
+    }
+  ],
+  "world": "canyon",
+  "gym": "Warsaw",
+  "mins": 34,
+  "startedAt": 1790616097484
+}
