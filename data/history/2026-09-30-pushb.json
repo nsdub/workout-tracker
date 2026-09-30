@@ -1,0 +1,214 @@
+{
+  "date": "2026-09-30",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1790777127798
+        },
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1790777130957
+        },
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1790777315989,
+          "restEndedAt": 1790777310967
+        },
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1790777462757
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 10,
+          "at": 1790777591465
+        },
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1790777765893,
+          "restEndedAt": 1790777711473
+        },
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1790777913587,
+          "restEndedAt": 1790777885903
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "as": "Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1790778094012,
+          "restEndedAt": 1790778033597
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1790778225609,
+          "restEndedAt": 1790778214022
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1790778401594,
+          "restEndedAt": 1790778345617
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 13.228,
+          "reps": 15,
+          "kg": 6,
+          "at": 1790779028032,
+          "restEndedAt": 1790778925390
+        },
+        {
+          "weight": 15.432,
+          "reps": 15,
+          "kg": 7,
+          "at": 1790779590950,
+          "restEndedAt": 1790779542765
+        },
+        {
+          "weight": 15.432,
+          "reps": 15,
+          "kg": 7,
+          "at": 1790779767199,
+          "restEndedAt": 1790779665963
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 15,
+          "at": 1790779166524,
+          "restEndedAt": 1790779103043
+        },
+        {
+          "weight": 27,
+          "reps": 15,
+          "at": 1790779306827,
+          "restEndedAt": 1790779241536
+        },
+        {
+          "weight": 27,
+          "reps": 14,
+          "at": 1790779467750,
+          "restEndedAt": 1790779381849
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 99.208,
+          "reps": 15,
+          "kg": 45,
+          "at": 1790778566682,
+          "restEndedAt": 1790778521603
+        },
+        {
+          "weight": 99.208,
+          "reps": 15,
+          "kg": 45,
+          "at": 1790778693031,
+          "restEndedAt": 1790778641703
+        },
+        {
+          "weight": 99.208,
+          "reps": 15,
+          "kg": 45,
+          "at": 1790778850377,
+          "restEndedAt": 1790778768047
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 10,
+          "at": 1790779902049,
+          "restEndedAt": 1790779842218
+        },
+        {
+          "weight": 55,
+          "reps": 10,
+          "at": 1790779987866,
+          "restEndedAt": 1790779977060
+        },
+        {
+          "weight": 55,
+          "reps": 10,
+          "at": 1790780110244,
+          "restEndedAt": 1790780062875
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "sets": [
+        {
+          "weight": 27,
+          "reps": 15,
+          "at": 1790780212341,
+          "restEndedAt": 1790780185255
+        },
+        {
+          "weight": 27,
+          "reps": 15,
+          "at": 1790780340572,
+          "restEndedAt": 1790780287350
+        }
+      ]
+    }
+  ],
+  "world": "ramenalley",
+  "gym": "Warsaw",
+  "mins": 54,
+  "startedAt": 1790776741162
+}
