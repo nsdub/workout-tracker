@@ -1,0 +1,52 @@
+{
+  "role": "recovery",
+  "date": "2026-10-01",
+  "session": "PullB",
+  "reviewed_through": "2026-09-30",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "push",
+      "why": "No pain or injury note on the back anywhere in the log. The deload week is over: on 23 Sept at the Warsaw gym he did 2 easy sets of 125 x 9 with no note, which also shows the Warsaw gym has a machine he can row on. Yesterday's Push B (30 Sept) was the first full build session back and he finished every set of every lift in 54 minutes, so there is no sign he is run down. Recovery has no objection to going back to 4 build sets. I am not setting a number: his last full session (15 Sept, 120/140/150/155) has no gym recorded, so I cannot say it was the same machine.",
+      "evidence": ["2026-09-15:smith-bent-over-row", "2026-09-23:smith-bent-over-row", "2026-09-30:db-shoulder-press", "2026-09-30:machine-chest-press"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "why": "He did 77/83/88 x 10 on both 3 Sept and 15 Sept, and 77 x 10 twice on the 23 Sept deload at Warsaw, all with no note. No pain or fatigue on record. No recovery objection to returning to 3 build sets.",
+      "evidence": ["2026-09-03:lat-pulldown-close", "2026-09-15:lat-pulldown-close", "2026-09-23:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "push",
+      "why": "No pain or injury note. The setup has changed with every gym: on 3 Sept his note said the first set was on the machine and the other two on the cable crossover, and on 23 Sept at Warsaw he did 2 sets of 10. He has logged 10 to 12 reps, not the 12 to 15 the plan asks for. That is a loading question for the other seats, not a recovery problem. No recovery objection to 3 build sets.",
+      "evidence": ["2026-09-03:straight-arm-pulldown", "2026-09-03:note", "2026-09-15:straight-arm-pulldown", "2026-09-23:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "push",
+      "why": "He did 3 x 15 on 15 Sept and 2 x 15 at Warsaw on 23 Sept, with no pain note. On 15 Sept his note read, verbatim: \"35kg is heaviest dumbbell\". Whoever sets this load needs to check what the heaviest dumbbell at Warsaw is before asking for more. Recovery has no objection to 3 build sets.",
+      "evidence": ["2026-09-15:db-shrug", "2026-09-15:note", "2026-09-23:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "push",
+      "why": "No pain or injury note on the arms. On 15 Sept his note said he did an EZ bar curl instead, so that day's 2 x 12 is a different lift and should not set tonight's dumbbell number. The only Warsaw data is one deload set of 10 on 23 Sept. Recovery has no objection to going back to build sets, but has no reliable number to offer.",
+      "evidence": ["2026-09-03:incline-db-curl", "2026-09-15:incline-db-curl", "2026-09-15:note", "2026-09-23:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "push",
+      "why": "He did 10 to 11 reps on 3 Sept and 15 Sept and 2 x 10 at Warsaw on 23 Sept, no note. Yesterday he also did reverse-grip pushdowns (2 x 15), which work the same forearm area, but he logged no complaint and reps held. No recovery objection to 3 build sets.",
+      "evidence": ["2026-09-15:cable-reverse-curl", "2026-09-23:cable-reverse-curl", "2026-09-30:reverse-grip-pushdown"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "why": "No pain, but he has objected to this lift more than once. On 28 July he said there were too many of the same corrective exercise back to back between days and swapped it out, and on 31 July he left another angry note on it. Yesterday's Push B already had 3 x 15 reverse pec deck for the same rear shoulders. He has done 13 reps on both 15 Sept and 23 Sept, short of the 15 the plan asks for. Recovery says hold the load where it is, 2 sets, and do not add anything here.",
+      "evidence": ["2026-07-28:note", "2026-07-31:note", "2026-09-15:face-pulls", "2026-09-23:face-pulls", "2026-09-30:reverse-pec-deck"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

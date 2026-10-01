@@ -1,0 +1,59 @@
+{
+  "role": "progression",
+  "date": "2026-10-01",
+  "session": "PullB",
+  "reviewed_through": "2026-09-30",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "hold",
+      "sets": [{"weight":120,"reps":10},{"weight":140,"reps":10},{"weight":150,"reps":9},{"weight":155,"reps":9}],
+      "why": "Your last full PullB was September 15: 120 for 9, 140 for 9, 150 for 8, 155 for 8. September 3 was the same weights, all for 8. The range is 8 to 10, and you have not hit 10 on every set yet, so the weights stay the same. Go for one more rep on each set: 10, 10, 9, 9. Your September 23 sets at 125 were deload week, so they are not the bar for tonight.",
+      "evidence": ["2026-09-15:smith-bent-over-row", "2026-09-03:smith-bent-over-row", "2026-09-23:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "push",
+      "sets": [{"weight":83,"reps":10},{"weight":88,"reps":10},{"weight":93,"reps":10}],
+      "why": "On September 3 and again on September 15 you did 77, 83 and 88 for 10 on every set. That is the top of the 8 to 10 range twice in a row, so you have earned a step. Each set moves up one: 83, 88, then 93 on the last set (5 lb more than your best). Aim for 10 on each set. If the stack has no 93, use the nearest setting above 88.",
+      "evidence": ["2026-09-15:lat-pulldown-close", "2026-09-03:lat-pulldown-close", "2026-09-23:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "hold",
+      "sets": [{"weight":22.05,"reps":11},{"weight":22.05,"reps":11},{"weight":22.05,"reps":11}],
+      "why": "Your last full PullB, September 15, had 10 kg (22.05 lb) for 10 on all three sets. The range is 10 to 12, so 10 is the bottom of it. Stay at 10 kg and go for 11 on all three sets. The 18 lb on September 23 was deload week.",
+      "evidence": ["2026-09-15:straight-arm-pulldown", "2026-09-23:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "hold",
+      "sets": [{"weight":77.16,"reps":16},{"weight":77.16,"reps":16},{"weight":77.16,"reps":16}],
+      "why": "On September 15 you shrugged the 35 kg dumbbells (77.16 lb) for 15 on all three sets. The range is 12 to 20. You are not at the top yet, and 35 kg is the heaviest dumbbell in this gym, so the weight stays and the reps go up. Go for 16 on all three sets.",
+      "evidence": ["2026-09-15:db-shrug", "2026-09-03:db-shrug", "2026-09-23:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "push",
+      "sets": [{"weight":27.56,"reps":10},{"weight":27.56,"reps":10}],
+      "why": "September 15 was an EZ bar curl, a different lift, so it does not count here. Your last real incline dumbbell curl at a full workout was September 3: 25 lb for 10 on both sets, the top of the 8 to 10 range. That earns a step. This gym's dumbbells are marked in kg, and 12.5 kg (27.56 lb) is the nearest dumbbell above 25 lb. Use 12.5 kg and aim for 10 on both sets. The 10 kg on September 23 was deload week.",
+      "evidence": ["2026-09-03:incline-db-curl", "2026-09-23:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "hold",
+      "sets": [{"weight":36,"reps":11},{"weight":36,"reps":12},{"weight":36,"reps":11}],
+      "why": "On September 15 you did 36 lb for 10, 11 and 10. September 3 was the same reps at 37.5. The range is 10 to 12, so the weight stays at 36. Go for one more rep on each set: 11, 12, 11. The app marks this lift as stalled because the reps have not moved in those two workouts. The 27 lb on September 23 was deload week.",
+      "evidence": ["2026-09-15:cable-reverse-curl", "2026-09-03:cable-reverse-curl", "2026-09-23:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "hold",
+      "sets": [{"weight":27,"reps":14},{"weight":27,"reps":14}],
+      "why": "Your last two full workouts with face pulls, September 15 and September 20, were both 27 lb for 13 on both sets. The range is 12 to 15, so the weight stays at 27. Go for 14 on both sets. The single sets on September 23 and 27 were deload week.",
+      "evidence": ["2026-09-15:face-pulls", "2026-09-20:face-pulls", "2026-09-23:face-pulls", "2026-09-27:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

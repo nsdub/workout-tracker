@@ -1,0 +1,53 @@
+{
+  "role": "program",
+  "date": "2026-10-01",
+  "session": "PullB",
+  "reviewed_through": "2026-09-30",
+  "summary": "No changes to the program tonight. Pull B is the first pull-B night of meso 3, and its shape has been settled by your own choices: close pulldown at eight to ten (3 August), straight-arm pulldown at ten to twelve (14 August), face pulls back on this day at two sets (18 August), reverse curl at ten to twelve (28 August), incline curl cut to two sets (3 September), and shrugs widened to twelve to twenty on 27 September. On the last full Pull B, 15 September, you logged every one of the seven slots at the planned set count. The 23 September night was the deload, where the plan itself asks for fewer sets, so the two-set and one-set lifts that night are the plan working, not slots being dropped. The two pull days still do different jobs: Pull A carries the deadlift, wide pulldown, wide row and the two standing curls; Pull B carries the Smith row, close pulldown, straight-arm pulldown, shrugs, incline and reverse curls. Face pulls are the only lift on both, at two sets each. The shrug range you accepted on 27 September gets its first real test tonight, so there is nothing yet to judge it on. Meso 3 runs four weeks from 28 September to 25 October, then a deload; that calendar stands.",
+  "calls": [
+    {
+      "exercise": "smith-bent-over-row",
+      "stance": "abstain",
+      "why": "The Smith row stays first at four sets of eight to ten. It is the heavy row that sets this day apart from Pull A, and you did all four sets on both 3 and 15 September.",
+      "evidence": ["2026-09-15:smith-bent-over-row", "2026-09-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "lat-pulldown-close",
+      "stance": "abstain",
+      "why": "Close pulldown stays at three sets of eight to ten, the range you chose on 3 August. You did all three sets on both full Pull B nights in September. Where the weight goes is the progression trainer's call, not a program change.",
+      "evidence": ["2026-09-15:lat-pulldown-close", "2026-09-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "straight-arm-pulldown",
+      "stance": "abstain",
+      "why": "Stays at three sets of ten to twelve. You did all three on 15 September at one weight. On 3 September you wrote that the first set was on a machine and the other two on the cable crossover. On 15 September all three sets were at 22, so the slot has settled on one station.",
+      "evidence": ["2026-09-15:straight-arm-pulldown", "2026-09-03:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "db-shrug",
+      "stance": "abstain",
+      "why": "You accepted the twelve-to-twenty range on 27 September and have not done a Pull B since. Tonight is its first test, so there is no new evidence to change anything.",
+      "evidence": ["2026-09-15:db-shrug", "2026-09-23:db-shrug"]
+    },
+    {
+      "exercise": "incline-db-curl",
+      "stance": "abstain",
+      "why": "Stays at two sets, as you chose on 3 September. On 15 September you wrote 'EZ bar curl' against this slot, but on the 23 September deload you were back on dumbbells. One night is not enough to say the slot should change, so this is not a swap proposal.",
+      "evidence": ["2026-09-15:incline-db-curl", "2026-09-23:incline-db-curl"]
+    },
+    {
+      "exercise": "cable-reverse-curl",
+      "stance": "abstain",
+      "why": "The dossier flags this lift as stalled. Its range was already moved to ten to twelve on 28 August, and on 15 September you did all three sets at ten, eleven and ten. That is a weight question for the progression trainer. The slot itself is fine, so there is no structural change to make.",
+      "evidence": ["2026-09-15:cable-reverse-curl", "2026-09-03:cable-reverse-curl"]
+    },
+    {
+      "exercise": "face-pulls",
+      "stance": "abstain",
+      "why": "Face pulls stay at two sets of twelve to fifteen, matching Pull A. You did both sets on 3 and 15 September; the single set on 23 September was the deload.",
+      "evidence": ["2026-09-15:face-pulls", "2026-09-23:face-pulls"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
