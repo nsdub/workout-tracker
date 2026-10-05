@@ -1,0 +1,161 @@
+{
+  "date": "2026-10-03",
+  "session_type": "PullB",
+  "phase": "meso3",
+  "week": 1,
+  "exercises": [
+    {
+      "id": "smith-bent-over-row",
+      "name": "Smith Bent-Over Row",
+      "sets": [
+        {
+          "weight": 121.254,
+          "reps": 10,
+          "at": 1791010050094
+        },
+        {
+          "weight": 143.3,
+          "reps": 9,
+          "at": 1791010251728,
+          "restEndedAt": 1791010230114
+        },
+        {
+          "weight": 143.3,
+          "reps": 8,
+          "at": 1791010443610
+        },
+        {
+          "weight": 143.3,
+          "reps": 7,
+          "at": 1791010604277
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1791010984728,
+          "restEndedAt": 1791010784286
+        },
+        {
+          "weight": 115,
+          "reps": 10,
+          "at": 1791011094991
+        },
+        {
+          "weight": 115,
+          "reps": 10,
+          "at": 1791011237508,
+          "restEndedAt": 1791011214999
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 12,
+          "at": 1791011376430,
+          "restEndedAt": 1791011357517
+        },
+        {
+          "weight": 35,
+          "reps": 10,
+          "at": 1791011485425,
+          "restEndedAt": 1791011451439
+        },
+        {
+          "weight": 35,
+          "reps": 11,
+          "at": 1791011628938,
+          "restEndedAt": 1791011560433
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 79.366,
+          "reps": 15,
+          "kg": 36,
+          "at": 1791011787617,
+          "restEndedAt": 1791011703945
+        },
+        {
+          "weight": 79.366,
+          "reps": 15,
+          "kg": 36,
+          "at": 1791011940288,
+          "restEndedAt": 1791011862625
+        },
+        {
+          "weight": 79.366,
+          "reps": 13,
+          "kg": 36,
+          "at": 1791012129969,
+          "restEndedAt": 1791012015295
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 27.56,
+          "reps": 10,
+          "at": 1791167975479
+        },
+        {
+          "weight": 27.56,
+          "reps": 10,
+          "at": 1791167976497
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 36,
+          "reps": 11,
+          "at": 1791167982019
+        },
+        {
+          "weight": 36,
+          "reps": 12,
+          "at": 1791167982820
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27,
+          "reps": 14,
+          "at": 1791167990011
+        },
+        {
+          "weight": 27,
+          "reps": 14,
+          "at": 1791167990730
+        }
+      ]
+    }
+  ],
+  "world": "shipwreck",
+  "gym": "Singapore",
+  "startedAt": 1791009660326
+}
