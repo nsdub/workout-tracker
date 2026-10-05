@@ -1,0 +1,59 @@
+{
+  "role": "program",
+  "date": "2026-10-05",
+  "session": "LegsB",
+  "reviewed_through": "2026-10-03",
+  "summary": "No structure changes proposed for LegsB tonight. The last LegsB on record is 2026-09-24, and that week every LegsB slot was logged short of its planned sets (for example leg curl 2 of 3, each hip machine 1 of 2, calves 2 of 3). No LegsB has been logged since, so there is no full-length run of the current eight-slot session to judge its composition against. Changing the layout before one complete session is on record would be guessing. Calendar note: the program is in week 2 of 4 of a build block (meso3); the last full week on record (Sep 28 to Oct 4) contains LegsA, PushB and PullB but no LegsB, PushA or PullA, so the six-day rotation took longer than seven days to come around this time and tonight's LegsB falls eleven days after the previous one. That is a scheduling fact, not something a structure proposal can fix. Balance note for the record: across the two leg days the plan carries 10 sets a week aimed mainly at the front of the thigh (leg press feet-low 3, split squat 2, leg extension 2, leg press feet-high 3) against 10 for the back of the thigh on leg days (Smith RDL 4, leg curl 3 + 3), plus 4 deadlift sets on PullA. That is not lopsided enough to act on from set counts alone.",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "abstain",
+      "why": "Planned at 4 sets of 8-10 and it opens the session, which is the right place for the heaviest hip-hinge lift. The week of the last LegsB (2026-09-24) only 2 of its 4 sets were logged. The dossier also flags it as stalled, but one shortened session is not a composition problem; whether the stall is real is the progression trainer's question. No change to the slot.",
+      "evidence": ["2026-09-24:leg-curl"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "abstain",
+      "why": "Planned at 3 sets of 10-12 as the second lift. It is the only pressing movement on this day and does not duplicate LegsA, which uses the feet-low version. The week of the last LegsB (2026-09-24) 2 of 3 sets were logged. No change to the slot.",
+      "evidence": ["2026-09-24:leg-curl"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "abstain",
+      "why": "Leg curl appears on both leg days at 3 sets of 10-12, so it is a shared lift. The most recent LegsA logged all 3 sets on 2026-09-28; the most recent LegsB logged 2 sets on 2026-09-24. The top sets logged on the two days differ, so each day should keep being judged against its own last session, not the other day's. Six planned sets a week across the two days is reasonable alongside the RDL. No change to the slot.",
+      "evidence": ["2026-09-24:leg-curl", "2026-09-28:leg-curl"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "abstain",
+      "why": "Planned at 2 sets of 12-15 on both leg days. LegsA logged both sets on 2026-09-28; LegsB logged only 1 set on 2026-09-24. On LegsA the two hip machines are paired back to back; on LegsB they are listed as separate slots. That difference is small and I have no logged evidence that it costs anything, so I am not proposing to change it.",
+      "evidence": ["2026-09-24:hip-abductor", "2026-09-28:hip-abductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "abstain",
+      "why": "Same picture as the abductor: 2 sets of 12-15 planned on both leg days, both sets logged on LegsA on 2026-09-28, only 1 set logged on LegsB on 2026-09-24. Four planned sets a week is enough for this muscle. No change to the slot.",
+      "evidence": ["2026-09-24:hip-adductor", "2026-09-28:hip-adductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "abstain",
+      "why": "Planned at 3 sets of 12-15 on both leg days, six sets a week. LegsA logged all 3 on 2026-09-28; LegsB logged 2 on 2026-09-24. The plan is balanced across the two days; the gap is in what got done, not in what is written. No change to the slot.",
+      "evidence": ["2026-09-24:standing-calf-raise", "2026-09-28:standing-calf-raise"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "abstain",
+      "why": "Planned at 2 sets of 12-15 and only appears on LegsB. The week of the last LegsB (2026-09-24) 1 set was logged, and none in the week after because no LegsB was trained. It sits next to cable crunch at the end of the session, which is the usual place for ab work. No change to the slot.",
+      "evidence": ["2026-09-24:cable-crunch"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "abstain",
+      "why": "Planned at 3 sets of 10-12 on both leg days. The last logged session on each day shows 2 sets (LegsA 2026-09-21, LegsB 2026-09-24), and the most recent LegsA week (Sep 28 to Oct 4) shows no cable crunch sets at all, so the last slot of the leg days is the one getting dropped. That is worth the athlete knowing as a fact, but one missed week is not enough to move or cut the slot.",
+      "evidence": ["2026-09-21:cable-crunch", "2026-09-24:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

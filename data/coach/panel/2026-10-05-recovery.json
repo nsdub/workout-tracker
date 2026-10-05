@@ -1,0 +1,58 @@
+{
+  "role": "recovery",
+  "date": "2026-10-05",
+  "session": "LegsB",
+  "reviewed_through": "2026-10-03",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "why": "No pain or injury note on the back or hamstrings anywhere in the log, so there is no recovery reason to cut this. The reason to hold is the room, not the body: his latest session (3 Oct, Pull B) is tagged Singapore, the sessions before it from 22 Sept to 30 Sept are tagged Warsaw, so tonight is his first leg session in the Singapore gym. This lift has also changed equipment before: on 5 Sept his note on it read, verbatim, \"Barbell\". His only RDL in the last 18 days is the 24 Sept deload at Warsaw (2 easy sets of 155 x 8); the last full session was 17 Sept (135/165/185 x 8, no gym recorded). Legs were last trained 7 days ago (28 Sept), so he comes in fresh. Recovery has no objection to full build sets, but I am not setting a number because no logged RDL was done on tonight's equipment. Do not go above what he has already done until tonight's sets show how this bar feels.",
+      "evidence": ["2026-10-03:smith-bent-over-row", "2026-09-30:machine-chest-press", "2026-09-24:smith-rdl", "2026-09-17:smith-rdl", "2026-09-05:smith-rdl", "2026-09-05:note", "2026-09-28:leg-press-low"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "hold",
+      "why": "No pain note on knees, hips or back. Tonight is the first time on a leg press in the Singapore gym, and every leg press number in the log comes from a different gym (140 x 10 twice on the 24 Sept deload at Warsaw; 130/150/170 x 10 on 17 Sept with no gym recorded). A number from one leg press does not carry to another, so I am not giving one. Recovery has no objection to full build sets; the load should be found on the first set tonight rather than pushed past an old number.",
+      "evidence": ["2026-10-03:lat-pulldown-close", "2026-09-24:leg-press-high", "2026-09-17:leg-press-high"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "No pain note. He did 3 x 12 at 145 seven days ago at Warsaw (28 Sept) with every rep made, so the hamstrings are not run down. Hold for two reasons. First, it is a new machine tonight (Singapore), so 145 on the Warsaw machine is not a known weight here. Second, he has already questioned hamstring volume on this day: on 16 Aug his note read, verbatim, \"Trainer: confirming that you want me doing four sets of leg curls on the same day as rdl. Too many hamstrings or just right?\" Every Legs B since then has had 3 sets or fewer. Recovery says keep it at 3 sets and do not add a fourth.",
+      "evidence": ["2026-09-28:leg-curl", "2026-09-24:leg-curl", "2026-09-17:leg-curl", "2026-09-05:leg-curl", "2026-08-16:leg-curl", "2026-08-16:note", "2026-10-03:straight-arm-pulldown"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "No pain note on the hips. He did 2 x 15 at Warsaw seven days ago (28 Sept) and made every rep. Tonight's machine is a different one (Singapore), so the Warsaw setting is not a known weight here. No recovery objection to 2 build sets; find the setting that gives the planned reps instead of chasing last week's number.",
+      "evidence": ["2026-09-28:hip-abductor", "2026-09-24:hip-abductor", "2026-10-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "No pain note on the groin or hips. He did 2 x 15 at Warsaw seven days ago (28 Sept) and made every rep. Same caution as the abductor: a different machine tonight (Singapore), so last week's setting does not carry over. The inner thigh is the easiest place on this day to strain on an unfamiliar machine, so the first set should be a feel-out set. No recovery objection to 2 build sets.",
+      "evidence": ["2026-09-28:hip-adductor", "2026-09-24:hip-adductor", "2026-10-03:lat-pulldown-close"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "No pain note on calves or ankles. He did 3 x 12 at 280 at Warsaw seven days ago (28 Sept), every rep made. But this slot has been a different piece of equipment almost every time: on 17 Sept it was logged as \"Kettlebell swing/thrusts\", and from 21 Sept it was logged as \"Calf raise\". On 21 Sept his note on it read, verbatim, \"Your weight suggestions make zero sense\", and on 30 July it read \"Why four sets\". Tonight is a third gym in three weeks. Recovery says 3 sets, not 4, and I am not giving a number: none of the logged ones were done on tonight's equipment.",
+      "evidence": ["2026-09-28:standing-calf-raise", "2026-09-21:standing-calf-raise", "2026-09-21:note", "2026-09-17:standing-calf-raise", "2026-07-30:standing-calf-raise", "2026-07-30:note"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "push",
+      "why": "Bodyweight lift, so the change of gym does not change the load. No pain note on the abs, hip or grip. He did 12 and 10 reps on 17 Sept and a single set of 12 on the 24 Sept deload. Two days ago (3 Oct) he did a full Pull B, which is heavy on grip, but he logged no complaint and that leaves a full day of rest in between. No recovery objection to 2 full sets counted in reps. Keep it in reps, not seconds: on 30 July his note on this lift read, verbatim, \"What the fuck..why did you put this in terms of seconds\".",
+      "evidence": ["2026-09-17:hanging-leg-raise", "2026-09-24:hanging-leg-raise", "2026-07-30:hanging-leg-raise", "2026-07-30:note", "2026-10-03:db-shrug"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "No pain note. His reps on this lift have sat at the bottom of what he usually does: 55 x 11/10/10 on 17 Sept, and 50 x 10 twice on both the 21 Sept and 24 Sept deload days. It was not in the 28 Sept leg session, so the last time he did it was 11 days ago. Tonight is a different cable stack (Singapore), so 55 here is not a known weight. Recovery says hold: no added load, find the weight that gives the planned reps.",
+      "evidence": ["2026-09-17:cable-crunch", "2026-09-21:cable-crunch", "2026-09-24:cable-crunch", "2026-10-03:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

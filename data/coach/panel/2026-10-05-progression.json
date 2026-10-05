@@ -1,0 +1,92 @@
+{
+  "role": "progression",
+  "date": "2026-10-05",
+  "session": "LegsB",
+  "reviewed_through": "2026-10-03",
+  "calls": [
+    {
+      "exercise": "smith-rdl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 155, "reps": 8 },
+        { "weight": 175, "reps": 8 },
+        { "weight": 185, "reps": 8 },
+        { "weight": 185, "reps": 8 }
+      ],
+      "why": "No raise is earned yet. The last full session (Sept 17) reached 185 for one set of 8, the bottom of the 8-10 range, and the Sept 24 session was a light deload week in Warsaw (155 for two sets), which is not a baseline. So the top weight stays at 185, but the work goes up: two sets at 185 instead of one, and all four sets done. The uncertainty: your latest logged session (Oct 3) was in a Singapore gym, and no leg session has ever been logged there, so the bar and plates tonight may not match the ones behind these numbers. Treat 155 as the feel-out set; if it feels wrong for 8, load the nearest weight at or under these figures rather than chasing them.",
+      "evidence": ["2026-09-17:smith-rdl", "2026-09-05:smith-rdl", "2026-09-24:smith-rdl", "2026-10-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "leg-press-high",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 10 },
+        { "weight": 170, "reps": 10 },
+        { "weight": 170, "reps": 10 }
+      ],
+      "why": "The last full session (Sept 17) climbed 130, 150, 170 for 10 each, so 170 has been done for exactly one set at the bottom of the 10-12 range. That does not earn a heavier weight, but it does earn a second set at 170 in place of the 130 opener. The Sept 24 numbers (140 for two sets) were a deload week and are ignored as a baseline. The uncertainty is large here: Sept 17 has no gym recorded, Sept 24 was Warsaw, and your latest session was in Singapore, where no leg press has been logged. Leg press machines differ a lot from gym to gym, so the 150 set is a test: if 10 reps there is clearly too easy or too hard, move one 10 lb step and log what you actually used.",
+      "evidence": ["2026-09-17:leg-press-high", "2026-09-24:leg-press-high", "2026-08-16:leg-press-high", "2026-10-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "push",
+      "sets": [
+        { "weight": 155, "reps": 10 },
+        { "weight": 155, "reps": 10 },
+        { "weight": 155, "reps": 10 }
+      ],
+      "why": "This one is earned. On Sept 28 in Warsaw you did 145 for 12, 12 and 12, the top of the 10-12 range on every set, and Sept 17 had already reached 145 for 12. Repeating 145 again would be a copy-paste, so go up one 10 lb step to 155 and aim for 10 on each set. The uncertainty: that 145 was on the Warsaw machine and your latest session was in Singapore, where no leg curl has been logged. If tonight's machine is a different one, use the first set to check that 10 clean reps is realistic and take the nearest setting at or under 155.",
+      "evidence": ["2026-09-28:leg-curl", "2026-09-17:leg-curl", "2026-09-24:leg-curl", "2026-10-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 115, "reps": 12 },
+        { "weight": 115, "reps": 12 }
+      ],
+      "why": "On Sept 28 in Warsaw you did 110 lb for 15 and 15, the top of the 12-15 range on both sets, and Sept 17 had already hit 110 for 15 on its last set. That earns one small step: about 115 lb for 12. The Warsaw machine was labelled in kg, so on a kg machine this is the next 2.5 kg setting above what you used. The uncertainty: your latest session was in Singapore and this machine has not been logged there, so if the setting does not exist or the machine feels different, take the nearest one and log it.",
+      "evidence": ["2026-09-28:hip-abductor", "2026-09-17:hip-abductor", "2026-09-24:hip-abductor", "2026-10-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 115, "reps": 12 },
+        { "weight": 115, "reps": 12 }
+      ],
+      "why": "Same story as the abductor. On Sept 28 in Warsaw you did 110 lb for 15 and 15, the top of the 12-15 range, after 110 for 12 and 15 on Sept 17. That earns one small step to about 115 lb for 12, or the next 2.5 kg setting if the machine is labelled in kg. The uncertainty: this machine has not been logged in the Singapore gym your latest session came from, so take the nearest setting and log what it was.",
+      "evidence": ["2026-09-28:hip-adductor", "2026-09-17:hip-adductor", "2026-09-24:hip-adductor", "2026-10-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 },
+        { "weight": 280, "reps": 13 }
+      ],
+      "why": "The last three times this slot was a calf raise rather than the calf press on the leg press, so I am judging the calf raise. On Sept 28 in Warsaw you did 280 for 12, 12 and 12, which is the bottom of the 12-15 range, so the weight is not earned yet. Keep 280 and add a rep: 13 on each set. The 220 sets on Sept 21 and Sept 24 were deload week and are not the baseline. The uncertainty: 280 belongs to the Warsaw machine, and I cannot tell what calf equipment tonight's gym has. If it is a different machine, or you are back on the leg press for calves, these numbers do not carry over; start where 13 reps is hard but clean and log it.",
+      "evidence": ["2026-09-28:standing-calf-raise", "2026-09-24:standing-calf-raise", "2026-09-21:standing-calf-raise", "2026-10-03:smith-bent-over-row"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Bodyweight, so there is no load to set and I am giving a rep target instead of weights: 12 and 12. The last full session (Sept 17) went 12 then 10, and Sept 24 was a single deload set of 12. You have done 12 and 12 before (Sept 5, Aug 16), so the job tonight is to get the second set back to 12. Once both sets reach 13 or more, the reps move up.",
+      "evidence": ["2026-09-17:hanging-leg-raise", "2026-09-24:hanging-leg-raise", "2026-09-05:hanging-leg-raise", "2026-08-16:hanging-leg-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "sets": [
+        { "weight": 55, "reps": 12 },
+        { "weight": 55, "reps": 12 },
+        { "weight": 55, "reps": 12 }
+      ],
+      "why": "The last full session (Sept 17) was 55 for 11, 10 and 10, short of the top of the 10-12 range, so no raise is earned. Keep 55 and take all three sets to 12; that is what unlocks 60. The 50 lb sets on Sept 21 and Sept 24 were deload week. The uncertainty is real: cable stacks read differently in every gym. On Oct 3 in Singapore your other cable lifts were logged at clearly higher numbers than in Warsaw the week before (reverse curl 36 against 27), so 55 on tonight's stack may not feel like 55 did before. Use the first set as the test: if 12 is easy, go up one 5 lb step and log it; if you cannot reach 10, come down one.",
+      "evidence": ["2026-09-17:cable-crunch", "2026-09-24:cable-crunch", "2026-09-21:cable-crunch", "2026-10-03:cable-reverse-curl", "2026-09-23:cable-reverse-curl"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
