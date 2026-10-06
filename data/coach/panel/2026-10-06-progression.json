@@ -1,0 +1,178 @@
+{
+  "role": "progression",
+  "date": "2026-10-06",
+  "session": "PushA",
+  "reviewed_through": "2026-10-05",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8
+        },
+        {
+          "weight": 165,
+          "reps": 6
+        },
+        {
+          "weight": 165,
+          "reps": 6
+        },
+        {
+          "weight": 165,
+          "reps": 6
+        }
+      ],
+      "why": "No raise is earned. The last full push session at your usual setup (Sept 19) went 155 for 8, then 160 for 6, 165 for 6 and 165 for 5, which is the bottom of the 6-8 range with the last set short. Sept 25 (135 for 6 and 6, Warsaw deload week) is not a baseline. So 165 stays the working weight, but three sets at 165 instead of two and a half: the goal is 6 reps on every one. Aug 27 reached 180 for 8, so the strength is there once the 165 sets are clean. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:smith-incline-press",
+        "2026-08-27:smith-incline-press",
+        "2026-09-25:smith-incline-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 10
+        },
+        {
+          "weight": 165,
+          "reps": 10
+        },
+        {
+          "weight": 170,
+          "reps": 10
+        }
+      ],
+      "why": "This one is earned. On Sept 19 you did 160 for 12 on both working sets, the top of the 10-12 range, after 150 for 12 to open, and Sept 30 in Warsaw also handled 165 for 10 on two sets. Repeating 160 for 12 would be a copy-paste, so go up one 5 lb step: 165 for 10, 165 for 10, then 170 for 10. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:machine-chest-press",
+        "2026-09-30:machine-chest-press",
+        "2026-09-08:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 14,
+          "reps": 15
+        },
+        {
+          "weight": 16,
+          "reps": 15
+        },
+        {
+          "weight": 16,
+          "reps": 15
+        }
+      ],
+      "why": "No raise yet. On Sept 19 you did 14 for 15, then 16 for 14 and 16 for 14, so the 16 sets are one rep short of the 15 top of the range. The weights stay; the job is 15 reps on all three sets. Sept 25 (11 and 10, Warsaw cable) was a different machine and is ignored as a baseline. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:cable-crossover-low-high",
+        "2026-08-17:cable-crossover-low-high",
+        "2026-09-25:cable-crossover-low-high"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 10
+        },
+        {
+          "weight": 45,
+          "reps": 10
+        },
+        {
+          "weight": 45,
+          "reps": 10
+        }
+      ],
+      "why": "No raise yet. Sept 19 was 45 lb dumbbells for 9, 9 and 9, one rep under the bottom of the 10-12 range, and Sept 8 was the same 9, 9, 9. Repeating 9 would be a copy-paste, so the target is 10 reps on every set at 45. Sept 30 (20 kg dumbbells, about 44 lb, for 8 on four sets in Warsaw) says the weight is right but does not earn a step. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:db-shoulder-press",
+        "2026-09-08:db-shoulder-press",
+        "2026-09-30:db-shoulder-press"
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 12
+        },
+        {
+          "weight": 105,
+          "reps": 12
+        },
+        {
+          "weight": 105,
+          "reps": 12
+        }
+      ],
+      "why": "This one is earned. Your usual-setup sessions sat at 100 for 12 on Sept 8 and Sept 19, so repeating that again would be copy-paste. Sept 30 in Warsaw you did 45 kg (about 99 lb) for 15 on all three sets, the top of the 12-15 range, which shows 100 is no longer a challenge. Go up one 5 lb step: 100 for 12 to open, then 105 for 12 twice. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:reverse-pec-deck",
+        "2026-09-08:reverse-pec-deck",
+        "2026-09-30:reverse-pec-deck"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "push",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 12
+        },
+        {
+          "weight": 57.5,
+          "reps": 10
+        },
+        {
+          "weight": 57.5,
+          "reps": 10
+        }
+      ],
+      "why": "This lift is flagged stalled: 55 has been the weight since July with the reps stuck at 12, 11, 10 (Sept 19) and 10, 10, 10 (Sept 30, Warsaw). Repeating 55 again changes nothing. You already did 57.5 for 12, 12 and 9 on Aug 23, so a step to 57.5 is within proven work: open with 55 for 12, then 57.5 for 10 on two sets. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:overhead-cable-triceps",
+        "2026-08-23:overhead-cable-triceps",
+        "2026-09-30:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 12
+        },
+        {
+          "weight": 45,
+          "reps": 12
+        }
+      ],
+      "why": "No raise is earned. Sept 19 was 45 for 11 and 11, under the bottom of the 12-15 range, after 45 for 13 and 12 on Sept 8. The weight stays at 45, and the target is 12 on both sets. Aug 17 (52.5 for 15) shows you have been stronger here, so this is a reps problem, not a weight problem. The uncertainty: no push session has been logged in the Singapore gym, so tonight's equipment may not match these numbers; use the first set as a check and take the nearest weight at or under the figure if it feels off.",
+      "evidence": [
+        "2026-09-19:rope-pushdown",
+        "2026-09-08:rope-pushdown",
+        "2026-08-17:rope-pushdown"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
