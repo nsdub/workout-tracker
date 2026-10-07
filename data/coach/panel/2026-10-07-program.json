@@ -1,0 +1,74 @@
+{
+  "role": "program",
+  "date": "2026-10-07",
+  "session": "PushA",
+  "reviewed_through": "2026-10-05",
+  "summary": "No new session since yesterday's panel (latest logged is still 2026-10-05 LegsB), so this repeats the 2026-10-06 position unchanged: no structure changes proposed for PushA. PushA runs seven slots and 20 sets with no lateral raise (removed 2026-09-11 on his decision; lateral work lives on PushB at 4 sets). The last PushA on record is 2026-09-25, logged short (machine chest press 2 of 3, shoulder press 2 of 3), which is one shortened session, not a composition signal. Calendar: meso3 build week 2 of 4.",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "abstain",
+      "why": "Planned 4 sets of 6-8 as the opener, the right place for the main press. 4 of 4 sets were logged on 2026-09-19 and only 2 on 2026-09-25 (a shortened session). One short day is not a composition problem. No change to the slot.",
+      "evidence": [
+        "2026-09-19:smith-incline-press",
+        "2026-09-25:smith-incline-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "abstain",
+      "why": "Planned 3 sets of 10-12 as the second press, after the heavy incline. Full 3 sets on 2026-09-19, 2 on 2026-09-25. Its PushB version (3 sets of 8-10) keeps the two days distinct, as he accepted in July. No change.",
+      "evidence": [
+        "2026-09-19:machine-chest-press",
+        "2026-09-25:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "abstain",
+      "why": "Planned 3 sets of 12-15 as the fly-type finisher for the chest. Full 3 sets on 2026-09-19, 2 on 2026-09-25. PushB uses the opposite crossover angle, so the weekly chest work is varied. No change.",
+      "evidence": [
+        "2026-09-19:cable-crossover-low-high",
+        "2026-09-25:cable-crossover-low-high"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "abstain",
+      "why": "Planned 3 sets of 10-12 here against 4 sets of 8-10 on PushB, so shoulders get the heavier work on PushB. Full 3 sets on 2026-09-19, 2 on 2026-09-25. No change.",
+      "evidence": [
+        "2026-09-19:db-shoulder-press",
+        "2026-09-25:db-shoulder-press"
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "abstain",
+      "why": "Planned 3 sets of 12-15 and the only rear-shoulder work on PushA, balancing the pressing on this day. 3 sets on 2026-09-19, 2 on 2026-09-25. No change.",
+      "evidence": [
+        "2026-09-19:reverse-pec-deck",
+        "2026-09-25:reverse-pec-deck"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "abstain",
+      "why": "Planned 3 sets of 10-12 for triceps after all the pressing. 3 sets on 2026-09-19, 2 on 2026-09-25. The dossier lists it as stalled, which is the progression trainer question, not a composition one. No change.",
+      "evidence": [
+        "2026-09-19:overhead-cable-triceps",
+        "2026-09-25:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "abstain",
+      "why": "Planned 2 sets of 12-15 as the last slot, pairing a shortened-position triceps lift with the long-head overhead lift. 2 sets on 2026-09-19, 1 on 2026-09-25, so the tail slot is the one that gets dropped on short days. Worth knowing, but one short session is not enough to cut it. No change.",
+      "evidence": [
+        "2026-09-19:rope-pushdown",
+        "2026-09-25:rope-pushdown"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

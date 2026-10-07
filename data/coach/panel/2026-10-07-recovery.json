@@ -1,0 +1,79 @@
+{
+  "role": "recovery",
+  "date": "2026-10-07",
+  "session": "PushA",
+  "reviewed_through": "2026-10-05",
+  "calls": [
+    {
+      "exercise": "smith-incline-press",
+      "stance": "hold",
+      "why": "Last full Push A was 19 Sept (155/160/165/165 for 8/6/6/5, no gym recorded); the 25 Sept Warsaw session was a deload at 135 x 6 twice. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets. Do not go above what he has already lifted until the first set shows how this bar feels.",
+      "evidence": [
+        "2026-09-19:smith-incline-press",
+        "2026-09-25:smith-incline-press",
+        "2026-09-30:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "stance": "hold",
+      "why": "Recent numbers are 160-165 x 9-10 on 14 and 30 Sept, but he has logged this lift at very different scales across gyms (125-130 at Warsaw on 22 and 25 Sept, and the 23 Aug note says Hammer Strength machine at a different gym), so a number from one machine does not carry to another. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets.",
+      "evidence": [
+        "2026-09-30:machine-chest-press",
+        "2026-09-25:machine-chest-press",
+        "2026-09-14:machine-chest-press"
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "stance": "hold",
+      "why": "Cable weights in the log moved with the gym: 14-16 x 13-15 on 8 and 19 Sept, 10-11 x 12 at Warsaw on 25 Sept. The cable scale does not carry between gyms. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets.",
+      "evidence": [
+        "2026-09-19:cable-crossover-low-high",
+        "2026-09-25:cable-crossover-low-high"
+      ]
+    },
+    {
+      "exercise": "db-shoulder-press",
+      "stance": "hold",
+      "why": "Dumbbell numbers: 45 x 9 on 8 and 19 Sept, 44.092 x 8 for four sets on 30 Sept, a 33 lb deload on 25 Sept. No shoulder pain note exists in the log. 44.092 looks like a converted 20 kg pair, so the Singapore rack may not have the same pair. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets.",
+      "evidence": [
+        "2026-09-30:db-shoulder-press",
+        "2026-09-19:db-shoulder-press",
+        "2026-09-25:db-shoulder-press"
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "stance": "hold",
+      "why": "Steady at about 99-100 x 12-15 on 14, 19 and 30 Sept, 77 on the 25 Sept deload. On 23 Aug his note says the machine was taken and he did reverse cable pulls instead, so this one is often swapped. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets.",
+      "evidence": [
+        "2026-09-30:reverse-pec-deck",
+        "2026-09-19:reverse-pec-deck",
+        "2026-09-25:reverse-pec-deck"
+      ]
+    },
+    {
+      "exercise": "overhead-cable-triceps",
+      "stance": "hold",
+      "why": "55 for 9-12 reps across 8, 14, 19 and 30 Sept, 41 on the 25 Sept deload. His 17 Aug note says he has used the tricep extension machine when the cable was taken. No elbow pain note in the log. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets.",
+      "evidence": [
+        "2026-09-30:overhead-cable-triceps",
+        "2026-09-19:overhead-cable-triceps",
+        "2026-09-25:overhead-cable-triceps"
+      ]
+    },
+    {
+      "exercise": "rope-pushdown",
+      "stance": "hold",
+      "why": "45 x 11-13 for two sets on 8 and 19 Sept, 35 x 12 for one set on the 25 Sept deload. It has only two sets logged each time, so there is little to read. Recovery sees no pain, injury or fatigue signal: no pain note on shoulders, elbows or chest anywhere in the log, and the last push session (30 Sept, Push B at Warsaw) was a full one. His last two sessions (3 and 5 Oct) are tagged Singapore while every push session since 22 Sept is tagged Warsaw, so this is probably his first push day in the Singapore gym. I am not setting a number; the load should come from the first working set on the equipment in front of him. Recovery has no objection to full build sets.",
+      "evidence": [
+        "2026-09-19:rope-pushdown",
+        "2026-09-08:rope-pushdown",
+        "2026-09-25:rope-pushdown"
+      ]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
