@@ -1,0 +1,151 @@
+{
+  "date": "2026-10-08",
+  "session_type": "PullA",
+  "phase": "meso3",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 225,
+          "reps": 6,
+          "at": 1791435943887
+        },
+        {
+          "weight": 225,
+          "reps": 4,
+          "at": 1791435950822
+        },
+        {
+          "weight": 225,
+          "reps": 4,
+          "at": 1791435955492
+        },
+        {
+          "weight": 225,
+          "reps": 4,
+          "at": 1791435960664
+        }
+      ],
+      "note": "Sick today."
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1791436381016,
+          "restEndedAt": 1791436289938
+        },
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1791436600630,
+          "restEndedAt": 1791436501025
+        },
+        {
+          "weight": 100,
+          "reps": 10,
+          "at": 1791436683450
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1791435897073
+        },
+        {
+          "weight": 115,
+          "reps": 12,
+          "at": 1791436013053
+        },
+        {
+          "weight": 115,
+          "reps": 12,
+          "at": 1791436169922,
+          "restEndedAt": 1791436133061
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "as": "Barbell curl",
+      "sets": [
+        {
+          "weight": 65,
+          "reps": 8,
+          "at": 1791436867805,
+          "restEndedAt": 1791436803460
+        },
+        {
+          "weight": 65,
+          "reps": 8,
+          "at": 1791437004810,
+          "restEndedAt": 1791436942818
+        },
+        {
+          "weight": 65,
+          "reps": 8,
+          "at": 1791437203836,
+          "restEndedAt": 1791437079826
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1791437409276,
+          "restEndedAt": 1791437278847
+        },
+        {
+          "weight": 35,
+          "reps": 12,
+          "at": 1791437535038,
+          "restEndedAt": 1791437484285
+        },
+        {
+          "weight": 36,
+          "reps": 12,
+          "at": 1791437715618,
+          "restEndedAt": 1791437613324
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1791437812961,
+          "restEndedAt": 1791437790629
+        },
+        {
+          "weight": 20,
+          "reps": 15,
+          "at": 1791437941432,
+          "restEndedAt": 1791437872978
+        }
+      ]
+    }
+  ],
+  "world": "subs",
+  "gym": "Singapore",
+  "mins": 34,
+  "startedAt": 1791434044473
+}
