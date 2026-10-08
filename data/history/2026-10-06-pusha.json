@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-06",
+  "session_type": "PushA",
+  "phase": "meso3",
+  "week": 2,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "as": "Incline barbell",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 154.324,
+          "reps": 8,
+          "kg": 70,
+          "at": 1791290522449
+        },
+        {
+          "weight": 165.347,
+          "reps": 6,
+          "kg": 75,
+          "at": 1791290683846
+        },
+        {
+          "weight": 165.347,
+          "reps": 6,
+          "kg": 75,
+          "at": 1791290840539
+        },
+        {
+          "weight": 165.347,
+          "reps": 6,
+          "kg": 75,
+          "at": 1791291020278
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 125,
+          "reps": 10,
+          "at": 1791291232744,
+          "restEndedAt": 1791291200333
+        },
+        {
+          "weight": 130,
+          "reps": 10,
+          "at": 1791291395820,
+          "restEndedAt": 1791291352758
+        },
+        {
+          "weight": 125,
+          "reps": 10,
+          "at": 1791291571147,
+          "restEndedAt": 1791291515832
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 15,
+          "at": 1791292419355,
+          "restEndedAt": 1791292270971
+        },
+        {
+          "weight": 10,
+          "reps": 15,
+          "at": 1791292553963,
+          "restEndedAt": 1791292494375
+        },
+        {
+          "weight": 10,
+          "reps": 15,
+          "at": 1791292744873,
+          "restEndedAt": 1791292628975
+        }
+      ]
+    },
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1791291722960,
+          "restEndedAt": 1791291691159
+        },
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1791291856134,
+          "restEndedAt": 1791291842968
+        },
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1791292046334,
+          "restEndedAt": 1791291976143
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 80,
+          "reps": 12,
+          "at": 1791292195962,
+          "restEndedAt": 1791292178237
+        },
+        {
+          "weight": 95,
+          "reps": 12,
+          "at": 1791292846141,
+          "restEndedAt": 1791292819887
+        },
+        {
+          "weight": 95,
+          "reps": 12,
+          "at": 1791292960466,
+          "restEndedAt": 1791292921152
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "sets": [
+        {
+          "weight": 100,
+          "reps": 12,
+          "at": 1791293126825,
+          "restEndedAt": 1791293035476
+        },
+        {
+          "weight": 115,
+          "reps": 12,
+          "at": 1791293528880,
+          "restEndedAt": 1791293201841
+        },
+        {
+          "weight": 110,
+          "reps": 12,
+          "at": 1791293609836
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 11,
+          "at": 1791293728756,
+          "restEndedAt": 1791293684846
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1791434041520
+        }
+      ]
+    }
+  ],
+  "world": "hall",
+  "gym": "Singapore",
+  "startedAt": 1791281744893
+}
