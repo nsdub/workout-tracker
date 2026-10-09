@@ -1,0 +1,58 @@
+{
+  "role": "program",
+  "date": "2026-10-10",
+  "session": "LegsA",
+  "reviewed_through": "2026-10-08",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "abstain",
+      "why": "This is LegsA's main quad lift, and it is not duplicated anywhere else: LegsB uses the feet-high leg press. It is flagged as stalled, but the gym changed on 2026-09-02, so the stall covers only a few sessions on new equipment. That is not enough to justify swapping out the anchor lift. The 3 sets were done as written last time. Loads belong to the progression seat.",
+      "evidence": ["2026-09-28:leg-press-low", "2026-09-21:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "abstain",
+      "why": "This is the only single-leg quad and glute work in the week. The prescribed 2 sets were logged last LegsA, after only 1 set the time before. It has 12 sets all-time, so it is still a new lift. Keep the slot as it is.",
+      "evidence": ["2026-09-28:db-bulgarian-split-squat", "2026-09-21:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "abstain",
+      "why": "This lift appears on both leg days at 3 sets each. With Smith RDL on LegsB and deadlift on PullA, the week has about 6 direct hamstring curl sets plus 8 hinge sets. That balance is fine. The two days show different top sets, which is a load question and not a structure question.",
+      "evidence": ["2026-09-28:leg-curl", "2026-10-05:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "abstain",
+      "why": "Leg extension is flagged as stalled. It is 2 finishing sets after leg press and split squats, and it is the only knee-extension isolation in the week. Weekly quad work is about 10 sets: leg press low 3, split squat 2, extension 2 and leg press high 3. Dropping or swapping it would leave quads thinner, and a short stall at a new gym is not enough reason for that. There is no structure change.",
+      "evidence": ["2026-09-28:leg-extension", "2026-09-21:leg-extension"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "abstain",
+      "why": "This is a superset with abductor on LegsA and also appears on LegsB, at 2 sets each, so 4 sets a week. That is adequate for a show physique. The LegsA and LegsB top sets differ a lot. That is a question for the progression seat (same machine, or not?) and not a reason to change the slot.",
+      "evidence": ["2026-09-28:hip-adductor", "2026-10-05:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "abstain",
+      "why": "This is the superset partner of adductor, 2 sets on each leg day. The volume is balanced. The A/B load gap is wide, the same as for adductor, and that is for the progression seat. There is no structure change.",
+      "evidence": ["2026-09-28:hip-abductor", "2026-10-05:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "abstain",
+      "why": "This is 3 sets on each leg day, so 6 sets a week, and he completed them on both of the last two leg days. That is enough calf volume for the build phase. The slot stays.",
+      "evidence": ["2026-09-28:standing-calf-raise", "2026-10-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "abstain",
+      "why": "Cable crunch is the last slot on LegsA, and it was not logged at all on the last LegsA (2026-09-28). The most recent LegsA crunch was 2026-09-21. It was done on LegsB on 2026-10-05. One skipped session is not enough to call it an orphaned slot or move it, because ab work still landed that week through LegsB's crunch and hanging leg raise. If it is skipped again tonight, I will treat it as a pattern of end-of-session drop-off and look at moving it earlier in the session.",
+      "evidence": ["2026-09-21:cable-crunch", "2026-10-05:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

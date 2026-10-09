@@ -1,0 +1,64 @@
+{
+  "role": "recovery",
+  "date": "2026-10-10",
+  "session": "LegsA",
+  "reviewed_through": "2026-10-08",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "why": "He wrote \"Sick today.\" on 2026-10-08, two days before tonight, and there is no later note saying he is better. Deadlift that night fell from 6 reps on the first set to 4 on the next three at the same 225 lb, and those four sets were typed in seconds apart, so they were recalled after the fact. This is also his first LegsA in Singapore; the last one (2026-09-28) was in Warsaw on a different leg press. Legs last trained 2026-10-05, five days ago, so the muscles are rested. Hold: no load increase tonight on the heaviest lift of the session.",
+      "evidence": ["2026-10-08:note", "2026-10-08:deadlift", "2026-09-28:leg-press-low", "2026-10-05:leg-press-high"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "why": "Two days after he logged being sick, with no note since. The rest of the 2026-10-08 session held up (lat pulldown 100 lb for 10 on all three sets), so there is no case for cutting, but no case for adding load either. Last logged 2026-09-28 in Warsaw; tonight is a different gym.",
+      "evidence": ["2026-10-08:note", "2026-10-08:lat-pulldown-wide", "2026-09-28:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "Hamstrings last trained 2026-10-05 in Singapore at 120 lb for 10, 10, 11, five days ago, so they are recovered locally. The hold is for the illness he logged on 2026-10-08, not for the muscle.",
+      "evidence": ["2026-10-05:leg-curl", "2026-10-08:note"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "Not yet logged at the Singapore gym; the last entry is Warsaw on 2026-09-28. Two days after he wrote he was sick is not the night to push on a machine with no local history.",
+      "evidence": ["2026-09-28:leg-extension", "2026-10-08:note"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "The Singapore machine read 80 lb on 2026-10-05 against 110 lb in Warsaw on 2026-09-28, so the two gyms do not compare. Hold at the standing number while he is two days past being sick.",
+      "evidence": ["2026-10-05:hip-adductor", "2026-09-28:hip-adductor", "2026-10-08:note"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "Same as the adductor: 60 lb in Singapore on 2026-10-05 against 110 lb in Warsaw on 2026-09-28, different machines. Hold while he is two days past being sick.",
+      "evidence": ["2026-10-05:hip-abductor", "2026-09-28:hip-abductor", "2026-10-08:note"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "On 2026-10-05 the second set at 290 lb dropped to 12 reps and the third set was taken down to 270 lb, so the last outing did not hold its load across all sets. Add the illness logged 2026-10-08 and there is no basis for more weight tonight.",
+      "evidence": ["2026-10-05:standing-calf-raise", "2026-10-08:note"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Three clean sets of 12 at 55 lb on 2026-10-05. Abs are rested; hold only because of the illness note two days ago.",
+      "evidence": ["2026-10-05:cable-crunch", "2026-10-08:note"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Bodyweight lift; 12 then 10 reps on 2026-10-05, and the second set was logged about eight minutes after the first. Nothing to change in load; keep the standing prescription while he comes back from being sick.",
+      "evidence": ["2026-10-05:hanging-leg-raise", "2026-10-08:note"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

@@ -1,0 +1,94 @@
+{
+  "role": "progression",
+  "date": "2026-10-10",
+  "session": "LegsA",
+  "reviewed_through": "2026-10-08",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "push",
+      "sets": [
+        { "weight": 160, "reps": 8 },
+        { "weight": 180, "reps": 8 },
+        { "weight": 200, "reps": 8 }
+      ],
+      "why": "You have not done feet-low leg press at Singapore yet, but you used the same leg press there on Oct 5 with feet high and got 150, 170 and 190 for 10 reps each, the top of the range on every set. Feet low is a different position, so this is a carry-over, not a like-for-like comparison: same ramp shape, each set 10 lb heavier than Oct 5, and the reps set at 8 (the bottom of the range) to allow for the foot change. Your Warsaw numbers (top set 190 for 8 on Sep 28) are a different machine and are not used here.",
+      "evidence": ["2026-10-05:leg-press-high", "2026-09-28:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 }
+      ],
+      "why": "Not done at Singapore yet, so this carries over from Warsaw. You hit 10 and 10 with 17.5 lb dumbbells on Sep 28, the top of the range, so the load has earned a raise. It is held anyway because the program's lower-body step is 10 lb, which would take 17.5 to 27.5 in one jump, more than half again the current load. Do 17.5 for 10 on both sides again tonight; the panel needs a smaller step for this lift before it can move. This hold is deliberate, not a copy of last time.",
+      "evidence": ["2026-09-28:db-bulgarian-split-squat", "2026-09-13:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 11 },
+        { "weight": 120, "reps": 11 },
+        { "weight": 120, "reps": 11 }
+      ],
+      "why": "Anchored to the Singapore machine: on Oct 5 you did 120 for 10, 10 and 11. The range tonight is 10 to 12, and you have not reached 12 yet, so the weight stays at 120 and the target is one more rep on the first two sets. The Warsaw 145s on Sep 28 were a different machine and are not compared.",
+      "evidence": ["2026-10-05:leg-curl", "2026-09-28:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 12 },
+        { "weight": 120, "reps": 12 }
+      ],
+      "why": "No leg extension has been logged at Singapore, so there is nothing at this gym to anchor to. Your last was 145 and 150 for 12 at Warsaw on Sep 28, but every Singapore machine you have used so far has given lower numbers than its Warsaw counterpart (leg curl 145 there, 120 here; adductor 110 there, 80 here). So start at 120 for 12 as a first reading of this machine. If 12 reps is easy, the next visit moves up from what you log tonight.",
+      "evidence": ["2026-09-28:leg-extension", "2026-10-05:leg-curl", "2026-09-28:leg-curl", "2026-10-05:hip-adductor", "2026-09-28:hip-adductor"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 90, "reps": 12 },
+        { "weight": 90, "reps": 12 }
+      ],
+      "why": "Earned: at Singapore on Oct 5 you did 80 for 15 on both sets, the top of the 12 to 15 range. Up one 10 lb step to 90, reps reset to 12.",
+      "evidence": ["2026-10-05:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 70, "reps": 12 },
+        { "weight": 70, "reps": 12 }
+      ],
+      "why": "Earned: at Singapore on Oct 5 you did 60 for 15 on both sets, the top of the 12 to 15 range. Up one 10 lb step to 70, reps reset to 12.",
+      "evidence": ["2026-10-05:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 290, "reps": 13 },
+        { "weight": 290, "reps": 12 },
+        { "weight": 290, "reps": 12 }
+      ],
+      "why": "At Singapore on Oct 5 you did 290 for 15, then 290 for 12, then dropped to 270 for 14. Only one set reached the top of the range, so the weight is not raised. Tonight the target is all three sets at 290, including the third set you dropped last time.",
+      "evidence": ["2026-10-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 60, "reps": 10 },
+        { "weight": 60, "reps": 10 },
+        { "weight": 60, "reps": 10 }
+      ],
+      "why": "Earned: at Singapore on Oct 5 you did 55 for 12 on all three sets, the top of the 10 to 12 range. Up one 5 lb step to 60, reps reset to 10.",
+      "evidence": ["2026-10-05:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
