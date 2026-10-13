@@ -1,0 +1,244 @@
+{
+  "date": "2026-10-12",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 3,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "as": "Seated db shoulder press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 40,
+          "reps": 10,
+          "kg": 18.14,
+          "at": 1791812609720
+        },
+        {
+          "weight": 49.604,
+          "reps": 10,
+          "kg": 22.5,
+          "at": 1791812617412
+        },
+        {
+          "weight": 49.604,
+          "reps": 10,
+          "kg": 22.5,
+          "at": 1791812826904,
+          "restEndedAt": 1791812797425
+        },
+        {
+          "weight": 49.604,
+          "reps": 10,
+          "kg": 22.5,
+          "at": 1791812992937
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "as": "Smith bench press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 154.324,
+          "reps": 8,
+          "kg": 70,
+          "at": 1791813398050,
+          "restEndedAt": 1791813173039
+        },
+        {
+          "weight": 165.347,
+          "reps": 8,
+          "kg": 75,
+          "at": 1791813597802,
+          "restEndedAt": 1791813518093
+        },
+        {
+          "weight": 165.347,
+          "reps": 8,
+          "kg": 75,
+          "at": 1791813879263,
+          "restEndedAt": 1791813717824
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "as": "Bench dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 17,
+          "at": 1791814035451,
+          "restEndedAt": 1791813999275
+        },
+        {
+          "weight": 0,
+          "reps": 17,
+          "at": 1791814198141,
+          "restEndedAt": 1791814155460
+        },
+        {
+          "weight": 0,
+          "reps": 17,
+          "at": 1791814309220
+        },
+        {
+          "weight": 0,
+          "reps": 17,
+          "at": 1791814412449
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 15,
+          "kg": 4.54,
+          "at": 1791814547078,
+          "restEndedAt": 1791814532458
+        },
+        {
+          "weight": 16.535,
+          "reps": 10,
+          "kg": 7.5,
+          "at": 1791814658176,
+          "restEndedAt": 1791814622097
+        },
+        {
+          "weight": 16.535,
+          "reps": 10,
+          "kg": 7.5,
+          "at": 1791814813564,
+          "restEndedAt": 1791814733184
+        },
+        {
+          "weight": 16.535,
+          "reps": 10,
+          "kg": 7.5,
+          "at": 1791815004314,
+          "restEndedAt": 1791814888574
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 77.162,
+          "reps": 15,
+          "kg": 35,
+          "at": 1791815126642,
+          "restEndedAt": 1791815079325
+        },
+        {
+          "weight": 99.208,
+          "reps": 15,
+          "kg": 45,
+          "at": 1791815261342,
+          "restEndedAt": 1791815201652
+        },
+        {
+          "weight": 99.208,
+          "reps": 14,
+          "kg": 45,
+          "at": 1791815391585,
+          "restEndedAt": 1791815336354
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 110.231,
+          "reps": 11,
+          "kg": 50,
+          "at": 1791815556563,
+          "restEndedAt": 1791815466597
+        },
+        {
+          "weight": 110.231,
+          "reps": 11,
+          "kg": 50,
+          "at": 1791815643238,
+          "restEndedAt": 1791815631581
+        },
+        {
+          "weight": 110.231,
+          "reps": 11,
+          "kg": 50,
+          "at": 1791816348346,
+          "restEndedAt": 1791816330856
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "as": "Skullcrushers",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 27.558,
+          "reps": 10,
+          "kg": 12.5,
+          "at": 1791815765799,
+          "restEndedAt": 1791815718245
+        },
+        {
+          "weight": 27.558,
+          "reps": 9,
+          "kg": 12.5,
+          "at": 1791815874688,
+          "restEndedAt": 1791815840811
+        },
+        {
+          "weight": 27.558,
+          "reps": 9,
+          "kg": 12.5,
+          "at": 1791816004195,
+          "restEndedAt": 1791815949700
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 121.254,
+          "reps": 11,
+          "kg": 55,
+          "at": 1791816137641,
+          "restEndedAt": 1791816079210
+        },
+        {
+          "weight": 121.254,
+          "reps": 12,
+          "kg": 55,
+          "at": 1791816255847,
+          "restEndedAt": 1791816212650
+        }
+      ]
+    }
+  ],
+  "world": "shrine",
+  "gym": "Chennai",
+  "mins": 62,
+  "startedAt": 1791812150128
+}
