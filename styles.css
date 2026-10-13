@@ -1842,6 +1842,23 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
 .opt-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
 .opt-sets { font-size: 11.5px; color: var(--ink2); }
 .opt .hint.ok { color: var(--acc); }
+/* ——— THE PROGRAM SHEET (v88): what the trainer changed, and the muscle table ——— */
+.pg-change { padding: 7px 0 2px; border-top: 1px dashed var(--line); }
+.pg-change:first-of-type { border-top: 0; }
+.pg-line { font-family: var(--body); font-size: 13.5px; font-weight: 600; line-height: 1.45; color: var(--ink); margin-bottom: 3px; }
+.pg-line b { color: var(--acc); font-weight: 800; }
+.pg-table { display: flex; flex-direction: column; gap: 2px; }
+.pg-mrow {
+  display: grid; grid-template-columns: 1fr 44px 44px 58px; align-items: center; gap: 6px;
+  padding: 5px 8px; background: var(--paper2); border-radius: var(--r-1); font-size: 12.5px;
+}
+.pg-mrow .num { font-family: var(--mono); text-align: right; }
+.pg-mrow .num.dim { color: var(--ink2); }
+.pg-m { font-family: var(--body); font-weight: 600; text-transform: capitalize; color: var(--ink); }
+.pg-v { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; text-align: right; color: var(--ink2); }
+.pg-v.raise, .pg-v.cut, .pg-v.rotate { color: var(--acc); font-weight: 700; }
+.pg-v.watch { color: #ffb038; }
+
 /* ——— MISSION CONTROL (rebuilt 2026-08-16): five ranked zones ——— */
 .mc-deck, .mc-card, .mc-wait, .mc-beacon {
   position: relative; z-index: 2; margin: 0 2px 14px; padding: 14px 15px 15px;

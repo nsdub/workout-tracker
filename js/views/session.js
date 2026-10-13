@@ -8,7 +8,7 @@ import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { BASIS, previewSheet, provenance, provenanceText } from './preview.js';
-import { undecidedProposals, proposalLine } from '../proposals.js';
+import { changeLine, openProgramSheet } from '../program.js';
 
 // A "night" is a LIFTING night. store.history also holds conditioning entries
 // (supplemental: true, written by the cardio logger), and counting those
@@ -243,6 +243,14 @@ function ensureDraft(today, phaseInfo) {
     // closure points at the draft being replaced, so the pending edit would
     // be written to an orphan and vanish.
     const sheetOpen = !!document.querySelector('.sheet');
+    // A NEW PROGRAM VERSION landing on a night he has already touched is
+    // rebased, not rebuilt: every set he logged stays, the slots the trainer
+    // changed take the new shape (rebaseDraft keeps performed work on a
+    // dropped lift too). The stamp below covers the untouched case.
+    if (d.date === today && touched && !sheetOpen && !d.reopened && (d.programVersion ?? 0) !== (store.program?.version ?? 0)) {
+      rebaseDraft();
+      return store.draft?.session_type ?? d.session_type;
+    }
     if (d.date === today && !touched && !sheetOpen && !d.reopened && (d.coachStamp ?? null) !== coachStamp()) {
       const fresh = buildDraft(today, d.session_type, phaseInfo, d.world ?? null);
       fresh.deliberate = d.deliberate;
@@ -316,7 +324,9 @@ function renderBanked(today, phaseInfo) {
 
 // Identity of the trainer review a draft was prescribed under — lets a clean
 // draft notice that a fresher review has landed and rebuild itself.
-const coachStamp = () => store.coach?.generated_at ?? store.coach?.date ?? null;
+// Which review AND which program version the prescriptions were built from —
+// either moving means the numbers on the card may be stale.
+const coachStamp = () => `${store.coach?.generated_at ?? store.coach?.date ?? ''}|p${store.program?.version ?? 0}`;
 
 function buildDraft(date, sessionType, phaseInfo, world = null) {
   // livePlan = the signed program plus every structural change the athlete
@@ -382,6 +392,7 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
     phase: phaseInfo.phase?.id ?? null, week: phaseInfo.week,
     startedAt: Date.now(),
     coachStamp: coachStamp(), // which trainer review these prescriptions used
+    programVersion: store.program?.version ?? 0, // and which program
     bodyweight: null, notes: '', exercises,
   };
 }
@@ -571,17 +582,20 @@ function renderWorldScreen(draft, phaseInfo) {
   const coachFlags = engine.coachFresh(store.history, pkt, draft.date)
     && (!pkt?.session_expected || pkt.session_expected === draft.session_type)
     ? (pkt?.flags ?? []) : [];
-  // Program changes waiting on him. These were three screens deep in Mission
-  // behind a scroll; a decision the trainers are blocked on belongs on the
-  // screen he is actually looking at.
-  const openProps = undecidedProposals();
-  const undecided = openProps.length;
+  // Program changes he has not read yet. Nothing waits on him — the trainer
+  // set them — but a changed program belongs on the screen he is looking at,
+  // and a change to TONIGHT's session is the one that matters most.
+  const unseen = store.unseenProgramChanges().filter((c) => c.kind !== 'snapshot');
+  const tonightChanged = unseen.filter((c) => c.session === draft.session_type);
   // Trainer flags carry `who`, not a "Trainer: " stamp baked into the text —
   // the bar prepends the attribution to its ONE line, and the briefing groups
   // them under one header instead of printing the same word seven times.
   const noticeList = [
     ...coachFlags.filter((f) => f.kind === 'pain').map((f) => ({ p: 0, k: 'coach', who: 'trainer', ic: 'warn', txt: f.note ?? 'check this before you lift' })),
-    undecided ? { p: 1, k: 'props', ic: 'pencil', txt: `${undecided} program change${undecided === 1 ? '' : 's'} waiting on your yes or no — tap to decide`, props: openProps } : null,
+    unseen.length ? { p: 1, k: 'program', ic: 'pencil', who: 'trainer', changes: unseen,
+      txt: tonightChanged.length
+        ? `changed tonight’s program: ${tonightChanged.length === 1 ? 'one change' : `${tonightChanged.length} changes`} — tap to read why`
+        : `changed your program: ${unseen.length === 1 ? 'one change' : `${unseen.length} changes`} — tap to read why` } : null,
     draft.date !== todayStr() ? { p: 1, k: 'resume', ic: 'hourglass', txt: `Resuming ${fmtDate(draft.date)} — finishing that night’s log` } : null,
     ...coachFlags.filter((f) => f.kind !== 'pain').map((f) => ({ p: 2, k: 'coach', who: 'trainer', ic: 'warn', txt: f.note ?? f.kind ?? 'see this morning’s review' })),
     streak >= 6 ? { p: 3, k: 'streak', ic: 'moon', txt: `${streak} straight nights — take the rest day. The rotation pauses, nothing is lost.` } : null,
@@ -753,14 +767,14 @@ function wire(draft, x, curIdx, noticeList = []) {
   });
   $('#notice-bar', root)?.addEventListener('click', (e) => {
     if (e.target.closest('#resume-discard')) return; // Discard owns its tap
-    // A LONE proposals notice goes STRAIGHT to the decision, not to a list of
-    // one that then makes him go find it on another tab. But the bar wears a
-    // "+N" chip when other notices exist, and jumping past them made that chip
-    // a lie: on 2026-08-14 the flag saying every load would be cut 20% the
+    // A LONE program-change notice goes STRAIGHT to the changes, not to a
+    // list of one that then makes him go find it. But the bar wears a "+N"
+    // chip when other notices exist, and jumping past them made that chip a
+    // lie: on 2026-08-14 the flag saying every load would be cut 20% the
     // following Monday sat behind it, reachable only by another route. With
-    // company, the tap opens the list — where the proposals row still jumps.
-    if (noticeList.length === 1 && noticeList[0]?.k === 'props') {
-      window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'plan', proposals: true } }));
+    // company, the tap opens the list — where the program row still jumps.
+    if (noticeList.length === 1 && noticeList[0]?.k === 'program') {
+      openProgramSheet();
       return;
     }
     noticesSheet(noticeList);
@@ -1187,33 +1201,31 @@ export function howtoSheet(exId) {
 // every row, then the app's own notices.
 function noticesSheet(list) {
   if (!list.length) return;
-  const props = list.find((n) => n.k === 'props');
-  const trainer = list.filter((n) => n.who === 'trainer');
-  const rest = list.filter((n) => n !== props && n.who !== 'trainer');
+  const prog = list.find((n) => n.k === 'program');
+  const trainer = list.filter((n) => n !== prog && n.who === 'trainer');
+  const rest = list.filter((n) => n !== prog && n.who !== 'trainer');
   const row = (n) => `<div class="opt notice-full">${esc(n.txt)}</div>`;
   openSheet(`
     <h2>Tonight’s briefing</h2>
     <div class="sub">${list.length === 1 ? 'One thing to know' : `${list.length} things to know`}</div>
-    ${props ? `
+    ${prog ? `
     <div class="brief-props">
-      <div class="bp-head">Your trainers want ${props.props.length === 1 ? 'one program change' : `${props.props.length} program changes`} — your call</div>
-      ${props.props.map((q) => `<div class="bp-line">${proposalLine(q)}</div>`).join('')}
-      <button class="btn primary" id="nt-props">Answer yes or no</button>
+      <div class="bp-head">Your trainer changed the program</div>
+      ${prog.changes.slice(0, 6).map((c) => `<div class="bp-line">${changeLine(c)}</div>`).join('')}
+      ${prog.changes.length > 6 ? `<div class="bp-line">…and ${prog.changes.length - 6} more</div>` : ''}
+      <button class="btn primary" id="nt-program">Read why</button>
     </div>` : ''}
     ${trainer.length ? `
-    <div class="sub" style="margin:${props ? 14 : 0}px 0 6px">From this morning’s trainer review</div>
+    <div class="sub" style="margin:${prog ? 14 : 0}px 0 6px">From this morning’s trainer review</div>
     <div class="opt-list">${trainer.map(row).join('')}</div>` : ''}
     ${rest.length ? `
-    ${trainer.length || props ? `<div class="sub" style="margin:14px 0 6px">Also tonight</div>` : ''}
+    ${trainer.length || prog ? `<div class="sub" style="margin:14px 0 6px">Also tonight</div>` : ''}
     <div class="opt-list">${rest.map(row).join('')}</div>` : ''}
     <button class="btn quiet" id="nt-close" style="margin-top:10px">Close</button>`, {
     onOpen(sheet, close) {
       $('#nt-close', sheet).addEventListener('click', close);
       // The one notice in here that has somewhere to go still goes there.
-      $('#nt-props', sheet)?.addEventListener('click', () => {
-        close();
-        window.dispatchEvent(new CustomEvent('p3:nav', { detail: { tab: 'plan', proposals: true } }));
-      });
+      $('#nt-program', sheet)?.addEventListener('click', () => { close(); setTimeout(openProgramSheet, 120); });
     },
   });
 }

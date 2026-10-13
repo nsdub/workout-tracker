@@ -5,7 +5,7 @@ import * as worlds from './worlds.js';
 import { phaseForDate } from './engine.js';
 import { flushQueue, pullRemote, bootstrapStaticPlan } from './github.js';
 import { toast, sheetPopHandled, gamePopHandled } from './components.js';
-import { undecidedProposals } from './proposals.js';
+import { openProgramSheet } from './program.js';
 import { initAudio, sfx } from './audio.js';
 import * as session from './views/session.js';
 import * as log from './views/log.js';
@@ -21,13 +21,12 @@ function renderActive() {
   renderPendingDot();
 }
 
-// Anything waiting on the athlete's answer gets a dot on the Mission tab, so
-// he finds out from the screen he's already on instead of by going looking.
-// Undecided trainer proposals are the only thing that qualifies today.
+// Program changes this phone has not shown him get a dot on the Mission tab,
+// so he finds out from the screen he's already on instead of by going looking.
 function renderPendingDot() {
   const dot = $('#mission-dot');
   if (!dot) return;
-  const open = undecidedProposals();
+  const open = store.unseenProgramChanges().filter((c) => c.kind !== 'snapshot');
   dot.hidden = open.length === 0;
   dot.textContent = open.length > 9 ? '9+' : String(open.length);
 }
@@ -107,12 +106,12 @@ $('#tabbar').addEventListener('click', (e) => {
 // star, Atlas re-open → the Lift screen), the tab owner routes. An event, not
 // an export, so the views never import the entry module back (no cycle).
 window.addEventListener('p3:nav', (e) => {
-  const { tab, entryPath, proposals } = e.detail || {};
+  const { tab, entryPath, program } = e.detail || {};
   if (entryPath) log.openEntry(entryPath);
   if (tab && tab !== active) switchTab(tab);
   else renderActive();
-  // land ON the decision, not on a tab he then has to scroll
-  if (proposals) setTimeout(() => board.openProposalsSheet?.(), 220);
+  // land ON the changes, not on a tab he then has to scroll
+  if (program) setTimeout(openProgramSheet, 220);
 });
 
 // Log a conditioning session from anywhere (Mission tab's Fuel cells) without a

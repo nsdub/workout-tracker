@@ -18,7 +18,7 @@ import { applyWorld, UNIVERSES, returnWorld } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { pushStatus, enablePush, disablePush } from '../push.js';
 import { previewSheet } from './preview.js';
-import { propId, allProposals, undecidedProposals, proposalLine, proposalText } from '../proposals.js';
+import { changeLine, recentChanges, openProgramSheet } from '../program.js';
 
 let root = null;
 
@@ -37,7 +37,7 @@ export function render(el) {
   root.innerHTML = `
     <div class="space-title">Mission Control</div>
     ${commandDeck(plan, info, today)}
-    ${waitingCard()}
+    ${programCard()}
     ${beaconCard(plan, stalls)}
     ${flightPlan(plan, today)}
     ${hangar(plan)}
@@ -116,26 +116,27 @@ function commandDeck(plan, info, today) {
   </div>`;
 }
 
-// ——— 2 · WAITING ON YOU ———
-// Rendered only when the trainers actually have something on the table —
-// with the changes NAMED (shared renderer with the session briefing and the
-// decision sheet, so all three screens tell the same story), never just a
-// count. All-decided collapses to one review line.
-function waitingCard() {
-  const props = allProposals();
-  if (!props.length) return '';
-  const open = undecidedProposals();
-  if (!open.length) {
+// ——— 2 · THE PROGRAM ———
+// What the trainer changed and why. Nothing here waits on him (v88: the
+// trainer sets the program); the card shouts only while there are changes
+// this phone has not shown him yet, then settles into one quiet line.
+function programCard() {
+  const p = store.program;
+  if (!p) return '';
+  const unseen = store.unseenProgramChanges().filter((c) => c.kind !== 'snapshot');
+  const recent = recentChanges(14);
+  if (!unseen.length) {
     return `<div class="mc-card">
-      <div class="mc-line">All ${props.length} program change${props.length === 1 ? '' : 's'} decided.
-      <button class="mc-inline" id="mc-decide">Review or undo</button></div>
+      <div class="mc-line">Program v${p.version}, set by your trainer ${esc(fmtDate(p.date))}${recent.length ? ` · ${recent.length} change${recent.length === 1 ? '' : 's'} in the last two weeks` : ' · unchanged for two weeks'}.
+      <button class="mc-inline" id="mc-program">What changed</button></div>
     </div>`;
   }
   return `<div class="mc-wait">
-    <h3>Waiting on you</h3>
-    <div class="mc-line" style="margin-bottom:4px">Your trainers want ${open.length === 1 ? 'one change' : `${open.length} changes`}. Nothing moves until you answer.</div>
-    ${open.map((q) => `<div class="mc-wait-line">${proposalLine(q)}</div>`).join('')}
-    <button class="btn primary" id="mc-decide" style="margin-top:10px">Answer yes or no</button>
+    <h3>Your trainer changed the program</h3>
+    <div class="mc-line" style="margin-bottom:4px">${unseen.length === 1 ? 'One change' : `${unseen.length} changes`} you have not read yet.</div>
+    ${unseen.slice(0, 5).map((c) => `<div class="mc-wait-line">${changeLine(c)}</div>`).join('')}
+    ${unseen.length > 5 ? `<div class="mc-wait-line">…and ${unseen.length - 5} more</div>` : ''}
+    <button class="btn primary" id="mc-program" style="margin-top:10px">Read why</button>
   </div>`;
 }
 
@@ -334,7 +335,7 @@ function starMapSheet() {
 
 function wire(plan, info) {
   root.onclick = null;
-  $('#mc-decide', root)?.addEventListener('click', openProposals);
+  $('#mc-program', root)?.addEventListener('click', openProgramSheet);
   $('#mc-unlock', root)?.addEventListener('click', () => applyPhaseOverride(null));
   $('#mc-day-set', root)?.addEventListener('click', dayOverrideSheet);
   $('#mc-map', root)?.addEventListener('click', starMapSheet);
@@ -370,136 +371,6 @@ function wire(plan, info) {
   });
 }
 
-// ——— the decision sheet ———
-// YOUR PROGRAM, YOUR CALL. Trainers argue for structural changes; only the
-// athlete accepts one, and accepting changes tonight immediately. plan.json
-// is never rewritten — a decision is one line in data/coach/decisions.json.
-// Marks are held locally and applied together on Save, so he can work the
-// list and change his mind before anything commits.
-
-export function openProposalsSheet() { openProposals(); }
-
-function openProposals() {
-  const plan = store.plan;
-  const raw = allProposals();
-  const decidedBy = new Map(store.decisions.map((d) => [propId(d.proposal), d]));
-  const APPLIES = { remove: true, add: true, swap: true, reorder: true, volume: true, reprange: true, keep: true };
-  const marks = new Map();
-  const paintSave = (sheet) => {
-    const btn = $('#mc-save', sheet);
-    if (!btn) return;
-    btn.disabled = marks.size === 0;
-    btn.textContent = marks.size ? `Save ${marks.size} decision${marks.size === 1 ? '' : 's'}` : 'Nothing marked yet';
-  };
-  openSheet(`
-    <h2>Your trainers want to change the program</h2>
-    <div class="sub">${raw.length} proposal${raw.length === 1 ? '' : 's'} — mark them, then save. Nothing changes until you do.</div>
-    <div class="pv-list">
-      ${raw.map((p) => {
-        const id = propId(p);
-        const d = decidedBy.get(id);
-        const applies = APPLIES[p.kind] && (p.kind !== 'swap' || plan.exercises[p.replacement]) && (p.kind !== 'volume' || p.sets > 0) && (p.kind !== 'reprange' || p.repMin > 0);
-        const why = String(p.why ?? '');
-        const gist = why.length > 150 ? why.slice(0, why.slice(0, 130).lastIndexOf(' ')).trim() : null;
-        return `
-        <div class="pv-row prop" data-id="${esc(id)}">
-          <div class="pv-head">
-            <span class="pv-name">${proposalLine(p, plan)}</span>
-            <span class="pv-tag ${d?.decision === 'accepted' ? 'up' : ''}">${d ? esc(d.decision) : esc(p.from ?? 'trainer')}</span>
-          </div>
-          ${gist ? `<details class="why"><summary>${esc(gist)}…</summary><div class="pv-why">${esc(why)}</div></details>` : `<div class="pv-why">${esc(why)}</div>`}
-          ${applies
-            ? `<div class="row-btns" style="margin-top:8px">
-                 <button class="btn quiet pr-btn" data-act="declined">No</button>
-                 <button class="btn primary pr-btn" data-act="accepted">Accept</button>
-               </div>`
-            : '<div class="pv-last">The app can’t apply this one as written, so there’s nothing for you to answer. Your trainers will re-send it in a form that applies.</div>'}
-        </div>`;
-      }).join('') || '<div class="pv-foot">No open proposals. The panel raises these when your log gives it a reason to.</div>'}
-    </div>
-    <div class="pv-foot">Saving applies your accepted changes to tonight and records them in <span class="num">data/coach/decisions.json</span>. Your plan file is never rewritten, so anything here can be changed back.</div>
-    ${raw.length ? '<button class="btn primary" id="mc-save" style="margin-top:12px" disabled>Nothing marked yet</button>' : ''}`, {
-    onOpen(sheet, close) {
-      // a re-open shows the answers already given
-      for (const p of raw) {
-        const prior = decidedBy.get(propId(p))?.decision;
-        if (prior) marks.set(propId(p), prior);
-      }
-      const paint = () => {
-        for (const row of sheet.querySelectorAll('.prop')) {
-          const m = marks.get(row.dataset.id);
-          for (const b of row.querySelectorAll('.pr-btn')) b.classList.toggle('marked', b.dataset.act === m);
-          const tag = row.querySelector('.pv-tag');
-          if (tag && m) { tag.textContent = m === 'accepted' ? 'accepting' : 'declining'; tag.className = `pv-tag ${m === 'accepted' ? 'up' : ''}`; }
-        }
-        paintSave(sheet);
-      };
-      paint();
-      sheet.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-act]');
-        if (btn) {
-          const id = btn.closest('.prop').dataset.id;
-          haptic(6);
-          // the same answer twice un-marks it
-          if (marks.get(id) === btn.dataset.act) marks.delete(id);
-          else marks.set(id, btn.dataset.act);
-          paint();
-          return;
-        }
-        if (e.target.closest('#mc-save')) {
-          const n = marks.size;
-          // Record each decision and WATCH THE LIVE PLAN as it lands. A
-          // proposal can be accepted and move nothing (the program already
-          // reads that way, or an earlier decision covers it) — and the app
-          // used to announce every acceptance as "applied to tonight"
-          // regardless. He accepted two such changes on 17 September and had
-          // no way to tell the difference between a program that changed and
-          // one that did not, which is most of why he stopped believing the
-          // reviews were real. Each one is now reported as what it was.
-          const applied = [];
-          const inert = [];
-          for (const [id, decision] of marks) {
-            const p = raw.find((q) => propId(q) === id);
-            if (!p) continue;
-            const before = JSON.stringify(store.livePlan().sessions);
-            store.decide(p, decision);
-            if (decision !== 'accepted') continue;
-            (JSON.stringify(store.livePlan().sessions) === before ? inert : applied).push(p);
-          }
-          haptic([12, 40, 12]);
-          close();
-          // A program change is never a reason to delete work already
-          // performed. This used to throw the whole draft away — every set
-          // logged tonight, gone, and gone even when he declined everything.
-          const kept = applied.length ? rebaseDraft() : null;
-          // Every decision saved gets a word here. A message that named only
-          // what worked is the "lie by selection" the findings rule is about.
-          const live = store.livePlan();
-          const parts = [];
-          if (applied.length) {
-            // "in tonight's card" is only true when tonight's card was the
-            // thing rebuilt. A held night (a reopened past entry) gets the
-            // change in the program and nowhere else, and says so.
-            const where = kept?.held ? 'in your program from the next night on' : 'in tonight’s card';
-            parts.push(`${proposalText(applied[0], live)}${applied.length > 1 ? ` (+${applied.length - 1} more)` : ''} — ${where}`);
-          }
-          if (inert.length) {
-            parts.push(`${inert.length === 1 ? 'one accepted change leaves' : `${inert.length} accepted changes leave`} the program exactly as it reads now`);
-          }
-          if (kept?.sets) {
-            parts.push(`your ${kept.sets} logged set${kept.sets === 1 ? '' : 's'} ${kept.sets === 1 ? 'is' : 'are'} untouched`);
-          } else if (kept?.held) {
-            parts.push('the night you have open is untouched');
-          }
-          if (!parts.length) parts.push(`${n} declined — nothing changed`);
-          toast(parts.join(' · '), 'ok', 5600);
-          setTimeout(() => render(root), 200);
-        }
-      });
-    },
-  });
-}
-
 // ——— the rulebook ———
 // Everything the deck used to say in prose, one tap away: who sets a
 // weight, in order, and how far each machine steps. The increments are READ
@@ -513,13 +384,13 @@ function rulebookSheet() {
     <div class="sub">What decides a weight, in order</div>
     <div class="pv-list">
       <div class="pv-row"><div class="pv-head"><span class="pv-name">1 · Your trainers</span></div>
-        <div class="pv-why">Every morning three specialists read your log separately — one on load, one on recovery and your notes, one on the program's shape. A head coach settles any disagreement and must pick a side, never split the difference. Whatever they decide becomes tonight's numbers, with the reason quoted on the card. Their raw arguments are committed to <span class="num">data/coach/panel/</span> before the head coach touches them.</div></div>
+        <div class="pv-why">Every morning one trainer reads your entire log — every night, every lift's history, every muscle's weekly sets against its target, your notes, your bodyweight — and writes the program going forward and tonight's numbers, with a reason on every change and every card. A second reviewer then tries to break that review, and every finding is fixed, refuted with evidence, or handed to you as an open question. Two scripts check the whole thing before it can be committed: every number quoted must be true to the program, every claim must point at a logged night.</div></div>
       <div class="pv-row"><div class="pv-head"><span class="pv-name">2 · The standing rules</span></div>
         <div class="pv-why">Used for any lift the trainers didn't set, or whenever a review is stale. Hit the top of the rep range on every set → the lift goes up next visit. Miss it → same weight. Progress on one day carries to the same lift on every other day it appears. Same weight ${stall} sessions running lights a red beacon on the deck.</div></div>
       <div class="pv-row"><div class="pv-head"><span class="pv-name">3 · Your machines</span></div>
         <div class="pv-why">${incrementList(plan)}</div></div>
       <div class="pv-row"><div class="pv-head"><span class="pv-name">4 · You</span></div>
-        <div class="pv-why">Tap any number to change it. What you actually log outranks every rule above and is what tomorrow's review reads. Structural changes — dropping a lift, swapping one, changing a rep range — never happen without you accepting them on this deck.</div></div>
+        <div class="pv-why">Tap any number to change it. What you actually log outranks every rule above and is what tomorrow's review reads. You do not approve program changes: the trainer makes them and this deck shows you what changed and why. If a change is wrong, do what you think is right and write a note — the next morning's review reads both.</div></div>
       <div class="pv-row"><div class="pv-head"><span class="pv-name">Effort</span></div>
         <div class="pv-why">Big lifts: stop 1–2 reps short of failure. The last set of small lifts can go to failure. Deloads: stay 4+ short.</div></div>
     </div>

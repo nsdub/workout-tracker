@@ -100,10 +100,7 @@ export const BASIS = {
   // the text on screen, saying the same thing seven times. WHO and WHEN are
   // stated ONCE, in the receipt at the top.
   coach: (x) => `${x.coachRx?.reason ? `“${esc(x.coachRx.reason)}”` : 'Set by your trainer.'}${
-    x.coachRx?.asked ? ` <span class="adj">Capped near what you have already lifted — the ask was ${esc(x.coachRx.asked.map((w) => W(x, w)).join(', '))}.</span>` : ''}${
-    // Where the trainers disagreed, say so and name who won. A panel whose
-    // arguments are invisible is indistinguishable from one agent.
-    x.coachRx?.dissent ? `<span class="dis"><b>The room split.</b> ${esc(x.coachRx.dissent.progression ?? '')}${x.coachRx.dissent.progression && x.coachRx.dissent.recovery ? ' vs ' : ''}${esc(x.coachRx.dissent.recovery ?? '')} — went with ${esc(x.coachRx.dissent.ruled_for)}: ${esc(x.coachRx.dissent.why)}</span>` : ''}`,
+    x.coachRx?.asked ? ` <span class="adj">Capped near what you have already lifted — the ask was ${esc(x.coachRx.asked.map((w) => W(x, w)).join(', '))}.</span>` : ''}`,
   progress: (x) => x.bump > 0
     ? `<span class="up">Up <span class="num">${W(x, x.prevTop)}</span> → <span class="num">${W(x, x.prevTop + x.bump)}</span> ${x.unit === 'kg' ? 'kg' : 'lb'}</span> — you hit the top of the rep range on every set${x.srcDate ? ` on ${fmtDate(x.srcDate)}` : ' last time'}.`
     : `<span class="up">Holding</span> at <span class="num">${WU(x, x.prevTop)}</span>. Keep owning the reps.`,

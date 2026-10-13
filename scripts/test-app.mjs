@@ -1067,13 +1067,13 @@ await ok('no display site prefers the prescription over the weight actually dial
 // that advertised it and a tap that went somewhere else. Source-level for the
 // same reason as the test above: the alternative is a DOM, and the rule is one
 // clause wide and easy to drop again.
-await ok('the notice bar never swallows the other notices behind the proposals shortcut', async () => {
+await ok('the notice bar never swallows the other notices behind the program-change shortcut', async () => {
   const { readFileSync } = await import('node:fs');
   const src = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
-  const shortcut = src.match(/if \(([^)]*?)noticeList\[0\]\?\.k === 'props'([^)]*?)\)/);
-  assert.ok(shortcut, 'the proposals shortcut moved or was renamed — re-point this test at it');
+  const shortcut = src.match(/if \(([^)]*?)noticeList\[0\]\?\.k === 'program'([^)]*?)\)/);
+  assert.ok(shortcut, 'the program-change shortcut moved or was renamed — re-point this test at it');
   assert.match(shortcut[1] + shortcut[2], /noticeList\.length === 1/,
-    'the straight-to-proposals jump must fire only when it is the ONLY notice; otherwise the tap must open the full list');
+    'the straight-to-the-changes jump must fire only when it is the ONLY notice; otherwise the tap must open the full list');
 });
 
 // ——— ONE TAP CHANGES ONE SET ———
@@ -1161,7 +1161,13 @@ await ok('accepting a program change keeps every logged set, even on a dropped l
   // He accepts a change that DROPS the lift he has already worked, which is
   // the worst case for this: the program no longer asks for it and the old
   // code's rebuild had nowhere to put the two sets he had performed.
-  store.decide({ kind: 'remove', exercise: slots[0].id, scope: type, date: '2026-09-17' }, 'accepted');
+  // v88: the trainer drops it in a new program version; the app runs that.
+  const live0 = store.livePlan();
+  store.setProgram({
+    version: 99, date: '2026-09-17', written_by: 'daily-training-brief',
+    sessions: Object.fromEntries(Object.entries(live0.sessions).map(([k, s]) => [k, { name: s.name, exercises: s.exercises.filter((x) => !(k === type && x.id === slots[0].id)).map((x) => ({ ...x })) }])),
+    changes: [{ version: 99, date: '2026-09-17', session: type, exercise: slots[0].id, kind: 'remove', before: { sets: slots[0].sets }, after: null, why: 'test fixture: dropped for the rebase test', evidence: [] }],
+  });
   assert.ok(!store.livePlan().sessions[type].exercises.some((s) => s.id === slots[0].id),
     'the removal did not reach the live plan — re-point this test');
 
@@ -1204,6 +1210,7 @@ await ok('a change accepted while editing a past night leaves that night alone',
   const read = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
   store.plan = read('data/plan.json');
   store.setDecisions([]);
+  store.program = null;
   const reopened = {
     date: '2026-09-13', session_type: store.plan.rotation[0], world: 'w1', reopened: true,
     exercises: [{ id: 'nothing-in-the-plan', name: 'X', inc: 5, sets: [{ weight: 90, reps: 9, done: true }] }],
@@ -1242,17 +1249,21 @@ await ok('the card reports where a note went and never claims an unread review',
 // purpose: the alternative is driving a sheet through a DOM, and the rule is
 // one call wide — exactly the size of thing that gets re-added by a later
 // edit that "rebuilds tonight under the new program".
-await ok('the proposal decision path cannot delete the night', async () => {
+await ok('a new program version landing mid-night rebases the draft and never deletes it', async () => {
   const { readFileSync } = await import('node:fs');
-  const src = readFileSync(new URL('../js/views/plan.js', import.meta.url), 'utf8');
-  const start = src.indexOf('function openProposals()');
-  const end = src.indexOf('// ——— the rulebook ———');
-  assert.ok(start > 0 && end > start, 'openProposals moved or was renamed — re-point this test at the decision sheet');
-  const sheet = src.slice(start, end);
-  assert.equal(sheet.match(/store\.clearDraft\(\)/g), null,
-    'the decision sheet is clearing the draft again — a program change must rebase the night, not delete it');
-  assert.match(sheet, /rebaseDraft\(\)/,
-    'the decision sheet must rebase tonight so an accepted change reaches the card he is looking at');
+  const src = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
+  const start = src.indexOf('A NEW PROGRAM VERSION landing');
+  const end = src.indexOf('const fresh = buildDraft(today, d.session_type, phaseInfo, d.world ?? null);');
+  assert.ok(start > 0 && end > start, 'the program-version branch of ensureDraft moved — re-point this test at it');
+  const branch = src.slice(start, end);
+  assert.equal(branch.match(/store\.clearDraft\(\)/g), null,
+    'ensureDraft is clearing the draft on a program change again — it must rebase the night, not delete it');
+  assert.match(branch, /rebaseDraft\(\)/, 'a touched draft must be rebased when the program version moves');
+  assert.match(branch, /programVersion/, 'the branch must key on the program version, not on the review stamp');
+  // and the old Yes/No path is really gone
+  assert.throws(() => readFileSync(new URL('../js/proposals.js', import.meta.url)), 'js/proposals.js is back');
+  const plan = readFileSync(new URL('../js/views/plan.js', import.meta.url), 'utf8');
+  assert.equal(plan.indexOf('openProposals'), -1, 'the proposals sheet is back in Mission Control');
 });
 
 // ——— THE PRINTOUT THE TRAINER READS ———
