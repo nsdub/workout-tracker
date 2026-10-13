@@ -1,0 +1,94 @@
+{
+  "role": "progression",
+  "date": "2026-10-13",
+  "session": "LegsA",
+  "reviewed_through": "2026-10-08",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "sets": [
+        { "weight": 150, "reps": 10 },
+        { "weight": 170, "reps": 10 },
+        { "weight": 190, "reps": 10 }
+      ],
+      "why": "Nothing has been logged since Oct 8, so these are the exact numbers you were given on Oct 10: 150, 170 and 190 for 10, the same weights you used feet-high on this Singapore leg press on Oct 5. My own Oct 10 call was 10 lb higher at 8 reps; the panel published these instead, and with no new session there is no new fact to move them.",
+      "evidence": ["2026-10-05:leg-press-high", "2026-09-28:leg-press-low"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "sets": [
+        { "weight": 17.5, "reps": 10 },
+        { "weight": 17.5, "reps": 10 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: 17.5 lb dumbbells for 10 on both sets, repeating Sep 28 at Warsaw. Not done at Singapore yet.",
+      "evidence": ["2026-09-28:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 11 },
+        { "weight": 120, "reps": 11 },
+        { "weight": 120, "reps": 11 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: on Oct 5 at Singapore 120 went 10, 10 and 11, so the weight stays at 120 and the aim is 11 on every set.",
+      "evidence": ["2026-10-05:leg-curl"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "sets": [
+        { "weight": 120, "reps": 12 },
+        { "weight": 120, "reps": 12 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: no leg extension has been done at Singapore yet, so 120 for 12 is a starting guess for this machine (Warsaw was 145 to 150 on Sep 28, but Singapore machines have read lower). Log what you actually use.",
+      "evidence": ["2026-09-28:leg-extension", "2026-10-05:leg-curl"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 90, "reps": 12 },
+        { "weight": 90, "reps": 12 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: 80 went 15 on both sets on Oct 5, the top of the range, so it goes up to 90 for 12.",
+      "evidence": ["2026-10-05:hip-adductor"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "push",
+      "sets": [
+        { "weight": 70, "reps": 12 },
+        { "weight": 70, "reps": 12 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: 60 went 15 on both sets on Oct 5, the top of the range, so it goes up to 70 for 12.",
+      "evidence": ["2026-10-05:hip-abductor"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "sets": [
+        { "weight": 290, "reps": 13 },
+        { "weight": 290, "reps": 12 },
+        { "weight": 290, "reps": 12 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: on Oct 5 the third set dropped to 270, so the weight stays at 290 and the aim is to keep all three sets there.",
+      "evidence": ["2026-10-05:standing-calf-raise"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "push",
+      "sets": [
+        { "weight": 60, "reps": 10 },
+        { "weight": 60, "reps": 10 },
+        { "weight": 60, "reps": 10 }
+      ],
+      "why": "Same as Oct 10, because nothing new has been logged: 55 went 12 on all three sets on Oct 5, the top of the range, so it goes up to 60 for 10.",
+      "evidence": ["2026-10-05:cable-crunch"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}

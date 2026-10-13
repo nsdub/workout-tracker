@@ -1,0 +1,189 @@
+{
+  "date": "2026-10-13",
+  "reviewed_through": "2026-10-08",
+  "generated_at": "2026-10-13T03:09:03.226Z",
+  "produced_by": "scheduled-task",
+  "reviewer": "daily-training-brief (autonomous 6 AM run)",
+  "session_expected": "LegsA",
+  "panel": {
+    "seats": [
+      "progression",
+      "recovery",
+      "program"
+    ],
+    "files": "data/coach/panel/2026-10-13-*.json"
+  },
+  "brief": "Today, Tuesday 13 October, is still Legs A. Nothing has been logged since your Pull A on 8 October, the day you wrote \"Sick today\", so your trainers kept every number from Saturday’s review instead of making up new ones from the same information. Your legs last trained on 5 October, so they are well rested.\n\nThe numbers: leg press with feet low 150, 170, 190 for 10. Bulgarian split squat 17.5 dumbbells for 10 on both sets. Leg curl 120 for 11 on all three sets. Leg extension 120 for 12 on both sets. This is still a guess, because you have not used this machine here yet, so change it if it is clearly wrong and log what you used. Adductor 90 and abductor 70, both for 12. Calf raise 290 for 13, 12, 12, keeping all three sets at 290. Cable crunch 60 for 10.\n\nIf you are still not feeling well, do the same weights and stop each set a rep or two early, or take another rest day. Log it as you did it. Conditioning: easy only today.",
+  "flags": [
+    {
+      "kind": "fatigue",
+      "note": "Nothing has been logged since you wrote \"Sick today\" on 8 October, so the leg press stays at the same weights as before."
+    },
+    {
+      "kind": "schedule",
+      "note": "Leg extension has never been logged at the Singapore gym, so tonight’s 120 is a first guess. Log whatever you actually use."
+    }
+  ],
+  "proposals": [],
+  "dissent": [
+    {
+      "exercise": "hip-adductor",
+      "ruled_for": "progression",
+      "progression": "raise to 90 for 12 after 80 for 15 on both sets",
+      "recovery": "hold: nothing logged since he was sick on 8 October",
+      "why": "He hit the top of the range on both sets on 5 October at this gym, and a small seated machine adds little strain to someone recovering from being sick. Nothing new has been logged since the 10 October ruling, so it stands unchanged."
+    },
+    {
+      "exercise": "hip-abductor",
+      "ruled_for": "progression",
+      "progression": "raise to 70 for 12 after 60 for 15 on both sets",
+      "recovery": "hold: nothing logged since he was sick on 8 October",
+      "why": "Same as the adductor: top of the range on both sets at this gym, and a light isolation machine. Nothing new has been logged since the 10 October ruling, so it stands unchanged."
+    },
+    {
+      "exercise": "cable-crunch",
+      "ruled_for": "progression",
+      "progression": "raise to 60 for 10 after 55 for 12 on all three sets",
+      "recovery": "hold: nothing logged since he was sick on 8 October",
+      "why": "55 went 12 reps on all three sets on 5 October at this gym, and a 5 lb raise on an ab exercise is a small ask even after being sick. Nothing new has been logged since the 10 October ruling, so it stands unchanged."
+    }
+  ],
+  "overrides": [
+    {
+      "exercise": "leg-press-low",
+      "session": "LegsA",
+      "reason": "Same weights you used feet-high on this machine on 5 October. No raise tonight because you were sick on 8 October.",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 10
+        },
+        {
+          "weight": 170,
+          "reps": 10
+        },
+        {
+          "weight": 190,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "session": "LegsA",
+      "reason": "Repeat 17.5 for 10 from 28 September. Hold while you get over being sick.",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 10
+        },
+        {
+          "weight": 17.5,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "exercise": "leg-curl",
+      "session": "LegsA",
+      "reason": "120 went 10, 10, 11 here on 5 October. Same weight, aim for 11 on every set.",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 11
+        },
+        {
+          "weight": 120,
+          "reps": 11
+        },
+        {
+          "weight": 120,
+          "reps": 11
+        }
+      ]
+    },
+    {
+      "exercise": "leg-extension",
+      "session": "LegsA",
+      "reason": "First time on this machine in Singapore, so 120 is a starting guess. Log what you actually use.",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 12
+        },
+        {
+          "weight": 120,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "hip-adductor",
+      "session": "LegsA",
+      "reason": "80 went 15 on both sets here on 5 October, so it goes up to 90 for 12.",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 12
+        },
+        {
+          "weight": 90,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "hip-abductor",
+      "session": "LegsA",
+      "reason": "60 went 15 on both sets here on 5 October, so it goes up to 70 for 12.",
+      "sets": [
+        {
+          "weight": 70,
+          "reps": 12
+        },
+        {
+          "weight": 70,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "session": "LegsA",
+      "reason": "On 5 October the third set dropped to 270. Keep all three sets at 290 this time.",
+      "sets": [
+        {
+          "weight": 290,
+          "reps": 13
+        },
+        {
+          "weight": 290,
+          "reps": 12
+        },
+        {
+          "weight": 290,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "cable-crunch",
+      "session": "LegsA",
+      "reason": "55 went 12 on all three sets on 5 October, so it goes up to 60 for 10.",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 10
+        },
+        {
+          "weight": 60,
+          "reps": 10
+        },
+        {
+          "weight": 60,
+          "reps": 10
+        }
+      ]
+    }
+  ]
+}

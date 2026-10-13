@@ -1,0 +1,64 @@
+{
+  "role": "recovery",
+  "date": "2026-10-13",
+  "session": "LegsA",
+  "reviewed_through": "2026-10-08",
+  "calls": [
+    {
+      "exercise": "leg-press-low",
+      "stance": "hold",
+      "why": "Nothing has been logged since 2026-10-08, when he wrote \"Sick today.\", so I keep my 2026-10-10 hold. The one new fact is time: it is now five days since that session, not two, and eight days since legs were last trained (2026-10-05). That makes muscle fatigue a non-issue, but it does not tell us he is well again. He has not logged a session since he was sick, and there is no note saying he is better, so the gap may be illness, not rest. Deadlift that night fell from 6 reps to 4 at the same 225 lb. This is also his first LegsA in Singapore; the last one (2026-09-28) was in Warsaw on a different leg press. Hold: no load increase on the heaviest lift of the night.",
+      "evidence": ["2026-10-08:note", "2026-10-08:deadlift", "2026-09-28:leg-press-low", "2026-10-05:leg-press-high"]
+    },
+    {
+      "exercise": "db-bulgarian-split-squat",
+      "stance": "hold",
+      "why": "Same hold as 2026-10-10. Five days have now passed since he logged being sick, up from two, with no session and no note since. The extra days take away any fatigue argument for a cut. They add nothing for a push, because we do not know if he has recovered from the illness. The rest of the 2026-10-08 session held up (lat pulldown 100 lb for 10 on all three sets). Last logged 2026-09-28 in Warsaw; tonight is a different gym.",
+      "evidence": ["2026-10-08:note", "2026-10-08:lat-pulldown-wide", "2026-09-28:db-bulgarian-split-squat"]
+    },
+    {
+      "exercise": "leg-curl",
+      "stance": "hold",
+      "why": "Hamstrings were last trained 2026-10-05 at 120 lb for 10, 10, 11. That was eight days ago now, so the muscle is fully recovered. The hold is still about the illness he logged on 2026-10-08. Five quiet days with no note saying he is better do not clear that, and no new session has been logged to show he is back to strength.",
+      "evidence": ["2026-10-05:leg-curl", "2026-10-08:note"]
+    },
+    {
+      "exercise": "leg-extension",
+      "stance": "hold",
+      "why": "This machine has still not been logged at the Singapore gym; the last entry is Warsaw on 2026-09-28. The extra three days since 2026-10-10 change nothing here. It is still his first time on this machine since he wrote that he was sick.",
+      "evidence": ["2026-09-28:leg-extension", "2026-10-08:note"]
+    },
+    {
+      "exercise": "hip-adductor",
+      "stance": "hold",
+      "why": "The Singapore machine read 80 lb on 2026-10-05 against 110 lb in Warsaw on 2026-09-28, so the two gyms do not compare. It has been eight days since this lift and five since he logged being sick. That rules out fatigue, but there is no new session or note showing he is well. Hold at the standing number.",
+      "evidence": ["2026-10-05:hip-adductor", "2026-09-28:hip-adductor", "2026-10-08:note"]
+    },
+    {
+      "exercise": "hip-abductor",
+      "stance": "hold",
+      "why": "Same as the adductor: 60 lb in Singapore on 2026-10-05 against 110 lb in Warsaw on 2026-09-28, on different machines. The longer gap since he logged being sick (five days now, two on 2026-10-10) rules out fatigue. Nothing logged since then shows he has recovered from the illness, so hold.",
+      "evidence": ["2026-10-05:hip-abductor", "2026-09-28:hip-abductor", "2026-10-08:note"]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "stance": "hold",
+      "why": "On 2026-10-05 the second set at 290 lb dropped to 12 reps and the third set was taken down to 270 lb, so the last outing did not hold its load. Time off does not change that record. With the illness logged 2026-10-08 and no session since, there is still no basis for more weight.",
+      "evidence": ["2026-10-05:standing-calf-raise", "2026-10-08:note"]
+    },
+    {
+      "exercise": "cable-crunch",
+      "stance": "hold",
+      "why": "Three clean sets of 12 at 55 lb on 2026-10-05. The extra days of rest since 2026-10-10 are fine for the abs. The hold is only for the illness logged 2026-10-08, which no later session or note has cleared.",
+      "evidence": ["2026-10-05:cable-crunch", "2026-10-08:note"]
+    },
+    {
+      "exercise": "hanging-leg-raise",
+      "stance": "hold",
+      "why": "Bodyweight lift: 12 then 10 reps on 2026-10-05. There is no load to change. Keep the standing prescription. Five days since he logged being sick, with nothing logged after, is not evidence either way about his strength.",
+      "evidence": ["2026-10-05:hanging-leg-raise", "2026-10-08:note"]
+    }
+  ],
+  "vetoes": [],
+  "structure_proposals": []
+}
