@@ -176,7 +176,7 @@ function stallOwner(s) {
 // already advanced, so the banked night shows dimmed-and-checked and the
 // live rows start at Tomorrow (never relabeling tomorrow's session "Today").
 function flightPlan(plan, today) {
-  const next = engine.rotationNext(plan, store.history, store.settings.dayOverride);
+  const next = engine.nextSession(plan, store.history, { override: store.settings.dayOverride, coach: store.coach, today });
   const rows = [];
   const label = (off) => {
     if (off === 0) return 'Today';

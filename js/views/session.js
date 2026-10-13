@@ -251,6 +251,22 @@ function ensureDraft(today, phaseInfo) {
       rebaseDraft();
       return store.draft?.session_type ?? d.session_type;
     }
+    // A fresh review may STEER the night (a skipped day, see
+    // engine.nextSession). An untouched, non-deliberate draft of another
+    // session follows it whenever they differ — not only when the review
+    // stamp moves, because the draft may already carry the new stamp from a
+    // rebuild that kept its old session type. That world goes back in the
+    // pool and the steered session draws its own, announced like any first
+    // open. A night he chose himself (deliberate) is never redirected.
+    const steered = engine.nextSession(store.plan, store.history, { override: store.settings.dayOverride, coach: store.coach, today });
+    if (d.date === today && !touched && !sheetOpen && !d.reopened && !d.deliberate
+      && steered !== d.session_type && store.plan.sessions[steered]) {
+      if (d.world) returnWorld(d.session_type, d.world);
+      store.saveDraft(buildDraft(today, steered, phaseInfo));
+      focusIdx = null;
+      announceWorld = true;
+      return steered;
+    }
     if (d.date === today && !touched && !sheetOpen && !d.reopened && (d.coachStamp ?? null) !== coachStamp()) {
       const fresh = buildDraft(today, d.session_type, phaseInfo, d.world ?? null);
       fresh.deliberate = d.deliberate;
@@ -276,7 +292,7 @@ function ensureDraft(today, phaseInfo) {
     if (d) store.clearDraft(); // the stale clean draft's world was refunded above
     return null;
   }
-  const type = engine.rotationNext(store.plan, store.history, store.settings.dayOverride);
+  const type = engine.nextSession(store.plan, store.history, { override: store.settings.dayOverride, coach: store.coach, today: todayStr() });
   store.saveDraft(buildDraft(today, type, phaseInfo));
   focusIdx = null;
   announceWorld = true;
@@ -295,7 +311,7 @@ function renderBanked(today, phaseInfo) {
   root.classList.toggle('no-entrance', worldKey === lastWorldKey);
   lastWorldKey = worldKey;
   const sessionName = store.plan.sessions[entry.session_type]?.name ?? entry.session_type;
-  const nextType = engine.rotationNext(store.plan, store.history, store.settings.dayOverride);
+  const nextType = engine.nextSession(store.plan, store.history, { override: store.settings.dayOverride, coach: store.coach, today: todayStr() });
   const nextName = store.plan.sessions[nextType]?.name ?? nextType;
   root.onclick = null;
   root.innerHTML = `
@@ -544,7 +560,7 @@ function renderWorldScreen(draft, phaseInfo) {
   const U = universeOf(draft.session_type);
   const W = worldDef(draft.session_type, draft.world);
   const session = store.plan.sessions[draft.session_type];
-  const isNext = engine.rotationNext(store.plan, store.history, store.settings.dayOverride) === draft.session_type;
+  const isNext = engine.nextSession(store.plan, store.history, { override: store.settings.dayOverride, coach: store.coach, today: todayStr() }) === draft.session_type;
   const phase = phaseInfo.phase;
   // A reopened night REPLACES its banked entry, so the header wears that
   // night's original chronological number — never history.length + 1, which
@@ -1346,7 +1362,7 @@ export function gymSheet() {
 }
 
 function switchSheet() {
-  const nextType = engine.rotationNext(store.plan, store.history, store.settings.dayOverride);
+  const nextType = engine.nextSession(store.plan, store.history, { override: store.settings.dayOverride, coach: store.coach, today: todayStr() });
   const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
   const lastByType = {};
   for (const e of store.history) lastByType[e.session_type] = e.date;

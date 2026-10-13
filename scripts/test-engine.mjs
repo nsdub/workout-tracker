@@ -1094,6 +1094,19 @@ ok('unseen changes are the ones newer than what this phone has shown', () => {
   assert.deepEqual(E.programChangesSince(pg, 4), []);
   assert.deepEqual(E.programChangesSince(null, 0), []);
 });
+ok('a fresh review steers tonight’s session; his own pin outranks it; a stale one is ignored', () => {
+  // history ends on a PullB in the seed bundle → rotation says LegsB
+  const last = E.sortedHistory(history).at(-1).date;
+  const steer = { date: last, reviewed_through: last, session_expected: 'LegsA', overrides: [] };
+  assert.equal(E.nextSession(plan, history, { coach: steer, today: last }), 'LegsA', 'a fresh packet naming the skipped day must win over the rotation');
+  assert.equal(E.nextSession(plan, history, { coach: steer, today: last, override: 'PushB' }), 'PushB', 'his pin outranks the trainer');
+  assert.equal(E.nextSession(plan, history, { coach: { ...steer, session_expected: 'Nope' }, today: last }), 'LegsB', 'an unknown session falls back to the rotation');
+  // stale by the calendar, or by a night logged since: the rotation decides
+  assert.equal(E.nextSession(plan, history, { coach: steer, today: '2027-01-01' }), 'LegsB');
+  const later = [...history, mkEntry('2027-01-02', 'LegsB', 'leg-curl', mkSets(100, 10, 3))];
+  assert.equal(E.nextSession(plan, later, { coach: steer, today: '2027-01-02' }), 'PushA');
+  assert.equal(E.nextSession(plan, history, {}), 'LegsB', 'no packet, no pin: the rotation');
+});
 ok('weekly sets per muscle: primary counts 1, secondary ½, untagged counts nothing, every muscle is present', () => {
   const tagged = {
     ...plan,

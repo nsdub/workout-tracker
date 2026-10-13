@@ -380,6 +380,20 @@ export function rotationNext(plan, history, override = null) {
   return rot[(i + 1) % rot.length];
 }
 
+// Which session tonight actually is, in order of authority: the athlete's
+// own pin (settings.dayOverride) > a FRESH review's `session_expected` > the
+// rotation. The trainer steering the day is new in v88 and is what a trainer
+// does after a skipped night: on 2026-10-13 Legs A had been missed for
+// fifteen days (sick, then the rotation resumed one day late) and the
+// rotation would have sent him to Legs B again. The packet goes stale the
+// moment he logs anything, so a steer never outlives the night it was for.
+export function nextSession(plan, history, { override = null, coach = null, today = null } = {}) {
+  if (override && plan.sessions?.[override]) return override;
+  const steer = coach?.session_expected;
+  if (steer && plan.sessions?.[steer] && coachFresh(history, coach, today)) return steer;
+  return rotationNext(plan, history, null);
+}
+
 // ——— Performance lookups ———
 
 // Most recent logged performance of an exercise within a session type.
