@@ -2,7 +2,7 @@
 // GitHub is the durable source of truth, fed by the sync queue.
 import { todayStr } from './util.js';
 // engine is pure logic with no imports of its own — no cycle.
-import { effectivePlan as engineEffectivePlan, applyGymProfile } from './engine.js';
+import { effectivePlan as engineEffectivePlan, applyGymProfile, programChangesSince } from './engine.js';
 
 const KEYS = {
   settings: 'p3.settings',
@@ -14,6 +14,7 @@ const KEYS = {
   meta: 'p3.meta',
   coach: 'p3.coach',
   decisions: 'p3.decisions',
+  program: 'p3.program',
 };
 
 // Reads are shape-checked against the fallback: a corrupt blob (extension,
@@ -68,6 +69,9 @@ const SETTINGS_DEFAULTS = {
   // He switches gyms often; the app must switch with him in one tap.
   gym: '',
   gyms: {},
+  // The newest program version he has opened the "what changed" sheet on.
+  // Per device on purpose: the dot asks whether THIS phone has shown him.
+  seenProgramVersion: 0,
 };
 
 export const store = {
@@ -79,8 +83,13 @@ export const store = {
   remoteIndex: read(KEYS.remoteIndex, {}),
   meta: { lastSync: null, lastError: null, ...read(KEYS.meta, {}) },
   coach: read(KEYS.coach, null),
-  // the athlete's yes/no on structural proposals — his program, his call
+  // the athlete's yes/no on the old structural proposals. Frozen history
+  // since v88 — kept so an install with no program file yet still runs the
+  // program he actually accepted.
   decisions: read(KEYS.decisions, []),
+  // The trainer-owned program (data/coach/program.json). Null until the first
+  // pull; then it IS the program the app runs.
+  program: read(KEYS.program, null),
   syncing: false,
 
   sub(fn) { listeners.add(fn); return () => listeners.delete(fn); },
@@ -143,12 +152,31 @@ export const store = {
     this.emit();
   },
 
-  // The plan the app actually runs: the signed program plus every structural
-  // change the athlete has accepted, plus what he knows about the machines at
-  // the gym he is standing in. plan.json is never rewritten.
+  // The plan the app actually runs: the trainer's program (or, before one
+  // exists, the signed plan plus every change the athlete accepted), plus
+  // what he knows about the machines at the gym he is standing in.
+  // plan.json is never rewritten.
   livePlan() {
     if (!this.plan) return this.plan;
-    return applyGymProfile(engineEffectivePlan(this.plan, this.decisions), this.gymProfile());
+    return applyGymProfile(engineEffectivePlan(this.plan, this.decisions, this.program), this.gymProfile());
+  },
+
+  setProgram(program) {
+    if (JSON.stringify(program ?? null) === JSON.stringify(this.program ?? null)) return;
+    this.program = program ?? null;
+    write(KEYS.program, this.program);
+    this.emit();
+  },
+
+  // Program changes this phone has not shown him yet.
+  unseenProgramChanges() {
+    return programChangesSince(this.program, this.settings.seenProgramVersion ?? 0);
+  },
+
+  markProgramSeen() {
+    const v = this.program?.version ?? 0;
+    if ((this.settings.seenProgramVersion ?? 0) >= v) return;
+    this.saveSettings({ seenProgramVersion: v });
   },
 
   // The current gym's per-exercise facts (unit, substitute). The '' key is

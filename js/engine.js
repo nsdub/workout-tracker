@@ -68,6 +68,74 @@ export function exMeta(plan, id) {
   return plan.exercises[id] || { name: id };
 }
 
+// ——— Muscles ———
+// The eighteen groups a weekly set count is kept against. Every catalogue
+// entry names its primary and secondary movers from THIS list and nothing
+// else; the daily review must give a verdict on every one of them, and the
+// validator refuses a packet that skips one. A set counts 1 for each primary
+// mover and 0.5 for each secondary — the usual "fractional sets" convention,
+// stated here once so the dossier, the validator and the screen agree.
+export const MUSCLES = [
+  'chest', 'front-delts', 'side-delts', 'rear-delts', 'lats', 'upper-back', 'traps', 'lower-back',
+  'biceps', 'triceps', 'forearms', 'quads', 'hamstrings', 'glutes', 'adductors', 'abductors', 'calves', 'abs',
+];
+export const SECONDARY_WEIGHT = 0.5;
+
+// Sets credited to each muscle by ONE exercise for `n` sets. An exercise with
+// no muscle tags credits nothing — and the dossier lists it, so an untagged
+// lift is visible rather than silently zero.
+export function creditSets(plan, id, n) {
+  const m = exMeta(plan, id).muscles;
+  const out = {};
+  if (!m || !(n > 0)) return out;
+  for (const k of m.primary ?? []) out[k] = (out[k] ?? 0) + n;
+  for (const k of m.secondary ?? []) out[k] = (out[k] ?? 0) + n * SECONDARY_WEIGHT;
+  return out;
+}
+
+const addInto = (acc, part) => { for (const [k, v] of Object.entries(part)) acc[k] = (acc[k] ?? 0) + v; return acc; };
+
+// What one pass through the rotation PLANS per muscle. Six sessions on a
+// 6-on-1-off rotation is one calendar week, so this is the "weekly sets"
+// number the review quotes — and the validator recomputes it from the
+// program so the number on screen cannot drift from the program it claims
+// to describe.
+export function plannedWeeklyByMuscle(plan) {
+  const acc = Object.fromEntries(MUSCLES.map((m) => [m, 0]));
+  for (const type of plan.rotation ?? Object.keys(plan.sessions)) {
+    for (const slot of plan.sessions[type]?.exercises ?? []) addInto(acc, creditSets(plan, slot.id, slot.sets));
+  }
+  for (const k of Object.keys(acc)) acc[k] = Math.round(acc[k] * 10) / 10;
+  return acc;
+}
+
+// What he actually DID per muscle across the given entries. A set counts
+// when it carries work (reps, or seconds on a timed slot). Substitutes
+// (`as`) are credited to the slot's own muscles: a barbell in a smith slot
+// trains the same thing.
+export function doneByMuscle(plan, entries) {
+  const acc = Object.fromEntries(MUSCLES.map((m) => [m, 0]));
+  for (const e of entries) {
+    if (e.supplemental) continue;
+    for (const x of e.exercises ?? []) {
+      const n = (x.sets ?? []).filter((s) => (s.reps ?? 0) >= 1).length;
+      addInto(acc, creditSets(plan, x.id, n));
+    }
+  }
+  for (const k of Object.keys(acc)) acc[k] = Math.round(acc[k] * 10) / 10;
+  return acc;
+}
+
+// ——— The program (trainer-owned, data/coach/program.json) ———
+// Since v88 the trainer SETS the program: program.json carries the six
+// session templates, any lifts it added to the catalogue, and an append-only
+// log of every change with its reason. The app runs it directly. The changes
+// the athlete has not yet read are what the Mission tab's dot counts.
+export function programChangesSince(program, sinceVersion = 0) {
+  const v = Number(sinceVersion) || 0;
+  return (program?.changes ?? []).filter((c) => (c.version ?? 0) > v);
+}
+
 // The progression step for a lift, IN POUNDS. A kg machine steps in kg
 // (2.5 by default, or the exercise's own incrementKg) and the lb figure is
 // that step converted, so a prescription lands on a number the kg dial shows.
@@ -120,7 +188,27 @@ export function nativeSlot(plan, id) {
 // session templates. decisions.json is an append-only ledger, so order is the
 // whole meaning: it is what makes a retraction say "undo what I said before"
 // instead of "veto this slot forever".
-export function effectivePlan(plan, decisions = []) {
+export function effectivePlan(plan, decisions = [], program = null) {
+  // THE PROGRAM FILE WINS. When the trainer has written data/coach/program.json
+  // its sessions ARE the program and the decisions ledger is history (program
+  // v1 was the snapshot of plan + every accepted decision, so nothing he
+  // said yes to is lost). Lifts the trainer added to the catalogue overlay
+  // plan.json's; a lift defined in both keeps the program's entry.
+  if (program && program.sessions && typeof program.sessions === 'object') {
+    // A day the program does not restate keeps the plan's template, so a
+    // partial file degrades to the signed program rather than to a blank
+    // night (the validator still demands all six before a commit).
+    const sessions = { ...plan.sessions };
+    let any = false;
+    for (const [k, s] of Object.entries(program.sessions)) {
+      if (!Array.isArray(s?.exercises)) continue;
+      sessions[k] = { ...(plan.sessions?.[k] ?? {}), ...s, exercises: s.exercises.map((x) => ({ ...x })) };
+      any = true;
+    }
+    if (any) {
+      return { ...plan, sessions, exercises: { ...plan.exercises, ...(program.exercises ?? {}) }, programVersion: program.version ?? null };
+    }
+  }
   // Sort by when he actually answered. The previous version trusted array
   // position for "newest wins", which is only correct if the file happens to
   // be in chronological order — nothing guaranteed that, and a synced or

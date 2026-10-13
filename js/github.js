@@ -175,6 +175,11 @@ export async function pullRemote() {
     // says "no review" honestly instead of guessing.
     const coach = await getFile('data/coach/latest.json');
     store.setCoach(coach ? coach.content : null);
+    // The trainer's program. A 404 means no program file has been written
+    // yet, and the app falls back to plan + decisions; it never clears a
+    // program it already holds on a transient failure (getFile throws).
+    const program = await getFile('data/coach/program.json');
+    store.setProgram(program ? program.content : null);
     // The athlete's accepted/declined structural changes. Local queue wins:
     // a decision made on the phone must never be reverted by a stale remote.
     if (!queuedNow('data/coach/decisions.json')) {
@@ -223,6 +228,10 @@ export async function bootstrapStaticPlan() {
       const res = await fetch('data/coach/latest.json', { cache: 'no-cache' });
       if (res.ok) store.setCoach(await res.json());
     } catch { /* offline: last stored review stands */ }
+    try {
+      const res = await fetch('data/coach/program.json', { cache: 'no-cache' });
+      if (res.ok) store.setProgram(await res.json());
+    } catch { /* offline: the stored program stands */ }
     // ...and the decisions, or a token-less client shows every proposal as
     // undecided and silently ignores structural changes already accepted.
     try {

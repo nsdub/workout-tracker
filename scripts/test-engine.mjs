@@ -1042,4 +1042,89 @@ ok('cross-day progress does not carry from a substitute', () => {
   assert.equal(crossSub.weight, 45, 'a substitute slot must read the substitute’s cross-day work, not the lift’s');
 });
 
+// ——— THE TRAINER OWNS THE PROGRAM (v88) ———
+// 2026-10-13: "if this was a real trainer I would have fired him months ago."
+// The program is a file the daily review writes; the app runs it as-is.
+const programOf = (over = {}) => ({
+  version: 4, date: '2026-10-14', written_by: 'daily-training-brief',
+  sessions: {
+    ...Object.fromEntries(Object.entries(plan.sessions).map(([k, s]) => [k, { name: s.name, exercises: s.exercises.map((x) => ({ ...x })) }])),
+    PushA: { name: 'Push A', exercises: [
+      { id: 'machine-chest-press', sets: 4, repMin: 8, repMax: 10, rest: 120 },
+      { id: 'nordic-curl-x', sets: 2, repMin: 6, repMax: 8, rest: 90 },
+    ] },
+  },
+  exercises: { 'nordic-curl-x': { name: 'Nordic Curl', role: 'hypertrophy', bodyweight: true, muscles: { primary: ['hamstrings'], secondary: ['glutes'] } } },
+  targets: { chest: { min: 10, max: 18 } },
+  changes: [
+    { version: 2, date: '2026-10-01', session: 'PushA', exercise: 'machine-chest-press', kind: 'sets', before: { sets: 3 }, after: { sets: 4 }, why: 'x', evidence: [] },
+    { version: 4, date: '2026-10-14', session: 'PushA', exercise: 'nordic-curl-x', kind: 'add', before: null, after: { sets: 2 }, why: 'y', evidence: [] },
+  ],
+  ...over,
+});
+ok('the program file IS the program: its sessions replace the plan’s and its lifts join the catalogue', () => {
+  const live = E.effectivePlan(plan, [acc(prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PushA' }))], programOf());
+  assert.deepEqual(live.sessions.PushA.exercises.map((x) => x.id), ['machine-chest-press', 'nordic-curl-x']);
+  assert.equal(live.sessions.PushA.exercises[0].sets, 4);
+  assert.equal(E.exMeta(live, 'nordic-curl-x').name, 'Nordic Curl', 'a trainer-added lift must be a real exercise to the app');
+  assert.equal(live.programVersion, 4);
+  // the decisions ledger is history once a program exists: it is NOT re-applied on top
+  assert.equal(live.sessions.PullB.exercises.some((x) => x.id === 'face-pulls'), true);
+  assert.equal(plan.sessions.PushA.exercises.length, 8, 'plan.json is never mutated');
+  // and the other five days come through untouched, name included
+  assert.equal(live.sessions.LegsB.name, plan.sessions.LegsB.name);
+});
+ok('no program file → the old plan + decisions overlay still runs (first pull on an old install)', () => {
+  const p = prop({ kind: 'remove', exercise: 'face-pulls', scope: 'PushA' });
+  assert.deepEqual(E.effectivePlan(plan, [acc(p)], null).sessions, E.effectivePlan(plan, [acc(p)]).sessions);
+  // a malformed program (no sessions) is ignored, never half-applied
+  assert.deepEqual(E.effectivePlan(plan, [acc(p)], { version: 9 }).sessions, E.effectivePlan(plan, [acc(p)]).sessions);
+});
+ok('a program prescribes like any plan: the new slot shape drives the card', () => {
+  const live = E.effectivePlan(plan, [], programOf());
+  const rows = E.previewSession(live, history, 'PushA', meso);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].sets.length, 4);
+  assert.equal(rows[1].bodyweight, true);
+});
+ok('unseen changes are the ones newer than what this phone has shown', () => {
+  const pg = programOf();
+  assert.deepEqual(E.programChangesSince(pg, 0).map((c) => c.version), [2, 4]);
+  assert.deepEqual(E.programChangesSince(pg, 2).map((c) => c.version), [4]);
+  assert.deepEqual(E.programChangesSince(pg, 4), []);
+  assert.deepEqual(E.programChangesSince(null, 0), []);
+});
+ok('weekly sets per muscle: primary counts 1, secondary ½, untagged counts nothing, every muscle is present', () => {
+  const tagged = {
+    ...plan,
+    rotation: ['PushA', 'LegsA'],
+    sessions: {
+      PushA: { name: 'Push A', exercises: [{ id: 'bench-x', sets: 4 }, { id: 'untagged-x', sets: 3 }] },
+      LegsA: { name: 'Legs A', exercises: [{ id: 'squat-x', sets: 3 }] },
+    },
+    exercises: {
+      'bench-x': { name: 'Bench', muscles: { primary: ['chest'], secondary: ['triceps', 'front-delts'] } },
+      'squat-x': { name: 'Squat', muscles: { primary: ['quads', 'glutes'], secondary: ['adductors'] } },
+      'untagged-x': { name: 'Mystery' },
+    },
+  };
+  const w = E.plannedWeeklyByMuscle(tagged);
+  assert.equal(w.chest, 4);
+  assert.equal(w.triceps, 2);
+  assert.equal(w['front-delts'], 2);
+  assert.equal(w.quads, 3);
+  assert.equal(w.glutes, 3);
+  assert.equal(w.adductors, 1.5);
+  assert.equal(w.lats, 0);
+  assert.deepEqual(Object.keys(w), E.MUSCLES, 'every muscle must be present, zero or not');
+  // done: only sets that carry work, credited the same way
+  const done = E.doneByMuscle(tagged, [
+    { date: '2026-10-01', session_type: 'PushA', exercises: [{ id: 'bench-x', sets: [{ weight: 100, reps: 10 }, { weight: 100, reps: 0 }, { weight: 100, reps: 8 }] }] },
+    { date: '2026-10-02', supplemental: true, conditioning: { mins: 20 } },
+  ]);
+  assert.equal(done.chest, 2);
+  assert.equal(done.triceps, 1);
+  assert.equal(done.quads, 0);
+});
+
 console.log(`\n${n} engine tests passed`);

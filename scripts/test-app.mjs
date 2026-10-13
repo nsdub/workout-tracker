@@ -624,12 +624,13 @@ await ok("pullRemote bypasses the HTTP cache on every request (plan, coach, deci
     if (url.includes('data/plan.json')) return resJson({}, 404);
     if (url.includes('data/coach/latest.json')) return resJson({}, 404);
     if (url.includes('data/coach/decisions.json')) return resJson({}, 404);
+    if (url.includes('data/coach/program.json')) return resJson({}, 404);
     if (url.endsWith('/contents/data/history?ref=main')) return resJson([{ name: '2026-07-20-pusha.json', sha: 'R' }]);
     if (url.includes('2026-07-20-pusha.json')) return resJson({ content: b64({ date: '2026-07-20', session_type: 'PushA', exercises: [] }), sha: 'R' });
     return resJson({}, 404);
   };
   await pullRemote();
-  assert.equal(caches.length, 5, 'expected the plan GET, the coach GET, the decisions GET, the listing, and one file GET');
+  assert.equal(caches.length, 6, 'expected the plan GET, the coach GET, the program GET, the decisions GET, the listing, and one file GET');
   assert.ok(caches.every((c) => c === 'no-store'),
     "GitHub's 60s HTTP cache must never serve a stale sha or file body to a pull");
   store.history = []; store.remoteIndex = {};
@@ -649,6 +650,35 @@ await ok('pullRemote stores the coach review; a 404 clears it honestly', async (
   fetchImpl = async (url) => resJson({}, 404); // review file deleted remotely
   await pullRemote();
   assert.equal(store.coach, null, 'a vanished review must never linger as fresh');
+});
+await ok('pullRemote stores the trainer’s program and the live plan runs it; without one the decisions overlay runs', async () => {
+  store.settings.token = 't';
+  store.queue = []; store.history = []; store.remoteIndex = {};
+  const { readFileSync } = await import('node:fs');
+  const plan = JSON.parse(readFileSync(new URL('../data/plan.json', import.meta.url), 'utf8'));
+  store.plan = plan;
+  store.decisions = [{ proposal: { date: '2026-07-22', kind: 'remove', exercise: 'face-pulls', scope: 'PushA' }, decision: 'accepted', decided_at: '2026-07-22T19:00:00.000Z' }];
+  store.program = null;
+  assert.equal(store.livePlan().sessions.PushA.exercises.some((x) => x.id === 'face-pulls'), false, 'the overlay must still run before a program exists');
+  const program = { version: 7, date: '2026-10-14', sessions: { PushA: { name: 'Push A', exercises: [{ id: 'machine-chest-press', sets: 4, repMin: 8, repMax: 10, rest: 120 }] } }, changes: [{ version: 7, date: '2026-10-14', kind: 'sets', why: 'w', evidence: [] }] };
+  fetchImpl = async (url) => {
+    if (url.includes('data/coach/program.json')) return resJson({ content: b64(program), sha: 'P1' });
+    if (url.endsWith('/contents/data/history?ref=main')) return resJson([]);
+    return resJson({}, 404);
+  };
+  await pullRemote();
+  assert.deepEqual(store.program, program, 'the committed program must reach the store');
+  assert.deepEqual(store.livePlan().sessions.PushA.exercises.map((x) => x.id), ['machine-chest-press'], 'the live plan must run the program file');
+  assert.equal(store.livePlan().sessions.PullA.exercises.length, plan.sessions.PullA.exercises.length, 'days the program does not restate come from the plan');
+  // the dot: what this phone has not shown him yet
+  store.settings.seenProgramVersion = 0;
+  assert.equal(store.unseenProgramChanges().length, 1);
+  store.markProgramSeen();
+  assert.equal(store.settings.seenProgramVersion, 7);
+  assert.equal(store.unseenProgramChanges().length, 0);
+  // and it survives a reload of the store's own persistence
+  assert.deepEqual(JSON.parse(localStorage.getItem('p3.program')), program);
+  store.program = null; store.decisions = []; store.settings.seenProgramVersion = 0;
 });
 await ok('INVARIANT: a pull racing a flush never reverts the flushed remote index', async () => {
   // app.js fires flushQueue() and pullRemote() together on every foregrounding
