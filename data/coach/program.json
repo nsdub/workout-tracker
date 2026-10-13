@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-10-13",
   "written_by": "interactive-session",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
@@ -40,6 +40,13 @@
           "seed": 35
         },
         {
+          "id": "machine-lateral-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60
+        },
+        {
           "id": "reverse-pec-deck",
           "sets": 3,
           "repMin": 12,
@@ -54,14 +61,6 @@
           "repMax": 12,
           "rest": 75,
           "seed": 47.5
-        },
-        {
-          "id": "rope-pushdown",
-          "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seed": 57.5
         }
       ]
     },
@@ -211,7 +210,7 @@
         },
         {
           "id": "assisted-dips",
-          "sets": 4,
+          "sets": 3,
           "repMin": 12,
           "repMax": 20,
           "rest": 120,
@@ -219,7 +218,7 @@
         },
         {
           "id": "db-lateral-raise",
-          "sets": 4,
+          "sets": 3,
           "repMin": 12,
           "repMax": 15,
           "rest": 75,
@@ -325,11 +324,20 @@
       "exercises": [
         {
           "id": "smith-rdl",
-          "sets": 4,
+          "sets": 3,
           "repMin": 8,
           "repMax": 10,
           "rest": 180,
           "seed": 205
+        },
+        {
+          "id": "smith-squat",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 180,
+          "seed": 135,
+          "seedNote": "New lift — start light, find the working weight on the second set"
         },
         {
           "id": "leg-press-high",
@@ -1402,6 +1410,133 @@
       "after": null,
       "why": "Program file created: the program as he ran it on this date, with every accepted decision applied. The trainer owns it from here.",
       "evidence": []
+    },
+    {
+      "version": 2,
+      "date": "2026-10-13",
+      "session": "PushA",
+      "exercise": "rope-pushdown",
+      "kind": "swap",
+      "before": {
+        "id": "rope-pushdown",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15
+      },
+      "after": {
+        "id": "machine-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60
+      },
+      "why": "This puts side-delt work back on Push A, which has had none since the cable lateral raise came off on 14 September; that removal was for a weight stuck at 10 lb on the old gym's stack, not for too much volume. Side delts were planned at 7.5 sets a week against a floor of 8 and averaged 4.1 done. Triceps were planned at 24 a week against a ceiling of 14, with the overhead extension already on both push days, so the rope pushdown, Push A's third triceps slot, is the one that gives way. Three sets here and three on Push B (down from four, see that change) answers his 23 August note that four sets in one session was a lot for a small muscle: six sets across two days instead of four in one. No lateral raise machine has been logged at any gym yet; where there is none, a cable or dumbbell raise in this slot is the same work. Mark it as \"doing something else\" on the card.",
+      "evidence": [
+        "2026-10-06:rope-pushdown",
+        "2026-09-19:rope-pushdown",
+        "2026-10-12:db-lateral-raise",
+        "2026-10-06:overhead-cable-triceps",
+        "2026-08-23:note",
+        "2026-09-08:cable-lateral-raise"
+      ]
+    },
+    {
+      "version": 2,
+      "date": "2026-10-13",
+      "session": "PushA",
+      "exercise": "machine-lateral-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 6
+      },
+      "after": {
+        "position": 4
+      },
+      "why": "The lateral raise goes straight after the shoulder press, while the shoulders are warm and before the rear-delt and triceps work, instead of last in the session where the slot it replaced used to be.",
+      "evidence": [
+        "2026-10-06:db-shoulder-press",
+        "2026-10-06:reverse-pec-deck"
+      ]
+    },
+    {
+      "version": 2,
+      "date": "2026-10-13",
+      "session": "PushB",
+      "exercise": "assisted-dips",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "Push B was 26 sets, the heaviest day in the program, after three separate raises in September that nobody added up, and triceps are the most over-planned muscle in the week (24 sets against a ceiling of 14, with the overhead extension on both push days and a pushdown on this one). This walks back the 22 September raise from 3 to 4 after one session at four: bench dips went 17, 17, 17, 17 at Chennai on 12 October, which shows there is plenty left in him, and that is exactly why three hard sets at 12 to 20 reps, with the reps climbing toward 20, is enough stimulus for this slot on this day. (The 30 September \"Dips\" at Warsaw and the 12 October \"Bench dips\" are different movements; the reps comparison between them is not made.)",
+      "evidence": [
+        "2026-10-12:assisted-dips",
+        "2026-09-30:assisted-dips",
+        "2026-10-12:overhead-cable-triceps",
+        "2026-10-12:reverse-grip-pushdown"
+      ]
+    },
+    {
+      "version": 2,
+      "date": "2026-10-13",
+      "session": "PushB",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "On 23 August he wrote that four sets of lateral raises seemed a lot for such a small muscle; the program cut it to three on 28 August and put it back to four on 21 September because it was the only side-delt work in the week. Now that Push A carries three sets of its own, Push B goes back to three: six sets across two days instead of four in one. On 12 October the four sets were a 10 lb warm-up for 15 and then 7.5 kg for 10, 10, 10, under the 12-rep floor.",
+      "evidence": [
+        "2026-08-23:note",
+        "2026-10-12:db-lateral-raise",
+        "2026-09-30:db-lateral-raise"
+      ]
+    },
+    {
+      "version": 2,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "smith-rdl",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "The program asks four sets and he has done three on each of the last three full Legs B nights: 135, 165, 185 for 8 on 17 September and 155, 175, 185 for 8 on 5 October (one working set at 185 after two ramp sets), and three sets on 16 August. Prescribing a fourth set that never happens makes the card wrong every time; three sets, with the ramp kept short so two of them are working sets, is what he actually does. It also keeps Legs B at 24 sets with the squat added instead of 25.",
+      "evidence": [
+        "2026-10-05:smith-rdl",
+        "2026-09-17:smith-rdl",
+        "2026-08-16:smith-rdl"
+      ]
+    },
+    {
+      "version": 2,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "smith-squat",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180,
+        "position": 1
+      },
+      "why": "Quads are the most under-served muscle in the program: planned 8.5 sets a week against a floor of 10, averaging 3.4 done over four weeks, and zero this week because Legs A was due on 10 October and not trained. The only knee-dominant compound work in the week is the two leg presses plus the single-leg split squat; there is no two-legged squat with a bar. Legs B has no quad-first lift at all (the feet-high leg press is a glute and hamstring press). A smith squat goes second, behind the RDL, while he is fresh. Chennai, where he is now, has a smith machine (the row was done on it on 13 October); at a gym without one, a barbell back squat or a goblet squat in this slot is the same work, marked on the card. Legs B goes from 22 to 24 sets with the RDL at three; the day stays under its cap and the week moves by one set.",
+      "evidence": [
+        "2026-10-05:leg-press-high",
+        "2026-09-28:leg-press-low",
+        "2026-10-13:smith-bent-over-row",
+        "2026-09-28:db-bulgarian-split-squat"
+      ]
     }
   ]
 }
