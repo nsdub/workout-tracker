@@ -1,0 +1,1407 @@
+{
+  "version": 1,
+  "date": "2026-10-13",
+  "written_by": "interactive-session",
+  "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
+  "sessions": {
+    "PushA": {
+      "name": "Push A",
+      "exercises": [
+        {
+          "id": "smith-incline-press",
+          "sets": 4,
+          "repMin": 6,
+          "repMax": 8,
+          "rest": 180,
+          "seed": 170
+        },
+        {
+          "id": "machine-chest-press",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 120,
+          "seed": 150
+        },
+        {
+          "id": "cable-crossover-low-high",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 15.5
+        },
+        {
+          "id": "db-shoulder-press",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 120,
+          "seed": 35
+        },
+        {
+          "id": "reverse-pec-deck",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seedNote": "Swapped in for Face Pulls — set your working weight"
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 75,
+          "seed": 47.5
+        },
+        {
+          "id": "rope-pushdown",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 57.5
+        }
+      ]
+    },
+    "PullA": {
+      "name": "Pull A",
+      "exercises": [
+        {
+          "id": "deadlift",
+          "sets": 4,
+          "repMin": 5,
+          "repMax": 6,
+          "rest": 240,
+          "seed": 255,
+          "seedNote": "Seed = top set"
+        },
+        {
+          "id": "lat-pulldown-wide",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 120,
+          "seedNote": "Verify in week 1 — logs conflict: 150 vs 90"
+        },
+        {
+          "id": "seated-cable-row-wide",
+          "sets": 4,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 120,
+          "seed": 97.5
+        },
+        {
+          "id": "db-curl",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 75,
+          "seed": 30
+        },
+        {
+          "id": "cable-hammer-curl",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 75,
+          "seed": 17.5
+        },
+        {
+          "id": "face-pulls",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60,
+          "seed": 27.5
+        }
+      ]
+    },
+    "LegsA": {
+      "name": "Legs A",
+      "exercises": [
+        {
+          "id": "leg-press-low",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 180,
+          "seed": 240
+        },
+        {
+          "id": "db-bulgarian-split-squat",
+          "sets": 2,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 120,
+          "seed": 30
+        },
+        {
+          "id": "leg-curl",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 90,
+          "seed": 135
+        },
+        {
+          "id": "leg-extension",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 90,
+          "seed": 142.5
+        },
+        {
+          "id": "hip-adductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "superset": "hips",
+          "seed": 82.5
+        },
+        {
+          "id": "hip-abductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "superset": "hips",
+          "seed": 127.5
+        },
+        {
+          "id": "standing-calf-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 280
+        },
+        {
+          "id": "cable-crunch",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 60,
+          "seed": 45
+        }
+      ]
+    },
+    "PushB": {
+      "name": "Push B",
+      "exercises": [
+        {
+          "id": "db-shoulder-press",
+          "sets": 4,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 180,
+          "seedNote": "Swapped in for Smith Overhead Press — set your working weight"
+        },
+        {
+          "id": "machine-chest-press",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 120,
+          "seed": 142.5
+        },
+        {
+          "id": "assisted-dips",
+          "sets": 4,
+          "repMin": 12,
+          "repMax": 20,
+          "rest": 120,
+          "seed": 0
+        },
+        {
+          "id": "db-lateral-raise",
+          "sets": 4,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 15
+        },
+        {
+          "id": "cable-crossover-high-low",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 27.5
+        },
+        {
+          "id": "reverse-pec-deck",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 82.5
+        },
+        {
+          "id": "overhead-cable-triceps",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 75,
+          "seed": 52.5
+        },
+        {
+          "id": "reverse-grip-pushdown",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 24
+        }
+      ]
+    },
+    "PullB": {
+      "name": "Pull B",
+      "exercises": [
+        {
+          "id": "smith-bent-over-row",
+          "sets": 4,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 180,
+          "seed": 145
+        },
+        {
+          "id": "lat-pulldown-close",
+          "sets": 3,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 120,
+          "seed": 120
+        },
+        {
+          "id": "straight-arm-pulldown",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 75,
+          "seed": 37.5
+        },
+        {
+          "id": "db-shrug",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 20,
+          "rest": 75,
+          "seed": 60
+        },
+        {
+          "id": "incline-db-curl",
+          "sets": 2,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 75,
+          "seed": 20
+        },
+        {
+          "id": "cable-reverse-curl",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 75,
+          "seed": 32.5
+        },
+        {
+          "id": "face-pulls",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60,
+          "seed": 27.5
+        }
+      ]
+    },
+    "LegsB": {
+      "name": "Legs B",
+      "exercises": [
+        {
+          "id": "smith-rdl",
+          "sets": 4,
+          "repMin": 8,
+          "repMax": 10,
+          "rest": 180,
+          "seed": 205
+        },
+        {
+          "id": "leg-press-high",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 180,
+          "seed": 160
+        },
+        {
+          "id": "leg-curl",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 90,
+          "seed": 135
+        },
+        {
+          "id": "hip-abductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 135
+        },
+        {
+          "id": "hip-adductor",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seedNote": "Added by your trainers — set your working weight"
+        },
+        {
+          "id": "standing-calf-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 280
+        },
+        {
+          "id": "hanging-leg-raise",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60,
+          "seedNote": "Swapped in for Plank — set your working weight"
+        },
+        {
+          "id": "cable-crunch",
+          "sets": 3,
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 60,
+          "seed": 45
+        }
+      ]
+    }
+  },
+  "exercises": {},
+  "targets": {
+    "chest": {
+      "min": 10,
+      "max": 18
+    },
+    "front-delts": {
+      "min": 4,
+      "max": 10
+    },
+    "side-delts": {
+      "min": 8,
+      "max": 16
+    },
+    "rear-delts": {
+      "min": 6,
+      "max": 12
+    },
+    "lats": {
+      "min": 10,
+      "max": 18
+    },
+    "upper-back": {
+      "min": 8,
+      "max": 16
+    },
+    "traps": {
+      "min": 4,
+      "max": 10
+    },
+    "lower-back": {
+      "min": 2,
+      "max": 8
+    },
+    "biceps": {
+      "min": 8,
+      "max": 14
+    },
+    "triceps": {
+      "min": 8,
+      "max": 14
+    },
+    "forearms": {
+      "min": 2,
+      "max": 8
+    },
+    "quads": {
+      "min": 10,
+      "max": 18
+    },
+    "hamstrings": {
+      "min": 8,
+      "max": 14
+    },
+    "glutes": {
+      "min": 6,
+      "max": 14
+    },
+    "adductors": {
+      "min": 2,
+      "max": 6
+    },
+    "abductors": {
+      "min": 2,
+      "max": 6
+    },
+    "calves": {
+      "min": 6,
+      "max": 12
+    },
+    "abs": {
+      "min": 4,
+      "max": 10
+    }
+  },
+  "changes": [
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PushA",
+      "exercise": "face-pulls",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "The PushA face-pull slot is a ghost — last logged there 2026-02-24. You run face pulls live on PullA, PushB and PullB.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "LegsB",
+      "exercise": "standing-calf-raise",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "The plan asks 4 sets on both leg days; you have never hit the fourth. Cut the prescription to 3 real sets or commit to the 4th.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "LegsA",
+      "exercise": "leg-curl",
+      "kind": "reorder",
+      "before": null,
+      "after": {
+        "position": 1
+      },
+      "why": "Same lift, two days, 15 lb and a set apart — on LegsA it sits behind leg press and extensions and gets the tired end of the session.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "LegsB",
+      "exercise": "leg-extension",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "Six weekly sets of extension against five of curl, on top of leg press both days. Front of the leg is out-earning the back.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PushA",
+      "exercise": "machine-chest-press",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "Your two prescriptions are backwards. Push A calls the heavy 8-10 range but your chest has already eaten four sets of incline by the time it gets there — you pressed 150x10. Push B calls the lighter 10-12 and you pressed 157.5x10, heavier, on the day that is supposed to be lighter. Flip the labels so they match where you are actually fresh.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PushB",
+      "exercise": "machine-chest-press",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 8,
+        "repMax": 10
+      },
+      "why": "Your two prescriptions are backwards. Push A calls the heavy 8-10 range but your chest has already eaten four sets of incline by the time it gets there — you pressed 150x10. Push B calls the lighter 10-12 and you pressed 157.5x10, heavier, on the day that is supposed to be lighter. Flip the labels so they match where you are actually fresh.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PushA",
+      "exercise": "face-pulls",
+      "kind": "retract",
+      "before": null,
+      "after": null,
+      "why": "REVERSING the earlier proposal — it was wrong on the facts. 'Last logged 2026-02-24' is the date of your last Push A, not the last time you chose to do face pulls: only one Push A has run since, a 34-minute 21:58 session where the last THREE exercises collapsed together. Your actual record here is 22 of 24 sets across 12 sessions — 92%, better than most of your leg work. And this is the only external-rotation and only posterior-shoulder work in a 24-set day carrying 16 anterior sets. Put it back.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PushA",
+      "exercise": "face-pulls",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "Face pulls are the only loaded lift in your plan with repMin = repMax (15-15), so the progression rule fires EVERY session and the load can only climb. It went 17.5 to 40 lb, where a rope face pull is a trap-driven high row, not a cuff movement — then sat stuck at 40 for six sessions. It is already back on that path: 20.5 to 25.5 in eight days. A 12-15 range lets it progress by control and reps instead of by the pin.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PullA",
+      "exercise": "face-pulls",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "Same fix, same reason — the fixed 15-15 range forces load on a corrective on every day it appears.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PushB",
+      "exercise": "face-pulls",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "Same fix, same reason.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "PullB",
+      "exercise": "face-pulls",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "Same fix, same reason.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "LegsB",
+      "exercise": "leg-extension",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "THIS is the slot the compliance argument actually pointed at: 3 of 15 sets across 5 sessions, 20% — the deadest slot in your program. You already do leg extensions on Legs A at over 100% compliance. You decided five times running that this duplicate is not worth doing; the prescription should say so instead of generating false 'stale slot' signals.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-22",
+      "session": "LegsB",
+      "exercise": "plank",
+      "kind": "swap",
+      "before": null,
+      "after": {
+        "id": "hanging-leg-raise"
+      },
+      "why": "Every bit of core work you do is spinal flexion — 6 cable-crunch sets plus leg raises — against deadlifts topping 255x5 and rows at 150x8. Nothing resists rotation. Plank is also 3 of 10 sets across 5 sessions (30%), the second-deadest slot. NOTE: this swaps in another flexion movement because the catalog has no anti-rotation exercise yet — a Pallof press would be the right answer and needs adding to plan.json first. Decline this one if you would rather I add the right movement.",
+      "evidence": [],
+      "origin": "decision by the athlete (corrective-audit proposal of 2026-07-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-23",
+      "session": "PushA",
+      "exercise": "machine-chest-press",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "Your two chest-press prescriptions are backwards. Push A is labelled the heavy 8-10 range, but the machine sits behind four sets of incline there, so you pressed 150x10. Push B is labelled the lighter 10-12 and you pressed 157.5x10 — heavier, on the day meant to be lighter. Flip the labels so Push A is the 10-12 exposure and Push B the heavy 8-10. (Re-surfaced from yesterday; still unactioned.)",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-23)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-23",
+      "session": "PushB",
+      "exercise": "machine-chest-press",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 8,
+        "repMax": 10
+      },
+      "why": "Same fix — make Push B the heavy 8-10 chest exposure, since that is where your chest is actually fresh and you press heavier.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-23)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-23",
+      "session": "PushA",
+      "exercise": "overhead-cable-triceps",
+      "kind": "reorder",
+      "before": null,
+      "after": {},
+      "why": "The same lift is two different athletes across the split: 54x10 for three sets on Push B (fresh) versus only 47.5x13 for two sets on Push A, where it sits sixth after both presses, the crossover, the shoulder press and the lateral raise. Move it ahead of the Push A lateral raise so its one Push A exposure starts on fresh arms instead of the dregs.",
+      "evidence": [],
+      "origin": "decision by the athlete (program proposal of 2026-07-23)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-24",
+      "session": "LegsA",
+      "exercise": "db-bulgarian-split-squat",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "sets": 2,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 120,
+        "seed": 30
+      },
+      "why": "Your legs were 100% bilateral — no single-leg work, so a stronger leg can hide a left/right gap that is judged on stage. A 4-seat trainer panel picked this over the Smith squat (bilateral, fixes nothing) and kettlebells (cap 30 lb, too light) as the one move that adds a squat pattern AND fixes symmetry. Start ~30/hand and light: the first sessions are to find balance and each leg's baseline. Weaker leg first, match — never beat — its reps. Off-ramp: if balance/knee/recovery suffers near prep, swap to single-leg leg press.",
+      "evidence": [],
+      "origin": "decision by the athlete (panel proposal of 2026-07-23)"
+    },
+    {
+      "version": 0,
+      "date": "2026-07-24",
+      "session": "LegsA",
+      "exercise": "leg-extension",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "Keep quad volume about flat while the split squat is added: trim LegsA leg extension 3→2 sets (net +1 set on the day). Reverse anytime.",
+      "evidence": [],
+      "origin": "decision by the athlete (panel proposal of 2026-07-23)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-01",
+      "session": "PullA",
+      "exercise": "face-pulls",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "You did face pulls on Push A last night and wrote \"Do you have a brain?\" next to them, and tonight's Pull A asks for them again — this drops them from Pull A only, so they stay on your two push days, where nothing else trains the back of the shoulder, and come off a day that already runs six sets of pulldowns and rows.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-01)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-01",
+      "session": "PullB",
+      "exercise": "face-pulls",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "On Pull B you skipped the face pulls yourself and wrote that running the same corrective on back-to-back days was insane — this makes the plan say what you already did, leaving Pull B's thirteen other back sets to cover the rear delt and keeping face pulls on the two push days.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-01)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-01",
+      "session": "PullA",
+      "exercise": "seated-cable-row-wide",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 4
+      },
+      "why": "Pull A gives your biceps six direct sets and your only horizontal row three, and on 24 July all three row sets went at 105 for ten, eleven and ten with nothing falling off — this makes it four sets so the rowing on your back day at least matches the curling.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-01)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-03",
+      "session": "PullB",
+      "exercise": "lat-pulldown-close",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 8,
+        "repMax": 10
+      },
+      "why": "Close-grip pulldown asks ten to twelve reps and you finished every 120 lb set at exactly ten on both of your last two Pull B nights — the weight only moves when every set reaches the top of the range, so this asks eight to ten and the tens you already do earn the next plate.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-02)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-03",
+      "session": "PushB",
+      "exercise": "face-pulls",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "Push B already has the reverse pec deck working the back of your shoulders, so face pulls are doing that job twice in one session — Push A has no reverse pec deck, so they stay on that day.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-03)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-03",
+      "session": "LegsA",
+      "exercise": "hanging-leg-raise",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "You asked whether three sets is right — both times you have done three on this day your third set came in at ten after two sets of twelve, so this makes it two if you would rather have the honest number.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-03)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-03",
+      "session": "PushA",
+      "exercise": "overhead-cable-triceps",
+      "kind": "reorder",
+      "before": null,
+      "after": {
+        "position": 4
+      },
+      "why": "You already approved moving this ahead of the Push A lateral raise on 23 July, but that card carried no position for the app to apply, so nothing moved and it still ran sixth on both Push A nights since — this is the same change with the number it was missing.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-03)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-03",
+      "session": "PushB",
+      "exercise": "assisted-dips",
+      "kind": "reorder",
+      "before": null,
+      "after": {
+        "position": 2
+      },
+      "why": "Dips are a pressing movement, but on Push B they run sixth, behind six straight sets of crossovers and rear-delt flies — this moves them up behind the chest press so both of your presses happen before the isolation work instead of after it.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-03)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-14",
+      "session": "PushA",
+      "exercise": "rope-pushdown",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "Still open and unanswered, and it is on tonight's card: Push A's rope pushdown asks ten to twelve and your six sets there came in at eight, seven, nine and eight, seven, eight — not one set inside the range all block, so the weight can never move, and twelve to fifteen makes it a slot you can actually finish.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-14)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-14",
+      "session": "PushA",
+      "exercise": "face-pulls",
+      "kind": "swap",
+      "before": null,
+      "after": {
+        "id": "reverse-pec-deck",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "Still open and unanswered, and it is also on tonight's card: Push A is the last place face pulls are still in your week, and it is the one prescription you have objected to in writing twice — \"I did angels and demons instead\" on 28 July and \"Do you have a brain?\" on 31 July — so this puts the reverse pec deck in that slot instead, two sets of twelve to fifteen. Same back of the shoulder, and it is the machine you have carried from 82.5 to 90 without missing a set.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-14)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-14",
+      "session": "PullB",
+      "exercise": "straight-arm-pulldown",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "Still open — you have not had a session since this went on your card: both your last two Pull B nights sat at 37.5 and finished 13, 11, 12 and 13, 12, 12 — never the fifteen this slot asks for, so the weight can never move, and asking ten to twelve means the twelves you already do earn the next step.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-14)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-14",
+      "session": "LegsA",
+      "exercise": "standing-calf-raise",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "Still open and unanswered, and this is not the cut to two sets you declined on 3 August — it is three: Legs A asks for four and you have done two, two and three, and because the weight only moves when you finish every set the plan asks for, three makes the prescription the work you actually do.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-14)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-16",
+      "session": "LegsB",
+      "exercise": "hanging-leg-raise",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "The hanging leg raise carries no weight, so reps are the only thing about it that can ever grow — and the card asks you for your best set from last time, capped at the top of the range. On Legs B you did twelve and twelve, which is that cap, so this slot is now frozen at twelve and cannot ask for more no matter how easy it gets. Twelve to fifteen makes twelve the floor instead of the ceiling, and means a thirteen you take on your own sticks and becomes the new ask.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-15)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-16",
+      "session": "LegsA",
+      "exercise": "db-bulgarian-split-squat",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "Legs A's split squat goes from two sets to three. It is the only single-leg work in your week and the smallest slot in the program, and you have finished both sets on every Legs A since it was added. The program trainer wanted to hold this until two more Legs A nights are logged, which puts it in September — I am putting it in front of you now instead, because a question you cannot answer is worse than one you decline.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-15)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-17",
+      "session": "PushA",
+      "exercise": "reverse-pec-deck",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "Face pulls have now come off all four of your days, so the back of your shoulder is down to five sets in the whole week and only two of them are on Push A — a night that carries thirteen sets of chest and front-shoulder work — and on 14 August you took both of those two at 90 for twelve without dropping a rep, so this makes Push A three sets, the same three you already do on Push B.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-17)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-17",
+      "session": "PushA",
+      "exercise": "reverse-pec-deck",
+      "kind": "reorder",
+      "before": null,
+      "after": {
+        "position": 4
+      },
+      "why": "This is the other half of the card above, and they only work together: your last exercise has come in short on 3, 14 and 16 August, and on Push A the lift sitting last is the reverse pec deck, so adding a third set without moving it just puts more work in the spot that already gets eaten — this runs it fifth, straight after the shoulder press and ahead of the triceps and lateral raises, so your rear delts get a fresh slot instead of the dregs.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-17)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-17",
+      "session": "LegsA",
+      "exercise": "hanging-leg-raise",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 15
+      },
+      "why": "You accepted exactly this change on Legs B yesterday and Legs A still has the old ceiling on it — the hanging leg raise carries no weight, so reps are the only thing about it that can grow, and on both 26 July and 2 August your first two Legs A sets finished at twelve, which is the top of what that slot asks, so it is frozen there and can never ask for more; twelve to fifteen makes twelve the floor instead of the ceiling on both leg days.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-17)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-18",
+      "session": "PullA",
+      "exercise": "face-pulls",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 27.5
+      },
+      "why": "Nothing corrective has been in front of you for over two weeks - face pulls came off all four days between 1 and 14 August, and the only two left, hip adductor and hip abductor, sit on Legs A, which you last logged on 2 August - so this puts three sets back on Pull A, your shortest session, as the only external-rotation movement in the program.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-18)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-18",
+      "session": "PullB",
+      "exercise": "face-pulls",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 27.5
+      },
+      "why": "Pull B is the other day with no rear-shoulder or cuff work on it at all, and a second face-pull slot here means that cuff work lands twice a cycle instead of once.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-18)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-18",
+      "session": "LegsB",
+      "exercise": "hip-abductor",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75,
+        "seed": 135
+      },
+      "why": "Legs B is the only leg day with no hip work at all, and it is the day you hinge heavy, which is exactly where hip stability earns its keep - two sets of twelve to fifteen at 135, the weight you carried on 2 August, slotted after the leg curls.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-18)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-18",
+      "session": "PushA",
+      "exercise": "rope-pushdown",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "The third set of rope pushdowns is the one that never holds - 14, 11 then 10 reps on 14 August, and on 17 August you dropped from 52.5 to 47.5 to finish it - so Push A ends on two hard sets instead of three at the tail of an eight-exercise day.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-18)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-23",
+      "session": "LegsA",
+      "exercise": "leg-press-low",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "On all three Legs A nights your first leg-press set has been a build-up - 160, 160 and 180 against top sets of 220, 220 and 240 - so the four sets the plan asks for are really three of work plus a ramp, and at three minutes of rest each this is the most expensive slot on your longest session; tonight's card already runs three, and this makes it the standing shape.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-20)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-23",
+      "session": "LegsA",
+      "exercise": "leg-curl",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 4
+      },
+      "why": "Legs A gives the front of your leg nine sets - leg press, split squats and extensions - against three of leg curl and no hinge at all, and on 2 August all three of those curl sets finished at the top of the range at 135 for fifteen, so this makes it four; the card below takes that same set off Legs B, so your week's hamstring total does not move.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-20)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-23",
+      "session": "LegsB",
+      "exercise": "leg-curl",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "Read this one carefully: on 18 August I answered your written question by telling you four sets on Legs B is right, and no Legs B has been logged since, so nothing new has happened - this is the program trainer asking a different question, whether that fourth set is better spent on Legs A where you have nine quad sets and no hinge at all, rather than on the one day you already deadlift-pattern with RDLs. Accepting moves the set; declining keeps four on Legs B exactly as I told you, and No is a real answer.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-20)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-23",
+      "session": "LegsB",
+      "exercise": "hip-adductor",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "Legs B just got the hip abductor back but not its partner, so the outside of your hip is now worked twice a cycle and the inside only once - this puts the adductor back beside it on your heavy hinge day, two sets of twelve to fifteen, the way you ran the pair on Legs B last winter.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-20)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-28",
+      "session": "PushB",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "You asked on 23 August whether four sets is right for such a small muscle group, and the answer is no — Push B already opens with four sets of overhead press and Push A adds three cable lateral raises on top, so this makes it the three sets you actually did that night, all of them at fifteen reps.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-27)"
+    },
+    {
+      "version": 0,
+      "date": "2026-08-28",
+      "session": "PullB",
+      "exercise": "cable-reverse-curl",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "The cable reverse curl asks twelve to fifteen reps and your last five Pull B nights have never once put a set above twelve — eleven, eleven, eleven at 37.5 on both 15 and 25 August — so the weight can never move, and asking ten to twelve makes the twelves you already did in July the thing that earns the next step.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-08-27)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-03",
+      "session": "LegsA",
+      "exercise": "leg-curl",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "Your leg curl asks twelve to fifteen reps on Legs A but ten to twelve on Legs B, and it is the same machine at the same 142.5 on both — on 20 August your top Legs A sets were 142.5 for thirteen and thirteen, inside the range but never the top, so the weight can never move, while the identical 142.5 for twelve on Legs B on 16 August is the top of its range and earns the next step; this makes Legs A ten to twelve so the only hamstring work on that day can actually progress.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-02)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-03",
+      "session": "LegsA",
+      "exercise": "cable-crunch",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "The cable crunch asks twelve to fifteen and you finished all three sets at thirteen on Legs A and all three at twelve on Legs B, both at 60 — and that machine has no small plate, so its next step is 65 and you can never reach it from inside this range; unlike the hanging leg raise, which carries no weight and needs the high range you accepted, this one is loaded, so ten to twelve makes the twelves you already do earn the next step.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-02)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-03",
+      "session": "LegsB",
+      "exercise": "cable-crunch",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "Same change on the other leg day, and they belong together — the Legs B cable crunch sits at the same 60 and finished at twelve on 16 August, so leaving it at twelve to fifteen would freeze it on one day while the other one climbs.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-02)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-03",
+      "session": "PullB",
+      "exercise": "incline-db-curl",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "Your last four Pull B nights ran the incline curl at 25 for ten, ten and then eight on 21 July and nine on 28 July, 15 August and 25 August — the first two sets hit the top of the range every single time and only the third one falls short, which is the one thing stopping this slot from ever moving; this makes it two sets, the same fix you accepted on the rope pushdown.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-02)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-03",
+      "session": "PullA",
+      "exercise": "face-pulls",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "You asked on 28 August why Pull A calls for three face pull sets when you think two is right, and you did two that night — Pull B already runs two, so this makes the two days agree with each other and with you.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-02)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-14",
+      "session": "LegsA",
+      "exercise": "hanging-leg-raise",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "Your two leg days run the same lifts from the fourth one on, so Legs A gives up the hanging leg raise and keeps the cable crunch while Legs B keeps both, which finally makes the two days different.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-11)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-14",
+      "session": "PushB",
+      "exercise": "smith-overhead-press",
+      "kind": "swap",
+      "before": null,
+      "after": {
+        "id": "db-shoulder-press",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "why": "On 2 September you pressed dumbbells in this slot and wrote \"New gym. No smith machine. Dumbbell press\", so the Push B opener takes the name of the lift you are actually doing and asks for 4 sets of 8 to 10 instead of the smith bar's 6 to 8 — the name and the rep ask change, nothing else.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-11)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-14",
+      "session": "PushA",
+      "exercise": "cable-lateral-raise",
+      "kind": "remove",
+      "before": null,
+      "after": null,
+      "why": "This has sat at the same 10 pounds since the middle of August without the reps ever climbing, and Push B already gives you three sets of dumbbell lateral raises, which is the lift you told us on 23 August you thought was getting too many sets for such a small muscle.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-11)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-14",
+      "session": "PushB",
+      "exercise": "assisted-dips",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 20
+      },
+      "why": "You finished 12 reps — the top of this slot's range — on every set the last two times you did dips, and because the slot carries no weight there is nothing else that can go up, so this raises the range to 12 to 20 reps and makes reps the thing that climbs.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-14)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-14",
+      "session": "PushB",
+      "exercise": "reverse-pec-deck",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "Push B asks for 24 sets a night and the one you keep leaving behind is the third set of reverse pec deck — two sets on 23 August, two again on 2 September, and the last time you did three was 3 August — so this makes the written ask two sets instead of three.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-14)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-17",
+      "session": "LegsB",
+      "exercise": "hanging-leg-raise",
+      "kind": "reorder",
+      "before": null,
+      "after": {
+        "position": 6
+      },
+      "why": "The hanging leg raise is the only thing left that makes Legs B different from Legs A, but it sits dead last on a twenty-two set night, and on 5 September both its sets were typed one second apart the following day — this runs it ahead of the cable crunch instead of leaving it at the tail.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-16)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-17",
+      "session": "PushA",
+      "exercise": "db-shoulder-press",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 10,
+        "repMax": 12
+      },
+      "why": "Both push days now press dumbbells overhead at 8 to 10 reps, and Push B does it first and heaviest, so this takes the Push A sets to 10 to 12 and lets the two days stop being the same session — the same way your chest press already splits 10 to 12 on Push A and 8 to 10 on Push B.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-15)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-19",
+      "session": "PushB",
+      "exercise": "overhead-cable-triceps",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 8,
+        "repMax": 10
+      },
+      "why": "Overhead cable triceps is the last lift that is identical on both push days — three sets of 10 to 12, run at 55 pounds on 8 September and again at 55 on 14 September, finishing on 9 reps under the bottom of the range both nights; this takes Push B to 8 to 10 so the two days stop being the same set, the way your chest press already splits.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-19)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-20",
+      "session": "LegsA",
+      "exercise": "leg-curl",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "Read this before you answer: on 23 August you said yes to taking Legs A leg curl UP from three sets to four, to stop the front of your leg out-earning the back. You have run Legs A once since — 13 September — and did two sets. This card asks whether to write it back down to three, the number Legs B already asks. Saying no keeps the four you chose.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-20)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-20",
+      "session": "LegsA",
+      "exercise": "db-bulgarian-split-squat",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 2
+      },
+      "why": "Same kind of question: on 16 August you said yes to taking the split squat UP from two sets to three. You did three on 20 August, right after you agreed, then two again on 13 September. This card asks whether to write it back to two. Saying no keeps the three you chose, and the honest read is that you have managed it once.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-20)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-21",
+      "session": "PushB",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 4
+      },
+      "why": "The cable lateral raise came off Push A on 11 September, which leaves these three sets as the only direct side-delt work in your whole week, against seven weekly sets of overhead pressing. This asks to put the fourth set back — the same fourth set you ran on 3 August. You should know it reverses itself: your program trainer cut this to three on 27 August, right after you asked whether four was really right for such a small muscle. Those two decisions leaned on each other — August's cut pointed at Push A's cable raises, and September's removal pointed at Push B's dumbbell raises — so the reason for the cut is now gone. Saying yes still leaves you with less side-delt work than you had in August.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-21)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-22",
+      "session": "PushB",
+      "exercise": "assisted-dips",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 4
+      },
+      "why": "Every set of dips you have ever logged is bodyweight, so the weight on this one can never go up — reps are the only thing that can climb. The range was raised to 12-20 reps on 14 September and that same night you finished on 19, which used up nearly all of the new room in a single session. A fourth set is the only lever left. Saying yes makes Push B a 25-set night instead of 24.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-22",
+      "session": "PushB",
+      "exercise": "reverse-pec-deck",
+      "kind": "sets",
+      "before": null,
+      "after": {
+        "sets": 3
+      },
+      "why": "Your third set of reverse pec deck was cut last week because you had stopped doing it — two sets on 23 August, two on 2 September. That cut was decided on the morning of 14 September, a few minutes before you walked into the gym, and that night you did all three sets, twelve reps each. That is a fact the cut did not have. This asks to write the third set back before Meso 3 starts on 28 September.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-22)"
+    },
+    {
+      "version": 0,
+      "date": "2026-09-27",
+      "session": "PullB",
+      "exercise": "db-shrug",
+      "kind": "reprange",
+      "before": null,
+      "after": {
+        "repMin": 12,
+        "repMax": 20
+      },
+      "why": "You wrote \"35kg is heaviest dumbbell\" on 15 September and then shrugged it for fifteen reps on all three sets — the top of the range — the same fifteens you hit on 3 September. The weight has nowhere to go and neither do the reps, so this lift has no way to get harder in Meso 3. This opens the top of the range to twenty reps. The bottom stays at twelve, so nothing else about the slot changes.",
+      "evidence": [],
+      "origin": "decision by the athlete (trainer proposal of 2026-09-26)"
+    },
+    {
+      "version": 1,
+      "date": "2026-10-13",
+      "session": null,
+      "exercise": null,
+      "kind": "snapshot",
+      "before": null,
+      "after": null,
+      "why": "Program file created: the program as he ran it on this date, with every accepted decision applied. The trainer owns it from here.",
+      "evidence": []
+    }
+  ]
+}

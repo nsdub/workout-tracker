@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// Gate for data/coach/latest.json: the daily trainer review may only be
-// committed if this passes. Validates the packet's shape and freshness, then
-// prints exactly what the app will prescribe WITH the packet applied — every
-// place the engine's cap changed a coach ask is flagged loudly so the
-// reviewing agent can rethink before shipping numbers it didn't intend.
-// Usage: node scripts/validate-coach.mjs [path] [YYYY-MM-DD]
-import { readFileSync, readdirSync } from 'node:fs';
+// Gate for data/coach/latest.json: the daily review may only be committed if
+// this passes. Validates the packet's shape and freshness, checks that the
+// REVIEW it carries is complete and that every number it quotes about the
+// program is true, then prints exactly what the app will prescribe WITH the
+// packet applied — every place the engine's cap changed a coach ask is
+// flagged loudly so the reviewing agent can rethink before shipping numbers
+// it didn't intend.
+// Usage: P3_SCHEDULED=1 node scripts/validate-coach.mjs [path] [YYYY-MM-DD]
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as E from '../js/engine.js';
@@ -13,19 +15,20 @@ import * as E from '../js/engine.js';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pktPath = process.argv[2] ?? join(root, 'data/coach/latest.json');
 const today = process.argv[3] ?? new Date().toLocaleDateString('sv-SE');
-// Validate against the program he ACTUALLY RUNS. Accepted structural
-// decisions are an overlay on plan.json, so checking the signed baseline
-// passed a packet that prescribed leg-extension on a Legs B slot removed on
-// 2026-07-22, while the lift that replaced it got no prescription at all.
+// Validate against the program he ACTUALLY RUNS: the trainer's program file,
+// or (before one exists) the signed plan with his accepted decisions.
 const signed = JSON.parse(readFileSync(join(root, 'data/plan.json'), 'utf8'));
 const decisions = JSON.parse(readFileSync(join(root, 'data/coach/decisions.json'), 'utf8'));
-const plan = E.effectivePlan(signed, decisions);
+const programPath = join(root, 'data/coach/program.json');
+const program = existsSync(programPath) ? JSON.parse(readFileSync(programPath, 'utf8')) : null;
+const plan = E.effectivePlan(signed, decisions, program);
 const history = readdirSync(join(root, 'data/history'))
   .filter((f) => f.endsWith('.json'))
   .map((f) => JSON.parse(readFileSync(join(root, 'data/history', f), 'utf8')))
   .sort((a, b) => a.date.localeCompare(b.date));
 
 const fail = (msg) => { console.error(`✗ ${msg}`); process.exitCode = 1; };
+const warn = (msg) => console.warn(`⚠ ${msg}`);
 const pkt = JSON.parse(readFileSync(pktPath, 'utf8'));
 
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
@@ -51,9 +54,93 @@ if (latest && pkt.reviewed_through !== latest) {
 }
 if (!E.coachFresh(history, pkt)) fail('packet is not fresh against history — the app would ignore every override');
 
+// The old Yes/No cards are gone (v88): the trainer sets the program.
+if (Array.isArray(pkt.proposals) && pkt.proposals.length) fail('proposals[] is no longer a thing — program changes go into data/coach/program.json with a change entry, and the app shows them as "what changed"');
+
 for (const f of pkt.flags ?? []) {
   if (typeof f.note !== 'string' || !f.note.trim()) fail(`flag ${JSON.stringify(f)} has no note`);
 }
+
+// ——— THE REVIEW: every muscle, every lift, numbers that are true ———
+if (!program) {
+  warn('no program.json — the review checks below are skipped; run scripts/program-init.mjs');
+} else {
+  if (pkt.program_version !== program.version) fail(`program_version ${pkt.program_version} ≠ program.json v${program.version}`);
+  const review = pkt.review;
+  if (!review || typeof review !== 'object') fail('review{} missing — the packet must carry the full program review (block, every muscle, every lift)');
+  const MV = ['hold', 'raise', 'cut', 'rotate', 'watch'];
+  const LT = ['progressing', 'holding', 'stalled', 'regressing', 'new', 'unlogged'];
+  const LV = ['progress', 'hold', 'deload', 'rotate', 'drop', 'watch'];
+  const deferred = pkt.deferred ?? [];
+  const todays = (program.changes ?? []).filter((c) => c.version === program.version && c.date === pkt.date);
+  const planned = E.plannedWeeklyByMuscle(plan);
+
+  if (review?.block) {
+    const b = review.block;
+    if (!b.verdict || !b.why) fail('review.block needs verdict and why');
+    const info = E.phaseForDate(plan, pkt.date);
+    if (b.phase && info.phase && b.phase !== info.phase.id) fail(`review.block.phase "${b.phase}" but the calendar says ${info.phase.id}`);
+  } else fail('review.block missing — where is he in the plan and is the block on course');
+
+  const muscles = review?.muscles ?? {};
+  for (const m of E.MUSCLES) {
+    const r = muscles[m];
+    const tag = `review.muscles.${m}`;
+    if (!r) { fail(`${tag}: missing — every muscle gets a verdict every day`); continue; }
+    if (!MV.includes(r.verdict)) fail(`${tag}: verdict must be ${MV.join('|')}`);
+    if (typeof r.why !== 'string' || r.why.trim().length < 15) fail(`${tag}: why must be a real sentence`);
+    // THE NUMBER ON SCREEN MUST BE TRUE: the planned figure is recomputed
+    // from the program, not taken from the packet.
+    if (Math.abs((r.planned_weekly_sets ?? -1) - planned[m]) > 0.05) fail(`${tag}: planned_weekly_sets ${r.planned_weekly_sets} but the program plans ${planned[m]}`);
+    if (!(typeof r.done_4wk_avg === 'number')) fail(`${tag}: done_4wk_avg required (from the dossier's muscle_week.avg_4wk_done)`);
+    if (['raise', 'cut', 'rotate'].includes(r.verdict)) {
+      const touched = todays.some((c) => {
+        const ex = plan.exercises[c.exercise ?? c.after?.id];
+        return c.kind === 'targets' || (ex?.muscles?.primary ?? []).includes(m) || (ex?.muscles?.secondary ?? []).includes(m);
+      });
+      const def = deferred.some((d) => d.muscle === m);
+      if (!touched && !def) fail(`${tag}: verdict "${r.verdict}" but no change today touches ${m} and nothing in deferred[] says when it will — a verdict with no action is a note to self`);
+    }
+  }
+  for (const k of Object.keys(muscles)) if (!E.MUSCLES.includes(k)) fail(`review.muscles.${k}: not a muscle in the list`);
+
+  const programLifts = [...new Set(Object.values(plan.sessions).flatMap((s) => s.exercises.map((x) => x.id)))];
+  const lifts = review?.lifts ?? {};
+  for (const id of programLifts) {
+    const r = lifts[id];
+    const tag = `review.lifts.${id}`;
+    if (!r) { fail(`${tag}: missing — every lift in the program gets a verdict every day`); continue; }
+    if (!LT.includes(r.trend)) fail(`${tag}: trend must be ${LT.join('|')}`);
+    if (!LV.includes(r.verdict)) fail(`${tag}: verdict must be ${LV.join('|')}`);
+    if (typeof r.why !== 'string' || r.why.trim().length < 15) fail(`${tag}: why must be a real sentence`);
+    if (['rotate', 'drop'].includes(r.verdict)) {
+      const touched = todays.some((c) => c.exercise === id);
+      const def = deferred.some((d) => d.exercise === id);
+      if (!touched && !def) fail(`${tag}: verdict "${r.verdict}" but no change today names ${id} and nothing in deferred[] says when — decide it or date it`);
+    }
+  }
+  for (const k of Object.keys(lifts)) if (!programLifts.includes(k)) warn(`review.lifts.${k}: not in the program (a lift just dropped is fine here)`);
+  for (const [i, d] of deferred.entries()) {
+    if (!ISO.test(d.until ?? '')) fail(`deferred[${i}]: until must be a date`);
+    if (!(d.muscle || d.exercise) || !d.why) fail(`deferred[${i}]: needs muscle|exercise and why`);
+    if (d.until <= pkt.date) fail(`deferred[${i}]: until ${d.until} is not in the future`);
+  }
+}
+
+// ——— overrides: tonight's loads ———
+const painRecent = (() => {
+  // A pain note on a lift inside ten days caps tonight's weight on it at the
+  // last logged top set. The recovery seat used to be the only brake; this
+  // is the part of the brake a script can hold.
+  const PAIN = /pain|tweak|pinch|sharp|hurt|strain|click|numb/i;
+  const since = new Date(new Date(today + 'T12:00').getTime() - 10 * 86400000).toLocaleDateString('sv-SE');
+  const out = {};
+  for (const e of lifting) {
+    if (e.date < since) continue;
+    for (const x of e.exercises ?? []) if (x.note && PAIN.test(x.note)) out[x.id] = { date: e.date, note: x.note };
+  }
+  return out;
+})();
 for (const o of pkt.overrides ?? []) {
   if (!plan.exercises[o.exercise]) fail(`override for unknown exercise "${o.exercise}"`);
   if (o.session && !plan.sessions[o.session]) fail(`override session "${o.session}" is not in the plan`);
@@ -71,85 +158,23 @@ for (const o of pkt.overrides ?? []) {
   if (!Array.isArray(o.sets) || !o.sets.length) fail(`override ${o.exercise}: sets[] required`);
   for (const s of o.sets ?? []) {
     // A bodyweight slot (plank, hanging leg raise, assisted dips) carries
-    // weight 0 and prescribes only the hold or the rep count. Requiring a
-    // positive weight here is what made the recovery seat write "I cannot set
-    // a timed hold from here" two reviews running.
+    // weight 0 and prescribes only the hold or the rep count.
     const bw = !!plan.exercises[o.exercise]?.bodyweight;
     if (bw ? (s.weight ?? 0) !== 0 : !(s.weight > 0) || !Number.isFinite(s.weight)) {
       fail(`override ${o.exercise}: bad weight ${s.weight}${bw ? ' — bodyweight slots take weight 0' : ''}`);
     }
-    // Seconds are not reps: a timed slot's ceiling is time, not the 30-rep
-    // validation cap that would have rejected the plan's own 60-second plank.
+    // Seconds are not reps: a timed slot's ceiling is time, not the 30-rep cap.
     const timed = Object.values(plan.sessions).some((sess) => sess.exercises
       .some((x) => x.id === o.exercise && x.repUnit === 'sec'));
     const repCap = timed ? 600 : (plan.rules?.validation?.maxReps ?? 30);
     if (!(s.reps >= 1) || s.reps > repCap) fail(`override ${o.exercise}: bad ${timed ? 'seconds' : 'reps'} ${s.reps}`);
   }
-}
-
-// ——— Structural proposals: the only way a trainer ask becomes answerable ———
-// The app renders `proposals[]` as Yes/No cards (js/views/plan.js) and records
-// the answer in decisions.json. Anything the panel writes as prose instead
-// lands in the briefing sheet, which has one button on it: Close. On
-// 2026-07-30 all three of the program seat's structure_proposals were
-// flattened into flags[] and the athlete had no way to answer any of them —
-// one had been re-asked daily for over a week. These gates make that
-// impossible: a dropped proposal, an inapplicable one, or one that silently
-// does nothing all fail the packet.
-const PROPOSAL_KINDS = ['add', 'remove', 'swap', 'volume', 'reorder', 'reprange', 'keep'];
-const bareId = (p) => `${p.kind}:${p.exercise}:${p.scope ?? 'all'}`;
-const decidedAlready = new Map(decisions.map((d) => [bareId(d.proposal ?? {}), d]));
-
-for (const p of pkt.proposals ?? []) {
-  const tag = `proposal ${p.kind}/${p.exercise}`;
-  if (!PROPOSAL_KINDS.includes(p.kind)) { fail(`${tag}: kind must be one of ${PROPOSAL_KINDS.join(' | ')}`); continue; }
-  if (!signed.exercises[p.exercise]) { fail(`${tag}: unknown exercise`); continue; }
-  if (typeof p.why !== 'string' || !p.why.trim()) fail(`${tag}: why is required — the card quotes it to the athlete`);
-  // SCOPE IS MANDATORY. `effectivePlan` treats a missing scope as EVERY
-  // session: the 2026-07-30 packet's unscoped `remove face-pulls` would have
-  // stripped them from all four days while its own note promised "cut them
-  // from both push days and keep them on Pull A and Pull B only".
-  if (!p.scope) fail(`${tag}: scope is required — without it this applies to EVERY session, which is almost never what the note says`);
-  else if (!plan.sessions[p.scope]) fail(`${tag}: scope "${p.scope}" is not a session`);
-  if (p.kind === 'swap') {
-    if (!p.replacement) fail(`${tag}: swap needs a replacement`);
-    else if (!signed.exercises[p.replacement]) fail(`${tag}: replacement "${p.replacement}" is not in the catalog`);
-    else if (!!signed.exercises[p.exercise]?.timed !== !!signed.exercises[p.replacement]?.timed
-             && !p.slot && !E.nativeSlot(signed, p.replacement)) {
-      fail(`${tag}: this swap crosses the timed/untimed boundary and neither the proposal nor the plan gives ${p.replacement} a shape — supply slot{sets,repMin,repMax} or the app cannot know its units`);
-    }
-  }
-  if (p.kind === 'add' && !(p.slot?.sets > 0)) fail(`${tag}: add needs slot{sets,repMin,repMax} — the trainer sets the prescription, not the athlete`);
-  if (p.kind === 'volume' && !(p.sets > 0)) fail(`${tag}: volume needs sets`);
-  if (p.kind === 'reorder' && !Number.isInteger(p.position)) fail(`${tag}: reorder needs an integer position`);
-  if (p.kind === 'reprange' && !(p.repMin > 0 && p.repMax >= p.repMin)) fail(`${tag}: reprange needs repMin/repMax`);
-  // Dry-run it. A proposal the athlete accepts and that then changes nothing
-  // is worse than no proposal: the app reports it as applied.
-  const before = E.effectivePlan(signed, decisions);
-  const after = E.effectivePlan(signed, [...decisions, { proposal: { ...p, date: p.date ?? pkt.date }, decision: 'accepted' }]);
-  if (JSON.stringify(before.sessions) === JSON.stringify(after.sessions)) {
-    fail(`${tag}: accepting this changes NOTHING — the app would show it as applied and the program would be identical`);
-  }
-  // Re-pitching is only a WARNING, never a failure: an accepted `keep` can
-  // retract an earlier accepted change (the face-pull reversal on 2026-07-22
-  // did exactly that), which makes re-proposing it legitimate. The dry-run
-  // above is the real gate — if the change is already in force it is a no-op
-  // and fails there.
-  const prior = decidedAlready.get(bareId(p));
-  if (prior) console.warn(`⚠ ${tag}: he already answered "${prior.decision}" to this on ${(prior.decided_at ?? '').slice(0, 10)} — re-raise it only if something retracted it since`);
-}
-
-// Every structural ask a seat raised must reach the athlete as an answerable
-// proposal. Prose in flags[] is a dead end.
-const panelDir = join(root, 'data/coach/panel');
-const seatFiles = readdirSync(panelDir).filter((f) => f.startsWith(`${pkt.date}-`) && f.endsWith('.json'));
-const carried = new Set((pkt.proposals ?? []).map(bareId));
-for (const f of seatFiles) {
-  const seat = JSON.parse(readFileSync(join(panelDir, f), 'utf8'));
-  for (const sp of seat.structure_proposals ?? []) {
-    if (!carried.has(bareId(sp))) {
-      fail(`${f}: the ${seat.role} seat proposed ${sp.kind}/${sp.exercise} but it is not in the packet's proposals[] — the athlete would see prose he cannot answer`);
-    }
+  const pain = painRecent[o.exercise];
+  if (pain) {
+    const last = E.lastPerformanceAnywhere(history, o.exercise);
+    const top = last && E.topSet(last.ex.sets);
+    const ask = Math.max(0, ...(o.sets ?? []).map((s) => s.weight ?? 0));
+    if (top && ask > top.weight) fail(`override ${o.exercise}: ${ask} lb asked, but he wrote "${pain.note}" on ${pain.date} and last did ${top.weight} — a pain note holds the weight`);
   }
 }
 
@@ -162,7 +187,7 @@ if (process.exitCode) {
   process.exit(1);
 }
 
-console.log(`Packet valid. What the app will show for ${type} (${phaseInfo.phase?.id ?? 'no phase'}):\n`);
+console.log(`Packet valid. What the app will show for ${type} (${phaseInfo.phase?.id ?? 'no phase'}), program v${program?.version ?? '—'}:\n`);
 let altered = false;
 for (const slot of plan.sessions[type].exercises) {
   const rx = E.prescribe(plan, history, type, slot, phaseInfo, pkt);

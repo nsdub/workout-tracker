@@ -1,7 +1,7 @@
 {
   "version": 4,
   "name": "Protocol v3",
-  "updated": "2026-08-14",
+  "updated": "2026-10-13",
   "units": "lb",
   "show": {
     "date": "2027-03-01",
@@ -144,7 +144,18 @@
         "Lower under control to a light touch on the chest, elbows about 45–60° from the torso. Press to lockout without letting the shoulders roll forward off the pad.",
         "The Smith path is fixed, so bench placement is the whole setup. Mark the position that lets the bar track over the upper chest, not the neck."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "chest",
+          "front-delts"
+        ],
+        "secondary": [
+          "triceps"
+        ]
+      },
+      "equipment": "smith",
+      "pattern": "horizontal-push"
     },
     "machine-chest-press": {
       "name": "Machine Chest Press",
@@ -153,7 +164,18 @@
         "Set the seat so the handles sit at mid-chest. Shoulder blades squeezed into the pad, chest up, feet flat.",
         "Press to just short of elbow lockout, then lower until the hands are near chest level with a stretch across the pecs. Keep the shoulders pinned back the entire rep."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "triceps",
+          "front-delts"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "horizontal-push"
     },
     "cable-crossover-low-high": {
       "name": "Cable Crossover (low→high)",
@@ -162,7 +184,17 @@
         "Sweep the hands up and in until they meet at upper-chest height, like a wide scooping arc. Squeeze the upper pecs at the top, then let the arms open slowly back to a stretch.",
         "Elbows keep a fixed soft bend. If the elbows straighten on the way up, it turns into a front raise."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "db-shoulder-press": {
       "name": "DB Shoulder Press",
@@ -171,7 +203,18 @@
         "Seated with back support. Dumbbells start at shoulder height, palms forward or slightly turned in, forearms vertical.",
         "Press up and slightly together to lockout overhead, then lower under control until the dumbbells are back at ear-to-shoulder level. Ribs down, no arching off the pad."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "front-delts"
+        ],
+        "secondary": [
+          "side-delts",
+          "triceps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "vertical-push"
     },
     "cable-lateral-raise": {
       "name": "Cable Lateral Raise",
@@ -180,7 +223,15 @@
         "Raise the arm out to the side, leading with the elbow, up to about shoulder height. Lower slowly against the cable — the resistance stays constant at the bottom, which is the point.",
         "Tiny lean away from the stack is fine. Shrugging is not: keep the trap quiet and the delt working."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "side-delts"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "overhead-cable-triceps": {
       "name": "Overhead Cable Triceps Ext",
@@ -189,7 +240,15 @@
         "Extend at the elbows only, driving the rope forward-up to full lockout, then let the hands travel back behind the head for a full stretch on the long head.",
         "Elbows stay narrow and still. The stretch at the bottom is the reason this beats pushdowns for the long head — don't cut it short."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "rope-pushdown": {
       "name": "Rope Pushdown",
@@ -197,7 +256,15 @@
         "High pulley, rope attachment. Elbows pinned to the sides, slight forward lean, neutral wrists.",
         "Push down to full lockout and split the rope ends slightly at the bottom. Control the return until the forearms pass parallel — elbows never drift forward."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "face-pulls": {
       "name": "Face Pulls",
@@ -206,7 +273,18 @@
         "Pull toward the bridge of the nose while pulling the rope apart, ending with knuckles by the ears and elbows high and wide. Pause, then control the return.",
         "Think external rotation, not rowing: hands finish above the elbows every rep."
       ],
-      "role": "corrective"
+      "role": "corrective",
+      "muscles": {
+        "primary": [
+          "rear-delts"
+        ],
+        "secondary": [
+          "upper-back",
+          "traps"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "deadlift": {
       "name": "Deadlift",
@@ -217,7 +295,20 @@
         "Push the floor away and stand, bar dragging up the legs. Lock by driving the hips through, not leaning back. Return by hinging first, bending the knees once the bar passes them.",
         "Brace hard before every rep. At 1–2 RIR the back position is the stop signal: any rounding, the set is over."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "glutes",
+          "hamstrings"
+        ],
+        "secondary": [
+          "lower-back",
+          "upper-back",
+          "traps"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "hinge"
     },
     "lat-pulldown-wide": {
       "name": "Lat Pulldown (wide)",
@@ -228,7 +319,19 @@
         "Momentum from a rocking torso is the usual cheat. The lean is set once — it doesn't grow during the set."
       ],
       "increment": 7.5,
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "upper-back",
+          "biceps",
+          "rear-delts"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "vertical-pull"
     },
     "seated-cable-row-wide": {
       "name": "Seated Cable Row (wide)",
@@ -238,7 +341,19 @@
         "Row to the lower chest with elbows flaring out around 45–60°, squeezing the mid-back. Let the weight pull the shoulders forward into a full stretch between reps, torso staying near vertical."
       ],
       "increment": 7.5,
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "upper-back",
+          "lats"
+        ],
+        "secondary": [
+          "rear-delts",
+          "biceps"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "horizontal-pull"
     },
     "db-curl": {
       "name": "DB Curl",
@@ -247,7 +362,17 @@
         "Curl without moving the upper arm — elbows stay at the ribs. Squeeze at the top, lower slowly to a full hang.",
         "If the shoulders swing to start the rep, the weight is doing the curl, not the biceps."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation"
     },
     "cable-hammer-curl": {
       "name": "Cable Hammer Curl",
@@ -255,7 +380,16 @@
         "Rope on a low pulley, neutral grip, elbows pinned to the sides.",
         "Curl the rope up with thumbs on top, squeeze, and lower under constant cable tension to full extension. Targets brachialis and forearms — keep the grip neutral the whole way."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "biceps",
+          "forearms"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "leg-press-low": {
       "name": "Leg Press (feet low)",
@@ -266,7 +400,18 @@
         "Lower until the knees reach roughly 90° or as deep as possible without the lower back curling off the pad. Press through the whole foot to just short of knee lockout.",
         "The tailbone lifting off the seat is the depth limit. Never let the knees slam into lockout."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "quads"
+        ],
+        "secondary": [
+          "glutes",
+          "adductors"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "squat"
     },
     "leg-extension": {
       "name": "Leg Extension",
@@ -276,7 +421,15 @@
         "Extend to a full squeeze at the top and hold a beat. Lower slowly — the eccentric is most of the value here."
       ],
       "increment": 7.5,
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "quads"
+        ],
+        "secondary": []
+      },
+      "equipment": "machine",
+      "pattern": "isolation"
     },
     "leg-curl": {
       "name": "Leg Curl",
@@ -287,7 +440,17 @@
         "Pointing the toes (plantarflexed) takes the calves out and keeps it on the hamstrings."
       ],
       "increment": 7.5,
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "hamstrings"
+        ],
+        "secondary": [
+          "calves"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation"
     },
     "hip-adductor": {
       "name": "Hip Adductor",
@@ -297,7 +460,15 @@
         "Squeeze the legs together under control, hold the contraction, and open slowly against the pads."
       ],
       "increment": 7.5,
-      "role": "corrective"
+      "role": "corrective",
+      "muscles": {
+        "primary": [
+          "adductors"
+        ],
+        "secondary": []
+      },
+      "equipment": "machine",
+      "pattern": "isolation"
     },
     "hip-abductor": {
       "name": "Hip Abductor",
@@ -307,7 +478,17 @@
         "Drive the knees apart to full range, pause, and return slowly without letting the stack touch down between reps."
       ],
       "increment": 7.5,
-      "role": "corrective"
+      "role": "corrective",
+      "muscles": {
+        "primary": [
+          "abductors"
+        ],
+        "secondary": [
+          "glutes"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation"
     },
     "standing-calf-raise": {
       "name": "Calf Press (leg press)",
@@ -317,7 +498,15 @@
         "Let the platform push you into a deep stretch and pause a beat, then drive up through the balls of the feet to full extension and squeeze.",
         "The pause at the bottom kills the Achilles bounce — the bounce is the main reason calves stall. Never let the knees bend and unrack the weight."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "calves"
+        ],
+        "secondary": []
+      },
+      "equipment": "machine",
+      "pattern": "isolation"
     },
     "cable-crunch": {
       "name": "Cable Crunch",
@@ -328,7 +517,15 @@
       ],
       "role": "core",
       "increment": 5,
-      "note": "User does this on the Technogym abdominal-crunch machine (selectorized, ~5-lb steps from logs), not the cable stack. howto still describes the kneeling cable version — verify."
+      "note": "User does this on the Technogym abdominal-crunch machine (selectorized, ~5-lb steps from logs), not the cable stack. howto still describes the kneeling cable version — verify.",
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "core"
     },
     "hanging-leg-raise": {
       "name": "Hanging Leg Raise",
@@ -338,7 +535,17 @@
         "Raise the legs by tilting the pelvis up and curling it toward the ribs — knees bent or straight by strength level. Lower slowly to a dead hang without swinging.",
         "The pelvic tilt is the rep. Legs lifting with a fixed pelvis is hip flexor work, not abs."
       ],
-      "role": "core"
+      "role": "core",
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "core"
     },
     "smith-overhead-press": {
       "name": "Smith Overhead Press",
@@ -348,7 +555,18 @@
         "Press to lockout overhead, finishing with the bar over the ears. Lower under control back to the clavicles.",
         "Brace the ribs down; the Smith machine hides balance problems but not a leaking arch."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "front-delts"
+        ],
+        "secondary": [
+          "side-delts",
+          "triceps"
+        ]
+      },
+      "equipment": "smith",
+      "pattern": "vertical-push"
     },
     "db-lateral-raise": {
       "name": "DB Lateral Raise",
@@ -357,7 +575,15 @@
         "Raise out and slightly forward to shoulder height, leading with the elbows, pinkies no higher than thumbs. Lower on a 2–3 second count.",
         "Past shoulder height it becomes traps. Lighter and stricter beats heavier and swung, 25 sets a week says so."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "side-delts"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation"
     },
     "cable-crossover-high-low": {
       "name": "Cable Crossover (high→low)",
@@ -366,7 +592,17 @@
         "Sweep down and in until the hands meet below the sternum, squeezing the lower chest. Open back up slowly to the stretch.",
         "Fixed soft elbow the whole way — the arc does the work, not a pressing motion."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "reverse-pec-deck": {
       "name": "Reverse Pec Deck",
@@ -376,7 +612,17 @@
         "Keep the shoulders down. Shrugging up hands the rep to the traps."
       ],
       "increment": 7.5,
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "rear-delts"
+        ],
+        "secondary": [
+          "upper-back"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation"
     },
     "assisted-dips": {
       "name": "Assisted Dips",
@@ -387,7 +633,18 @@
         "Lower until the upper arms reach parallel or the shoulders signal the end of range, torso leaning slightly forward. Press back to lockout.",
         "More lean hits chest, upright hits triceps. Pick one and keep it consistent set to set."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "chest",
+          "triceps"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "horizontal-push"
     },
     "reverse-grip-pushdown": {
       "name": "Reverse Grip Pushdown",
@@ -395,7 +652,17 @@
         "Straight or EZ bar on a high pulley, underhand grip, elbows at the sides.",
         "Push down to lockout keeping the palms up, squeeze, and return under control. The underhand grip forces stricter elbows and biases the medial head."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "smith-bent-over-row": {
       "name": "Smith Bent-Over Row",
@@ -405,7 +672,20 @@
         "Row to the lower ribs, elbows tracking back at about 45°. Squeeze, then lower to a full hang without the torso rising.",
         "The torso angle set on rep one is the contract for the whole set."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "lats",
+          "upper-back"
+        ],
+        "secondary": [
+          "rear-delts",
+          "biceps",
+          "lower-back"
+        ]
+      },
+      "equipment": "smith",
+      "pattern": "horizontal-pull"
     },
     "lat-pulldown-close": {
       "name": "Lat Pulldown (close)",
@@ -415,7 +695,18 @@
         "Pull the handle to the upper chest, elbows driving down past the ribs. Full stretch at the top of every rep — the close grip gives more range, so use it."
       ],
       "increment": 7.5,
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "biceps",
+          "upper-back"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "vertical-pull"
     },
     "straight-arm-pulldown": {
       "name": "Straight-Arm Pulldown",
@@ -425,7 +716,17 @@
         "The elbow angle never changes — if it bends and extends, the triceps have taken over."
       ],
       "increment": 7.5,
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "triceps"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "db-shrug": {
       "name": "DB Shrug",
@@ -434,7 +735,17 @@
         "Elevate the shoulders straight up toward the ears, pause a full second at the top, and lower slowly to a stretch.",
         "Straight up and down — rolling the shoulders adds nothing but wear."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "traps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation"
     },
     "incline-db-curl": {
       "name": "Incline DB Curl",
@@ -443,7 +754,15 @@
         "Curl with the upper arms staying behind the torso, squeeze, and lower to a full stretch of the long head.",
         "The arms hanging behind the body is the entire point — if the elbows drift forward it's a standing curl on a slant."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation"
     },
     "cable-reverse-curl": {
       "name": "Cable Reverse Curl",
@@ -451,7 +770,16 @@
         "Straight or EZ bar on a low pulley, overhand grip, elbows at the sides.",
         "Curl with the palms staying down, wrists neutral or slightly extended. Lower under full cable tension. Works brachioradialis and forearm extensors — light and strict is right."
       ],
-      "role": "hypertrophy"
+      "role": "hypertrophy",
+      "muscles": {
+        "primary": [
+          "forearms",
+          "biceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "isolation"
     },
     "smith-rdl": {
       "name": "Smith RDL",
@@ -462,7 +790,18 @@
         "Push the hips straight back, sliding the bar down the thighs to shins until the hamstrings hit a deep stretch — mid-shin at most. Drive the hips forward to stand.",
         "Range is set by hamstring stretch, not the floor. A flat back and shifting the load into the heels are non-negotiable."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "hamstrings",
+          "glutes"
+        ],
+        "secondary": [
+          "lower-back"
+        ]
+      },
+      "equipment": "smith",
+      "pattern": "hinge"
     },
     "leg-press-high": {
       "name": "Leg Press (feet high)",
@@ -472,7 +811,18 @@
         "Feet high on the platform, slightly wider than shoulders. High placement biases glutes and hamstrings.",
         "Lower deep, keeping the pelvis flat on the pad, then drive through the heels to just short of lockout."
       ],
-      "role": "compound"
+      "role": "compound",
+      "muscles": {
+        "primary": [
+          "glutes",
+          "hamstrings"
+        ],
+        "secondary": [
+          "quads"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "squat"
     },
     "plank": {
       "name": "Plank",
@@ -483,7 +833,17 @@
         "Squeeze the glutes, tuck the pelvis slightly, and breathe — the low back never sags and the hips never pike.",
         "When the hips drop, the set is over regardless of the clock."
       ],
-      "role": "core"
+      "role": "core",
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": [
+          "glutes"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "core"
     },
     "db-bulgarian-split-squat": {
       "name": "DB Bulgarian Split Squat",
@@ -493,6 +853,1362 @@
         "Stand about a stride in front of the flat bench, a dumbbell in each hand at your sides, and rest the top of your rear foot on the bench. Set the front foot far enough forward that at the bottom the front knee stacks over the ankle, not way past the toes.",
         "Lower straight down by bending the front knee until the front thigh is about parallel, feeling a stretch through the front-leg quad and glute — torso tall, weight through the front heel and mid-foot. Drive up through the front foot; don't push off the back foot.",
         "Train the WEAKER leg first every set, then match — never beat — its rep count on the stronger leg. That is the whole mechanism that closes the left/right gap instead of hiding it."
+      ],
+      "muscles": {
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings",
+          "adductors"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "lunge"
+    },
+    "barbell-bench-press": {
+      "name": "Barbell Bench Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "chest",
+          "triceps"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Lie with eyes under the bar, feet planted, shoulder blades pulled back and down into the bench. Grip a little wider than shoulders so the forearms are vertical at the bottom.",
+        "Unrack, lower the bar under control to the lower chest with the elbows tucked around 45° from the torso, then press back up and slightly toward the face to lockout.",
+        "The shoulder blades stay pinned from unrack to rerack. If they roll forward at the top, the chest has stopped working and the shoulders are taking the hit."
+      ]
+    },
+    "incline-db-press": {
+      "name": "Incline DB Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts",
+          "triceps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Bench at 30°, dumbbells kicked up from the knees to the shoulders, shoulder blades pinned back, feet flat.",
+        "Lower both dumbbells out and down until they sit just outside the upper chest with a stretch across the pecs, then press up and slightly together without clanking them.",
+        "Keep the dumbbells over the elbows the whole rep. Let them drift wide at the bottom and the shoulders carry the weight, not the chest."
+      ]
+    },
+    "decline-smith-press": {
+      "name": "Decline Smith Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "triceps",
+          "front-delts"
+        ]
+      },
+      "equipment": "smith",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Decline bench at 15–20° under the Smith bar, feet hooked under the pads, bench placed so the bar meets the lower chest. Grip slightly wider than shoulders.",
+        "Lower to a light touch on the lower chest with the elbows around 45° from the torso, then press to lockout without letting the shoulders roll up off the pad.",
+        "The bar path is fixed, so bench placement does all the work. Move the bench, not the body, until the bar lands on the lower chest and nowhere near the neck."
+      ]
+    },
+    "machine-incline-press": {
+      "name": "Machine Incline Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts",
+          "triceps"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Seat set so the handles start at upper-chest height, shoulder blades squeezed into the pad, chest up, feet flat.",
+        "Press to just short of elbow lockout, then lower until the hands are back near the upper chest with a stretch across the pecs.",
+        "The shoulders stay back on the pad the whole set. If they reach forward to chase the handles, the seat is too low or the weight is too heavy."
+      ]
+    },
+    "chest-dip": {
+      "name": "Chest Dip",
+      "role": "compound",
+      "compound": true,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "chest",
+          "triceps"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Grip the parallel bars, press to lockout, then lean the torso forward and tuck the chin slightly with the legs bent behind.",
+        "Lower until the upper arms reach parallel or the shoulders say stop, feeling a stretch across the chest, then press back to lockout keeping the forward lean.",
+        "The lean is what makes it a chest exercise. Stand upright and it turns into a triceps dip, which is a different lift on a different day."
+      ]
+    },
+    "push-up": {
+      "name": "Push-Up",
+      "role": "compound",
+      "compound": true,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "chest",
+          "triceps"
+        ],
+        "secondary": [
+          "front-delts",
+          "abs"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Hands just wider than shoulders, body one straight line from head to heels, glutes squeezed and ribs tucked.",
+        "Lower until the chest nearly touches the floor with the elbows about 45° from the torso, then press back to lockout without the hips sagging or piking.",
+        "Raise the feet on a bench to make it harder, or the hands on a bench to make it easier. The body stays a plank either way."
+      ]
+    },
+    "pec-deck": {
+      "name": "Pec Deck",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation",
+      "howto": [
+        "Seat set so the handles sit at mid-chest, back flat on the pad, elbows soft and slightly below the hands.",
+        "Bring the handles together in a wide arc until they nearly touch, squeeze the chest for a beat, then open slowly until a stretch across the pecs stops the range.",
+        "Shoulders stay back on the pad through the whole rep. If they roll forward to meet the handles, the chest has handed the rep to the front delts."
+      ]
+    },
+    "flat-db-fly": {
+      "name": "Flat DB Fly",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Lie flat with the dumbbells pressed up over the chest, palms facing each other, shoulder blades pinned, a soft bend in the elbows.",
+        "Open the arms in a wide arc until the dumbbells reach shoulder level with a stretch across the chest, then sweep them back up until they almost meet.",
+        "The elbow angle is set at the top and never changes. Bending more at the bottom turns the fly into a press and takes the stretch away."
+      ]
+    },
+    "barbell-overhead-press": {
+      "name": "Barbell Overhead Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "front-delts"
+        ],
+        "secondary": [
+          "side-delts",
+          "triceps",
+          "upper-back"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "vertical-push",
+      "howto": [
+        "Standing, bar at the collarbones, grip just outside shoulders, elbows slightly in front of the bar, glutes and ribs braced.",
+        "Press straight up, moving the head back just enough for the bar to clear the chin, and finish with the bar over the ears. Lower under control back to the collarbones.",
+        "Brace before every rep. The lower back arching to get the bar up is the set telling you the weight is too heavy."
+      ]
+    },
+    "machine-shoulder-press": {
+      "name": "Machine Shoulder Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "front-delts"
+        ],
+        "secondary": [
+          "side-delts",
+          "triceps"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "vertical-push",
+      "howto": [
+        "Seat set so the handles start at ear level, back flat against the pad, feet planted.",
+        "Press to just short of lockout overhead, then lower slowly until the handles return to ear level with a stretch in the front of the shoulder.",
+        "Keep the ribs down. The machine removes the balance problem, so there is no excuse for an arch."
+      ]
+    },
+    "arnold-press": {
+      "name": "Arnold Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "front-delts",
+          "side-delts"
+        ],
+        "secondary": [
+          "triceps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "vertical-push",
+      "howto": [
+        "Seated with back support, dumbbells in front of the shoulders with the palms facing you, elbows pointing forward.",
+        "Press up while rotating the hands so the palms face forward at lockout overhead, then reverse the rotation on the way down until the palms face you again at the bottom.",
+        "The rotation is the point of the exercise. Lower all the way until the dumbbells are back at chin height; cutting the bottom short cuts the front delt stretch."
+      ]
+    },
+    "machine-lateral-raise": {
+      "name": "Machine Lateral Raise",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "side-delts"
+        ],
+        "secondary": [
+          "traps"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation",
+      "howto": [
+        "Seat set so the shoulder lines up with the machine pivot, pads against the outside of the upper arms or hands on the handles, chest up.",
+        "Raise the arms out to the side until they reach shoulder height, pause, and lower slowly against the stack without letting it rest.",
+        "The machine makes it easy to go heavy and shrug. If the shoulders rise toward the ears, lower the weight and lead with the elbows."
+      ]
+    },
+    "db-front-raise": {
+      "name": "DB Front Raise",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "front-delts"
+        ],
+        "secondary": [
+          "side-delts"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Standing tall, dumbbells resting on the front of the thighs, palms down, soft elbows.",
+        "Raise one or both arms straight in front to shoulder height, pause, then lower on a slow count to the thighs.",
+        "No swing from the hips or the torso. If the body rocks backward to start the rep, the weight is too heavy for the delt."
+      ]
+    },
+    "incline-rear-delt-row": {
+      "name": "Incline Rear-Delt Row",
+      "role": "corrective",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "rear-delts"
+        ],
+        "secondary": [
+          "upper-back",
+          "traps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "horizontal-pull",
+      "howto": [
+        "Chest down on a bench set to about 30°, dumbbells hanging straight down, palms facing back, feet braced on the floor.",
+        "Row with the elbows flared wide, out to the sides at shoulder height, until the upper arms are level with the torso. Squeeze the rear delts, then lower slowly to a full hang.",
+        "Elbows wide is what separates this from a back row. If they tuck toward the ribs, the lats take over and the rear delts get nothing."
+      ]
+    },
+    "cable-rear-delt-fly": {
+      "name": "Cable Rear-Delt Fly",
+      "role": "corrective",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "rear-delts"
+        ],
+        "secondary": [
+          "upper-back"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation",
+      "howto": [
+        "Both pulleys at shoulder height, arms crossed so each hand holds the opposite cable, step back until the stacks lift, arms long with a soft bend.",
+        "Open the arms straight out to the sides and slightly back until they line up with the shoulders, squeeze, then let the cables cross again slowly in front.",
+        "The elbow stays almost straight the whole way. The second it bends and the hands pull in, it has become a row for the back."
+      ]
+    },
+    "barbell-row": {
+      "name": "Barbell Row",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "lats",
+          "upper-back"
+        ],
+        "secondary": [
+          "rear-delts",
+          "biceps",
+          "lower-back"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "horizontal-pull",
+      "howto": [
+        "Hinge to roughly 30–45° above horizontal, knees soft, bar hanging at arm's length over mid-foot, overhand grip just outside the legs, back flat.",
+        "Row the bar to the lower ribs with the elbows tracking back at about 45°, squeeze the shoulder blades, then lower to a full hang without the torso rising.",
+        "The torso angle set on rep one is the contract for the set. If the body stands up to finish a rep, the set is finished."
+      ]
+    },
+    "db-row": {
+      "name": "DB Row",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "upper-back",
+          "rear-delts",
+          "biceps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "horizontal-pull",
+      "howto": [
+        "One hand and one knee on the bench, the other foot planted wide, back flat and parallel to the floor, dumbbell hanging straight down from the shoulder.",
+        "Row the dumbbell to the hip with the elbow brushing past the ribs, squeeze the lat, then lower slowly until the shoulder drops into a full stretch.",
+        "Pull toward the hip, not the armpit. The torso stays square; twisting open to lift the weight is the shoulder cheating, not the back working."
+      ]
+    },
+    "chest-supported-db-row": {
+      "name": "Chest-Supported DB Row",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "upper-back",
+          "lats"
+        ],
+        "secondary": [
+          "rear-delts",
+          "biceps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "horizontal-pull",
+      "howto": [
+        "Chest down on a bench set to about 30–45°, dumbbells hanging straight down, feet braced, chest pressed into the pad.",
+        "Row both dumbbells to the hips with the elbows at about 45° from the torso, squeeze the shoulder blades together, then lower slowly to a full hang.",
+        "The chest stays glued to the pad. If it lifts off to start the rep, the lower back is doing the row for you."
+      ]
+    },
+    "t-bar-row": {
+      "name": "T-Bar Row",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "upper-back",
+          "lats"
+        ],
+        "secondary": [
+          "rear-delts",
+          "biceps",
+          "lower-back"
+        ]
+      },
+      "equipment": "plate-loaded",
+      "pattern": "horizontal-pull",
+      "howto": [
+        "Straddle the bar with the plates loaded at one end, or use the chest pad if the machine has one. Hinge to about 45°, knees soft, neutral grip on the handle, back flat.",
+        "Row the handle to the lower chest driving the elbows back, squeeze the mid-back, then lower under control until the arms are long and the shoulder blades spread.",
+        "Use smaller plates so the handle reaches the chest. A big plate that stops the range an inch early steals the squeeze every rep."
+      ]
+    },
+    "chin-up": {
+      "name": "Chin-Up",
+      "role": "compound",
+      "compound": true,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "lats",
+          "biceps"
+        ],
+        "secondary": [
+          "upper-back",
+          "forearms"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "vertical-pull",
+      "howto": [
+        "Underhand grip about shoulder width, hang with the arms long, shoulders pulled slightly down away from the ears.",
+        "Pull until the chin clears the bar by driving the elbows down toward the ribs, pause, then lower slowly to a full hang.",
+        "Full hang at the bottom, chin over the bar at the top, every rep. Half-reps count toward nothing. Add weight on a belt once 10 strict reps is easy."
+      ]
+    },
+    "pull-up": {
+      "name": "Pull-Up",
+      "role": "compound",
+      "compound": true,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "upper-back",
+          "biceps",
+          "forearms"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "vertical-pull",
+      "howto": [
+        "Overhand grip a little wider than shoulders, dead hang with the arms long, shoulders pulled slightly down and back.",
+        "Pull until the chin clears the bar by driving the elbows down and back, pause, then lower under control to a dead hang.",
+        "No kipping, no swinging. If the legs start kicking to get the chin up, switch to assisted or lat pulldown and come back at full strength."
+      ]
+    },
+    "neutral-grip-pulldown": {
+      "name": "Lat Pulldown (wide neutral)",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "upper-back",
+          "biceps"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "vertical-pull",
+      "howto": [
+        "Wide bar with the palms-facing handles, thighs locked under the pads, slight lean back, chest up.",
+        "Pull the handles to the upper chest by driving the elbows down and in toward the ribs, pause with the shoulder blades pinched, then let the arms rise to a full stretch overhead.",
+        "The neutral grip keeps the elbows pointing down instead of out, which is easier on the shoulders and lets the lats stretch further at the top. Use the whole range."
+      ]
+    },
+    "single-arm-pulldown": {
+      "name": "Single-Arm Cable Pulldown",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "biceps",
+          "upper-back"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "vertical-pull",
+      "howto": [
+        "Single handle on a high pulley, kneel or sit side-on facing the stack, arm long overhead, slight lean toward the working side.",
+        "Pull the handle down and in until the elbow reaches the ribs, squeeze the lat for a beat, then let the arm rise slowly to a deep stretch.",
+        "Train the weaker side first and match its reps on the stronger side. The point of going one arm at a time is to find the gap, not hide it."
+      ]
+    },
+    "machine-row": {
+      "name": "Machine Row",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "upper-back",
+          "lats"
+        ],
+        "secondary": [
+          "rear-delts",
+          "biceps"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "horizontal-pull",
+      "howto": [
+        "Seat set so the handles sit at mid-chest, chest against the pad, feet planted, arms long with the shoulder blades reaching forward.",
+        "Row the handles to the ribs driving the elbows back, squeeze the shoulder blades together, then let the weight pull the arms forward into a full stretch.",
+        "The chest stays on the pad from stretch to squeeze. If the torso rocks back to finish the rep, the weight is too heavy."
+      ]
+    },
+    "rack-pull": {
+      "name": "Rack Pull",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "upper-back",
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings",
+          "traps",
+          "lower-back"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "hinge",
+      "howto": [
+        "Bar on the rack safeties just below the knees, feet hip width, overhand or mixed grip just outside the legs, lats tight and back flat before the pull.",
+        "Push the floor away and stand tall with the bar dragging up the thighs, finish by squeezing the glutes and upper back, then lower under control to the safeties.",
+        "Shorter range means heavier loads, so the back position matters even more. Any rounding at the top, the set is over."
+      ]
+    },
+    "db-pullover": {
+      "name": "DB Pullover",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "lats",
+          "chest"
+        ],
+        "secondary": [
+          "triceps"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Lie across or along a flat bench, one dumbbell held with both hands under the top plate, arms almost straight over the chest, hips slightly dropped.",
+        "Lower the dumbbell in an arc behind the head until a deep stretch runs through the lats and ribs, then pull it back over the chest with the arms still nearly straight.",
+        "Keep the elbow bend fixed. If the elbows bend on the way down and straighten on the way up, it has become a triceps extension lying down."
+      ]
+    },
+    "barbell-curl": {
+      "name": "Barbell Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "isolation",
+      "howto": [
+        "Standing tall, underhand grip about shoulder width, bar at the thighs, elbows at the ribs.",
+        "Curl until the forearms pass vertical and the biceps are fully squeezed, then lower on a slow count to a full hang with the arms straight.",
+        "The elbows do not travel forward and the torso does not lean back. If either moves to start the rep, the weight is doing the curl, not the biceps."
+      ]
+    },
+    "ez-bar-curl": {
+      "name": "EZ-Bar Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "isolation",
+      "howto": [
+        "Standing tall, hands on the angled inner grips of the EZ bar so the wrists sit comfortably, elbows at the ribs.",
+        "Curl to a full squeeze with the upper arms still, then lower slowly to straight arms.",
+        "The angled grip is for the wrists, not for cheating more weight. Same strict elbows as a straight-bar curl."
+      ]
+    },
+    "preacher-curl": {
+      "name": "Preacher Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation",
+      "howto": [
+        "Seat set so the armpits sit on top of the pad, upper arms flat on the slope, EZ bar or machine handles in an underhand grip.",
+        "Curl to a full squeeze, then lower slowly until the arms are nearly straight with a stretch in the lower biceps.",
+        "Stop just short of fully locking out at the bottom under load; the stretch is the value and the lockout is where elbows get hurt."
+      ]
+    },
+    "concentration-curl": {
+      "name": "Concentration Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Seated with the feet wide, the back of the upper arm braced against the inside of the thigh, dumbbell hanging straight down.",
+        "Curl the dumbbell toward the shoulder with the palm turning up, squeeze at the top, then lower slowly to straight.",
+        "The upper arm cannot move because the thigh holds it. That is the whole reason to do it, so do not let the elbow slide off the leg."
+      ]
+    },
+    "cable-curl": {
+      "name": "Cable Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "isolation",
+      "howto": [
+        "Straight or EZ bar on a low pulley, underhand grip, step back a little so the cable pulls the arms straight, elbows at the ribs.",
+        "Curl to a full squeeze, then lower under constant cable tension to straight arms.",
+        "The cable keeps tension at the bottom where a dumbbell goes slack. Use the full range; it is the reason to pick the cable over the dumbbell."
+      ]
+    },
+    "skull-crusher": {
+      "name": "Skull Crusher",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "barbell",
+      "pattern": "isolation",
+      "howto": [
+        "Lie flat with an EZ bar pressed up over the chest, close grip, upper arms tilted slightly back toward the head.",
+        "Bend only at the elbows, lowering the bar behind the top of the head until the triceps stretch, then extend back up without letting the elbows flare.",
+        "Lower to behind the head, not to the forehead; the stretch on the long head is the point, and the elbows hurt less."
+      ]
+    },
+    "close-grip-bench-press": {
+      "name": "Close-Grip Bench Press",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "triceps",
+          "chest"
+        ],
+        "secondary": [
+          "front-delts"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "horizontal-push",
+      "howto": [
+        "Set up as for the bench press but with the hands about shoulder width, shoulder blades pinned, feet planted.",
+        "Lower the bar to the lower chest with the elbows tucked close to the body, then press to lockout, finishing hard with the triceps.",
+        "Shoulder width is close enough. Hands touching in the middle bothers the wrists and does nothing extra for the triceps."
+      ]
+    },
+    "dip-machine": {
+      "name": "Dip Machine",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [
+          "chest",
+          "front-delts"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "vertical-push",
+      "howto": [
+        "Seat set so the handles start at chest height with the elbows bent about 90°, back against the pad, torso upright.",
+        "Press the handles down to full lockout, squeeze the triceps, then let them rise slowly until the elbows are back at 90° or a little above.",
+        "Stay upright. Leaning forward turns it into a chest dip, which is fine on a chest day but not what this slot is for."
+      ]
+    },
+    "single-arm-pushdown": {
+      "name": "Single-Arm Cable Pushdown",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "cable",
+      "pattern": "isolation",
+      "howto": [
+        "Single handle on a high pulley, overhand or neutral grip, elbow pinned at the side, other hand on the hip or the stack frame.",
+        "Push down to full lockout, squeeze, then control the return until the forearm passes parallel.",
+        "Train the weaker arm first and match its reps with the stronger one. The elbow stays still; if it drifts forward the shoulder is helping."
+      ]
+    },
+    "db-kickback": {
+      "name": "DB Kickback",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Hinge forward with one hand on a bench, upper arm pinned beside the ribs and parallel to the floor, dumbbell hanging with the elbow at 90°.",
+        "Extend the elbow until the arm is straight and level with the torso, hold the squeeze for a beat, then bend back to 90° under control.",
+        "Light weight, strict upper arm. The moment the upper arm drops to swing the dumbbell up, the triceps has stopped doing the work."
+      ]
+    },
+    "wrist-curl": {
+      "name": "Wrist Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "forearms"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Seated, forearms resting on the thighs or a bench with the wrists hanging just past the edge, palms up, dumbbells in hand.",
+        "Let the wrists drop and the dumbbells roll down to the fingertips for a stretch, then curl the wrists up as high as they go and squeeze.",
+        "Only the wrist moves; the forearm stays flat on the thigh. Flip the palms down for the same movement on the other side of the forearm."
+      ]
+    },
+    "back-squat": {
+      "name": "Barbell Back Squat",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "adductors",
+          "hamstrings",
+          "lower-back"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "squat",
+      "howto": [
+        "Bar on the upper back, hands close enough to pull the bar into the traps, feet about shoulder width with the toes turned out slightly. Brace hard before unracking.",
+        "Sit down between the hips and knees together, keeping the chest up and the knees tracking over the toes, to as deep as the back stays flat, then drive the whole foot into the floor to stand.",
+        "The brace is reset before every rep, not every set. When the hips shoot up before the chest, the set is over."
+      ]
+    },
+    "front-squat": {
+      "name": "Barbell Front Squat",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "quads"
+        ],
+        "secondary": [
+          "glutes",
+          "abs",
+          "upper-back"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "squat",
+      "howto": [
+        "Bar resting on the front delts against the throat, elbows high so the upper arms are near parallel to the floor, fingertips or crossed arms holding it in place.",
+        "Sit straight down between the knees keeping the torso as upright as possible, as deep as the elbows stay up, then drive up through the whole foot.",
+        "Elbows up is the entire lift. When they drop, the bar rolls forward and the back rounds to catch it; stop the set before that happens."
+      ]
+    },
+    "hack-squat": {
+      "name": "Hack Squat",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "quads"
+        ],
+        "secondary": [
+          "glutes",
+          "adductors"
+        ]
+      },
+      "equipment": "plate-loaded",
+      "pattern": "squat",
+      "howto": [
+        "Back and shoulders against the pads, feet about shoulder width and a little lower on the platform to bias the quads, release the safeties.",
+        "Lower until the thighs pass parallel or the tailbone begins to curl off the pad, then press through the whole foot to just short of knee lockout.",
+        "The tailbone lifting is the depth limit, not the bottom of the track. Never let the knees snap to lockout at the top."
+      ]
+    },
+    "goblet-squat": {
+      "name": "Goblet Squat",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "adductors",
+          "abs"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "squat",
+      "howto": [
+        "Hold one dumbbell vertically against the chest with both hands cupping the top plate, elbows pointing down, feet a little wider than shoulders with the toes out.",
+        "Sit straight down between the knees, elbows passing inside the thighs at the bottom, as deep as the heels stay down and the back stays flat, then stand by driving the floor away.",
+        "Chest stays against the dumbbell the whole rep. A heavy kettlebell by the horns works exactly the same when the dumbbells run out."
+      ]
+    },
+    "smith-squat": {
+      "name": "Smith Squat",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "adductors",
+          "hamstrings"
+        ]
+      },
+      "equipment": "smith",
+      "pattern": "squat",
+      "howto": [
+        "Bar on the upper back, feet set a few inches in front of the bar so the fixed path lets the torso stay upright, brace and unhook.",
+        "Lower under control until the thighs reach parallel or lower with the back flat, then drive through the whole foot to just short of lockout.",
+        "Foot placement is the whole setup. Feet directly under the bar forces the torso forward; mark where the feet go and use the same spot every set."
+      ]
+    },
+    "walking-lunge": {
+      "name": "DB Walking Lunge",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings",
+          "adductors"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "lunge",
+      "howto": [
+        "Dumbbells at the sides, standing tall with a clear lane ahead, eyes forward.",
+        "Step forward far enough that the front shin stays near vertical, lower until the back knee nearly touches the floor, then drive through the front foot to step up and through into the next lunge.",
+        "Torso stays tall and the front knee tracks over the toes. Short choppy steps hit the quads; long steps hit the glutes. Pick one and keep it the same every rep."
+      ]
+    },
+    "reverse-lunge": {
+      "name": "DB Reverse Lunge",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "glutes",
+          "quads"
+        ],
+        "secondary": [
+          "hamstrings",
+          "adductors"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "lunge",
+      "howto": [
+        "Dumbbells at the sides, feet together, standing tall.",
+        "Step one foot straight back and lower until the back knee nearly touches the floor with the front shin vertical, then push through the front heel to return to standing.",
+        "Weight stays on the front leg the whole rep; the back foot is a kickstand. Train the weaker leg first and match its reps on the stronger one."
+      ]
+    },
+    "step-up": {
+      "name": "DB Step-Up",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "lunge",
+      "howto": [
+        "Dumbbells at the sides, one whole foot on a box or bench set so the thigh is about parallel to the floor at the start.",
+        "Drive through the top foot to stand fully on the box without pushing off the bottom foot, then lower slowly under control until the bottom foot touches the floor.",
+        "The bottom foot touches down soft; it does not bounce. If it is pushing, lower the box or the weight until the top leg does all the work."
+      ]
+    },
+    "barbell-hip-thrust": {
+      "name": "Barbell Hip Thrust",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings",
+          "quads"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "hinge",
+      "howto": [
+        "Upper back on the edge of a bench, bar across the hips on a pad, feet flat and set so the shins are vertical at the top, chin tucked.",
+        "Drive the hips up until the torso and thighs form a straight line, squeeze the glutes hard for a full second, then lower under control until the hips are just above the floor.",
+        "Ribs down, chin tucked, eyes forward. Arching the lower back to go higher is not more range, it is the spine doing the glutes' job."
+      ]
+    },
+    "glute-bridge": {
+      "name": "Glute Bridge",
+      "role": "compound",
+      "compound": true,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings",
+          "abs"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "hinge",
+      "howto": [
+        "Lie on the back with the knees bent, feet flat and hip width, heels close enough that the fingertips brush them, arms at the sides.",
+        "Press through the heels and lift the hips until the body is a straight line from shoulders to knees, squeeze the glutes for a full second, then lower slowly.",
+        "Ribs stay down; the lift comes from the hips, not an arched back. Put a plate or dumbbell on the hips once bodyweight sets stop being hard."
+      ]
+    },
+    "barbell-rdl": {
+      "name": "Barbell RDL",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "hamstrings",
+          "glutes"
+        ],
+        "secondary": [
+          "lower-back",
+          "upper-back",
+          "forearms"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "hinge",
+      "howto": [
+        "Standing with the bar at the hips, overhand grip just outside the legs, feet hip width, soft knees that stay at the same bend throughout.",
+        "Push the hips straight back and slide the bar down the thighs until the hamstrings hit a deep stretch somewhere around mid-shin, then drive the hips forward to stand tall.",
+        "Range is set by the hamstring stretch, not the floor. A flat back and the weight in the heels are non-negotiable; the bar stays in contact with the legs the whole way."
+      ]
+    },
+    "db-rdl": {
+      "name": "DB RDL",
+      "role": "compound",
+      "compound": true,
+      "lower": true,
+      "muscles": {
+        "primary": [
+          "hamstrings",
+          "glutes"
+        ],
+        "secondary": [
+          "lower-back",
+          "forearms"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "hinge",
+      "howto": [
+        "Dumbbells in front of the thighs, palms facing the legs, feet hip width, soft knees that stay at the same bend.",
+        "Push the hips straight back and slide the dumbbells down the front of the legs until the hamstrings reach a deep stretch, then drive the hips forward to stand.",
+        "Keep the dumbbells touching the legs. If they drift forward the load swings out in front and the lower back carries it instead of the hamstrings."
+      ]
+    },
+    "seated-leg-curl": {
+      "name": "Seated Leg Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "hamstrings"
+        ],
+        "secondary": [
+          "calves"
+        ]
+      },
+      "equipment": "machine",
+      "pattern": "isolation",
+      "howto": [
+        "Knee lined up with the machine pivot, pad just above the heels, thigh pad locked down firmly, sitting tall with the hips back.",
+        "Curl the heels under the seat to a full hamstring squeeze, pause, then return slowly to a long stretch without letting the stack rest.",
+        "Sitting tall with the hips pinned back is what puts the hamstrings on stretch. Slouching down the seat shortens them and takes the best part of the rep away."
+      ]
+    },
+    "good-morning": {
+      "name": "Barbell Good Morning",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "hamstrings",
+          "lower-back"
+        ],
+        "secondary": [
+          "glutes"
+        ]
+      },
+      "equipment": "barbell",
+      "pattern": "hinge",
+      "howto": [
+        "Bar on the upper back as for a squat, feet hip width, soft knees, brace before the first rep.",
+        "Push the hips back and let the torso fold forward with a flat back until the hamstrings stretch, somewhere near parallel, then drive the hips forward to stand tall.",
+        "Light weight and a flat back. This is a stretch and control exercise for the hamstrings, not a lift to load up; the back rounding ends the set."
+      ]
+    },
+    "seated-calf-raise": {
+      "name": "Seated Calf Raise",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "calves"
+        ],
+        "secondary": []
+      },
+      "equipment": "machine",
+      "pattern": "isolation",
+      "howto": [
+        "Balls of the feet on the platform, pads snug on the lower thighs, knees bent at 90°, release the safety.",
+        "Lower the heels until the calves hit a deep stretch and pause for a full beat, then drive up to the highest point and squeeze.",
+        "The pause at the bottom kills the bounce, and the bent knee puts this on the lower, flatter part of the calf that standing raises miss."
+      ]
+    },
+    "standing-machine-calf-raise": {
+      "name": "Standing Machine Calf Raise",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "calves"
+        ],
+        "secondary": []
+      },
+      "equipment": "machine",
+      "pattern": "isolation",
+      "howto": [
+        "Shoulders under the pads, balls of the feet on the platform with the heels hanging free, knees nearly straight and the hips stacked under the shoulders.",
+        "Lower into a deep stretch and pause for a full beat, then rise as high as possible onto the toes and squeeze.",
+        "Knees stay the same the whole set. Bending them to bounce the weight up is the main reason calves stall."
+      ]
+    },
+    "single-leg-calf-raise": {
+      "name": "Single-Leg DB Calf Raise",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "calves"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Ball of one foot on a step or plate with the heel hanging free, dumbbell in the same-side hand, other hand holding something for balance.",
+        "Lower the heel into a deep stretch and pause, then rise as high as possible onto the toes and squeeze for a beat.",
+        "The free hand is for balance only, not for pulling up. Weaker leg first, and match its reps on the stronger one."
+      ]
+    },
+    "sissy-squat": {
+      "name": "Sissy Squat",
+      "role": "hypertrophy",
+      "compound": false,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "quads"
+        ],
+        "secondary": []
+      },
+      "equipment": "bodyweight",
+      "pattern": "squat",
+      "howto": [
+        "Stand with the feet hip width holding a post or rack upright with one hand, rise onto the balls of the feet, hips and shoulders in one straight line.",
+        "Bend the knees and let them travel far forward while the torso leans back, keeping the body straight from knees to head, until the quads reach a deep stretch. Then pull back up with the quads.",
+        "The hips never bend; the whole body tilts as one piece. Use the hand on the post as little as possible and only for balance."
+      ]
+    },
+    "nordic-curl": {
+      "name": "Nordic Curl",
+      "role": "hypertrophy",
+      "compound": false,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "hamstrings"
+        ],
+        "secondary": [
+          "glutes",
+          "calves"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "isolation",
+      "howto": [
+        "Kneel on a pad with the ankles anchored under a loaded bar, a machine pad, or a partner's hands, hips straight and the body in a line from knees to head.",
+        "Lower the body forward as slowly as possible by letting the knees straighten, keeping the hips open, until the hamstrings give out. Catch yourself on the hands, push off lightly, and pull back up with the hamstrings.",
+        "Hips stay straight; folding at the waist makes it easy and useless. Count the lowering, since that is the part that builds hamstrings. Hold a band for help on the way up if needed."
+      ]
+    },
+    "back-extension": {
+      "name": "Back Extension",
+      "role": "hypertrophy",
+      "compound": false,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "glutes",
+          "hamstrings"
+        ],
+        "secondary": [
+          "lower-back"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "hinge",
+      "howto": [
+        "Hips on the pad of the 45° bench with the crease of the hips just above the edge, ankles locked under the rollers, arms crossed over the chest.",
+        "Lower the torso by folding at the hips until the hamstrings stretch, then raise it by squeezing the glutes until the body is in a straight line, no further.",
+        "Stop at straight. Arching past the line is the lower back taking over. Hold a plate against the chest once bodyweight stops being hard."
+      ]
+    },
+    "kettlebell-swing": {
+      "name": "Kettlebell Swing",
+      "role": "compound",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "glutes",
+          "hamstrings"
+        ],
+        "secondary": [
+          "lower-back",
+          "forearms"
+        ]
+      },
+      "equipment": "kettlebell",
+      "pattern": "hinge",
+      "howto": [
+        "Kettlebell a foot in front of the feet, feet a little wider than shoulders, hinge back with a flat back and grab the handle with both hands, lats tight.",
+        "Hike the bell back between the legs, then snap the hips forward to stand tall and let the bell float to chest height with the arms loose. Let it fall and hinge again as it passes the thighs.",
+        "The hips throw the bell; the arms only guide it. If the shoulders are lifting the bell, it is a front raise, not a swing."
+      ]
+    },
+    "ab-wheel-rollout": {
+      "name": "Ab Wheel Rollout",
+      "role": "core",
+      "compound": false,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": [
+          "lats"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "core",
+      "howto": [
+        "Kneel on a pad with the wheel under the shoulders, hips tucked so the lower back is flat, arms straight.",
+        "Roll the wheel forward keeping the hips tucked and the body in a line from knees to hands, as far as the lower back stays flat, then pull it back with the abs.",
+        "The lower back sagging into an arch is the stop point, not how far the wheel goes. A barbell with round plates does the same job when there is no wheel."
+      ]
+    },
+    "decline-sit-up": {
+      "name": "Decline Sit-Up",
+      "role": "core",
+      "compound": false,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": []
+      },
+      "equipment": "bodyweight",
+      "pattern": "core",
+      "howto": [
+        "Feet hooked under the pads of a decline bench, lying back fully, hands across the chest or at the temples.",
+        "Curl up one segment of spine at a time, ribs toward the pelvis, until the torso is upright, then lower slowly the same way until the shoulders touch the bench.",
+        "Round the spine on the way up; a flat back sitting up as one piece is a hip flexor exercise. Hold a plate on the chest once bodyweight is easy."
+      ]
+    },
+    "side-plank": {
+      "name": "Side Plank",
+      "role": "core",
+      "compound": false,
+      "bodyweight": true,
+      "timed": true,
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": [
+          "abductors"
+        ]
+      },
+      "equipment": "bodyweight",
+      "pattern": "core",
+      "howto": [
+        "Lie on one side, forearm on the floor with the elbow under the shoulder, feet stacked or staggered, top hand on the hip.",
+        "Lift the hips until the body is one straight line from head to heels and hold, breathing normally, with the top hip stacked over the bottom one.",
+        "When the hips drop or roll back, the set is over regardless of the clock. Hold the weaker side first and match its time on the stronger side."
+      ]
+    },
+    "dead-bug": {
+      "name": "Dead Bug",
+      "role": "core",
+      "compound": false,
+      "bodyweight": true,
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": []
+      },
+      "equipment": "bodyweight",
+      "pattern": "core",
+      "howto": [
+        "Lie on the back with the arms pointing at the ceiling and the knees bent to 90° over the hips, lower back pressed flat into the floor.",
+        "Lower one arm overhead and the opposite leg toward the floor at the same time, slowly, as far as the lower back stays flat, then return and switch sides.",
+        "The lower back leaving the floor is the limit on range. Breathe out as the limbs extend; holding the breath is a sign the abs have let go."
+      ]
+    },
+    "pallof-press": {
+      "name": "Pallof Press",
+      "role": "core",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": [
+          "glutes"
+        ]
+      },
+      "equipment": "cable",
+      "pattern": "core",
+      "howto": [
+        "Single handle at chest height, stand side-on to the stack holding the handle with both hands at the sternum, feet shoulder width, step away until the stack lifts.",
+        "Press the handle straight out in front of the chest, hold for a beat while the cable tries to twist the torso toward the stack, then bring it back to the sternum.",
+        "The torso does not turn. Nothing moves except the arms; if the hips or shoulders rotate toward the stack, step in and lower the weight."
+      ]
+    },
+    "farmer-carry": {
+      "name": "Farmer Carry",
+      "role": "core",
+      "compound": true,
+      "muscles": {
+        "primary": [
+          "forearms",
+          "traps"
+        ],
+        "secondary": [
+          "abs",
+          "upper-back"
+        ]
+      },
+      "equipment": "dumbbell",
+      "pattern": "carry",
+      "howto": [
+        "Heavy dumbbells at the sides, stand tall with the shoulders pulled back and down, ribs stacked over the hips.",
+        "Walk at a steady pace for the set distance or time, shoulders level, taking normal steps and keeping the dumbbells from swinging.",
+        "Tall posture is the exercise. When the shoulders start rounding forward or the body leans to one side, put them down; that is the end of the set."
       ]
     }
   },

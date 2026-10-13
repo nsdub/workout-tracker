@@ -45,11 +45,17 @@ if (program) {
   for (const id of SESSION_IDS) if (!sessions[id]?.exercises) fail(`session ${id} is missing — the six ids are fixed (each is a universe)`);
   for (const id of Object.keys(sessions)) if (!SESSION_IDS.includes(id)) fail(`session "${id}" is not one of ${SESSION_IDS.join(', ')}`);
 
-  const catalogue = { ...plan.exercises, ...(program.exercises ?? {}) };
   const live = E.effectivePlan(plan, [], program);
+  const catalogue = live.exercises;
   for (const [id, ex] of Object.entries(program.exercises ?? {})) {
     const tag = `exercises.${id}`;
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) fail(`${tag}: id must be kebab-case`);
+    // An override of a catalogue id may be partial (a retag); a NEW id is a
+    // whole entry the card can show.
+    if (plan.exercises[id]) {
+      for (const k of Object.keys(ex ?? {})) if (!['name', 'role', 'compound', 'muscles', 'equipment', 'pattern', 'howto', 'bodyweight', 'timed', 'lower', 'increment', 'incrementKg', 'note'].includes(k)) fail(`${tag}: unknown field "${k}"`);
+      continue;
+    }
     if (!ex?.name) fail(`${tag}: name required`);
     if (!['compound', 'hypertrophy', 'corrective', 'core'].includes(ex?.role)) fail(`${tag}: role must be compound|hypertrophy|corrective|core`);
     if (!Array.isArray(ex?.howto) || ex.howto.length < 2 || !ex.howto.every((s) => typeof s === 'string' && s.trim())) fail(`${tag}: howto needs at least two plain sentences — the card shows them`);

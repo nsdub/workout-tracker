@@ -150,7 +150,9 @@ export function increment(plan, id) {
   // stack — can say so per-exercise; the upper/lower rule is only the
   // default, not a law of the gym.
   if (typeof meta.increment === 'number' && meta.increment > 0) return meta.increment;
-  return plan.rules.progression.lowerExercises.includes(id)
+  // A catalogue entry can declare itself a heavy lower lift (`lower: true`)
+  // so a squat the trainer rotates in steps in 10s without a rules edit.
+  return (meta.lower === true || plan.rules.progression.lowerExercises.includes(id))
     ? plan.rules.progression.lowerIncrement
     : plan.rules.progression.upperIncrement;
 }
@@ -206,7 +208,13 @@ export function effectivePlan(plan, decisions = [], program = null) {
       any = true;
     }
     if (any) {
-      return { ...plan, sessions, exercises: { ...plan.exercises, ...(program.exercises ?? {}) }, programVersion: program.version ?? null };
+      // A program entry for an id the catalogue already has is a PARTIAL
+      // override (retag its muscles, fix a name); a new id is a whole entry.
+      const exercises = { ...plan.exercises };
+      for (const [id, x] of Object.entries(program.exercises ?? {})) {
+        if (x && typeof x === 'object') exercises[id] = { ...(plan.exercises[id] ?? {}), ...x };
+      }
+      return { ...plan, sessions, exercises, programVersion: program.version ?? null };
     }
   }
   // Sort by when he actually answered. The previous version trusted array
