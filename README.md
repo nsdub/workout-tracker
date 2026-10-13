@@ -37,11 +37,17 @@ js/
   components.js  sheets, numpad, toast, rest timer
   views/         today (log), history, plan
 data/
-  plan.json      program: templates, seeds, phase calendar, rules, how-tos
-  history/       one JSON file per logged session
+  plan.json             phase calendar, rules, the 101-lift catalogue (muscles, how-tos)
+  coach/program.json    THE program the app runs — written by the daily trainer review
+  coach/latest.json     today's review (block, every muscle, every lift) + tonight's loads
+  history/              one JSON file per logged session
 scripts/
-  build-data.mjs   regenerate data/ from the raw history log
-  test-engine.mjs  engine unit tests (28)
+  coach-dossier.mjs     the whole printout the trainer reads every morning
+  validate-program.mjs  gate: program.json (six days, tagged lifts, ≤28 sets, reversal guard)
+  verify-review.mjs     gate: every citation resolves, every audit finding has an exit
+  validate-coach.mjs    gate: the packet against the app (true numbers, pain guard, caps)
+  test-engine.mjs       engine tests (109)
+  test-app.mjs          store/sync/dossier tests (67)
 ```
 
 ## Setup
@@ -67,6 +73,7 @@ scripts/
 
 ```
 python3 -m http.server 8407      # any static server works
-node scripts/test-engine.mjs     # engine unit tests
+node scripts/test-engine.mjs     # engine tests (Node 22)
+node scripts/test-app.mjs        # store / sync / dossier tests
 node scripts/build-data.mjs      # regenerate data/ from scripts/history-raw.txt
 ```

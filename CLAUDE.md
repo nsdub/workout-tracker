@@ -50,6 +50,27 @@ existed only because I never asked where his numbers came from.
 
 Full enumeration: `docs/POSTMORTEM-2026-08-01.md`. Browsable: `/museum/`.
 
+On 2026-10-13 the user fired the trainer panel: "exercises are being
+adjusted in isolation without thinking about the big picture. Set count
+creep has trickled in. The exercises never change. If this was a real
+trainer I would have fired him months ago." Verified: the program seat
+could only emit one-exercise Yes/No cards, saw no muscle-group view and no
+history of its own proposals, reversed itself four times in Aug–Sep, let
+Push B creep 23→26 sets in eight days, and abstained on every slot for ten
+straight runs. His bar, in his words: *if I gave you a printout of all my
+workout history, Claude could act as a trainer, analyze it and recommend a
+plan going forward. I want that same level of diligence after every single
+training day.* He chose: **the trainer sets the program.** v88 is that
+rebuild — spec in `docs/superpowers/specs/2026-10-13-full-review-trainer.md`.
+
+## THE DILIGENCE RULE (added 2026-10-13, binding)
+
+The daily review reads the WHOLE log and reviews the WHOLE program every
+day: the block, every one of the 18 muscles, every lift. A verdict that
+changes nothing and dates nothing is refused by the validator. Per-slot
+tinkering with no view of the week is the failure that got the panel
+fired; do not rebuild it under another name.
+
 ## THE SEVEN RULES (added 2026-08-01, binding)
 
 1. **Check, then speak.** No claim about behaviour, hardware, or another
@@ -88,16 +109,21 @@ Full enumeration: `docs/POSTMORTEM-2026-08-01.md`. Browsable: `/museum/`.
   replaced. No claim ("rewritten", "removed", "tested") the user can't
   verify in the commit.
 - **Verification actually runs or isn't claimed.** Two suites, both must
-  run from the repo root (they fail silently from subdirectories; this bit
-  us once):
-  - `node scripts/test-engine.mjs` — 102 tests: progression, phases,
-    stalls, PRs, validation, units/gym profiles, against the real plan + seed data.
-  - `node scripts/test-app.mjs` — 60 tests: util, store, sync (stubbed
-    localStorage/fetch), including the two data-loss invariants:
-    re-save during an in-flight upload is never lost, and queued local
-    work is never overwritten by remote.
-  Run BOTH after touching js/engine.js, js/store.js, js/github.js, or
-  js/util.js.
+  run from the repo root with Node 22 (`~/.nvm/versions/node/v22.22.2/bin/node`;
+  the default v20 crashes every .mjs; they also fail silently from
+  subdirectories):
+  - `node scripts/test-engine.mjs` — 109 tests: progression, phases,
+    stalls, PRs, validation, units/gym profiles, the program file and the
+    muscle-set arithmetic, against the real plan + seed data.
+  - `node scripts/test-app.mjs` — 67 tests: util, store, sync (stubbed
+    localStorage/fetch), the data-loss invariants (re-save during an
+    in-flight upload is never lost; queued local work is never overwritten
+    by remote), and the dossier's shape (every night, every lift, every muscle).
+  Run BOTH after touching js/engine.js, js/store.js, js/github.js,
+  js/util.js, js/program.js or scripts/coach-dossier.mjs.
+  The three coach gates (`validate-program.mjs`, `verify-review.mjs`,
+  `validate-coach.mjs`) are what the daily task runs; run them on any
+  hand-written packet or program too.
 
 ## Design mandate (user has repeated this many times)
 
@@ -134,12 +160,16 @@ Full enumeration: `docs/POSTMORTEM-2026-08-01.md`. Browsable: `/museum/`.
 
 ## What survives as backend (safe to reuse)
 
-`js/engine.js` (progression/phases/stalls/PRs/validation — 29 tests),
+`js/engine.js` (progression/phases/stalls/PRs/validation/program/muscles),
 `js/store.js` (localStorage + sync queue), `js/github.js` (Contents API
-sync to this repo's data/), `js/util.js` (date/format helpers), `data/`
-(plan.json + history — the user's real training data), `scripts/`
-(data generation + tests), `legacy/` (old app + history backups — never
-delete).
+sync to this repo's data/), `js/util.js` (date/format helpers),
+`js/program.js` (program changes as sentences + the "what changed" sheet),
+`data/` (plan.json = phases, rules, the 101-lift catalogue; `coach/program.json`
+= THE program the app runs, trainer-owned; `coach/latest.json` = today's
+review + loads; history — the user's real training data), `scripts/`
+(dossier, the three gates, tests), `legacy/` (old app + history backups —
+never delete). `data/coach/decisions.json` is frozen history (folded into
+program v1).
 
 ## Deployment facts
 
