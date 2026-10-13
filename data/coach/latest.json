@@ -1,24 +1,24 @@
 {
   "date": "2026-10-13",
   "reviewed_through": "2026-10-13",
-  "generated_at": "2026-10-13T17:51:42.559Z",
-  "produced_by": "scheduled-task",
-  "reviewer": "daily-training-brief (autonomous scheduled run)",
+  "generated_at": "2026-10-13T18:09:00.644040Z",
+  "produced_by": "interactive-session",
+  "reviewer": "daily-training-brief (autonomous scheduled run), then amended by hand in the Claude session of 13 October after the athlete answered the open audit item",
   "session_expected": "LegsA",
-  "program_version": 2,
-  "brief": "Tomorrow, 14 October, is Legs A, not Legs B. Legs A was due on 10 October and was not trained (you wrote \"Sick today\" on 8 October and nothing was logged until 12 October), and the last direct quad work was 28 September, so the app sends you to Legs A first. First time on these machines at Chennai, so every number is a starting point to find the weight, not a raise: leg press, feet low, 150, 170, 190 for 8 to 10 (your Warsaw feet-low numbers from 28 September, which were also Singapore's feet-high numbers on 5 October; if 150 is easy go 170, 190, 210); Bulgarian split squat 20 lb dumbbells (9 or 10 kg) for 8 on both sets, up from 17.5 because dumbbells are the same in any gym; leg curl 120 for 12 on all three; leg extension 130 for 12, a guess for this machine, log what you use; adductor 80 then 90 and abductor 60 then 70, the second number only if the first set was easy at 15; calf press 270 to find it, then 290 for 12 twice (Singapore's first two sets); cable crunch 55 for 12, then 60 for 10 twice if it was easy.\n\nThis is the automatic review, re-reading everything through tonight's Pull B (18 of 20 sets at Chennai; face pulls skipped). Nothing new has been logged since the review written earlier today, so the program stays at version 2: Push A has a lateral raise after the shoulder press in place of the rope pushdown (side delts were getting 4 sets a week, triceps 14 direct sets); Push B is 3 sets of dips and 3 of lateral raises, which is the answer to your 23 August note; Legs B has a smith squat behind the RDL and the RDL is 3 sets, which is what you have done on each of the last three Legs B nights that were not cut short by travel; the one full Legs B in that stretch, 5 September, had four. One thing is yours to answer, not mine: Legs B is now 24 sets and you have finished a Legs B in full once in eight tries (the last eight were 23, 23, 20, 18, 22, 21, 13 and 21 sets). The squat sits second so it will get done; if the night runs short it is the hanging leg raise and cable crunch at the end that fall off, and that is abs work the week then loses. If 24 is too many, say so in a note and the deload on 26 October re-sizes the day. Sets per day: Push A 22, Pull A 19, Legs A 20, Push B 24, Pull B 20, Legs B 24. Everything else holds to the end of this block on 25 October; the deload week after it is where chest, hamstrings and glutes get re-sized once there are two more weeks on the same machines.\n\nTonight's Pull B, for the record: the smith row at 65 kg went 9 and 9, so it holds until both top sets reach 10; straight-arm pulldown 77, 99, 110 for 12 and reverse curl 77, 88, 99 for 15, 13, 12 both hit the top of their ranges, so next Pull B starts at 110 and 99. The deadlift rows on 8 October were typed within 17 seconds, so they are recalled numbers; the deadlift holds at 225 next Pull A until 5 lands on every set. One more thing: no bodyweight has been logged since 23 August (207 lb), and the assessment week starts 2 November. A reading this week gives the review something to work with.",
+  "program_version": 3,
+  "brief": "Update, late on 13 October: you answered the one open question, \"I don't want to lose abs.\" So Legs B is now 20 sets, not 24: the hip abductor and adductor come off Legs B (they stay on Legs A), and the hanging leg raise and cable crunch move up to sit right after the leg curl, before the calf press. If Legs B ever runs short again, the calf press is what waits, and calves are also on Legs A. Nothing else changed.\n\nTomorrow, 14 October, is Legs A, not Legs B. Legs A was due on 10 October and was not trained (you wrote \"Sick today\" on 8 October and nothing was logged until 12 October), and the last direct quad work was 28 September, so the app sends you to Legs A first. First time on these machines at Chennai, so every number is a starting point to find the weight, not a raise: leg press, feet low, 150, 170, 190 for 8 to 10 (your Warsaw feet-low numbers from 28 September, which were also Singapore's feet-high numbers on 5 October; if 150 is easy go 170, 190, 210); Bulgarian split squat 20 lb dumbbells (9 or 10 kg) for 8 on both sets, up from 17.5 because dumbbells are the same in any gym; leg curl 120 for 12 on all three; leg extension 130 for 12, a guess for this machine, log what you use; adductor 80 then 90 and abductor 60 then 70, the second number only if the first set was easy at 15; calf press 270 to find it, then 290 for 12 twice (Singapore's first two sets); cable crunch 55 for 12, then 60 for 10 twice if it was easy.\n\nThis is the automatic review, re-reading everything through tonight's Pull B (18 of 20 sets at Chennai; face pulls skipped). Nothing new has been logged since the review written earlier today, so the program stays at version 2: Push A has a lateral raise after the shoulder press in place of the rope pushdown (side delts were getting 4 sets a week, triceps 14 direct sets); Push B is 3 sets of dips and 3 of lateral raises, which is the answer to your 23 August note; Legs B has a smith squat behind the RDL and the RDL is 3 sets, which is what you have done on each of the last three Legs B nights that were not cut short by travel; the one full Legs B in that stretch, 5 September, had four. One thing is yours to answer, not mine: Legs B is now 24 sets and you have finished a Legs B in full once in eight tries (the last eight were 23, 23, 20, 18, 22, 21, 13 and 21 sets). The squat sits second so it will get done; if the night runs short it is the hanging leg raise and cable crunch at the end that fall off, and that is abs work the week then loses. If 24 is too many, say so in a note and the deload on 26 October re-sizes the day. Sets per day: Push A 22, Pull A 19, Legs A 20, Push B 24, Pull B 20, Legs B 24. Everything else holds to the end of this block on 25 October; the deload week after it is where chest, hamstrings and glutes get re-sized once there are two more weeks on the same machines.\n\nTonight's Pull B, for the record: the smith row at 65 kg went 9 and 9, so it holds until both top sets reach 10; straight-arm pulldown 77, 99, 110 for 12 and reverse curl 77, 88, 99 for 15, 13, 12 both hit the top of their ranges, so next Pull B starts at 110 and 99. The deadlift rows on 8 October were typed within 17 seconds, so they are recalled numbers; the deadlift holds at 225 next Pull A until 5 lands on every set. One more thing: no bodyweight has been logged since 23 August (207 lb), and the assessment week starts 2 November. A reading this week gives the review something to work with.",
   "flags": [
     {
       "kind": "schedule",
       "note": "Tomorrow 14 October is Legs A, not Legs B: it was due on 10 October and was not trained, and there has been no direct quad work since 28 September."
     },
     {
-      "kind": "volume",
-      "note": "Program v2 (written today) stands: Push A swaps the rope pushdown for a lateral raise; Push B goes to 3 sets of dips and 3 of lateral raises; Legs B gains a smith squat and the RDL goes to 3 sets."
-    },
-    {
       "kind": "phase",
       "note": "No bodyweight logged since 23 August (207 lb); the assessment week starts 2 November."
+    },
+    {
+      "kind": "volume",
+      "note": "Program v3: Legs B is 20 sets, abs moved ahead of the calf press and the hip pair moved off it (still on Legs A); Push A has a lateral raise, Push B 3 sets of dips and lateral raises."
     }
   ],
   "review": {
@@ -182,7 +182,7 @@
         ]
       },
       "glutes": {
-        "planned_weekly_sets": 18.5,
+        "planned_weekly_sets": 17.5,
         "done_4wk_avg": 6.1,
         "verdict": "watch",
         "why": "Credited from the RDL, deadlift, feet-high leg press, split squat and now the smith squat; there is no glute isolation and 6.1 done a week on average. The number on paper is high because every hinge and squat counts; it is not a reason to cut a hinge. Re-size at the deload.",
@@ -193,20 +193,20 @@
         ]
       },
       "adductors": {
-        "planned_weekly_sets": 8,
+        "planned_weekly_sets": 6,
         "done_4wk_avg": 2.5,
-        "verdict": "watch",
-        "why": "Four direct sets on the machine (80 for 15, 15 at Singapore on 5 October), the rest helper credit from the leg press, split squat and the new squat. Above the ceiling on paper only. Tomorrow is a different machine, so the weight is found again, not raised.",
+        "verdict": "cut",
+        "why": "Direct work goes from four sets to two (Legs A only) tonight so Legs B ends at 20 with the abs in it; the rest of the planned number is helper credit from the leg press, split squat and the new squat, which keeps it above the floor. At Chennai the weight is found again on the first set.",
         "evidence": [
           "2026-10-05:hip-adductor",
           "2026-09-28:hip-adductor"
         ]
       },
       "abductors": {
-        "planned_weekly_sets": 4,
+        "planned_weekly_sets": 2,
         "done_4wk_avg": 1.5,
-        "verdict": "hold",
-        "why": "Four sets a week, inside the target. The stored weight has read 135 at the home gym, 110 at Warsaw and 60 at Singapore for the same 15 reps: three machines. At Chennai it is found again on the first set, not raised from Singapore's number.",
+        "verdict": "cut",
+        "why": "Was four sets a week on two days; now two sets on Legs A, which meets the 2-set floor. The Legs B pair came off tonight so that day ends at 20 sets with the abs still in it, which he asked for. The stored weight has read 135 at the home gym, 110 at Warsaw and 60 at Singapore for 13 to 15 reps: three machines, found again on the first set at Chennai.",
         "evidence": [
           "2026-10-05:hip-abductor",
           "2026-09-28:hip-abductor",
@@ -227,12 +227,13 @@
         "planned_weekly_sets": 8,
         "done_4wk_avg": 2.5,
         "verdict": "hold",
-        "why": "Cable crunch 3 and 3 plus hanging leg raise 2. Crunch went 55 for 12, 12, 12 at Singapore on 5 October; the hanging leg raise has gone 12 then 10 on both of the last two full Legs B nights. Cable crunch is the last slot on Legs A and was the one left out when the 28 September session was cut short at 34 minutes.",
+        "why": "Cable crunch 3 and 3 plus hanging leg raise 2. He said tonight he does not want to lose abs, so on Legs B both ab slots now sit before the calf press instead of last, where they were the sets that fell off on the nights the day ran short. Cable crunch 3 and 3 plus hanging leg raise 2. Crunch went 55 for 12, 12, 12 at Singapore on 5 October; the hanging leg raise has gone 12 then 10 on both of the last two full Legs B nights. Cable crunch is the last slot on Legs A and was the one left out when the 28 September session was cut short at 34 minutes.",
         "evidence": [
-          "2026-10-05:cable-crunch",
-          "2026-10-05:hanging-leg-raise",
           "2026-09-17:hanging-leg-raise",
-          "2026-09-28:leg-press-low"
+          "2026-09-24:cable-crunch",
+          "2026-09-28:leg-press-low",
+          "2026-10-05:cable-crunch",
+          "2026-10-05:hanging-leg-raise"
         ]
       }
     },
@@ -467,12 +468,11 @@
       },
       "hip-adductor": {
         "sessions": [
-          "LegsA",
-          "LegsB"
+          "LegsA"
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "80 for 15, 15 at Singapore on 5 October, 110 for 15 at Warsaw, 105 at the home gym: the number belongs to the machine. Tomorrow at Chennai the first set is at 80 to find the weight and the second goes to 90 if 15 was easy; a raise is earned on the second visit to the same machine.",
+        "why": "Off Legs B tonight (he does not want to lose abs; the day is cut to 20 sets); stays on Legs A at 2 sets. 80 for 15, 15 at Singapore on 5 October, 110 for 15 at Warsaw, 105 at the home gym: the number belongs to the machine. Tomorrow at Chennai the first set is at 80 to find the weight and the second goes to 90 if 15 was easy; a raise is earned on the second visit to the same machine.",
         "evidence": [
           "2026-10-05:hip-adductor",
           "2026-09-28:hip-adductor"
@@ -480,12 +480,11 @@
       },
       "hip-abductor": {
         "sessions": [
-          "LegsA",
-          "LegsB"
+          "LegsA"
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "60 for 15, 15 at Singapore on 5 October; 110 for 15, 15 at Warsaw on 28 September; 135 for 13, 13 at the home gym on 20 August and 135 for 15 there on 5 September: three machines. Tomorrow at Chennai the first set is at 60 to find the weight and the second goes to 70 if 15 was easy.",
+        "why": "Off Legs B tonight (he does not want to lose abs; the day is cut to 20 sets); stays on Legs A at 2 sets. 60 for 15, 15 at Singapore on 5 October; 110 for 15, 15 at Warsaw on 28 September; 135 for 13, 13 at the home gym on 20 August and 135 for 15 there on 5 September: three machines. Tomorrow at Chennai the first set is at 60 to find the weight and the second goes to 70 if 15 was easy.",
         "evidence": [
           "2026-10-05:hip-abductor",
           "2026-09-28:hip-abductor",
@@ -513,7 +512,7 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "55 for 12, 12, 12 at Singapore on 5 October, top of the range on that stack. At Chennai: first set 55 to find the stack, then 60 for 10s if it was easy.",
+        "why": "Moved ahead of the calf press on Legs B tonight so it is never the slot that drops. 55 for 12, 12, 12 at Singapore on 5 October, top of the range on that stack. At Chennai: first set 55 to find the stack, then 60 for 10s if it was easy.",
         "evidence": [
           "2026-10-05:cable-crunch",
           "2026-09-24:cable-crunch"
@@ -525,7 +524,7 @@
         ],
         "trend": "regressing",
         "verdict": "hold",
-        "why": "12 and 12 on 16 August and 5 September, then 12 then 10 on 17 September and 12 then 10 on 5 October: the second set has slipped to 10 on the last two full Legs B nights, so the trend is regressing, not holding. Bodyweight, so the ask stays 12 and 12; it moves to a weighted or slower version at the deload if the second set is still at 10 by then (dated in deferred[]).",
+        "why": "Moved ahead of the calf press on Legs B tonight so it is never the slot that drops. 12 and 12 on 16 August and 5 September, then 12 then 10 on 17 September and 12 then 10 on 5 October: the second set has slipped to 10 on the last two full Legs B nights, so the trend is regressing, not holding. Bodyweight, so the ask stays 12 and 12; it moves to a weighted or slower version at the deload if the second set is still at 10 by then (dated in deferred[]).",
         "evidence": [
           "2026-10-05:hanging-leg-raise",
           "2026-09-17:hanging-leg-raise",
@@ -823,6 +822,86 @@
         "2026-10-13:smith-bent-over-row",
         "2026-09-28:db-bulgarian-split-squat"
       ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "hip-abductor",
+      "kind": "remove",
+      "before": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15
+      },
+      "after": null,
+      "why": "He answered the open audit item tonight: he does not want to lose abs. Legs B at 24 sets was a day he has finished in full once in eight tries, and the abs slots at the end were what dropped. The hip machines were added to Legs B on 18 and 23 August to give the hinge day some hip work; they are still on Legs A (2 sets each, which meets the 2-set floor), and they are the lowest-value four sets on a day that needs to end on time. Legs B goes to 20 sets.",
+      "evidence": [
+        "2026-10-05:hip-abductor",
+        "2026-09-28:hip-abductor",
+        "2026-10-05:smith-rdl",
+        "2026-09-24:smith-rdl"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "hip-adductor",
+      "kind": "remove",
+      "before": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15
+      },
+      "after": null,
+      "why": "He answered the open audit item tonight: he does not want to lose abs. Legs B at 24 sets was a day he has finished in full once in eight tries, and the abs slots at the end were what dropped. The hip machines were added to Legs B on 18 and 23 August to give the hinge day some hip work; they are still on Legs A (2 sets each, which meets the 2-set floor), and they are the lowest-value four sets on a day that needs to end on time. Legs B goes to 20 sets.",
+      "evidence": [
+        "2026-10-05:hip-adductor",
+        "2026-09-28:hip-adductor",
+        "2026-10-05:smith-rdl",
+        "2026-09-24:smith-rdl"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "hanging-leg-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 7
+      },
+      "after": {
+        "position": 4
+      },
+      "why": "Abs come straight after the leg curl and before the calf press, so when Legs B runs short it is the calf press that waits for the next night, not the abs; calves are also trained on Legs A. He asked for this: \"I don't want to lose abs.\"",
+      "evidence": [
+        "2026-10-05:hanging-leg-raise",
+        "2026-10-05:cable-crunch",
+        "2026-09-24:hanging-leg-raise",
+        "2026-09-24:cable-crunch"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "cable-crunch",
+      "kind": "reorder",
+      "before": {
+        "position": 8
+      },
+      "after": {
+        "position": 5
+      },
+      "why": "Abs come straight after the leg curl and before the calf press, so when Legs B runs short it is the calf press that waits for the next night, not the abs; calves are also trained on Legs A. He asked for this: \"I don't want to lose abs.\"",
+      "evidence": [
+        "2026-10-05:hanging-leg-raise",
+        "2026-10-05:cable-crunch",
+        "2026-09-24:hanging-leg-raise",
+        "2026-09-24:cable-crunch"
+      ]
     }
   ],
   "deferred": [
@@ -1060,15 +1139,14 @@
       },
       {
         "finding": "Set creep on the day the packet cuts for non-completion: Legs B goes 22 to 24 by adding a 3-set compound with 180 s rest to a day he has finished in full once in eight tries (23, 23, 20, 18, 22, 21, 13, 21 sets), while the RDL is cut because a fourth set \"never happens\".",
-        "disposition": "open",
-        "why": "The squat is the quad fix the week needed and is placed second so it gets done; the RDL cut and the squat add are both in today's v2 and no session has been logged since, so neither is walked back tonight. Whether 24 is a realistic Legs B is his to answer; the brief asks him, names the sets that fall off the end if it is not, and the 26 October deload re-sizes the day.",
+        "disposition": "fixed",
+        "why": "He answered: \"I don't want to lose abs.\" Program v3: the hip abductor and adductor leave Legs B (they stay on Legs A), and both ab slots move ahead of the calf press. Legs B is 20 sets with the squat in it. The squat is the quad fix the week needed and is placed second so it gets done; the RDL cut and the squat add are both in today's v2 and no session has been logged since, so neither is walked back tonight. Whether 24 is a realistic Legs B is his to answer; the brief asks him, names the sets that fall off the end if it is not, and the 26 October deload re-sizes the day.",
         "evidence": [
           "2026-10-05:hanging-leg-raise",
           "2026-09-17:hanging-leg-raise",
           "2026-09-24:smith-rdl",
           "2026-10-05:leg-press-high"
-        ],
-        "consequence": "If Legs B runs short the slots that drop are the hanging leg raise and cable crunch at the end, so abs lose 5 planned sets on that day until the day is re-sized."
+        ]
       },
       {
         "finding": "The block text said the prep block starts 9 November \"139 days before the show\"; 139 is today's count, from 9 November it is 112.",

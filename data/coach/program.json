@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "date": "2026-10-13",
   "written_by": "interactive-session",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
@@ -356,30 +356,6 @@
           "seed": 135
         },
         {
-          "id": "hip-abductor",
-          "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seed": 135
-        },
-        {
-          "id": "hip-adductor",
-          "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seedNote": "Added by your trainers — set your working weight"
-        },
-        {
-          "id": "standing-calf-raise",
-          "sets": 3,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seed": 280
-        },
-        {
           "id": "hanging-leg-raise",
           "sets": 2,
           "repMin": 12,
@@ -394,6 +370,14 @@
           "repMax": 12,
           "rest": 60,
           "seed": 45
+        },
+        {
+          "id": "standing-calf-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 280
         }
       ]
     }
@@ -1538,6 +1522,86 @@
         "2026-09-28:leg-press-low",
         "2026-10-13:smith-bent-over-row",
         "2026-09-28:db-bulgarian-split-squat"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "hip-abductor",
+      "kind": "remove",
+      "before": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15
+      },
+      "after": null,
+      "why": "He answered the open audit item tonight: he does not want to lose abs. Legs B at 24 sets was a day he has finished in full once in eight tries, and the abs slots at the end were what dropped. The hip machines were added to Legs B on 18 and 23 August to give the hinge day some hip work; they are still on Legs A (2 sets each, which meets the 2-set floor), and they are the lowest-value four sets on a day that needs to end on time. Legs B goes to 20 sets.",
+      "evidence": [
+        "2026-10-05:hip-abductor",
+        "2026-09-28:hip-abductor",
+        "2026-10-05:smith-rdl",
+        "2026-09-24:smith-rdl"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "hip-adductor",
+      "kind": "remove",
+      "before": {
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15
+      },
+      "after": null,
+      "why": "He answered the open audit item tonight: he does not want to lose abs. Legs B at 24 sets was a day he has finished in full once in eight tries, and the abs slots at the end were what dropped. The hip machines were added to Legs B on 18 and 23 August to give the hinge day some hip work; they are still on Legs A (2 sets each, which meets the 2-set floor), and they are the lowest-value four sets on a day that needs to end on time. Legs B goes to 20 sets.",
+      "evidence": [
+        "2026-10-05:hip-adductor",
+        "2026-09-28:hip-adductor",
+        "2026-10-05:smith-rdl",
+        "2026-09-24:smith-rdl"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "hanging-leg-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 7
+      },
+      "after": {
+        "position": 4
+      },
+      "why": "Abs come straight after the leg curl and before the calf press, so when Legs B runs short it is the calf press that waits for the next night, not the abs; calves are also trained on Legs A. He asked for this: \"I don't want to lose abs.\"",
+      "evidence": [
+        "2026-10-05:hanging-leg-raise",
+        "2026-10-05:cable-crunch",
+        "2026-09-24:hanging-leg-raise",
+        "2026-09-24:cable-crunch"
+      ]
+    },
+    {
+      "version": 3,
+      "date": "2026-10-13",
+      "session": "LegsB",
+      "exercise": "cable-crunch",
+      "kind": "reorder",
+      "before": {
+        "position": 8
+      },
+      "after": {
+        "position": 5
+      },
+      "why": "Abs come straight after the leg curl and before the calf press, so when Legs B runs short it is the calf press that waits for the next night, not the abs; calves are also trained on Legs A. He asked for this: \"I don't want to lose abs.\"",
+      "evidence": [
+        "2026-10-05:hanging-leg-raise",
+        "2026-10-05:cable-crunch",
+        "2026-09-24:hanging-leg-raise",
+        "2026-09-24:cable-crunch"
       ]
     }
   ]

@@ -94,7 +94,10 @@ for (const [i, f] of (audit?.findings ?? []).entries()) {
 
 // ——— 3. THE SHEET AND THE PROGRAM AGREE ———
 if (program) {
-  const inProgram = (program.changes ?? []).filter((c) => c.version === program.version && c.kind !== 'snapshot');
+  // "Today's changes" are every change dated today, whatever version carried
+  // them: two versions can land in one day (the morning run, then an answer
+  // from the athlete that evening), and the sheet he reads must show both.
+  const inProgram = (program.changes ?? []).filter((c) => c.date === date && c.kind !== 'snapshot');
   const strip = (c) => JSON.stringify({ s: c.session ?? null, e: c.exercise ?? null, k: c.kind, b: c.before ?? null, a: c.after ?? null, w: c.why });
   const a = inProgram.map(strip).sort();
   const b = (pkt.changes_today ?? []).map(strip).sort();

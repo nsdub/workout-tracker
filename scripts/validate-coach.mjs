@@ -72,7 +72,9 @@ if (!program) {
   const LT = ['progressing', 'holding', 'stalled', 'regressing', 'new', 'unlogged'];
   const LV = ['progress', 'hold', 'deload', 'rotate', 'drop', 'watch'];
   const deferred = pkt.deferred ?? [];
-  const todays = (program.changes ?? []).filter((c) => c.version === program.version && c.date === pkt.date);
+  // Every change dated today, whatever version carried it — two versions can
+  // land in one day and a verdict acted on by the first is still acted on.
+  const todays = (program.changes ?? []).filter((c) => c.date === pkt.date && c.kind !== 'snapshot');
   const planned = E.plannedWeeklyByMuscle(plan);
 
   if (review?.block) {
