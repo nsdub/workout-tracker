@@ -1430,7 +1430,7 @@
         "repMax": 15,
         "rest": 60
       },
-      "why": "This puts side-delt work back on Push A, which has had none since the cable lateral raise came off on 14 September; that removal was for a weight stuck at 10 lb on the old gym's stack, not for too much volume. Side delts were planned at 7.5 sets a week against a floor of 8 and averaged 4.1 done. Triceps were planned at 24 a week against a ceiling of 14, with the overhead extension already on both push days, so the rope pushdown, Push A's third triceps slot, is the one that gives way. Three sets here and three on Push B (down from four, see that change) answers his 23 August note that four sets in one session was a lot for a small muscle: six sets across two days instead of four in one. No lateral raise machine has been logged at any gym yet; where there is none, a cable or dumbbell raise in this slot is the same work. Mark it as \"doing something else\" on the card.",
+      "why": "This puts side-delt work back on Push A, which has had none since the cable lateral raise came off on 14 September. That removal gave two reasons: the weight had sat at 10 lb on the old gym's stack since August, and Push B already carried three dumbbell lateral raises, the lift he had asked about on 23 August. Both are answered differently now: this is a new slot on new machines, not the stuck 10 lb, and Push B goes from four sets to three in the same version, so the week is six direct side-delt sets across two days instead of four in one. Side delts were planned at 7.5 sets a week against a floor of 8 and averaged 4.1 done. Triceps were planned at 24 a week against a ceiling of 14, with the overhead extension already on both push days, so the rope pushdown, Push A's third triceps slot, is the one that gives way. No lateral raise machine has been logged at any gym yet; where there is none, a cable or dumbbell raise in this slot is the same work. Mark it as \"doing something else\" on the card.",
       "evidence": [
         "2026-10-06:rope-pushdown",
         "2026-09-19:rope-pushdown",
@@ -1509,11 +1509,13 @@
       "after": {
         "sets": 3
       },
-      "why": "The program asks four sets and he has done three on each of the last three full Legs B nights: 135, 165, 185 for 8 on 17 September and 155, 175, 185 for 8 on 5 October (one working set at 185 after two ramp sets), and three sets on 16 August. Prescribing a fourth set that never happens makes the card wrong every time; three sets, with the ramp kept short so two of them are working sets, is what he actually does. It also keeps Legs B at 24 sets with the squat added instead of 25.",
+      "why": "The program asks four sets and he has done three on each of the last three Legs B nights that were not cut short by travel: 155, 185, 205 for 8, 9, 9 on 16 August (18 sets that night), 135, 165, 185 for 8 on 17 September (21 sets in 23 minutes) and 155, 175, 185 for 8 at Singapore on 5 October (21 of 22 sets); Warsaw on 24 September was two sets. The one night in that window with all four, 5 September, was also the only full Legs B (22 of 22) and the best recent work on this lift: 135 for 8, 155 for 10, 180 for 10, 180 for 10. So four sets happen when the night is full, which has been once in eight tries. Three sets, with the ramp kept short so two of them are working sets, is what he actually does; prescribing a fourth that usually does not happen makes the card wrong most nights. It also keeps Legs B at 24 sets with the squat added instead of 25.",
       "evidence": [
         "2026-10-05:smith-rdl",
         "2026-09-17:smith-rdl",
-        "2026-08-16:smith-rdl"
+        "2026-09-05:smith-rdl",
+        "2026-08-16:smith-rdl",
+        "2026-09-24:smith-rdl"
       ]
     },
     {
