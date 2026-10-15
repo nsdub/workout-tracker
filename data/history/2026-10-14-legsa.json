@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-14",
+  "session_type": "LegsA",
+  "phase": "meso3",
+  "week": 3,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "as": "Smith squat",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 99.208,
+          "reps": 5,
+          "kg": 45,
+          "at": 1791986827815
+        },
+        {
+          "weight": 99.208,
+          "reps": 7,
+          "kg": 45,
+          "at": 1791986989304
+        },
+        {
+          "weight": 99.208,
+          "reps": 8,
+          "kg": 45,
+          "at": 1791987288994,
+          "restEndedAt": 1791987169315
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "sets": [
+        {
+          "weight": 20,
+          "reps": 8,
+          "at": 1791988068412,
+          "restEndedAt": 1791987469051
+        },
+        {
+          "weight": 20,
+          "reps": 10,
+          "at": 1791988073468
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "as": "Kettlebell hip thrust",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 44.092,
+          "reps": 8,
+          "kg": 20,
+          "at": 1791988304142,
+          "restEndedAt": 1791988193478
+        },
+        {
+          "weight": 44.092,
+          "reps": 12,
+          "kg": 20,
+          "at": 1791988456620,
+          "restEndedAt": 1791988394161
+        },
+        {
+          "weight": 44.092,
+          "reps": 12,
+          "kg": 20,
+          "at": 1791988692976,
+          "restEndedAt": 1791988546658
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 12,
+          "at": 1792085710305
+        },
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1792085711356
+        },
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1792085711916
+        }
+      ]
+    }
+  ],
+  "world": "bog",
+  "gym": "Chennai",
+  "startedAt": 1791982121562
+}
