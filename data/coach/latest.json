@@ -1,24 +1,28 @@
 {
-  "date": "2026-10-13",
-  "reviewed_through": "2026-10-13",
-  "generated_at": "2026-10-13T18:09:00.644040Z",
-  "produced_by": "interactive-session",
-  "reviewer": "daily-training-brief (autonomous scheduled run), then amended by hand in the Claude session of 13 October after the athlete answered the open audit item",
-  "session_expected": "LegsA",
+  "date": "2026-10-16",
+  "reviewed_through": "2026-10-14",
+  "generated_at": "2026-10-16T06:03:38.259Z",
+  "produced_by": "scheduled-task",
+  "reviewer": "daily-training-brief (autonomous scheduled run)",
+  "session_expected": "LegsB",
   "program_version": 3,
-  "brief": "Update, late on 13 October: you answered the one open question, \"I don't want to lose abs.\" So Legs B is now 20 sets, not 24: the hip abductor and adductor come off Legs B (they stay on Legs A), and the hanging leg raise and cable crunch move up to sit right after the leg curl, before the calf press. If Legs B ever runs short again, the calf press is what waits, and calves are also on Legs A. Nothing else changed.\n\nTomorrow, 14 October, is Legs A, not Legs B. Legs A was due on 10 October and was not trained (you wrote \"Sick today\" on 8 October and nothing was logged until 12 October), and the last direct quad work was 28 September, so the app sends you to Legs A first. First time on these machines at Chennai, so every number is a starting point to find the weight, not a raise: leg press, feet low, 150, 170, 190 for 8 to 10 (your Warsaw feet-low numbers from 28 September, which were also Singapore's feet-high numbers on 5 October; if 150 is easy go 170, 190, 210); Bulgarian split squat 20 lb dumbbells (9 or 10 kg) for 8 on both sets, up from 17.5 because dumbbells are the same in any gym; leg curl 120 for 12 on all three; leg extension 130 for 12, a guess for this machine, log what you use; adductor 80 then 90 and abductor 60 then 70, the second number only if the first set was easy at 15; calf press 270 to find it, then 290 for 12 twice (Singapore's first two sets); cable crunch 55 for 12, then 60 for 10 twice if it was easy.\n\nThis is the automatic review, re-reading everything through tonight's Pull B (18 of 20 sets at Chennai; face pulls skipped). Nothing new has been logged since the review written earlier today, so the program stays at version 2: Push A has a lateral raise after the shoulder press in place of the rope pushdown (side delts were getting 4 sets a week, triceps 14 direct sets); Push B is 3 sets of dips and 3 of lateral raises, which is the answer to your 23 August note; Legs B has a smith squat behind the RDL and the RDL is 3 sets, which is what you have done on each of the last three Legs B nights that were not cut short by travel; the one full Legs B in that stretch, 5 September, had four. One thing is yours to answer, not mine: Legs B is now 24 sets and you have finished a Legs B in full once in eight tries (the last eight were 23, 23, 20, 18, 22, 21, 13 and 21 sets). The squat sits second so it will get done; if the night runs short it is the hanging leg raise and cable crunch at the end that fall off, and that is abs work the week then loses. If 24 is too many, say so in a note and the deload on 26 October re-sizes the day. Sets per day: Push A 22, Pull A 19, Legs A 20, Push B 24, Pull B 20, Legs B 24. Everything else holds to the end of this block on 25 October; the deload week after it is where chest, hamstrings and glutes get re-sized once there are two more weeks on the same machines.\n\nTonight's Pull B, for the record: the smith row at 65 kg went 9 and 9, so it holds until both top sets reach 10; straight-arm pulldown 77, 99, 110 for 12 and reverse curl 77, 88, 99 for 15, 13, 12 both hit the top of their ranges, so next Pull B starts at 110 and 99. The deadlift rows on 8 October were typed within 17 seconds, so they are recalled numbers; the deadlift holds at 225 next Pull A until 5 lands on every set. One more thing: no bodyweight has been logged since 23 August (207 lb), and the assessment week starts 2 November. A reading this week gives the review something to work with.",
+  "brief": "Today, 16 October, is Legs B, not Push B. The usual order would send you back to Push B only four days after the last one, while Legs B has not been trained since 5 October and Push A since 6 October. Doing Legs B tonight puts the order back on track: Push A next, then Pull A, then Legs A.\n\nWhat I read from Legs A on 14 October at Chennai: 11 of 20 sets. You did a smith squat in the leg press slot (45 kg for 5, 7, 8), a kettlebell hip thrust in the leg curl slot (20 kg for 8, 12, 12), and split squats at 20 lb for 8 and 10. The leg extension, both hip machines and the calf press were not logged, and there is no note saying why. One question, in a note when you can: does the Chennai gym have a leg press, a leg curl, a leg extension and the hip machines? If it does not, the program will be fitted to the gym you are in rather than asking you for machines that are not there. The cable crunch sets were typed in on the evening of 15 October, all three within two seconds, so I treat them as remembered and do not raise off them.\n\nThe program did not change today (still version 3). Nothing logged since 13 October contradicts it, Legs B's new smith squat has not been run yet, and the deload on 26 October is where the over-full muscles get re-sized.\n\nTonight, in this order. Smith RDL: 70 kg for 8 to warm in, then 80 kg for 8 twice; if 80 is light, use the last set to find the real weight and log it. Smith squat: 45 kg for 8 on all three sets, the same machine and weight as 14 October. Leg press, feet high: 150, 170, 190 for 10, a starting point on a new machine; if there is no leg press, do the kettlebell hip thrust at 20 kg for 12s instead and mark it on the card. Leg curl: 120 for 10 to 12, a starting point on a new machine; if there is no machine, a dumbbell leg curl lying face down on a bench, marked on the card. Hanging leg raise 12 and 12. Cable crunch: the first set finds the stack, about 25 kg for 12, then 27.5 kg for 10 twice if that was easy. Calf press last: 270 to find the machine, then 290 for 12 twice; if there is no machine for it, any standing calf raise, logged as what it was.\n\nStill missing: no bodyweight since 23 August (207 lb). The assessment week starts 2 November; a morning weigh-in this week would help.",
   "flags": [
     {
       "kind": "schedule",
-      "note": "Tomorrow 14 October is Legs A, not Legs B: it was due on 10 October and was not trained, and there has been no direct quad work since 28 September."
+      "note": "Tonight 16 October is Legs B, not Push B: Legs B was last trained 5 October and Push B only on 12 October; this puts the order back to Push A, Pull A, Legs A next."
+    },
+    {
+      "kind": "volume",
+      "note": "Legs A at Chennai on 14 October was 11 of 20 sets: leg press and leg curl were swapped for a smith squat and a kettlebell hip thrust, and the leg extension, hip machines and calf press were not logged. Does Chennai have those machines?"
+    },
+    {
+      "kind": "fatigue",
+      "note": "The 14 October cable crunch sets were entered on 15 October within two seconds, so they are remembered numbers and the weight is held."
     },
     {
       "kind": "phase",
       "note": "No bodyweight logged since 23 August (207 lb); the assessment week starts 2 November."
-    },
-    {
-      "kind": "volume",
-      "note": "Program v3: Legs B is 20 sets, abs moved ahead of the calf press and the hip pair moved off it (still on Legs A); Push A has a lateral raise, Push B 3 sets of dips and lateral raises."
     }
   ],
   "review": {
@@ -26,15 +30,15 @@
       "phase": "meso3",
       "week": 3,
       "of": 4,
-      "days_to_show": 139,
+      "days_to_show": 136,
       "verdict": "hold",
-      "why": "Week 3 of 4 of the third build block. The block ends 25 October; the deload runs 26 October to 1 November, the assessment week 2 to 8 November, and the prep block starts 9 November, 112 days before the show; today is 139 days out. This is the automatic run, reading the same log the review written earlier tonight read: the last session logged is Pull B at Chennai on 13 October (18 of 20 sets, face pulls skipped) and nothing has been logged since, so every verdict below was re-checked against the raw rows of 8, 12 and 13 October and repeats where the evidence is identical. Program v2, written today, stands: Push A gained a lateral raise in place of the rope pushdown, Push B went to 3 sets of dips and 3 of lateral raises, Legs B gained a smith squat and its RDL went to 3 sets. Walking any of that back tonight would need a session logged after it, and there is none. Where the block stands: three gyms in three weeks (Warsaw, Singapore, Chennai), so most lifts are re-finding a machine rather than adding weight, and the real progress is attendance (26 of 26 sets on 12 October, 18 of 20 on 13 October) and the two structural fixes (side delts and quads). Next boundary is the 26 October deload. Ten muscles sit above their ceiling on paper (chest 19, front delts 18.5, rear delts 15.5, upper back 18, biceps 18, triceps 21, forearms 11, hamstrings 18.5, glutes 18.5, adductors 8) because the count credits every helper muscle at half a set, while the targets were written as direct-set ranges; none of them is cut tonight on that arithmetic alone, and the deload is where each is re-sized, and the targets re-read in the same convention, with two more weeks on one gym's machines. Each is listed in deferred[] with that date. Two things to carry: Legs A was due on 10 October and was not trained, so tomorrow 14 October is Legs A, not Legs B; and no bodyweight has been logged since 23 August (207 lb), 51 days, with the assessment three weeks out. One question is handed to him rather than decided: Legs B is now 24 sets and he has finished a Legs B in full once in eight tries; see the brief.",
+      "why": "Week 3 of 4 of the third build block, which ends 25 October; the deload runs 26 October to 1 November, assessment 2 to 8 November, prep from 9 November; the show is 136 days out. New since the last review: Legs A at Chennai on 14 October, 11 of 20 sets, with the leg press and leg curl slots done as a smith squat and a kettlebell hip thrust and four slots (leg extension, adductor, abductor, calf press) not logged. Three gyms in three weeks (Warsaw, Singapore, Chennai) means most lifts are re-finding a machine, so the block's progress shows where a gym repeats: Chennai's pull and push days were done in full or nearly (26 of 26 on 12 October, 18 of 20 on 13 October) and leg days are where sets go missing. The program is not changed today: version 3 was written on 13 October, its Legs B squat and Push A lateral raise have not been run yet, and one partial leg night at a gym whose equipment is not known is not a reason to restructure. Whether Chennai has a leg press, leg curl, leg extension and hip machines is asked in the brief; if not, the program is fitted to the gym. Tonight is steered to Legs B, the session longest untrained (5 October), which also puts the six-day order back in sequence. Next boundary is the 26 October deload, where the nine muscles above their ceiling on paper are re-sized and calves, the deadlift, the hanging leg raise and the leg extension are decided (all dated in deferred).",
       "evidence": [
-        "2026-10-13:smith-bent-over-row",
+        "2026-10-14:leg-press-low",
+        "2026-10-14:leg-curl",
         "2026-10-12:machine-chest-press",
-        "2026-10-08:note",
-        "2026-09-28:leg-press-low",
-        "2026-08-23:bodyweight"
+        "2026-10-13:smith-bent-over-row",
+        "2026-10-05:smith-rdl"
       ]
     },
     "muscles": {
@@ -42,7 +46,7 @@
         "planned_weekly_sets": 19,
         "done_4wk_avg": 10.3,
         "verdict": "watch",
-        "why": "Nineteen a week on paper after the dips cut, one over the ceiling, but that counts the dips and both crossovers; the direct pressing is incline 4, chest press 3 and 3. Push days have been done in full at Chennai and Singapore (26 of 26 on 12 October, 21 of 21 on 6 October). Hold through the block; re-size at the 26 October deload with two more push weeks on the same machines.",
+        "why": "Nineteen a week on paper, one over the ceiling of 18, by the count that gives helper muscles half a set (dips and both crossovers included); the direct pressing is incline 4 and chest press 3 and 3. No chest work has been logged since Push B at Chennai on 12 October (26 of 26 sets; smith bench 75 kg for 8, 8 in the chest-press slot), so nothing has moved. Held to the 26 October deload, where it is re-sized with the other over-ceiling muscles.",
         "evidence": [
           "2026-10-12:machine-chest-press",
           "2026-10-06:smith-incline-press",
@@ -53,33 +57,30 @@
         "planned_weekly_sets": 18.5,
         "done_4wk_avg": 9.6,
         "verdict": "watch",
-        "why": "Direct front-delt work by the program's own tags is 11 sets (incline press 4, which the catalogue counts as a primary mover, shoulder press 3 on Push A and 4 on Push B), one over the ceiling of 10; the 18.5 on paper adds half credit from the chest press, crossovers and dips. Not cut tonight: the pressing is doing its job (seated press at Chennai on 12 October 18 kg for 10 then 22.5 kg for 10, 10, 10; 20 kg for 8, 8, 8 at Singapore on 6 October under that day's 10-to-12 ask) and the incline press is a chest lift first. Re-sized at the 26 October deload with the other over-ceiling muscles.",
+        "why": "Eighteen and a half on paper against a ceiling of 10, of which 11 are direct (incline press 4, shoulder press 3 on Push A and 4 on Push B); the rest is half credit from the chest press, crossovers and dips. The pressing is moving: 22.5 kg for 10, 10, 10 on the seated press at Chennai on 12 October. No push session since, so no new reading. Re-sized at the 26 October deload.",
         "evidence": [
           "2026-10-12:db-shoulder-press",
-          "2026-10-06:db-shoulder-press",
-          "2026-10-06:smith-incline-press"
+          "2026-10-06:db-shoulder-press"
         ]
       },
       "side-delts": {
         "planned_weekly_sets": 9.5,
         "done_4wk_avg": 4.1,
-        "verdict": "raise",
-        "why": "Since the cable raise came off Push A on 14 September the only side-delt work in the week was the four sets of dumbbell raise on Push B: 7.5 planned against a floor of 8, 4.1 done on average. Today Push A gets a lateral raise (3 sets) in place of the rope pushdown and Push B goes from 4 sets to 3, answering his 23 August note that four in one session was a lot for a small muscle: six direct sets across two days, 9.5 a week with the press helpers.",
+        "verdict": "hold",
+        "why": "Program v2 on 13 October put a lateral raise on Push A (3 sets) and set Push B to 3, so 9.5 a week is planned against a floor of 8; the 4.1 done average is the old program, when Push B was the only side-delt day. The Push A raise has not been run yet (Push A last ran 6 October). Hold and read it after the next Push A.",
         "evidence": [
           "2026-10-12:db-lateral-raise",
-          "2026-09-30:db-lateral-raise",
-          "2026-10-06:rope-pushdown",
-          "2026-08-23:note"
+          "2026-10-06:db-shoulder-press"
         ]
       },
       "rear-delts": {
         "planned_weekly_sets": 15.5,
         "done_4wk_avg": 7,
-        "verdict": "hold",
-        "why": "Ten direct sets a week (reverse pec deck 3 and 3, face pulls 2 and 2); the rest is helper credit from rows and pulldowns. Reverse pec deck read 50 kg for 11, 11, 11 at Chennai on 12 October and 95 lb for 12s at Singapore on 6 October; two machines, not a rise. Face pulls were the slot skipped on 13 October, last in Pull B; they stay in and they stay last.",
+        "verdict": "watch",
+        "why": "Ten direct sets a week (reverse pec deck 3 and 3, face pulls 2 and 2) and 15.5 on paper with row and pulldown helpers, over the ceiling of 12 by that count. Face pulls were the slot skipped at Chennai on 13 October; reverse pec deck 50 kg for 11, 11, 11 there on 12 October. Re-sized at the deload with the other helper-heavy muscles.",
         "evidence": [
+          "2026-10-13:smith-bent-over-row",
           "2026-10-12:reverse-pec-deck",
-          "2026-10-06:reverse-pec-deck",
           "2026-10-08:face-pulls"
         ]
       },
@@ -87,7 +88,7 @@
         "planned_weekly_sets": 17,
         "done_4wk_avg": 9,
         "verdict": "hold",
-        "why": "Wide pulldown hit 100 for 10 on all three sets at Singapore on 8 October, the top of its range; close pulldown 130 for 8s and straight-arm pulldown 110 for 12 at Chennai on 13 October. Volume is inside the target and the lifts are moving where the gym stays the same.",
+        "why": "Seventeen planned, inside 10 to 18. Wide pulldown 100 for 10, 10, 10 at Singapore on 8 October (top of range); close pulldown 130 for 8, 8 and straight-arm 110 for 12 at Chennai on 13 October. Nothing logged for lats since 13 October.",
         "evidence": [
           "2026-10-08:lat-pulldown-wide",
           "2026-10-13:lat-pulldown-close",
@@ -97,11 +98,10 @@
       "upper-back": {
         "planned_weekly_sets": 18,
         "done_4wk_avg": 8.4,
-        "verdict": "hold",
-        "why": "The smith row read 65 kg for 9, 8, 7 at Singapore on 3 October and 65 kg for 9, 9 at Chennai on 13 October, which the app flags as a stall and which is really two machines; the seated row went 105, 115, 115 for 12 at Singapore on 8 October. Eighteen on paper, of which eight are direct rows. Hold and earn 10 on both top sets at 65 kg.",
+        "verdict": "watch",
+        "why": "Eighteen on paper against a ceiling of 16, of which eight are direct rows. The smith row held 65 kg for 9, 9 at Chennai on 13 October; seated row 105, 115, 115 for 12 at Singapore on 8 October. No new pull session; re-sized at the deload.",
         "evidence": [
           "2026-10-13:smith-bent-over-row",
-          "2026-10-03:smith-bent-over-row",
           "2026-10-08:seated-cable-row-wide"
         ]
       },
@@ -109,17 +109,16 @@
         "planned_weekly_sets": 8.5,
         "done_4wk_avg": 3.5,
         "verdict": "hold",
-        "why": "Three direct shrug sets plus helpers. On 13 October the slot was done as a reverse smith shrug, 55 kg for 16, 17, 18, inside the 12-to-20 range, so the weight holds until 20 lands; it is a different movement from the dumbbell shrug the slot names and carries its own number.",
+        "why": "Eight and a half planned, inside 4 to 10. Shrug slot done as a reverse smith shrug at Chennai on 13 October, 55 kg for 16, 17, 18, inside the 12-to-20 range. Hold until 20 lands.",
         "evidence": [
-          "2026-10-13:db-shrug",
-          "2026-10-03:db-shrug"
+          "2026-10-13:db-shrug"
         ]
       },
       "lower-back": {
         "planned_weekly_sets": 5.5,
         "done_4wk_avg": 2.6,
         "verdict": "hold",
-        "why": "No direct lower-back slot and none needed: deadlift, RDL and the bent-over row load it every week, and the only note near it was \"Sick today\" on the deadlift of 8 October, not a back complaint.",
+        "why": "Five and a half on paper from the deadlift, RDL and bent-over row; no direct slot and none needed. The 14 October Legs A at Chennai loaded it lightly through the smith squat. No complaint logged.",
         "evidence": [
           "2026-10-08:deadlift",
           "2026-10-05:smith-rdl"
@@ -129,30 +128,29 @@
         "planned_weekly_sets": 18,
         "done_4wk_avg": 9,
         "verdict": "watch",
-        "why": "Eleven direct sets (dumbbell curl 3, hammer curl 3, incline curl 2, reverse curl 3), inside the target; the eighteen counts pulldown and row helpers. Curls are progressing: reverse curl 99 for 12 on 13 October, barbell curl 65 for 8, 8, 8 on 8 October.",
+        "why": "Eleven direct sets, eighteen on paper with row and pulldown helpers, over the ceiling of 14 by that count. Curls are moving: reverse curl 77, 88, 99 for 15, 13, 12 and incline curl 30 for 9 at Chennai on 13 October. No new pull session; re-sized at the deload.",
         "evidence": [
           "2026-10-13:cable-reverse-curl",
-          "2026-10-08:db-curl",
-          "2026-10-13:incline-db-curl"
+          "2026-10-13:incline-db-curl",
+          "2026-10-08:db-curl"
         ]
       },
       "triceps": {
         "planned_weekly_sets": 21,
         "done_4wk_avg": 12.8,
-        "verdict": "cut",
-        "why": "The most over-planned muscle. By the credited count (helpers at half) it was 24 a week before today and is 21 after v2, still against a ceiling of 14; by direct sets it went from 14 to 11 (overhead extension 3 and 3, dips 3, reverse-grip pushdown 2) when the rope pushdown left Push A and dips dropped to three sets. The 10 that remain over the ceiling are press helper credit (incline, chest press, shoulder press, crossovers at half each), and that is not cut tonight: the direct work is now inside the range and the presses are chest and shoulder lifts first. At Chennai on 12 October he did skullcrushers 12.5 kg for 10, 9, 9 in the overhead slot and the reverse-grip pushdown 55 kg for 11, 12. The remainder is re-read at the 26 October deload.",
+        "verdict": "watch",
+        "why": "Twenty-one on paper against a ceiling of 14; eleven direct (overhead extension 3 and 3, dips 3, reverse-grip pushdown 2) after the 13 October cut, the other ten are press helper credit. Skullcrushers 12.5 kg for 10, 9, 9 and pushdown 55 kg for 11, 12 at Chennai on 12 October. The cut has not been run yet; re-read at the 26 October deload.",
         "evidence": [
           "2026-10-12:overhead-cable-triceps",
-          "2026-10-12:assisted-dips",
           "2026-10-12:reverse-grip-pushdown",
-          "2026-10-06:rope-pushdown"
+          "2026-10-12:assisted-dips"
         ]
       },
       "forearms": {
         "planned_weekly_sets": 11,
         "done_4wk_avg": 5.6,
         "verdict": "watch",
-        "why": "Six direct sets (reverse curl, hammer curl), the rest helpers from shrugs, curls and hanging leg raises. Reverse curl ran 77, 88, 99 for 15, 13, 12 at Chennai on 13 October. Nothing to change.",
+        "why": "Six direct sets (reverse and hammer curls), eleven on paper with shrug and curl helpers, over the ceiling of 8 by that count. Reverse curl 99 for 12 on 13 October. Re-sized at the deload.",
         "evidence": [
           "2026-10-13:cable-reverse-curl",
           "2026-10-08:cable-hammer-curl"
@@ -160,43 +158,42 @@
       },
       "quads": {
         "planned_weekly_sets": 11.5,
-        "done_4wk_avg": 3.4,
-        "verdict": "raise",
-        "why": "The most under-served muscle in the program: 8.5 planned a week before today against a floor of 10, 3.4 done a week on average. No direct quad work since Legs A at Warsaw on 28 September (leg press 190 for 8, extension 150 for 12); the feet-high leg press on 5 October credits them half a set each, and that is the 1.5 in that week. Legs A was due on 10 October and was not trained (he wrote \"Sick today\" on 8 October and nothing was logged until 12 October). Today's v2 adds a smith squat to Legs B, taking the week to 11.5, and tomorrow 14 October is Legs A. Raise acted on today.",
+        "done_4wk_avg": 4.6,
+        "verdict": "watch",
+        "why": "Eleven and a half planned against a floor of 10 since the smith squat went onto Legs B on 13 October; 4.6 done a week over four weeks. On 14 October at Chennai the quads got 5 sets: the leg-press slot was done as a smith squat, 45 kg for 5, 7, 8, plus split squats at 20 lb for 8 and 10, and the leg extension was not logged. Tonight is Legs B, whose smith squat has not been run yet; quads are the muscle to read after it.",
         "evidence": [
-          "2026-09-28:leg-press-low",
-          "2026-09-28:leg-extension",
-          "2026-10-05:leg-press-high",
-          "2026-10-08:note"
+          "2026-10-14:leg-press-low",
+          "2026-10-14:db-bulgarian-split-squat",
+          "2026-09-28:leg-extension"
         ]
       },
       "hamstrings": {
         "planned_weekly_sets": 18.5,
-        "done_4wk_avg": 6.9,
+        "done_4wk_avg": 7.9,
         "verdict": "watch",
-        "why": "Sixteen direct sets a week on paper after the RDL cut (curls 3 and 3, RDL 3, deadlift 4, leg press high 3), above the ceiling, yet only 6.9 done on average, because leg days were the ones shortened or skipped (deload week, Warsaw, the missed Legs A); RDL compliance is 79 percent over its last six visits. Not cutting curls while attendance is the problem. Re-size at the 26 October deload.",
+        "why": "Eighteen and a half on paper, over the ceiling of 14, yet 7.9 done a week on average because leg days are the ones cut short or skipped. On 14 October the leg-curl slot was done as a kettlebell hip thrust (20 kg for 8, 12, 12), which is a glute lift, so the week so far has no direct hamstring work. Tonight's Legs B carries the RDL and the leg curl. Not cutting while attendance is the problem; re-sized at the 26 October deload.",
         "evidence": [
-          "2026-10-05:leg-curl",
+          "2026-10-14:leg-curl",
           "2026-10-05:smith-rdl",
-          "2026-09-24:smith-rdl"
+          "2026-10-05:leg-curl"
         ]
       },
       "glutes": {
         "planned_weekly_sets": 17.5,
-        "done_4wk_avg": 6.1,
+        "done_4wk_avg": 7,
         "verdict": "watch",
-        "why": "Credited from the RDL, deadlift, feet-high leg press, split squat and now the smith squat; there is no glute isolation and 6.1 done a week on average. The number on paper is high because every hinge and squat counts; it is not a reason to cut a hinge. Re-size at the deload.",
+        "why": "Seventeen and a half on paper, over 14, because every hinge, squat and press credits them; 7 done a week on average. The 14 October kettlebell hip thrust in the leg-curl slot is glute work, not hamstring work. Re-sized at the deload, not cut on arithmetic alone.",
         "evidence": [
-          "2026-10-05:leg-press-high",
-          "2026-10-05:smith-rdl",
-          "2026-10-08:deadlift"
+          "2026-10-14:leg-curl",
+          "2026-10-14:leg-press-low",
+          "2026-10-05:smith-rdl"
         ]
       },
       "adductors": {
         "planned_weekly_sets": 6,
-        "done_4wk_avg": 2.5,
-        "verdict": "cut",
-        "why": "Direct work goes from four sets to two (Legs A only) tonight so Legs B ends at 20 with the abs in it; the rest of the planned number is helper credit from the leg press, split squat and the new squat, which keeps it above the floor. At Chennai the weight is found again on the first set.",
+        "done_4wk_avg": 3.1,
+        "verdict": "hold",
+        "why": "Six planned (2 direct on Legs A plus helper credit), at the ceiling of 6 since the Legs B pair came off on 13 October. The adductor machine was not logged at Chennai on 14 October, so the direct work this week is zero; the question of whether that gym has the machine is in the brief.",
         "evidence": [
           "2026-10-05:hip-adductor",
           "2026-09-28:hip-adductor"
@@ -205,19 +202,18 @@
       "abductors": {
         "planned_weekly_sets": 2,
         "done_4wk_avg": 1.5,
-        "verdict": "cut",
-        "why": "Was four sets a week on two days; now two sets on Legs A, which meets the 2-set floor. The Legs B pair came off tonight so that day ends at 20 sets with the abs still in it, which he asked for. The stored weight has read 135 at the home gym, 110 at Warsaw and 60 at Singapore for 13 to 15 reps: three machines, found again on the first set at Chennai.",
+        "verdict": "hold",
+        "why": "Two planned, exactly the floor, all on Legs A. Not logged at Chennai on 14 October; 60 for 15, 15 at Singapore on 5 October. If Chennai has no abductor machine this muscle gets nothing until he moves on; that is in the brief as a question.",
         "evidence": [
           "2026-10-05:hip-abductor",
-          "2026-09-28:hip-abductor",
-          "2026-08-20:hip-abductor"
+          "2026-09-28:hip-abductor"
         ]
       },
       "calves": {
         "planned_weekly_sets": 9,
-        "done_4wk_avg": 3.8,
-        "verdict": "hold",
-        "why": "Six sets of calf press a week, 3.8 done on average because of the missed leg days. 290 went 15 then 12 and the third set dropped to 270 at Singapore on 5 October; the Chennai leg press has not been loaded yet, so the first set finds the weight.",
+        "done_4wk_avg": 4.1,
+        "verdict": "watch",
+        "why": "Nine planned against a floor of 6, but 4.1 done a week over four weeks, under the floor in practice: the calf press was skipped at Chennai on 14 October (not logged), and on Legs B it is the last slot by his own choice on 13 October (abs first). Read again after tonight; if Chennai cannot load it, the deload on 26 October is where calves get a slot that fits the gym.",
         "evidence": [
           "2026-10-05:standing-calf-raise",
           "2026-09-28:standing-calf-raise"
@@ -225,15 +221,13 @@
       },
       "abs": {
         "planned_weekly_sets": 8,
-        "done_4wk_avg": 2.5,
+        "done_4wk_avg": 3.3,
         "verdict": "hold",
-        "why": "Cable crunch 3 and 3 plus hanging leg raise 2. He said tonight he does not want to lose abs, so on Legs B both ab slots now sit before the calf press instead of last, where they were the sets that fell off on the nights the day ran short. Cable crunch 3 and 3 plus hanging leg raise 2. Crunch went 55 for 12, 12, 12 at Singapore on 5 October; the hanging leg raise has gone 12 then 10 on both of the last two full Legs B nights. Cable crunch is the last slot on Legs A and was the one left out when the 28 September session was cut short at 34 minutes.",
+        "why": "Eight planned (cable crunch 3 and 3, hanging leg raise 2), 3.3 done a week on average. On 14 October the crunch was logged 55 for 12 then 60 for 10, 10, but all three sets were entered on the evening of 15 October within two seconds of each other, so they are remembered numbers and nothing is raised off them. Tonight both ab slots sit before the calf press, as he asked.",
         "evidence": [
-          "2026-09-17:hanging-leg-raise",
-          "2026-09-24:cable-crunch",
-          "2026-09-28:leg-press-low",
-          "2026-10-05:cable-crunch",
-          "2026-10-05:hanging-leg-raise"
+          "2026-10-14:cable-crunch",
+          "2026-10-05:hanging-leg-raise",
+          "2026-10-05:cable-crunch"
         ]
       }
     },
@@ -244,7 +238,7 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "Logged as an incline barbell at Singapore on 6 October, 75 kg for 6, 6, 6 after 70 for 8, and 165 for 6 at the old gym on 19 September. Three gyms in a month; the number to beat is 75 kg for 8 on the same bar.",
+        "why": "Last read at Singapore on 6 October as an incline barbell, 70 kg for 8 then 75 kg for 6, 6, 6; 165 for 6 at the old gym on 19 September. Not trained since. At Chennai the first visit sets the number.",
         "evidence": [
           "2026-10-06:smith-incline-press",
           "2026-09-19:smith-incline-press"
@@ -257,7 +251,7 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "Flagged as stalled on Push A, but the three nights are three machines: 160 for 12 on 19 September, 130 for 10 at Singapore on 6 October, and a smith bench at Chennai 75 kg for 8, 8 on 12 October. Hold and progress on whichever machine he sees twice.",
+        "why": "Three machines in three nights: 160 for 12 on 19 September, 130 for 10 at Singapore on 6 October, and a smith bench at Chennai, 70 kg for 8 then 75 kg for 8, 8 on 12 October. Progress on whichever machine he sees twice: at Chennai, 75 kg earns 10 before it moves.",
         "evidence": [
           "2026-10-12:machine-chest-press",
           "2026-10-06:machine-chest-press",
@@ -270,10 +264,9 @@
         ],
         "trend": "holding",
         "verdict": "progress",
-        "why": "10 for 15, 15, 15 at Singapore on 6 October, the top of the range on a stack that reads lower than the old gym (15 to 17.5 there). Next time on that stack it goes up a plate; at Chennai, find the weight on the first set.",
+        "why": "10 for 15, 15, 15 at Singapore on 6 October, top of the range. Up a plate next time on that stack; at Chennai the first set finds the weight.",
         "evidence": [
-          "2026-10-06:cable-crossover-low-high",
-          "2026-09-19:cable-crossover-low-high"
+          "2026-10-06:cable-crossover-low-high"
         ]
       },
       "db-shoulder-press": {
@@ -283,10 +276,21 @@
         ],
         "trend": "progressing",
         "verdict": "progress",
-        "why": "Push B at Chennai on 12 October, done as a seated dumbbell press: 18 kg for 10 to warm up, then 22.5 kg for 10, 10, 10, the top of the 8-to-10 range on all three working sets, so 25 kg next Push B. Push A is a different ask (10 to 12): 20 kg went 8, 8, 8 at Singapore on 6 October, under the floor, so Push A holds 20 kg and earns 10.",
+        "why": "Push B at Chennai on 12 October, seated: 18 kg for 10, then 22.5 kg for 10, 10, 10, the top of 8 to 10, so 25 kg next Push B. Push A asks 10 to 12 and 20 kg went 8, 8, 8 at Singapore on 6 October, so Push A holds and earns 10.",
         "evidence": [
           "2026-10-12:db-shoulder-press",
           "2026-10-06:db-shoulder-press"
+        ]
+      },
+      "machine-lateral-raise": {
+        "sessions": [
+          "PushA"
+        ],
+        "trend": "unlogged",
+        "verdict": "hold",
+        "why": "On Push A since 13 October, 3 sets of 12 to 15 after the shoulder press; Push A has not run since. If the gym has no lateral raise machine, the cable or dumbbell raise is the same slot, marked on the card; the dumbbell raise on Push B is at 7.5 kg for 10s.",
+        "evidence": [
+          "2026-10-12:db-lateral-raise"
         ]
       },
       "reverse-pec-deck": {
@@ -296,7 +300,7 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "50 kg for 11, 11, 11 at Chennai on 12 October; 95 lb for 12s at Singapore on 6 October. Two machines, so neither is a rise over the other. Earn 12 on all three at 50 kg, then up.",
+        "why": "50 kg for 11, 11, 11 at Chennai on 12 October; 95 for 12s at Singapore on 6 October. Two machines. Earn 12 on all three at 50 kg, then up.",
         "evidence": [
           "2026-10-12:reverse-pec-deck",
           "2026-10-06:reverse-pec-deck"
@@ -309,34 +313,10 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "Done as skullcrushers 12.5 kg for 10, 9, 9 at Chennai on 12 October; no note says why the slot was swapped, so nothing is assumed about that gym's cables (cable crossovers and a cable pushdown were logged there the same night). At Singapore on 6 October it was 100, 115, 110 for 12. Same slot on both push days is deliberate; the triceps cut came from the pushdown and the dips, not here. Hold: on a new movement the first visit sets the number.",
+        "why": "Done as skullcrushers at Chennai on 12 October, 12.5 kg for 10, 9, 9; 100, 115, 110 for 12 at Singapore on 6 October on the cable. A new movement sets its own number on the first visit; hold 12.5 kg and earn 10 on all three.",
         "evidence": [
           "2026-10-12:overhead-cable-triceps",
-          "2026-10-06:overhead-cable-triceps",
-          "2026-10-12:cable-crossover-high-low"
-        ]
-      },
-      "rope-pushdown": {
-        "sessions": [
-          "PushA"
-        ],
-        "trend": "holding",
-        "verdict": "rotate",
-        "why": "Leaves Push A today for a lateral raise: it was the third triceps slot on a day whose triceps are already over the ceiling, and the week had no side-delt work outside Push B. 90 for 11, 12 at Singapore on 6 October was fine work; it is the balance that was wrong.",
-        "evidence": [
-          "2026-10-06:rope-pushdown",
-          "2026-09-19:rope-pushdown"
-        ]
-      },
-      "machine-lateral-raise": {
-        "sessions": [
-          "PushA"
-        ],
-        "trend": "unlogged",
-        "verdict": "hold",
-        "why": "New today on Push A, 3 sets of 12 to 15, after the shoulder press. No lateral raise machine has been logged at any gym yet; if there is none, do the cable or dumbbell raise in this slot and mark it on the card. Start light and find the weight on the first set; the dumbbell raise on Push B is at 7.5 kg for 10s.",
-        "evidence": [
-          "2026-10-12:db-lateral-raise"
+          "2026-10-06:overhead-cable-triceps"
         ]
       },
       "deadlift": {
@@ -345,12 +325,13 @@
         ],
         "trend": "regressing",
         "verdict": "hold",
-        "why": "265 for 5 in August, 255 for 4 and 3 in September (\"Too early in morning\"), 225 for 6, 4, 4, 4 at Singapore on 8 October with \"Sick today.\" Those four rows were entered within 17 seconds of each other, so they were typed after the fact, not timed; a recalled set is not a number to progress from. Flagged as stalled and it is. Hold 225 next Pull A and ask for 5 on every set before it moves; if that fails twice more, the deload is where it rotates to a rack pull or a trap-bar pull.",
+        "why": "265 for 5 in August, 255 for 4, 4 on 10 September, 235 for 4, 245 for 5 and 255 for 3, 3 on 20 September (\"Too early in morning\"), 95 kg for 5, 5 at Warsaw on 27 September, 225 for 6, 4, 4, 4 at Singapore on 8 October (\"Sick today\"); those four rows were entered within 17 seconds, so they are recalled, not timed. Hold 225 next Pull A for 5 on every set; only one Pull A fits before the deload, and if it does not get 5 on every set the lift rotates at the deload (dated in deferred).",
         "evidence": [
           "2026-10-08:deadlift",
+          "2026-09-27:deadlift",
           "2026-09-20:deadlift",
           "2026-09-10:deadlift",
-          "2026-08-28:deadlift"
+          "2026-10-08:note"
         ]
       },
       "lat-pulldown-wide": {
@@ -359,10 +340,9 @@
         ],
         "trend": "holding",
         "verdict": "progress",
-        "why": "100 for 10, 10, 10 at Singapore on 8 October, top of the range on that stack. Up one plate next time on the same stack.",
+        "why": "100 for 10, 10, 10 at Singapore on 8 October, top of the range. Up one plate next time on the same stack; at Chennai, find it on the first set.",
         "evidence": [
-          "2026-10-08:lat-pulldown-wide",
-          "2026-09-20:lat-pulldown-wide"
+          "2026-10-08:lat-pulldown-wide"
         ]
       },
       "seated-cable-row-wide": {
@@ -371,10 +351,9 @@
         ],
         "trend": "progressing",
         "verdict": "progress",
-        "why": "105, 115, 115 for 12s at Singapore on 8 October (three sets of the four asked). Top of the range: 120 next time, and all four sets.",
+        "why": "105, 115, 115 for 12 at Singapore on 8 October, three of the four sets asked, top of the range. That was the Singapore stack; at Chennai the first set finds the weight, and all four sets are asked.",
         "evidence": [
-          "2026-10-08:seated-cable-row-wide",
-          "2026-09-20:seated-cable-row-wide"
+          "2026-10-08:seated-cable-row-wide"
         ]
       },
       "db-curl": {
@@ -385,8 +364,7 @@
         "verdict": "hold",
         "why": "Done as a barbell curl at Singapore, 65 for 8, 8, 8 on 8 October, the bottom of the range. Hold 65 and earn 10.",
         "evidence": [
-          "2026-10-08:db-curl",
-          "2026-09-20:db-curl"
+          "2026-10-08:db-curl"
         ]
       },
       "cable-hammer-curl": {
@@ -395,11 +373,10 @@
         ],
         "trend": "holding",
         "verdict": "progress",
-        "why": "On 8 October at Singapore all three sets hit 12 (35, 35, 36), the top of the range, which is the program's rule for a raise: 40 next Pull A on that stack. The two nights before were not there yet (36 for 12, 12 then 35 for 11 on 20 September; 35 for 11, 11, 10 on 10 September, at the old gym).",
+        "why": "35, 35, 36 for 12, 12, 12 at Singapore on 8 October, the top of the range on the Singapore stack. At Chennai the first set finds the weight.",
         "evidence": [
           "2026-10-08:cable-hammer-curl",
-          "2026-09-20:cable-hammer-curl",
-          "2026-09-10:cable-hammer-curl"
+          "2026-09-20:cable-hammer-curl"
         ]
       },
       "face-pulls": {
@@ -409,7 +386,7 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "15 then 20 for 15 at Singapore on 8 October; skipped on 13 October at Chennai, the last slot of a 70-minute Pull B. It stays in and it stays last: two sets, two minutes, and they count toward the rear-delt week. Hold 20.",
+        "why": "15 then 20 for 15 at Singapore on 8 October; skipped at Chennai on 13 October as the last slot of Pull B. Stays in and stays last. Hold 20.",
         "evidence": [
           "2026-10-08:face-pulls",
           "2026-10-03:face-pulls"
@@ -419,13 +396,12 @@
         "sessions": [
           "LegsA"
         ],
-        "trend": "holding",
-        "verdict": "hold",
-        "why": "Flagged as stalled: 240 for 8 at the home gym in August, 180 and 160 in September, then this lift's own last reading, 150, 170, 190 for 8, 8, 8 at Warsaw on 28 September. Four gyms. Not trained since; Legs A was due on 10 October and missed. The feet-high press at Singapore on 5 October ran the same three numbers for 10. Tomorrow at Chennai, a machine never loaded, runs that ramp again at 8 to 10 reps, and the second visit sets the real level.",
+        "trend": "unlogged",
+        "verdict": "watch",
+        "why": "Not done as written since Warsaw on 28 September (150, 170, 190 for 8). At Chennai on 14 October the slot was done as a smith squat, 45 kg for 5, 7, 8, with no note saying why; the app keeps that number for the smith squat and does not treat it as a leg press. Whether Chennai has a leg press is asked in the brief; the next Legs A is read against that answer.",
         "evidence": [
-          "2026-09-28:leg-press-low",
-          "2026-10-05:leg-press-high",
-          "2026-08-20:leg-press-low"
+          "2026-10-14:leg-press-low",
+          "2026-09-28:leg-press-low"
         ]
       },
       "db-bulgarian-split-squat": {
@@ -433,11 +409,11 @@
           "LegsA"
         ],
         "trend": "progressing",
-        "verdict": "progress",
-        "why": "17.5 for 10, 10 on 28 September, the top of the range, after 17.5 for 10 on 13 September. Dumbbells are dumbbells in any gym: up to 20 tomorrow (9 or 10 kg).",
+        "verdict": "hold",
+        "why": "20 lb for 8 and 10 at Chennai on 14 October, up from 17.5 for 10, 10 on 28 September. The first set landed at the bottom of 8 to 10, so 20 holds until both sets reach 10. The two rows were entered 5 seconds apart, so the second may have been typed after the fact.",
         "evidence": [
-          "2026-09-28:db-bulgarian-split-squat",
-          "2026-09-13:db-bulgarian-split-squat"
+          "2026-10-14:db-bulgarian-split-squat",
+          "2026-09-28:db-bulgarian-split-squat"
         ]
       },
       "leg-curl": {
@@ -447,32 +423,32 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "120 for 10, 10, 11 at Singapore on 5 October; 145 for 12 at Warsaw on 28 September. Different machines. At Chennai, start at 120 and aim for 12 on every set.",
+        "why": "120 for 10, 10, 11 at Singapore on 5 October; 145 for 12s at Warsaw on 28 September; different machines. On 14 October at Chennai the slot was done as a kettlebell hip thrust, 20 kg for 8, 12, 12, which is a different lift and is not read as a curl. Tonight: 120 for 10 to 12 if Chennai has a leg curl machine; a dumbbell leg curl lying face down on a bench if it does not.",
         "evidence": [
           "2026-10-05:leg-curl",
-          "2026-09-28:leg-curl"
+          "2026-09-28:leg-curl",
+          "2026-10-14:leg-curl"
         ]
       },
       "leg-extension": {
         "sessions": [
           "LegsA"
         ],
-        "trend": "holding",
-        "verdict": "hold",
-        "why": "Flagged as stalled at 150 for 12 to 14 since July at the old gym, 150 for 12 at Warsaw on 28 September. Not seen at Singapore or Chennai yet. Tomorrow is a first guess at Chennai; the stall is a gym-change artefact until two nights on one machine say otherwise.",
+        "trend": "unlogged",
+        "verdict": "watch",
+        "why": "Not logged at Singapore or at Chennai on 14 October; the last reading is 145 then 150 for 12 at Warsaw on 28 September. The old stall flag is a gym-change artefact; the deload decides it from whether the next Legs A can log it (dated in deferred).",
         "evidence": [
           "2026-09-28:leg-extension",
-          "2026-09-13:leg-extension",
-          "2026-08-20:leg-extension"
+          "2026-09-21:leg-extension"
         ]
       },
       "hip-adductor": {
         "sessions": [
           "LegsA"
         ],
-        "trend": "holding",
+        "trend": "unlogged",
         "verdict": "hold",
-        "why": "Off Legs B tonight (he does not want to lose abs; the day is cut to 20 sets); stays on Legs A at 2 sets. 80 for 15, 15 at Singapore on 5 October, 110 for 15 at Warsaw, 105 at the home gym: the number belongs to the machine. Tomorrow at Chennai the first set is at 80 to find the weight and the second goes to 90 if 15 was easy; a raise is earned on the second visit to the same machine.",
+        "why": "Not logged at Chennai on 14 October; 80 for 15, 15 at Singapore on 5 October, 110 for 15 at Warsaw. Each number belongs to its machine. Next Legs A finds it on the first set, if the gym has one.",
         "evidence": [
           "2026-10-05:hip-adductor",
           "2026-09-28:hip-adductor"
@@ -482,14 +458,12 @@
         "sessions": [
           "LegsA"
         ],
-        "trend": "holding",
+        "trend": "unlogged",
         "verdict": "hold",
-        "why": "Off Legs B tonight (he does not want to lose abs; the day is cut to 20 sets); stays on Legs A at 2 sets. 60 for 15, 15 at Singapore on 5 October; 110 for 15, 15 at Warsaw on 28 September; 135 for 13, 13 at the home gym on 20 August and 135 for 15 there on 5 September: three machines. Tomorrow at Chennai the first set is at 60 to find the weight and the second goes to 70 if 15 was easy.",
+        "why": "Not logged at Chennai on 14 October; 60 for 15, 15 at Singapore on 5 October, 110 for 15 at Warsaw on 28 September. Next Legs A finds it on the first set, if the gym has one.",
         "evidence": [
           "2026-10-05:hip-abductor",
-          "2026-09-28:hip-abductor",
-          "2026-08-20:hip-abductor",
-          "2026-09-05:hip-abductor"
+          "2026-09-28:hip-abductor"
         ]
       },
       "standing-calf-raise": {
@@ -499,7 +473,7 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "290 for 15, then 290 for 12, then a drop to 270 for 14 at Singapore on 5 October; 280 for 12s at Warsaw on 28 September. The Chennai leg press has not been loaded yet: first set 270 to find it, then 290 for 12s, the weight Singapore's first two sets carried.",
+        "why": "290 for 15, 290 for 12, then 270 for 14 at Singapore on 5 October; 280 for 12s at Warsaw on 28 September. Not logged at Chennai on 14 October. Tonight: 270 to find the machine, then 290 for 12s; if the gym has no leg press or calf machine, any standing calf raise, logged as what it was.",
         "evidence": [
           "2026-10-05:standing-calf-raise",
           "2026-09-28:standing-calf-raise"
@@ -512,10 +486,10 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "Moved ahead of the calf press on Legs B tonight so it is never the slot that drops. 55 for 12, 12, 12 at Singapore on 5 October, top of the range on that stack. At Chennai: first set 55 to find the stack, then 60 for 10s if it was easy.",
+        "why": "55 for 12, 12, 12 at Singapore on 5 October. At Chennai on 14 October: 55 for 12, then 60 for 10 and 10, but all three were entered on the evening of 15 October within two seconds, so they are remembered numbers. Every other cable at Chennai logs in whole kilos, and 55 and 60 lb are not kilo steps, so these may be the old card re-entered. Tonight the first set finds the stack (about 25 kg, then 27.5 kg if it is in kilos).",
         "evidence": [
-          "2026-10-05:cable-crunch",
-          "2026-09-24:cable-crunch"
+          "2026-10-14:cable-crunch",
+          "2026-10-05:cable-crunch"
         ]
       },
       "hanging-leg-raise": {
@@ -524,12 +498,11 @@
         ],
         "trend": "regressing",
         "verdict": "hold",
-        "why": "Moved ahead of the calf press on Legs B tonight so it is never the slot that drops. 12 and 12 on 16 August and 5 September, then 12 then 10 on 17 September and 12 then 10 on 5 October: the second set has slipped to 10 on the last two full Legs B nights, so the trend is regressing, not holding. Bodyweight, so the ask stays 12 and 12; it moves to a weighted or slower version at the deload if the second set is still at 10 by then (dated in deferred[]).",
+        "why": "12 and 12 on 16 August and 5 September, then 12 then 10 on 17 September and on 5 October: the second set has slipped. Bodyweight, so the ask stays 12 and 12; it moves to a weighted or slower version at the deload if the second set is still at 10 (dated in deferred).",
         "evidence": [
           "2026-10-05:hanging-leg-raise",
           "2026-09-17:hanging-leg-raise",
-          "2026-09-05:hanging-leg-raise",
-          "2026-08-16:hanging-leg-raise"
+          "2026-09-05:hanging-leg-raise"
         ]
       },
       "assisted-dips": {
@@ -538,10 +511,9 @@
         ],
         "trend": "progressing",
         "verdict": "hold",
-        "why": "Bench dips 17, 17, 17, 17 at Chennai on 12 October (the 30 September \"Dips\" at Warsaw were a different movement, not compared). Sets go 4 to 3 today for the day's and the triceps' total; the reps keep climbing toward 20.",
+        "why": "Bench dips 17, 17, 17, 17 at Chennai on 12 October (the Warsaw \"Dips\" were a different movement). Three sets since 13 October; reps climb toward 20.",
         "evidence": [
-          "2026-10-12:assisted-dips",
-          "2026-09-30:assisted-dips"
+          "2026-10-12:assisted-dips"
         ]
       },
       "db-lateral-raise": {
@@ -550,11 +522,10 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "10 lb for 15 to warm up, then 7.5 kg for 10, 10, 10 at Chennai on 12 October, under the 12-rep floor; 7 kg for 15s at Warsaw. Sets go 4 to 3 today (his 23 August note; Push A now carries three of its own). Hold 7.5 kg and earn 12.",
+        "why": "10 lb for 15 to warm up, then 7.5 kg for 10, 10, 10 at Chennai on 12 October, under the 12-rep floor. Three sets since 13 October. Hold 7.5 kg and earn 12.",
         "evidence": [
           "2026-10-12:db-lateral-raise",
-          "2026-09-30:db-lateral-raise",
-          "2026-08-23:note"
+          "2026-09-30:db-lateral-raise"
         ]
       },
       "cable-crossover-high-low": {
@@ -563,22 +534,20 @@
         ],
         "trend": "progressing",
         "verdict": "hold",
-        "why": "35 kg for 15 then 45 kg for 15 and 14 at Chennai on 12 October, on a stack that reads nothing like the old gym (27 there). One of the two sets at 45 was under 15, so the plate is not earned yet: hold 45 and get 15 on both.",
+        "why": "35 kg for 15, then 45 kg for 15 and 14 at Chennai on 12 October. One set at 45 short of 15, so hold 45 and get 15 on both.",
         "evidence": [
-          "2026-10-12:cable-crossover-high-low",
-          "2026-09-30:cable-crossover-high-low"
+          "2026-10-12:cable-crossover-high-low"
         ]
       },
       "reverse-grip-pushdown": {
         "sessions": [
           "PushB"
         ],
-        "trend": "progressing",
-        "verdict": "progress",
-        "why": "55 kg for 11, 12 at Chennai on 12 October. Up one plate when 12 lands on both sets.",
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "55 kg for 11, 12 at Chennai on 12 October against a range of 12 to 15: the first set was under the floor. Hold 55 kg and earn 15 on both sets before it moves.",
         "evidence": [
-          "2026-10-12:reverse-grip-pushdown",
-          "2026-09-30:reverse-grip-pushdown"
+          "2026-10-12:reverse-grip-pushdown"
         ]
       },
       "smith-bent-over-row": {
@@ -587,11 +556,10 @@
         ],
         "trend": "stalled",
         "verdict": "hold",
-        "why": "65 kg for 9, 9 at Chennai on 13 October (after 55 kg for 10 and 60 kg for 10); 65 kg for 9, 8, 7 at Singapore on 3 October; 155 for 8s at the old gym on 15 September. The flag is right that the top number has not moved on two visits, but they were two machines, and Chennai held 9 on both top sets where Singapore fell to 7. Hold 65 kg and earn 10 on both top sets.",
+        "why": "65 kg for 9, 9 at Chennai on 13 October after 55 and 60 kg for 10; 65 kg for 9, 8, 7 at Singapore on 3 October. Two machines, and Chennai held 9 where Singapore fell to 7. Hold 65 kg and earn 10 on both top sets.",
         "evidence": [
           "2026-10-13:smith-bent-over-row",
-          "2026-10-03:smith-bent-over-row",
-          "2026-09-15:smith-bent-over-row"
+          "2026-10-03:smith-bent-over-row"
         ]
       },
       "lat-pulldown-close": {
@@ -600,10 +568,9 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "115 then 130 for 8, 8 at Chennai on 13 October, the bottom of the range. Hold 130 and earn 10.",
+        "why": "115 then 130 for 8, 8 at Chennai on 13 October, the bottom of 8 to 10. Hold 130 and earn 10.",
         "evidence": [
-          "2026-10-13:lat-pulldown-close",
-          "2026-10-03:lat-pulldown-close"
+          "2026-10-13:lat-pulldown-close"
         ]
       },
       "straight-arm-pulldown": {
@@ -614,8 +581,7 @@
         "verdict": "progress",
         "why": "77, 99, 110 for 12s at Chennai on 13 October, top of the range. Next Pull B at Chennai starts at 110 and the top set goes up.",
         "evidence": [
-          "2026-10-13:straight-arm-pulldown",
-          "2026-10-03:straight-arm-pulldown"
+          "2026-10-13:straight-arm-pulldown"
         ]
       },
       "db-shrug": {
@@ -624,11 +590,9 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "Done as a reverse smith shrug at Chennai on 13 October, 55 kg for 16, 17, 18, inside the 12-to-20 range that was opened on 27 September so that reps, not weight, would climb. Hold 55 kg until 20 lands on all three sets. It is a different movement from the dumbbell shrug the slot names and carries its own number.",
+        "why": "Reverse smith shrug at Chennai on 13 October, 55 kg for 16, 17, 18, inside 12 to 20. Hold 55 kg until 20 lands on all three.",
         "evidence": [
-          "2026-10-13:db-shrug",
-          "2026-10-03:db-shrug",
-          "2026-09-15:db-shrug"
+          "2026-10-13:db-shrug"
         ]
       },
       "incline-db-curl": {
@@ -637,10 +601,9 @@
         ],
         "trend": "holding",
         "verdict": "hold",
-        "why": "25 for 10 then 30 for 9 at Chennai on 13 October. Hold 30 and earn 10 on both sets.",
+        "why": "25 for 10 then 30 for 9 at Chennai on 13 October. Hold 30 and earn 10 on both.",
         "evidence": [
-          "2026-10-13:incline-db-curl",
-          "2026-10-03:incline-db-curl"
+          "2026-10-13:incline-db-curl"
         ]
       },
       "cable-reverse-curl": {
@@ -651,8 +614,7 @@
         "verdict": "progress",
         "why": "77, 88, 99 for 15, 13, 12 at Chennai on 13 October, top of the range on every set. Start at 99 next time.",
         "evidence": [
-          "2026-10-13:cable-reverse-curl",
-          "2026-10-03:cable-reverse-curl"
+          "2026-10-13:cable-reverse-curl"
         ]
       },
       "smith-rdl": {
@@ -661,7 +623,7 @@
         ],
         "trend": "stalled",
         "verdict": "hold",
-        "why": "155, 175, 185 for 8 at Singapore on 5 October (one working set at 185 after two ramp sets), 135, 165, 185 for 8 on 17 September, 205 for 9 in August; three sets done on each of the last three full nights against four asked. Flagged as stalled. Sets go 4 to 3 today to match what happens; the ramp gets shorter so two of the three are at 185, and the weight moves when 185 goes 10 on both.",
+        "why": "155, 175, 185 for 8 at Singapore on 5 October; 135, 165, 185 for 8 on 17 September; 205 for 9 in August. The top set has sat at 185 for 8 on two nights. Tonight is the first RDL on the Chennai smith machine, which is labelled in kg and is a different machine, so nothing from Singapore carries over 1:1: one ramp set at 70 kg, then two working sets at 80 kg, which keeps the 13 October shape (two of three sets are work). If 80 goes 10 on both, 85 next time.",
         "evidence": [
           "2026-10-05:smith-rdl",
           "2026-09-17:smith-rdl",
@@ -672,323 +634,153 @@
         "sessions": [
           "LegsB"
         ],
-        "trend": "unlogged",
+        "trend": "new",
         "verdict": "hold",
-        "why": "New today on Legs B, 3 sets of 8 to 10 behind the RDL. Start around 60 kg on the bar and find the working weight on the second set. At a gym with no smith machine, a barbell back squat or a goblet squat in the slot is the same work; mark it on the card.",
+        "why": "On Legs B since 13 October and not yet run in this slot. The same movement was done on the same Chennai smith machine on 14 October in the leg-press slot: 45 kg for 5, 7, 8. Tonight holds 45 kg and asks 8 on all three; it goes up once all three reach 10.",
         "evidence": [
-          "2026-10-05:leg-press-high"
+          "2026-10-14:leg-press-low"
         ]
       },
       "leg-press-high": {
         "sessions": [
           "LegsB"
         ],
-        "trend": "progressing",
-        "verdict": "progress",
-        "why": "150, 170, 190 for 10s at Singapore on 5 October, from 170 for 10 in September. Earn 12 at 190 and then 200.",
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "150, 170, 190 for 10s at Singapore on 5 October; 140 for 10s at Warsaw on 24 September and 180 for 12 at the home gym on 16 August. Three machines, so no trend is read across them. No leg press logged at Chennai yet (on 14 October the feet-low slot was done as a smith squat). Tonight is a starting point on an unknown machine, the Singapore numbers again; if there is no leg press, the kettlebell hip thrust from 14 October (20 kg for 12s) goes in this slot and is marked on the card.",
         "evidence": [
           "2026-10-05:leg-press-high",
-          "2026-09-17:leg-press-high"
+          "2026-09-24:leg-press-high",
+          "2026-08-16:leg-press-high",
+          "2026-10-14:leg-curl"
         ]
       }
     }
   },
-  "changes_today": [
-    {
-      "version": 2,
-      "date": "2026-10-13",
-      "session": "PushA",
-      "exercise": "rope-pushdown",
-      "kind": "swap",
-      "before": {
-        "id": "rope-pushdown",
-        "sets": 2,
-        "repMin": 12,
-        "repMax": 15
-      },
-      "after": {
-        "id": "machine-lateral-raise",
-        "sets": 3,
-        "repMin": 12,
-        "repMax": 15,
-        "rest": 60
-      },
-      "why": "This puts side-delt work back on Push A, which has had none since the cable lateral raise came off on 14 September. That removal gave two reasons: the weight had sat at 10 lb on the old gym's stack since August, and Push B already carried three dumbbell lateral raises, the lift he had asked about on 23 August. Both are answered differently now: this is a new slot on new machines, not the stuck 10 lb, and Push B goes from four sets to three in the same version, so the week is six direct side-delt sets across two days instead of four in one. Side delts were planned at 7.5 sets a week against a floor of 8 and averaged 4.1 done. Triceps were planned at 24 a week against a ceiling of 14, with the overhead extension already on both push days, so the rope pushdown, Push A's third triceps slot, is the one that gives way. No lateral raise machine has been logged at any gym yet; where there is none, a cable or dumbbell raise in this slot is the same work. Mark it as \"doing something else\" on the card.",
-      "evidence": [
-        "2026-10-06:rope-pushdown",
-        "2026-09-19:rope-pushdown",
-        "2026-10-12:db-lateral-raise",
-        "2026-10-06:overhead-cable-triceps",
-        "2026-08-23:note",
-        "2026-09-08:cable-lateral-raise"
-      ]
-    },
-    {
-      "version": 2,
-      "date": "2026-10-13",
-      "session": "PushA",
-      "exercise": "machine-lateral-raise",
-      "kind": "reorder",
-      "before": {
-        "position": 6
-      },
-      "after": {
-        "position": 4
-      },
-      "why": "The lateral raise goes straight after the shoulder press, while the shoulders are warm and before the rear-delt and triceps work, instead of last in the session where the slot it replaced used to be.",
-      "evidence": [
-        "2026-10-06:db-shoulder-press",
-        "2026-10-06:reverse-pec-deck"
-      ]
-    },
-    {
-      "version": 2,
-      "date": "2026-10-13",
-      "session": "PushB",
-      "exercise": "assisted-dips",
-      "kind": "sets",
-      "before": {
-        "sets": 4
-      },
-      "after": {
-        "sets": 3
-      },
-      "why": "Push B was 26 sets, the heaviest day in the program, after three separate raises in September that nobody added up, and triceps are the most over-planned muscle in the week (24 sets against a ceiling of 14, with the overhead extension on both push days and a pushdown on this one). This walks back the 22 September raise from 3 to 4 after one session at four: bench dips went 17, 17, 17, 17 at Chennai on 12 October, which shows there is plenty left in him, and that is exactly why three hard sets at 12 to 20 reps, with the reps climbing toward 20, is enough stimulus for this slot on this day. (The 30 September \"Dips\" at Warsaw and the 12 October \"Bench dips\" are different movements; the reps comparison between them is not made.)",
-      "evidence": [
-        "2026-10-12:assisted-dips",
-        "2026-09-30:assisted-dips",
-        "2026-10-12:overhead-cable-triceps",
-        "2026-10-12:reverse-grip-pushdown"
-      ]
-    },
-    {
-      "version": 2,
-      "date": "2026-10-13",
-      "session": "PushB",
-      "exercise": "db-lateral-raise",
-      "kind": "sets",
-      "before": {
-        "sets": 4
-      },
-      "after": {
-        "sets": 3
-      },
-      "why": "On 23 August he wrote that four sets of lateral raises seemed a lot for such a small muscle; the program cut it to three on 28 August and put it back to four on 21 September because it was the only side-delt work in the week. Now that Push A carries three sets of its own, Push B goes back to three: six sets across two days instead of four in one. On 12 October the four sets were a 10 lb warm-up for 15 and then 7.5 kg for 10, 10, 10, under the 12-rep floor.",
-      "evidence": [
-        "2026-08-23:note",
-        "2026-10-12:db-lateral-raise",
-        "2026-09-30:db-lateral-raise"
-      ]
-    },
-    {
-      "version": 2,
-      "date": "2026-10-13",
-      "session": "LegsB",
-      "exercise": "smith-rdl",
-      "kind": "sets",
-      "before": {
-        "sets": 4
-      },
-      "after": {
-        "sets": 3
-      },
-      "why": "The program asks four sets and he has done three on each of the last three Legs B nights that were not cut short by travel: 155, 185, 205 for 8, 9, 9 on 16 August (18 sets that night), 135, 165, 185 for 8 on 17 September (21 sets in 23 minutes) and 155, 175, 185 for 8 at Singapore on 5 October (21 of 22 sets); Warsaw on 24 September was two sets. The one night in that window with all four, 5 September, was also the only full Legs B (22 of 22) and the best recent work on this lift: 135 for 8, 155 for 10, 180 for 10, 180 for 10. So four sets happen when the night is full, which has been once in eight tries. Three sets, with the ramp kept short so two of them are working sets, is what he actually does; prescribing a fourth that usually does not happen makes the card wrong most nights. It also keeps Legs B at 24 sets with the squat added instead of 25.",
-      "evidence": [
-        "2026-10-05:smith-rdl",
-        "2026-09-17:smith-rdl",
-        "2026-09-05:smith-rdl",
-        "2026-08-16:smith-rdl",
-        "2026-09-24:smith-rdl"
-      ]
-    },
-    {
-      "version": 2,
-      "date": "2026-10-13",
-      "session": "LegsB",
-      "exercise": "smith-squat",
-      "kind": "add",
-      "before": null,
-      "after": {
-        "sets": 3,
-        "repMin": 8,
-        "repMax": 10,
-        "rest": 180,
-        "position": 1
-      },
-      "why": "Quads are the most under-served muscle in the program: planned 8.5 sets a week against a floor of 10, averaging 3.4 done over four weeks, and zero this week because Legs A was due on 10 October and not trained. The only knee-dominant compound work in the week is the two leg presses plus the single-leg split squat; there is no two-legged squat with a bar. Legs B has no quad-first lift at all (the feet-high leg press is a glute and hamstring press). A smith squat goes second, behind the RDL, while he is fresh. Chennai, where he is now, has a smith machine (the row was done on it on 13 October); at a gym without one, a barbell back squat or a goblet squat in this slot is the same work, marked on the card. Legs B goes from 22 to 24 sets with the RDL at three; the day stays under its cap and the week moves by one set.",
-      "evidence": [
-        "2026-10-05:leg-press-high",
-        "2026-09-28:leg-press-low",
-        "2026-10-13:smith-bent-over-row",
-        "2026-09-28:db-bulgarian-split-squat"
-      ]
-    },
-    {
-      "version": 3,
-      "date": "2026-10-13",
-      "session": "LegsB",
-      "exercise": "hip-abductor",
-      "kind": "remove",
-      "before": {
-        "sets": 2,
-        "repMin": 12,
-        "repMax": 15
-      },
-      "after": null,
-      "why": "He answered the open audit item tonight: he does not want to lose abs. Legs B at 24 sets was a day he has finished in full once in eight tries, and the abs slots at the end were what dropped. The hip machines were added to Legs B on 18 and 23 August to give the hinge day some hip work; they are still on Legs A (2 sets each, which meets the 2-set floor), and they are the lowest-value four sets on a day that needs to end on time. Legs B goes to 20 sets.",
-      "evidence": [
-        "2026-10-05:hip-abductor",
-        "2026-09-28:hip-abductor",
-        "2026-10-05:smith-rdl",
-        "2026-09-24:smith-rdl"
-      ]
-    },
-    {
-      "version": 3,
-      "date": "2026-10-13",
-      "session": "LegsB",
-      "exercise": "hip-adductor",
-      "kind": "remove",
-      "before": {
-        "sets": 2,
-        "repMin": 12,
-        "repMax": 15
-      },
-      "after": null,
-      "why": "He answered the open audit item tonight: he does not want to lose abs. Legs B at 24 sets was a day he has finished in full once in eight tries, and the abs slots at the end were what dropped. The hip machines were added to Legs B on 18 and 23 August to give the hinge day some hip work; they are still on Legs A (2 sets each, which meets the 2-set floor), and they are the lowest-value four sets on a day that needs to end on time. Legs B goes to 20 sets.",
-      "evidence": [
-        "2026-10-05:hip-adductor",
-        "2026-09-28:hip-adductor",
-        "2026-10-05:smith-rdl",
-        "2026-09-24:smith-rdl"
-      ]
-    },
-    {
-      "version": 3,
-      "date": "2026-10-13",
-      "session": "LegsB",
-      "exercise": "hanging-leg-raise",
-      "kind": "reorder",
-      "before": {
-        "position": 7
-      },
-      "after": {
-        "position": 4
-      },
-      "why": "Abs come straight after the leg curl and before the calf press, so when Legs B runs short it is the calf press that waits for the next night, not the abs; calves are also trained on Legs A. He asked for this: \"I don't want to lose abs.\"",
-      "evidence": [
-        "2026-10-05:hanging-leg-raise",
-        "2026-10-05:cable-crunch",
-        "2026-09-24:hanging-leg-raise",
-        "2026-09-24:cable-crunch"
-      ]
-    },
-    {
-      "version": 3,
-      "date": "2026-10-13",
-      "session": "LegsB",
-      "exercise": "cable-crunch",
-      "kind": "reorder",
-      "before": {
-        "position": 8
-      },
-      "after": {
-        "position": 5
-      },
-      "why": "Abs come straight after the leg curl and before the calf press, so when Legs B runs short it is the calf press that waits for the next night, not the abs; calves are also trained on Legs A. He asked for this: \"I don't want to lose abs.\"",
-      "evidence": [
-        "2026-10-05:hanging-leg-raise",
-        "2026-10-05:cable-crunch",
-        "2026-09-24:hanging-leg-raise",
-        "2026-09-24:cable-crunch"
-      ]
-    }
-  ],
+  "changes_today": [],
   "deferred": [
     {
       "muscle": "chest",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 19 a week, above its ceiling of 18 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "front-delts",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 18.5 a week, above its ceiling of 10 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "rear-delts",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 15.5 a week, above its ceiling of 12 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "upper-back",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 18 a week, above its ceiling of 16 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "biceps",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 18 a week, above its ceiling of 14 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "triceps",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 21 a week, above its ceiling of 14 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "forearms",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 11 a week, above its ceiling of 8 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "hamstrings",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 18.5 a week, above its ceiling of 14 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
       "muscle": "glutes",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Planned 17.5 a week, above its ceiling of 14 by the count that credits helpers at half a set. Re-sized at the deload, with the targets re-read in the same convention, once there are more nights on one gym's machines."
     },
     {
-      "muscle": "adductors",
+      "muscle": "calves",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "Above its ceiling on paper by the credited count (helpers at half a set). Re-size at the deload, and re-read the target in the same convention, with two more weeks on one gym's machines."
+      "why": "Done 4.1 a week against a floor of 6, and skipped at Chennai on 14 October. If tonight and the next Legs A do not load it, the deload gives calves a slot that fits the gym he is in."
     },
     {
       "exercise": "deadlift",
       "verdict": "rotate",
       "until": "2026-10-26",
-      "why": "Holding 225 and asking 5 on every set; if that fails on the next two Pull A nights, the deload is where it rotates to a rack pull or a trap-bar pull."
+      "why": "Holding 225 and asking 5 on every set. Only one Pull A fits before the deload; if that night does not get 5 on every set at 225, the deload rotates it to a rack pull or a trap-bar pull."
     },
     {
       "exercise": "hanging-leg-raise",
       "verdict": "rotate",
       "until": "2026-10-26",
-      "why": "Second set at 10 on the last two full Legs B nights; a weighted or slower version at the deload if it is still at 10 by then."
+      "why": "Second set at 10 on the last two Legs B nights; a weighted or slower version at the deload if it is still 10 after tonight."
     },
     {
       "exercise": "leg-extension",
       "verdict": "watch",
       "until": "2026-10-26",
-      "why": "The stall flag is a gym-change artefact until two nights on one machine say otherwise; re-read at the deload."
+      "why": "Not logged at Singapore or Chennai, and at most one Legs A fits before the deload. If that night logs it, the deload reads it against 150 for 12 at Warsaw as a first visit; if it is not logged again, the deload swaps it for a quad lift the gym has."
     }
   ],
   "overrides": [
     {
-      "exercise": "leg-press-low",
-      "session": "LegsA",
-      "reason": "Your last feet-low session, Warsaw on 28 September, was 150, 170, 190 for 8; Singapore's feet-high press on 5 October ran the same numbers for 10. Chennai is a machine you have not loaded: same ramp, 8 to 10 reps, and if 150 is easy go 170, 190, 210.",
+      "exercise": "smith-rdl",
+      "session": "LegsB",
+      "reason": "First RDL on the Chennai smith, a new machine: one ramp set at 70 kg, then two working sets at 80 kg for 8. If 80 is light, the last set finds the real weight; log what you use.",
+      "sets": [
+        {
+          "weight": 154.323,
+          "reps": 8
+        },
+        {
+          "weight": 176.37,
+          "reps": 8
+        },
+        {
+          "weight": 176.37,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "exercise": "smith-squat",
+      "session": "LegsB",
+      "reason": "Same Chennai smith you squatted on 14 October: 45 kg went 5, 7, 8. Same weight tonight, 8 on all three.",
+      "sets": [
+        {
+          "weight": 99.208,
+          "reps": 8
+        },
+        {
+          "weight": 99.208,
+          "reps": 8
+        },
+        {
+          "weight": 99.208,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "exercise": "leg-press-high",
+      "session": "LegsB",
+      "reason": "No leg press logged at Chennai yet. Singapore on 5 October went 150, 170, 190 for 10, a different machine: start there and adjust after the first set. No leg press here? Do the kettlebell hip thrust instead, 20 kg for 12s, and mark it.",
       "sets": [
         {
           "weight": 150,
@@ -1000,112 +792,48 @@
         },
         {
           "weight": 190,
-          "reps": 8
-        }
-      ]
-    },
-    {
-      "exercise": "db-bulgarian-split-squat",
-      "session": "LegsA",
-      "reason": "17.5 went 10 on both sets on 28 September, the top of the range. Dumbbells are dumbbells anywhere: up one, 20 lb (9 or 10 kg).",
-      "sets": [
-        {
-          "weight": 20,
-          "reps": 8
-        },
-        {
-          "weight": 20,
-          "reps": 8
+          "reps": 10
         }
       ]
     },
     {
       "exercise": "leg-curl",
-      "session": "LegsA",
-      "reason": "120 went 10, 10, 11 at Singapore on 5 October. Chennai is a different machine: start at 120 and aim for 12 on every set.",
+      "session": "LegsB",
+      "reason": "120 went 10, 10, 11 at Singapore on 5 October, a different machine. Start at 120 here for 10 to 12 and let the first set tell you. No machine? A dumbbell leg curl lying face down on a bench, and mark it.",
       "sets": [
         {
           "weight": 120,
-          "reps": 12
+          "reps": 10
         },
         {
           "weight": 120,
-          "reps": 12
+          "reps": 10
         },
         {
           "weight": 120,
-          "reps": 12
+          "reps": 10
         }
       ]
     },
     {
-      "exercise": "leg-extension",
-      "session": "LegsA",
-      "reason": "Not logged at Singapore or Chennai yet (150 for 12 at Warsaw on 28 September). 130 is a starting guess for the Chennai machine; log what you use.",
+      "exercise": "hanging-leg-raise",
+      "session": "LegsB",
+      "reason": "Second set has been 10 on the last two Legs B nights (5 October, 17 September). Ask stays 12 and 12.",
       "sets": [
         {
-          "weight": 130,
+          "weight": 0,
           "reps": 12
         },
         {
-          "weight": 130,
-          "reps": 12
-        }
-      ]
-    },
-    {
-      "exercise": "hip-adductor",
-      "session": "LegsA",
-      "reason": "First time on the Chennai machine. Start at 80, where Singapore ended on 5 October; if 15 is easy, the second set goes to 90.",
-      "sets": [
-        {
-          "weight": 80,
-          "reps": 15
-        },
-        {
-          "weight": 90,
-          "reps": 12
-        }
-      ]
-    },
-    {
-      "exercise": "hip-abductor",
-      "session": "LegsA",
-      "reason": "First time on the Chennai machine. Start at 60, where Singapore ended on 5 October; if 15 is easy, the second set goes to 70.",
-      "sets": [
-        {
-          "weight": 60,
-          "reps": 15
-        },
-        {
-          "weight": 70,
-          "reps": 12
-        }
-      ]
-    },
-    {
-      "exercise": "standing-calf-raise",
-      "session": "LegsA",
-      "reason": "The Chennai leg press has not been loaded yet. First set at 270 to find it, then 290 for 12s, the weight your first two sets carried at Singapore on 5 October (the third set dropped to 270 for 14).",
-      "sets": [
-        {
-          "weight": 270,
-          "reps": 15
-        },
-        {
-          "weight": 290,
-          "reps": 12
-        },
-        {
-          "weight": 290,
+          "weight": 0,
           "reps": 12
         }
       ]
     },
     {
       "exercise": "cable-crunch",
-      "session": "LegsA",
-      "reason": "First time on the Chennai stack. 55 went 12, 12, 12 at Singapore on 5 October; start there, and if it is easy the next two sets go to 60.",
+      "session": "LegsB",
+      "reason": "The 14 October sets were typed in a day later, so they are remembered. First set finds the Chennai stack: about 25 kg (55 lb), then 27.5 kg (60 lb) if it is easy.",
       "sets": [
         {
           "weight": 55,
@@ -1120,139 +848,114 @@
           "reps": 10
         }
       ]
+    },
+    {
+      "exercise": "standing-calf-raise",
+      "session": "LegsB",
+      "reason": "Not logged at Chennai yet, a new machine. First set at 270 finds it; then 290 for 12s if 270 was easy (Singapore, 5 October), or whatever gives 12. No machine? Any standing calf raise, logged as what it was.",
+      "sets": [
+        {
+          "weight": 270,
+          "reps": 15
+        },
+        {
+          "weight": 290,
+          "reps": 12
+        },
+        {
+          "weight": 290,
+          "reps": 12
+        }
+      ]
     }
   ],
   "audit": {
     "reviewer_ran": true,
     "findings": [
       {
-        "finding": "The RDL cut (4 to 3) rested on \"three on each of the last three full Legs B nights\", but none of those nights was full, and the one full Legs B in the window, 5 September (22 of 22), had four RDL sets (135×8, 155×10, 180×10, 180×10), the best recent work on the lift, omitted from the change.",
+        "finding": "The Smith RDL card (70, 80, then 85 kg only if 80 moved well) was two ramp sets and at most one working set, undoing the reason for the 13 October cut to three sets (two of three should be work).",
         "disposition": "fixed",
-        "why": "The v2 change entry (program.json and changes_today) now quotes all five nights correctly: three sets on 16 August, 17 September and 5 October, two at Warsaw, four on 5 September, and says four sets happen when the night is full, which has been once in eight tries. The decision stands on that corrected basis; the brief says the same.",
+        "why": "The card is now 70 kg ramp, then 80 kg for 8 twice: two working sets, as the 13 October change intended.",
         "evidence": [
-          "2026-09-05:smith-rdl",
           "2026-10-05:smith-rdl",
-          "2026-09-17:smith-rdl",
-          "2026-08-16:smith-rdl",
-          "2026-09-24:smith-rdl"
+          "2026-09-17:smith-rdl"
         ]
       },
       {
-        "finding": "Set creep on the day the packet cuts for non-completion: Legs B goes 22 to 24 by adding a 3-set compound with 180 s rest to a day he has finished in full once in eight tries (23, 23, 20, 18, 22, 21, 13, 21 sets), while the RDL is cut because a fourth set \"never happens\".",
+        "finding": "The RDL load converted Singapore's 155, 175, 185 lb to kg as if the Chennai smith were the same machine, and called 85 kg 'the weight he has already done'.",
         "disposition": "fixed",
-        "why": "He answered: \"I don't want to lose abs.\" Program v3: the hip abductor and adductor leave Legs B (they stay on Legs A), and both ab slots move ahead of the calf press. Legs B is 20 sets with the squat in it. The squat is the quad fix the week needed and is placed second so it gets done; the RDL cut and the squat add are both in today's v2 and no session has been logged since, so neither is walked back tonight. Whether 24 is a realistic Legs B is his to answer; the brief asks him, names the sets that fall off the end if it is not, and the 26 October deload re-sizes the day.",
+        "why": "The 85 kg ask and that sentence are gone; the review says the Chennai smith is a new machine and the last set finds the real weight.",
         "evidence": [
-          "2026-10-05:hanging-leg-raise",
-          "2026-09-17:hanging-leg-raise",
-          "2026-09-24:smith-rdl",
-          "2026-10-05:leg-press-high"
+          "2026-10-05:smith-rdl",
+          "2026-10-14:leg-press-low"
         ]
       },
       {
-        "finding": "The block text said the prep block starts 9 November \"139 days before the show\"; 139 is today's count, from 9 November it is 112.",
+        "finding": "Leg press, leg curl and calf loads were Singapore numbers on unseen Chennai machines without the 'find it on the first set' rule used elsewhere; the leg curl card asked 12 on all three when the review said 10 to 12 and Singapore was 10, 10, 11; the leg press trend 'progressing' compared three different machines.",
         "disposition": "fixed",
-        "why": "Block text now reads 112 days from 9 November and 139 from today.",
+        "why": "Each card now says it is a starting point on a new machine and to adjust after the first set; leg curl asks 120 for 10; leg press trend is 'holding' with the three machines named.",
         "evidence": [
-          "2026-10-13:smith-bent-over-row"
+          "2026-10-05:leg-curl",
+          "2026-10-05:leg-press-high",
+          "2026-09-24:leg-press-high",
+          "2026-08-16:leg-press-high",
+          "2026-10-05:standing-calf-raise"
         ]
       },
       {
-        "finding": "The overhead-triceps verdict asserted Chennai has \"no overhead cable there\"; no note says why skullcrushers were done, and cable work was logged at Chennai on both nights.",
+        "finding": "The deadlift (rotate 'after two more Pull A nights') and leg extension ('two nights on one machine') deferrals set conditions that cannot be met by 26 October: only one Pull A and one Legs A fit before the deload.",
         "disposition": "fixed",
-        "why": "The hardware claim is removed; the verdict says no note explains the swap and names the cable work logged there.",
-        "evidence": [
-          "2026-10-12:overhead-cable-triceps",
-          "2026-10-12:cable-crossover-high-low",
-          "2026-10-13:straight-arm-pulldown"
-        ]
-      },
-      {
-        "finding": "The leg-press override and brief called 150, 170, 190 \"Singapore's feet-high numbers\", ignoring the lift's own last reading, 150, 170, 190 for 8 feet-low at Warsaw on 28 September, and asked 10 at a weight that last gave 8 on a machine never loaded.",
-        "disposition": "fixed",
-        "why": "Override, verdict and brief now cite the Warsaw feet-low reading first, note Singapore ran the same numbers feet-high for 10, and ask 8 to 10 with the top set at 8.",
-        "evidence": [
-          "2026-09-28:leg-press-low",
-          "2026-10-05:leg-press-high"
-        ]
-      },
-      {
-        "finding": "Triceps \"cut\" was marked done by switching from the credited count (21 vs 14 after v2) to the direct count (14 to 11); front delts, rear delts, upper back, biceps, forearms and adductors are over their ceilings by the same credited count with hold/watch verdicts, and the deload sentence named only chest, hamstrings and glutes.",
-        "disposition": "fixed",
-        "why": "Triceps and front-delts verdicts now state both counts and why the remainder is not cut tonight; the block lists all ten over-ceiling muscles and says the targets are re-read in the credited convention at the deload; each of the ten is in deferred[] with that date.",
-        "evidence": [
-          "2026-10-12:overhead-cable-triceps",
-          "2026-10-12:assisted-dips",
-          "2026-10-06:rope-pushdown",
-          "2026-10-12:db-shoulder-press"
-        ]
-      },
-      {
-        "finding": "audit.reviewer_ran was false and findings empty when the reviewer read the packet; the gate rejected it.",
-        "disposition": "fixed",
-        "why": "That was the packet's state before this audit ran; it now carries the reviewer's findings with a disposition each.",
-        "evidence": [
-          "2026-10-13:smith-bent-over-row"
-        ]
-      },
-      {
-        "finding": "Front-delts verdict counted direct pressing as 7 sets; the catalogue tags the smith incline press as a primary front-delt mover, so direct credit is 11, over the ceiling of 10.",
-        "disposition": "fixed",
-        "why": "Verdict now counts 11 direct sets, says it is one over the ceiling, and dates the re-size.",
-        "evidence": [
-          "2026-10-06:smith-incline-press",
-          "2026-10-12:db-shoulder-press",
-          "2026-10-06:db-shoulder-press"
-        ]
-      },
-      {
-        "finding": "Quoted rows that did not match the raw sets: abductor \"135 at the home gym in August, all for 15\" (20 August was 135×13, 13; 135×15 was 5 September); overhead triceps \"115 for 12s at Singapore\" (100, 115, 110 ×12); calf \"290 for 12s, where Singapore ended\" (ended 270×14); upper-back \"65 kg for 9 and 9 on two machines\" (Singapore was 9, 8, 7).",
-        "disposition": "fixed",
-        "why": "All four verdicts and the calf override reason now quote the rows as logged.",
-        "evidence": [
-          "2026-08-20:hip-abductor",
-          "2026-09-05:hip-abductor",
-          "2026-10-06:overhead-cable-triceps",
-          "2026-10-05:standing-calf-raise",
-          "2026-10-03:smith-bent-over-row"
-        ]
-      },
-      {
-        "finding": "Dated promises lived in prose only with deferred[] empty: the deload re-size, the deadlift rotation, the hanging leg raise change, the leg-extension stall read.",
-        "disposition": "fixed",
-        "why": "deferred[] now carries each with until 2026-10-26: ten muscles to re-size, deadlift rotate, hanging-leg-raise rotate, leg-extension watch.",
+        "why": "Both rewritten to what one night can decide by 26 October.",
         "evidence": [
           "2026-10-08:deadlift",
-          "2026-10-05:hanging-leg-raise",
-          "2026-09-28:leg-extension",
-          "2026-10-05:smith-rdl"
+          "2026-09-28:leg-extension"
         ]
       },
       {
-        "finding": "The side-delt change said the 14 September removal of the cable raise was \"for a weight stuck at 10 lb, not for too much volume\"; that entry gave two reasons, the stall and Push B already carrying three lateral raises he had asked about.",
+        "finding": "Reverse-grip pushdown was marked 'progress, up a plate when 12 lands' against a range of 12 to 15, after 55 kg for 11, 12; the text was carried over unchanged from 13 October.",
         "disposition": "fixed",
-        "why": "The v2 change entry (program.json and changes_today) now names both reasons and answers the second: Push B goes to three in the same version, six sets across two days.",
+        "why": "Now 'holding / hold': earn 15 on both sets at 55 kg before it moves.",
         "evidence": [
-          "2026-09-08:cable-lateral-raise",
-          "2026-08-23:note",
-          "2026-10-12:db-lateral-raise"
+          "2026-10-12:reverse-grip-pushdown"
         ]
       },
       {
-        "finding": "Hanging leg raise trend was \"holding\" while the rows (12/12 on 16 August and 5 September, then 12/10 on 17 September and 5 October) and the dossier say regressing.",
+        "finding": "Seated row ('120 next time') and hammer curl ('40 next Pull A') raises were written against the Singapore stacks, while the next Pull A will be at Chennai.",
         "disposition": "fixed",
-        "why": "Trend set to regressing; verdict text quotes all four nights.",
+        "why": "Both now say the Chennai first set finds the weight.",
         "evidence": [
-          "2026-10-05:hanging-leg-raise",
-          "2026-09-17:hanging-leg-raise",
-          "2026-09-05:hanging-leg-raise"
+          "2026-10-08:seated-cable-row-wide",
+          "2026-10-08:cable-hammer-curl"
         ]
       },
       {
-        "finding": "The reviewer label said \"autonomous 6 AM run\" on a packet generated at 23:06 local time.",
+        "finding": "The deadlift history misquoted 20 September as '255 for 4 and 3' (it was 235x4, 245x5, 255x3, 255x3; the 255x4s were 10 September) and left out Warsaw's 95 kg for 5, 5 on 27 September.",
         "disposition": "fixed",
-        "why": "Label now reads \"autonomous scheduled run\"; produced_by stays scheduled-task, which is true.",
+        "why": "History corrected with all four nights cited; still 'regressing' (265 for 5 in August to 225 for 4s on 8 October).",
         "evidence": [
-          "2026-10-13:cable-reverse-curl"
+          "2026-09-20:deadlift",
+          "2026-09-10:deadlift",
+          "2026-09-27:deadlift",
+          "2026-10-08:deadlift"
+        ]
+      },
+      {
+        "finding": "The glutes verdict called the 14 October hip thrust 'the first glute-first lift in months'; on 17 September the calf slot was done as kettlebell swings/thrusts.",
+        "disposition": "fixed",
+        "why": "Sentence removed.",
+        "evidence": [
+          "2026-10-14:leg-curl",
+          "2026-09-17:standing-calf-raise"
+        ]
+      },
+      {
+        "finding": "Cable crunch repeated 55 and 60 lb on what is probably a kilo stack (every other Chennai cable logs whole kilos); the 14 October numbers may be the old card re-entered.",
+        "disposition": "fixed",
+        "why": "Card and brief now say the first set finds the stack, about 25 kg then 27.5 kg.",
+        "evidence": [
+          "2026-10-14:cable-crunch",
+          "2026-10-12:cable-crossover-high-low",
+          "2026-10-13:straight-arm-pulldown"
         ]
       }
     ]
