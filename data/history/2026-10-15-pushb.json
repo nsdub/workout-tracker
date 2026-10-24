@@ -1,0 +1,170 @@
+{
+  "date": "2026-10-15",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 3,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "as": "Seated db shoulder press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 11,
+          "kg": 20.41,
+          "at": 1792086362912
+        },
+        {
+          "weight": 49.604,
+          "reps": 10,
+          "kg": 22.5,
+          "at": 1792086541445
+        },
+        {
+          "weight": 55.116,
+          "reps": 8,
+          "kg": 25,
+          "at": 1792086733063,
+          "restEndedAt": 1792086721456
+        },
+        {
+          "weight": 55.116,
+          "reps": 9,
+          "kg": 25,
+          "at": 1792087021448,
+          "restEndedAt": 1792086913100
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "as": "Smith incline bench press",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 143.3,
+          "reps": 9,
+          "kg": 65,
+          "at": 1792087172014
+        },
+        {
+          "weight": 154.324,
+          "reps": 8,
+          "kg": 70,
+          "at": 1792087323491
+        },
+        {
+          "weight": 165.347,
+          "reps": 8,
+          "kg": 75,
+          "at": 1792087491453,
+          "restEndedAt": 1792087443509
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "as": "Reverse bent over cable lateral raise",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 11.023,
+          "reps": 15,
+          "kg": 5,
+          "at": 1792088157471,
+          "restEndedAt": 1792088048466
+        },
+        {
+          "weight": 11.023,
+          "reps": 13,
+          "kg": 5,
+          "at": 1792088226989
+        },
+        {
+          "weight": 11.023,
+          "reps": 15,
+          "kg": 5,
+          "at": 1792088599496
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "as": "Cable crossover low high",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 66.139,
+          "reps": 10,
+          "kg": 30,
+          "at": 1792087678165,
+          "restEndedAt": 1792087611467
+        },
+        {
+          "weight": 55.116,
+          "reps": 13,
+          "kg": 25,
+          "at": 1792087797308,
+          "restEndedAt": 1792087753181
+        },
+        {
+          "weight": 55.116,
+          "reps": 13,
+          "kg": 25,
+          "at": 1792087973455,
+          "restEndedAt": 1792087872315
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "as": "Overhead tricep extension",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 13,
+          "at": 1792088706820,
+          "restEndedAt": 1792088674501
+        },
+        {
+          "weight": 45,
+          "reps": 15,
+          "at": 1792088866015,
+          "restEndedAt": 1792088781829
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "as": "Rope push down",
+      "unit": "kg",
+      "sets": [
+        {
+          "weight": 154.324,
+          "reps": 12,
+          "kg": 70,
+          "at": 1792088470574,
+          "restEndedAt": 1792088301995
+        },
+        {
+          "weight": 154.324,
+          "reps": 14,
+          "kg": 70,
+          "at": 1792088590735,
+          "restEndedAt": 1792088545598
+        }
+      ]
+    }
+  ],
+  "world": "inferno",
+  "gym": "Chennai",
+  "mins": 42,
+  "startedAt": 1792085715848
+}
