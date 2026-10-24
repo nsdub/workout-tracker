@@ -1,0 +1,150 @@
+{
+  "date": "2026-10-23",
+  "session_type": "PullA",
+  "phase": "meso3",
+  "week": 4,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 235,
+          "reps": 5,
+          "at": 1792805387549
+        },
+        {
+          "weight": 235,
+          "reps": 5,
+          "at": 1792805543575
+        },
+        {
+          "weight": 235,
+          "reps": 5,
+          "at": 1792805732851
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 9,
+          "at": 1792806693380
+        },
+        {
+          "weight": 110,
+          "reps": 9,
+          "at": 1792806832507,
+          "restEndedAt": 1792806813387
+        },
+        {
+          "weight": 120,
+          "reps": 8,
+          "at": 1792806929274
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1792806031013,
+          "restEndedAt": 1792805972864
+        },
+        {
+          "weight": 115,
+          "reps": 12,
+          "at": 1792806196328,
+          "restEndedAt": 1792806151050
+        },
+        {
+          "weight": 115,
+          "reps": 11,
+          "at": 1792806346312,
+          "restEndedAt": 1792806316339
+        },
+        {
+          "weight": 115,
+          "reps": 10,
+          "at": 1792806600437,
+          "restEndedAt": 1792806466325
+        }
+      ]
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1792807074796,
+          "restEndedAt": 1792807049281
+        },
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1792807205131,
+          "restEndedAt": 1792807149807
+        },
+        {
+          "weight": 30,
+          "reps": 8,
+          "at": 1792807383739,
+          "restEndedAt": 1792807280140
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 10,
+          "at": 1792807500530,
+          "restEndedAt": 1792807458746
+        },
+        {
+          "weight": 37.5,
+          "reps": 10,
+          "at": 1792807637663,
+          "restEndedAt": 1792807575544
+        },
+        {
+          "weight": 37.5,
+          "reps": 10,
+          "at": 1792807775135,
+          "restEndedAt": 1792807712690
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 22.5,
+          "reps": 14,
+          "at": 1792807846804
+        },
+        {
+          "weight": 22.5,
+          "reps": 14,
+          "at": 1792808127374,
+          "restEndedAt": 1792807906811
+        }
+      ]
+    }
+  ],
+  "world": "anglermarket",
+  "gym": "Vancouver",
+  "mins": 46,
+  "startedAt": 1792805307997
+}
