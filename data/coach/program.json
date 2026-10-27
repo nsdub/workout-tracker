@@ -1,7 +1,7 @@
 {
-  "version": 3,
-  "date": "2026-10-13",
-  "written_by": "interactive-session",
+  "version": 4,
+  "date": "2026-10-26",
+  "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
     "PushA": {
@@ -30,14 +30,6 @@
           "repMax": 15,
           "rest": 75,
           "seed": 15.5
-        },
-        {
-          "id": "db-shoulder-press",
-          "sets": 3,
-          "repMin": 10,
-          "repMax": 12,
-          "rest": 120,
-          "seed": 35
         },
         {
           "id": "machine-lateral-raise",
@@ -115,6 +107,14 @@
           "repMax": 15,
           "rest": 60,
           "seed": 27.5
+        },
+        {
+          "id": "cable-lateral-raise",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60,
+          "seed": 10
         }
       ]
     },
@@ -262,12 +262,12 @@
       "name": "Pull B",
       "exercises": [
         {
-          "id": "smith-bent-over-row",
+          "id": "chest-supported-db-row",
           "sets": 4,
           "repMin": 8,
           "repMax": 10,
-          "rest": 180,
-          "seed": 145
+          "rest": 150,
+          "seed": 50
         },
         {
           "id": "lat-pulldown-close",
@@ -287,7 +287,7 @@
         },
         {
           "id": "db-shrug",
-          "sets": 3,
+          "sets": 4,
           "repMin": 12,
           "repMax": 20,
           "rest": 75,
@@ -323,12 +323,12 @@
       "name": "Legs B",
       "exercises": [
         {
-          "id": "smith-rdl",
+          "id": "barbell-rdl",
           "sets": 3,
           "repMin": 8,
           "repMax": 10,
           "rest": 180,
-          "seed": 205
+          "seed": 180
         },
         {
           "id": "smith-squat",
@@ -340,12 +340,12 @@
           "seedNote": "New lift — start light, find the working weight on the second set"
         },
         {
-          "id": "leg-press-high",
+          "id": "leg-press-low",
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
           "rest": 180,
-          "seed": 160
+          "seed": 190
         },
         {
           "id": "leg-curl",
@@ -356,12 +356,11 @@
           "seed": 135
         },
         {
-          "id": "hanging-leg-raise",
+          "id": "ab-wheel-rollout",
           "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 60,
-          "seedNote": "Swapped in for Plank — set your working weight"
+          "repMin": 8,
+          "repMax": 12,
+          "rest": 60
         },
         {
           "id": "cable-crunch",
@@ -1602,6 +1601,179 @@
         "2026-10-05:cable-crunch",
         "2026-09-24:hanging-leg-raise",
         "2026-09-24:cable-crunch"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "PushA",
+      "exercise": "db-shoulder-press",
+      "kind": "remove",
+      "before": {
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12
+      },
+      "after": null,
+      "why": "The Push A shoulder press has not gained a rep across its last three build visits, two in the second block and one in the third: 45 lb for 9, 9, 9 on 8 September and again on 19 September, then 20 kg for 8, 8, 8 at Singapore on 6 October. The front of the shoulder was getting 11 direct sets a rotation (incline press 4, this press 3, the Push B press 4) against a direct target of 4 to 10, plus half credit from every chest press. Push B keeps the heavy four-set press, which is the one that moved (25 kg for 8 and 9 at Chennai on 15 October). Push A goes from 22 sets to 19 and keeps its lateral raise straight after the crossover.",
+      "evidence": [
+        "2026-10-06:db-shoulder-press",
+        "2026-09-19:db-shoulder-press",
+        "2026-09-08:db-shoulder-press",
+        "2026-10-15:db-shoulder-press"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "PullB",
+      "exercise": "smith-bent-over-row",
+      "kind": "swap",
+      "before": {
+        "id": "smith-bent-over-row",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "after": {
+        "id": "chest-supported-db-row",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 150,
+        "seed": 50
+      },
+      "why": "The smith row has been on a different smith machine every visit since he left the home gym: 125 lb for 9, 9 on the Warsaw machine on 23 September (a deload night, two sets at 80%), 65 kg for 9, 8, 7 at Singapore on 3 October, and 55, 60 kg for 10 then 65 kg for 9, 9 at Chennai on 13 October. The Chennai night was inside its 8 to 10 range and better than Singapore, so this is not a stall in reps; it is that the number can never settle when every gym's smith bar weighs something different. Dumbbells weigh the same everywhere, and a chest pad takes the lower back out of a heavy row the day after a deadlift. Four sets of 8 to 10, starting at 50 lb a hand; in the deload week the card shows 40 (80% of 50), and the first set after the deload finds the working weight.",
+      "evidence": [
+        "2026-10-13:smith-bent-over-row",
+        "2026-10-03:smith-bent-over-row",
+        "2026-09-23:smith-bent-over-row"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "LegsB",
+      "exercise": "smith-rdl",
+      "kind": "swap",
+      "before": {
+        "id": "smith-rdl",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "after": {
+        "id": "barbell-rdl",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180,
+        "seed": 180
+      },
+      "why": "The RDL slot has read 185 for 8 on two different smith machines (17 September at home, 5 October at Singapore) and the best recent night in it was a barbell, 180 for 10, 10 on 5 September. A barbell weighs the same at every gym he lands in, a smith bar does not, so the slot becomes a barbell RDL in 10-lb steps, starting from that 180. In the deload week the card shows 140 for 8 (80% of 180 is 144, rounded down to the 10-lb step); after the deload, 180 for 10 is the first target.",
+      "evidence": [
+        "2026-09-05:smith-rdl",
+        "2026-10-05:smith-rdl",
+        "2026-09-17:smith-rdl"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "LegsB",
+      "exercise": "leg-press-high",
+      "kind": "swap",
+      "before": {
+        "id": "leg-press-high",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 180
+      },
+      "after": {
+        "id": "leg-press-low",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 180,
+        "seed": 190
+      },
+      "why": "The back of the leg had 16 direct sets a rotation (deadlift 4, two leg curls 6, RDL 3, feet-high press 3) against 10 for the front, and quads were named the most under-served muscle on 13 October. The 22 July cut of the Legs B leg extension was made when the front outran the back; the balance has flipped since. The 25 October review said a Legs A at Vancouver would be the read for this; that session did not happen, and the swap is made on the set count alone, which did not depend on it. Same machine, feet low, 10 to 12 reps: three sets move from hamstrings and glutes to quads, making 13 and 13. The feet-high press itself was fine (150, 170, 190 for 10 at Singapore on 5 October), so 190 is the seed; in the deload week the card shows 150 (80% of 190 is 152, rounded down to the 10-lb step) and the first set finds the Vancouver machine.",
+      "evidence": [
+        "2026-10-05:leg-press-high",
+        "2026-10-14:leg-press-low",
+        "2026-09-28:leg-press-low"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "LegsB",
+      "exercise": "hanging-leg-raise",
+      "kind": "swap",
+      "before": {
+        "id": "hanging-leg-raise",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60
+      },
+      "after": {
+        "id": "ab-wheel-rollout",
+        "sets": 2,
+        "repMin": 8,
+        "repMax": 12,
+        "rest": 60
+      },
+      "why": "The hanging leg raise carries no weight, so reps were its only lever, and they went backwards: 12, 12 on 5 September, then 12 then 10 on 17 September and again on 5 October. The 23 October review said a weighted or slower version at the deload; this is a different lift instead, and here is why: a dumbbell held between the feet is not a repeatable load at a gym he has never used, while a rollout from the knees is harder per rep than a leg raise on its own, works the abs against extension (every other ab set in the week is a crunch), and a barbell with round plates does the job where there is no wheel. Two sets of 8 to 12, bodyweight.",
+      "evidence": [
+        "2026-10-05:hanging-leg-raise",
+        "2026-09-17:hanging-leg-raise",
+        "2026-09-05:hanging-leg-raise"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "PullA",
+      "exercise": "cable-lateral-raise",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "cable-lateral-raise",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 10,
+        "position": 7
+      },
+      "why": "Side delts have 6 direct sets a rotation (Push A machine raise 3, Push B dumbbell raise 3) against a direct floor of 8, and 4.4 a week actually done over four weeks; the last real side-delt sets were 7.5 kg for 10, 10, 10 at Chennai on 12 October, and on 15 October the slot was done as a bent-over cable raise, which is rear-delt work. He wrote on 23 August that four sets of lateral raises in one session seemed a lot, so the two missing sets go on a third day instead of stacking a fourth onto either push night: two sets of 12 to 15 at the end of Pull A, after the face pulls, starting at the 10 lb this lift last ran (10 for 12, 13 on 8 September). Pull A goes from 19 sets to 21.",
+      "evidence": [
+        "2026-10-12:db-lateral-raise",
+        "2026-10-15:db-lateral-raise",
+        "2026-09-08:cable-lateral-raise"
+      ]
+    },
+    {
+      "version": 4,
+      "date": "2026-10-26",
+      "session": "PullB",
+      "exercise": "db-shrug",
+      "kind": "sets",
+      "before": {
+        "sets": 3
+      },
+      "after": {
+        "sets": 4
+      },
+      "why": "Traps have 3 direct sets a rotation against a direct floor of 4; the rest of their 8.5 on paper is half credit from the deadlift, face pulls and lateral raise. The shrug has finished every set at or above 15 since 25 August (80 for 15s on 3 September, 35 kg for 15s on 15 September, 36 kg for 15, 15, 13 at Singapore on 3 October, 55 kg on a reverse smith shrug for 16, 17, 18 at Chennai on 13 October), so a fourth set is work he can do. Pull B goes from 20 sets to 21.",
+      "evidence": [
+        "2026-10-13:db-shrug",
+        "2026-10-03:db-shrug",
+        "2026-09-15:db-shrug"
       ]
     }
   ]
