@@ -50,22 +50,22 @@ ok('Meso 2 still starts 24 August — nothing downstream moved', () => {
   assert.equal(E.phaseForDate(plan, '2026-08-24').phase.id, 'meso2');
   assert.equal(E.phaseForDate(plan, '2026-08-23').phase.id, 'meso1');
   // The 14 Aug ruling moved nothing downstream. The 29 Oct restart did (below).
-  assert.equal(plan.phases.find((p) => p.id === 'assessment').start, '2026-12-03');
+  assert.equal(plan.phases.find((p) => p.id === 'assessment').start, '2026-12-02');
 });
-// 2026-10-29, the athlete's call: Meso 3 restarted at the home gym after a
-// block run across four gyms in four weeks. The deload it interrupted ends on
-// the 28th, so the 28 Oct review still matches the calendar on its own date.
-ok('Meso 3 restarts 29 October; deload, assessment and prep move four weeks', () => {
-  assert.equal(E.phaseForDate(plan, '2026-10-28').phase.id, 'deload3');
-  const w1 = E.phaseForDate(plan, '2026-10-29');
+// 28 Oct in New York, the athlete's call: Meso 3 restarted at the home gym
+// after a block run across four gyms in four weeks. It first went in dated the
+// 29th, the UTC date, while his phone read the 28th and kept him in the deload.
+ok('Meso 3 restarts 28 October; deload, assessment and prep move four weeks', () => {
+  assert.equal(E.phaseForDate(plan, '2026-10-27').phase.id, 'deload3');
+  const w1 = E.phaseForDate(plan, '2026-10-28');
   assert.equal(w1.phase.id, 'meso3b');
   assert.equal(w1.phase.type, 'build');
   assert.equal(w1.week, 1);
   assert.equal(w1.weeks, 4);
-  assert.equal(E.phaseForDate(plan, '2026-11-25').phase.id, 'meso3b');
-  assert.equal(E.phaseForDate(plan, '2026-11-26').phase.id, 'deload4');
-  assert.equal(E.phaseForDate(plan, '2026-12-03').phase.id, 'assessment');
-  assert.equal(E.phaseForDate(plan, '2026-12-10').phase.id, 'prep');
+  assert.equal(E.phaseForDate(plan, '2026-11-24').phase.id, 'meso3b');
+  assert.equal(E.phaseForDate(plan, '2026-11-25').phase.id, 'deload4');
+  assert.equal(E.phaseForDate(plan, '2026-12-02').phase.id, 'assessment');
+  assert.equal(E.phaseForDate(plan, '2026-12-09').phase.id, 'prep');
   // the travel block keeps its own nights
   assert.equal(E.phaseForDate(plan, '2026-10-23').phase.id, 'meso3');
   // no day falls between two phases

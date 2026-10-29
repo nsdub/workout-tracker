@@ -1220,7 +1220,7 @@ await ok('the phase moving under an open night rebases it and keeps every logged
   const slots = store.livePlan().sessions.PushA.exercises;
   // Built under the old calendar: a deload, two sets a lift, the incline done.
   const draft = {
-    date: '2026-10-29', session_type: 'PushA', world: 'w1', phase: 'deload3', week: 1,
+    date: '2026-10-28', session_type: 'PushA', world: 'w1', phase: 'deload3', week: 1,
     startedAt: 1_700_000_000_000,
     exercises: slots.map((slot, i) => ({
       id: slot.id, name: slot.id, repMin: slot.repMin, repMax: slot.repMax, inc: 5,
@@ -1231,8 +1231,8 @@ await ok('the phase moving under an open night rebases it and keeps every logged
     })),
   };
   store.saveDraft(draft);
-  const datePhase = E.phaseForDate(plan, '2026-10-29').phase;
-  assert.equal(datePhase.id, 'meso3b', 'the calendar no longer restarts Meso 3 on 29 Oct — re-point this test');
+  const datePhase = E.phaseForDate(plan, '2026-10-28').phase;
+  assert.equal(datePhase.id, 'meso3b', 'the calendar no longer restarts Meso 3 on 28 Oct — re-point this test');
 
   rebaseDraft();
   const d = store.draft;

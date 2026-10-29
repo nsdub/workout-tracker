@@ -1,7 +1,7 @@
 {
-  "version": 6,
+  "version": 7,
   "name": "Protocol v3",
-  "updated": "2026-10-29",
+  "updated": "2026-10-28",
   "units": "lb",
   "show": {
     "date": "2027-03-01",
@@ -65,31 +65,31 @@
       "start": "2026-09-28",
       "end": "2026-10-25",
       "type": "build",
-      "note": "Progressive overload, 28 Sep to 25 Oct, logged at Warsaw, Singapore, Chennai and Vancouver. Superseded on 2026-10-29 when Meso 3 restarted at the home gym in New York."
+      "note": "Progressive overload, 28 Sep to 25 Oct, logged at Warsaw, Singapore, Chennai and Vancouver. Superseded on 2026-10-28 when Meso 3 restarted at the home gym in New York."
     },
     {
       "id": "deload3",
       "name": "Deload",
       "start": "2026-10-26",
-      "end": "2026-10-28",
+      "end": "2026-10-27",
       "type": "deload",
       "loadFactor": 0.8,
       "setFactor": 0.6,
-      "note": "-20% load, ~60% sets, nothing under 4 RIR. Cut short on 2026-10-29 with no session logged in it, when Meso 3 was restarted at the home gym."
+      "note": "-20% load, ~60% sets, nothing under 4 RIR. Cut short on 2026-10-28 with no session logged in it, when Meso 3 was restarted at the home gym."
     },
     {
       "id": "meso3b",
       "name": "Meso 3",
-      "start": "2026-10-29",
-      "end": "2026-11-25",
+      "start": "2026-10-28",
+      "end": "2026-11-24",
       "type": "build",
-      "note": "Progressive overload. Meso 3 restarted at the home gym in New York on 2026-10-29, at the athlete's call: the first Meso 3 ran across four gyms in four weeks, so it built little on any one machine. Deload, assessment and prep each moved four weeks later."
+      "note": "Progressive overload. Meso 3 restarted at the home gym in New York on 2026-10-28, at the athlete's call: the first Meso 3 ran across four gyms in four weeks, so it built little on any one machine. Deload, assessment and prep each moved four weeks later."
     },
     {
       "id": "deload4",
       "name": "Deload",
-      "start": "2026-11-26",
-      "end": "2026-12-02",
+      "start": "2026-11-25",
+      "end": "2026-12-01",
       "type": "deload",
       "loadFactor": 0.8,
       "setFactor": 0.6,
@@ -98,15 +98,15 @@
     {
       "id": "assessment",
       "name": "Assessment",
-      "start": "2026-12-03",
-      "end": "2026-12-09",
+      "start": "2026-12-02",
+      "end": "2026-12-08",
       "type": "assessment",
       "note": "Physique check. Prep block gets programmed here."
     },
     {
       "id": "prep",
       "name": "Prep",
-      "start": "2026-12-10",
+      "start": "2026-12-09",
       "end": "2027-03-31",
       "type": "prep",
       "progression": "hold",
