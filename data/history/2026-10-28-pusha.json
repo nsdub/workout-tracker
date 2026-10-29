@@ -11,23 +11,134 @@
         {
           "weight": 155,
           "reps": 6,
-          "at": 1793238912864
+          "at": 1793239509191
         },
         {
           "weight": 175,
           "reps": 6,
-          "at": 1793238923829
+          "at": 1793239516721
         },
         {
           "weight": 175,
           "reps": 6,
-          "at": 1793238927132
+          "at": 1793239520062
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1793239528307
+        },
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1793239533860
+        },
+        {
+          "weight": 135,
+          "reps": 12,
+          "at": 1793239538816
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 12,
+          "at": 1793239549922
+        },
+        {
+          "weight": 12.5,
+          "reps": 12,
+          "at": 1793239550591
+        },
+        {
+          "weight": 12.5,
+          "reps": 12,
+          "at": 1793239551166
+        }
+      ]
+    },
+    {
+      "id": "machine-lateral-raise",
+      "name": "Machine Lateral Raise",
+      "as": "Db lateral raise",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 12,
+          "at": 1793239572960
+        },
+        {
+          "weight": 12.5,
+          "reps": 12,
+          "at": 1793239573634
+        },
+        {
+          "weight": 12.5,
+          "reps": 12,
+          "at": 1793239574217
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1793239873651,
+          "restEndedAt": 1793239806058
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1793239984262,
+          "restEndedAt": 1793239948658
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1793240121810,
+          "restEndedAt": 1793240059272
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "as": "Dips",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 8,
+          "at": 1793239597017
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1793239622723
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1793239731044,
+          "restEndedAt": 1793239697731
         }
       ]
     }
   ],
-  "world": "summit",
+  "world": "snowtemple",
   "gym": "NYC",
-  "mins": 1,
-  "startedAt": 1793237048902
+  "mins": 10,
+  "startedAt": 1793239502264
 }
