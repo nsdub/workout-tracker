@@ -1,6 +1,6 @@
 {
-  "version": 4,
-  "date": "2026-10-26",
+  "version": 5,
+  "date": "2026-10-29",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -226,7 +226,7 @@
         },
         {
           "id": "cable-crossover-high-low",
-          "sets": 3,
+          "sets": 2,
           "repMin": 12,
           "repMax": 15,
           "rest": 75,
@@ -1774,6 +1774,26 @@
         "2026-10-13:db-shrug",
         "2026-10-03:db-shrug",
         "2026-09-15:db-shrug"
+      ]
+    },
+    {
+      "version": 5,
+      "date": "2026-10-29",
+      "session": "PushB",
+      "exercise": "cable-crossover-high-low",
+      "kind": "sets",
+      "before": {
+        "sets": 3
+      },
+      "after": {
+        "sets": 2
+      },
+      "why": "Meso 3 restarted on 28 October at the New York gym, four weeks on one set of machines, so the planned week is now one he can actually run and has to fit its own limits. Chest was planned at 19 sets a rotation against a ceiling of 18, and all 19 are direct chest sets (incline 4, two chest presses 6, two crossovers 6, dips 3), so it was over by its own count, not by half-credit. Push B, at 24 sets, was the longest night in the program, and the high-to-low crossover is its last chest lift and the one most often done as something else (a low-to-high crossover on 15 October, dumbbell flyes on 2 September), so it loses its third set: chest goes to 18, front delts lose half a credited set, Push B goes from 24 sets to 23. The incline press, both chest presses, the low-to-high crossover and the dips are untouched.",
+      "evidence": [
+        "2026-10-15:cable-crossover-high-low",
+        "2026-10-12:cable-crossover-high-low",
+        "2026-09-02:cable-crossover-high-low",
+        "2026-10-28:machine-chest-press"
       ]
     }
   ]
