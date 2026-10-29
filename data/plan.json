@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "name": "Protocol v3",
   "updated": "2026-10-29",
   "units": "lb",
@@ -61,11 +61,11 @@
     },
     {
       "id": "meso3",
-      "name": "Meso 3 (travel)",
+      "name": "Meso 3 (Sep–Oct)",
       "start": "2026-09-28",
       "end": "2026-10-25",
       "type": "build",
-      "note": "Progressive overload, run across Warsaw, Singapore, Chennai and Vancouver: almost every lift re-found a machine each week. Restarted at the home gym on 2026-10-29 as the next block."
+      "note": "Progressive overload, 28 Sep to 25 Oct, logged at Warsaw, Singapore, Chennai and Vancouver. Superseded on 2026-10-29 when Meso 3 restarted at the home gym in New York."
     },
     {
       "id": "deload3",
