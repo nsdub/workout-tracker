@@ -250,8 +250,13 @@ function ensureDraft(today, phaseInfo) {
     // banked as a deload night, which progression skips. When the phase for
     // the night's date has moved (a calendar edit synced, a lock), the night
     // is rebased: logged sets stay as performed, the rest take the new phase.
-    const datePhase = engine.phaseForDate(store.plan, d.date, store.settings.phaseOverride).phase?.id ?? null;
-    if (!sheetOpen && !d.reopened && (d.phase ?? null) !== datePhase) {
+    // The same goes for the trainer's numbers. A night built while the review
+    // still applied (v88 had no phase test, so a lock printed deload loads)
+    // kept them after the phase test landed, because its phase id never moved.
+    const dateInfo = engine.phaseForDate(store.plan, d.date, store.settings.phaseOverride);
+    const datePhase = dateInfo.phase?.id ?? null;
+    if (!sheetOpen && !d.reopened
+      && ((d.phase ?? null) !== datePhase || (d.coachApplied ?? null) !== coachApplies(d.date, dateInfo))) {
       rebaseDraft();
       return store.draft?.session_type ?? d.session_type;
     }
@@ -354,6 +359,11 @@ function renderBanked(today, phaseInfo) {
 // draft notice that a fresher review has landed and rebuild itself.
 // Which review AND which program version the prescriptions were built from —
 // either moving means the numbers on the card may be stale.
+// Whether the trainer's review may set this night's numbers: fresh, and
+// written for the kind of phase in force (engine.prescribe's own test).
+const coachApplies = (date, phaseInfo) => !!store.coach
+  && engine.coachFresh(store.history, store.coach, date)
+  && engine.coachPhaseMatches(store.plan, store.coach, phaseInfo);
 const coachStamp = () => `${store.coach?.generated_at ?? store.coach?.date ?? ''}|p${store.program?.version ?? 0}`;
 
 function buildDraft(date, sessionType, phaseInfo, world = null) {
@@ -420,6 +430,7 @@ function buildDraft(date, sessionType, phaseInfo, world = null) {
     phase: phaseInfo.phase?.id ?? null, week: phaseInfo.week,
     startedAt: Date.now(),
     coachStamp: coachStamp(), // which trainer review these prescriptions used
+    coachApplied: coachApplies(date, phaseInfo), // and whether it was allowed to set them
     programVersion: store.program?.version ?? 0, // and which program
     bodyweight: null, notes: '', exercises,
   };

@@ -1247,8 +1247,8 @@ await ok('the phase moving under an open night rebases it and keeps every logged
 
   // The two callers: ensureDraft on a phase mismatch, and the phase lock.
   const session = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
-  assert.match(session, /\(d\.phase \?\? null\) !== datePhase\) \{\s*rebaseDraft\(\);/,
-    'ensureDraft no longer rebases a night whose phase moved');
+  assert.match(session, /\(d\.phase \?\? null\) !== datePhase \|\| \(d\.coachApplied \?\? null\) !== coachApplies\(d\.date, dateInfo\)\)\) \{\s*rebaseDraft\(\);/,
+    'ensureDraft no longer rebases a night whose phase, or whose trainer numbers, no longer apply');
   const planSrc = readFileSync(new URL('../js/views/plan.js', import.meta.url), 'utf8');
   const lock = planSrc.slice(planSrc.indexOf('function applyPhaseOverride'), planSrc.indexOf('export function dayOverrideSheet'));
   assert.match(lock, /rebaseDraft\(\)/, 'a phase lock must rebase tonight');
