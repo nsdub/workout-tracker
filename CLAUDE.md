@@ -115,7 +115,7 @@ fired; do not rebuild it under another name.
   - `node scripts/test-engine.mjs` — 113 tests: progression, phases,
     stalls, PRs, validation, units/gym profiles, the program file and the
     muscle-set arithmetic, against the real plan + seed data.
-  - `node scripts/test-app.mjs` — 68 tests: util, store, sync (stubbed
+  - `node scripts/test-app.mjs` — 69 tests: util, store, sync (stubbed
     localStorage/fetch), the data-loss invariants (re-save during an
     in-flight upload is never lost; queued local work is never overwritten
     by remote), and the dossier's shape (every night, every lift, every muscle).

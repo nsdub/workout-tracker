@@ -243,6 +243,9 @@ export function toast(msg, kind = 'ok', ms = 2400, { action } = {}) {
   el.textContent = msg;
   const dismiss = () => { el.classList.add('out'); setTimeout(() => el.remove(), 220); };
   const out = setTimeout(dismiss, ms);
+  // Tapping a toast dismisses it and nothing else (the CSS stops the tap
+  // falling through to whatever button is underneath).
+  el.addEventListener('click', (e) => { e.stopPropagation(); clearTimeout(out); dismiss(); });
   if (action) {
     const btn = document.createElement('button');
     btn.className = 't-act';

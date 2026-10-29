@@ -1257,6 +1257,24 @@ await ok('the phase moving under an open night rebases it and keeps every logged
   store.clearDraft();
 });
 
+// 2026-10-28: a toast ("Rest alerts are blocked…") sat over the dock's finish
+// button. Toasts were click-through, so the tap meant to dismiss it pressed
+// Finish, and the confirm sheet's Finish sat under the same spot: two taps on a
+// toast banked a night with one lift in it. Reproduced in Chromium at 400x889.
+await ok('a toast never passes a tap to the button under it, and Finish never lands under the same thumb', async () => {
+  const { readFileSync } = await import('node:fs');
+  const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
+  const toastRule = css.slice(css.indexOf('\n.toast {'), css.indexOf('}', css.indexOf('\n.toast {')));
+  assert.match(toastRule, /pointer-events:\s*auto/, 'toasts are click-through again: a tap on one presses what is underneath');
+  const comp = readFileSync(new URL('../js/components.js', import.meta.url), 'utf8');
+  const fn = comp.slice(comp.indexOf('export function toast'), comp.indexOf('// ——— Cooldown'));
+  assert.match(fn, /el\.addEventListener\('click'/, 'a tap on a toast must dismiss it');
+  const src = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
+  const sheet = src.slice(src.indexOf('function finishSheet'), src.indexOf('function finishSession'));
+  assert.ok(sheet.indexOf('id="fs-back"') > 0 && sheet.indexOf('id="fs-back"') < sheet.indexOf('id="fs-go"'),
+    'Keep lifting must come before Finish, so a repeated tap on the finish spot keeps the night open');
+});
+
 // A reopened night is him editing an entry already banked. Its acts came from
 // that entry, not from the program, so a change accepted today must not
 // rewrite what he did last week — and the message must not claim it landed in

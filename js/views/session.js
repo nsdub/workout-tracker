@@ -1686,8 +1686,11 @@ function finishSheet() {
     <div class="basis-line" style="margin:2px 2px 0">${lastBw
       ? `Your last reading is <b>${fmtW(lastBw.bodyweight)} lb</b> from ${fmtDate(lastBw.date)}. Leave it blank and tonight still banks.`
       : 'No reading on record. Leave it blank and tonight still banks.'}</div>
-    <button class="btn primary" id="fs-go" style="margin-top:12px">${esc(U.copy.finish)}</button>
-    <button class="btn quiet" id="fs-back" style="margin-top:8px">Keep lifting</button>`, {
+    <!-- Keep lifting comes FIRST: it lands where the dock's finish button
+         was, so a second tap in the same place keeps the night open instead
+         of banking it. The way out is the one that takes a fresh aim. -->
+    <button class="btn quiet" id="fs-back" style="margin-top:12px">Keep lifting</button>
+    <button class="btn primary" id="fs-go" style="margin-top:8px">${esc(U.copy.finish)}</button>`, {
     onOpen(sheet, close) {
       $('#fs-back', sheet).addEventListener('click', close);
       $('#fs-go', sheet).addEventListener('click', () => {

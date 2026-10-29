@@ -613,7 +613,12 @@ svg.ic { vertical-align: -2px; }
 
 /* ——— Toast ——— */
 .toast-root { position: fixed; left: 0; right: 0; bottom: calc(var(--tabbar-h) + 12px); display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 50; pointer-events: none; }
+/* A toast takes its own taps. The root is click-through so the page beside a
+   toast stays live, but the toast itself must not be: on 2026-10-28 one sat
+   over the finish button, a tap meant to dismiss it pressed Finish, and the
+   confirm sheet put its own Finish under the same thumb. */
 .toast {
+  pointer-events: auto; cursor: pointer;
   font-family: var(--body); font-size: 13.5px; font-weight: 600;
   background: var(--paper); color: var(--ink);
   border: var(--panel-border);
