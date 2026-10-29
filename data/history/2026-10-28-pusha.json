@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-28",
+  "session_type": "PushA",
+  "phase": "meso3",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 6,
+          "at": 1793238912864
+        },
+        {
+          "weight": 175,
+          "reps": 6,
+          "at": 1793238923829
+        },
+        {
+          "weight": 175,
+          "reps": 6,
+          "at": 1793238927132
+        }
+      ]
+    }
+  ],
+  "world": "summit",
+  "gym": "NYC",
+  "mins": 1,
+  "startedAt": 1793237048902
+}
