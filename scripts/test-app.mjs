@@ -1200,6 +1200,63 @@ await ok('accepting a program change keeps every logged set, even on a dropped l
   store.clearDraft();
 });
 
+// 2026-10-29, at the gym: Meso 3 was restarted on the calendar while Push A
+// was open. The night had been built as a deload, so it showed deload numbers
+// and would have banked as a deload night, which progression skips. The
+// calendar moving under the night now rebases it, and so does a lock.
+await ok('the phase moving under an open night rebases it and keeps every logged set', async () => {
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const E = await import('../js/engine.js');
+  const { rebaseDraft } = await import('../js/views/session.js');
+  const read = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
+  const plan = read('data/plan.json');
+  store.plan = plan;
+  store.coach = null;
+  store.setDecisions([]);
+  store.setProgram(read('data/coach/program.json'));
+  store.replaceHistory(readdirSync(new URL('../data/history', import.meta.url))
+    .filter((f) => f.endsWith('.json')).map((f) => read(`data/history/${f}`)));
+  store.saveSettings({ phaseOverride: null });
+  const slots = store.livePlan().sessions.PushA.exercises;
+  // Built under the old calendar: a deload, two sets a lift, the incline done.
+  const draft = {
+    date: '2026-10-29', session_type: 'PushA', world: 'w1', phase: 'deload3', week: 1,
+    startedAt: 1_700_000_000_000,
+    exercises: slots.map((slot, i) => ({
+      id: slot.id, name: slot.id, repMin: slot.repMin, repMax: slot.repMax, inc: 5,
+      sets: [0, 1].map((k) => ({
+        weight: i === 0 ? 160 : 100, reps: i === 0 ? 7 - k : 10, rxWeight: 130, rxReps: 6,
+        done: i === 0, at: i === 0 ? 1_700_000_000_000 + k : undefined,
+      })),
+    })),
+  };
+  store.saveDraft(draft);
+  const datePhase = E.phaseForDate(plan, '2026-10-29').phase;
+  assert.equal(datePhase.id, 'meso3b', 'the calendar no longer restarts Meso 3 on 29 Oct — re-point this test');
+
+  rebaseDraft();
+  const d = store.draft;
+  assert.equal(d.phase, 'meso3b', 'the night must take the phase now in force, or it banks as a deload');
+  assert.equal(d.world, 'w1');
+  const incline = d.exercises.find((x) => x.id === slots[0].id);
+  assert.deepEqual(incline.sets.filter((s) => s.done).map((s) => `${s.weight}x${s.reps}`), ['160x7', '160x6'],
+    'the incline sets he logged must come across exactly as performed');
+  assert.equal(incline.sets.length, slots[0].sets, 'the sets still owed must take the build count, not the deload count');
+  const owed = d.exercises.find((x) => x.id === slots[1].id);
+  assert.equal(owed.sets.length, slots[1].sets, 'an untouched lift must be rebuilt at the build count');
+
+  // The two callers: ensureDraft on a phase mismatch, and the phase lock.
+  const session = readFileSync(new URL('../js/views/session.js', import.meta.url), 'utf8');
+  assert.match(session, /\(d\.phase \?\? null\) !== datePhase\) \{\s*rebaseDraft\(\);/,
+    'ensureDraft no longer rebases a night whose phase moved');
+  const planSrc = readFileSync(new URL('../js/views/plan.js', import.meta.url), 'utf8');
+  const lock = planSrc.slice(planSrc.indexOf('function applyPhaseOverride'), planSrc.indexOf('export function dayOverrideSheet'));
+  assert.match(lock, /rebaseDraft\(\)/, 'a phase lock must rebase tonight');
+  assert.equal(lock.match(/rebuildTonight\(\)|clearDraft\(\)/g), null, 'a phase lock is deleting tonight again');
+  store.setProgram(null);
+  store.clearDraft();
+});
+
 // A reopened night is him editing an entry already banked. Its acts came from
 // that entry, not from the program, so a change accepted today must not
 // rewrite what he did last week — and the message must not claim it landed in

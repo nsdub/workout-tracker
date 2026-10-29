@@ -243,6 +243,18 @@ function ensureDraft(today, phaseInfo) {
     // closure points at the draft being replaced, so the pending edit would
     // be written to an orphan and vanish.
     const sheetOpen = !!document.querySelector('.sheet');
+    // The night carries the phase it was built under (d.phase), and that id
+    // rides into the banked entry. On 2026-10-29 Meso 3 was restarted on the
+    // calendar mid-session: the night had been built as a deload, nothing
+    // rebuilt it, so the cards kept deload numbers and the entry would have
+    // banked as a deload night, which progression skips. When the phase for
+    // the night's date has moved (a calendar edit synced, a lock), the night
+    // is rebased: logged sets stay as performed, the rest take the new phase.
+    const datePhase = engine.phaseForDate(store.plan, d.date, store.settings.phaseOverride).phase?.id ?? null;
+    if (!sheetOpen && !d.reopened && (d.phase ?? null) !== datePhase) {
+      rebaseDraft();
+      return store.draft?.session_type ?? d.session_type;
+    }
     // A NEW PROGRAM VERSION landing on a night he has already touched is
     // rebased, not rebuilt: every set he logged stays, the slots the trainer
     // changed take the new shape (rebaseDraft keeps performed work on a

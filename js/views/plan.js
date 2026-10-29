@@ -581,26 +581,18 @@ export function phaseOverrideSheet(info) {
   });
 }
 
+// A lock rebases tonight rather than rebuilding it from empty: every set
+// already logged stays as performed and only what is still owed takes the
+// new phase. It used to drop the whole night behind a confirm.
 function applyPhaseOverride(value, label = '') {
-  const apply = () => {
-    rebuildTonight();
-    store.saveSettings({ phaseOverride: value });
-    // Say it where he is looking: a fresh review written for another kind of
-    // phase stops setting the numbers the moment the lock lands.
-    const today = todayStr();
-    const info = engine.phaseForDate(store.plan, today, value);
-    const aside = engine.coachFresh(store.history, store.coach, today) && coachSetAside(store.plan, store.coach, info);
-    toast(value ? `Locked: ${label}${aside ? ' — trainer’s numbers set aside' : ''}` : 'Back to automatic');
-  };
-  const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
-  if (dirty) {
-    confirmSheet({
-      title: 'Drop tonight’s logged sets?',
-      body: 'Changing phase rebuilds tonight from scratch.',
-      confirmLabel: 'Change phase', danger: true,
-      onConfirm: apply,
-    });
-  } else apply();
+  store.saveSettings({ phaseOverride: value });
+  rebaseDraft();
+  // Say it where he is looking: a fresh review written for another kind of
+  // phase stops setting the numbers the moment the lock lands.
+  const today = todayStr();
+  const info = engine.phaseForDate(store.plan, today, value);
+  const aside = engine.coachFresh(store.history, store.coach, today) && coachSetAside(store.plan, store.coach, info);
+  toast(value ? `Locked: ${label}${aside ? ' — trainer’s numbers set aside' : ''}` : 'Back to automatic');
 }
 
 // The manual day pin: where the six-day order resumes after a break. The
