@@ -112,7 +112,7 @@ fired; do not rebuild it under another name.
   run from the repo root with Node 22 (`~/.nvm/versions/node/v22.22.2/bin/node`;
   the default v20 crashes every .mjs; they also fail silently from
   subdirectories):
-  - `node scripts/test-engine.mjs` — 109 tests: progression, phases,
+  - `node scripts/test-engine.mjs` — 112 tests: progression, phases,
     stalls, PRs, validation, units/gym profiles, the program file and the
     muscle-set arithmetic, against the real plan + seed data.
   - `node scripts/test-app.mjs` — 67 tests: util, store, sync (stubbed

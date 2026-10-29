@@ -7,7 +7,7 @@ import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../gi
 import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, restBellAt, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
-import { BASIS, previewSheet, provenance, provenanceText } from './preview.js';
+import { BASIS, previewSheet, provenance, provenanceText, coachSetAside, setAsideText } from './preview.js';
 import { changeLine, openProgramSheet } from '../program.js';
 
 // A "night" is a LIFTING night. store.history also holds conditioning entries
@@ -1279,10 +1279,12 @@ function briefingSheet() {
       const c = store.coach;
       const fresh = !!c && engine.coachFresh(store.history, c, d.date)
         && (!c.session_expected || c.session_expected === d.session_type);
-      const p = provenance(d.exercises.map((x) => ({ basis: x.basis, name: x.name })), c, fresh);
+      const setAside = coachSetAside(store.plan, c, engine.phaseForDate(store.plan, d.date, store.settings.phaseOverride));
+      const p = provenance(d.exercises.map((x) => ({ basis: x.basis, name: x.name })), c, fresh, setAside);
       // ONE line, not an essay. The full trainer brief used to be dumped here
       // whole — several hundred words in a sheet you open to check a weight.
       // It lives one tap away instead.
+      if (p.setAside) return `<div class="opt notice-full">${setAsideText(p.setAside, p.date)}</div>`;
       const src = p.automatic
         ? `the daily review of ${esc(fmtDate(p.date))}`
         : `a review written by hand on ${esc(fmtDate(p.date))}`;

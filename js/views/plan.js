@@ -17,7 +17,7 @@ import { connectSheet, handleSeedFile, rebaseDraft } from './session.js';
 import { applyWorld, UNIVERSES, returnWorld } from '../worlds.js';
 import { sfx } from '../audio.js';
 import { pushStatus, enablePush, disablePush } from '../push.js';
-import { previewSheet } from './preview.js';
+import { previewSheet, coachSetAside } from './preview.js';
 import { changeLine, recentChanges, openProgramSheet } from '../program.js';
 
 let root = null;
@@ -585,7 +585,12 @@ function applyPhaseOverride(value, label = '') {
   const apply = () => {
     rebuildTonight();
     store.saveSettings({ phaseOverride: value });
-    toast(value ? `Locked: ${label}` : 'Back to automatic');
+    // Say it where he is looking: a fresh review written for another kind of
+    // phase stops setting the numbers the moment the lock lands.
+    const today = todayStr();
+    const info = engine.phaseForDate(store.plan, today, value);
+    const aside = engine.coachFresh(store.history, store.coach, today) && coachSetAside(store.plan, store.coach, info);
+    toast(value ? `Locked: ${label}${aside ? ' — trainer’s numbers set aside' : ''}` : 'Back to automatic');
   };
   const dirty = store.draft?.exercises.some((x) => x.sets.some((s) => s.done));
   if (dirty) {

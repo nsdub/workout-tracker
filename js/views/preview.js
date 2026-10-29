@@ -188,7 +188,7 @@ const TAG = {
 // app actually produced, not from anything the packet claims about itself.
 // A lift is "trainer" only if its basis came out of the coach branch; every
 // other lift was arithmetic, and this says so by name.
-export function provenance(rows, coach = store.coach, fresh = false) {
+export function provenance(rows, coach = store.coach, fresh = false, setAside = null) {
   const byTrainer = rows.filter((r) => r.basis === 'coach');
   const byRules = rows.filter((r) => r.basis !== 'coach');
   const producer = coach?.produced_by ?? null;
@@ -197,6 +197,7 @@ export function provenance(rows, coach = store.coach, fresh = false) {
     trainer: byTrainer.map((r) => r.name),
     rules: byRules.map((r) => ({ name: r.name, basis: r.basis })),
     fresh,
+    setAside: fresh ? setAside : null,
     date: coach?.date ?? null,
     reviewedThrough: coach?.reviewed_through ?? null,
     // 'scheduled-task' = the autonomous daily run. Anything else was a human
@@ -207,8 +208,21 @@ export function provenance(rows, coach = store.coach, fresh = false) {
   };
 }
 
+// A fresh review written for a different KIND of phase than the one locked by
+// hand: engine.prescribe sets its loads aside, and every receipt has to say
+// why, or "no trainer review is driving tonight" reads as a broken sync.
+export function coachSetAside(plan, coach, phaseInfo) {
+  if (!coach || !phaseInfo?.override || engine.coachPhaseMatches(plan, coach, phaseInfo)) return null;
+  return { written: engine.coachPhaseFor(plan, coach), locked: phaseInfo.phase };
+}
+
+export function setAsideText(s, date) {
+  return `The review of ${esc(fmtDate(date))} was written for ${esc(s.written.name)} and you locked ${esc(s.locked.name)} by hand, so its numbers are set aside and every lift comes from the standing rules for ${esc(s.locked.name)}. Set the phase back to Automatic to use the review.`;
+}
+
 // One honest paragraph, built from the receipt above.
 export function provenanceText(p) {
+  if (p.setAside) return `<b>The trainer’s numbers are set aside tonight.</b> ${setAsideText(p.setAside, p.date)}`;
   if (!p.trainer.length && !p.fresh) {
     return p.date
       ? `<b>No trainer review is driving tonight.</b> The last one (${esc(fmtDate(p.date))}) is stale or was written for another session, so all ${p.total} lifts come from the standing rules — the app's own arithmetic on your log.`
@@ -255,7 +269,7 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
     const key = (s) => (r.bodyweight ? (s.reps ?? 0) : (s.weight ?? 0));
     return r.sets.length !== prev.length || r.sets.some((s, i) => key(s) !== key(prev[i]));
   }).length;
-  const prov = provenance(rows, store.coach, coachFresh);
+  const prov = provenance(rows, store.coach, coachFresh, coachSetAside(plan, store.coach, phaseInfo));
 
   openSheet(`
     <h2>${esc(plan.sessions[sessionType].name)}${when ? ` — ${esc(when.toLowerCase())}` : ''}</h2>

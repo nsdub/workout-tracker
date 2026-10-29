@@ -714,6 +714,33 @@ ok('the moment a session the trainer has not seen is logged, overrides expire', 
   const rx = E.prescribe(plan, h, 'PullB', slot('PullB', 'db-shrug'), mesoNow, coach);
   assert.equal(rx.basis, 'repeat'); // standing rules take back over, honestly
 });
+// 2026-10-29: locking a phase by hand changed nothing on the card. Every slot
+// of the 28 October packet carried an override and the override branch ran
+// before the phase was read, so Meso 3, Calibration and Prep all printed the
+// deload numbers. The trainer's loads now hold only under the kind of phase
+// they were written for.
+ok('a phase locked by hand sets aside a review written for another kind of phase', () => {
+  const h = [...history, mkEntry('2026-07-21', 'PullB', 'db-shrug', mkSets(70, 12, 3))];
+  const coach = coachPkt([{ exercise: 'db-shrug', session: 'PullB', sets: mkSets(55, 12, 2) }],
+    { review: { block: { phase: 'meso1' } } });
+  const s = slot('PullB', 'db-shrug');
+  const auto = E.prescribe(plan, h, 'PullB', s, mesoNow, coach);
+  assert.equal(auto.basis, 'coach');
+  const deload = E.phaseForDate(plan, '2026-07-22', 'deload2');
+  const prep = E.phaseForDate(plan, '2026-07-22', 'prep');
+  const meso3 = E.phaseForDate(plan, '2026-07-22', 'meso3');
+  assert.equal(E.coachPhaseMatches(plan, coach, deload), false);
+  assert.notEqual(E.prescribe(plan, h, 'PullB', s, deload, coach).basis, 'coach');
+  assert.equal(E.prescribe(plan, h, 'PullB', s, prep, coach).basis, 'hold');
+  // same KIND of phase: the engine reads only the type, so the review stands
+  assert.equal(E.prescribe(plan, h, 'PullB', s, meso3, coach).basis, 'coach');
+});
+ok('a packet that names no phase is read by its date', () => {
+  const coach = coachPkt([]);
+  assert.equal(E.coachPhaseFor(plan, coach).id, 'meso1');
+  assert.equal(E.coachPhaseMatches(plan, coach, E.phaseForDate(plan, '2026-07-22', 'deload3')), false);
+  assert.equal(E.coachPhaseMatches(plan, coach, mesoNow), true);
+});
 ok('a runaway coach raise is capped two honest steps above proven work', () => {
   // best face-pull since calibration: 25. Cap = two 5 lb steps up = 35.
   const h = [...history, mkEntry('2026-07-21', 'PullB', 'face-pulls', mkSets(25, 15, 2))];

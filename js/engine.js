@@ -595,6 +595,30 @@ export function coachFresh(history, coach, today = null) {
   return age <= COACH_MAX_AGE_DAYS;
 }
 
+// The phase a review was written for. The packet names it (review.block.phase,
+// which validate-coach.mjs pins to the calendar on the packet's date); an
+// older packet that doesn't is read by its date.
+export function coachPhaseFor(plan, coach) {
+  const id = coach?.review?.block?.phase ?? null;
+  const named = id ? plan.phases.find((p) => p.id === id) : null;
+  if (named) return named;
+  const written = coach?.date ?? coach?.reviewed_through ?? null;
+  return written ? phaseForDate(plan, written).phase : null;
+}
+
+// A phase locked by hand did nothing while a fresh review was in force: every
+// slot carried an override and the override branch returns before the phase
+// is read, so Meso 3, Deload and Prep all printed the same deload numbers. The
+// trainer's loads are written for ONE kind of phase; under a different kind
+// they are set aside and the standing rules for the locked phase run instead.
+// Compared by type, not id, because type is all the engine reads: two deloads
+// prescribe alike, and so do the three build blocks.
+export function coachPhaseMatches(plan, coach, phaseInfo) {
+  const written = coachPhaseFor(plan, coach);
+  if (!written || !phaseInfo?.phase) return true;
+  return written.type === phaseInfo.phase.type;
+}
+
 function coachOverrideFor(coach, sessionType, exId) {
   return coach?.overrides?.find?.((o) => o.exercise === exId && (!o.session || o.session === sessionType)) ?? null;
 }
@@ -634,7 +658,7 @@ export function prescribe(plan, history, sessionType, slot, phaseInfo, coach = n
   // a timed hold from here" in two consecutive reviews. It was right, and the
   // hole was here. A bodyweight override carries weight 0 and the reps (or
   // seconds) it wants; the cap has nothing to do on it.
-  if (coach && coachFresh(history, coach, phaseInfo?.date ?? null)) {
+  if (coach && coachFresh(history, coach, phaseInfo?.date ?? null) && coachPhaseMatches(plan, coach, phaseInfo)) {
     const o = coachOverrideFor(coach, sessionType, slot.id);
     const shaped = o && Array.isArray(o.sets) && o.sets.length && o.sets.every((s) => s.reps > 0
       && (meta.bodyweight ? (s.weight ?? 0) === 0 : s.weight > 0));
