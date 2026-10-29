@@ -49,7 +49,31 @@ ok('the dropped 17-23 Aug back-off stays dropped — that week is build', () => 
 ok('Meso 2 still starts 24 August — nothing downstream moved', () => {
   assert.equal(E.phaseForDate(plan, '2026-08-24').phase.id, 'meso2');
   assert.equal(E.phaseForDate(plan, '2026-08-23').phase.id, 'meso1');
-  assert.equal(plan.phases.find((p) => p.id === 'assessment').start, '2026-11-02');
+  // The 14 Aug ruling moved nothing downstream. The 29 Oct restart did (below).
+  assert.equal(plan.phases.find((p) => p.id === 'assessment').start, '2026-12-03');
+});
+// 2026-10-29, the athlete's call: Meso 3 restarted at the home gym after a
+// block run across four gyms in four weeks. The deload it interrupted ends on
+// the 28th, so the 28 Oct review still matches the calendar on its own date.
+ok('Meso 3 restarts 29 October; deload, assessment and prep move four weeks', () => {
+  assert.equal(E.phaseForDate(plan, '2026-10-28').phase.id, 'deload3');
+  const w1 = E.phaseForDate(plan, '2026-10-29');
+  assert.equal(w1.phase.id, 'meso3b');
+  assert.equal(w1.phase.type, 'build');
+  assert.equal(w1.week, 1);
+  assert.equal(w1.weeks, 4);
+  assert.equal(E.phaseForDate(plan, '2026-11-25').phase.id, 'meso3b');
+  assert.equal(E.phaseForDate(plan, '2026-11-26').phase.id, 'deload4');
+  assert.equal(E.phaseForDate(plan, '2026-12-03').phase.id, 'assessment');
+  assert.equal(E.phaseForDate(plan, '2026-12-10').phase.id, 'prep');
+  // the travel block keeps its own nights
+  assert.equal(E.phaseForDate(plan, '2026-10-23').phase.id, 'meso3');
+  // no day falls between two phases
+  for (let i = 1; i < plan.phases.length; i++) {
+    const next = new Date(plan.phases[i - 1].end + 'T12:00');
+    next.setDate(next.getDate() + 1);
+    assert.equal(plan.phases[i].start, next.toLocaleDateString('sv-SE'), `gap before ${plan.phases[i].id}`);
+  }
 });
 ok('prep continues past its end date', () => {
   assert.equal(E.phaseForDate(plan, '2027-06-01').phase.id, 'prep');
@@ -232,8 +256,8 @@ ok('meso 3 progresses off meso 2, skipping the deload entry', () => {
   assert.equal(rx.sets[0].weight, 205);
 });
 ok('prep holds weight even at top of range', () => {
-  const prep = E.phaseForDate(plan, '2026-11-20');
-  const h = [...history, mkEntry('2026-11-15', 'PushA', 'machine-chest-press', [
+  const prep = E.phaseForDate(plan, '2026-12-20');
+  const h = [...history, mkEntry('2026-12-15', 'PushA', 'machine-chest-press', [
     { weight: 225, reps: 10 }, { weight: 225, reps: 10 }, { weight: 225, reps: 10 },
   ], 'prep')];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), prep);
@@ -678,10 +702,10 @@ ok('deload entries never set the cross-day floor', () => {
   assert.equal(rx.sets[0].weight, 150);
 });
 ok('prep holds: no cross-day raises either', () => {
-  const prep = E.phaseForDate(plan, '2026-11-20');
+  const prep = E.phaseForDate(plan, '2026-12-20');
   const h = [...history,
-    mkEntry('2026-11-15', 'PushA', 'machine-chest-press', mkSets(225, 10, 3), 'prep'),
-    mkEntry('2026-11-17', 'PushB', 'machine-chest-press', mkSets(235, 10, 3), 'prep'),
+    mkEntry('2026-12-15', 'PushA', 'machine-chest-press', mkSets(225, 10, 3), 'prep'),
+    mkEntry('2026-12-17', 'PushB', 'machine-chest-press', mkSets(235, 10, 3), 'prep'),
   ];
   const rx = E.prescribe(plan, h, 'PushA', slot('PushA', 'machine-chest-press'), prep);
   assert.equal(rx.basis, 'hold');

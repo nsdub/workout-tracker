@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 5,
   "name": "Protocol v3",
-  "updated": "2026-10-13",
+  "updated": "2026-10-29",
   "units": "lb",
   "show": {
     "date": "2027-03-01",
@@ -61,17 +61,35 @@
     },
     {
       "id": "meso3",
-      "name": "Meso 3",
+      "name": "Meso 3 (travel)",
       "start": "2026-09-28",
       "end": "2026-10-25",
       "type": "build",
-      "note": "Progressive overload."
+      "note": "Progressive overload, run across Warsaw, Singapore, Chennai and Vancouver: almost every lift re-found a machine each week. Restarted at the home gym on 2026-10-29 as the next block."
     },
     {
       "id": "deload3",
       "name": "Deload",
       "start": "2026-10-26",
-      "end": "2026-11-01",
+      "end": "2026-10-28",
+      "type": "deload",
+      "loadFactor": 0.8,
+      "setFactor": 0.6,
+      "note": "-20% load, ~60% sets, nothing under 4 RIR. Cut short on 2026-10-29 with no session logged in it, when Meso 3 was restarted at the home gym."
+    },
+    {
+      "id": "meso3b",
+      "name": "Meso 3",
+      "start": "2026-10-29",
+      "end": "2026-11-25",
+      "type": "build",
+      "note": "Progressive overload. Meso 3 restarted at the home gym in New York on 2026-10-29, at the athlete's call: the first Meso 3 ran across four gyms in four weeks, so it built little on any one machine. Deload, assessment and prep each moved four weeks later."
+    },
+    {
+      "id": "deload4",
+      "name": "Deload",
+      "start": "2026-11-26",
+      "end": "2026-12-02",
       "type": "deload",
       "loadFactor": 0.8,
       "setFactor": 0.6,
@@ -80,15 +98,15 @@
     {
       "id": "assessment",
       "name": "Assessment",
-      "start": "2026-11-02",
-      "end": "2026-11-08",
+      "start": "2026-12-03",
+      "end": "2026-12-09",
       "type": "assessment",
       "note": "Physique check. Prep block gets programmed here."
     },
     {
       "id": "prep",
       "name": "Prep",
-      "start": "2026-11-09",
+      "start": "2026-12-10",
       "end": "2027-03-31",
       "type": "prep",
       "progression": "hold",
