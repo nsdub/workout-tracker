@@ -1,0 +1,148 @@
+{
+  "date": "2026-10-31",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 45,
+          "reps": 8,
+          "at": 1793480414204
+        },
+        {
+          "weight": 45,
+          "reps": 10,
+          "at": 1793480559541
+        },
+        {
+          "weight": 45,
+          "reps": 10,
+          "at": 1793480710275
+        },
+        {
+          "weight": 45,
+          "reps": 10,
+          "at": 1793480848472
+        }
+      ]
+    },
+    {
+      "id": "assisted-dips",
+      "name": "Assisted Dips",
+      "as": "Smith bench",
+      "sets": [
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1793481273379,
+          "restEndedAt": 1793481028490
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1793481432443,
+          "restEndedAt": 1793481393389
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1793481692001,
+          "restEndedAt": 1793481552450
+        }
+      ],
+      "note": "WHAT THE FUCK. YOU GAVE ME TWO DIPS EXERCISES???!?!"
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1793481810155
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1793481990376,
+          "restEndedAt": 1793481885166
+        },
+        {
+          "weight": 15,
+          "reps": 13,
+          "at": 1793482115389,
+          "restEndedAt": 1793482065385
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 29,
+          "reps": 15,
+          "at": 1793482276015,
+          "restEndedAt": 1793482190402
+        },
+        {
+          "weight": 29,
+          "reps": 13,
+          "at": 1793482395634,
+          "restEndedAt": 1793482351032
+        }
+      ]
+    },
+    {
+      "id": "overhead-cable-triceps",
+      "name": "Overhead Cable Triceps Ext",
+      "as": "Rope pushdown",
+      "sets": [
+        {
+          "weight": 42.5,
+          "reps": 12,
+          "at": 1793482514479,
+          "restEndedAt": 1793482470645
+        },
+        {
+          "weight": 47.5,
+          "reps": 12,
+          "at": 1793482599758,
+          "restEndedAt": 1793482589493
+        },
+        {
+          "weight": 47.5,
+          "reps": 10,
+          "at": 1793482689662,
+          "restEndedAt": 1793482674774
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "as": "Overhead db press",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 12,
+          "at": 1793483535699,
+          "restEndedAt": 1793482764668
+        },
+        {
+          "weight": 50,
+          "reps": 12,
+          "at": 1793483540976
+        }
+      ]
+    }
+  ],
+  "world": "boba",
+  "gym": "NYC",
+  "mins": 52,
+  "startedAt": 1793480092176
+}
