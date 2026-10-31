@@ -1,0 +1,121 @@
+{
+  "date": "2026-10-30",
+  "session_type": "LegsB",
+  "phase": "meso3",
+  "week": 5,
+  "exercises": [
+    {
+      "id": "smith-squat",
+      "name": "Smith Squat",
+      "as": "Leg Extension",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793403175235
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1793403182967
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1793403290015
+        }
+      ],
+      "note": "Smith machine taken"
+    },
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 160,
+          "reps": 10,
+          "at": 1793403066389
+        },
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1793403073114
+        },
+        {
+          "weight": 200,
+          "reps": 8,
+          "at": 1793403078729
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 10,
+          "at": 1793403401772
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1793403588626,
+          "restEndedAt": 1793403491785
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793403747789,
+          "restEndedAt": 1793403678667
+        }
+      ]
+    },
+    {
+      "id": "ab-wheel-rollout",
+      "name": "Ab Wheel Rollout",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 8,
+          "at": 1793404136121,
+          "restEndedAt": 1793403837836
+        },
+        {
+          "weight": 0,
+          "reps": 8,
+          "at": 1793404289996,
+          "restEndedAt": 1793404196135
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "sets": [
+        {
+          "weight": 52.5,
+          "reps": 12,
+          "at": 1793404473373,
+          "restEndedAt": 1793404350047
+        },
+        {
+          "weight": 52.5,
+          "reps": 10,
+          "at": 1793404617854,
+          "restEndedAt": 1793404533392
+        },
+        {
+          "weight": 52.5,
+          "reps": 10,
+          "at": 1793404810655,
+          "restEndedAt": 1793404677867
+        }
+      ]
+    }
+  ],
+  "world": "apresski",
+  "gym": "NYC",
+  "mins": 29,
+  "startedAt": 1793402497695
+}
