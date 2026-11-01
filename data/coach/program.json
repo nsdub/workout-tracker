@@ -1,6 +1,6 @@
 {
-  "version": 5,
-  "date": "2026-10-29",
+  "version": 6,
+  "date": "2026-11-01",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -47,12 +47,12 @@
           "seedNote": "Swapped in for Face Pulls — set your working weight"
         },
         {
-          "id": "overhead-cable-triceps",
+          "id": "chest-dip",
           "sets": 3,
-          "repMin": 10,
+          "repMin": 8,
           "repMax": 12,
-          "rest": 75,
-          "seed": 47.5
+          "rest": 90,
+          "seed": 0
         }
       ]
     },
@@ -209,14 +209,6 @@
           "seed": 142.5
         },
         {
-          "id": "assisted-dips",
-          "sets": 3,
-          "repMin": 12,
-          "repMax": 20,
-          "rest": 120,
-          "seed": 0
-        },
-        {
           "id": "db-lateral-raise",
           "sets": 3,
           "repMin": 12,
@@ -241,12 +233,12 @@
           "seed": 82.5
         },
         {
-          "id": "overhead-cable-triceps",
+          "id": "rope-pushdown",
           "sets": 3,
-          "repMin": 8,
-          "repMax": 10,
+          "repMin": 10,
+          "repMax": 12,
           "rest": 75,
-          "seed": 52.5
+          "seed": 47.5
         },
         {
           "id": "reverse-grip-pushdown",
@@ -1794,6 +1786,82 @@
         "2026-10-12:cable-crossover-high-low",
         "2026-09-02:cable-crossover-high-low",
         "2026-10-28:machine-chest-press"
+      ]
+    },
+    {
+      "version": 6,
+      "date": "2026-11-01",
+      "session": "PushA",
+      "exercise": "overhead-cable-triceps",
+      "kind": "swap",
+      "before": {
+        "id": "overhead-cable-triceps",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 75
+      },
+      "after": {
+        "id": "chest-dip",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 12,
+        "rest": 90,
+        "seed": 0
+      },
+      "why": "On 28 October at New York this slot was done as bar dips at bodyweight, 8, 10, 12, with no note saying why (the card asked for the overhead cable extension). The name typed on that card sticks to this slot at this gym on every night, so on 31 October the Push B card showed two dips cards side by side, and you wrote on it that you had been given two dips exercises. From today there is one dips slot in the program and it is this one, three sets of 8 to 12 bar dips finishing Push A, under the catalogue’s bar-dip id so no New York rename follows it. The overhead cable extension leaves the program: at New York it has not been done as itself on either push night (dips here, a rope pushdown on Push B). If the cable was simply taken on 28 October and you want the extension back, say so in a note and it returns.",
+      "evidence": [
+        "2026-10-28:overhead-cable-triceps",
+        "2026-10-31:assisted-dips",
+        "2026-10-31:overhead-cable-triceps"
+      ]
+    },
+    {
+      "version": 6,
+      "date": "2026-11-01",
+      "session": "PushB",
+      "exercise": "assisted-dips",
+      "kind": "remove",
+      "before": {
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 20
+      },
+      "after": null,
+      "why": "On 31 October the Push B card showed two dips cards (this one and the overhead slot you had renamed Dips on 28 October); you wrote on this card that you had been given two dips exercises and did a smith bench press in its place, 185 for 8, 8, 8, skipping the machine chest press. Dips now live on Push A only (see the Push A change), so this slot comes off. The machine chest press stays as the Push B flat press, three sets of 8 to 10; it was 135 for 12s on Push A on 28 October. Push B goes from 23 sets to 20, nearer the 17 you finished on 15 and 31 October, and chest stays at 18 sets a week. The smith bench is not added: one night done in anger at the card is not a reason to put a third lift on a smith machine that was already taken on 30 October; if you would rather have it than the machine press, say so in a note and the slot becomes it.",
+      "evidence": [
+        "2026-10-31:assisted-dips",
+        "2026-10-28:machine-chest-press",
+        "2026-10-30:smith-squat"
+      ]
+    },
+    {
+      "version": 6,
+      "date": "2026-11-01",
+      "session": "PushB",
+      "exercise": "overhead-cable-triceps",
+      "kind": "swap",
+      "before": {
+        "id": "overhead-cable-triceps",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 75
+      },
+      "after": {
+        "id": "rope-pushdown",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 75,
+        "seed": 47.5
+      },
+      "why": "The overhead cable extension has not been done as itself at New York on either push night: dips in its Push A slot on 28 October, a rope pushdown in this slot on 31 October (42.5 for 12, then 47.5 for 12, 10, logged live). Before that it was skullcrushers on 12 October and an overhead extension at Chennai on 15 October, so four push nights running the card asked for one lift and got another. Yesterday’s review said one more night as something else and the slot becomes what you do; this is that. Rope pushdown, three sets of 10 to 12, starting at 47.5.",
+      "evidence": [
+        "2026-10-31:overhead-cable-triceps",
+        "2026-10-28:overhead-cable-triceps",
+        "2026-10-15:overhead-cable-triceps",
+        "2026-10-12:overhead-cable-triceps"
       ]
     }
   ]
