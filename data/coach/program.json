@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "date": "2026-11-01",
+  "version": 7,
+  "date": "2026-11-03",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -154,6 +154,14 @@
           "seed": 142.5
         },
         {
+          "id": "standing-calf-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 280
+        },
+        {
           "id": "hip-adductor",
           "sets": 2,
           "repMin": 12,
@@ -170,14 +178,6 @@
           "rest": 75,
           "superset": "hips",
           "seed": 127.5
-        },
-        {
-          "id": "standing-calf-raise",
-          "sets": 3,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seed": 280
         },
         {
           "id": "cable-crunch",
@@ -1862,6 +1862,26 @@
         "2026-10-28:overhead-cable-triceps",
         "2026-10-15:overhead-cable-triceps",
         "2026-10-12:overhead-cable-triceps"
+      ]
+    },
+    {
+      "version": 7,
+      "date": "2026-11-03",
+      "session": "LegsA",
+      "exercise": "standing-calf-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 7
+      },
+      "after": {
+        "position": 5
+      },
+      "why": "The calf press on the leg press has been skipped on the last two leg nights: Chennai on 14 October and New York on 30 October, where the cable crunch ran and the calf press, last on the card, did not. Its last work was Singapore on 5 October (290 for 15, 12 then 270 for 14). On Legs A it sat seventh of eight, behind the two hip machines, which are the lowest-value four sets on a night that has to end on time; from today it goes fifth, straight after the leg extension and before the adductor and abductor, so if the night runs short it is a hip machine that waits, not the only calf work of the day. Legs A stays at 20 sets and no weekly count moves. Legs B keeps the 13 October order (abs before the calf press) on purpose, because calves are also trained on Legs A. The calves decision dated 4 November still stands: logged tonight and the slot stays; skipped again from fifth and it becomes the standing or seated calf machine this gym has, with his note on which exists.",
+      "evidence": [
+        "2026-10-30:cable-crunch",
+        "2026-10-14:cable-crunch",
+        "2026-10-05:standing-calf-raise",
+        "2026-09-28:standing-calf-raise"
       ]
     }
   ]
