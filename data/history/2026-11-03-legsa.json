@@ -1,0 +1,162 @@
+{
+  "date": "2026-11-03",
+  "session_type": "LegsA",
+  "phase": "meso3",
+  "week": 6,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 180,
+          "reps": 10,
+          "at": 1793749026448
+        },
+        {
+          "weight": 200,
+          "reps": 9,
+          "at": 1793749195365
+        },
+        {
+          "weight": 200,
+          "reps": 10,
+          "at": 1793749358689
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "sets": [
+        {
+          "weight": 20,
+          "reps": 8,
+          "at": 1793749492323
+        },
+        {
+          "weight": 20,
+          "reps": 10,
+          "at": 1793749701816,
+          "restEndedAt": 1793749612336
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 12,
+          "at": 1793749824967,
+          "restEndedAt": 1793749821831
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793749941726,
+          "restEndedAt": 1793749914975
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793750102530,
+          "restEndedAt": 1793750031736
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793750272815,
+          "restEndedAt": 1793750192672
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793750413532,
+          "restEndedAt": 1793750362825
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 260,
+          "reps": 12,
+          "at": 1793750554048,
+          "restEndedAt": 1793750503539
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1793750638505,
+          "restEndedAt": 1793750629067
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1793750772070,
+          "restEndedAt": 1793750713519
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 82.5,
+          "reps": 12,
+          "at": 1793750826648
+        },
+        {
+          "weight": 90,
+          "reps": 12,
+          "at": 1793751016828,
+          "restEndedAt": 1793750944306
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1793750869296
+        },
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1793751021890
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "as": "Plank",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 60,
+          "at": 1793751202945,
+          "restEndedAt": 1793751096905
+        }
+      ]
+    }
+  ],
+  "world": "trailhead",
+  "gym": "NYC",
+  "mins": 36,
+  "startedAt": 1793748267138
+}
