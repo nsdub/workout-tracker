@@ -1,0 +1,171 @@
+{
+  "date": "2026-11-04",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 6,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 8,
+          "at": 1793817773546
+        },
+        {
+          "weight": 50,
+          "reps": 8,
+          "at": 1793817970154,
+          "restEndedAt": 1793817953564
+        },
+        {
+          "weight": 50,
+          "reps": 8,
+          "at": 1793818158800,
+          "restEndedAt": 1793818150164
+        },
+        {
+          "weight": 50,
+          "reps": 8,
+          "at": 1793818370338,
+          "restEndedAt": 1793818338810
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1793818490873
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793818619122,
+          "restEndedAt": 1793818610882
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1793818776098,
+          "restEndedAt": 1793818739134
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1793818954745,
+          "restEndedAt": 1793818896106
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1793819164528,
+          "restEndedAt": 1793819029787
+        },
+        {
+          "weight": 15,
+          "reps": 12,
+          "at": 1793819243647,
+          "restEndedAt": 1793819239548
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 29,
+          "reps": 15,
+          "at": 1793819432777,
+          "restEndedAt": 1793819318656
+        },
+        {
+          "weight": 29,
+          "reps": 13,
+          "at": 1793819559782,
+          "restEndedAt": 1793819507785
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1793819694569,
+          "restEndedAt": 1793819634788
+        },
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1793819836388,
+          "restEndedAt": 1793819769578
+        },
+        {
+          "weight": 90,
+          "reps": 13,
+          "at": 1793819975962,
+          "restEndedAt": 1793819911440
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 47.5,
+          "reps": 12,
+          "at": 1793820131717,
+          "restEndedAt": 1793820050971
+        },
+        {
+          "weight": 49,
+          "reps": 12,
+          "at": 1793820256905,
+          "restEndedAt": 1793820206724
+        },
+        {
+          "weight": 49,
+          "reps": 11,
+          "at": 1793820358245,
+          "restEndedAt": 1793820331916
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "as": "Overhead db press",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 12,
+          "at": 1793820525415,
+          "restEndedAt": 1793820433255
+        },
+        {
+          "weight": 50,
+          "reps": 12,
+          "at": 1793916776854
+        }
+      ]
+    }
+  ],
+  "world": "nebula",
+  "gym": "NYC",
+  "startedAt": 1793817082049
+}
