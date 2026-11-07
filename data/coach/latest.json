@@ -1,16 +1,16 @@
 {
-  "date": "2026-11-06",
+  "date": "2026-11-07",
   "reviewed_through": "2026-11-05",
-  "generated_at": "2026-11-06T13:50:29.559Z",
+  "generated_at": "2026-11-07T11:12:11.457Z",
   "produced_by": "scheduled-task",
   "reviewer": "daily-training-brief (autonomous 6 AM run)",
   "session_expected": "LegsB",
   "program_version": 7,
-  "brief": "Today, 6 November, is Legs B at the New York gym. Two nights landed since the last review: Push B on 4 November and Pull B on 5 November, both done in full, every set on the card. That is the first time one set of machines has been run twice, and almost every lift moved: chest press 135 for 10, then 150 for 10, 10; shoulder press 50 lb for 8s (you pressed 50 for 10s and 55 for 8, 9 at Chennai, so that is a hold, not a gain); close pulldown 127.5 for 10, 10; straight-arm pulldown 45 for 12, 12, 12; chest-supported row up to 60; reverse curl 32.5 for 12, 12.\n\nThe program stays at version 7. Two things that were on watch are settled by what you did: the reverse pec deck was logged on 4 November (90 for 13, 13, 13), so it stays on Push B, and the fourth shrug set was done on 5 November (80 for 16 on all four), so it stays. Changing nothing else is the decision: eight nights on one set of machines, and the weeks that came out low were the ones with nights missing, not sets that were too hard.\n\nTonight, Legs B, 20 sets, in pounds. Barbell RDL: 135 for 8, 165 for 8, 180 for 8; it has not been run at New York yet, so these are starting numbers, and 180 for 10 on the top set would earn 190. Smith squat: 95 for 8, three sets, a starting number too; if the smith is taken again, log what you do instead, as you did on 30 October. Leg press: 180 for 12, then 200 for 10, 10. Leg curl: 135 for 12, 150 for 11, 11. Ab wheel: 10, 10, stopping when your lower back starts to arch. Cable crunch: 52.5 for 12, three sets. Calf press: 280 for 12, then 300 for 12, 12. Cue: the RDL and squat sets only count toward progress if they are logged as you go.\n\nAfter tonight comes Push A, then Pull A. The dated decisions that remain: abs and calves on 8 November, after tonight’s Legs B; the counting rule for the muscles that read over their targets only through half credit, the seated row’s fourth set, the machine lateral raise and the last Push B slot on 9 November.\n\nThree questions are still open. First, the last Push B slot: you logged “Overhead db press” again on 4 November, 50 for 12, 12, but the second set was typed in about 27 hours after the first, so it is from memory. One word in the note, “triceps” or “press”, says what it is. Second, whether New York’s machines are the ones you used in August (the log has no gym before 22 September): “same” or “different” in a note. If they are the same, the seated row, pec deck and leg extension are still below August at the same weight. Third, the crunch on Legs A read “Plank” on 3 November; I do not know whether you chose it or ran out of time, and a timed hold is not on the card unless you ask.\n\nYour logs since 28 October are stamped Meso 3, weeks 5 and 6 (28 to 31 October week 5, 2 to 5 November week 6), while the calendar puts you in week 2 of the restarted block, so if the phase tag at the top of the app is locked, the deload on 25 November will not start by itself; “Automatic (by date)” clears it. No bodyweight is logged since 23 August (207 lb). Conditioning: the build block allows 2 to 3 low-intensity sessions of 20 to 30 minutes a week; the log has none since 21 July, and nothing extra is asked of you tonight.",
+  "brief": "Today, 7 November, nothing new has landed in the log: the latest night is still Pull B on 5 November, and Legs B of 6 November is not there, so this review repeats yesterday’s and the next session is still Legs B. If you trained it and it has not synced, log it and tomorrow’s review picks it up; if you rested, Legs B is the next one.\n\nThe program stays at version 7 with no changes. The reasons are the same as yesterday: eight nights on one set of machines, the two lifts that were on watch settled by what you did (reverse pec deck 90 for 13, 13, 13 on 4 November; fourth shrug set at 80 for 16 on 5 November), and no new evidence to rotate anything.\n\nLegs B, 20 sets, in pounds, unchanged from yesterday. Barbell RDL: 135 for 8, 165 for 8, 180 for 8; it has not been run at New York yet, so these are starting numbers, and 180 for 10 on the top set would earn 190. Smith squat: 95 for 8, three sets, also a starting number; if the smith is taken, log what you do instead, as you did on 30 October. Leg press: 180 for 12, then 200 for 10, 10. Leg curl: 135 for 12, 150 for 11, 11. Ab wheel: 10, 10, stopping when your lower back starts to arch. Cable crunch: 52.5 for 12, three sets. Calf press: 280 for 12, then 300 for 12, 12. Cue: the RDL and squat sets only count toward progress if they are logged as you go.\n\nAfter Legs B comes Push A, then Pull A. Dated decisions still ahead: abs and calves on 8 November, after Legs B; the counting rule for the muscles that read over their targets only through half credit, the seated row’s fourth set, the machine lateral raise and the last Push B slot on 9 November. If Legs B has not been logged by then, those dates move to the morning after it is.\n\nOpen questions, unchanged: the last Push B slot (“Overhead db press” on 4 November, 50 for 12, 12, with the second set typed in about 27 hours after the first, so from memory; one word, “triceps” or “press”, settles it); whether New York’s machines are the ones you used in August (“same” or “different” in a note); and the Legs A crunch that read “Plank” on 3 November. Your logs since 28 October are stamped Meso 3, weeks 5 and 6, while the calendar puts you in week 2 of the restarted block; if the phase tag at the top of the app is locked, the deload on 25 November will not start by itself, and “Automatic (by date)” clears it. No bodyweight is logged since 23 August (207 lb). Conditioning: the build block allows 2 to 3 low-intensity sessions of 20 to 30 minutes a week; none is logged since 21 July, and nothing extra is asked of you tonight.",
   "flags": [
     {
       "kind": "schedule",
-      "note": "Push B on 4 November and Pull B on 5 November are logged in full; tonight, 6 November, is Legs B."
+      "note": "Nothing new was logged since 5 November; Legs B of 6 November is not in the log, so tonight’s card is still Legs B and the review repeats yesterday’s."
     },
     {
       "kind": "volume",
@@ -22,7 +22,7 @@
     },
     {
       "kind": "schedule",
-      "note": "The crunch card on Legs A read Plank on 3 November; abs and calves are read together on 8 November, after tonight’s Legs B."
+      "note": "The crunch card on Legs A read Plank on 3 November; abs and calves are read together on 8 November, after Legs B."
     },
     {
       "kind": "phase",
@@ -35,6 +35,10 @@
     {
       "kind": "volume",
       "note": "The log has no gym name before 22 September, so one word in a note, “same” or “different”, says whether New York’s machines are the August ones."
+    },
+    {
+      "kind": "schedule",
+      "note": "Legs B names may show as Leg Extension or Plank on the card; blank the name field if so, the numbers are for the smith squat and cable crunch."
     }
   ],
   "review": {
@@ -42,9 +46,9 @@
       "phase": "meso3b",
       "week": 2,
       "of": 4,
-      "days_to_show": 115,
+      "days_to_show": 114,
       "verdict": "hold",
-      "why": "Today is the third day of week 2 of 4 in the block restarted on 28 October at the New York gym; it builds to 24 November, deload runs 25 November to 1 December, assessment 2 to 8 December, prep from 9 December, and the show is 115 days away. Two nights landed since yesterday’s review, Push B on 4 November (20 of 20 sets) and Pull B on 5 November (21 of 21), so eight nights in nine days (28, 29, 30, 31 October, 2, 3, 4 and 5 November) have run 149 of the 162 sets the current program asks for, counting what you did in place of a slot. The 13 missing sets are mostly two nights, Legs B on 30 October (14 of 20) and Push B on 31 October (17 of 20), plus one set each short on Push A 28 October (smith incline 3 of 4), Pull B 29 October (shrug 3 of 4) and two on Legs A 3 November (the crunch slot became one plank); the two newest nights lost nothing. This is the first week where the second pass at New York has numbers to compare, and it is working: chest press 135 for 12 to 150 for 10, shoulder press 45 to 50, close pulldown 127.5 for 9 to 10, straight-arm pulldown 45 for 9 to 12, shrug 80 for 15 to 16, reverse curl 32.5 for 10 to 12. Two held-back watches closed on the logs, the pec deck (kept) and the fourth shrug set (kept). Nothing in the program changes today. Seven of the eight lifts the dossier calls stalled compare machines across gyms, August nights with no gym, or a plank against crunches; the Pull A deadlift is up, not flat (225 for 6, 235 for 5, 240 for 5 across 8 October, 23 October and 2 November, and still under August’s numbers), and it has one New York visit. Rotating after one repeat at a gym would throw away the baseline this restart was made to build. Legs B is the one night that has not had its first New York pass: the barbell RDL and smith squat have never run in their own slots, so tonight’s numbers are starting numbers. The leg-night order stays: Legs A ends on the crunch and Legs B ends on the calf press, so if the last slot is what gets cut, calves still get Legs A and abs still get Legs B. The four-week averages in the muscle lines read lower than current training because the window still holds the week of 19 October, with no chest, triceps or quads, and the deload days. Every “a week done” figure counts half credit from compound lifts, so compare it with the number on paper, not the direct count. Dated: abs and calves 8 November, the counting rule, the fourth row set, the machine lateral raise and the last Push B slot 9 November. Next boundary is the deload on 25 November; the prep block is written at the assessment from what these four weeks log.",
+      "why": "Today is the fourth day of week 2 of 4 in the block restarted on 28 October at the New York gym; it builds to 24 November, deload runs 25 November to 1 December, assessment 2 to 8 December, prep from 9 December, and the show is 114 days away. Nothing new was logged since yesterday’s review (the latest night is still Pull B on 5 November, and Legs B of 6 November is not in the log), so this review repeats yesterday’s. Push B on 4 November ran 20 of 20 sets and Pull B on 5 November 21 of 21; eight nights in nine days (28, 29, 30, 31 October, 2, 3, 4 and 5 November) have run 149 of the 162 sets the current program asks for, counting what you did in place of a slot. The 13 missing sets are mostly two nights, Legs B on 30 October (14 of 20) and Push B on 31 October (17 of 20), plus one set each short on Push A 28 October (smith incline 3 of 4), Pull B 29 October (shrug 3 of 4) and two on Legs A 3 November (the crunch slot became one plank); the two newest nights lost nothing. This is the first week where the second pass at New York has numbers to compare, and it is working: chest press 135 for 12 to 150 for 10, shoulder press 45 to 50, close pulldown 127.5 for 9 to 10, straight-arm pulldown 45 for 9 to 12, shrug 80 for 15 to 16, reverse curl 32.5 for 10 to 12. Two held-back watches closed on the logs, the pec deck (kept) and the fourth shrug set (kept). Nothing in the program changes today. Seven of the eight lifts the dossier calls stalled compare machines across gyms, August nights with no gym, or a plank against crunches; the Pull A deadlift is up, not flat (225 for 6, 235 for 5, 240 for 5 across 8 October, 23 October and 2 November, and still under August’s numbers), and it has one New York visit. Rotating after one repeat at a gym would throw away the baseline this restart was made to build. Legs B is the one night that has not had its first New York pass: the barbell RDL and smith squat have never run in their own slots, so its numbers are starting numbers, and they stand until a Legs B night is logged. The leg-night order stays: Legs A ends on the crunch and Legs B ends on the calf press, so if the last slot is what gets cut, calves still get Legs A and abs still get Legs B. The four-week averages in the muscle lines read lower than current training because the window still holds the week of 19 October, with no chest, triceps or quads, and the deload days. Every “a week done” figure counts half credit from compound lifts, so compare it with the number on paper, not the direct count. Dated: abs and calves 8 November, the counting rule, the fourth row set, the machine lateral raise and the last Push B slot 9 November. Next boundary is the deload on 25 November; the prep block is written at the assessment from what these four weeks log.",
       "evidence": [
         "2026-11-04:machine-chest-press",
         "2026-11-05:lat-pulldown-close",
@@ -189,7 +193,7 @@
       },
       "quads": {
         "verdict": "hold",
-        "why": "Thirteen direct sets, inside 10 to 18. 4.5 a week done over four weeks, under the floor, but that window holds a week with none and this week with one leg night so far. That one night gave 7 sets: leg press 180 for 10, 200 for 9, 200 for 10, split squat 20 for 8, 10, leg extension 150 for 10, 10. Weekly quads done were 1.5, 5, 7, 1.5, 5, 0, 6, 7 for the weeks of 5 October to 2 November, under the floor of 10 every week and never above 7; the 2 November week is still partial, with Legs B tonight. The sets stay and tonight is the test of whether the full Legs B gets done. The 4.5 done counts half credit, so it compares with the 13 on paper, not the direct count.",
+        "why": "Thirteen direct sets, inside 10 to 18. 4.5 a week done over four weeks, under the floor, but that window holds a week with none and this week with one leg night so far. That one night gave 7 sets: leg press 180 for 10, 200 for 9, 200 for 10, split squat 20 for 8, 10, leg extension 150 for 10, 10. Weekly quads done were 1.5, 5, 7, 1.5, 5, 0, 6, 7 for the eight weeks from 14 September to 2 November, under the floor of 10 every week and never above 7; the 2 November week is still partial, with Legs B tonight. The sets stay and tonight is the test of whether the full Legs B gets done. The 4.5 done counts half credit, so it compares with the 13 on paper, not the direct count.",
         "evidence": [
           "2026-11-03:leg-press-low",
           "2026-11-03:db-bulgarian-split-squat",
@@ -624,6 +628,12 @@
         "2026-10-28:machine-lateral-raise",
         "2026-10-31:db-lateral-raise"
       ]
+    },
+    {
+      "muscle": "calves",
+      "verdict": "watch",
+      "until": "2026-11-08",
+      "why": "The slot stays on both leg nights; read again on 8 November after Legs B is logged, and if Legs B has not run the date moves to the morning after it does."
     }
   ],
   "overrides": [
@@ -761,151 +771,115 @@
     "reviewer_ran": true,
     "findings": [
       {
-        "finding": "Yesterday’s review said the dated decisions would each move one day if Push B did not log, and the pec deck would come off on 6 November if skipped.",
-        "disposition": "fixed",
-        "why": "Push B and Pull B both landed. Pec deck logged 90 for 13, 13, 13 on 4 November and the fourth shrug set ran on 5 November, so both watches are closed and removed from deferred[]; abs and calves keep 8 November and the rest keep 9 November.",
-        "evidence": [
-          "2026-11-04:reverse-pec-deck",
-          "2026-11-05:db-shrug"
-        ]
-      },
-      {
-        "finding": "The reverse-grip slot’s 4 November second set looks like live data but was typed about 27 hours after the first.",
-        "disposition": "fixed",
-        "why": "The review treats it as recalled and writes the same 50 for 12 for the next Push B rather than progressing off it.",
-        "evidence": [
-          "2026-11-04:reverse-grip-pushdown"
-        ]
-      },
-      {
-        "finding": "The review treated New York and the August gym as different places without knowing, labelled August-matching lifts first numbers, and dropped August figures on the seated row, leg extension, wide pulldown, pec deck, adductor and reverse curl.",
+        "finding": "Legs B card may print the wrong lift names (smith-squat slot reading Leg Extension, crunch slot reading Plank) because the typed name sticks to the slot.",
         "disposition": "open",
-        "why": "Unchanged by the 4 and 5 November nights: they were logged at New York and say nothing about August. Whether they are the same machines is his to say; matching numbers do not settle it, because the wide pulldown (150 against 120) and leg press (240 against 200) are far apart. The cards stay on New York nights.",
-        "consequence": "Without a word in a note, New York stays its own baseline. If they are the August machines, the block is winning back August on several lifts (seated row, pec deck, leg extension), and the next leg extension card should stay at 150 rather than drop to 142.5.",
+        "why": "Not changed today: no new log, and re-slotting a program change with no new night would be a change without evidence. Needs a decision on whether to re-slot the smith squat and crunch to what is actually done.",
+        "consequence": "A number such as 95 for 8 may sit under the heading Leg Extension on screen; blank the name field to clear it.",
         "evidence": [
-          "2026-08-28:seated-cable-row-wide",
-          "2026-11-02:seated-cable-row-wide",
-          "2026-08-20:leg-extension",
-          "2026-11-03:leg-extension",
-          "2026-08-18:lat-pulldown-wide",
-          "2026-11-02:lat-pulldown-wide",
-          "2026-08-27:reverse-pec-deck",
-          "2026-10-28:reverse-pec-deck",
-          "2026-08-20:hip-adductor",
-          "2026-11-03:hip-adductor",
-          "2026-09-02:note"
-        ]
-      },
-      {
-        "finding": "The last Push B slot is still unnamed after a second night.",
-        "disposition": "open",
-        "why": "On 4 November it was logged as “Overhead db press” again, 50 for 12, 12, the card’s exact numbers, and the second set was typed in about 27 hours after the first. The name is stored against the slot, so the second night is not a second choice. The slot is not changed on that.",
-        "consequence": "Without “triceps” or “press” in a note, the two sets stay as written and the triceps count of eight direct sets cannot be confirmed; if it is a shoulder press, triceps have six direct sets and shoulders get extra work on a triceps slot.",
-        "evidence": [
-          "2026-10-31:reverse-grip-pushdown",
-          "2026-11-04:reverse-grip-pushdown"
-        ]
-      },
-      {
-        "finding": "Shoulder press was called progress; it is below the athlete’s own Chennai 50 for 10s and 55 for 8, 9.",
-        "disposition": "fixed",
-        "why": "Lift now reads hold, cites 12 and 15 October, brief and front-delt line corrected.",
-        "evidence": [
-          "2026-10-12:db-shoulder-press",
-          "2026-10-15:db-shoulder-press",
-          "2026-11-04:db-shoulder-press"
-        ]
-      },
-      {
-        "finding": "Block shortfall named two nights; 4 of the 13 missing sets sit elsewhere, and the deadlift was called flat while its lift entry says progressing.",
-        "disposition": "fixed",
-        "why": "Block text now lists every short night and calls the deadlift up and still under August.",
-        "evidence": [
+          "2026-10-30:smith-squat",
           "2026-11-03:cable-crunch",
-          "2026-10-28:smith-incline-press",
-          "2026-10-29:db-shrug",
-          "2026-11-02:deadlift",
-          "2026-10-08:deadlift"
-        ]
-      },
-      {
-        "finding": "Face pulls 2 November quoted as 32.5 for 12, 12; log is 27 then 32.5, recalled.",
-        "disposition": "fixed",
-        "why": "Lift and rear-delt text corrected; next card rests on the 5 November live sets.",
-        "evidence": [
-          "2026-11-02:face-pulls",
-          "2026-11-05:face-pulls"
-        ]
-      },
-      {
-        "finding": "Dumbbell lateral raise 31 October quoted as 15 for 15, 15, 15; log is 15, 13, 13.",
-        "disposition": "fixed",
-        "why": "Lift, side-delt line and next card corrected (15 for 15, 15, 13).",
-        "evidence": [
-          "2026-10-31:db-lateral-raise",
-          "2026-11-04:db-lateral-raise"
-        ]
-      },
-      {
-        "finding": "Incline curl 29 October quoted as 30 for 9 on two sets; log is 25 for 10 then 30 for 9.",
-        "disposition": "fixed",
-        "why": "Text corrected.",
-        "evidence": [
-          "2026-10-29:incline-db-curl",
-          "2026-11-05:incline-db-curl"
-        ]
-      },
-      {
-        "finding": "Machine lateral raise deferral said side delts average 5.3 a week; dossier says 6.5.",
-        "disposition": "fixed",
-        "why": "Number corrected.",
-        "evidence": [
           "2026-10-28:machine-lateral-raise"
         ]
       },
       {
-        "finding": "Brief and flag said logs since 28 October are all week 6; 28 to 31 October are week 5.",
-        "disposition": "fixed",
-        "why": "Both now say weeks 5 and 6.",
-        "evidence": [
-          "2026-10-28:smith-incline-press",
-          "2026-11-02:deadlift"
-        ]
-      },
-      {
-        "finding": "Shrug text said the weight has been 80 since 3 September; other gyms logged 77 and 79 lb.",
-        "disposition": "fixed",
-        "why": "Text now says what the log shows.",
-        "evidence": [
-          "2026-09-03:db-shrug",
-          "2026-09-15:db-shrug",
-          "2026-10-03:db-shrug"
-        ]
-      },
-      {
-        "finding": "Lower-body verdicts all hold with no weekly numbers behind the missed-nights explanation.",
-        "disposition": "fixed",
-        "why": "Quads line now gives eight weeks of done sets; tonight’s Legs B is the dated test, abs and calves read on 8 November.",
-        "evidence": [
-          "2026-11-03:leg-press-low",
-          "2026-10-30:leg-press-low"
-        ]
-      },
-      {
-        "finding": "The counting-rule decision for ten muscles over their ceilings on paper is carried to 9 November although the Push B and Pull B repeat it waited for has landed.",
+        "finding": "Only Legs B has overrides; prose 'next session' numbers for Push B and others are not enforced and the engine prints different numbers (e.g. a pushdown near 121 lb from a kg-labelled Chennai log).",
         "disposition": "open",
-        "why": "The affected lifts also live on Push A and Pull A, which have one New York night each, so the date waits for their second pass; no set is cut on half-credit alone today.",
+        "why": "Overrides exist only for the session_expected; the next packet writes overrides for the session that follows once Legs B is logged.",
+        "consequence": "If Push B were opened before the next review, its card would show the engine's own numbers, not the review's prose.",
         "evidence": [
-          "2026-11-04:db-shoulder-press",
-          "2026-11-05:chest-supported-db-row",
-          "2026-11-02:seated-cable-row-wide"
-        ],
-        "consequence": "Until 9 November, ten muscles read over their ceilings on paper (front delts 15 vs 10, rear delts 15.5 vs 12, upper back 19.5 vs 16, biceps 18 vs 14, triceps 16.5 vs 14, forearms 12 vs 8, hamstrings 15.5 vs 14, glutes 16 vs 14, adductors 7.5 vs 6) and the seated row keeps its fourth set."
+          "2026-11-04:reverse-grip-pushdown",
+          "2026-11-04:machine-chest-press",
+          "2026-11-05:lat-pulldown-close"
+        ]
       },
       {
-        "finding": "Calendar prep block ends 31 March 2027, after the 1 March show.",
-        "disposition": "refuted",
-        "why": "The review only says prep starts 9 December, which matches the calendar; the end date is calendar data in code, outside this job’s files.",
+        "finding": "Smith-squat seed in the program is 135 lb x8 from a Chennai 99 lb log that missed reps; a stale packet would show 135 at this gym.",
+        "disposition": "open",
+        "why": "Seed fix belongs in program.json with a dated change and was not made without a new night.",
+        "consequence": "If a scheduled run fails to land, the smith squat could show 135 on a lift never done at New York. Today's override of 95 covers it.",
+        "evidence": [
+          "2026-10-30:smith-squat"
+        ]
+      },
+      {
+        "finding": "Quads line said the eight weekly values cover 5 October to 2 November.",
+        "disposition": "fixed",
+        "why": "Text changed to the eight weeks from 14 September to 2 November.",
+        "evidence": [
+          "2026-11-03:leg-press-low"
+        ]
+      },
+      {
+        "finding": "Counting-rule item said ten muscles over ceiling while its list names nine.",
+        "disposition": "fixed",
+        "why": "Text changed to nine in the finding and consequence.",
+        "evidence": [
+          "2026-11-04:db-shoulder-press"
+        ]
+      },
+      {
+        "finding": "Block verdict waves away db-curl as a cross-gym comparison though it is a dumbbell lift flat at 30 lb for 8 to 10 since August.",
+        "disposition": "open",
+        "why": "Not re-verdicted today without checking each night; the lift stays at its current prescription.",
+        "consequence": "Db-curl is a genuine rotation candidate; if it stays flat at the next Pull A the review should rotate it.",
+        "evidence": [
+          "2026-08-28:db-curl",
+          "2026-10-23:db-curl",
+          "2026-11-02:db-curl"
+        ]
+      },
+      {
+        "finding": "Prep block in the calendar runs to 31 March 2027, after the 1 March show.",
+        "disposition": "open",
+        "why": "Calendar is app code/data outside this job's files; I cannot fix it.",
+        "consequence": "The app calendar would still read prep for 30 days after the show and has no peak or taper.",
+        "evidence": [
+          "2026-11-05:db-shrug"
+        ]
+      },
+      {
+        "finding": "Review treats null-gym nights as unknowable while v4 text says 17 September was at home and the phase note calls 28 October a restart at the New York home gym.",
+        "disposition": "open",
+        "why": "Which nights were New York is not in the log; the athlete's answer to same/different settles it.",
+        "consequence": "Some leg press, wide pulldown and abductor drops may be real drops, not machine differences.",
+        "evidence": [
+          "2026-09-17:smith-rdl",
+          "2026-09-02:note",
+          "2026-08-20:leg-press-low"
+        ]
+      },
+      {
+        "finding": "Calf decision called closed yet dated 8 November with no deferred record.",
+        "disposition": "fixed",
+        "why": "Calves now has its own deferred entry dated 8 November.",
+        "evidence": [
+          "2026-11-03:standing-calf-raise"
+        ]
+      },
+      {
+        "finding": "Abs date slid again and prose says dates move after Legs B while structured dates stay fixed.",
+        "disposition": "open",
+        "why": "Structured dates are the earliest read; tomorrow's review moves them if Legs B or Push A is still unlogged.",
+        "consequence": "The dates in the app may read 8 and 9 November while the real read happens a day or two later.",
+        "evidence": [
+          "2026-11-03:cable-crunch"
+        ]
+      },
+      {
+        "finding": "Two unnamed Push B sets are counted as triceps while the review distrusts them (8 with, 6 without).",
+        "disposition": "open",
+        "why": "Counted as the engine counts them; his one-word note settles it.",
+        "consequence": "The triceps average of 12.3 may be 2 sets high.",
+        "evidence": [
+          "2026-11-04:reverse-grip-pushdown",
+          "2026-11-04:db-shoulder-press"
+        ]
+      },
+      {
+        "finding": "Phase-lock concern repeated for three days with no deadline.",
+        "disposition": "open",
+        "why": "Only the athlete can clear the phase tag; the log shows stamps of meso3 since 28 October.",
+        "consequence": "If the tag is locked, the 25 November deload will not start by itself.",
         "evidence": [
           "2026-11-05:db-shrug"
         ]
