@@ -1,0 +1,167 @@
+{
+  "date": "2026-11-07",
+  "session_type": "LegsB",
+  "phase": "meso3",
+  "week": 6,
+  "exercises": [
+    {
+      "id": "barbell-rdl",
+      "name": "Barbell RDL",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 8,
+          "at": 1794093475677,
+          "restEndedAt": 1794093386712
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1794093594806
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1794093729342
+        }
+      ]
+    },
+    {
+      "id": "smith-squat",
+      "name": "Smith Squat",
+      "as": "Leg Extension",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 8,
+          "at": 1794091450353
+        },
+        {
+          "weight": 135,
+          "reps": 8,
+          "at": 1794091567969
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1794091705444
+        }
+      ],
+      "note": "What the fuck is this weight suggestion..you are absolutely braindead. One more mistake and you're getting fired"
+    },
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 180,
+          "reps": 12,
+          "at": 1794091857901
+        },
+        {
+          "weight": 200,
+          "reps": 10,
+          "at": 1794092032445
+        },
+        {
+          "weight": 200,
+          "reps": 10,
+          "at": 1794092224230,
+          "restEndedAt": 1794092212454
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 12,
+          "at": 1794092382478
+        },
+        {
+          "weight": 150,
+          "reps": 11,
+          "at": 1794092522182,
+          "restEndedAt": 1794092472502
+        },
+        {
+          "weight": 150,
+          "reps": 11,
+          "at": 1794092737155,
+          "restEndedAt": 1794092612197
+        }
+      ]
+    },
+    {
+      "id": "ab-wheel-rollout",
+      "name": "Ab Wheel Rollout",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1794092865884,
+          "restEndedAt": 1794092827178
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1794093038010,
+          "restEndedAt": 1794092925891
+        }
+      ]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "as": "Ab machine",
+      "sets": [
+        {
+          "weight": 55,
+          "reps": 10,
+          "at": 1794093873153
+        },
+        {
+          "weight": 65,
+          "reps": 10,
+          "at": 1794093995164,
+          "restEndedAt": 1794093933168
+        },
+        {
+          "weight": 65,
+          "reps": 10,
+          "at": 1794094137542,
+          "restEndedAt": 1794094055176
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 200,
+          "reps": 12,
+          "at": 1794093168589,
+          "restEndedAt": 1794093098020
+        },
+        {
+          "weight": 280,
+          "reps": 12,
+          "at": 1794093216284
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1794093311704,
+          "restEndedAt": 1794093291295
+        }
+      ]
+    }
+  ],
+  "world": "blackdiamond",
+  "gym": "NYC",
+  "mins": 45,
+  "startedAt": 1794090478364
+}
