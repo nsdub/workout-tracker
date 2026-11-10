@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "date": "2026-11-03",
+  "version": 8,
+  "date": "2026-11-10",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -323,13 +323,12 @@
           "seed": 180
         },
         {
-          "id": "smith-squat",
+          "id": "leg-extension",
           "sets": 3,
-          "repMin": 8,
-          "repMax": 10,
-          "rest": 180,
-          "seed": 135,
-          "seedNote": "New lift — start light, find the working weight on the second set"
+          "repMin": 10,
+          "repMax": 12,
+          "rest": 90,
+          "seed": 150
         },
         {
           "id": "leg-press-low",
@@ -1882,6 +1881,35 @@
         "2026-10-14:cable-crunch",
         "2026-10-05:standing-calf-raise",
         "2026-09-28:standing-calf-raise"
+      ]
+    },
+    {
+      "version": 8,
+      "date": "2026-11-10",
+      "session": "LegsB",
+      "exercise": "smith-squat",
+      "kind": "swap",
+      "before": {
+        "id": "smith-squat",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180,
+        "seed": 135
+      },
+      "after": {
+        "id": "leg-extension",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 90,
+        "seed": 150
+      },
+      "why": "The smith squat has been logged as a leg extension on both New York Legs B nights: 30 October (smith machine taken; 150, 157.5, 157.5 for 10) and 7 November (127.5 for 8, 135 for 8, 150 for 10). The name you typed sticks to the slot, so the card printed Leg Extension over a smith-squat starting weight, and on 7 November you wrote that the weight suggestion was wrong. That is the card showing one lift and prescribing another, and it is my error. The slot is now a leg extension in its own name, three sets of 10 to 12 starting at 150, so the card asks for what you actually do, from your own numbers. Quad sets stay at 3 on this night and 13 for the week; glutes and hamstrings on paper come down by the smith squat’s half credit. The 9 November review said that if the smith was taken again the leg extension would stand in; the 30 October note says it was taken, and the 7 November note does not say why. The smith squat itself has never been logged at New York, so the slot now asks for what you do; if you want a squat back in this slot, write it in a note and say whether the smith is free.",
+      "evidence": [
+        "2026-10-30:smith-squat",
+        "2026-11-07:smith-squat",
+        "2026-11-07:note"
       ]
     }
   ]

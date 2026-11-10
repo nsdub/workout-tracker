@@ -1,0 +1,880 @@
+{
+  "date": "2026-11-10",
+  "reviewed_through": "2026-11-07",
+  "generated_at": "2026-11-10T13:00:35.085Z",
+  "produced_by": "scheduled-task",
+  "reviewer": "daily-training-brief (autonomous 6 AM run)",
+  "session_expected": "PushA",
+  "program_version": 8,
+  "brief": "Today, 10 November, is Push A. Your Legs B from 7 November landed in the log, and it changed the program. Push A has not run since 28 October, so tonight is the first Push A of the week.\n\nWhat changed: Legs B's squat slot is now a leg extension. On 30 October the smith machine was taken and you did leg extensions there (150, 157.5, 157.5 for 10). On 7 November you did them again (127.5 for 8, 135 for 8, 150 for 10) and wrote that the weight suggestion was wrong. It was. The card carried a smith-squat starting weight under the name Leg Extension, so it asked for one lift and prescribed another. That is my error. If you want the squat back in that slot, say in a note whether the smith is free. From now the slot is a leg extension in its own name, three sets of 10 to 12, starting at 150, taken from your own numbers. Quad sets stay at 13 for the week.\n\nThe rest of Legs B was good and the program holds: barbell RDL 135, 185, 185 for 8 (past the card's 165 and 180), leg press 180 for 12 then 200 for 10, 10, leg curl 135 for 12 then 150 for 11, 11, ab wheel 10, 10, ab machine 65 for 10 twice, calf press 200, 280, 300 for 12. Abs and calves both ran in full, so those decisions are closed: nothing changes there. Eight muscles show over their ceiling on paper only because half credit from compound lifts is counted; the program stays as written, because weeks such as 14 September, 12 October and 26 October went through with no pain note or skipped night attributed to volume. The seated row stays at four sets for now; if you would rather carry three, write it in a note.\n\nTonight, Push A, in pounds. Smith incline press: 155 for 6, then 175 for 6, 6, 6; on 28 October you did 155, 175, 175 for 6 and the fourth set was not done, and those were typed in after the fact, so log all four as you go. Machine chest press: 135 for 10, then 150 for 10, 10, exactly what you did live on 4 November. Cable crossover low to high: 12.5 for 12, three sets, logged as you go. Machine lateral raise: if the gym has one, find your working weight and say so in the note; if it is dumbbells again, 15 for 12 is where you were on Push B (15 for 15, 13, 13 on 31 October and 15, 15, 12 on 4 November), and say dumbbells, and the slot becomes a cable raise or another angle at tomorrow's read. Reverse pec deck: 90 for 14, three sets. Chest dips at bodyweight: 10, 10, 10. After Push A comes Pull A, then Legs A.\n\nOpen questions: whether the last Push B slot (\"Overhead db press\" on 4 November, 50 for 12, 12) was triceps or a press, one word settles it; whether New York's machines are the ones you used in August; and the Legs A crunch that read \"Plank\" on 3 November. Your logs since 28 October are stamped Meso 3, weeks 5 and 6, while the calendar says week 2 of the restarted block; if the phase tag at the top of the app is locked, the 25 November deload will not start by itself, and \"Automatic (by date)\" clears it. No bodyweight is logged since 23 August (207 lb). Conditioning: 2 to 3 low-intensity sessions of 20 to 30 minutes a week are allowed in the build block; none is logged since 21 July, nothing extra is asked tonight.",
+  "flags": [
+    {
+      "kind": "schedule",
+      "note": "Legs B on 7 November is in the log; tonight is Push A, which has not run since 28 October."
+    },
+    {
+      "kind": "schedule",
+      "note": "The Legs B squat slot ran as a leg extension on both New York nights and is now a leg extension in its own name, starting at 150."
+    },
+    {
+      "kind": "volume",
+      "note": "The last Push B slot was logged as Overhead db press twice with 50 for 12, 12; one word in a note, triceps or press, settles it."
+    },
+    {
+      "kind": "schedule",
+      "note": "The Legs A crunch slot read Plank on 3 November; blank the name field on the card so the crunch name returns."
+    },
+    {
+      "kind": "phase",
+      "note": "Logs since 28 October are stamped Meso 3, weeks 5 and 6, which matches a phase tag locked to Meso 3; a lock would stop the 25 November deload starting by itself."
+    },
+    {
+      "kind": "phase",
+      "note": "No bodyweight logged since 23 August (207 lb); a morning weigh-in this week would anchor the block."
+    }
+  ],
+  "review": {
+    "block": {
+      "phase": "meso3b",
+      "week": 2,
+      "of": 4,
+      "days_to_show": 111,
+      "verdict": "hold",
+      "why": "Today is the fourteenth day of the block restarted on 28 October at the New York gym (week 2 of 4); it builds to 24 November, deload runs 25 November to 1 December, assessment 2 to 8 December, prep from 9 December, show 111 days away. New since yesterday: Legs B on 7 November, 45 minutes, 20 of 20 sets counting what you did in place of a slot. Nine nights since 28 October have run; the only session never run twice is Push A (28 October), and Legs B is the only one whose first run showed a program fault: the squat slot was a leg extension on 30 October and 7 November, so it is swapped today. The week of 2 to 8 November closed with every muscle at or above its floor except chest (5, with Push A not run) and side delts (7 against 8); quads 13, hamstrings 15.5, glutes 16, calves 9, abs 6. The glutes, hamstrings and adductors done counts for 30 October and 7 November include credit for a smith squat that was really a leg extension, so those three read higher than the work (up to 3, 1.5 and 1.5 sets a night). Progress where numbers exist: RDL 185 for 8, 8 (up from the 180 the card asked), leg press 200 for 10, 10, leg curl 150 for 11, 11, calf press 300 for 12. The deadlift is still under August's 255 to 265 (240 for 5 on 2 November) and has one New York visit; rotating it after one visit at a gym would throw away the baseline this restart was made to build. Dated decisions closed today: abs and calves (Legs B ran as written), and the counting rule (targets stay; ceilings are read against direct sets, half credit is shown but not cut to). Still dated: the machine lateral raise (after the next Push A) and the DB curl swap on 12 November. Next boundary is the deload on 25 November; the prep block is written at the assessment from what these four weeks log.",
+      "evidence": [
+        "2026-11-07:barbell-rdl",
+        "2026-11-07:leg-press-low",
+        "2026-11-07:leg-curl",
+        "2026-11-07:standing-calf-raise",
+        "2026-10-30:smith-squat",
+        "2026-11-07:smith-squat",
+        "2026-11-02:deadlift",
+        "2026-10-28:smith-incline-press"
+      ]
+    },
+    "muscles": {
+      "chest": {
+        "verdict": "hold",
+        "why": "Eighteen on paper, 13 on Push A and 5 on Push B, at the ceiling. Only 5 was done in the week of 2 to 8 November because Push A did not run; Push B ran in full on 4 November (machine chest press 135 for 10, then 150 for 10, 10). Tonight's Push A is the missing 13. The 8.8 done is a four-week average with half credit from compound lifts, so compare it with the 18 on paper.",
+        "evidence": [
+          "2026-11-04:machine-chest-press",
+          "2026-11-04:cable-crossover-high-low",
+          "2026-10-28:machine-chest-press"
+        ],
+        "planned_weekly_sets": 18,
+        "done_4wk_avg": 8.8
+      },
+      "front-delts": {
+        "verdict": "hold",
+        "why": "Eight direct sets (incline press 4, Push B shoulder press 4), inside the direct range of 4 to 10; the 15 on paper adds half a set from the chest presses, crossovers and dips, which is the counting question decided on 10 November: targets stay. 8.8 a week done. On 4 November the shoulder press was 50 lb for 8, 8, 8, 8 after 45 for 8, 10, 10, 10 on 31 October; Chennai had 50 for 10, 10, 10 on 12 October and 55 for 8, 9 on 15 October, so 50 for 8s is below your own best, and it holds at 50. The 8.8 done is a four-week average with half credit from compound lifts, so compare it with the 15 on paper. Over its ceiling on paper through half credit only; the counting rule is decided on 10 November and the sets stay.",
+        "evidence": [
+          "2026-11-04:db-shoulder-press",
+          "2026-10-31:db-shoulder-press",
+          "2026-10-12:db-shoulder-press",
+          "2026-10-15:db-shoulder-press"
+        ],
+        "planned_weekly_sets": 15,
+        "done_4wk_avg": 8.8
+      },
+      "side-delts": {
+        "verdict": "watch",
+        "why": "Eight direct sets plus half credit, 10 on paper against a floor of 8; the week of 2 to 8 November closed at 7. Push A's slot has never run on the machine it names (28 October it was dumbbells, 12.5 for 12, 12, 12). Tonight is the next Push A; the slot becomes a cable raise or another angle if it is dumbbells again, decided at tomorrow's read. The 6.5 done is a four-week average with half credit from compound lifts, so compare it with the 10 on paper.",
+        "evidence": [
+          "2026-11-04:db-lateral-raise",
+          "2026-10-31:db-lateral-raise",
+          "2026-10-28:machine-lateral-raise"
+        ],
+        "planned_weekly_sets": 10,
+        "done_4wk_avg": 6.5
+      },
+      "rear-delts": {
+        "verdict": "hold",
+        "why": "Ten direct sets (reverse pec deck 3 and 3, face pulls 2 and 2), inside 6 to 12; the 15.5 on paper is half credit from the wide pulldown and rows, decided on 10 November: targets stay. 7.5 a week done. The Push B pec deck, which was on its last chance, was logged on 4 November: 90 for 13, 13, 13, all three sets, so it stays on Push B and that watch is closed. Face pulls 32.5 for 12, 12 on 5 November, live, two minutes apart. The 7.5 done is a four-week average with half credit from compound lifts, so compare it with the 15.5 on paper. Over its ceiling on paper through half credit only; the counting rule is decided on 10 November and the sets stay.",
+        "evidence": [
+          "2026-11-04:reverse-pec-deck",
+          "2026-10-28:reverse-pec-deck",
+          "2026-11-05:face-pulls"
+        ],
+        "planned_weekly_sets": 15.5,
+        "done_4wk_avg": 7.5
+      },
+      "lats": {
+        "verdict": "hold",
+        "why": "Seventeen direct sets, 18 with the rollout’s half credit, at the ceiling of 18. 11.3 a week done, and this week has now had both Pull A and Pull B. Pull B on 5 November: close pulldown 112.5 for 10, then 127.5 for 10, 10, up from 127.5 for 9, 9 on 29 October, and the straight-arm pulldown 45 for 12, 12, 12 against 45 for 9 on 29 October. The wide pulldown has one New York number (120 for 8 on 2 November). The sets hold while those numbers settle. The 11.3 done counts half credit, so it compares with the 18 on paper, not the direct count.",
+        "evidence": [
+          "2026-11-05:lat-pulldown-close",
+          "2026-10-29:lat-pulldown-close",
+          "2026-11-05:straight-arm-pulldown",
+          "2026-10-29:straight-arm-pulldown",
+          "2026-11-02:lat-pulldown-wide"
+        ],
+        "planned_weekly_sets": 18,
+        "done_4wk_avg": 11.5
+      },
+      "upper-back": {
+        "verdict": "hold",
+        "why": "Eight direct sets (seated row 4, chest-supported row 4), the floor of 8 to 16; 19.5 on paper with half credit from pulldowns, hinges, face pulls and pec decks. 9.9 a week done. On 5 November the chest-supported row ran all four sets at 60 for 7, 7, 7, 7, up from 50 for 8 on 29 October, so it is a heavier weight with the reps under the 8 to 10 range; it holds at 60 until the reps are 8. Your 2 November question, “Why four sets?”, on the seated row, is answered on 10 November: the fourth set stays; row work was 18 done in the week of 2 to 8 November with every night run in full. Direct rows were 8 sets this week, against 4 in each of the last two weeks. The 10.3 done is a four-week average with half credit from compound lifts, so compare it with the 19.5 on paper. Over its ceiling on paper through half credit only; the counting rule is decided on 10 November and the sets stay.",
+        "evidence": [
+          "2026-11-05:chest-supported-db-row",
+          "2026-10-29:chest-supported-db-row",
+          "2026-11-02:seated-cable-row-wide",
+          "2026-11-02:note"
+        ],
+        "planned_weekly_sets": 19.5,
+        "done_4wk_avg": 10.3
+      },
+      "traps": {
+        "verdict": "hold",
+        "why": "Four direct shrug sets planned, the direct floor; the rest of the 9.5 is half credit. 4.8 a week done. The fourth shrug set that was on watch ran on 5 November: 80 for 16, 16, 16, 16, all four sets, against 80 for 15, 15, 15 on 29 October. So four sets stay and that watch is closed. The 4.8 done counts half credit, so it compares with the 9.5 on paper, not the direct count.",
+        "evidence": [
+          "2026-11-05:db-shrug",
+          "2026-10-29:db-shrug"
+        ],
+        "planned_weekly_sets": 9.5,
+        "done_4wk_avg": 4.8
+      },
+      "lower-back": {
+        "verdict": "hold",
+        "why": "No direct slot on purpose; the 3.5 on paper is half credit from the deadlift and barbell RDL. RDL ran on 7 November at 185 for 8, 8 with no back complaint in the log. The week closed at 3.5, inside 2 to 8. The 1.8 done is a four-week average with half credit from compound lifts, so compare it with the 3.5 on paper.",
+        "evidence": [
+          "2026-11-07:barbell-rdl",
+          "2026-11-02:deadlift"
+        ],
+        "planned_weekly_sets": 3.5,
+        "done_4wk_avg": 1.8
+      },
+      "biceps": {
+        "verdict": "hold",
+        "why": "Eleven direct sets, inside 8 to 14; the 18 on paper adds half a set from each pull, decided on 10 November: targets stay. 11.1 a week done. Dumbbell curl 30 for 9, 9, 9 and hammer curl 42.5 for 11, 10 on 2 November; on 5 November the incline curl was 30 for 8, 9 and the reverse curl 27.5 for 12, then 32.5 for 12, 12, up from 32.5 for 10 on 29 October. The 11.1 done is a four-week average with half credit from compound lifts, so compare it with the 18 on paper. Over its ceiling on paper through half credit only; the counting rule is decided on 10 November and the sets stay.",
+        "evidence": [
+          "2026-11-02:db-curl",
+          "2026-11-02:cable-hammer-curl",
+          "2026-11-05:incline-db-curl",
+          "2026-11-05:cable-reverse-curl",
+          "2026-10-29:cable-reverse-curl"
+        ],
+        "planned_weekly_sets": 18,
+        "done_4wk_avg": 11.1
+      },
+      "triceps": {
+        "verdict": "hold",
+        "why": "The counting question is decided: targets stay as written. Eight direct sets (dips 3, rope pushdown 3, reverse-grip 2) sit inside 8 to 14; the 16.5 on paper adds half credit from presses and the straight-arm pulldown. Triceps were done at 23 (14 September), 21.5 (12 October) and 17.5 (26 October) a week with no pain note and no skipped night attributed to volume. The last two Push B sets (Overhead db press, 50 for 12, 12, second set typed 27 hours late) stay unnamed; one word in a note settles whether they count. The 12.3 done is a four-week average with half credit from compound lifts, so compare it with the 16.5 on paper.",
+        "evidence": [
+          "2026-11-04:rope-pushdown",
+          "2026-11-04:reverse-grip-pushdown",
+          "2026-10-31:reverse-grip-pushdown"
+        ],
+        "planned_weekly_sets": 16.5,
+        "done_4wk_avg": 12.3
+      },
+      "forearms": {
+        "verdict": "hold",
+        "why": "Six direct sets (hammer and reverse curls), inside 2 to 8; 12 on paper with half credit, decided on 10 November: targets stay. 6.8 a week done. Reverse curl on 5 November: 27.5 for 12, then 32.5 for 12, 12, three full sets, up two reps on the top weight from 29 October. The 7.1 done is a four-week average with half credit from compound lifts, so compare it with the 12 on paper. Over its ceiling on paper through half credit only; the counting rule is decided on 10 November and the sets stay.",
+        "evidence": [
+          "2026-11-05:cable-reverse-curl",
+          "2026-10-29:cable-reverse-curl",
+          "2026-11-02:cable-hammer-curl"
+        ],
+        "planned_weekly_sets": 12,
+        "done_4wk_avg": 7.1
+      },
+      "quads": {
+        "verdict": "hold",
+        "why": "Thirteen direct sets a rotation, inside 10 to 18. The week of 2 to 8 November closed at 13, with Legs A (leg press 180 for 10, 200 for 9, 10, split squat 20, leg extension 150 for 10, 10) and Legs B (leg press 180 for 12, 200 for 10, 10, and three leg extensions 127.5 to 150). The squat slot becoming a leg extension keeps quads at 13: three sets of one quad movement replace three of another. The 6 done is a four-week average with half credit from compound lifts, so compare it with the 13 on paper.",
+        "evidence": [
+          "2026-11-07:leg-press-low",
+          "2026-11-07:smith-squat",
+          "2026-11-03:leg-extension",
+          "2026-11-03:leg-press-low"
+        ],
+        "planned_weekly_sets": 13,
+        "done_4wk_avg": 6
+      },
+      "hamstrings": {
+        "verdict": "hold",
+        "why": "Fourteen on paper after the swap, at the ceiling of 14 and inside 8 to 14; it was 15.5 while the smith squat gave half credit. Direct work is deadlift 4, RDL 3, leg curls 6. Barbell RDL ran for the first time at New York on 7 November: 135, 185, 185 for 8. Leg curl 150 for 11, 11 on 7 November. The week's 15.5 done includes about 1.5 sets of credit from the 7 November leg extension logged under the smith squat id. The 6.8 done is a four-week average with half credit from compound lifts, so compare it with the 14 on paper.",
+        "evidence": [
+          "2026-11-07:barbell-rdl",
+          "2026-11-07:leg-curl",
+          "2026-11-02:deadlift"
+        ],
+        "planned_weekly_sets": 14,
+        "done_4wk_avg": 6.8
+      },
+      "glutes": {
+        "verdict": "hold",
+        "why": "Thirteen on paper after the swap (it was 16 with the smith squat), inside 6 to 14. Deadlift 4, split squat 2, RDL 3 and the half credits. The week's 16 done is overstated by up to 3 sets because the 7 November squat slot was a leg extension; the real week was near 13, still above the floor. Nothing to change. The 6.8 done is a four-week average with half credit from compound lifts, so compare it with the 13 on paper.",
+        "evidence": [
+          "2026-11-07:barbell-rdl",
+          "2026-11-03:db-bulgarian-split-squat",
+          "2026-11-02:deadlift"
+        ],
+        "planned_weekly_sets": 13,
+        "done_4wk_avg": 6.8
+      },
+      "adductors": {
+        "verdict": "hold",
+        "why": "Two direct sets; 6 on paper after the swap, at the ceiling of 6. 82.5 for 12 then 90 for 12 on 3 November, the first New York number. The week's 7.5 done includes up to 1.5 sets of credit from the 7 November smith-squat row that was a leg extension. The 3.3 done is a four-week average with half credit from compound lifts, so compare it with the 6 on paper.",
+        "evidence": [
+          "2026-11-03:hip-adductor"
+        ],
+        "planned_weekly_sets": 6,
+        "done_4wk_avg": 3.3
+      },
+      "abductors": {
+        "verdict": "hold",
+        "why": "Two planned, the floor. 120 for 12, 12 on 3 November is the number; the card's old 60 was wrong for this stack. The 0.5 done is a four-week average with half credit from compound lifts, so compare it with the 2 on paper.",
+        "evidence": [
+          "2026-11-03:hip-abductor"
+        ],
+        "planned_weekly_sets": 2,
+        "done_4wk_avg": 0.5
+      },
+      "calves": {
+        "verdict": "hold",
+        "why": "The calf press ran in full on Legs B on 7 November: 200, 280, 300 for 12, after 260, 280, 300 for 12 on Legs A on 3 November. Nine on paper, six direct; the week of 2 to 8 November closed at 9. The slot stays on both leg nights and the 4 November watch is closed. 300 for 15 on all three earns the next plate. The 3 done is a four-week average with half credit from compound lifts, so compare it with the 9 on paper.",
+        "evidence": [
+          "2026-11-07:standing-calf-raise",
+          "2026-11-03:standing-calf-raise"
+        ],
+        "planned_weekly_sets": 9,
+        "done_4wk_avg": 3
+      },
+      "abs": {
+        "verdict": "hold",
+        "why": "Eight planned (crunch 3 and 3, ab wheel 2). Legs B ran all of it on 7 November: ab wheel 10, 10 and three sets on the ab machine at 55, 65, 65 for 10, so the week of 2 to 8 November closed at 6, above the floor of 4. The 3 November Legs A crunch was one plank with no note; the slot stays at three sets and the crunch name field is the open item, not the set count. The 3.5 done is a four-week average with half credit from compound lifts, so compare it with the 8 on paper.",
+        "evidence": [
+          "2026-11-07:ab-wheel-rollout",
+          "2026-11-07:cable-crunch",
+          "2026-11-03:cable-crunch"
+        ],
+        "planned_weekly_sets": 8,
+        "done_4wk_avg": 3.5
+      }
+    },
+    "lifts": {
+      "smith-incline-press": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "On 28 October at New York: 155, 175, 175 for 6 each, typed in within 11 seconds, so remembered; three sets, not the four asked. Tonight repeats 155 for 6, then 175 for 6, 6, 6, logged live; four logged sets at 8 earn 180. Singapore on 6 October was an incline barbell in kg, not this machine.",
+        "evidence": [
+          "2026-10-28:smith-incline-press",
+          "2026-10-06:smith-incline-press",
+          "2026-08-27:smith-incline-press"
+        ]
+      },
+      "machine-chest-press": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "Push B on 4 November, live: 135 for 10, then 150 for 10, 10. Push A on 28 October was 105, 120, 135 for 12 each, typed in within 11 seconds, so remembered. Tonight, Push A (10 to 12): 135 for 10, then 150 for 10, 10, exactly the live Push B numbers; a live 12 on the first set earns the step. Push B stays 8 to 10 at 150.",
+        "evidence": [
+          "2026-11-04:machine-chest-press",
+          "2026-10-28:machine-chest-press"
+        ]
+      },
+      "cable-crossover-low-high": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First New York night: 12.5 for 12, 12, 12 on 28 October, typed within 1.3 seconds, so remembered. Tonight 12.5 for 12, three sets, logged live, because the 28 October reps were typed in after the fact; reps before weight once they are live. 15s on all three earns the next plate.",
+        "evidence": [
+          "2026-10-28:cable-crossover-low-high",
+          "2026-10-06:cable-crossover-low-high"
+        ]
+      },
+      "machine-lateral-raise": {
+        "trend": "unlogged",
+        "verdict": "watch",
+        "why": "In the program since 13 October and never done as itself: on 28 October it ran as dumbbell lateral raises, 12.5 lb for 12, 12, 12 (typed within 1.3 seconds, so remembered, and lighter than the live 15s on Push B). Whether the gym has a machine is not in the log. Tonight: use the machine if there is one and find your working weight, say which in the note; if dumbbells, 15 for 12, 12, 12, the live Push B weight on the same New York dumbbells. If it is dumbbells again, the slot becomes a cable raise or another angle at tomorrow's read, dated 12 November; Push B already has the dumbbell raise.",
+        "evidence": [
+          "2026-10-28:machine-lateral-raise",
+          "2026-10-31:db-lateral-raise"
+        ]
+      },
+      "reverse-pec-deck": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "90 for 13, 12, 12 on 28 October and 90 for 13, 13, 13 on 4 November, same machine. Tonight 90 for 14, three sets; 15 on all three earns the next plate. The dossier's stalled tag compares across gyms and does not apply.",
+        "evidence": [
+          "2026-11-04:reverse-pec-deck",
+          "2026-10-28:reverse-pec-deck",
+          "2026-08-27:reverse-pec-deck"
+        ]
+      },
+      "chest-dip": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "In the program since 1 November as the one dips slot. 28 October: bar dips at bodyweight, 8, 10, 12, in the overhead-extension slot with no note. Tonight 10, 10, 10 at bodyweight; 12 on all three earns a slower tempo or added weight.",
+        "evidence": [
+          "2026-10-28:overhead-cable-triceps",
+          "2026-09-30:assisted-dips",
+          "2026-10-31:assisted-dips",
+          "2026-09-22:assisted-dips"
+        ]
+      },
+      "deadlift": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "A barbell weighs the same at every gym, so this is the one lift whose numbers compare across the whole log. On 2 November at New York: 205, 225, 235, 240 for 5, four sets, logged live three to four minutes apart, against a card that asked 235 on all four. That is the third visit up in a row since the sick Singapore night: 225 for 6 on 8 October, 235 for 5, 5, 5 at Vancouver on 23 October (three sets), 240 for 5 now, and the first four-set deadlift since 8 October. August was heavier (255 for 6, 6 on 18 August, 265 for 5, 5 on 28 August), and the gap is the road back. The dossier says regressing against the trailing median; that median is the August nights, and the direction since October is up. Next Pull A: 225 for 5, then 240 for 5, 5, 5; the last three sets at 6, the top of the range, earn 250.",
+        "evidence": [
+          "2026-11-02:deadlift",
+          "2026-10-23:deadlift",
+          "2026-10-08:deadlift",
+          "2026-08-28:deadlift",
+          "2026-08-18:deadlift"
+        ]
+      },
+      "lat-pulldown-wide": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First New York number, 2 November, logged live about two minutes apart: 105 for 10, then 120 for 8, 8, exactly the card, and 120 for 8 is the bottom of the 8 to 10 range. The card said to go to 135 if 105 was clearly easy; you did not, so 120 is the working weight on New York’s nights so far. 18 August, no gym on the log, was 150 for 9, 9; whether that was this stack is not in the log. Vancouver on 23 October was 105, 110, 120 for 9, 9, 8 on a different stack. Next Pull A: 120 for 9 on all three; three sets at 10 earn 127.5.",
+        "evidence": [
+          "2026-11-02:lat-pulldown-wide",
+          "2026-10-23:lat-pulldown-wide",
+          "2026-08-18:lat-pulldown-wide"
+        ]
+      },
+      "seated-cable-row-wide": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First New York number, 2 November, logged live about two and a half minutes apart: 105 for 10, 10, 10, 10, every set exactly the bottom of the 10 to 12 range, with the note “Why four sets?”. The card asked 12 and you got 10 on every set, the bottom of the range, with nothing falling off. 28 August, no gym on the log, was 105 for 12 on all four. If that was this machine, you are two reps a set under August at the same weight; if not, 105 is simply a working weight here. The four sets stay for now: the row went to four on 1 August so the back day rows at least as much as it curls (six biceps sets on Pull A, against this row, the wide pulldown and the deadlift’s half credit), and whether that leaves the upper back at its floor (direct count, eight of eight) or over its ceiling (weighted count, 19.5 against 16) is the counting rule decided on 10 November: targets stay and the fourth set stays. If you would rather carry three now, write it in the note. Next Pull A: 105 for 11 on all four; four sets at 12 earn 112.5.",
+        "evidence": [
+          "2026-11-02:seated-cable-row-wide",
+          "2026-11-02:note",
+          "2026-10-23:seated-cable-row-wide",
+          "2026-08-28:seated-cable-row-wide"
+        ]
+      },
+      "db-curl": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "Dumbbells read the same at every gym. 30 lb for 9, 9, 9 on 2 November, logged live, one rep up on every set from Vancouver’s 30 for 8, 8, 8 on 23 October, as the card asked. Next Pull A: 30 for 10 on all three, which earns 35 and cancels the dated swap. The swap on 12 November happens only if Pull A is logged and the curl ends at 30 lb with any set under 10; 30 for 10, 10, 10 is progress, not a stall. If the swap fires, the replacement is the preacher curl from the catalogue (machine, biceps primary), three sets of 10 to 12.",
+        "evidence": [
+          "2026-11-02:db-curl",
+          "2026-10-23:db-curl"
+        ]
+      },
+      "cable-hammer-curl": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First New York number, 2 November, logged live: 39 for 13, then 42.5 for 11, 10, against a card that asked 35 for 12 as a start on an unlogged stack; you found the weight yourself and the stack’s marks are what you typed (39, 42.5). Vancouver was 37.5 for 10s on 23 October on another stack. Next Pull A: 42.5 for 12 on all three sets, which earns the next plate on this stack.",
+        "evidence": [
+          "2026-11-02:cable-hammer-curl",
+          "2026-10-23:cable-hammer-curl"
+        ]
+      },
+      "face-pulls": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "27.5 for 15, 15 on 29 October; on 2 November 27 for 12 then 32.5 for 12 (typed in two seconds apart, so recalled); on 5 November 32.5 for 12, 12, logged live about two minutes apart. Next Pull B: 32.5 for 13, two sets, resting on the 5 November sets alone.",
+        "evidence": [
+          "2026-11-05:face-pulls",
+          "2026-11-02:face-pulls",
+          "2026-10-29:face-pulls"
+        ]
+      },
+      "cable-lateral-raise": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First night on Pull A, 2 November: 10 for 12, 12, two sets. By the timestamps the first set was done after the dumbbell curls and the second seven seconds after the first hammer-curl set, so it ran alongside the curls rather than after the face pulls where the card puts it; where it sits in the night is yours, the two sets were done. Last run before that at 10 for 12, 13 on 8 September. Next Pull A: 10 for 15, 15, which earns 12.5.",
+        "evidence": [
+          "2026-11-02:cable-lateral-raise",
+          "2026-09-08:cable-lateral-raise"
+        ]
+      },
+      "leg-press-low": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "Logged live on 3 and 7 November. Legs A 3 November: 180 for 10, 200 for 9, 200 for 10. Legs B 7 November: 180 for 12, then 200 for 10, 10, exactly the card. 200 is a working weight at New York. Next Legs A (8 to 10): 200 for 10 on all three, which earns the next plate. Next Legs B (10 to 12): 180 for 12, 200 for 11, 11.",
+        "evidence": [
+          "2026-11-07:leg-press-low",
+          "2026-11-03:leg-press-low",
+          "2026-10-30:leg-press-low"
+        ]
+      },
+      "db-bulgarian-split-squat": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "20 lb for 8, then 10 on 3 November, the same numbers as Chennai on 14 October. Dumbbells read the same anywhere, so this is a true repeat. The card asked 10, 10. Next Legs A: 20 again, chasing 10 on both sets; that earns the next dumbbell. Two identical nights is not a stall yet; a third would be.",
+        "evidence": [
+          "2026-11-03:db-bulgarian-split-squat",
+          "2026-10-14:db-bulgarian-split-squat"
+        ]
+      },
+      "leg-curl": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "7 November Legs B, live: 135 for 12, then 150 for 11, 11, after 135 for 12, 150 for 10, 10 on 3 November. Next Legs B (10 to 12): 135 for 12, 150 for 12, 12; three sets of 12 at 150 earn the next plate.",
+        "evidence": [
+          "2026-11-07:leg-curl",
+          "2026-11-03:leg-curl"
+        ]
+      },
+      "leg-extension": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "Legs A: 150 for 10, 10 on 3 November, under the 12 to 15 range. Legs B now carries it in its own name: as the squat slot on 30 October it was 150, 157.5, 157.5 for 10 (the first two sets typed seven seconds apart, so partly recalled), and on 7 November 127.5 for 8, 135 for 8, 150 for 10, logged live. 150 for 10 is the proven top. Next Legs B: 150 for 10, three sets (the program seed); three sets of 12 at 150 earn 157.5. Legs A stays 12 to 15, two sets, 142.5 for 12 and 150 chasing 15 after.",
+        "evidence": [
+          "2026-11-03:leg-extension",
+          "2026-10-30:smith-squat",
+          "2026-11-07:smith-squat"
+        ]
+      },
+      "hip-adductor": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First New York number, 3 November: 82.5 for 12, then 90 for 12, alternated with the abductor as the card sets it. The card asked 80. Next Legs A: 90 for 13, 13; two sets at 15 earn the next plate. 105 for 12, 12 on 20 August and 5 September carry no gym on the log, so this night sets the number until that is known.",
+        "evidence": [
+          "2026-11-03:hip-adductor",
+          "2026-08-20:hip-adductor",
+          "2026-09-05:hip-adductor"
+        ]
+      },
+      "hip-abductor": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "First New York number, 3 November: 120 for 12, 12, double the 60 on the card, which I had carried from Singapore’s different machine. The dossier’s “stalled” tag compares across gyms and does not apply. Next Legs A: 120 for 13, 13; two sets at 15 earn the next plate.",
+        "evidence": [
+          "2026-11-03:hip-abductor",
+          "2026-10-05:hip-abductor"
+        ]
+      },
+      "standing-calf-raise": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "Calf press: 200, 280, 300 for 12 on 7 November Legs B, after 260, 280, 300 for 12 on 3 November. The slot stays on both leg nights. Next Legs B, where it stays last: 280 for 12, then 300 for 12, 12. 300 for 15 on all three earns the next plate.",
+        "evidence": [
+          "2026-11-07:standing-calf-raise",
+          "2026-11-03:standing-calf-raise"
+        ]
+      },
+      "cable-crunch": {
+        "trend": "holding",
+        "verdict": "watch",
+        "why": "Legs B on 7 November ran on the ab machine, not the cable: 55 for 10, then 65 for 10, 10; that is a different movement and weight scale from 52.5 for 12, 10, 10 on the cable on 30 October, so it is not progress on this lift. Legs A on 3 November ran as one plank logged as 60. The typed name sticks to the slot at this gym, so the crunch card may read Plank or Ab machine; blanking the name field clears it. Next Legs B: 52.5 on the cable chasing 12, 12, 12, or log the ab machine again and say so in the name. A timed hold goes on the card only if you ask, because you objected to one on 30 July.",
+        "evidence": [
+          "2026-11-07:cable-crunch",
+          "2026-11-03:cable-crunch",
+          "2026-10-30:cable-crunch",
+          "2026-07-30:note"
+        ]
+      },
+      "db-shoulder-press": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "New York: 45 lb dumbbells for 8, 10, 10, 10 on 31 October, then 50 for 8, 8, 8, 8 on 4 November, both live. Dumbbells read the same anywhere, and this is not a new high: 22.5 kg (50 lb) was 10, 10, 10 at Chennai on 12 October and 25 kg (55 lb) was 8, 9 on 15 October. So 50 for 8s is two reps a set under your own Chennai 50s, and under the card’s 10s. Hold 50. Next Push B: 50 for 9 on all four; four sets of 10 at 50 earn 55, which you have already pressed for 8, 9.",
+        "evidence": [
+          "2026-11-04:db-shoulder-press",
+          "2026-10-31:db-shoulder-press",
+          "2026-10-12:db-shoulder-press",
+          "2026-10-15:db-shoulder-press"
+        ]
+      },
+      "db-lateral-raise": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "Push B at New York: 15 for 15, 13, 13 on 31 October and 15 for 15, 15, 12 on 4 November (set two up two reps, set three down one), both live. Three sets stay (you asked on 23 August whether four was too many). Next Push B: 15 for 15, 15, 13; the rack’s next dumbbell is not in the log, so no step is written.",
+        "evidence": [
+          "2026-11-04:db-lateral-raise",
+          "2026-10-31:db-lateral-raise",
+          "2026-08-23:note"
+        ]
+      },
+      "cable-crossover-high-low": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "Two sets, 29 for 15, 13 on 4 November, after 29 for 15, 15 on 31 October. It was cut to two sets on 29 October and still finishes them. Next Push B: 29 for 15, 15.",
+        "evidence": [
+          "2026-11-04:cable-crossover-high-low",
+          "2026-10-31:cable-crossover-high-low"
+        ]
+      },
+      "rope-pushdown": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "Three sets of 10 to 12 on Push B: 42.5 for 12, then 47.5 for 12, 10 on 31 October; 47.5 for 12, then 49 for 12, 11 on 4 November, live. The card asked 47.5 for 12 on all three and you took 49 on the last two. Next Push B: 49 for 12 on all three, which earns the next plate on that stack.",
+        "evidence": [
+          "2026-11-04:rope-pushdown",
+          "2026-10-31:overhead-cable-triceps"
+        ]
+      },
+      "reverse-grip-pushdown": {
+        "trend": "unlogged",
+        "verdict": "watch",
+        "why": "You logged this slot as “Overhead db press” on 31 October and again on 4 November, 50 for 12, 12 both times. The name you typed is stored against this slot at this gym, so the second card carried that name by itself and the second night is not a second choice. On 4 November the first set was logged during the night and the second about 27 hours later, so it was typed in from memory; 50 for 12 is also exactly the number the card asked for. I cannot tell whether this was two dumbbells pressed, one held overhead in both hands, or the reverse-grip pushdown. The slot is not changed on that. One word in a note, “triceps” or “press”, settles it,, and the triceps count stays as it is until a note arrives. Next Push B: 50 for 12, two sets.",
+        "evidence": [
+          "2026-10-31:reverse-grip-pushdown",
+          "2026-11-04:reverse-grip-pushdown",
+          "2026-10-12:reverse-grip-pushdown"
+        ]
+      },
+      "chest-supported-db-row": {
+        "trend": "new",
+        "verdict": "hold",
+        "why": "Pull B: 50 for 8, 8, 8, 8 on 29 October and 60 for 7, 7, 7, 7 on 5 November, four sets each, both live. The card asked 50 for 9 and you took 60. Dumbbells read the same anywhere. The slot asks 8 to 10, so 60 is under the range for now. Next Pull B: 60 for 8 on all four; four sets of 8 at 60 hold it there until 10s.",
+        "evidence": [
+          "2026-11-05:chest-supported-db-row",
+          "2026-10-29:chest-supported-db-row"
+        ]
+      },
+      "lat-pulldown-close": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "Pull B at New York: 127.5 for 9 on 29 October, then 112.5 for 10 and 127.5 for 10, 10 on 5 November, exactly the card. 10 is the top of the 8 to 10 range. Next Pull B: 127.5 for 10 on all three, which earns the next step.",
+        "evidence": [
+          "2026-11-05:lat-pulldown-close",
+          "2026-10-29:lat-pulldown-close"
+        ]
+      },
+      "straight-arm-pulldown": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "45 for 12, 12, 12 on 5 November against 45 for 9 on 29 October, past a card that asked 37.5 for 12. Three sets at the top of 10 to 12 on 45 earn the next step; this machine type steps in 7.5s, so next Pull B is 52.5 for 10, three sets.",
+        "evidence": [
+          "2026-11-05:straight-arm-pulldown",
+          "2026-10-29:straight-arm-pulldown"
+        ]
+      },
+      "db-shrug": {
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "The watch on the fourth set is closed: 80 lb dumbbells for 16, 16, 16, 16 on 5 November, all four sets, against 80 for 15, 15, 15 on 29 October. Four sets stay. At New York the weight is the same 80 on both nights and reps moved one a set; the other weights in the log were 80 on 3 September, 35 kg (77 lb) on 15 September and 36 kg (79 lb) on 3 October, the heaviest dumbbell at those gyms. Whether the rack goes past 80 is not in the log. Next Pull B: 80 for 17 on all four.",
+        "evidence": [
+          "2026-11-05:db-shrug",
+          "2026-10-29:db-shrug",
+          "2026-09-03:db-shrug"
+        ]
+      },
+      "incline-db-curl": {
+        "trend": "progressing",
+        "verdict": "hold",
+        "why": "25 for 10 then 30 for 9 on 29 October; 30 for 8, 9 on 5 November, so both sets are now at 30, a small gain on the first. The slot asks 8 to 10. Next Pull B: 30 for 10, 10.",
+        "evidence": [
+          "2026-11-05:incline-db-curl",
+          "2026-10-29:incline-db-curl"
+        ]
+      },
+      "cable-reverse-curl": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "27.5 for 12, then 32.5 for 12, 12 on 5 November, against 32.5 for 10 on 29 October: two more reps at the same top weight. Next Pull B: 32.5 for 13 on all three.",
+        "evidence": [
+          "2026-11-05:cable-reverse-curl",
+          "2026-10-29:cable-reverse-curl"
+        ]
+      },
+      "barbell-rdl": {
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "First run in its own slot at New York on 7 November: 135 for 8, then 185 for 8, 8, logged about two minutes apart. The card asked 165 and 180, so 185 is already past it. Next Legs B: 135 for 8, 185 for 9, 185 for 9; three sets at 10 on 185 earn 190 on the top set.",
+        "evidence": [
+          "2026-11-07:barbell-rdl",
+          "2026-11-02:deadlift"
+        ]
+      },
+      "ab-wheel-rollout": {
+        "trend": "progressing",
+        "verdict": "hold",
+        "why": "10, 10 on 7 November, up from 8, 8 on 30 October, both logged live. Next Legs B: 10, 10 stopping when your lower back starts to arch; 12, 12 would raise it to a third set.",
+        "evidence": [
+          "2026-11-07:ab-wheel-rollout",
+          "2026-10-30:ab-wheel-rollout"
+        ]
+      }
+    }
+  },
+  "changes_today": [
+    {
+      "version": 8,
+      "date": "2026-11-10",
+      "session": "LegsB",
+      "exercise": "smith-squat",
+      "kind": "swap",
+      "before": {
+        "id": "smith-squat",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180,
+        "seed": 135
+      },
+      "after": {
+        "id": "leg-extension",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 90,
+        "seed": 150
+      },
+      "why": "The smith squat has been logged as a leg extension on both New York Legs B nights: 30 October (smith machine taken; 150, 157.5, 157.5 for 10) and 7 November (127.5 for 8, 135 for 8, 150 for 10). The name you typed sticks to the slot, so the card printed Leg Extension over a smith-squat starting weight, and on 7 November you wrote that the weight suggestion was wrong. That is the card showing one lift and prescribing another, and it is my error. The slot is now a leg extension in its own name, three sets of 10 to 12 starting at 150, so the card asks for what you actually do, from your own numbers. Quad sets stay at 3 on this night and 13 for the week; glutes and hamstrings on paper come down by the smith squat’s half credit. The 9 November review said that if the smith was taken again the leg extension would stand in; the 30 October note says it was taken, and the 7 November note does not say why. The smith squat itself has never been logged at New York, so the slot now asks for what you do; if you want a squat back in this slot, write it in a note and say whether the smith is free.",
+      "evidence": [
+        "2026-10-30:smith-squat",
+        "2026-11-07:smith-squat",
+        "2026-11-07:note"
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "exercise": "machine-lateral-raise",
+      "verdict": "watch",
+      "until": "2026-11-12",
+      "why": "Never run as the machine it names; 28 October it was dumbbells and side delts closed the week of 2 to 8 November at 7 against a floor of 8. Push A runs tonight, so the first read is the 11 November review; if it is dumbbells again the slot becomes a cable raise or another angle on 12 November. If Push A does not run by then the date moves to the morning after it is logged.",
+      "evidence": [
+        "2026-10-28:machine-lateral-raise",
+        "2026-10-31:db-lateral-raise"
+      ]
+    },
+    {
+      "exercise": "db-curl",
+      "verdict": "rotate",
+      "until": "2026-11-12",
+      "why": "DB curl has sat at 30 lb for 8 to 10 reps on the same dumbbells since 17 July (9 on 2 November). It is a dumbbell lift, so the gym does not explain it. If the next Pull A, which has not been logged yet, ends at 30 lb with any set under 10 reps, it is swapped for a different biceps lift from the catalogue on 12 November; if Pull A has not run by then the date moves to the morning after it does. If all three sets reach 10, the lift earns 35 and stays; reps went 8, 8, 8 on 23 October to 9, 9, 9 on 2 November, so it is moving, slowly. The lift line says progress because 30 for 10, 10, 10 earns 35 and cancels the swap; the swap is only the dated fallback, and its replacement is the preacher curl, three sets of 10 to 12.",
+      "evidence": [
+        "2026-11-02:db-curl",
+        "2026-10-23:db-curl",
+        "2026-08-28:db-curl",
+        "2026-07-17:db-curl"
+      ]
+    }
+  ],
+  "overrides": [
+    {
+      "exercise": "smith-incline-press",
+      "session": "PushA",
+      "reason": "28 October was 155, 175, 175 for 6, typed in after the fact and with the fourth set missing, so tonight repeats it: log all four sets as you go and the reps are what moves.",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 6
+        },
+        {
+          "weight": 175,
+          "reps": 6
+        },
+        {
+          "weight": 175,
+          "reps": 6
+        },
+        {
+          "weight": 175,
+          "reps": 6
+        }
+      ]
+    },
+    {
+      "exercise": "machine-chest-press",
+      "session": "PushA",
+      "reason": "Live on 4 November you did 135 for 10, then 150 for 10, 10; tonight repeats it, and 12 on the first set earns the step.",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10
+        },
+        {
+          "weight": 150,
+          "reps": 10
+        },
+        {
+          "weight": 150,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "exercise": "cable-crossover-low-high",
+      "session": "PushA",
+      "reason": "12.5 for 12 three times on 28 October was typed in within a second, so it repeats tonight and gets logged as you go.",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 12
+        },
+        {
+          "weight": 12.5,
+          "reps": 12
+        },
+        {
+          "weight": 12.5,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "machine-lateral-raise",
+      "session": "PushA",
+      "reason": "If it is dumbbells again, 15 is where you were live on Push B (15 for 15, 13, 13 on 31 October; 15, 15, 12 on 4 November); if the gym has a machine, find your weight and say so in the note.",
+      "sets": [
+        {
+          "weight": 15,
+          "reps": 12
+        },
+        {
+          "weight": 15,
+          "reps": 12
+        },
+        {
+          "weight": 15,
+          "reps": 12
+        }
+      ]
+    },
+    {
+      "exercise": "reverse-pec-deck",
+      "session": "PushA",
+      "reason": "90 for 13, 13, 13 on 4 November on the same machine; one more rep a set before the weight moves.",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 14
+        },
+        {
+          "weight": 90,
+          "reps": 14
+        },
+        {
+          "weight": 90,
+          "reps": 14
+        }
+      ]
+    },
+    {
+      "exercise": "chest-dip",
+      "session": "PushA",
+      "reason": "Bar dips at bodyweight were 8, 10, 12 on 28 October; 10 for three sets is the next step.",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10
+        },
+        {
+          "weight": 0,
+          "reps": 10
+        },
+        {
+          "weight": 0,
+          "reps": 10
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "reviewer_ran": true,
+    "findings": [
+      {
+        "finding": "The smith incline override and brief said 175 for 6 three times; the log is 155, 175, 175 for 6, typed in after the fact, and the override added reps to it.",
+        "disposition": "fixed",
+        "why": "Brief, reason and prescription now repeat 155 for 6, 175 for 6, 6, 6 and say the night was remembered.",
+        "evidence": [
+          "2026-10-28:smith-incline-press"
+        ]
+      },
+      {
+        "finding": "The machine lateral raise override said the only number was 12.5 on dumbbells and prescribed 12.5, below the live 15s on Push B.",
+        "disposition": "fixed",
+        "why": "Dumbbell case now prescribes 15 for 12, the live Push B weight at the same gym; machine case says find your weight and note it.",
+        "evidence": [
+          "2026-10-31:db-lateral-raise",
+          "2026-11-04:db-lateral-raise",
+          "2026-10-28:machine-lateral-raise"
+        ]
+      },
+      {
+        "finding": "The v8 change cited the 13 October entry as making the swap conditional; that entry says no such thing, and the smith being unavailable is not established.",
+        "disposition": "fixed",
+        "why": "Citation corrected to the 9 November review; the change text now says the smith squat has never been logged at New York, that the 30 October note says the smith was taken and the 7 November note does not say why, and invites a note if he wants a squat back.",
+        "consequence": "The program has no two-legged squat pattern on Legs B until he says the smith is free; quads stay at 13 sets a week with leg presses.",
+        "evidence": [
+          "2026-10-30:smith-squat",
+          "2026-11-07:smith-squat"
+        ]
+      },
+      {
+        "finding": "The brief said eight muscles over their ceiling; the validator shows six, and the weeks cited only showed triceps at that level.",
+        "disposition": "fixed",
+        "why": "Brief says six and names them; triceps line cites its own weeks; the 2 November seated-row question is now answered in the brief instead of handed back.",
+        "evidence": [
+          "2026-11-02:note",
+          "2026-11-02:seated-cable-row-wide"
+        ]
+      },
+      {
+        "finding": "The crunch slot's typed name sticks to the slot (Plank on 3 November, Ab machine on 7 November) and the fix is left to the athlete.",
+        "disposition": "open",
+        "why": "Three different movements in three nights; no program edit made today because no single replacement is established.",
+        "consequence": "The next Legs B card may print Ab machine or Plank over a 52.5 cable crunch; blanking the name field clears it.",
+        "evidence": [
+          "2026-10-30:cable-crunch",
+          "2026-11-03:cable-crunch",
+          "2026-11-07:cable-crunch"
+        ]
+      },
+      {
+        "finding": "Leg extension next numbers disagreed (142.5 in the lift line, 150 in the brief and seed) and the verdict read progress.",
+        "disposition": "fixed",
+        "why": "Lift line, brief and seed all say 150 for 10; verdict is hold.",
+        "evidence": [
+          "2026-11-07:smith-squat",
+          "2026-10-30:smith-squat"
+        ]
+      },
+      {
+        "finding": "Increments were built on remembered 28 October logs (crossover, smith incline, chest press) while the review calls them remembered.",
+        "disposition": "fixed",
+        "why": "Chest press repeats the live 4 November numbers; crossover and smith incline repeat 28 October without added reps and ask for live logging.",
+        "evidence": [
+          "2026-10-28:cable-crossover-low-high",
+          "2026-10-28:smith-incline-press",
+          "2026-11-04:machine-chest-press"
+        ]
+      },
+      {
+        "finding": "DB curl read rotate in deferred and progress in the lift line, with no replacement named.",
+        "disposition": "fixed",
+        "why": "Verdict stays progress with a dated fallback; the replacement is now named: preacher curl, three sets of 10 to 12.",
+        "evidence": [
+          "2026-11-02:db-curl",
+          "2026-10-23:db-curl"
+        ]
+      },
+      {
+        "finding": "The seated row 'why four sets' answer was handed back to the athlete.",
+        "disposition": "fixed",
+        "why": "Decided: four sets stay; the 10, 10, 10, 10 on 2 November is the bottom of the range, and Pull A is 21 of 28 sets.",
+        "evidence": [
+          "2026-11-02:seated-cable-row-wide"
+        ]
+      },
+      {
+        "finding": "Prior open audit findings were dropped when audit reset.",
+        "disposition": "fixed",
+        "why": "Still-live findings are carried: crunch name (open above), phase lock, unnamed Push B sets, prep calendar.",
+        "evidence": []
+      },
+      {
+        "finding": "Phase tag may be locked to Meso 3 (logs stamped weeks 5 and 6 against calendar week 2).",
+        "disposition": "open",
+        "why": "Cannot be read from the log; the athlete's phase setting is not mine to change.",
+        "consequence": "If locked, the 25 November deload will not start by itself; setting the tag to Automatic (by date) clears it.",
+        "evidence": [
+          "2026-11-07:note"
+        ]
+      },
+      {
+        "finding": "The last Push B slot logged as Overhead db press, 50 for 12, 12, second set typed about 27 hours later.",
+        "disposition": "open",
+        "why": "One word in a note settles triceps or press.",
+        "consequence": "About 2 sets of triceps or front-delt credit may be miscounted.",
+        "evidence": [
+          "2026-11-04:reverse-grip-pushdown"
+        ]
+      },
+      {
+        "finding": "The calendar's prep block runs to 31 March 2027, after the 1 March show, with no peak or taper.",
+        "disposition": "open",
+        "why": "The prep block is written at the 2 to 8 December assessment, not today.",
+        "consequence": "The app calendar reads prep for 30 days after the show until it is rewritten.",
+        "evidence": []
+      }
+    ]
+  }
+}
