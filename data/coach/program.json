@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "date": "2026-11-10",
+  "version": 9,
+  "date": "2026-11-11",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -32,11 +32,12 @@
           "seed": 15.5
         },
         {
-          "id": "machine-lateral-raise",
+          "id": "db-lateral-raise",
           "sets": 3,
           "repMin": 12,
           "repMax": 15,
-          "rest": 60
+          "rest": 75,
+          "seed": 12.5
         },
         {
           "id": "reverse-pec-deck",
@@ -1910,6 +1911,34 @@
         "2026-10-30:smith-squat",
         "2026-11-07:smith-squat",
         "2026-11-07:note"
+      ]
+    },
+    {
+      "version": 9,
+      "date": "2026-11-11",
+      "session": "PushA",
+      "exercise": "machine-lateral-raise",
+      "kind": "swap",
+      "before": {
+        "id": "machine-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60
+      },
+      "after": {
+        "id": "db-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75,
+        "seed": 12.5
+      },
+      "why": "The Push A lateral raise slot has never been done on a machine: on 28 October and again on 9 November you logged it as dumbbell lateral raises (12.5 for 12, 12, 12, then 12.5 for 14, 13, 13). The 9 November card asked for 15 for 12 under the machine name and you did 12.5, so the card again prescribed a lift you were not doing. The slot is now the dumbbell lateral raise in its own name, three sets of 12 to 15 starting at 12.5, which is what you did live on 9 November. Side delt sets do not change (3 here, 3 on Push B, 2 cable raises on Pull A). This closes the dated decision from 10 November; I did not pick a cable raise because the cable raise on Pull A has sat at 10 lb for 12 to 13 reps since July and nothing in the log says another cable angle would do better than the dumbbells you already train.",
+      "evidence": [
+        "2026-10-28:machine-lateral-raise",
+        "2026-11-09:machine-lateral-raise",
+        "2026-11-04:db-lateral-raise"
       ]
     }
   ]
