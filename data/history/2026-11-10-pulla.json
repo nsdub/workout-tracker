@@ -1,0 +1,176 @@
+{
+  "date": "2026-11-10",
+  "session_type": "PullA",
+  "phase": "meso3",
+  "week": 7,
+  "exercises": [
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight": 205,
+          "reps": 6,
+          "at": 1794356872884
+        },
+        {
+          "weight": 225,
+          "reps": 6,
+          "at": 1794357078186
+        },
+        {
+          "weight": 235,
+          "reps": 6,
+          "at": 1794357287683
+        },
+        {
+          "weight": 240,
+          "reps": 6,
+          "at": 1794357542607,
+          "restEndedAt": 1794357527692
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 10,
+          "at": 1794357814672,
+          "restEndedAt": 1794357782646
+        },
+        {
+          "weight": 120,
+          "reps": 12,
+          "at": 1794358162909,
+          "restEndedAt": 1794357934681
+        },
+        {
+          "weight": 127.5,
+          "reps": 11,
+          "at": 1794358407201,
+          "restEndedAt": 1794358282921
+        }
+      ]
+    },
+    {
+      "id": "seated-cable-row-wide",
+      "name": "Seated Cable Row (wide)",
+      "sets": [
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1794358603789,
+          "restEndedAt": 1794358527211
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1794358748187,
+          "restEndedAt": 1794358723807
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1794359180710,
+          "restEndedAt": 1794358868198
+        },
+        {
+          "weight": 105,
+          "reps": 12,
+          "at": 1794359345421,
+          "restEndedAt": 1794359300721
+        }
+      ],
+      "note": "Four sets? Does the science support any of your set counts?"
+    },
+    {
+      "id": "db-curl",
+      "name": "DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 10,
+          "at": 1794359498935,
+          "restEndedAt": 1794359465447
+        },
+        {
+          "weight": 30,
+          "reps": 10,
+          "at": 1794359647891,
+          "restEndedAt": 1794359573953
+        },
+        {
+          "weight": 30,
+          "reps": 10,
+          "at": 1794359912431,
+          "restEndedAt": 1794359722900
+        }
+      ]
+    },
+    {
+      "id": "cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "sets": [
+        {
+          "weight": 39,
+          "reps": 12,
+          "at": 1794360068103,
+          "restEndedAt": 1794359987444
+        },
+        {
+          "weight": 42.5,
+          "reps": 11,
+          "at": 1794360209790,
+          "restEndedAt": 1794360143110
+        },
+        {
+          "weight": 42.5,
+          "reps": 11,
+          "at": 1794360332250,
+          "restEndedAt": 1794360284798
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 27,
+          "reps": 15,
+          "at": 1794360530931,
+          "restEndedAt": 1794360407257
+        },
+        {
+          "weight": 27.5,
+          "reps": 15,
+          "at": 1794360645414,
+          "restEndedAt": 1794360590974
+        }
+      ]
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 12,
+          "at": 1794360897099,
+          "restEndedAt": 1794360705424
+        },
+        {
+          "weight": 10,
+          "reps": 15,
+          "at": 1794428811133
+        }
+      ]
+    }
+  ],
+  "world": "kelp",
+  "gym": "NYC",
+  "startedAt": 1794356574256
+}
