@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-09",
+  "session_type": "PushA",
+  "phase": "meso3",
+  "week": 7,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 155,
+          "reps": 8,
+          "at": 1794260126892
+        },
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1794260311243,
+          "restEndedAt": 1794260306938
+        },
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1794260441498
+        },
+        {
+          "weight": 175,
+          "reps": 8,
+          "at": 1794260584803
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1794260770936,
+          "restEndedAt": 1794260764815
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1794260917433,
+          "restEndedAt": 1794260890949
+        },
+        {
+          "weight": 150,
+          "reps": 10,
+          "at": 1794261049648,
+          "restEndedAt": 1794261037443
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 14,
+          "at": 1794261237325,
+          "restEndedAt": 1794261169659
+        },
+        {
+          "weight": 12.5,
+          "reps": 14,
+          "at": 1794261371096,
+          "restEndedAt": 1794261312338
+        },
+        {
+          "weight": 12.5,
+          "reps": 14,
+          "at": 1794261523554,
+          "restEndedAt": 1794261446105
+        }
+      ]
+    },
+    {
+      "id": "machine-lateral-raise",
+      "name": "Machine Lateral Raise",
+      "as": "Db lateral raise",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 14,
+          "at": 1794261698992,
+          "restEndedAt": 1794261598567
+        },
+        {
+          "weight": 12.5,
+          "reps": 13,
+          "at": 1794261806827,
+          "restEndedAt": 1794261759005
+        },
+        {
+          "weight": 12.5,
+          "reps": 13,
+          "at": 1794261964374,
+          "restEndedAt": 1794261866838
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 90,
+          "reps": 15,
+          "at": 1794262100734,
+          "restEndedAt": 1794262024385
+        },
+        {
+          "weight": 90,
+          "reps": 15,
+          "at": 1794262268048,
+          "restEndedAt": 1794262175746
+        },
+        {
+          "weight": 90,
+          "reps": 15,
+          "at": 1794262432671,
+          "restEndedAt": 1794262343056
+        }
+      ]
+    },
+    {
+      "id": "chest-dip",
+      "name": "Chest Dip",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1794262601194,
+          "restEndedAt": 1794262507683
+        },
+        {
+          "weight": 0,
+          "reps": 11,
+          "at": 1794262691096
+        },
+        {
+          "weight": 0,
+          "reps": 11,
+          "at": 1794262835721,
+          "restEndedAt": 1794262781106
+        }
+      ]
+    }
+  ],
+  "world": "waterfall",
+  "gym": "NYC",
+  "mins": 45,
+  "startedAt": 1794259510717
+}
