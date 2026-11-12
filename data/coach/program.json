@@ -1,6 +1,6 @@
 {
-  "version": 9,
-  "date": "2026-11-11",
+  "version": 10,
+  "date": "2026-11-12",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -181,12 +181,12 @@
           "seed": 127.5
         },
         {
-          "id": "cable-crunch",
+          "id": "ab-crunch-machine",
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
           "rest": 60,
-          "seed": 45
+          "seed": 65
         }
       ]
     },
@@ -355,12 +355,12 @@
           "rest": 60
         },
         {
-          "id": "cable-crunch",
+          "id": "ab-crunch-machine",
           "sets": 3,
           "repMin": 10,
           "repMax": 12,
           "rest": 60,
-          "seed": 45
+          "seed": 65
         },
         {
           "id": "standing-calf-raise",
@@ -373,7 +373,26 @@
       ]
     }
   },
-  "exercises": {},
+  "exercises": {
+    "ab-crunch-machine": {
+      "name": "Ab Crunch Machine",
+      "role": "core",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "abs"
+        ],
+        "secondary": []
+      },
+      "equipment": "machine",
+      "pattern": "core",
+      "howto": [
+        "Sit in the machine, set the pad against your chest or shoulders and hold the handles.",
+        "Curl your ribs toward your hips to bring the pad down, then pause for a beat at the bottom.",
+        "Let the weight back up slowly without letting the stack touch, and keep your hips still."
+      ]
+    }
+  },
   "targets": {
     "chest": {
       "min": 10,
@@ -1939,6 +1958,60 @@
         "2026-10-28:machine-lateral-raise",
         "2026-11-09:machine-lateral-raise",
         "2026-11-04:db-lateral-raise"
+      ]
+    },
+    {
+      "version": 10,
+      "date": "2026-11-12",
+      "session": "LegsA",
+      "exercise": "cable-crunch",
+      "kind": "swap",
+      "before": {
+        "id": "cable-crunch",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 60
+      },
+      "after": {
+        "id": "ab-crunch-machine",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 60,
+        "seed": 65
+      },
+      "why": "Same swap as Legs B, for the same reason: the Legs A crunch slot read Plank on 3 November and the ab machine on 11 November (65 for 10, 10, 10), and Legs B was the ab machine on 7 November. Both crunch slots are now the ab crunch machine, three sets of 10 to 12 starting at 65. Set counts do not change.",
+      "evidence": [
+        "2026-11-07:cable-crunch",
+        "2026-11-11:cable-crunch"
+      ]
+    },
+    {
+      "version": 10,
+      "date": "2026-11-12",
+      "session": "LegsB",
+      "exercise": "cable-crunch",
+      "kind": "swap",
+      "before": {
+        "id": "cable-crunch",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 60
+      },
+      "after": {
+        "id": "ab-crunch-machine",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 60,
+        "seed": 65
+      },
+      "why": "The crunch slot has not been done on a cable at New York since 30 October: on 7 November you logged it as the ab machine (55, then 65, 65 for 10) and on 11 November on Legs A again as the ab machine (65 for 10, 10, 10). Two nights on the same machine, so the card keeps asking for a cable weight you are not using. The slot is now the ab crunch machine in its own name, three sets of 10 to 12 starting at 65, the weight you used on both nights. Set counts do not change (abs stay at 8 a week).",
+      "evidence": [
+        "2026-11-07:cable-crunch",
+        "2026-11-11:cable-crunch"
       ]
     }
   ]
