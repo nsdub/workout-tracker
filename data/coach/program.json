@@ -1,6 +1,6 @@
 {
-  "version": 10,
-  "date": "2026-11-12",
+  "version": 11,
+  "date": "2026-11-13",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -131,6 +131,14 @@
           "seed": 240
         },
         {
+          "id": "standing-calf-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 280
+        },
+        {
           "id": "db-bulgarian-split-squat",
           "sets": 2,
           "repMin": 8,
@@ -153,14 +161,6 @@
           "repMax": 15,
           "rest": 90,
           "seed": 142.5
-        },
-        {
-          "id": "standing-calf-raise",
-          "sets": 3,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seed": 280
         },
         {
           "id": "hip-adductor",
@@ -2012,6 +2012,27 @@
       "evidence": [
         "2026-11-07:cable-crunch",
         "2026-11-11:cable-crunch"
+      ]
+    },
+    {
+      "version": 11,
+      "date": "2026-11-13",
+      "session": "LegsA",
+      "exercise": "standing-calf-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 5
+      },
+      "after": {
+        "position": 2
+      },
+      "why": "On 3 November the calf press moved from seventh to fifth on Legs A, with a rule written into that change: skipped again from fifth and it becomes the standing or seated calf machine this gym has, once your note says which exists. On 11 November it was skipped from fifth: the hip adductor and abductor after it are logged, the calf press is not. That rule fired, and the 12 November review did not say so; it wrote a softer fallback instead. The swap it promised needs to know which calf machine the New York gym has, and nothing in the log says, so I will not name a machine that may not be there. The calf press itself is not the problem: you ran it in full on the leg press on 7 November (200, 280, 300 for 12). It is being dropped when Legs A runs long (58 minutes and 17 of 20 sets on 11 November). So it now goes second, straight after the leg press, on the same machine with no walk and no setup. Same three sets of 12 to 15; Legs A stays at 20 sets and no weekly count moves. If you write which calf machine the gym has, the swap the 3 November change promised happens on the next review.",
+      "evidence": [
+        "2026-11-11:hip-adductor",
+        "2026-11-11:hip-abductor",
+        "2026-11-11:leg-press-low",
+        "2026-11-07:standing-calf-raise",
+        "2026-11-03:standing-calf-raise"
       ]
     }
   ]
