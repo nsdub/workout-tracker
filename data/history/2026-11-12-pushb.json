@@ -1,0 +1,169 @@
+{
+  "date": "2026-11-12",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 7,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 9,
+          "at": 1794526933999
+        },
+        {
+          "weight": 50,
+          "reps": 9,
+          "at": 1794527046669
+        },
+        {
+          "weight": 50,
+          "reps": 9,
+          "at": 1794527192971
+        },
+        {
+          "weight": 50,
+          "reps": 8,
+          "at": 1794527344633
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 150,
+          "reps": 11,
+          "at": 1794527511065
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794527640163,
+          "restEndedAt": 1794527631077
+        },
+        {
+          "weight": 165,
+          "reps": 9,
+          "at": 1794527785664,
+          "restEndedAt": 1794527760172
+        }
+      ],
+      "note": "Why are we still at 150?!?!?!"
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1794528283035,
+          "restEndedAt": 1794527905675
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1794528286333
+        },
+        {
+          "weight": 15,
+          "reps": 15,
+          "at": 1794528287033
+        }
+      ],
+      "note": "It seems like every day we do lateral raises. Do you know what you're doing?"
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 30.5,
+          "reps": 14,
+          "at": 1794529581176,
+          "restEndedAt": 1794529359921
+        },
+        {
+          "weight": 30.5,
+          "reps": 12,
+          "at": 1794529742078,
+          "restEndedAt": 1794529656192
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794528464622,
+          "restEndedAt": 1794528362041
+        },
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794528626638,
+          "restEndedAt": 1794528539631
+        },
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794528831291,
+          "restEndedAt": 1794528701646
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 49,
+          "reps": 12,
+          "at": 1794529009637,
+          "restEndedAt": 1794528906299
+        },
+        {
+          "weight": 50.5,
+          "reps": 12,
+          "at": 1794529133864,
+          "restEndedAt": 1794529084648
+        },
+        {
+          "weight": 50.5,
+          "reps": 11,
+          "at": 1794529284913,
+          "restEndedAt": 1794529208873
+        }
+      ]
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "name": "Reverse Grip Pushdown",
+      "as": "Overhead db press",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1794529960303,
+          "restEndedAt": 1794529817084
+        },
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1794607950082
+        }
+      ],
+      "note": "Do you just blindly apply my replacement exercises going forward for all eternity?"
+    }
+  ],
+  "world": "shrine",
+  "gym": "NYC",
+  "startedAt": 1794525305602
+}
