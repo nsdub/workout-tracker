@@ -1,6 +1,6 @@
 {
-  "version": 11,
-  "date": "2026-11-13",
+  "version": 12,
+  "date": "2026-11-14",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -108,14 +108,6 @@
           "repMax": 15,
           "rest": 60,
           "seed": 27.5
-        },
-        {
-          "id": "cable-lateral-raise",
-          "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 60,
-          "seed": 10
         }
       ]
     },
@@ -242,12 +234,13 @@
           "seed": 47.5
         },
         {
-          "id": "reverse-grip-pushdown",
+          "id": "db-overhead-triceps-extension",
           "sets": 2,
-          "repMin": 12,
-          "repMax": 15,
+          "repMin": 10,
+          "repMax": 12,
           "rest": 75,
-          "seed": 24
+          "seed": 50,
+          "seedNote": "One dumbbell held in both hands, lowered behind your head. Start at 50."
         }
       ]
     },
@@ -391,6 +384,24 @@
         "Curl your ribs toward your hips to bring the pad down, then pause for a beat at the bottom.",
         "Let the weight back up slowly without letting the stack touch, and keep your hips still."
       ]
+    },
+    "db-overhead-triceps-extension": {
+      "name": "Overhead DB Triceps Extension",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "triceps"
+        ],
+        "secondary": []
+      },
+      "equipment": "dumbbell",
+      "pattern": "isolation",
+      "howto": [
+        "Sit on a bench with back support and hold one dumbbell over your head with both hands, palms under the top plate.",
+        "Keep your elbows pointing up and close to your head, and lower the dumbbell behind your head until you feel a deep stretch in the back of your arms.",
+        "Straighten your arms to bring it back up without letting your elbows flare or your lower back arch."
+      ]
     }
   },
   "targets": {
@@ -403,7 +414,7 @@
       "max": 10
     },
     "side-delts": {
-      "min": 8,
+      "min": 6,
       "max": 16
     },
     "rear-delts": {
@@ -2033,6 +2044,89 @@
         "2026-11-11:leg-press-low",
         "2026-11-07:standing-calf-raise",
         "2026-11-03:standing-calf-raise"
+      ]
+    },
+    {
+      "version": 12,
+      "date": "2026-11-14",
+      "session": "PullA",
+      "exercise": "cable-lateral-raise",
+      "kind": "remove",
+      "before": {
+        "id": "cable-lateral-raise",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 10
+      },
+      "after": null,
+      "why": "You wrote on the 12 November lateral raise card that it seems like every day is lateral raises. You are right about how often: this program put a lateral raise on three of the six days (dumbbell on Push A and Push B, cable on Pull A), so 9, 10 and 12 November all had one, three of four nights in a row, and you asked the same kind of question about lateral volume on 23 August. A lateral raise does not belong on a pulling day, and side delts do not need three visits a week to grow. The two cable sets on Pull A come out. Laterals now come twice a week, once on each push day, straight after the pressing. Side delts go from 8 direct sets a week to 6. That is under the direct floor of 8, and the cable raise went onto Pull A on 26 October to reach that floor because on 23 August you said four lateral sets in one session seemed a lot. Your two notes together cap laterals at three sets a session on two days, so the side-delt floor drops to 6 in the same version rather than leaving a shortfall unstated. Pull A drops from 21 sets to 19. The cable raise itself was fine (10 for 12, then 15 on 10 November); this is about how often, not about that lift.",
+      "evidence": [
+        "2026-11-12:note",
+        "2026-11-12:db-lateral-raise",
+        "2026-11-10:cable-lateral-raise",
+        "2026-11-09:machine-lateral-raise",
+        "2026-08-23:db-lateral-raise"
+      ]
+    },
+    {
+      "version": 12,
+      "date": "2026-11-14",
+      "session": "PushB",
+      "exercise": "reverse-grip-pushdown",
+      "kind": "swap",
+      "before": {
+        "id": "reverse-grip-pushdown",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75,
+        "seed": 24
+      },
+      "after": {
+        "id": "db-overhead-triceps-extension",
+        "sets": 2,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 75,
+        "seed": 50,
+        "seedNote": "One dumbbell held in both hands, lowered behind your head. Start at 50."
+      },
+      "why": "You asked on 12 November whether I just apply your replacement exercises forever. Up to now, yes, and that was wrong: you typed Overhead db press over this slot once, on 31 October, and the app stores that name against this slot at this gym, so every Push B card since has printed it again on its own (4 and 12 November), and no review made a call on it. The 13 November review said it would turn the slot into a dumbbell overhead press by 16 November; I am not doing that. I still cannot tell from the log what you did there. 60 for 12 after four sets of shoulder press at 50 (50 for 9, 9, 9, 8 on 12 November) looks more like a one-dumbbell triceps extension than a press, and if it was a press it repeated the opener. Either way this slot is for triceps. The slot now has its own lift: the overhead dumbbell triceps extension, one dumbbell held in both hands and lowered behind your head. It works the long head of the triceps in a stretch, which the rope pushdown before it does not, and if that is what you were doing at 60, you start at 60. Because it is a new name, the old Overhead db press label no longer sticks to the card. Two sets of 10 to 12; the card seeds 50 because the log does not say which movement the 60 was. Push B stays at 20 sets and triceps at 8 direct sets a week.",
+      "evidence": [
+        "2026-11-12:note",
+        "2026-11-12:reverse-grip-pushdown",
+        "2026-11-04:reverse-grip-pushdown",
+        "2026-10-31:reverse-grip-pushdown",
+        "2026-11-12:db-shoulder-press",
+        "2026-11-12:rope-pushdown"
+      ]
+    },
+    {
+      "version": 12,
+      "date": "2026-11-14",
+      "session": null,
+      "exercise": null,
+      "kind": "targets",
+      "before": {
+        "side-delts": {
+          "min": 8,
+          "max": 16
+        }
+      },
+      "after": {
+        "side-delts": {
+          "min": 6,
+          "max": 16
+        }
+      },
+      "why": "With the Pull A cable raise removed, side delts get 6 direct sets a week: dumbbell raises, three sets on each push day. Two of your notes bound this. On 23 August you said four lateral sets in one session seemed a lot, and on 12 November that laterals seemed to come every day. Together they cap laterals at three sets a session on two days. A floor of 8 that the program cannot reach without breaking one of them is not a target, so the floor becomes 6. The sets are hard (15 for 15, 15, 12 live on 4 November; 12.5 for 14, 13, 13 on 9 November). If side delts stop moving by the deload, the 9 December prep block adds a side-delt press variation instead of a third lateral day.",
+      "evidence": [
+        "2026-08-23:db-lateral-raise",
+        "2026-11-12:note",
+        "2026-11-04:db-lateral-raise",
+        "2026-11-09:machine-lateral-raise"
       ]
     }
   ]
