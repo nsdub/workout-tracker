@@ -1,0 +1,170 @@
+{
+  "date": "2026-11-14",
+  "session_type": "LegsB",
+  "phase": "meso3",
+  "week": 7,
+  "exercises": [
+    {
+      "id": "barbell-rdl",
+      "name": "Barbell RDL",
+      "sets": [
+        {
+          "weight": 185,
+          "reps": 9,
+          "at": 1794703002967
+        },
+        {
+          "weight": 185,
+          "reps": 9,
+          "at": 1794703181186
+        },
+        {
+          "weight": 185,
+          "reps": 9,
+          "at": 1794703394526,
+          "restEndedAt": 1794703361205
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794703567510
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794703721010,
+          "restEndedAt": 1794703657523
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794703943228,
+          "restEndedAt": 1794703811026
+        }
+      ]
+    },
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 200,
+          "reps": 11,
+          "at": 1794704139769,
+          "restEndedAt": 1794704033291
+        },
+        {
+          "weight": 200,
+          "reps": 11,
+          "at": 1794704307032
+        },
+        {
+          "weight": 200,
+          "reps": 11,
+          "at": 1794704561354,
+          "restEndedAt": 1794704487042
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794704800472,
+          "restEndedAt": 1794704741361
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794704929863,
+          "restEndedAt": 1794704890488
+        },
+        {
+          "weight": 157.5,
+          "reps": 10,
+          "at": 1794705083261,
+          "restEndedAt": 1794705019875
+        }
+      ]
+    },
+    {
+      "id": "ab-wheel-rollout",
+      "name": "Ab Wheel Rollout",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1794705413449,
+          "restEndedAt": 1794705173270
+        },
+        {
+          "weight": 0,
+          "reps": 10,
+          "at": 1794705594826,
+          "restEndedAt": 1794705473482
+        }
+      ]
+    },
+    {
+      "id": "ab-crunch-machine",
+      "name": "Ab Crunch Machine",
+      "sets": [
+        {
+          "weight": 65,
+          "reps": 11,
+          "at": 1794705761160,
+          "restEndedAt": 1794705654834
+        },
+        {
+          "weight": 65,
+          "reps": 11,
+          "at": 1794705880887,
+          "restEndedAt": 1794705821167
+        },
+        {
+          "weight": 65,
+          "reps": 11,
+          "at": 1794706072650,
+          "restEndedAt": 1794705940899
+        }
+      ]
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1794706253649,
+          "restEndedAt": 1794706132660
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1794706330630,
+          "restEndedAt": 1794706328660
+        },
+        {
+          "weight": 300,
+          "reps": 12,
+          "at": 1794706438286,
+          "restEndedAt": 1794706405639
+        }
+      ]
+    }
+  ],
+  "world": "icebar",
+  "gym": "NYC",
+  "mins": 57,
+  "startedAt": 1794696312888
+}
