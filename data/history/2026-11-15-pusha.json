@@ -1,0 +1,162 @@
+{
+  "date": "2026-11-15",
+  "session_type": "PushA",
+  "phase": "meso3",
+  "week": 7,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 6,
+          "at": 1794781612273
+        },
+        {
+          "weight": 180,
+          "reps": 6,
+          "at": 1794781785334
+        },
+        {
+          "weight": 180,
+          "reps": 7,
+          "at": 1794781948584
+        },
+        {
+          "weight": 180,
+          "reps": 8,
+          "at": 1794782159595,
+          "restEndedAt": 1794782128592
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794782346923,
+          "restEndedAt": 1794782339604
+        },
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794782543707,
+          "restEndedAt": 1794782466936
+        },
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794782712424,
+          "restEndedAt": 1794782663717
+        }
+      ],
+      "note": "Wtf why are you saying stalled?!?! Why are the weights here going up and down session to session. What the fuck are you doing"
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1794782897778,
+          "restEndedAt": 1794782832435
+        },
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1794783054891,
+          "restEndedAt": 1794782972793
+        },
+        {
+          "weight": 12.5,
+          "reps": 15,
+          "at": 1794783213286,
+          "restEndedAt": 1794783129935
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 12,
+          "at": 1794783474762,
+          "restEndedAt": 1794783288370
+        },
+        {
+          "weight": 17.5,
+          "reps": 12,
+          "at": 1794783580759,
+          "restEndedAt": 1794783549781
+        },
+        {
+          "weight": 17.5,
+          "reps": 12,
+          "at": 1794783723353,
+          "restEndedAt": 1794783655765
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794783951175,
+          "restEndedAt": 1794783798361
+        },
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794784043320,
+          "restEndedAt": 1794784026216
+        },
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794784190138,
+          "restEndedAt": 1794784118330
+        }
+      ],
+      "note": "We should be doing this exercise every push day?"
+    },
+    {
+      "id": "chest-dip",
+      "name": "Chest Dip",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1794784285169,
+          "restEndedAt": 1794784265149
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1794784406944,
+          "restEndedAt": 1794784375177
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1794784546025,
+          "restEndedAt": 1794784496956
+        }
+      ],
+      "note": "Is it deliberate that we aren't doing any direct tricep work in this workout?"
+    }
+  ],
+  "world": "stairs",
+  "gym": "NYC",
+  "mins": 49,
+  "startedAt": 1794780038827
+}
