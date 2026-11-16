@@ -1,6 +1,6 @@
 {
-  "version": 12,
-  "date": "2026-11-14",
+  "version": 13,
+  "date": "2026-11-16",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -50,8 +50,8 @@
         {
           "id": "chest-dip",
           "sets": 3,
-          "repMin": 8,
-          "repMax": 12,
+          "repMin": 12,
+          "repMax": 15,
           "rest": 90,
           "seed": 0
         }
@@ -2127,6 +2127,32 @@
         "2026-11-12:note",
         "2026-11-04:db-lateral-raise",
         "2026-11-09:machine-lateral-raise"
+      ]
+    },
+    {
+      "version": 13,
+      "date": "2026-11-16",
+      "session": "PushA",
+      "exercise": "chest-dip",
+      "kind": "reprange",
+      "before": {
+        "id": "chest-dip",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 12,
+        "rest": 90
+      },
+      "after": {
+        "id": "chest-dip",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 90
+      },
+      "why": "Bodyweight dips reached the top of 8 to 12 on every set on 15 November (12, 12, 12) after 10, 11, 11 on 9 November. The slot has no weight to add on this card, so 8 to 12 had nothing left to give; 12 to 15 keeps the set count and gives the lift room to keep moving through to the 25 November deload.",
+      "evidence": [
+        "2026-11-15:chest-dip",
+        "2026-11-09:chest-dip"
       ]
     }
   ]
