@@ -19,6 +19,7 @@ import * as E from '../js/engine.js';
 // The app's own ISO week helper (tested in scripts/test-app.mjs) — the
 // review's week buckets and the app's must be the same weeks.
 import { weekKey } from '../js/util.js';
+import { previousPacket, notesToAnswer, prepFacts, cardNames, duplicateMovements, appBugs, gymFacts } from './coach-ledger.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -201,6 +202,9 @@ const muscleWeek = (() => {
     convention: 'a set credits 1 to each primary mover and 0.5 to each secondary; planned = one pass through the six-day rotation; done = sets with reps ≥ 1 in that ISO week',
     targets: program?.targets ?? null,
     planned,
+    // Primary movers only. The targets judge the weighted figure above; this
+    // is here so a verdict can never pick whichever count suits it.
+    planned_direct: E.directWeeklyByMuscle(plan),
     avg_4wk_done: avg4,
     weeks: done,
     untagged_lifts_in_program: untagged,
@@ -278,6 +282,8 @@ const slots = (plan.sessions[nextSession]?.exercises ?? []).map((slot) => {
 });
 
 const show = plan.show?.date ?? null;
+const prevPacket = previousPacket(root, today);
+const tonightNames = cardNames(plan, history, nextSession);
 const dossier = {
   generated_for: today,
   phase: phaseInfo.phase ? { id: phaseInfo.phase.id, type: phaseInfo.phase.type, week: phaseInfo.week, of: phaseInfo.weeks, start: phaseInfo.phase.start, end: phaseInfo.phase.end, note: phaseInfo.phase.note ?? null } : null,
@@ -302,6 +308,24 @@ const dossier = {
   compliance_by_session: complianceBySession,
   stalled_lifts: E.stalledLifts(plan, history),
   next_session_slots: slots,
+  // What tonight's card will CALL each slot (the substitute name he last
+  // typed at this gym, else the program's name), and any two that read as
+  // the same movement. "YOU GAVE ME TWO DIPS EXERCISES", 31 October.
+  tonight_card_names: tonightNames,
+  tonight_duplicate_movements: duplicateMovements(tonightNames).map((d) => ({ a: d.a.shown, b: d.b.shown, slots: [d.a.id, d.b.id], why: d.why })),
+  // EVERY note that must be answered in today's packet answers[], by key.
+  // Notes since the last packet, plus anything it left open. The gate fails
+  // the packet if one is missing.
+  notes_to_answer: notesToAnswer(history, prevPacket, today),
+  // Show prep: the countdown, where the prep phase sits, and how stale the
+  // bodyweight is. Inside the prep window the packet must carry review.prep.
+  prep: prepFacts(plan, history, today),
+  // Bugs in the APP you have filed (data/coach/app-bugs.json). You may not
+  // fix app code; file what is wrong so it gets fixed.
+  app_bugs: appBugs(root),
+  // What you know about each gym's machines, and how you know it
+  // (data/coach/gyms.json, yours to keep). Never name a machine not in here.
+  gym_facts: gymFacts(root),
   pain_notes: painNotes,
   // Every note he has ever written, in his own words, with what he was doing
   // when he wrote it. He writes them FOR the review.

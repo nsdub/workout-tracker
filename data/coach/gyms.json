@@ -1,0 +1,11 @@
+{
+  "NYC": {
+    "known": {
+      "smith-machine": "2026-10-30 note on Legs B: \"Smith machine taken\" — it exists, and is often in use",
+      "leg-press": "logged on every New York leg night since 2026-10-30",
+      "dumbbells-to-60": "chest-supported row at 60 on 2026-11-05; 80 lb dumbbell shrugs on 2026-10-29"
+    },
+    "unknown": ["hack squat", "pendulum squat", "standing calf machine", "seated calf machine", "lateral raise machine"],
+    "note": "Ask him before programming any machine listed under unknown. Rule 2: never fit a plan to equipment the log does not show."
+  }
+}

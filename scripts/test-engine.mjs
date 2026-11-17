@@ -281,6 +281,29 @@ ok('weight increase clears the stall', () => {
   ];
   assert.equal(E.isStalled(plan, h, 'PushA', slot('PushA', 'machine-chest-press')), false);
 });
+// 2026-11-17 audit: the "stalled" label compared his New York chest press
+// with 165 for 10 on the Warsaw machine on 30 September. A different gym is a
+// different machine; its numbers say nothing about whether THIS machine is
+// moving. The stall window is the nights at the gym of the newest night.
+ok('stall window stays at the newest night\'s gym — another gym\'s machine is not a plateau', () => {
+  const at = (d, gym, w, r) => ({ ...mkEntry(d, 'PushB', 'machine-chest-press', [{ weight: w, reps: r }, { weight: w, reps: r }, { weight: w, reps: r }]), gym });
+  const h = [...history,
+    at('2026-09-30', 'Warsaw', 165, 10),
+    at('2026-11-04', 'NYC', 150, 10),
+    at('2026-11-12', 'NYC', 157.5, 10),
+    at('2026-11-19', 'NYC', 160, 9),
+  ];
+  const s = slot('PushB', 'machine-chest-press');
+  assert.equal(E.isStalled(plan, h, 'PushB', s), false, 'three climbing NYC nights are progress, whatever Warsaw read');
+  const d = E.stallDetail(plan, h, 'PushB', 'machine-chest-press');
+  assert.equal(d.weight, 160, 'the stuck-weight readout is this gym\'s too');
+  // and a real plateau at the new gym still fires
+  const flat = [...history,
+    at('2026-09-30', 'Warsaw', 120, 12),
+    at('2026-11-04', 'NYC', 150, 9), at('2026-11-12', 'NYC', 150, 9), at('2026-11-19', 'NYC', 150, 9),
+  ];
+  assert.equal(E.isStalled(plan, flat, 'PushB', s), true, 'three flat NYC nights still stall');
+});
 ok('legacy history alone never stalls', () => {
   assert.equal(E.stalledLifts(plan, history).length, 0);
 });
@@ -1189,6 +1212,23 @@ ok('weekly sets per muscle: primary counts 1, secondary ½, untagged counts noth
   assert.equal(done.chest, 2);
   assert.equal(done.triceps, 1);
   assert.equal(done.quads, 0);
+});
+
+ok('direct weekly sets count primaries only — one convention can be checked against the other', () => {
+  const tagged = {
+    sessions: { PushA: { name: 'Push A', exercises: [{ id: 'bench-x', sets: 4 }] }, PullA: { name: 'Pull A', exercises: [{ id: 'row-x', sets: 3 }] } },
+    exercises: {
+      'bench-x': { name: 'Bench', muscles: { primary: ['chest'], secondary: ['triceps'] } },
+      'row-x': { name: 'Row', muscles: { primary: ['upper-back', 'lats'], secondary: ['biceps'] } },
+    },
+  };
+  const d = E.directWeeklyByMuscle(tagged);
+  assert.equal(d.chest, 4);
+  assert.equal(d.triceps, 0, 'a secondary mover gets no direct credit');
+  assert.equal(d['upper-back'], 3);
+  assert.equal(d.lats, 3);
+  assert.equal(d.biceps, 0);
+  assert.deepEqual(Object.keys(d), E.MUSCLES);
 });
 
 console.log(`\n${n} engine tests passed`);

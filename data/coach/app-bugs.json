@@ -1,0 +1,11 @@
+[
+  {
+    "id": "stall-label-cross-gym",
+    "found": "2026-11-15",
+    "what": "The \"stalled\" chip compared a lift's nights across gyms, so five lifts climbing at New York (Push B chest press, high-to-low crossover, straight-arm pulldown, reverse curl, seated row) were labelled stalled against numbers from Warsaw, Singapore and Chennai.",
+    "where": "js/engine.js isStalled / stallDetail",
+    "consequence": "A wrong label on five cards he trains from; on 15 November he wrote \"Wtf why are you saying stalled?!?!\".",
+    "status": "fixed",
+    "fixed_in": "v93"
+  }
+]

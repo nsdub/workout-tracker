@@ -1805,6 +1805,11 @@ body.booted .tab.active .t-face { animation: tab-boing .35s var(--spring); }
   border: 1px dashed #ffb038; border-radius: 8px; padding: 7px 9px; margin-bottom: 8px;
 }
 .pv-flag svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+/* his notes, answered (v93): his own words in a speech bubble, the trainer's answer under it */
+.pv-qa { margin-top: 10px; padding-top: 8px; border-top: 1px dashed color-mix(in srgb, var(--ink2) 35%, transparent); }
+.pv-qa:first-of-type { border-top: 0; }
+.pv-q { font-family: var(--body); font-size: 12.5px; font-style: italic; color: var(--ink); background: color-mix(in srgb, var(--acc) 14%, transparent); border-radius: 14px 14px 14px 3px; padding: 6px 10px; display: inline-block; transform: rotate(-.6deg); }
+.pv-qd { font-family: var(--mono); font-style: normal; font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); margin-left: 8px; }
 .pv-foot { font-family: var(--body); font-size: 12px; color: var(--ink2); line-height: 1.45; margin-top: 10px; }
 /* Something is waiting on you — a count on the tab you aren't looking at. */
 .tab { position: relative; }

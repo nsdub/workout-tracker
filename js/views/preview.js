@@ -234,6 +234,32 @@ export function provenanceText(p) {
   return `<b>${p.trainer.length} of ${p.total} lifts</b> were set by ${src}, which read your log through ${esc(fmtDate(p.reviewedThrough))}. The other ${p.rules.length} came from the standing rules. Each lift says which on its own card.`;
 }
 
+// What the trainer owes him beyond tonight's numbers, rendered under the
+// brief: an answer to every note he wrote on a card (keyed in the packet's
+// answers[], gated by validate-coach), and the show-prep plan once the show is
+// inside the prep window. Before 2026-11-17 neither had anywhere to appear:
+// his questions were answered, when they were, somewhere inside a long brief.
+export function coachExtras(coach) {
+  const answers = (coach?.answers ?? []).filter((a) => a?.note && a?.answer);
+  const prep = coach?.review?.prep;
+  const open = answers.filter((a) => a.status === 'open').length;
+  let html = '';
+  if (answers.length) {
+    html += `<div class="card pv-brief pv-answers"><details class="why"><summary>Your notes, answered (${answers.length}${open ? `, ${open} still open` : ''})</summary>
+      ${answers.map((a) => `<div class="pv-qa"><div class="pv-q">“${esc(a.note)}”<span class="pv-qd">${esc(fmtDate(a.date))}${a.status === 'open' ? ' · still open' : ''}</span></div>
+        <div class="pv-brief-b">${esc(a.answer)}</div></div>`).join('')}
+    </details></div>`;
+  }
+  if (prep?.plan) {
+    html += `<div class="card pv-brief pv-prep"><details class="why"><summary>Show prep · ${esc(String(prep.weeks_out ?? '?'))} weeks out</summary>
+      <div class="pv-brief-b">${esc(prep.plan)}</div>
+      ${prep.next_step ? `<div class="pv-brief-b"><b>Next:</b> ${esc(prep.next_step)}</div>` : ''}
+      ${(prep.data_missing ?? []).length ? `<div class="pv-why">Still missing: ${esc(prep.data_missing.join('; '))}</div>` : ''}
+    </details></div>`;
+  }
+  return html;
+}
+
 export function previewRows(sessionType, dateStr = null) {
   const date = dateStr ?? new Date().toLocaleDateString('sv-SE');
   const plan = store.livePlan();
@@ -279,6 +305,7 @@ export function previewSheet(sessionType, { when = null, dateStr = null } = {}) 
         <details class="why"><summary>Trainer’s note, ${esc(fmtDate(store.coach.date ?? store.coach.reviewed_through))}</summary>
         <div class="pv-brief-b">${esc(store.coach.brief)}</div></details>
       </div>` : ''}
+    ${coachFresh ? coachExtras(store.coach) : ''}
     ${flags.map((f) => `<div class="pv-flag">${ICONS.warn} ${esc(f.note ?? f.kind ?? '')}</div>`).join('')}
     <div class="pv-list">
       ${(() => {

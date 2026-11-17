@@ -109,6 +109,22 @@ export function plannedWeeklyByMuscle(plan) {
   return acc;
 }
 
+// DIRECT sets only: a set counts 1 for each PRIMARY mover and nothing for a
+// secondary. The weighted count above is the one the targets judge; this one
+// exists so the trainer can never quote one convention to defend a slot and
+// the other to criticise it. On 2026-11-12 the review defended four seated
+// row sets with "upper back has 8 direct sets, the floor" while the same
+// packet called upper back 19.5 weighted sets, over its ceiling.
+export function directWeeklyByMuscle(plan) {
+  const acc = Object.fromEntries(MUSCLES.map((m) => [m, 0]));
+  for (const type of plan.rotation ?? Object.keys(plan.sessions)) {
+    for (const slot of plan.sessions[type]?.exercises ?? []) {
+      for (const m of exMeta(plan, slot.id)?.muscles?.primary ?? []) if (m in acc) acc[m] += slot.sets ?? 0;
+    }
+  }
+  return acc;
+}
+
 // What he actually DID per muscle across the given entries. A set counts
 // when it carries work (reps, or seconds on a timed slot). Substitutes
 // (`as`) are credited to the slot's own muscles: a barbell in a smith slot
@@ -923,12 +939,23 @@ export function previewSession(plan, history, sessionType, phaseInfo, coach = nu
 
 // ——— Stall detection ———
 
+// A stall is judged on ONE machine: the nights logged at the gym of the newest
+// night. On 2026-11-17 the label called his New York chest press stalled by
+// comparing it with 165 for 10 on the Warsaw machine; five lifts that were
+// climbing at New York wore the label. An unlabelled gym (null) is its own
+// group — it is never assumed to be the same room as a named one.
+function atNewestGym(perfs) {
+  if (!perfs.length) return perfs;
+  const gym = perfs[perfs.length - 1].entry.gym ?? null;
+  return perfs.filter((p) => (p.entry.gym ?? null) === gym);
+}
+
 // 3 sessions without progression on a lift → flag. A weight increase or a
 // met progression-trigger on the newest performance clears it.
 export function isStalled(plan, history, sessionType, slot) {
   const since = calibrationStart(plan);
-  const perfs = performances(history, sessionType, slot.id, Infinity, { as: exMeta(plan, slot.id).as ?? null })
-    .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
+  const perfs = atNewestGym(performances(history, sessionType, slot.id, Infinity, { as: exMeta(plan, slot.id).as ?? null })
+    .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase)));
   if (perfs.length < 3) return false;
   const recent = perfs.slice(-4);
   const tops = recent.map((p) => topSet(p.ex.sets) ?? { weight: 0, reps: 0 });
@@ -980,8 +1007,8 @@ export function stalledLifts(plan, history) {
 // handling it.
 export function stallDetail(plan, history, sessionType, exId) {
   const since = calibrationStart(plan);
-  const perfs = performances(history, sessionType, exId, Infinity, { as: exMeta(plan, exId).as ?? null })
-    .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase));
+  const perfs = atNewestGym(performances(history, sessionType, exId, Infinity, { as: exMeta(plan, exId).as ?? null })
+    .filter((p) => p.entry.date >= since && !deloadPhaseIds(plan).includes(p.entry.phase)));
   const recent = perfs.slice(-4);
   if (!recent.length) return null;
   const tops = recent.map((p) => ({ date: p.entry.date, ...(topSet(p.ex.sets) ?? { weight: 0, reps: 0 }) }));

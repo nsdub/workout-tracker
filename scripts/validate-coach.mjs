@@ -11,6 +11,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as E from '../js/engine.js';
+import { previousPacket, notesToAnswer, prepFacts, cardNames, duplicateMovements, appBugs, BODYWEIGHT_STALE_DAYS, PREP_WINDOW_DAYS } from './coach-ledger.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pktPath = process.argv[2] ?? join(root, 'data/coach/latest.json');
@@ -76,6 +77,7 @@ if (!program) {
   // land in one day and a verdict acted on by the first is still acted on.
   const todays = (program.changes ?? []).filter((c) => c.date === pkt.date && c.kind !== 'snapshot');
   const planned = E.plannedWeeklyByMuscle(plan);
+  const direct = E.directWeeklyByMuscle(plan);
 
   if (review?.block) {
     const b = review.block;
@@ -95,6 +97,10 @@ if (!program) {
     // from the program, not taken from the packet.
     if (Math.abs((r.planned_weekly_sets ?? -1) - planned[m]) > 0.05) fail(`${tag}: planned_weekly_sets ${r.planned_weekly_sets} but the program plans ${planned[m]}`);
     if (!(typeof r.done_4wk_avg === 'number')) fail(`${tag}: done_4wk_avg required (from the dossier's muscle_week.avg_4wk_done)`);
+    // ONE convention per argument (2026-11-17 audit): the targets judge the
+    // weighted figure; the direct figure is stated beside it, recomputed here,
+    // so no verdict can quote whichever count happens to suit it.
+    if (Math.abs((r.direct_weekly_sets ?? -1) - direct[m]) > 0.05) fail(`${tag}: direct_weekly_sets ${r.direct_weekly_sets} but the program plans ${direct[m]} direct (primary-mover) sets — copy muscle_week.planned_direct`);
     if (['raise', 'cut', 'rotate'].includes(r.verdict)) {
       const touched = todays.some((c) => {
         const ex = plan.exercises[c.exercise ?? c.after?.id];
@@ -127,6 +133,69 @@ if (!program) {
     if (!(d.muscle || d.exercise) || !d.why) fail(`deferred[${i}]: needs muscle|exercise and why`);
     if (d.until <= pkt.date) fail(`deferred[${i}]: until ${d.until} is not in the future`);
   }
+}
+
+// ——— EVERY NOTE HE WRITES GETS AN ANSWER ———
+// He asked "Does the science support any of your set counts?" on 10 November
+// and a week later the review still listed it as open. A note on a card is a
+// question to his trainer. Every note since the last packet, plus anything it
+// left open, needs an entry in answers[] keyed "<date>:<scope>".
+{
+  const prev = previousPacket(root, pkt.date);
+  const owed = notesToAnswer(history, prev, pkt.date);
+  const answers = Array.isArray(pkt.answers) ? pkt.answers : null;
+  if (!answers && owed.length) fail(`answers[] missing — ${owed.length} note(s) he wrote need an answer (see the dossier's notes_to_answer)`);
+  const byKey = new Map((answers ?? []).map((a) => [a?.key, a]));
+  for (const n of owed) {
+    const a = byKey.get(n.key);
+    const tag = `answers[${n.key}]`;
+    if (!a) { fail(`${tag}: he wrote "${n.note.slice(0, 80)}" and the packet does not answer it`); continue; }
+    if (!['answered', 'open', 'ack'].includes(a.status)) fail(`${tag}: status must be answered | open | ack`);
+    if (typeof a.answer !== 'string' || a.answer.trim().length < 20) fail(`${tag}: answer must be real sentences addressed to him`);
+    if (a.note !== n.note) fail(`${tag}: note must quote what he wrote, exactly`);
+    if (a.status === 'open' && (typeof a.consequence !== 'string' || !a.consequence.trim())) fail(`${tag}: an open answer must say what it costs him until it is closed`);
+  }
+  for (const a of answers ?? []) if (!owed.some((n) => n.key === a?.key)) warn(`answers[${a?.key}]: not a note owed today (kept, but check the key)`);
+}
+
+// ——— SHOW PREP ———
+// 104 days out on 17 November the prep phase was a placeholder, no bodyweight
+// had been logged since 23 August, and no review had said what prep would be.
+// Inside the prep window every packet carries review.prep, and its numbers are
+// recomputed here.
+{
+  const facts = prepFacts(plan, history, pkt.date);
+  if (facts?.in_window) {
+    const p = pkt.review?.prep;
+    if (!p || typeof p !== 'object') fail(`review.prep missing — the show is ${facts.days_away} days away; every review inside ${PREP_WINDOW_DAYS} days of the show states the prep plan`);
+    else {
+      if (p.weeks_out !== facts.weeks_out) fail(`review.prep.weeks_out ${p.weeks_out} but the show is ${facts.weeks_out} weeks out`);
+      if ((p.bodyweight_last ?? null) !== (facts.bodyweight_last?.date ?? null)) fail(`review.prep.bodyweight_last ${p.bodyweight_last} but the last logged bodyweight is ${facts.bodyweight_last?.date ?? 'none'}`);
+      if (typeof p.plan !== 'string' || p.plan.trim().length < 120) fail('review.prep.plan must lay out the prep in real sentences: when it starts, how training changes, how fat loss is paced and checked');
+      if (typeof p.next_step !== 'string' || p.next_step.trim().length < 20) fail('review.prep.next_step: the one thing that happens next for prep, and when');
+      if (!Array.isArray(p.data_missing)) fail('review.prep.data_missing[] required (empty only when nothing is missing)');
+      const stale = facts.days_since_bodyweight == null || facts.days_since_bodyweight > BODYWEIGHT_STALE_DAYS;
+      if (stale && !(p.data_missing ?? []).some((x) => /bodyweight|weigh/i.test(String(x)))) fail(`review.prep.data_missing must name the bodyweight: ${facts.bodyweight_last ? `the last was ${facts.days_since_bodyweight} days ago` : 'none has ever been logged'}`);
+      if (facts.prep_is_placeholder && facts.days_until_prep <= 28 && !/\b(week|wk)\b/i.test(p.plan ?? '')) fail('review.prep.plan: prep starts within four weeks and the calendar still says placeholder — the plan must say week by week what changes');
+    }
+  }
+}
+
+// ——— TONIGHT'S CARD NEVER SHOWS ONE MOVEMENT TWICE ———
+{
+  const t = pkt.session_expected ?? E.rotationNext(plan, history);
+  if (plan.sessions[t]) {
+    for (const d of duplicateMovements(cardNames(plan, history, t))) {
+      fail(`${t}: the card would show "${d.a.shown}" (${d.a.id}) and "${d.b.shown}" (${d.b.id}) — ${d.why}. On 31 October that was "YOU GAVE ME TWO DIPS EXERCISES".`);
+    }
+  }
+}
+
+// ——— APP BUGS ARE FILED, NOT BURIED ———
+for (const [i, b] of appBugs(root).entries()) {
+  const tag = `app-bugs[${i}]`;
+  for (const k of ['id', 'found', 'what', 'where', 'consequence']) if (typeof b?.[k] !== 'string' || !b[k].trim()) fail(`${tag}: ${k} required`);
+  if (!['open', 'fixed'].includes(b?.status)) fail(`${tag}: status must be open | fixed`);
 }
 
 // ——— overrides: tonight's loads ———
@@ -170,6 +239,16 @@ for (const o of pkt.overrides ?? []) {
       .some((x) => x.id === o.exercise && x.repUnit === 'sec'));
     const repCap = timed ? 600 : (plan.rules?.validation?.maxReps ?? 30);
     if (!(s.reps >= 1) || s.reps > repCap) fail(`override ${o.exercise}: bad ${timed ? 'seconds' : 'reps'} ${s.reps}`);
+  }
+  // REPS INSIDE THE SLOT'S RANGE. On 17 November the Legs A leg extension
+  // (12 to 15) was asked at 157.5 for 10 "on purpose", the same weight as Legs
+  // B's 10-to-12 slot — the up-and-down he keeps asking about. If the trainer
+  // wants other reps, the rep range changes in the program, with a reason.
+  for (const sid of (o.session ? [o.session] : Object.keys(plan.sessions)).filter((k) => plan.sessions[k]?.exercises?.some((x) => x.id === o.exercise))) {
+    const slotDef = plan.sessions[sid].exercises.find((x) => x.id === o.exercise);
+    for (const s of o.sets ?? []) {
+      if (s.reps < slotDef.repMin || s.reps > slotDef.repMax) fail(`override ${o.exercise} (${sid}): ${s.weight}×${s.reps} sits outside the slot's ${slotDef.repMin}–${slotDef.repMax} — pick a weight for the range, or change the range in program.json with a reason`);
+    }
   }
   const pain = painRecent[o.exercise];
   if (pain) {

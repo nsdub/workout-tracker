@@ -1414,4 +1414,76 @@ await ok('the dossier is the whole printout: every lift, every muscle, every nig
   assert.throws(() => execFileSync(process.execPath, [`${root}scripts/coach-dossier.mjs`, '--slice=program'], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
 });
 
+// ——— 2026-11-17 audit: the trainer's new tools ———
+await ok('every note he writes is owed an answer: the window since the last packet, plus anything left open', async () => {
+  const L = await import('./coach-ledger.mjs');
+  const h = [
+    { date: '2026-11-10', session_type: 'PullA', exercises: [{ id: 'seated-cable-row-wide', note: 'Does the science support any of your set counts?', sets: [] }] },
+    { date: '2026-11-15', session_type: 'PushA', notes: 'tired', exercises: [{ id: 'chest-dip', note: 'Is it deliberate?', sets: [] }, { id: 'x', sets: [] }] },
+    { date: '2026-11-16', session_type: 'PullA', supplemental: true, exercises: [] },
+  ];
+  // a packet from before answers[] existed: the ledger sweeps from the New York block
+  const fromStart = L.notesToAnswer(h, { date: '2026-11-16', reviewed_through: '2026-11-15' }, '2026-11-17');
+  assert.deepEqual(fromStart.map((n) => n.key), ['2026-11-10:seated-cable-row-wide', '2026-11-15:chest-dip', '2026-11-15:session']);
+  // a packet that answered through the 14th owes only what came after, plus its open items
+  const prev = { date: '2026-11-15', reviewed_through: '2026-11-14', answers: [
+    { key: '2026-11-10:seated-cable-row-wide', date: '2026-11-10', scope: 'seated-cable-row-wide', note: 'Does the science support any of your set counts?', status: 'open' },
+  ] };
+  const owed = L.notesToAnswer(h, prev, '2026-11-17');
+  assert.deepEqual(owed.map((n) => n.key), ['2026-11-10:seated-cable-row-wide', '2026-11-15:chest-dip', '2026-11-15:session'], 'an open answer is carried until it is closed');
+  assert.equal(owed.find((n) => n.key.startsWith('2026-11-10')).carried_from, '2026-11-15');
+  const closed = L.notesToAnswer(h, { ...prev, answers: [{ ...prev.answers[0], status: 'answered' }] }, '2026-11-17');
+  assert.ok(!closed.some((n) => n.key.startsWith('2026-11-10')), 'an answered note is not owed again');
+});
+
+await ok('prep facts: weeks out, the prep phase, and how stale the bodyweight is', async () => {
+  const L = await import('./coach-ledger.mjs');
+  const plan = { show: { date: '2027-03-01' }, phases: [{ id: 'prep', type: 'prep', start: '2026-12-09', end: '2027-03-31', note: 'Placeholder — detailed programming comes at Assessment.' }] };
+  const f = L.prepFacts(plan, [{ date: '2026-08-23', bodyweight: 207 }, { date: '2026-11-16' }], '2026-11-17');
+  assert.equal(f.days_away, 104);
+  assert.equal(f.weeks_out, 14);
+  assert.equal(f.prep_weeks_before_show, 11);
+  assert.equal(f.days_until_prep, 22);
+  assert.equal(f.prep_is_placeholder, true);
+  assert.deepEqual(f.bodyweight_last, { date: '2026-08-23', lb: 207 });
+  assert.equal(f.days_since_bodyweight, 86);
+  assert.equal(f.bodyweights_last_8wk, 0);
+  assert.equal(f.in_window, true);
+  assert.equal(L.prepFacts({ phases: [] }, [], '2026-11-17'), null, 'no show, no prep facts');
+});
+
+await ok('the card never shows one movement twice: the 31 October two-dips card is caught', async () => {
+  const L = await import('./coach-ledger.mjs');
+  const plan = {
+    sessions: { PushB: { exercises: [{ id: 'db-shoulder-press' }, { id: 'assisted-dips' }, { id: 'overhead-cable-triceps' }, { id: 'db-curl' }, { id: 'cable-hammer-curl' }] } },
+    exercises: { 'db-shoulder-press': { name: 'DB Shoulder Press' }, 'assisted-dips': { name: 'Assisted Dips' }, 'overhead-cable-triceps': { name: 'Overhead Cable Triceps' }, 'db-curl': { name: 'DB Curl' }, 'cable-hammer-curl': { name: 'Cable Hammer Curl' } },
+  };
+  const h = [
+    { date: '2026-10-28', gym: 'NYC', session_type: 'PushB', exercises: [{ id: 'overhead-cable-triceps', as: 'Dips', sets: [{ weight: 0, reps: 10 }] }] },
+    { date: '2026-10-12', gym: 'Chennai', session_type: 'PushB', exercises: [{ id: 'assisted-dips', as: 'Bench dips', sets: [{ weight: 0, reps: 17 }] }] },
+  ];
+  const names = L.cardNames(plan, h, 'PushB');
+  assert.equal(names.find((n) => n.id === 'overhead-cable-triceps').shown, 'Dips', 'the name he typed at this gym is what the card shows');
+  assert.equal(names.find((n) => n.id === 'assisted-dips').shown, 'Assisted Dips', 'a substitute typed at another gym does not follow him');
+  const d = L.duplicateMovements(names);
+  assert.equal(d.length, 1);
+  assert.deepEqual([d[0].a.id, d[0].b.id].sort(), ['assisted-dips', 'overhead-cable-triceps']);
+  // two curls in one day are a normal design, not a duplicate
+  assert.ok(!d.some((x) => x.a.id === 'db-curl' || x.b.id === 'db-curl'));
+});
+
+await ok('the dossier carries the new tools: direct sets, the notes owed, prep, card names, app bugs, gym facts', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const root = new URL('..', import.meta.url).pathname;
+  const d = JSON.parse(execFileSync(process.execPath, [`${root}scripts/coach-dossier.mjs`], { cwd: root, encoding: 'utf8', maxBuffer: 64 << 20 }));
+  const E = await import('../js/engine.js');
+  assert.deepEqual(Object.keys(d.muscle_week.planned_direct), E.MUSCLES);
+  assert.ok(Array.isArray(d.notes_to_answer) && d.notes_to_answer.every((x) => /^\d{4}-\d{2}-\d{2}:/.test(x.key) && x.note));
+  assert.ok(d.prep && Number.isInteger(d.prep.weeks_out) && 'days_since_bodyweight' in d.prep);
+  assert.ok(Array.isArray(d.tonight_card_names) && d.tonight_card_names.length === d.next_session_slots.length);
+  assert.ok(Array.isArray(d.tonight_duplicate_movements));
+  assert.ok(Array.isArray(d.app_bugs));
+  assert.ok(d.gym_facts && typeof d.gym_facts === 'object');
+});
+
 console.log(`\n${n} app tests passed`);

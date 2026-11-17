@@ -7,7 +7,7 @@ import { flushQueue, checkConnection, pullRemote, importSeedBundle } from '../gi
 import { numpadSheet, optionSheet, confirmSheet, openSheet, toast, showRestTimer, hideRestTimer, restBellAt, burstAt, flashCard, prOverlay, ICONS } from '../components.js';
 import { UNIVERSES, applyWorld, universeOf, worldDef, pickWorld, returnWorld, NEUTRAL_COPY } from '../worlds.js';
 import { sfx } from '../audio.js';
-import { BASIS, previewSheet, provenance, provenanceText, coachSetAside, setAsideText } from './preview.js';
+import { BASIS, previewSheet, provenance, provenanceText, coachSetAside, setAsideText, coachExtras } from './preview.js';
 import { changeLine, openProgramSheet } from '../program.js';
 
 // A "night" is a LIFTING night. store.history also holds conditioning entries
@@ -1330,6 +1330,7 @@ function briefingSheet() {
           <h2>Tonight’s brief</h2>
           <div class="sub">${esc(store.coach?.reviewer ?? 'Your trainers')} · ${esc(fmtDate(store.coach?.date))}</div>
           <div class="card"><div class="pv-why">${esc(store.coach?.brief ?? '')}</div></div>
+          ${coachExtras(store.coach)}
           <button class="btn quiet" id="tb-close" style="margin-top:12px">Close</button>`, {
           onOpen(s2, c2) { $('#tb-close', s2).addEventListener('click', c2); },
         }), 120);
