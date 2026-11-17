@@ -246,9 +246,8 @@ for (const o of pkt.overrides ?? []) {
   // wants other reps, the rep range changes in the program, with a reason.
   for (const sid of (o.session ? [o.session] : Object.keys(plan.sessions)).filter((k) => plan.sessions[k]?.exercises?.some((x) => x.id === o.exercise))) {
     const slotDef = plan.sessions[sid].exercises.find((x) => x.id === o.exercise);
-    for (const s of o.sets ?? []) {
-      if (s.reps < slotDef.repMin || s.reps > slotDef.repMax) fail(`override ${o.exercise} (${sid}): ${s.weight}×${s.reps} sits outside the slot's ${slotDef.repMin}–${slotDef.repMax} — pick a weight for the range, or change the range in program.json with a reason`);
-    }
+    const out = (o.sets ?? []).filter((s) => s.reps < slotDef.repMin || s.reps > slotDef.repMax);
+    if (out.length) fail(`override ${o.exercise} (${sid}): ${out.map((s) => `${s.weight}×${s.reps}`).join(', ')} sits outside the slot's ${slotDef.repMin}–${slotDef.repMax} — pick a weight for the range, or change the range in program.json with a reason`);
   }
   const pain = painRecent[o.exercise];
   if (pain) {
