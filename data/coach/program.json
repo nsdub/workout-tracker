@@ -1,6 +1,6 @@
 {
-  "version": 13,
-  "date": "2026-11-16",
+  "version": 14,
+  "date": "2026-11-18",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -33,19 +33,11 @@
         },
         {
           "id": "db-lateral-raise",
-          "sets": 3,
+          "sets": 4,
           "repMin": 12,
           "repMax": 15,
           "rest": 75,
           "seed": 12.5
-        },
-        {
-          "id": "reverse-pec-deck",
-          "sets": 3,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seedNote": "Swapped in for Face Pulls — set your working weight"
         },
         {
           "id": "chest-dip",
@@ -116,7 +108,7 @@
       "exercises": [
         {
           "id": "leg-press-low",
-          "sets": 3,
+          "sets": 4,
           "repMin": 8,
           "repMax": 10,
           "rest": 180,
@@ -148,7 +140,7 @@
         },
         {
           "id": "leg-extension",
-          "sets": 2,
+          "sets": 3,
           "repMin": 12,
           "repMax": 15,
           "rest": 90,
@@ -203,7 +195,7 @@
         },
         {
           "id": "db-lateral-raise",
-          "sets": 3,
+          "sets": 4,
           "repMin": 12,
           "repMax": 15,
           "rest": 75,
@@ -289,7 +281,7 @@
         },
         {
           "id": "cable-reverse-curl",
-          "sets": 3,
+          "sets": 2,
           "repMin": 10,
           "repMax": 12,
           "rest": 75,
@@ -406,28 +398,28 @@
   },
   "targets": {
     "chest": {
-      "min": 10,
-      "max": 18
+      "min": 12,
+      "max": 20
     },
     "front-delts": {
-      "min": 4,
-      "max": 10
-    },
-    "side-delts": {
       "min": 6,
       "max": 16
+    },
+    "side-delts": {
+      "min": 10,
+      "max": 20
     },
     "rear-delts": {
       "min": 6,
-      "max": 12
+      "max": 14
     },
     "lats": {
-      "min": 10,
-      "max": 18
+      "min": 12,
+      "max": 20
     },
     "upper-back": {
-      "min": 8,
-      "max": 16
+      "min": 10,
+      "max": 20
     },
     "traps": {
       "min": 4,
@@ -438,24 +430,24 @@
       "max": 8
     },
     "biceps": {
-      "min": 8,
-      "max": 14
+      "min": 10,
+      "max": 20
     },
     "triceps": {
-      "min": 8,
-      "max": 14
+      "min": 10,
+      "max": 20
     },
     "forearms": {
-      "min": 2,
-      "max": 8
+      "min": 4,
+      "max": 10
     },
     "quads": {
-      "min": 10,
-      "max": 18
+      "min": 12,
+      "max": 20
     },
     "hamstrings": {
       "min": 8,
-      "max": 14
+      "max": 16
     },
     "glutes": {
       "min": 6,
@@ -463,15 +455,15 @@
     },
     "adductors": {
       "min": 2,
-      "max": 6
+      "max": 8
     },
     "abductors": {
       "min": 2,
       "max": 6
     },
     "calves": {
-      "min": 6,
-      "max": 12
+      "min": 8,
+      "max": 16
     },
     "abs": {
       "min": 4,
@@ -2153,6 +2145,285 @@
       "evidence": [
         "2026-11-15:chest-dip",
         "2026-11-09:chest-dip"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": "PushA",
+      "exercise": "reverse-pec-deck",
+      "kind": "remove",
+      "before": {
+        "id": "reverse-pec-deck",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "after": null,
+      "why": "You asked on 15 November whether this exercise should be on every push day. No, and it comes off Push A today. Rear delts had 10 direct sets a week (this machine on both push days, face pulls on both pull days) and they also get help from every row and pulldown: 15.5 sets a week once that help is counted at half. Side delts, which set how wide your shoulders look on stage, had 6 direct and 8 counted the same way. That is the wrong way round for a physique that is going to be judged, and it is what the 17 November audit of this program found. The reverse pec deck stays on Push B, where you did 97.5 for 12, 12, 12 on 12 November. Rear delts go to 7 direct sets a week, 12.5 with the half credit, inside the range. Counted that way side delts go from 8 to 10 today, so they are still behind rear delts; the gap went from 7.5 sets to 2.5, and the review after the first two four-set lateral nights decides the rest. On 17 November I wrote that this lift stays on both push days on purpose; the audit is the new fact since then. Push A goes from 19 sets to 17 once the fourth lateral set below is added.",
+      "evidence": [
+        "2026-11-15:reverse-pec-deck",
+        "2026-11-15:note",
+        "2026-11-12:reverse-pec-deck",
+        "2026-11-15:db-lateral-raise"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": "PushA",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "id": "db-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "after": {
+        "id": "db-lateral-raise",
+        "sets": 4,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "A fourth set of lateral raises on Push A, in the place the reverse pec deck left. On 23 August you asked whether four sets was right for such a small muscle and said you would do it if I was sure. I am sure, and the program should have said so then instead of cutting the set. The research on how many hard sets a muscle needs each week to grow (Schoenfeld, Ogborn and Krieger 2017, and the studies since) lands at roughly 10 to 20 for a trained lifter, and a small muscle does not need fewer. Side delts were getting 6 direct sets, 8 with the half credit from the shoulder press. Four sets on each push day makes 8 direct and 10 counted, the bottom of that range, for the muscle that decides shoulder width on stage. The lift is going up (17.5 for 12, 12, 12 on 15 November after 12.5 for 14, 13, 13 on 9 November), so you are recovering from what it gets now.",
+      "evidence": [
+        "2026-11-15:db-lateral-raise",
+        "2026-11-09:machine-lateral-raise",
+        "2026-08-23:db-lateral-raise"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": "PushB",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "id": "db-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "after": {
+        "id": "db-lateral-raise",
+        "sets": 4,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 75
+      },
+      "why": "A fourth set of lateral raises on Push B too, for the same reason as Push A: side delts go from 6 direct sets a week to 8, and from 8 to 10 with the half credit from the shoulder press. Laterals stay on two days a week, the two push days. The cable raise that came off Pull A on 14 November stays off, so this is more work on the days you already do them, not more days. Push B goes from 20 sets to 21. You did 15 for 15, 15, 15 here on 12 November and 17.5 for 12, 12, 12 on Push A on 15 November.",
+      "evidence": [
+        "2026-11-12:db-lateral-raise",
+        "2026-11-15:db-lateral-raise",
+        "2026-11-12:note"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": "LegsA",
+      "exercise": "leg-press-low",
+      "kind": "sets",
+      "before": {
+        "id": "leg-press-low",
+        "sets": 3,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "after": {
+        "id": "leg-press-low",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "why": "A fourth set of leg press on Legs A. Quads had 13 sets a week, level with hamstrings, and quads are what the front poses are scored on. Every quad lift went up on 17 November: leg press 220 for 8, 8, 8 (the card asked 210), leg extension 157.5 for 12, 12, split squat 25 for 8, 8. Legs A took 45 minutes for all 20 sets that night, so there is room for more. With the third leg extension set below, quads go to 15 sets a week and Legs A to 22 sets. The whole week stays at 119 sets, because the same version takes four off rear delts and forearms (three reverse pec deck sets on Push A, one reverse curl set). The next Legs A falls on 24 or 25 November, at the edge of the lighter week, so the first Legs A at the full four sets is likely the one after it.",
+      "evidence": [
+        "2026-11-17:leg-press-low",
+        "2026-11-14:leg-press-low",
+        "2026-11-11:leg-press-low"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": "LegsA",
+      "exercise": "leg-extension",
+      "kind": "sets",
+      "before": {
+        "id": "leg-extension",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 90
+      },
+      "after": {
+        "id": "leg-extension",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 90
+      },
+      "why": "A third set of leg extensions on Legs A, the same count as Legs B. This is the second of the two added quad sets (see the leg press change): quads go from 13 sets a week to 15. You did 157.5 for 12, 12 on 17 November, the bottom of this slot's 12 to 15, after 150 for 13, 13 on 11 November.",
+      "evidence": [
+        "2026-11-17:leg-extension",
+        "2026-11-11:leg-extension",
+        "2026-11-14:leg-extension"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": "PullB",
+      "exercise": "cable-reverse-curl",
+      "kind": "sets",
+      "before": {
+        "id": "cable-reverse-curl",
+        "sets": 3,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 75
+      },
+      "after": {
+        "id": "cable-reverse-curl",
+        "sets": 2,
+        "repMin": 10,
+        "repMax": 12,
+        "rest": 75
+      },
+      "why": "One set comes off the reverse curl on Pull B. Forearms had 6 direct sets a week (hammer curl and this) and 11 with half credit from the dumbbell curl, the shrug and the RDL: more than side delts were getting. Forearms count for little on stage next to shoulders and quads, so this set is one of the four that pay for the added lateral and quad sets and keep the week at 119 (the other three are the reverse pec deck on Push A). Forearms go to 5 direct and 10 counted; biceps to 10 direct and 17 counted. The lift itself is fine (32.5 for 10, then 37.5 for 10, 10 on 13 November) and keeps its weight. Pull B goes from 21 sets to 20.",
+      "evidence": [
+        "2026-11-13:cable-reverse-curl",
+        "2026-11-05:cable-reverse-curl",
+        "2026-11-16:cable-hammer-curl"
+      ]
+    },
+    {
+      "version": 14,
+      "date": "2026-11-18",
+      "session": null,
+      "exercise": null,
+      "kind": "targets",
+      "before": {
+        "chest": {
+          "min": 10,
+          "max": 18
+        },
+        "front-delts": {
+          "min": 4,
+          "max": 10
+        },
+        "side-delts": {
+          "min": 6,
+          "max": 16
+        },
+        "rear-delts": {
+          "min": 6,
+          "max": 12
+        },
+        "lats": {
+          "min": 10,
+          "max": 18
+        },
+        "upper-back": {
+          "min": 8,
+          "max": 16
+        },
+        "biceps": {
+          "min": 8,
+          "max": 14
+        },
+        "triceps": {
+          "min": 8,
+          "max": 14
+        },
+        "forearms": {
+          "min": 2,
+          "max": 8
+        },
+        "quads": {
+          "min": 10,
+          "max": 18
+        },
+        "hamstrings": {
+          "min": 8,
+          "max": 14
+        },
+        "adductors": {
+          "min": 2,
+          "max": 6
+        },
+        "calves": {
+          "min": 6,
+          "max": 12
+        }
+      },
+      "after": {
+        "chest": {
+          "min": 12,
+          "max": 20
+        },
+        "front-delts": {
+          "min": 6,
+          "max": 16
+        },
+        "side-delts": {
+          "min": 10,
+          "max": 20
+        },
+        "rear-delts": {
+          "min": 6,
+          "max": 14
+        },
+        "lats": {
+          "min": 12,
+          "max": 20
+        },
+        "upper-back": {
+          "min": 10,
+          "max": 20
+        },
+        "biceps": {
+          "min": 10,
+          "max": 20
+        },
+        "triceps": {
+          "min": 10,
+          "max": 20
+        },
+        "forearms": {
+          "min": 4,
+          "max": 10
+        },
+        "quads": {
+          "min": 12,
+          "max": 20
+        },
+        "hamstrings": {
+          "min": 8,
+          "max": 16
+        },
+        "adductors": {
+          "min": 2,
+          "max": 8
+        },
+        "calves": {
+          "min": 8,
+          "max": 16
+        }
+      },
+      "why": "You asked on 10 November whether the science supports any of these set counts, and the 17 November audit found the reviews had been counting sets two different ways to suit the argument. This fixes the ranges to one rule. Every range is now for the number the app prints: a set counts 1 for each muscle doing the main work and one half for each muscle helping. The old ranges were written for direct sets only and then judged against the counted number, which is why six muscles read as over. The ranges come from the research on weekly hard sets per muscle (Schoenfeld, Ogborn and Krieger 2017): roughly 10 to 20 for a trained lifter. What a stage scores sits at 10 or 12 up to 20: side delts, chest, lats, upper back, biceps, triceps, quads; calves 8 to 16. What matters less sits lower: rear delts 6 to 14, forearms 4 to 10, traps, lower back, abductors and abs unchanged. Adductors go to 2 to 8: two of their sets are direct and the rest is help given on the leg press and split squat, which the fourth leg press set adds to. Front delts go to 6 to 16 because all of their work is a by-product of chest and shoulder pressing; no set is there only for them. The side-delt floor goes from 6 back up to 10: I lowered it on 14 November to fit a cap I had read into your two questions about laterals, and a question is not a cap. With today's set changes every muscle sits inside its range on this one count. Two scored muscles sit at the bottom of theirs: side delts at 10 and calves at 9.",
+      "evidence": [
+        "2026-11-10:note",
+        "2026-11-12:note",
+        "2026-08-23:db-lateral-raise",
+        "2026-11-17:leg-press-low"
       ]
     }
   ]
