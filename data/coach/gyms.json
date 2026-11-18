@@ -22,10 +22,12 @@
       "pendulum squat",
       "standing calf machine",
       "seated calf machine",
-      "lateral raise machine",
-      "neck harness",
-      "four-way neck machine"
+      "lateral raise machine"
     ],
-    "note": "Ask him before programming any machine listed under unknown. Rule 2: never fit a plan to equipment the log does not show."
+    "note": "Program only what is under known. Ask him before programming anything under unknown. Never program anything under absent: he has said it is not there. Rule 2: never fit a plan to equipment the log does not show.",
+    "absent": {
+      "neck-harness": "he said on 2026-11-18: \"i dont have a harness or neck machine\"",
+      "four-way-neck-machine": "he said on 2026-11-18: \"i dont have a harness or neck machine\""
+    }
   }
 }
