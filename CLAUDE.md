@@ -71,7 +71,7 @@ changes nothing and dates nothing is refused by the validator. Per-slot
 tinkering with no view of the week is the failure that got the panel
 fired; do not rebuild it under another name.
 
-## THE SEVEN RULES (added 2026-08-01, binding)
+## THE EIGHT RULES (seven added 2026-08-01, the eighth 2026-11-18; binding)
 
 1. **Check, then speak.** No claim about behaviour, hardware, or another
    agent's work is stated before it is executed, fetched, or read. A search
@@ -99,6 +99,22 @@ fired; do not rebuild it under another name.
    defends mine. "The branch is pushed" was true and read as a lie because
    the fact that mattered was "main is still v70 and your phone has none of
    it."
+
+8. **He has already told you. Search before you ask or build.** Before
+   asking him anything, and before writing any fact about him, his gym or
+   his equipment into a file, search everything he has given: the memory
+   notes (open the note, do not stop at the index line), `data/` including
+   `data/coach/gyms.json`, and past session transcripts in
+   `~/.claude/projects/-Users-nsw-Desktop-workspace-workout-tracker/*.jsonl`
+   (images are embedded there as base64; the upload copies get deleted).
+   The log alone is never the whole picture. A note that retires a fact
+   ("superseded", "old gym") is a claim to check against the log, not a
+   reason to stop reading. On 2026-11-18 the trainer's gym file was built
+   from the log alone, his 23 July photos of the whole gym were skipped
+   because a September note wrongly called it an old gym, and he was then
+   asked for an equipment list he had already sent. His words: "i have
+   posted this before. i even gave you fucking pictures of everything in
+   the gym".
 
 ## Hard rules for this repo
 
