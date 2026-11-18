@@ -1,0 +1,175 @@
+{
+  "date": "2026-11-17",
+  "session_type": "LegsA",
+  "phase": "meso3",
+  "week": 8,
+  "exercises": [
+    {
+      "id": "leg-press-low",
+      "name": "Leg Press (feet low)",
+      "sets": [
+        {
+          "weight": 220,
+          "reps": 8,
+          "at": 1794968664453
+        },
+        {
+          "weight": 220,
+          "reps": 8,
+          "at": 1794968872141,
+          "restEndedAt": 1794968850376
+        },
+        {
+          "weight": 220,
+          "reps": 8,
+          "at": 1794969062849,
+          "restEndedAt": 1794969052160
+        }
+      ],
+      "note": "Legs a and b both have feet low. Should one have feet high?"
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Calf Press (leg press)",
+      "sets": [
+        {
+          "weight": 300,
+          "reps": 13,
+          "at": 1794969178958
+        },
+        {
+          "weight": 300,
+          "reps": 13,
+          "at": 1794969330498,
+          "restEndedAt": 1794969253971
+        },
+        {
+          "weight": 300,
+          "reps": 13,
+          "at": 1794969457439,
+          "restEndedAt": 1794969405541
+        }
+      ]
+    },
+    {
+      "id": "db-bulgarian-split-squat",
+      "name": "DB Bulgarian Split Squat",
+      "sets": [
+        {
+          "weight": 25,
+          "reps": 8,
+          "at": 1794969719872,
+          "restEndedAt": 1794969532451
+        },
+        {
+          "weight": 25,
+          "reps": 8,
+          "at": 1794969794597
+        }
+      ]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794969940495,
+          "restEndedAt": 1794969914607
+        },
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794970082735,
+          "restEndedAt": 1794970030508
+        },
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794970239728
+        }
+      ]
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "sets": [
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794970355751,
+          "restEndedAt": 1794970329737
+        },
+        {
+          "weight": 157.5,
+          "reps": 12,
+          "at": 1794970508373,
+          "restEndedAt": 1794970445762
+        }
+      ]
+    },
+    {
+      "id": "hip-adductor",
+      "name": "Hip Adductor",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794970613020,
+          "restEndedAt": 1794970598444
+        },
+        {
+          "weight": 97.5,
+          "reps": 12,
+          "at": 1794970864289,
+          "restEndedAt": 1794970689227
+        }
+      ]
+    },
+    {
+      "id": "hip-abductor",
+      "name": "Hip Abductor",
+      "sets": [
+        {
+          "weight": 127.5,
+          "reps": 12,
+          "at": 1794970614214
+        },
+        {
+          "weight": 127.5,
+          "reps": 12,
+          "at": 1794970864929
+        }
+      ]
+    },
+    {
+      "id": "ab-crunch-machine",
+      "name": "Ab Crunch Machine",
+      "sets": [
+        {
+          "weight": 65,
+          "reps": 12,
+          "at": 1794971095495,
+          "restEndedAt": 1794970939939
+        },
+        {
+          "weight": 65,
+          "reps": 12,
+          "at": 1794971196321,
+          "restEndedAt": 1794971155511
+        },
+        {
+          "weight": 65,
+          "reps": 12,
+          "at": 1794971336844,
+          "restEndedAt": 1794971256332
+        }
+      ]
+    }
+  ],
+  "world": "bog",
+  "gym": "NYC",
+  "mins": 45,
+  "startedAt": 1794968049151
+}
