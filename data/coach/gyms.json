@@ -1,33 +1,44 @@
 {
   "NYC": {
     "known": {
-      "smith-machine": "2026-10-30 note on Legs B: \"Smith machine taken\" — it exists, and is often in use; smith incline press logged on it 2026-11-15 (180 for 6, 7, 8)",
-      "leg-press": "logged on every New York leg night since 2026-10-30",
-      "dumbbells-to-60": "chest-supported row at 60 on 2026-11-05; 80 lb dumbbell shrugs on 2026-10-29",
-      "chest-press-machine": "logged 2026-11-12 (165 for 9) and 2026-11-15 (157.5 for 12, 12, 12)",
+      "smith-machine": "2026-10-30 note on Legs B: \"Smith machine taken\" — it exists, and is often in use; smith incline press logged on it 2026-11-15 (180 for 6, 7, 8); photographed 2026-07-23, loaded with standard 1-inch plates (2.5, 5, 10, 25, 35, 45)",
+      "leg-press": "Technogym selectorized leg press, 20-lb steps (his readout 2026-07-23). Calf raises are done on this machine. Seen in his photos of the whole gym, sent in chat 2026-07-23; logged on every New York leg night since 2026-10-30",
+      "chest-press-machine": "15-lb stack steps plus a 7.5 micro selector (his readout 2026-07-23); logged 2026-11-12 (165 for 9) and 2026-11-15 (157.5 for 12, 12, 12)",
       "reverse-pec-deck": "logged 2026-11-12 and 2026-11-15 (97.5 for 12, 12, 12)",
-      "cable-station": "crossovers, pushdowns, face pulls, hammer and reverse curls logged on cables, e.g. 2026-11-12 and 2026-11-16",
-      "lat-pulldown-and-seated-row": "wide pulldown 135 for 8 and seated row 112.5 for 10 on 2026-11-16",
+      "cable-station": "Life Fitness dual adjustable pulley, two stacks marked per handle 2.5 to 97.5 in 5-lb steps, plus two add-on micro weights of 1.25 lb each per handle. Attachments: Stroops strap, rope, straight bar, D-handles, single handle, ankle cuff. Seen in his photos of the whole gym, sent in chat 2026-07-23; logged since, e.g. 2026-11-12 and 2026-11-16",
+      "lat-pulldown-and-seated-row": "Life Fitness pulldown and row, one selectorized machine. Seen in his photos of the whole gym, sent in chat 2026-07-23; wide pulldown 135 for 8 and seated row 112.5 for 10 on 2026-11-16",
       "leg-extension": "157.5 on 2026-11-14 and 2026-11-17",
       "leg-curl": "157.5 for 12, 12, 12 on 2026-11-17; his steps on it were 150 then 157.5",
       "hip-adductor-and-abductor": "97.5 and 127.5 for 12, 12 on 2026-11-17",
-      "ab-crunch-machine": "65 for 12, 12, 12 on 2026-11-17; his steps on it were 55 then 65",
+      "ab-crunch-machine": "Technogym abdominal crunch machine. Seen in his photos of the whole gym, sent in chat 2026-07-23; 65 for 12, 12, 12 on 2026-11-17",
       "dip-station": "bodyweight dips 12, 12, 12 on 2026-11-15",
       "barbell": "deadlift 250 for 5 on 2026-11-16; RDL 185 for 9, 9, 9 on 2026-11-14",
       "dumbbells-logged": "17.5 (laterals, 2026-11-15), 25 (split squat, 2026-11-17), 30 and 35 (curls, 2026-11-13 and 2026-11-16), 50 (shoulder press, 2026-11-12), 60 (row, 2026-11-13), 80 (shrugs, 2026-11-13)",
-      "weight-plates": "barbell deadlift 250 for 5 on 2026-11-16 and RDL 185 on 2026-11-14 are loaded with plates"
+      "weight-plates": "barbell deadlift 250 for 5 on 2026-11-16 and RDL 185 on 2026-11-14 are loaded with plates",
+      "dumbbells": "Hampton rubber hex rack: 2.5-lb steps to 20, 5-lb steps to 50, then 60, 70 and 80 (top pair 80, he confirmed 2026-07-23). Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "adjustable-bench": "adjustable utility bench (flat, incline, decline) and a second adjustable bench with a seat. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "decline-ab-bench": "Life Fitness adjustable decline bench with leg rollers. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "back-extension-bench": "45-degree back extension bench with leg rollers and foot plates. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "preacher-curl-bench": "standalone among the dumbbell racks, found in the 2026-07-23 photo review",
+      "kettlebells": "Body-Solid 5, 10, 15, 20, 25, 30. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "medicine-and-slam-balls": "medicine balls 2, 4, 7 and 11 lb, plus a slam ball. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "stability-balls-and-bosu": "two stability balls and a BOSU. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "body-bars": "six weighted body bars. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "trx": "TRX suspension trainer. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "plyo-box": "wooden plyo box. Seen in his photos of the whole gym, sent in chat 2026-07-23",
+      "small-tools": "step platforms, sliders, a balance board, an ab wheel, a heavy bag and a ballet barre. Seen in his photos of the whole gym, sent in chat 2026-07-23"
     },
-    "unknown": [
-      "hack squat",
-      "pendulum squat",
-      "standing calf machine",
-      "seated calf machine",
-      "lateral raise machine"
-    ],
-    "note": "Program only what is under known. Ask him before programming anything under unknown. Never program anything under absent: he has said it is not there. Rule 2: never fit a plan to equipment the log does not show.",
+    "unknown": [],
     "absent": {
       "neck-harness": "he said on 2026-11-18: \"i dont have a harness or neck machine\"",
-      "four-way-neck-machine": "he said on 2026-11-18: \"i dont have a harness or neck machine\""
-    }
+      "four-way-neck-machine": "he said on 2026-11-18: \"i dont have a harness or neck machine\"",
+      "hack-squat": "not in his photos of the whole gym (2026-07-23)",
+      "pendulum-squat": "not in his photos of the whole gym (2026-07-23)",
+      "standing-calf-machine": "not in his photos of the whole gym (2026-07-23); calf raises are done on the leg press",
+      "seated-calf-machine": "not in his photos of the whole gym (2026-07-23); calf raises are done on the leg press",
+      "lateral-raise-machine": "not in his photos of the whole gym (2026-07-23)"
+    },
+    "photos": "His photos of the whole gym, sent in chat 2026-07-23. He said on 2026-11-18: \"i even gave you fucking pictures of everything in the gym\". This list was missing them until 2026-11-18.",
+    "note": "This is his New York building gym: the photos he sent on 2026-07-23 plus what the log proves. Program only what is under known. Never program anything under absent, and never ask him about it again. Equipment not in either list: assume it is not there."
   }
 }
