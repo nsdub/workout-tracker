@@ -66,7 +66,7 @@ rebuild — spec in `docs/superpowers/specs/2026-10-13-full-review-trainer.md`.
 ## THE DILIGENCE RULE (added 2026-10-13, binding)
 
 The daily review reads the WHOLE log and reviews the WHOLE program every
-day: the block, every one of the 18 muscles, every lift. A verdict that
+day: the block, every one of the 19 muscles (neck added 2026-11-18), every lift. A verdict that
 changes nothing and dates nothing is refused by the validator. Per-slot
 tinkering with no view of the week is the failure that got the panel
 fired; do not rebuild it under another name.

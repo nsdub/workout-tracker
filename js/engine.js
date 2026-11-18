@@ -69,16 +69,19 @@ export function exMeta(plan, id) {
 }
 
 // ——— Muscles ———
-// The eighteen groups a weekly set count is kept against. Every catalogue
+// The nineteen groups a weekly set count is kept against. Every catalogue
 // entry names its primary and secondary movers from THIS list and nothing
 // else; the daily review must give a verdict on every one of them, and the
 // validator refuses a packet that skips one. A set counts 1 for each primary
 // mover and 0.5 for each secondary — the usual "fractional sets" convention,
 // stated here once so the dossier, the validator and the screen agree.
 export const MUSCLES = [
-  'chest', 'front-delts', 'side-delts', 'rear-delts', 'lats', 'upper-back', 'traps', 'lower-back',
+  'chest', 'front-delts', 'side-delts', 'rear-delts', 'lats', 'upper-back', 'traps', 'neck', 'lower-back',
   'biceps', 'triceps', 'forearms', 'quads', 'hamstrings', 'glutes', 'adductors', 'abductors', 'calves', 'abs',
 ];
+// Neck was added 2026-11-18: he wrote "there are no neck exercises in the
+// program. this is an obvious mix in bodybuilding training". It was missing
+// from this list, so no review could see it, count it or program it.
 export const SECONDARY_WEIGHT = 0.5;
 
 // Sets credited to each muscle by ONE exercise for `n` sets. An exercise with

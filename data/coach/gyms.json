@@ -14,14 +14,17 @@
       "ab-crunch-machine": "65 for 12, 12, 12 on 2026-11-17; his steps on it were 55 then 65",
       "dip-station": "bodyweight dips 12, 12, 12 on 2026-11-15",
       "barbell": "deadlift 250 for 5 on 2026-11-16; RDL 185 for 9, 9, 9 on 2026-11-14",
-      "dumbbells-logged": "17.5 (laterals, 2026-11-15), 25 (split squat, 2026-11-17), 30 and 35 (curls, 2026-11-13 and 2026-11-16), 50 (shoulder press, 2026-11-12), 60 (row, 2026-11-13), 80 (shrugs, 2026-11-13)"
+      "dumbbells-logged": "17.5 (laterals, 2026-11-15), 25 (split squat, 2026-11-17), 30 and 35 (curls, 2026-11-13 and 2026-11-16), 50 (shoulder press, 2026-11-12), 60 (row, 2026-11-13), 80 (shrugs, 2026-11-13)",
+      "weight-plates": "barbell deadlift 250 for 5 on 2026-11-16 and RDL 185 on 2026-11-14 are loaded with plates"
     },
     "unknown": [
       "hack squat",
       "pendulum squat",
       "standing calf machine",
       "seated calf machine",
-      "lateral raise machine"
+      "lateral raise machine",
+      "neck harness",
+      "four-way neck machine"
     ],
     "note": "Ask him before programming any machine listed under unknown. Rule 2: never fit a plan to equipment the log does not show."
   }

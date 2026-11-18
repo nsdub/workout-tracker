@@ -1231,4 +1231,14 @@ ok('direct weekly sets count primaries only — one convention can be checked ag
   assert.deepEqual(Object.keys(d), E.MUSCLES);
 });
 
+ok('neck is a muscle and the catalogue can train it (2026-11-18: "there are no neck exercises in the program")', () => {
+  assert.ok(E.MUSCLES.includes('neck'), 'neck must be in the muscle list, or no review can see it');
+  const neckLifts = Object.entries(plan.exercises).filter(([, x]) => x.muscles?.primary?.includes('neck')).map(([id]) => id);
+  assert.ok(neckLifts.length >= 3, `only ${neckLifts.length} neck lifts in the catalogue`);
+  assert.ok(neckLifts.some((id) => plan.exercises[id].equipment === 'plate'), 'a neck lift that needs only a plate and a bench must exist');
+  const c = E.creditSets(plan, 'lying-neck-extension', 3);
+  assert.equal(c.neck, 3);
+  assert.equal(c.traps, 1.5);
+});
+
 console.log(`\n${n} engine tests passed`);
