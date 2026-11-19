@@ -1,6 +1,6 @@
 {
-  "version": 14,
-  "date": "2026-11-18",
+  "version": 15,
+  "date": "2026-11-19",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -46,6 +46,14 @@
           "repMax": 15,
           "rest": 90,
           "seed": 0
+        },
+        {
+          "id": "plate-neck-flexion",
+          "sets": 2,
+          "repMin": 15,
+          "repMax": 20,
+          "rest": 60,
+          "seed": 10
         }
       ]
     },
@@ -272,6 +280,14 @@
           "seed": 60
         },
         {
+          "id": "plate-neck-extension",
+          "sets": 2,
+          "repMin": 15,
+          "repMax": 20,
+          "rest": 60,
+          "seed": 10
+        },
+        {
           "id": "incline-db-curl",
           "sets": 2,
           "repMin": 8,
@@ -394,6 +410,44 @@
         "Keep your elbows pointing up and close to your head, and lower the dumbbell behind your head until you feel a deep stretch in the back of your arms.",
         "Straighten your arms to bring it back up without letting your elbows flare or your lower back arch."
       ]
+    },
+    "plate-neck-flexion": {
+      "name": "Lying Plate Neck Flexion",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "neck"
+        ],
+        "secondary": []
+      },
+      "equipment": "plate",
+      "pattern": "isolation",
+      "howto": [
+        "Lie on your back on a flat bench with your head and neck off the end, fold a towel over your forehead and hold a plate flat on it with both hands.",
+        "Let your head drop back slowly until you feel a stretch in the front of your neck, without forcing it.",
+        "Bring your chin up toward your chest under control, pause for a beat, and lower again; no jerking and no bouncing at the bottom."
+      ]
+    },
+    "plate-neck-extension": {
+      "name": "Lying Plate Neck Extension",
+      "role": "hypertrophy",
+      "compound": false,
+      "muscles": {
+        "primary": [
+          "neck"
+        ],
+        "secondary": [
+          "traps"
+        ]
+      },
+      "equipment": "plate",
+      "pattern": "isolation",
+      "howto": [
+        "Lie face down on a flat bench with your head and neck off the end, fold a towel over the back of your head and hold a plate on it with both hands.",
+        "Let your chin drop slowly toward your chest until you feel a stretch in the back of your neck.",
+        "Lift your head back up until your face points forward, pause for a beat, and lower again under control; no jerking."
+      ]
     }
   },
   "targets": {
@@ -468,6 +522,10 @@
     "abs": {
       "min": 4,
       "max": 10
+    },
+    "neck": {
+      "min": 4,
+      "max": 12
     }
   },
   "changes": [
@@ -2424,6 +2482,212 @@
         "2026-11-12:note",
         "2026-08-23:db-lateral-raise",
         "2026-11-17:leg-press-low"
+      ]
+    },
+    {
+      "version": 15,
+      "date": "2026-11-19",
+      "session": null,
+      "exercise": null,
+      "kind": "targets",
+      "before": {
+        "chest": {
+          "min": 12,
+          "max": 20
+        },
+        "front-delts": {
+          "min": 6,
+          "max": 16
+        },
+        "side-delts": {
+          "min": 10,
+          "max": 20
+        },
+        "rear-delts": {
+          "min": 6,
+          "max": 14
+        },
+        "lats": {
+          "min": 12,
+          "max": 20
+        },
+        "upper-back": {
+          "min": 10,
+          "max": 20
+        },
+        "traps": {
+          "min": 4,
+          "max": 10
+        },
+        "lower-back": {
+          "min": 2,
+          "max": 8
+        },
+        "biceps": {
+          "min": 10,
+          "max": 20
+        },
+        "triceps": {
+          "min": 10,
+          "max": 20
+        },
+        "forearms": {
+          "min": 4,
+          "max": 10
+        },
+        "quads": {
+          "min": 12,
+          "max": 20
+        },
+        "hamstrings": {
+          "min": 8,
+          "max": 16
+        },
+        "glutes": {
+          "min": 6,
+          "max": 14
+        },
+        "adductors": {
+          "min": 2,
+          "max": 8
+        },
+        "abductors": {
+          "min": 2,
+          "max": 6
+        },
+        "calves": {
+          "min": 8,
+          "max": 16
+        },
+        "abs": {
+          "min": 4,
+          "max": 10
+        }
+      },
+      "after": {
+        "chest": {
+          "min": 12,
+          "max": 20
+        },
+        "front-delts": {
+          "min": 6,
+          "max": 16
+        },
+        "side-delts": {
+          "min": 10,
+          "max": 20
+        },
+        "rear-delts": {
+          "min": 6,
+          "max": 14
+        },
+        "lats": {
+          "min": 12,
+          "max": 20
+        },
+        "upper-back": {
+          "min": 10,
+          "max": 20
+        },
+        "traps": {
+          "min": 4,
+          "max": 10
+        },
+        "lower-back": {
+          "min": 2,
+          "max": 8
+        },
+        "biceps": {
+          "min": 10,
+          "max": 20
+        },
+        "triceps": {
+          "min": 10,
+          "max": 20
+        },
+        "forearms": {
+          "min": 4,
+          "max": 10
+        },
+        "quads": {
+          "min": 12,
+          "max": 20
+        },
+        "hamstrings": {
+          "min": 8,
+          "max": 16
+        },
+        "glutes": {
+          "min": 6,
+          "max": 14
+        },
+        "adductors": {
+          "min": 2,
+          "max": 8
+        },
+        "abductors": {
+          "min": 2,
+          "max": 6
+        },
+        "calves": {
+          "min": 8,
+          "max": 16
+        },
+        "abs": {
+          "min": 4,
+          "max": 10
+        },
+        "neck": {
+          "min": 4,
+          "max": 12
+        }
+      },
+      "why": "You wrote on 18 November that there were no neck exercises in the program and that this is an obvious miss in bodybuilding training. You were right: neck was not one of the muscles the program counted, so no review could see it. The neck now has a weekly range of 4 to 12 counted sets. The neck is seen in every front and back pose and frames the traps, but it is a small muscle that has never been trained in this log, so it starts at the bottom of that range and climbs once it has shown it recovers. Every other range is unchanged.",
+      "evidence": [
+        "2026-11-13:db-shrug",
+        "2026-11-15:chest-dip"
+      ]
+    },
+    {
+      "version": 15,
+      "date": "2026-11-19",
+      "session": "PushA",
+      "exercise": "plate-neck-flexion",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "plate-neck-flexion",
+        "sets": 2,
+        "repMin": 15,
+        "repMax": 20,
+        "rest": 60,
+        "seed": 10
+      },
+      "why": "Neck flexion trains the front of the neck, the part the front poses show. It needs only a flat bench and a plate, both at your gym; you said on 18 November you have no harness and no neck machine, so it is built around those. It goes last on Push A, which at 17 sets and 49 minutes on 15 November is the shortest day of the week, so Push A becomes 19 sets. Two sets of 15 to 20 with a light plate: necks are trained light and for reps, and this is the first neck work in the log.",
+      "evidence": [
+        "2026-11-15:chest-dip",
+        "2026-11-15:db-lateral-raise"
+      ]
+    },
+    {
+      "version": 15,
+      "date": "2026-11-19",
+      "session": "PullB",
+      "exercise": "plate-neck-extension",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "plate-neck-extension",
+        "sets": 2,
+        "repMin": 15,
+        "repMax": 20,
+        "rest": 60,
+        "seed": 10
+      },
+      "why": "Neck extension trains the back of the neck, which shows with the traps in the back poses. It goes straight after the shrugs on Pull B, so the upper traps and neck are trained together, on a flat bench with a plate. Pull B becomes 22 sets; on 13 November it ran 20 of its then 21 sets in 53 minutes, with the shrug's fourth set missing; that set is the one on watch, and if it goes missing again the shrug drops to three sets and Pull B to 21. Two sets of 15 to 20 with a light plate.",
+      "evidence": [
+        "2026-11-13:db-shrug",
+        "2026-11-13:chest-supported-db-row"
       ]
     }
   ]
