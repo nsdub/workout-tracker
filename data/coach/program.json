@@ -1,6 +1,6 @@
 {
-  "version": 15,
-  "date": "2026-11-19",
+  "version": 16,
+  "date": "2026-11-24",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -189,7 +189,7 @@
           "id": "db-shoulder-press",
           "sets": 4,
           "repMin": 8,
-          "repMax": 10,
+          "repMax": 12,
           "rest": 180,
           "seedNote": "Swapped in for Smith Overhead Press — set your working weight"
         },
@@ -251,7 +251,7 @@
           "id": "chest-supported-db-row",
           "sets": 4,
           "repMin": 8,
-          "repMax": 10,
+          "repMax": 12,
           "rest": 150,
           "seed": 50
         },
@@ -2688,6 +2688,58 @@
       "evidence": [
         "2026-11-13:db-shrug",
         "2026-11-13:chest-supported-db-row"
+      ]
+    },
+    {
+      "version": 16,
+      "date": "2026-11-24",
+      "session": "PushB",
+      "exercise": "db-shoulder-press",
+      "kind": "reprange",
+      "before": {
+        "id": "db-shoulder-press",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 180
+      },
+      "after": {
+        "id": "db-shoulder-press",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 12,
+        "rest": 180
+      },
+      "why": "The range goes from 8 to 10 up to 8 to 12. You did 50 for 10 on all four sets on 23 November, the top of the old range, and the card's own rule said four 10s earn 55. Your rack has no 55: it goes 5 lb at a time to 50, then 60, 70, 80 (your 23 July photos), so the next dumbbell is 60, a 10 lb jump that would drop you to about 6 or 7 reps. With the range at 12, the next Push B asks for 50 for 11, then 12, and 60 comes after four 12s. The 19 November review was wrong to say 55.",
+      "evidence": [
+        "2026-11-23:db-shoulder-press",
+        "2026-11-12:db-shoulder-press"
+      ]
+    },
+    {
+      "version": 16,
+      "date": "2026-11-24",
+      "session": "PullB",
+      "exercise": "chest-supported-db-row",
+      "kind": "reprange",
+      "before": {
+        "id": "chest-supported-db-row",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 10,
+        "rest": 150
+      },
+      "after": {
+        "id": "chest-supported-db-row",
+        "sets": 4,
+        "repMin": 8,
+        "repMax": 12,
+        "rest": 150
+      },
+      "why": "Same problem, same fix: the range goes from 8 to 10 up to 8 to 12. You did 60 for 9 on all four sets on 13 November and the card said four 10s earn 65, but the rack has no 65 (5 lb steps to 50, then 60, 70, 80). The next dumbbell is 70. At 60 the row now builds from 10 to 12 before 70. Tonight's card stays at 60 for 10.",
+      "evidence": [
+        "2026-11-13:chest-supported-db-row",
+        "2026-11-05:chest-supported-db-row"
       ]
     }
   ]
