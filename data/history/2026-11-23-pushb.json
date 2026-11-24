@@ -1,0 +1,168 @@
+{
+  "date": "2026-11-23",
+  "session_type": "PushB",
+  "phase": "meso3",
+  "week": 9,
+  "exercises": [
+    {
+      "id": "db-shoulder-press",
+      "name": "DB Shoulder Press",
+      "sets": [
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1795483024032
+        },
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1795483024910
+        },
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1795483139530
+        },
+        {
+          "weight": 50,
+          "reps": 10,
+          "at": 1795483507697,
+          "restEndedAt": 1795483319591
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1795483595597
+        },
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1795483742130,
+          "restEndedAt": 1795483715609
+        },
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1795483978849,
+          "restEndedAt": 1795483862139
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 13,
+          "at": 1795484304321,
+          "restEndedAt": 1795484098877
+        },
+        {
+          "weight": 17.5,
+          "reps": 13,
+          "at": 1795484306731
+        },
+        {
+          "weight": 17.5,
+          "reps": 13,
+          "at": 1795484649236,
+          "restEndedAt": 1795484381739
+        }
+      ],
+      "note": "Why four sets for a small muscle gorup"
+    },
+    {
+      "id": "cable-crossover-high-low",
+      "name": "Cable Crossover (high→low)",
+      "sets": [
+        {
+          "weight": 30.5,
+          "reps": 15,
+          "at": 1795484753776,
+          "restEndedAt": 1795484724287
+        },
+        {
+          "weight": 30.5,
+          "reps": 15,
+          "at": 1795485109478,
+          "restEndedAt": 1795484828793
+        }
+      ]
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "sets": [
+        {
+          "weight": 97.5,
+          "reps": 13,
+          "at": 1795485180218
+        },
+        {
+          "weight": 97.5,
+          "reps": 13,
+          "at": 1795485308868,
+          "restEndedAt": 1795485255232
+        },
+        {
+          "weight": 97.5,
+          "reps": 13,
+          "at": 1795485502080,
+          "restEndedAt": 1795485383880
+        }
+      ]
+    },
+    {
+      "id": "rope-pushdown",
+      "name": "Rope Pushdown",
+      "sets": [
+        {
+          "weight": 50.5,
+          "reps": 12,
+          "at": 1795485602893,
+          "restEndedAt": 1795485577093
+        },
+        {
+          "weight": 50.5,
+          "reps": 12,
+          "at": 1795485710262,
+          "restEndedAt": 1795485677907
+        },
+        {
+          "weight": 50.5,
+          "reps": 11,
+          "at": 1795485833757,
+          "restEndedAt": 1795485785271
+        }
+      ]
+    },
+    {
+      "id": "db-overhead-triceps-extension",
+      "name": "Overhead DB Triceps Extension",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1795486036233,
+          "restEndedAt": 1795485908766
+        },
+        {
+          "weight": 60,
+          "reps": 12,
+          "at": 1795486076863
+        }
+      ]
+    }
+  ],
+  "world": "ramenalley",
+  "gym": "NYC",
+  "mins": 51,
+  "startedAt": 1795482154737
+}
