@@ -1,6 +1,6 @@
 {
-  "version": 16,
-  "date": "2026-11-24",
+  "version": 17,
+  "date": "2026-11-25",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -273,7 +273,7 @@
         },
         {
           "id": "db-shrug",
-          "sets": 4,
+          "sets": 3,
           "repMin": 12,
           "repMax": 20,
           "rest": 75,
@@ -2740,6 +2740,34 @@
       "evidence": [
         "2026-11-13:chest-supported-db-row",
         "2026-11-05:chest-supported-db-row"
+      ]
+    },
+    {
+      "version": 17,
+      "date": "2026-11-25",
+      "session": "PullB",
+      "exercise": "db-shrug",
+      "kind": "sets",
+      "before": {
+        "id": "db-shrug",
+        "sets": 4,
+        "repMin": 12,
+        "repMax": 20,
+        "rest": 75
+      },
+      "after": {
+        "id": "db-shrug",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 20,
+        "rest": 75
+      },
+      "why": "The shrug card has asked for four sets since 26 October (version 4), and you did three on three of the four Pull B nights since: 80 for 15 on three (29 October), 80 for 16 on four (5 November), 80 for 17 on three (13 November), 80 for 18 on three (24 November), with no note on any of them. The 24 November night was also the longest at this gym (71 minutes) and the new neck lift came straight after the shrugs, so time may be part of why. The 13 November review said that if the fourth set was missing again the card would drop to three, and it was missing again, so it does. Reps climbed on the sets you do (15, 16, 17, 18), so three sets are working. Traps go from 4 direct sets a week to 3 and from 9 to 8 counted, still inside 4 to 10, and traps are scored on stage less than side delts, back, chest, arms, quads and calves. Pull B goes from 22 to 21 sets. 80 is still the heaviest pair on your rack, so reps are the lever: 20 on all three sets moves the shrug to a barbell or the smith machine. If you want the fourth set back, say so in a note on that card.",
+      "evidence": [
+        "2026-11-24:db-shrug",
+        "2026-11-13:db-shrug",
+        "2026-11-05:db-shrug",
+        "2026-10-29:db-shrug"
       ]
     }
   ]
