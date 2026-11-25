@@ -1,0 +1,182 @@
+{
+  "date": "2026-11-24",
+  "session_type": "PullB",
+  "phase": "meso3",
+  "week": 9,
+  "exercises": [
+    {
+      "id": "chest-supported-db-row",
+      "name": "Chest-Supported DB Row",
+      "sets": [
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1795572289840
+        },
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1795572552029,
+          "restEndedAt": 1795572439942
+        },
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1795572706983,
+          "restEndedAt": 1795572702046
+        },
+        {
+          "weight": 60,
+          "reps": 10,
+          "at": 1795573060554,
+          "restEndedAt": 1795572857002
+        }
+      ]
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (close)",
+      "sets": [
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1795573290801,
+          "restEndedAt": 1795573210579
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1795573573056,
+          "restEndedAt": 1795573410816
+        },
+        {
+          "weight": 135,
+          "reps": 10,
+          "at": 1795573883603,
+          "restEndedAt": 1795573693065
+        }
+      ]
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight-Arm Pulldown",
+      "sets": [
+        {
+          "weight": 52.5,
+          "reps": 11,
+          "at": 1795574082193,
+          "restEndedAt": 1795574003612
+        },
+        {
+          "weight": 52.5,
+          "reps": 11,
+          "at": 1795574236511,
+          "restEndedAt": 1795574157207
+        },
+        {
+          "weight": 52.5,
+          "reps": 11,
+          "at": 1795574416134,
+          "restEndedAt": 1795574311528
+        }
+      ]
+    },
+    {
+      "id": "db-shrug",
+      "name": "DB Shrug",
+      "sets": [
+        {
+          "weight": 80,
+          "reps": 18,
+          "at": 1795574596190,
+          "restEndedAt": 1795574491195
+        },
+        {
+          "weight": 80,
+          "reps": 18,
+          "at": 1795575254845,
+          "restEndedAt": 1795574671265
+        },
+        {
+          "weight": 80,
+          "reps": 18,
+          "at": 1795575255540
+        }
+      ]
+    },
+    {
+      "id": "plate-neck-extension",
+      "name": "Lying Plate Neck Extension",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 15,
+          "at": 1795575327600
+        },
+        {
+          "weight": 10,
+          "reps": 15,
+          "at": 1795575468497,
+          "restEndedAt": 1795575387623
+        }
+      ]
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "sets": [
+        {
+          "weight": 30,
+          "reps": 10,
+          "at": 1795575577702,
+          "restEndedAt": 1795575528584
+        },
+        {
+          "weight": 30,
+          "reps": 10,
+          "at": 1795576091372,
+          "restEndedAt": 1795575652784
+        }
+      ]
+    },
+    {
+      "id": "cable-reverse-curl",
+      "name": "Cable Reverse Curl",
+      "sets": [
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1795576160084
+        },
+        {
+          "weight": 37.5,
+          "reps": 11,
+          "at": 1795576318490,
+          "restEndedAt": 1795576235139
+        }
+      ]
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face Pulls",
+      "sets": [
+        {
+          "weight": 32.5,
+          "reps": 15,
+          "at": 1795576440577,
+          "restEndedAt": 1795576393528
+        },
+        {
+          "weight": 32.5,
+          "reps": 15,
+          "at": 1795576564787,
+          "restEndedAt": 1795576500665
+        }
+      ]
+    }
+  ],
+  "world": "lighthouse",
+  "gym": "NYC",
+  "mins": 71,
+  "startedAt": 1795571709598
+}
