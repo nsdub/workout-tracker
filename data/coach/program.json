@@ -1,6 +1,6 @@
 {
-  "version": 17,
-  "date": "2026-11-25",
+  "version": 18,
+  "date": "2026-11-26",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -349,6 +349,22 @@
           "seed": 135
         },
         {
+          "id": "standing-calf-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 75,
+          "seed": 280
+        },
+        {
+          "id": "single-leg-calf-raise",
+          "sets": 2,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60,
+          "seed": 30
+        },
+        {
           "id": "ab-wheel-rollout",
           "sets": 2,
           "repMin": 8,
@@ -362,14 +378,6 @@
           "repMax": 12,
           "rest": 60,
           "seed": 65
-        },
-        {
-          "id": "standing-calf-raise",
-          "sets": 3,
-          "repMin": 12,
-          "repMax": 15,
-          "rest": 75,
-          "seed": 280
         }
       ]
     }
@@ -2768,6 +2776,45 @@
         "2026-11-13:db-shrug",
         "2026-11-05:db-shrug",
         "2026-10-29:db-shrug"
+      ]
+    },
+    {
+      "version": 18,
+      "date": "2026-11-26",
+      "session": "LegsB",
+      "exercise": "single-leg-calf-raise",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "single-leg-calf-raise",
+        "sets": 2,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60
+      },
+      "why": "Calves are scored on stage and sit at 6 direct sets a week (9 counted, floor 8), all of them the calf press on the leg press, 3 on each leg day. The 17 and 25 November nights show the lift is working and the sets get done (300 for 13, 13, 13 on 17 November; 300 for 15, 15, 12 on 25 November, the top of 12 to 15), so the missing piece is volume and a second angle, not a heavier press. On 19 November I asked whether your gym has a calf machine and the 23 July photos answered it (none; leg press only); the 25 November packet then held calves for an answer on a second lift and said I would not go past three sets a day on my own. That was wrong twice: your gym file already lists dumbbells and step platforms, so single-leg dumbbell calf raises are programmable without asking, and your only calf note (30 July, Why four sets) was a question, not a limit. So the second lift goes in today: single-leg dumbbell calf raise off a step, straight after the calf press and ahead of the ab work, 2 sets of 12 to 15, where one set means both legs (weaker leg first, then the other) logged as one row, 60 seconds between sets. Calves go from 6 direct to 8 and from 9 counted to 11, inside 8 to 16. Legs B goes from 20 to 22 sets. Two sets, not three: Legs B ran 52 minutes on 25 November and your cards lose their late slots when nights run long, which is why it now sits ahead of the ab work, not after it, so the new lift starts small; if both sets get done for two Legs B nights, a third is the next question. The 30 on the card is my starting guess for one dumbbell, not a measured number: you have never logged this lift. Pick the weight where 12 is hard on your weaker leg and the card learns from that.",
+      "evidence": [
+        "2026-11-25:standing-calf-raise",
+        "2026-11-17:standing-calf-raise",
+        "2026-07-30:note"
+      ]
+    },
+    {
+      "version": 18,
+      "date": "2026-11-26",
+      "session": "LegsB",
+      "exercise": "standing-calf-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 7
+      },
+      "after": {
+        "position": 5
+      },
+      "why": "Calves are scored on stage and the abs are not. The calf press was 7th on Legs B and the new single-leg calf raise would have been 8th behind five ab sets, on the night type where late slots get dropped (30 October, 22 sets in 29 minutes). Both calf lifts now come right after the leg curl, ahead of the ab wheel and ab machine. No sets change.",
+      "evidence": [
+        "2026-10-30:note",
+        "2026-11-25:standing-calf-raise"
       ]
     }
   ]

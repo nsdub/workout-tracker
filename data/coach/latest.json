@@ -1,32 +1,28 @@
 {
-  "date": "2026-11-25",
-  "reviewed_through": "2026-11-24",
-  "generated_at": "2026-11-25T11:10:01.350Z",
+  "date": "2026-11-26",
+  "reviewed_through": "2026-11-25",
+  "generated_at": "2026-11-26T14:21:15.258Z",
   "produced_by": "scheduled-task",
   "reviewer": "daily-training-brief (autonomous 6 AM run)",
-  "session_expected": "LegsB",
-  "program_version": 17,
-  "brief": "Legs B is next, and today, 25 November, is the first day of the lighter week (to 1 December): fewer sets, about 20 percent lighter, nothing hard. Pull B on 24 November went well: row 60 for 10 on all four, close-grip pulldown 135 for 10 on all three (the card asked 9 on the last two), straight-arm pulldown 52.5 for 11, reverse curl 37.5 for 11, curl 30 for 10, face pulls 32.5 for 15, and the first neck set, 10 lb for 15 and 15 on the lying extension. The shrug was 80 for 18 on three sets, the fourth set missing on three of the last four Pull B nights (it was also your longest night at 71 minutes, with the new neck lift after it), so the program is now version 17 and the shrug is three sets, which I said would happen if the fourth set was missing again; write a note on that card if you want the fourth back. Nothing else changed. Tonight's Legs B at lighter-week weights, two sets each: barbell RDL 140 for 8, leg extension 120 for 10, leg press 160 for 10, leg curl 120 for 10, ab wheel 10 reps (one set is enough), ab crunch machine 50 for 10, calf press 240 for 12. Stop every set with plenty left. After the lighter week the numbers go back up: RDL 185 for 10, leg press 200 for 12, leg extension and leg curl 157.5 for 11, calf press 300 for 14. Dates: lighter week to 1 December, assessment 2 to 8 December, prep from 9 December, show 1 March, 96 days away. Two things I still need: a morning bodyweight (nothing logged since 23 August, 207 lb, 94 days; the Bodyweight button on the workout screen), and your answer on a second calf lift (smith machine or single-leg dumbbell raise off a step) before the 2 December review.",
+  "session_expected": "PushA",
+  "program_version": 18,
+  "brief": "Push A is next, today 26 November. Legs B on 25 November went well, and you trained it at full weights, three sets each, not the lighter-week numbers on the card (140, 120, 160 and so on): barbell RDL 185 for 10, 10, 10, leg extension 157.5 for 12 on all three, leg press 200 for 12 on all three, leg curl 157.5 for 12 on all three, calf press 300 for 15, 15, 12, ab machine 70 for 10 on all three, ab wheel 10 and 10, 52 minutes. Every lift is at or above 14 November. I do not know whether you saw the lighter card or chose to go heavy; either way you had no training from 18 to 22 November and the night went up, not down, so the lighter week is not doing a job. One caveat: that is one lower-body night, and tonight is your first upper-body night in 11 days. The calendar still calls 25 November to 1 December a lighter week and I cannot change the calendar, but I am putting the weights back at what you have already lifted at this gym, nothing above proven work except one earned notch on the crossover. The app still holds every card this week to two sets a lift (its lighter-week set budget, which I cannot change), so tonight's card shows two sets; do more if you want to, the log is what I read. One change to the program, version 18: calves get a second lift. Single-leg dumbbell calf raise off a step, right after the calf press and ahead of the ab work (I moved both calf lifts up so they are not the slots that get dropped late), two sets of 12 to 15 (one set means both legs, weaker first, logged as one row), so calves go from 6 direct sets a week to 8. I should not have held calves waiting for your answer: your gym file already lists dumbbells and step platforms, and your only calf note, from 30 July, was a question, not a limit. Tonight's Push A, two sets each on the card: Smith incline 180 for 7; chest press 165 for 10 (you did 165 for 10 on Push B on 23 November; Push B's chest press next asks 172.5 for 8, the two days differ because Push A is the 10 to 12 day and Push B the 8 to 10 day); low-to-high crossover 13.75 for 12 (12.5 plus one 1.25 lb add-on weight); lateral raise 17.5 for 14 (you asked on 23 November why four sets for a small muscle: side delts are scored on stage and sit at the bottom of their range, and the four-set slot is the first thing I look at again on 2 December); chest dip bodyweight 13; lying plate neck flexion 5 lb for 15 for one set, the first time it has ever been done, so the 5 is my choice, not a measured number, and flexion is normally the weaker side. Next Legs B the numbers go up: RDL 195 for 8, leg extension 165 for 10, leg press 220 for 10, leg curl 165 for 10; calf press holds 300 until all three sets reach 15. Dates: assessment 2 to 8 December, prep from 9 December, show 1 March, 95 days away. What I still need: a morning bodyweight (nothing logged since 23 August, 207 lb, 95 days; the Bodyweight button on the workout screen), and your division.",
   "flags": [
     {
       "kind": "phase",
-      "note": "The lighter week runs 25 November to 1 December by the calendar: about 60 percent of the sets, weights about 20 percent lighter, nothing near failure."
+      "note": "The calendar calls 25 November to 1 December a lighter week, but Legs B on 25 November was trained at full weights and every lift was at or above 14 November, so tonight's weights are ones you have already lifted at this gym; the app still limits each card to two sets this week."
     },
     {
       "kind": "volume",
-      "note": "Program version 17: the dumbbell shrug goes from four sets to three on Pull B (three of four sets done on three of the last four Pull B nights). Pull B is 21 sets."
+      "note": "Program version 18: single-leg dumbbell calf raise added last on Legs B, 2 sets of 12 to 15 on each leg. Calves go from 6 to 8 direct sets a week; Legs B is 22 sets."
     },
     {
       "kind": "volume",
-      "note": "First neck set logged on 24 November (lying plate neck extension, 10 lb for 15, 15, no note after). Neck flexion on Push A has not been logged yet."
+      "note": "Lying plate neck flexion has never been logged; tonight on Push A is its first set. The 5 lb is my starting choice, not a measured number."
     },
     {
       "kind": "phase",
-      "note": "No bodyweight logged since 23 August (207 lb), 94 days ago; prep starts 9 December and needs a starting number."
-    },
-    {
-      "kind": "volume",
-      "note": "Calves stay at three sets a day until the 2 December review; a second calf lift needs your answer on equipment you have at your gym."
+      "note": "No bodyweight logged since 23 August (207 lb), 95 days ago; prep starts 9 December and needs a starting number."
     }
   ],
   "review": {
@@ -34,13 +30,14 @@
       "phase": "deload4",
       "week": 1,
       "of": 1,
-      "days_to_show": 96,
+      "days_to_show": 95,
       "verdict": "hold",
-      "why": "Today, 25 November, is the first day of the lighter week (25 November to 1 December): the calendar sets about 60 percent of the usual sets and weights about 20 percent lighter, nothing near failure, then assessment 2 to 8 December and prep from 9 December. The show is 96 days away. Pull B on 24 November closed the build block with every lift on it at or above the card except one: the shrug did three of four sets again (80 for 18, the fourth set missing on three of the last four Pull B nights), so version 17 drops it to three sets and Pull B goes from 22 to 21 sets. The first neck set was logged (10 lb for 15, 15 on the lying extension). The lighter week asks for no more than Legs B tonight, then Push A, Pull A, Legs A: the block is over, the calendar moves on whether or not those are trained, and I am making no other structural change this week. Programming that is left to decide has a date: side delts on 1 December, calves on 2 December, both after the lighter week gives one more Push A and the lighter sessions to read. Loads to beat into assessment: shoulder press 50, chest press 165, row 60 for 10, close pulldown 135 for 10, shrug 80 for 18, lateral raise 17.5, RDL 185, leg press 220, leg extension and leg curl 157.5, calf press 300. Attendance: nine training days in a row from 9 to 17 November, then no log from 18 to 22 November (I do not know why: travel, tiredness and illness would each change what I do, and it is not in your notes), then Push B and Pull B on 23 and 24 November, all at or above card. The lighter week comes by the calendar, not because the logs call for it, and I am leaving it as planned.",
+      "why": "Today, 26 November, the calendar is in its lighter week (25 November to 1 December), then assessment 2 to 8 December and prep from 9 December; the show is 95 days away. The new fact since the 25 November packet is the Legs B night of 25 November: it was logged at full weights and three sets, not the lighter card, and every lift was at or above 14 November (RDL 185 for 10, 10, 10 after 9, 9, 9; leg extension, leg press and leg curl 12, 12, 12 at their old weights; calf press 300 for 15, 15, 12; ab machine 70 for 10 on all three; 52 minutes). Before that there was no training from 18 to 22 November and only Push B and Pull B on 23 and 24 November, so the nine days in a row of 9 to 17 November, which the lighter week was meant to pay for, were already followed by five days off. I do not know whether you saw the lighter card; the night shows the work is being recovered from, so the review reverses its 25 November call to leave the cards lighter, and the fact that changes it is the 25 November log. Cards for the rest of this week carry weights you have already lifted at this gym, with no step above proven work, instead of weights about 20 percent lighter; the app still holds each card to two sets in this week (its lighter-week set budget, which the validator showed me and I cannot change), so this week is fewer sets at real weights. The calendar label does not change, and that is not mine to edit. Program change today: version 18 adds a second calf lift (single-leg dumbbell calf raise, Legs B, 2 sets), because calves are scored on stage and I had held them for an answer that the gym file already gives. Programming still to decide has a date: side delts on 2 December. Honest limit: every card this week is held to two sets, so tonight's Push A and Push B on or about 29 November cannot show whether a fourth lateral set gets done; 2 December is the first day after the lighter week and the 14-day guard, not new evidence. Loads to run into assessment (the reversal rests on Legs B alone; if tonight's Push A falls below 15 November, that is the signal): smith incline 180, chest press 165, row 60 for 10, close pulldown 135, shrug 80 for 18, lateral raise 17.5, RDL 185 for 10, leg press 200 for 12, leg extension and leg curl 157.5 for 12, calf press 300, shoulder press 50.",
       "evidence": [
+        "2026-11-25:barbell-rdl",
+        "2026-11-25:leg-press-low",
+        "2026-11-25:standing-calf-raise",
         "2026-11-24:db-shrug",
-        "2026-11-24:plate-neck-extension",
-        "2026-11-24:lat-pulldown-close",
         "2026-11-23:db-shoulder-press"
       ]
     },
@@ -74,7 +71,7 @@
         "direct_weekly_sets": 8,
         "done_4wk_avg": 6.3,
         "verdict": "raise",
-        "why": "Raised on 18 November (version 14). Side delts decide how wide the shoulders look on stage; they had the smallest share of any scored muscle (6 direct sets, 8 counted, against 15.5 for rear delts), so lateral raises went to four sets on each push day: 8 direct, 10 counted with half credit from the shoulder press, the bottom of the 10 to 20 range. First four-set night, 23 November on Push B: 17.5 for 13, 13, 13 and the fourth set was not done, and you asked why four sets for a small muscle. The honest count: the 6.3 a week done is an average over weeks that include rest days and a partial week (the week of 17 to 22 November had no push night) and mostly predate the four-set cards, so it does not prove the fourth set is the problem; there has been exactly one four-set night and three of four sets were done. Direct sets are now 8 against the rear delts' 7; on the counted number it is 10 against 12.5. 15 November on Push A was 17.5 for 12, 12, 12 (three sets, before the fourth existed). The weight is right (17.5, up from 15). The decision between a third lateral day and a second side-delt lift stays with the review of 1 December: the lighter week (25 November to 1 December) cuts sets and is a poor week to add a day, and adding a day now would walk back the 14 November removal of the Pull A cable lateral raise (version 12) inside the 14-day guard. Honest limit on the date: the lighter week runs about 60 percent of the sets at lighter weights, so its Push A cannot show whether a fourth lateral set at 17.5 works. What 1 December adds is calendar, not new evidence: it is the first review with no deload ahead, and the decision (a third lateral day or a second side-delt lift) is made then on the 23 November night and whatever Push A shows. Until then side delts stay at 8 direct, 10 counted, the floor of their range. Counted with half credit for helper muscles: 10 planned a week, of which 8 are direct sets; 6.3 a week done on average over the last four weeks.",
+        "why": "Raised on 18 November (version 14). Side delts decide how wide the shoulders look on stage; they had the smallest share of any scored muscle (6 direct sets, 8 counted, against 15.5 for rear delts), so lateral raises went to four sets on each push day: 8 direct, 10 counted with half credit from the shoulder press, the bottom of the 10 to 20 range. First four-set night, 23 November on Push B: 17.5 for 13, 13, 13 and the fourth set was not done, and you asked why four sets for a small muscle. The honest count: the 6.3 a week done is an average over weeks that include rest days and a partial week (the week of 17 to 22 November had no push night) and mostly predate the four-set cards, so it does not prove the fourth set is the problem; there has been exactly one four-set night and three of four sets were done. Direct sets are now 8 against the rear delts' 7; on the counted number it is 10 against 12.5. 15 November on Push A was 17.5 for 12, 12, 12 (three sets, before the fourth existed). The weight is right (17.5, up from 15). The decision between a third lateral day and a second side-delt lift stays with the review of 2 December: the lighter week (25 November to 2 December) cuts sets and is a poor week to add a day, and adding a day now would walk back the 14 November removal of the Pull A cable lateral raise (version 12) inside the 14-day guard. Honest limit on the date: the lighter week runs about 60 percent of the sets at lighter weights, so its Push A cannot show whether a fourth lateral set at 17.5 works. What 2 December adds is calendar, not new evidence: it is the first review after the lighter week ends (1 December is its last day), and the decision (a third lateral day or a second side-delt lift) is made then on the 23 November night and whatever Push A shows. Until then side delts stay at 8 direct, 10 counted, the floor of their range. Counted with half credit for helper muscles: 10 planned a week, of which 8 are direct sets; 6.3 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-23:db-lateral-raise",
           "2026-11-23:note",
@@ -97,9 +94,9 @@
       "lats": {
         "planned_weekly_sets": 18,
         "direct_weekly_sets": 17,
-        "done_4wk_avg": 13.3,
+        "done_4wk_avg": 13.5,
         "verdict": "hold",
-        "why": "Eighteen counted, inside 12 to 20, and back width is one of the things the stage scores. Pull B on 24 November: close pulldown 135 for 10 on all three (13 November 135 for 8, 8) and straight-arm pulldown 52.5 for 11 on all three (13 November 10). Pull A on 16 November: wide pulldown top set 135 for 8 and seated row 112.5 for 10 on all four. Every lat lift went up at its last visit. Hold. Counted with half credit for helper muscles: 18 planned a week, of which 17 are direct sets; 13.3 a week done on average over the last four weeks.",
+        "why": "Eighteen counted, inside 12 to 20, and back width is one of the things the stage scores. Pull B on 24 November: close pulldown 135 for 10 on all three (13 November 135 for 8, 8) and straight-arm pulldown 52.5 for 11 on all three (13 November 10). Pull A on 16 November: wide pulldown top set 135 for 8 and seated row 112.5 for 10 on all four. Every lat lift went up at its last visit. Hold. Counted with half credit for helper muscles: 18 planned a week, of which 17 are direct sets; 13.5 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-24:lat-pulldown-close",
           "2026-11-24:straight-arm-pulldown",
@@ -110,9 +107,9 @@
       "upper-back": {
         "planned_weekly_sets": 18,
         "direct_weekly_sets": 8,
-        "done_4wk_avg": 13.9,
+        "done_4wk_avg": 14.3,
         "verdict": "hold",
-        "why": "Eighteen counted, inside 10 to 20, and 8 direct: eight row sets (seated row 4, chest-supported row 4); the other ten are half credit from pulldowns, face pulls, the deadlift, the RDL and the reverse pec deck. The seated row has four sets because the two rows are the only work aimed at back thickness, and 8 direct sets is under the 10 floor, so this is the one place where the direct count is the honest one and I am saying so. Both rows are going up: seated row 112.5 for 10 on all four on 16 November, chest-supported row 60 for 10 on all four on 24 November (9 on 13 November). Hold. Counted with half credit for helper muscles: 18 planned a week, of which 8 are direct sets; 13.9 a week done on average over the last four weeks.",
+        "why": "Eighteen counted, inside 10 to 20, and 8 direct: eight row sets (seated row 4, chest-supported row 4); the other ten are half credit from pulldowns, face pulls, the deadlift, the RDL and the reverse pec deck. The seated row has four sets because the two rows are the only work aimed at back thickness; on the counted number upper back is 18 of 10 to 20, near the top, and you asked on 2 and 10 November whether four row sets are supported. The dose-response research (roughly 10 to 20 hard sets per muscle a week, Schoenfeld, Ogborn and Krieger 2017) puts 18 inside the range, and the row keeps adding load at every visit, so the four stay; a note on the card changes that. Both rows are going up: seated row 112.5 for 10 on all four on 16 November, chest-supported row 60 for 10 on all four on 24 November (9 on 13 November). Hold. Counted with half credit for helper muscles: 18 planned a week, of which 8 are direct sets; 14.3 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-24:chest-supported-db-row",
           "2026-11-16:seated-cable-row-wide",
@@ -136,12 +133,12 @@
       "lower-back": {
         "planned_weekly_sets": 3.5,
         "direct_weekly_sets": 0,
-        "done_4wk_avg": 2.3,
+        "done_4wk_avg": 2.6,
         "verdict": "hold",
-        "why": "No direct slot on purpose; 3.5 counted is half credit from the deadlift and the RDL, inside 2 to 8. Nothing new: deadlift 215, 235, 245, 250 for 5 each on 16 November with no back note, RDL 185 for 9, 9, 9 on 14 November. Hold. Counted with half credit for helper muscles: 3.5 planned a week, of which 0 are direct sets; 2.3 a week done on average over the last four weeks.",
+        "why": "No direct slot on purpose; 3.5 counted is half credit from the deadlift and the RDL, inside 2 to 8. Deadlift 250 for 5 on 16 November and RDL 185 for 10, 10, 10 on 25 November, no back note on either. Hold. Counted with half credit for helper muscles: 3.5 planned a week, of which 0 are direct sets; 2.6 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-16:deadlift",
-          "2026-11-14:barbell-rdl"
+          "2026-11-25:barbell-rdl",
+          "2026-11-16:deadlift"
         ]
       },
       "biceps": {
@@ -172,9 +169,9 @@
       "forearms": {
         "planned_weekly_sets": 9.5,
         "direct_weekly_sets": 5,
-        "done_4wk_avg": 7.9,
+        "done_4wk_avg": 8.3,
         "verdict": "hold",
-        "why": "Cut on 18 November (version 14), now held. Forearms had 11 counted sets and they count for little on stage next to shoulders and quads. Now 5 direct (hammer curl 3, reverse curl 2) and 9.5 counted, inside 4 to 10. The lifts are fine: hammer curl 42.5 for 11, 12, 12 on 16 November, reverse curl 37.5 for 11, 11 on 24 November (10, 10 on 13 November). Counted with half credit for helper muscles: 9.5 planned a week, of which 5 are direct sets; 7.9 a week done on average over the last four weeks.",
+        "why": "Cut on 18 November (version 14), now held. Forearms had 11 counted sets and they count for little on stage next to shoulders and quads. Now 5 direct (hammer curl 3, reverse curl 2) and 9.5 counted, inside 4 to 10. The lifts are fine: hammer curl 42.5 for 11, 12, 12 on 16 November, reverse curl 37.5 for 11, 11 on 24 November (10, 10 on 13 November). Counted with half credit for helper muscles: 9.5 planned a week, of which 5 are direct sets; 8.3 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-16:cable-hammer-curl",
           "2026-11-24:cable-reverse-curl",
@@ -184,47 +181,44 @@
       "quads": {
         "planned_weekly_sets": 15,
         "direct_weekly_sets": 15,
-        "done_4wk_avg": 8.3,
+        "done_4wk_avg": 9.8,
         "verdict": "hold",
-        "why": "Raised on 18 November (version 14), from 13 sets a week to 15, inside 12 to 20: leg press on Legs A to four sets and the Legs A leg extension to three. No Legs A has been logged since, so in practice quads have not yet run at 15; the first full Legs A at four sets is the one after the lighter week. Quads were level with hamstrings on paper and behind them in what got done, and are scored in every front pose. Every quad lift went up on 17 November, all 20 sets in 45 minutes: leg press 220 for 8, 8, 8, leg extension 157.5 for 12, 12, split squat 25 for 8, 8. The four-week average is low because of rest weeks (one leg night in the week of 26 October, none yet in the week of 24 November). Hold. Counted with half credit for helper muscles: 15 planned a week, of which 15 are direct sets; 8.3 a week done on average over the last four weeks.",
+        "why": "Raised on 18 November (version 14) from 13 sets a week to 15, inside 12 to 20: leg press on Legs A to four sets and the Legs A leg extension to three. Legs B on 25 November: leg extension 157.5 for 12, 12, 12 (the top of 10 to 12, after 10, 10, 10 on 14 November) and leg press 200 for 12, 12, 12 (after 11, 11, 11). Legs A on 17 November was leg extension 157.5 for 12, 12 and leg press 220 for 8 on the first set. Both leg days get their sets done and the weights climb, so the 15 holds. The four-week average done is lower than the plan because of rest weeks and the gap of 18 to 22 November, not because sets are being skipped. Counted with half credit for helper muscles: 15 planned a week, of which 15 are direct sets; 9.8 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-17:leg-press-low",
-          "2026-11-17:leg-extension",
-          "2026-11-17:db-bulgarian-split-squat",
-          "2026-11-14:leg-press-low"
+          "2026-11-25:leg-extension",
+          "2026-11-25:leg-press-low",
+          "2026-11-17:leg-press-low"
         ]
       },
       "hamstrings": {
         "planned_weekly_sets": 14,
         "direct_weekly_sets": 13,
-        "done_4wk_avg": 9.4,
+        "done_4wk_avg": 10.9,
         "verdict": "hold",
-        "why": "Fourteen counted, inside 8 to 16: thirteen direct (deadlift 4, RDL 3, leg curl 3 and 3) plus half credit from the split squat. New on 17 November: leg curl 157.5 for 12, 12, 12, the top of the range on every set, three days after 157.5 for 10 on all three. RDL 185 for 9, 9, 9 on 14 November and the deadlift up 10 lb a set on 16 November. Moving. Hold; this is where your 17 November question about foot position lands, because moving a leg press to feet high would add to hamstrings and glutes, which are full, and take from quads, which are not. Counted with half credit for helper muscles: 14 planned a week, of which 13 are direct sets; 9.4 a week done on average over the last four weeks.",
+        "why": "Fourteen counted, inside 8 to 16: thirteen direct (deadlift 4, RDL 3, leg curl 3 and 3) plus half credit from the split squat. Legs B on 25 November: RDL 185 for 10, 10, 10 (after 9, 9, 9 on 14 November and 8 on 7 November) and leg curl 157.5 for 12, 12, 12, both the top of their ranges on every set. Both earn the next step on Legs B. Hold the sets; the weights move. Counted with half credit for helper muscles: 14 planned a week, of which 13 are direct sets; 10.9 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-17:leg-curl",
-          "2026-11-14:leg-curl",
-          "2026-11-14:barbell-rdl",
-          "2026-11-16:deadlift"
+          "2026-11-25:barbell-rdl",
+          "2026-11-25:leg-curl",
+          "2026-11-14:barbell-rdl"
         ]
       },
       "glutes": {
         "planned_weekly_sets": 13.5,
         "direct_weekly_sets": 9,
-        "done_4wk_avg": 9.4,
+        "done_4wk_avg": 10.5,
         "verdict": "hold",
-        "why": "Thirteen and a half counted, inside 6 to 14: nine direct (deadlift 4, RDL 3, split squat 2) plus half credit from the leg press and abductor. The fourth leg press set added on 18 November adds the half. New on 17 November: split squat 25 for 8, 8, up from 20 for 10, 10, and abductor 127.5 for 12, 12. Hold. Counted with half credit for helper muscles: 13.5 planned a week, of which 9 are direct sets; 9.4 a week done on average over the last four weeks.",
+        "why": "Thirteen and a half counted, inside 6 to 14: nine direct (deadlift 4, RDL 3, split squat 2) plus half credit from the leg press and abductor. RDL 185 for 10, 10, 10 on 25 November, up from 9, 9, 9 on 14 November; split squat 25 for 8, 8 on 17 November. Hold. Counted with half credit for helper muscles: 13.5 planned a week, of which 9 are direct sets; 10.5 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-17:db-bulgarian-split-squat",
-          "2026-11-17:hip-abductor",
-          "2026-11-14:barbell-rdl"
+          "2026-11-25:barbell-rdl",
+          "2026-11-17:db-bulgarian-split-squat"
         ]
       },
       "adductors": {
         "planned_weekly_sets": 6.5,
         "direct_weekly_sets": 2,
-        "done_4wk_avg": 4.5,
+        "done_4wk_avg": 4.9,
         "verdict": "hold",
-        "why": "Six and a half counted, inside the new 2 to 8: two direct sets on the adductor machine and four and a half from half credit on the leg press and split squat. The fourth leg press set added on 18 November adds the half, which is why the top of the range moved from 6 to 8 rather than cutting the only two direct sets. New on 17 November: adductor 97.5 for 12, 12, up from 90 for 15, 15. Hold. Counted with half credit for helper muscles: 6.5 planned a week, of which 2 are direct sets; 4.5 a week done on average over the last four weeks.",
+        "why": "Six and a half counted, inside the new 2 to 8: two direct sets on the adductor machine and four and a half from half credit on the leg press and split squat. The fourth leg press set added on 18 November adds the half, which is why the top of the range moved from 6 to 8 rather than cutting the only two direct sets. New on 17 November: adductor 97.5 for 12, 12, up from 90 for 15, 15. Hold. Counted with half credit for helper muscles: 6.5 planned a week, of which 2 are direct sets; 4.9 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-17:hip-adductor",
           "2026-11-11:hip-adductor"
@@ -242,27 +236,27 @@
         ]
       },
       "calves": {
-        "planned_weekly_sets": 9,
-        "direct_weekly_sets": 6,
-        "done_4wk_avg": 4.9,
+        "planned_weekly_sets": 11,
+        "direct_weekly_sets": 8,
+        "done_4wk_avg": 6,
         "verdict": "raise",
-        "why": "Nine counted, inside 8 to 16 and near its bottom: six direct sets (the calf press on the leg press, three on each leg day) and three from half credit on the leg curl. On 17 November all three sets were done, 300 for 13, 13, 13, after 300 for 12, 12, 12 on 14 November. On 19 November I asked whether the New York gym has a standing or seated calf machine. I should not have, because your photos of the whole gym from 23 July answer it. There is neither; calf raises are done on the leg press. That question is withdrawn. More calf work would mean a second calf lift: a standing calf raise on the smith machine, or a single-leg dumbbell calf raise off a step platform. That would mean more than three calf sets on a leg day, and three a day is the count you settled in July and August. I will not go past that on my own. So I am asking: do you want calves raised above three sets a day? Until you say, calves stay as they are. Counted with half credit for helper muscles: 9 planned a week, of which 6 are direct sets; 4.9 a week done on average over the last four weeks.",
+        "why": "Raised today (version 18). Eleven counted a week now and 8 direct, inside 8 to 16: the calf press on the leg press, 3 sets on each leg day, plus the new single-leg dumbbell calf raise, 2 sets right after the calf press on Legs B (one set is both legs), and half credit from the leg curl. Before today it was 9 counted and 6 direct, the bottom of the range, for a muscle the stage scores. Calf press 25 November: 300 for 15, 15, 12, after 300 for 13 on all three on 17 November and 12 on 14 November: the lift climbs and every set gets done, so the weight is right and the missing piece was volume and a second angle. I held calves in the 25 November packet for an answer I did not need (the gym file already lists dumbbells and step platforms) and called three sets a day a limit; your only calf note, 30 July, was a question, so there is no limit and the hold is withdrawn. The new lift starts at two sets, counted as both legs per set, because Legs B ran 52 minutes and your cards lose their late slots when nights run long; both calf lifts now sit ahead of the ab work. Counted with half credit for helper muscles: 11 planned a week, of which 8 are direct sets; 6 a week done on average over the last four weeks.",
         "evidence": [
+          "2026-11-25:standing-calf-raise",
           "2026-11-17:standing-calf-raise",
-          "2026-11-14:standing-calf-raise",
-          "2026-11-17:leg-curl"
+          "2026-11-14:standing-calf-raise"
         ]
       },
       "abs": {
         "planned_weekly_sets": 8,
         "direct_weekly_sets": 8,
-        "done_4wk_avg": 4.3,
+        "done_4wk_avg": 5.5,
         "verdict": "hold",
-        "why": "Eight sets a week (ab machine 3 and 3, ab wheel 2), inside 4 to 10. New on 17 November: ab machine 65 for 12, 12, 12, the top of the range on every set, after 65 for 11 on all three on 14 November. Ab wheel 10, 10 on 14 November. Hold. Counted with half credit for helper muscles: 8 planned a week, of which 8 are direct sets; 4.3 a week done on average over the last four weeks.",
+        "why": "Eight sets a week (ab machine 3 and 3, ab wheel 2), inside 4 to 10. Legs B on 25 November: ab machine 70 for 10, 10, 10, up from 65 for 11, then 12 on 17 November (the weight moved, so the reps reset to the bottom of 10 to 12), and ab wheel 10 and 10 as on 14 November. Hold. Counted with half credit for helper muscles: 8 planned a week, of which 8 are direct sets; 5.5 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-17:ab-crunch-machine",
-          "2026-11-14:ab-crunch-machine",
-          "2026-11-14:ab-wheel-rollout"
+          "2026-11-25:ab-crunch-machine",
+          "2026-11-25:ab-wheel-rollout",
+          "2026-11-17:ab-crunch-machine"
         ]
       },
       "neck": {
@@ -270,7 +264,7 @@
         "direct_weekly_sets": 4,
         "done_4wk_avg": 0.5,
         "verdict": "watch",
-        "why": "Raised on 19 November (version 15) from nothing, after you wrote on 18 November that the program had no neck work. Two lifts that need only a flat bench and a plate (you have no harness and no neck machine): lying plate neck flexion, two sets last on Push A (not yet logged), and lying plate neck extension, two sets after the shrugs on Pull B. The extension was logged for the first time on 24 November: 10 lb for 15, 15, no note after. That is 4 direct sets a week, the bottom of 4 to 12, because a neck is brought up light and for reps. Once each lift has run twice with all reps done and no neck pain, the next step is a second set day for each, toward 8 a week. The four-week average of 0.5 is that one night. Hold; the next step waits for two clean runs of each. Counted with half credit for helper muscles: 4 planned a week, of which 4 are direct sets; 0.5 a week done on average over the last four weeks.",
+        "why": "Four sets a week: lying plate neck flexion, 2 sets last on Push A, and lying plate neck extension, 2 sets on Pull B. You have no harness and no neck machine, so both are plate-and-bench lifts. Extension was first logged on 24 November: 10 lb for 15, 15, no note after, so I read it as no pain. Flexion has never been logged; tonight's Push A is its first night, at 5 lb for 15, which is my starting choice and not a measured number (flexors are normally weaker than extensors). Each moves up only when both sets reach 20 reps with no neck soreness the next day. Hold. Counted with half credit for helper muscles: 4 planned a week, of which 4 are direct sets; 0.5 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-24:plate-neck-extension"
         ]
@@ -280,7 +274,7 @@
       "smith-incline-press": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "15 November: 165 for 6, then 180 for 6, 7, 8, up from 175 for 8, 8, 8 on 9 November. The 15 November review asked for 180 on every working set, aiming for 7 or 8, with no lighter first set; you opened at 165 and then got 6, 7, 8 at 180, so one set met the ask and the weight is right. At build loads (after the lighter week), next Push A: 180 on all four sets, no lighter first set, aiming for 8 on each; 8 on all four earns 185.",
+        "why": "15 November: 165 for 6, then 180 for 6, 7, 8, up from 175 for 8, 8, 8 on 9 November. Tonight: 180 for 7, two sets on the card this week, no lighter first set. 180 is proven (three sets of it on 15 November) and 8 on the last set means 7 on every set is within reach; 8 on every set earns 185. It is 11 days since the last Push A (the gap of 18 to 22 November), and the weight is unchanged.",
         "evidence": [
           "2026-11-15:smith-incline-press",
           "2026-11-09:smith-incline-press"
@@ -289,38 +283,35 @@
       "machine-chest-press": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "23 November on Push B: 165 for 10, 10, 10, the top of 8 to 10 on every set, up from 165 for 9 on 12 November. That earns the next step: next Push B 172.5 for 8 on all three (the stack steps 15 lb with a 7.5 lb micro, your readout of 23 July). Push A on 15 November was 157.5 for 12, 12, 12 and takes 165 for 10 or better on its next night. Same machine, two days, two numbers on purpose: Push B presses second and heavier for 8 to 10, Push A presses after four sets of incline for 10 to 12, the split you accepted on 23 July. The 15 November \"stalled\" label compared this gym with other gyms; that was an app bug fixed in version 93.",
+        "why": "Tonight on Push A: 165 for 10, two sets on the card this week. 165 is proven: 165 for 10, 10, 10 on Push B on 23 November, after 165 for 9 on 12 November. Push A on 15 November was 157.5 for 12, 12, 12, the top of its 10 to 12, so Push A steps to 165 at the bottom of its range. The two days show two different numbers by design (your 23 July decision): Push A is the 10 to 12 day, 165 for 10 tonight; Push B is the 8 to 10 day, and next Push B asks 172.5 for 8 (the stack steps 15 lb with a 7.5 lb micro).",
         "evidence": [
           "2026-11-23:machine-chest-press",
-          "2026-11-12:machine-chest-press",
-          "2026-11-15:machine-chest-press"
+          "2026-11-15:machine-chest-press",
+          "2026-11-12:machine-chest-press"
         ]
       },
       "cable-crossover-low-high": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "15 November: 12.5 for 15, 15, 15, the top of 12 to 15 on every set, after 12.5 for 14, 14, 14 on 9 November. That earns the next step. At build loads (after the lighter week), next Push A: the next weight above 12.5 on that stack for 12 on all three. Your gym file says these cables step in 5 lb with two 1.25 lb add-on weights, which makes the next step 13.75; your own logs on this machine show steps of 1.5 lb (49 to 50.5, 29 to 30.5), which the gym file does not explain, and which you have called estimates on the other cable lifts (30.5, 50.5). Until that is settled, take the next setting the stack gives above 12.5 and log what it reads.",
+        "why": "15 November: 12.5 for 15, 15, 15, the top of 12 to 15 on every set, after 12.5 for 14, 14, 14 on 9 November. That earns the next step. Tonight: 13.75 for 12, two sets on the card this week, which is 12.5 plus one 1.25 lb add-on weight per handle (your gym file: pin settings every 5 lb plus two 1.25 lb add-ons). It is the smallest step the stack has; log what you used.",
         "evidence": [
           "2026-11-15:cable-crossover-low-high",
-          "2026-11-09:cable-crossover-low-high",
-          "2026-11-12:cable-crossover-high-low",
-          "2026-11-12:rope-pushdown"
+          "2026-11-09:cable-crossover-low-high"
         ]
       },
       "db-lateral-raise": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "23 November on Push B: 17.5 for 13, 13, 13, three sets, the fourth set of the card was not done, and the note asks why four sets. 15 November on Push A: 17.5 for 12, 12, 12; 12 November 15 for 15 (typed seconds apart). 17.5 is the weight and it held at 13 on every set. At build loads (after the lighter week), next Push B: 17.5 for 14, 14, 14, 13; 15 on all four earns 20. If the fourth set is skipped again, the card will say three and the weekly count falls with it.",
+        "why": "23 November on Push B: 17.5 for 13, 13, 13, three sets (the fourth was not done), and 15 November on Push A: 17.5 for 12, 12, 12. Tonight: 17.5 for 14, two sets on the card this week (the slot is four sets in a normal week). 17.5 is proven and has held at 12 and 13 on every set; 15 on all sets earns 20 (the rack steps 2.5 to 20). Whether four sets works is decided on 1 December; this week's two-set cards do not test it.",
         "evidence": [
           "2026-11-23:db-lateral-raise",
-          "2026-11-15:db-lateral-raise",
-          "2026-11-12:db-lateral-raise"
+          "2026-11-15:db-lateral-raise"
         ]
       },
       "reverse-pec-deck": {
         "trend": "holding",
         "verdict": "progress",
-        "why": "23 November: 97.5 for 13, 13, 13, exactly the card, after 97.5 for 12, 12, 12 on 12 and 15 November: same weight, more reps. At build loads (after the lighter week), next Push B: 97.5 for 14 on all three; 15 on all three earns the next weight.",
+        "why": "23 November: 97.5 for 13, 13, 13, exactly the card, after 97.5 for 12, 12, 12 on 12 and 15 November: same weight, more reps. Next Push B: 97.5 for 14 on all three; 15 on all three earns the next weight.",
         "evidence": [
           "2026-11-23:reverse-pec-deck",
           "2026-11-15:reverse-pec-deck"
@@ -329,7 +320,7 @@
       "chest-dip": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "Bodyweight 12, 12, 12 on 15 November after 10, 11, 11 on 9 November: the top of 8 to 12 on every set. The range moved to 12 to 15 on 16 November (version 13). At build loads (after the lighter week), next Push A: 13 on all three; 15 on all three means it is time to add weight.",
+        "why": "Bodyweight 12, 12, 12 on 15 November after 10, 11, 11 on 9 November. The range moved to 12 to 15 on 16 November (version 13). Tonight: 13, two sets on the card this week; 15 on all three means it is time to add weight.",
         "evidence": [
           "2026-11-15:chest-dip",
           "2026-11-09:chest-dip"
@@ -338,7 +329,7 @@
       "deadlift": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "Pull A on 16 November: 215, 235, 245, 250 for 5 each, the weights the 16 November review gave, 10 lb up on every set from 205, 225, 235, 240 for 6 on 10 November. Logged live, three to five minutes apart. The deadlift keeps its climbing sets; they are how the lift is done. At build loads (after the lighter week), next Pull A: the same four weights for 6 each; four 6s earn another 10 lb.",
+        "why": "Pull A on 16 November: 215, 235, 245, 250 for 5 each, the weights the 16 November review gave, 10 lb up on every set from 205, 225, 235, 240 for 6 on 10 November. Logged live, three to five minutes apart. The deadlift keeps its climbing sets; they are how the lift is done. Next Pull A: the same four weights for 6 each; four 6s earn another 10 lb.",
         "evidence": [
           "2026-11-16:deadlift",
           "2026-11-10:deadlift",
@@ -348,7 +339,7 @@
       "lat-pulldown-wide": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "16 November: 112.5 for 8, 127.5 for 8, 135 for 8. The top set is up from 127.5 for 11 on 10 November and 120 for 8 on 2 November. The two lighter sets were the app's own card: the 16 November review was a rest-day review with no numbers on the card, so the 135 on every set it asked for never reached you. At build loads (after the lighter week), next Pull A: 135 for 8 on all three; three 8s at 135, then reps up to 10 before the next weight.",
+        "why": "16 November: 112.5 for 8, 127.5 for 8, 135 for 8. The top set is up from 127.5 for 11 on 10 November and 120 for 8 on 2 November. The two lighter sets were the app's own card: the 16 November review was a rest-day review with no numbers on the card, so the 135 on every set it asked for never reached you. Next Pull A: 135 for 8 on all three; three 8s at 135, then reps up to 10 before the next weight.",
         "evidence": [
           "2026-11-16:lat-pulldown-wide",
           "2026-11-10:lat-pulldown-wide",
@@ -358,7 +349,7 @@
       "seated-cable-row-wide": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "16 November: 112.5 for 10 on all four sets, the step up earned by 105 for 12 on all four on 10 November (105 for 10 on 2 November). It has gone up at every visit at this gym. Four sets stay: see upper back for why. At build loads (after the lighter week), next Pull A: 112.5 for 11 on all four; four 12s earn the next weight.",
+        "why": "16 November: 112.5 for 10 on all four sets, the step up earned by 105 for 12 on all four on 10 November (105 for 10 on 2 November). It has gone up at every visit at this gym. Four sets stay: see upper back for why. Next Pull A: 112.5 for 11 on all four; four 12s earn the next weight.",
         "evidence": [
           "2026-11-16:seated-cable-row-wide",
           "2026-11-10:seated-cable-row-wide",
@@ -368,7 +359,7 @@
       "db-curl": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "16 November: 35 for 8, 8, 8, the step up earned by 30 for 10, 10, 10 on 10 November (30 for 9 on all three on 2 November). At build loads (after the lighter week), next Pull A: 35 for 9 on all three; three 10s earn 40.",
+        "why": "16 November: 35 for 8, 8, 8, the step up earned by 30 for 10, 10, 10 on 10 November (30 for 9 on all three on 2 November). Next Pull A: 35 for 9 on all three; three 10s earn 40.",
         "evidence": [
           "2026-11-16:db-curl",
           "2026-11-10:db-curl",
@@ -378,7 +369,7 @@
       "cable-hammer-curl": {
         "trend": "progressing",
         "verdict": "hold",
-        "why": "16 November: 42.5 for 11, 12, 12 on all three sets, the best yet at this weight, after 39 for 12 then 42.5 for 11, 11 on 10 November and 42.5 for 11, 10 on 2 November. The first set was a rep short of 12 and the other two reached it, so the weight holds until all three do. At build loads (after the lighter week), next Pull A: 42.5 for 12 on all three; that earns the next weight.",
+        "why": "16 November: 42.5 for 11, 12, 12 on all three sets, the best yet at this weight, after 39 for 12 then 42.5 for 11, 11 on 10 November and 42.5 for 11, 10 on 2 November. The first set was a rep short of 12 and the other two reached it, so the weight holds until all three do. Next Pull A: 42.5 for 12 on all three; that earns the next weight.",
         "evidence": [
           "2026-11-16:cable-hammer-curl",
           "2026-11-10:cable-hammer-curl",
@@ -388,7 +379,7 @@
       "face-pulls": {
         "trend": "holding",
         "verdict": "hold",
-        "why": "16 November on Pull A: 32.5 for 12, 12, the last lift of an eighth straight training day. Pull B on 24 November: 32.5 for 15, 15, the card, same as 13 November. On 10 November Pull A ran 27 and 27.5 for 15. The weight holds at 32.5 until Pull A also reaches 15 on both sets. At build loads (after the lighter week): Pull A 32.5 for 15, 15, Pull B 32.5 for 15, 15.",
+        "why": "16 November on Pull A: 32.5 for 12, 12, the last lift of an eighth straight training day. Pull B on 24 November: 32.5 for 15, 15, the card, same as 13 November. On 10 November Pull A ran 27 and 27.5 for 15. The weight holds at 32.5 until Pull A also reaches 15 on both sets. Next Pull A and Pull B: 32.5 for 15, 15.",
         "evidence": [
           "2026-11-16:face-pulls",
           "2026-11-13:face-pulls",
@@ -399,7 +390,7 @@
       "db-bulgarian-split-squat": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "17 November: 25 in each hand for 8, 8, the step up from 20 for 10, 10 on 11 November. Next full Legs A: 25 for 9, 9; 10 and 10 earns 30.",
+        "why": "17 November: 25 in each hand for 8, 8, the step up from 20 for 10, 10 on 11 November. Next Legs A: 25 for 9, 9; 10 and 10 earns 30.",
         "evidence": [
           "2026-11-17:db-bulgarian-split-squat",
           "2026-11-11:db-bulgarian-split-squat"
@@ -408,7 +399,7 @@
       "hip-adductor": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "17 November: 97.5 for 12, 12, the step up from 90 for 15, 15 on 11 November. Next full Legs A: 97.5 for 14, 14; 15 on both earns the next pin.",
+        "why": "17 November: 97.5 for 12, 12, the step up from 90 for 15, 15 on 11 November. Next Legs A: 97.5 for 14, 14; 15 on both earns the next pin.",
         "evidence": [
           "2026-11-17:hip-adductor",
           "2026-11-11:hip-adductor"
@@ -417,7 +408,7 @@
       "hip-abductor": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "17 November: 127.5 for 12, 12, the step up from 120 for 15, 15 on 11 November. Next full Legs A: 127.5 for 14, 14; 15 on both earns the next pin.",
+        "why": "17 November: 127.5 for 12, 12, the step up from 120 for 15, 15 on 11 November. Next Legs A: 127.5 for 14, 14; 15 on both earns the next pin.",
         "evidence": [
           "2026-11-17:hip-abductor",
           "2026-11-11:hip-abductor"
@@ -426,7 +417,7 @@
       "db-shoulder-press": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "23 November: 50 for 10 on all four sets, the top of the old 8 to 10 on every set, after 50 for 9, 9, 9, 8 on 12 November. The range is now 8 to 12 (version 16) because your rack has no 55. At build loads (after the lighter week), next Push B: 50 for 11 on all four; four 12s earn 60.",
+        "why": "23 November: 50 for 10 on all four sets, the top of the old 8 to 10 on every set, after 50 for 9, 9, 9, 8 on 12 November. The range is now 8 to 12 (version 16) because your rack has no 55. Next Push B: 50 for 11 on all four; four 12s earn 60.",
         "evidence": [
           "2026-11-23:db-shoulder-press",
           "2026-11-12:db-shoulder-press"
@@ -435,7 +426,7 @@
       "cable-crossover-high-low": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "23 November: 30.5 for 15, 15, the top of 12 to 15 on both sets (the card asked 15, 13), after 30.5 for 14, 12 on 12 November. That earns a step. Your gym's cable stack gives pin settings every 5 lb plus two 1.25 lb micros (2.5, 5 and so on), so 30.5 is your estimate of 30, not a setting; the next real weights are 32.5 or 30 plus the micros. At build loads (after the lighter week), next Push B: 32.5 for 12, 12 (take the nearest setting and log what you used).",
+        "why": "23 November: 30.5 for 15, 15, the top of 12 to 15 on both sets (the card asked 15, 13), after 30.5 for 14, 12 on 12 November. That earns a step. Your gym's cable stack gives pin settings every 5 lb plus two 1.25 lb micros (2.5, 5 and so on), so 30.5 is your estimate of 30, not a setting; the next real weights are 32.5 or 30 plus the micros. Next Push B: 32.5 for 12, 12 (take the nearest setting and log what you used).",
         "evidence": [
           "2026-11-23:cable-crossover-high-low",
           "2026-11-12:cable-crossover-high-low"
@@ -444,7 +435,7 @@
       "rope-pushdown": {
         "trend": "progressing",
         "verdict": "hold",
-        "why": "23 November: 50.5 for 12, 12, 11 (the card asked 12 on all three), up from 49 for 12, 11 on 4 November. The last set was a rep short so the weight holds. At build loads (after the lighter week), next Push B: the same weight for 12 on all three, 12 on all three earns the next one. 50.5 is your estimate: the stack's nearest setting is 50, so use that and log it.",
+        "why": "23 November: 50.5 for 12, 12, 11 (the card asked 12 on all three), up from 49 for 12, 11 on 4 November. The last set was a rep short so the weight holds. Next Push B: the same weight for 12 on all three, 12 on all three earns the next one. 50.5 is your estimate: the stack's nearest setting is 50, so use that and log it.",
         "evidence": [
           "2026-11-23:rope-pushdown",
           "2026-11-12:rope-pushdown"
@@ -453,7 +444,7 @@
       "db-overhead-triceps-extension": {
         "trend": "holding",
         "verdict": "hold",
-        "why": "23 November: 60 for 10, 12 (the card asked 12, 12), one dumbbell in both hands behind the head. The first set was two reps short, the second reached 12. On 12 November you logged 60 for 12, 12 on a replacement lift (overhead dumbbell press, under the reverse-grip pushdown slot), so this is not a clear climb: hold the weight. At build loads (after the lighter week), next Push B: 60 for 12, 12; 12 and 12 earns the next dumbbell, which is 70 on your rack.",
+        "why": "23 November: 60 for 10, 12 (the card asked 12, 12), one dumbbell in both hands behind the head. The first set was two reps short, the second reached 12. On 12 November you logged 60 for 12, 12 on a replacement lift (overhead dumbbell press, under the reverse-grip pushdown slot), so this is not a clear climb: hold the weight. Next Push B: 60 for 12, 12; 12 and 12 earns the next dumbbell, which is 70 on your rack.",
         "evidence": [
           "2026-11-23:db-overhead-triceps-extension",
           "2026-11-12:reverse-grip-pushdown"
@@ -471,7 +462,7 @@
       "lat-pulldown-close": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "24 November: 135 for 10 on all three sets; the card asked 120 for 10 then 135 for 9, 9, so you did the heavy weight on the first set and beat the reps. 13 November was 120 for 9, then 135 for 8, 8. 10 is the top of 8 to 10 and the machine steps in 7.5 lb, so after the lighter week the next step is 142.5 for 8 on all three.",
+        "why": "24 November: 135 for 10 on all three sets; the card asked 120 for 10 then 135 for 9, 9, so you did the heavy weight on the first set and beat the reps. 13 November was 120 for 9, then 135 for 8, 8. 10 is the top of 8 to 10 and the machine steps in 7.5 lb, so the next step is 142.5 for 8 on all three.",
         "evidence": [
           "2026-11-24:lat-pulldown-close",
           "2026-11-13:lat-pulldown-close"
@@ -499,7 +490,7 @@
       "incline-db-curl": {
         "trend": "holding",
         "verdict": "progress",
-        "why": "24 November: 30 for 10, 10, the card, logged as you go this time. Two live 10s, the top of 8 to 10, earn 35 (the rack goes 5 lb at a time). Next Pull B after the lighter week: 35 for 8, 8.",
+        "why": "24 November: 30 for 10, 10, the card, logged as you go this time. Two live 10s, the top of 8 to 10, earn 35 (the rack goes 5 lb at a time). Next Pull B: 35 for 8, 8.",
         "evidence": [
           "2026-11-24:incline-db-curl",
           "2026-11-13:incline-db-curl"
@@ -508,7 +499,7 @@
       "cable-reverse-curl": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "24 November: 37.5 for 11, 11, the card. 13 November was 32.5 then 37.5 for 10, 10. Next Pull B after the lighter week: 37.5 for 12, 12, the top of 10 to 12, then 42.5.",
+        "why": "24 November: 37.5 for 11, 11, the card. 13 November was 32.5 then 37.5 for 10, 10. Next Pull B: 37.5 for 12, 12, the top of 10 to 12, then 42.5.",
         "evidence": [
           "2026-11-24:cable-reverse-curl",
           "2026-11-13:cable-reverse-curl"
@@ -516,91 +507,104 @@
       },
       "barbell-rdl": {
         "trend": "progressing",
-        "verdict": "deload",
-        "why": "Lighter week (25 November to 1 December): 140 for 8 on two sets, about 20 percent under the 185 for 9, 9, 9 of 14 November, rounded down to the 10 lb step, and nothing near failure. After it: 185 for 10 on all three sets; three 10s earn 195.",
+        "verdict": "progress",
+        "why": "25 November: 185 for 10, 10, 10, up from 9, 9, 9 on 14 November and 8 on 7 November: the top of 8 to 10 on every set. That earns 195 (the 10 lb step). Next Legs B: 195 for 8 on all three.",
         "evidence": [
+          "2026-11-25:barbell-rdl",
           "2026-11-14:barbell-rdl",
           "2026-11-07:barbell-rdl"
         ]
       },
       "leg-extension": {
-        "trend": "holding",
-        "verdict": "deload",
-        "why": "Lighter week (25 November to 1 December): 120 for 10 on two sets, about 20 percent under 157.5 (157.5 for 10, 10, 10 on 14 November; 12, 12 on 17 November on Legs A). After it, 157.5 for 11 on Legs B (Legs A had 12, 12 there). Legs A and B show different numbers because the slots have different rep ranges (12 to 15 and 10 to 12).",
+        "trend": "progressing",
+        "verdict": "progress",
+        "why": "25 November on Legs B: 157.5 for 12, 12, 12, the top of 10 to 12 on every set, after 10, 10, 10 on 14 November. That earns the next step (the machine has gone 150 then 157.5): next Legs B 165 for 10. Legs A and B show different numbers because the slots have different rep ranges (12 to 15 and 10 to 12); Legs A had 157.5 for 12, 12 on 17 November.",
         "evidence": [
-          "2026-11-14:leg-extension",
-          "2026-11-17:leg-extension"
+          "2026-11-25:leg-extension",
+          "2026-11-17:leg-extension",
+          "2026-11-14:leg-extension"
         ]
       },
       "leg-press-low": {
         "trend": "progressing",
-        "verdict": "deload",
-        "why": "Lighter week (25 November to 1 December): 160 for 10 on two sets, about 20 percent under 200 (200 for 11 on all three on 14 November). Legs A went 220 for 8 on 17 November; the two days show different numbers because Legs A is the heavy day (8 to 10) and Legs B the lighter one (10 to 12). After the lighter week Legs B asks 200 for 12, then 220.",
+        "verdict": "progress",
+        "why": "25 November on Legs B: 200 for 12, 12, 12, the top of 10 to 12 on every set, after 200 for 11 on 14 November. That earns the next weight (the machine steps 20 lb): next Legs B 220 for 10. Legs A did 220 for 8 on 17 November, the heavy day with 8 to 10; the two days show close numbers because Legs B has caught up on weight, and they differ in reps.",
         "evidence": [
-          "2026-11-14:leg-press-low",
-          "2026-11-17:leg-press-low"
+          "2026-11-25:leg-press-low",
+          "2026-11-17:leg-press-low",
+          "2026-11-14:leg-press-low"
         ]
       },
       "leg-curl": {
         "trend": "progressing",
-        "verdict": "deload",
-        "why": "Lighter week (25 November to 1 December): 120 for 10 on two sets, about 20 percent under 157.5 (157.5 for 12, 12, 12 on 17 November; 157.5 for 10 on 14 November). After it: 12, 12, 12 at 157.5 on 17 November is the top of 10 to 12 on every set, which earns the next step on the machine (7.5 lb: 165) for 10 on Legs B.",
+        "verdict": "progress",
+        "why": "25 November on Legs B: 157.5 for 12, 12, 12, the top of 10 to 12 on every set, the same as 12, 12, 12 on 17 November. That earns the next step on the machine (7.5 lb): next Legs B 165 for 10.",
         "evidence": [
-          "2026-11-14:leg-curl",
-          "2026-11-17:leg-curl"
+          "2026-11-25:leg-curl",
+          "2026-11-17:leg-curl",
+          "2026-11-14:leg-curl"
         ]
       },
       "ab-wheel-rollout": {
         "trend": "progressing",
-        "verdict": "hold",
-        "why": "Lighter week (25 November to 1 December): bodyweight, 10 reps, one set is enough. 8, 10, 10 on 30 October, 7 and 14 November. After it: two sets of 10, then 12.",
+        "verdict": "progress",
+        "why": "25 November: 10 and 10, as on 7 and 14 November (8, 10, 10 before). The range is 8 to 12. Next Legs B: 11 on both sets.",
         "evidence": [
-          "2026-11-14:ab-wheel-rollout",
-          "2026-11-07:ab-wheel-rollout"
+          "2026-11-25:ab-wheel-rollout",
+          "2026-11-14:ab-wheel-rollout"
         ]
       },
       "ab-crunch-machine": {
-        "trend": "new",
-        "verdict": "deload",
-        "why": "Lighter week (25 November to 1 December): 50 for 10 on two sets, about 20 percent under 65 (65 for 11 on 14 November, 12 on 17 November). After it: 65 for 12 on all three sets on 17 November is the top of 10 to 12, so the next weight up the stack for 10.",
+        "trend": "progressing",
+        "verdict": "hold",
+        "why": "25 November: 70 for 10, 10, 10, a step up from 65 for 12 on 17 November, so the reps start again at the bottom of 10 to 12. The weight holds at 70 until all three sets reach 12.",
         "evidence": [
-          "2026-11-14:ab-crunch-machine",
+          "2026-11-25:ab-crunch-machine",
           "2026-11-17:ab-crunch-machine"
         ]
       },
       "standing-calf-raise": {
         "trend": "progressing",
-        "verdict": "deload",
-        "why": "Lighter week (25 November to 1 December): 240 for 12 on two sets, about 20 percent under 300 (300 for 13 on all three on 17 November, 300 for 12 on 14 November). After it: 300 for 14, then 320. Calves still need your answer on a second calf lift (the 2 December review).",
+        "verdict": "hold",
+        "why": "25 November on Legs B: 300 for 15, 15, 12 on the leg press, up from 13, 13, 13 on 17 November and 12 on 14 November. The third set was three reps short of 15, so the weight holds at 300; 15 on all three earns 320 (the machine steps 20 lb). Right after it on Legs B is the new single-leg dumbbell calf raise.",
         "evidence": [
-          "2026-11-14:standing-calf-raise",
-          "2026-11-17:standing-calf-raise"
+          "2026-11-25:standing-calf-raise",
+          "2026-11-17:standing-calf-raise",
+          "2026-11-14:standing-calf-raise"
         ]
       },
       "plate-neck-flexion": {
-        "trend": "new",
+        "trend": "unlogged",
         "verdict": "watch",
-        "why": "New on 19 November (version 15), last on Push A, two sets of 15 to 20, never logged. Lie on your back on a flat bench with your head off the end, a towel on your forehead and a 10 lb plate held on it. The first night is 10 lb for 15 on both sets; it moves up only after both sets reach 20 with no neck pain the next day. Any sharp pain, or pain that lasts into the next day: write a note and it holds.",
+        "why": "Added 19 November (version 15), last on Push A, two sets of 15 to 20, never logged: tonight is the first night, one set on the card this week. Lie on your back on a flat bench with your head off the end, a towel on your forehead and a 5 lb plate held on it. 5 lb for 15 is my starting choice: flexion has no history here, neck flexors are normally weaker than extensors, and extension at 10 lb for 15, 15 on 24 November was done with no note. It moves up only after both sets reach 20 with no neck pain the next day. Any sharp pain, or pain that lasts into the next day: write a note and it holds.",
         "evidence": [
-          "2026-11-15:chest-dip"
+          "2026-11-24:plate-neck-extension"
         ]
       },
       "plate-neck-extension": {
         "trend": "new",
         "verdict": "watch",
-        "why": "First night, 24 November: 10 lb for 15 on both sets, and no note afterwards, so I read it as no pain. It moves up only when both sets reach 20 reps with no neck soreness the next day. Neck flexion on Push A is still unlogged (the Push A of 15 November predates it); that is the next first night. Lighter week: one set of each is plenty.",
+        "why": "First night, 24 November: 10 lb for 15 on both sets, and no note afterwards, so I read it as no pain. It moves up only when both sets reach 20 reps with no neck soreness the next day. Neck flexion on Push A is the next first night.",
         "evidence": [
           "2026-11-24:plate-neck-extension"
+        ]
+      },
+      "single-leg-calf-raise": {
+        "trend": "unlogged",
+        "verdict": "watch",
+        "why": "New today (version 18): right after the calf press on Legs B, 2 sets of 12 to 15 (one set is both legs, weaker leg first, logged as one row), 60 seconds between sets. Dumbbell in the same-side hand, ball of one foot on a step platform (your gym has them), heel hanging free, pause in the stretch. It has never been logged; the 30 lb on the card is my starting guess for one dumbbell, not a measured number. Pick the weight where 12 is hard on your weaker leg and the card learns from it. If both sets get done on two Legs B nights, a third set is the next question.",
+        "evidence": [
+          "2026-11-25:standing-calf-raise"
         ]
       }
     },
     "prep": {
       "weeks_out": 13,
       "bodyweight_last": "2026-08-23",
-      "plan": "About two weeks come before prep (14 days from 25 November). The build block ended on 24 November. This week, 25 November to 1 December, is the lighter week: the calendar sets it at about 60 percent of the usual sets with weights about 20 percent lighter, and nothing taken near failure. The week of 2 December is assessment: each main lift is run at its current weight for its best reps, and the starting bodyweight is set. Prep starts on 9 December and runs just under 12 weeks. Weeks 1 to 4 (9 December to 5 January): the same lifts and weights as now, with the sets as they stand after the side-delt decision (1 December review) and your answer on calves; in prep, holding reps at the same weight while bodyweight comes down is the win. Weeks 5 to 8 (6 January to 2 February): the weights stay, and if recovery slips, sets come off what the stage scores least (rear delts, forearms, traps, the hip machines) before anything comes off side delts, back, chest, arms, quads or calves. Weeks 9 to 11 (3 to 21 February): the same, no new lifts, no set taken to a grinding rep. The final week (22 February to 1 March): about half the sets, with the last hard leg session early in the week. Fat loss is paced at about half a percent to one percent of bodyweight a week, which at your last logged 207 lb is about 1 to 2 lb a week. It is checked by the weekly average of morning weigh-ins: less than half a percent for two weeks running means food or daily walking has to change; more than one percent with reps dropping means it is too fast. From 9 December to the show is just under 12 weeks, so at that pace the most that can come off is roughly 12 to 23 lb from 207. Whether that is enough is not something I can tell: the last weigh-in in the log is 23 August, and there are no photos and no division. If more than that has to come off, the only slack is the 14 days before 9 December, which is why the weigh-in matters this week and not in December. The prep phase in the calendar is a placeholder that detailed programming replaces at assessment, so this plan is a default, not a decision. What it protects, in order, once real data arrives: side delts, upper chest (Push A), back, arms, quads, calves; the deadlift and RDL are climbing 5 to 10 lb a visit now (deadlift 250 for 5 on 16 November) and in a deficit they hold their weight rather than climb. If no bodyweight arrives by 2 December, I will start prep on 9 December from 207 lb (23 August) and say so.",
-      "next_step": "A morning bodyweight in the log this week (the Bodyweight button on the workout screen); it is the first thing the 2 December assessment review needs, and nothing has been logged for 94 days.",
+      "plan": "Thirteen days come before prep (from 26 November). The build block ended on 24 November. The calendar calls 25 November to 1 December a lighter week; the app holds each card to two sets, and I have the weights at what you have already lifted, because the 25 November Legs B went up, not down (see the block). The week of 2 December is assessment: each main lift is run at its current weight for its best reps, and the starting bodyweight is set. Prep starts on 9 December and runs just under 12 weeks. Weeks 1 to 4 (9 December to 5 January): the same lifts and weights as now, with the sets as they stand after the side-delt decision (1 December review) and the second calf lift added on 26 November; in prep, holding reps at the same weight while bodyweight comes down is the win. Weeks 5 to 8 (6 January to 2 February): the weights stay, and if recovery slips, sets come off what the stage scores least (rear delts, forearms, traps, the hip machines) before anything comes off side delts, back, chest, arms, quads or calves. Weeks 9 to 11 (3 to 21 February): the same, no new lifts, no set taken to a grinding rep. The final week (22 February to 1 March): about half the sets, with the last hard leg session early in the week. Fat loss is paced at about half a percent to one percent of bodyweight a week, which at your last logged 207 lb is about 1 to 2 lb a week. It is checked by the weekly average of morning weigh-ins: less than half a percent for two weeks running means food or daily walking has to change; more than one percent with reps dropping means it is too fast. From 9 December to the show is just under 12 weeks, so at that pace the most that can come off is roughly 12 to 23 lb from 207. Whether that is enough is not something I can tell: the last weigh-in in the log is 23 August, and there are no photos and no division. If more than that has to come off, the only slack is the 14 days before 9 December, which is why the weigh-in matters now and not in December. The prep phase in the calendar is a placeholder that detailed programming replaces at assessment, so this plan is a default, not a decision. What it protects, in order, once real data arrives: side delts, upper chest (Push A), back, arms, quads, calves; the deadlift and RDL are climbing 5 to 10 lb a visit now (deadlift 250 for 5 on 16 November) and in a deficit they hold their weight rather than climb. If no bodyweight arrives by 2 December, I will start prep on 9 December from 207 lb (23 August) and say so. Assessment (2 to 8 December) reads each main lift at its current weight for its best reps; if two of them come in under their reps of 15 to 25 November, prep starts with sets coming off the least-scored muscles at once, not in week 5. In prep, a cut in sets is triggered by any week where two or more main lifts fall below their previous reps or where a session ends with its late slots skipped.",
+      "next_step": "A morning bodyweight in the log this week (the Bodyweight button on the workout screen); it is the first thing the 2 December assessment review needs, and nothing has been logged for 95 days.",
       "data_missing": [
-        "Bodyweight: nothing logged since 23 August (207 lb), 94 days ago. The workout screen has a Bodyweight button.",
+        "Bodyweight: nothing logged since 23 August (207 lb), 95 days ago. The workout screen has a Bodyweight button.",
         "Your division (bodybuilding, classic physique or men's physique): it changes how much legs count against shoulders and arms.",
         "Photos or a waist measurement, to judge where you are starting from.",
         "Whether someone else sets your diet, or this review should set calories and protein.",
@@ -611,31 +615,42 @@
   "answers": [],
   "changes_today": [
     {
-      "version": 17,
-      "date": "2026-11-25",
-      "session": "PullB",
-      "exercise": "db-shrug",
-      "kind": "sets",
-      "before": {
-        "id": "db-shrug",
-        "sets": 4,
+      "version": 18,
+      "date": "2026-11-26",
+      "session": "LegsB",
+      "exercise": "single-leg-calf-raise",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "single-leg-calf-raise",
+        "sets": 2,
         "repMin": 12,
-        "repMax": 20,
-        "rest": 75
+        "repMax": 15,
+        "rest": 60
+      },
+      "why": "Calves are scored on stage and sit at 6 direct sets a week (9 counted, floor 8), all of them the calf press on the leg press, 3 on each leg day. The 17 and 25 November nights show the lift is working and the sets get done (300 for 13, 13, 13 on 17 November; 300 for 15, 15, 12 on 25 November, the top of 12 to 15), so the missing piece is volume and a second angle, not a heavier press. On 19 November I asked whether your gym has a calf machine and the 23 July photos answered it (none; leg press only); the 25 November packet then held calves for an answer on a second lift and said I would not go past three sets a day on my own. That was wrong twice: your gym file already lists dumbbells and step platforms, so single-leg dumbbell calf raises are programmable without asking, and your only calf note (30 July, Why four sets) was a question, not a limit. So the second lift goes in today: single-leg dumbbell calf raise off a step, straight after the calf press and ahead of the ab work, 2 sets of 12 to 15, where one set means both legs (weaker leg first, then the other) logged as one row, 60 seconds between sets. Calves go from 6 direct to 8 and from 9 counted to 11, inside 8 to 16. Legs B goes from 20 to 22 sets. Two sets, not three: Legs B ran 52 minutes on 25 November and your cards lose their late slots when nights run long, which is why it now sits ahead of the ab work, not after it, so the new lift starts small; if both sets get done for two Legs B nights, a third is the next question. The 30 on the card is my starting guess for one dumbbell, not a measured number: you have never logged this lift. Pick the weight where 12 is hard on your weaker leg and the card learns from that.",
+      "evidence": [
+        "2026-11-25:standing-calf-raise",
+        "2026-11-17:standing-calf-raise",
+        "2026-07-30:note"
+      ]
+    },
+    {
+      "version": 18,
+      "date": "2026-11-26",
+      "session": "LegsB",
+      "exercise": "standing-calf-raise",
+      "kind": "reorder",
+      "before": {
+        "position": 7
       },
       "after": {
-        "id": "db-shrug",
-        "sets": 3,
-        "repMin": 12,
-        "repMax": 20,
-        "rest": 75
+        "position": 5
       },
-      "why": "The shrug card has asked for four sets since 26 October (version 4), and you did three on three of the four Pull B nights since: 80 for 15 on three (29 October), 80 for 16 on four (5 November), 80 for 17 on three (13 November), 80 for 18 on three (24 November), with no note on any of them. The 24 November night was also the longest at this gym (71 minutes) and the new neck lift came straight after the shrugs, so time may be part of why. The 13 November review said that if the fourth set was missing again the card would drop to three, and it was missing again, so it does. Reps climbed on the sets you do (15, 16, 17, 18), so three sets are working. Traps go from 4 direct sets a week to 3 and from 9 to 8 counted, still inside 4 to 10, and traps are scored on stage less than side delts, back, chest, arms, quads and calves. Pull B goes from 22 to 21 sets. 80 is still the heaviest pair on your rack, so reps are the lever: 20 on all three sets moves the shrug to a barbell or the smith machine. If you want the fourth set back, say so in a note on that card.",
+      "why": "Calves are scored on stage and the abs are not. The calf press was 7th on Legs B and the new single-leg calf raise would have been 8th behind five ab sets, on the night type where late slots get dropped (30 October, 22 sets in 29 minutes). Both calf lifts now come right after the leg curl, ahead of the ab wheel and ab machine. No sets change.",
       "evidence": [
-        "2026-11-24:db-shrug",
-        "2026-11-13:db-shrug",
-        "2026-11-05:db-shrug",
-        "2026-10-29:db-shrug"
+        "2026-10-30:note",
+        "2026-11-25:standing-calf-raise"
       ]
     }
   ],
@@ -643,123 +658,98 @@
     {
       "muscle": "side-delts",
       "verdict": "raise",
-      "until": "2026-12-01",
-      "why": "Side delts planned at 10 counted sets (the floor of 10 to 20) but done at 6.3 a week on average over the last four weeks. The first four-set night (23 November) had only three sets done, and your note asks whether four is right for a small muscle. The next step (a third lateral day or a second side-delt lift) is decided at the 1 December review, after the lighter week, by which point one more Push A and the lighter-week sessions are logged. Adding a day now would walk back the 14 November removal of the Pull A cable lateral raise (version 12) inside the 14-day guard and land in a week that runs fewer sets; waiting is right because the block needs the fourth set logged before more is piled on it.",
+      "until": "2026-12-02",
+      "why": "Side delts are planned at 8 direct, 10 counted (the floor of 10 to 20). The next step (a third lateral day or a second side-delt lift) is decided on 2 December, the first review after the lighter week ends (1 December is its last day) and after the 14-day guard on the 14 November removal has expired (28 November). Honest limit: the app holds every card in the lighter week to two sets, so Push A tonight and Push B on or about 29 November cannot show whether a fourth lateral set gets done; 2 December adds the calendar, not new evidence, and the decision is made on the 23 November night (17.5 for 13, 13, 13, fourth set missing, and your note asking why four) plus what you log. Adding a day today would walk back the 14 November removal of the Pull A cable lateral raise (version 12) inside the 14-day guard, and on 12 November you asked whether lateral raises every day made sense; that is a question, not a limit, and it is part of what 2 December weighs.",
       "evidence": [
         "2026-11-23:db-lateral-raise",
         "2026-11-15:db-lateral-raise"
-      ]
-    },
-    {
-      "muscle": "calves",
-      "verdict": "raise",
-      "until": "2026-12-02",
-      "why": "Calves sit at 9 counted sets and 6 direct, near the bottom of their range, and they are scored on stage. Your gym has no calf machine (your 23 July photos), so adding calf work means a second calf lift (a standing calf raise on the smith machine, or a single-leg dumbbell calf raise off a step), which would take a leg day past the three calf sets you settled in July and August. That is your decision, not mine: it waits for your answer. The 2 December review, at assessment week, is the last point to add it before prep starts on 9 December; if you have not answered by then, calves stay at three sets a day and the review says so.",
-      "evidence": [
-        "2026-11-17:standing-calf-raise",
-        "2026-11-14:standing-calf-raise"
       ]
     }
   ],
   "overrides": [
     {
-      "exercise": "barbell-rdl",
-      "session": "LegsB",
-      "reason": "Lighter week: 140 for 8, about 20 percent under 185 for 9, 9, 9 on 14 November, to the 10 lb step; stop with plenty left.",
+      "exercise": "smith-incline-press",
+      "session": "PushA",
+      "reason": "180 for 7: you did 180 for 6, 7, 8 on 15 November; 8 on every set earns 185.",
       "sets": [
         {
-          "weight": 140,
-          "reps": 8
+          "weight": 180,
+          "reps": 7
         },
         {
-          "weight": 140,
-          "reps": 8
+          "weight": 180,
+          "reps": 7
         }
       ]
     },
     {
-      "exercise": "leg-extension",
-      "session": "LegsB",
-      "reason": "Lighter week: 120 for 10, about 20 percent under 157.5; stop with plenty left.",
+      "exercise": "machine-chest-press",
+      "session": "PushA",
+      "reason": "165 for 10: you did 165 for 10, 10, 10 on Push B on 23 November. Push A is the 10 to 12 day, so this number is lower than Push B's next one (172.5 for 8).",
       "sets": [
         {
-          "weight": 120,
+          "weight": 165,
           "reps": 10
         },
         {
-          "weight": 120,
-          "reps": 10
-        }
-      ]
-    },
-    {
-      "exercise": "leg-press-low",
-      "session": "LegsB",
-      "reason": "Lighter week: 160 for 10, about 20 percent under the 200 you did for 11 on 14 November; this is Legs B, the lighter-rep day, so the number is lower than Legs A's.",
-      "sets": [
-        {
-          "weight": 160,
-          "reps": 10
-        },
-        {
-          "weight": 160,
+          "weight": 165,
           "reps": 10
         }
       ]
     },
     {
-      "exercise": "leg-curl",
-      "session": "LegsB",
-      "reason": "Lighter week: 120 for 10, about 20 percent under 157.5; stop with plenty left.",
+      "exercise": "cable-crossover-low-high",
+      "session": "PushA",
+      "reason": "13.75 for 12: 12.5 for 15 on all three on 15 November earns one 1.25 lb add-on weight per handle.",
       "sets": [
         {
-          "weight": 120,
-          "reps": 10
+          "weight": 13.75,
+          "reps": 12
         },
         {
-          "weight": 120,
-          "reps": 10
+          "weight": 13.75,
+          "reps": 12
         }
       ]
     },
     {
-      "exercise": "ab-wheel-rollout",
-      "session": "LegsB",
-      "reason": "Lighter week: bodyweight, 10 reps on one set; you did 10 on 14 November.",
+      "exercise": "db-lateral-raise",
+      "session": "PushA",
+      "reason": "17.5 for 14: 17.5 for 13 on 23 November and 12 on 15 November; 15 on every set earns 20.",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 14
+        },
+        {
+          "weight": 17.5,
+          "reps": 14
+        }
+      ]
+    },
+    {
+      "exercise": "chest-dip",
+      "session": "PushA",
+      "reason": "Bodyweight, 13: you did 12, 12, 12 on 15 November; 15 on all three means adding weight.",
       "sets": [
         {
           "weight": 0,
-          "reps": 10
+          "reps": 13
+        },
+        {
+          "weight": 0,
+          "reps": 13
         }
       ]
     },
     {
-      "exercise": "ab-crunch-machine",
-      "session": "LegsB",
-      "reason": "Lighter week: 50 for 10, about 20 percent under 65 for 11 on 14 November.",
+      "exercise": "plate-neck-flexion",
+      "session": "PushA",
+      "reason": "5 lb for 15: the first time this lift is logged, so the 5 is my starting choice, not a measured number; flexors are normally weaker than extensors, so it starts under extension's 10.",
       "sets": [
         {
-          "weight": 50,
-          "reps": 10
-        },
-        {
-          "weight": 50,
-          "reps": 10
-        }
-      ]
-    },
-    {
-      "exercise": "standing-calf-raise",
-      "session": "LegsB",
-      "reason": "Lighter week: 240 for 12, about 20 percent under the 300 for 12 on 14 November, on the leg press.",
-      "sets": [
-        {
-          "weight": 240,
-          "reps": 12
-        },
-        {
-          "weight": 240,
-          "reps": 12
+          "weight": 5,
+          "reps": 15
         }
       ]
     }
@@ -768,131 +758,115 @@
     "reviewer_ran": true,
     "findings": [
       {
-        "finding": "The shrug cut claimed a fourth set missing 'the third Pull B running'; the log has four sets done on 5 November, and the 71-minute night with the neck lift added was not weighed.",
+        "finding": "Self-found before the reviewer: the 25 November packet held calves for his answer on equipment the gym file already answers (dumbbells, step platforms) and called three calf sets a day a limit on the strength of a 30 July question.",
         "disposition": "fixed",
-        "why": "Text corrected everywhere to three of the last four Pull B nights, 71 minutes and the neck lift named as a possible cause, and a line that a note brings the fourth set back. The cut stays: the 13 November review set the condition and it was met; the card went 3, 4, 3 in 30 days because the 4 was untested at 26 October.",
+        "why": "Version 18 adds the single-leg dumbbell calf raise; the hold is withdrawn in the calves verdict and the change entry.",
         "evidence": [
-          "2026-11-05:db-shrug",
-          "2026-10-29:db-shrug",
-          "2026-11-13:db-shrug",
-          "2026-11-24:db-shrug",
-          "2026-11-24:plate-neck-extension"
+          "2026-07-30:note",
+          "2026-11-25:standing-calf-raise"
         ]
       },
       {
-        "finding": "Muscle verdicts (lats, biceps, upper back, forearms, rear delts, neck, quads) repeated text from before Pull B on 24 November and said false things (no pulling since 16 November, neck nothing done, quads one night this week).",
+        "finding": "Self-found: the 25 November Legs B was logged at full weights and three sets against a card of lighter weights, so the card did not match what he does.",
         "disposition": "fixed",
-        "why": "Each rewritten from the 24 November night with correct evidence; neck now cites the first neck set.",
+        "why": "Tonight's weights are ones he has already lifted at this gym; the validator showed the app still cuts every card to two sets this week, and the brief says so.",
         "evidence": [
-          "2026-11-24:lat-pulldown-close",
-          "2026-11-24:straight-arm-pulldown",
-          "2026-11-24:incline-db-curl",
-          "2026-11-24:cable-reverse-curl",
-          "2026-11-24:chest-supported-db-row",
-          "2026-11-24:face-pulls",
-          "2026-11-24:plate-neck-extension"
+          "2026-11-25:barbell-rdl",
+          "2026-11-25:leg-press-low"
         ]
       },
       {
-        "finding": "The side-delt deferral to 1 December depends on evidence the lighter week cannot give; the 14-day guard was applied selectively; lateral sets have flipped 3, 4, 3, 4.",
-        "disposition": "open",
-        "why": "The text now says plainly that the lighter week adds no test of a fourth set and 1 December is calendar, not new evidence. I did not add a lateral day inside a deload week or walk back v12 inside the guard.",
-        "consequence": "Side delts stay at 8 direct, 10 counted (the floor) through 1 December; a stage-scored muscle gets no extra set for at least 7 more days.",
-        "evidence": [
-          "2026-11-23:db-lateral-raise",
-          "2026-11-15:db-lateral-raise",
-          "2026-11-12:db-lateral-raise"
-        ]
-      },
-      {
-        "finding": "Side-delt entry said 'answered under your notes' with answers[] empty.",
+        "finding": "Reversal of the lighter-load call rests on one lower-body night; Push A tonight is the first upper-body night in 11 days.",
         "disposition": "fixed",
-        "why": "Sentence removed; the 23 November answer was in yesterday's packet.",
+        "why": "Brief and block now say so and name tonight falling under 15 November as the signal. The reversal stands: the new fact is the 25 November Legs B log, every lift at or above 14 November, after five days off.",
         "evidence": [
-          "2026-11-23:db-lateral-raise"
-        ]
-      },
-      {
-        "finding": "Leg curl and ab crunch post-deload prescriptions ignored an earned step (12, 12, 12 at 157.5; 65 for 12 x3) and used the wrong 'different rep ranges' explanation.",
-        "disposition": "fixed",
-        "why": "Both lift entries now say the step is earned (leg curl 165 for 10; crunch the next weight up the stack for 10); the rep-range explanation stays only on the leg extension.",
-        "evidence": [
-          "2026-11-17:leg-curl",
-          "2026-11-14:leg-curl",
-          "2026-11-17:ab-crunch-machine",
-          "2026-11-14:ab-crunch-machine"
-        ]
-      },
-      {
-        "finding": "Arguments switch between direct and counted sets (seated row, shrug, calves, side delts); summed direct credits are 151 against 122 prescribed sets.",
-        "disposition": "open",
-        "why": "Upper-back text now states the direct count is the honest one for the row sets and why; the shrug text now gives both numbers (3 direct, 8 counted). Calves are 6 direct, 9 counted, and I keep saying both. Double-credit in the direct total (deadlift, smith incline, dips) is how the validator counts compound lifts, which I cannot change.",
-        "consequence": "Calves sit under their floor on the direct count (6 of 8) until 2 December, and side delts at the floor on the counted number.",
-        "evidence": [
-          "2026-11-02:seated-cable-row-wide",
-          "2026-11-10:seated-cable-row-wide",
-          "2026-11-24:db-shrug",
-          "2026-11-15:chest-dip",
-          "2026-11-17:standing-calf-raise",
-          "2026-11-16:deadlift"
-        ]
-      },
-      {
-        "finding": "Weekly volume is not aimed at what the stage scores (side delts and calves at floor, upper chest only on Push A, triceps isolation one day, front delts and glutes near caps).",
-        "disposition": "open",
-        "why": "No structural change in a deload week; side delts dated 1 December, calves 2 December. Upper chest on Push B and triceps on Push A are a rebuild question for the same two reviews, not a deload-week edit.",
-        "consequence": "Until 2 December upper chest is trained once a week and calves and side delts stay at their floors; nothing changes before prep's first week unless the 1 and 2 December reviews act.",
-        "evidence": [
-          "2026-11-15:smith-incline-press",
-          "2026-11-15:cable-crossover-low-high",
-          "2026-11-15:chest-dip",
-          "2026-11-23:db-lateral-raise",
-          "2026-11-17:standing-calf-raise",
-          "2026-11-12:cable-crossover-high-low"
-        ]
-      },
-      {
-        "finding": "Prep plan says what comes off but not what it protects, has no deficit rule for deadlift/RDL, and contradicts itself (14 vs 15 days).",
-        "disposition": "fixed",
-        "why": "Added the protected order, the deadlift/RDL hold in a deficit, the default start from 207 lb if no weigh-in arrives, and made the days 14 in both places. Division, photos and diet owner stay in data_missing.",
-        "evidence": [
-          "2026-11-16:deadlift",
-          "2026-08-23:bodyweight"
-        ]
-      },
-      {
-        "finding": "Small wrong numbers: straight-arm 'two more reps', hammer curl 'short on all three', face pulls 'again' wording and Pull A condition, overhead triceps 'progressing' after 60 for 12, 12 on 12 November, 1.5 lb crossover steps called unexplained vs estimates.",
-        "disposition": "fixed",
-        "why": "Each corrected in the lift entries; overhead triceps is now holding with the 12 November row cited.",
-        "evidence": [
-          "2026-11-24:straight-arm-pulldown",
-          "2026-11-16:cable-hammer-curl",
-          "2026-11-24:face-pulls",
-          "2026-11-23:db-overhead-triceps-extension",
-          "2026-11-12:reverse-grip-pushdown",
-          "2026-11-23:cable-crossover-high-low"
-        ]
-      },
-      {
-        "finding": "Attendance pattern (nine days, six days off, two days, then a deload) never read.",
-        "disposition": "fixed",
-        "why": "Block text now names the gap, says I do not know why, and keeps the calendar deload as planned.",
-        "evidence": [
-          "2026-11-17:leg-press-low",
-          "2026-11-23:db-shoulder-press",
+          "2026-11-25:barbell-rdl",
+          "2026-11-14:barbell-rdl",
           "2026-11-24:chest-supported-db-row"
         ]
       },
       {
-        "finding": "Tonight's card: no problem found (no duplicate movement, reps in range, loads from New York logs).",
-        "disposition": "refuted",
-        "why": "Nothing to fix; confirmed against tonight_duplicate_movements and the overrides.",
+        "finding": "Side-delt deferral to 1 December has no possible new evidence (two-set cards cannot test the fourth set), the 14-day guard expires 28 November, and 1 December is still inside the lighter week.",
+        "disposition": "open",
+        "why": "Date moved to 2 December (first review after the lighter week, guard expired); the text says plainly that it adds the calendar and not new evidence; his 23 November 'why four sets' question is answered in the brief. No lateral day added today because on 12 November he asked whether lateral raises every day made sense.",
+        "consequence": "Side delts stay at 8 direct and 10 counted, the bottom of their range, until 2 December, with prep starting 9 December.",
         "evidence": [
-          "2026-11-14:barbell-rdl",
-          "2026-11-14:leg-extension",
-          "2026-11-14:leg-press-low",
-          "2026-11-14:leg-curl",
-          "2026-11-14:standing-calf-raise"
+          "2026-11-23:db-lateral-raise",
+          "2026-11-23:note",
+          "2026-11-12:note"
+        ]
+      },
+      {
+        "finding": "Upper-back verdict used the direct count to justify four row sets while the targets are judged on the counted number.",
+        "disposition": "fixed",
+        "why": "Rewritten on the counted number (18 of 10 to 20) with the research range stated; the direct count is only quoted beside it.",
+        "evidence": [
+          "2026-11-10:note",
+          "2026-11-02:note",
+          "2026-11-24:chest-supported-db-row"
+        ]
+      },
+      {
+        "finding": "Weekly volume is not reallocated toward side delts: front delts 15 counted against side delts 10, and four-week done averages run 55 to 65 percent of plan.",
+        "disposition": "open",
+        "why": "The two presses that lead each push day stay (front delts get their count mostly from chest work, which is scored on stage); side delts are decided on 2 December. Calves moved from 9 to 11 counted today.",
+        "consequence": "Side delts keep the smallest share of any stage-scored muscle (10 counted against 15 for front delts) until 2 December.",
+        "evidence": [
+          "2026-11-23:db-shoulder-press",
+          "2026-11-15:smith-incline-press",
+          "2026-11-23:db-lateral-raise"
+        ]
+      },
+      {
+        "finding": "The new calf lift's set count was ambiguous (per leg or total) and it sat 8th behind five ab sets.",
+        "disposition": "fixed",
+        "why": "A set is both legs logged as one row; both calf lifts now sit 5th and 6th on Legs B, ahead of the ab work (reorder entry in version 18).",
+        "evidence": [
+          "2026-10-30:note",
+          "2026-11-25:standing-calf-raise"
+        ]
+      },
+      {
+        "finding": "Brief said nothing above proven work while the crossover moves a notch above 12.5.",
+        "disposition": "fixed",
+        "why": "Sentence now names the crossover's earned notch as the one exception.",
+        "evidence": [
+          "2026-11-15:cable-crossover-low-high"
+        ]
+      },
+      {
+        "finding": "First neck flexion at 10 lb is double the app's number and extension is not evidence for flexion.",
+        "disposition": "fixed",
+        "why": "Starts at 5 lb for 15, one set on this week's card, with the reason on the card.",
+        "evidence": [
+          "2026-11-24:plate-neck-extension"
+        ]
+      },
+      {
+        "finding": "Prep plan lacks an assessment pass criterion and a measurable recovery marker, and its pace rests on a 95-day-old bodyweight.",
+        "disposition": "fixed",
+        "why": "Plan now states what the assessment reads and the trigger for cutting sets. The old bodyweight stays listed under data_missing; it is his to log.",
+        "evidence": [
+          "2026-08-23:bodyweight"
+        ]
+      },
+      {
+        "finding": "Session length: Pull B 71 minutes, Legs B now 22 sets, neck sets added.",
+        "disposition": "open",
+        "why": "Only the shrug set came off (version 17); the new calf lift is two sets placed ahead of the abs. No night since has shown sets lost on Legs B (52 minutes, all done).",
+        "consequence": "If Legs B runs past about 60 minutes with the calf lift in, its late ab slots are the ones that get dropped; the next Legs B shows it.",
+        "evidence": [
+          "2026-11-24:db-shrug",
+          "2026-11-25:standing-calf-raise"
+        ]
+      },
+      {
+        "finding": "Reviewer checked: no duplicated movement tonight, every override's reps inside its range, no weight under the wrong lift, cited numbers match the log.",
+        "disposition": "refuted",
+        "why": "Nothing to fix; validate-coach confirmed every override lands as written.",
+        "evidence": [
+          "2026-11-15:machine-chest-press",
+          "2026-11-23:machine-chest-press"
         ]
       }
     ]
