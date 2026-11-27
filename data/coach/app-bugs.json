@@ -7,5 +7,13 @@
     "consequence": "A wrong label on five cards he trains from; on 15 November he wrote \"Wtf why are you saying stalled?!?!\".",
     "status": "fixed",
     "fixed_in": "v93"
+  },
+  {
+    "id": "packet-set-aside-under-lock",
+    "found": "2026-11-27",
+    "what": "His phone's phase has been locked by hand to Meso 3 since at least 28 October (every log stamped meso3, weeks 5 to 9). validate-coach requires a packet's review.block.phase to equal the calendar's phase, and the app sets aside any packet whose phase type differs from a locked phase. In a calendar deload, assessment or prep week, no packet the trainer is allowed to commit can reach his card, and the app runs its own build progression instead.",
+    "where": "js/engine.js coachPhaseMatches / coachPhaseFor; scripts/validate-coach.mjs block.phase check; settings.phaseOverride",
+    "consequence": "From 25 November the daily review stopped reaching his card: the 25 November lighter-week numbers were set aside (he trained the app's build card), and while the lock stays the same holds for assessment (2 to 8 December) and all of prep (from 9 December). Tonight the app's own card asks a 5 lb crossover jump (12.5 to 17.5) and 10 lb neck flexion on a never-done lift.",
+    "status": "open"
   }
 ]
