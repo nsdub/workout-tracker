@@ -1,0 +1,153 @@
+{
+  "date": "2026-11-27",
+  "session_type": "PushA",
+  "phase": "meso3",
+  "week": 9,
+  "exercises": [
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 8,
+          "at": 1795818280631
+        },
+        {
+          "weight": 180,
+          "reps": 8,
+          "at": 1795818392614
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1795818610531,
+          "restEndedAt": 1795818572627
+        },
+        {
+          "weight": 185,
+          "reps": 8,
+          "at": 1795818818736,
+          "restEndedAt": 1795818790541
+        }
+      ]
+    },
+    {
+      "id": "machine-chest-press",
+      "name": "Machine Chest Press",
+      "sets": [
+        {
+          "weight": 165,
+          "reps": 10,
+          "at": 1795819071050,
+          "restEndedAt": 1795818998754
+        },
+        {
+          "weight": 172.5,
+          "reps": 8,
+          "at": 1795819286463,
+          "restEndedAt": 1795819191088
+        },
+        {
+          "weight": 172.5,
+          "reps": 10,
+          "at": 1795819495488,
+          "restEndedAt": 1795819406470
+        }
+      ]
+    },
+    {
+      "id": "cable-crossover-low-high",
+      "name": "Cable Crossover (low→high)",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 10,
+          "at": 1795820248003,
+          "restEndedAt": 1795820146431
+        },
+        {
+          "weight": 15.5,
+          "reps": 12,
+          "at": 1795820496775,
+          "restEndedAt": 1795820323013
+        },
+        {
+          "weight": 15.5,
+          "reps": 12,
+          "at": 1795820675979,
+          "restEndedAt": 1795820571792
+        }
+      ]
+    },
+    {
+      "id": "db-lateral-raise",
+      "name": "DB Lateral Raise",
+      "sets": [
+        {
+          "weight": 17.5,
+          "reps": 15,
+          "at": 1795819649802,
+          "restEndedAt": 1795819615508
+        },
+        {
+          "weight": 17.5,
+          "reps": 15,
+          "at": 1795820070634,
+          "restEndedAt": 1795819724816
+        },
+        {
+          "weight": 17.5,
+          "reps": 15,
+          "at": 1795820071422
+        }
+      ]
+    },
+    {
+      "id": "chest-dip",
+      "name": "Chest Dip",
+      "sets": [
+        {
+          "weight": 0,
+          "reps": 11,
+          "at": 1795820802885,
+          "restEndedAt": 1795820750992
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1795820888901
+        },
+        {
+          "weight": 0,
+          "reps": 12,
+          "at": 1795821015768,
+          "restEndedAt": 1795820978910
+        }
+      ]
+    },
+    {
+      "id": "plate-neck-flexion",
+      "name": "Lying Plate Neck Flexion",
+      "sets": [
+        {
+          "weight": 10,
+          "reps": 12,
+          "at": 1795821136993,
+          "restEndedAt": 1795821105777
+        },
+        {
+          "weight": 10,
+          "reps": 12,
+          "at": 1795821236822,
+          "restEndedAt": 1795821197004
+        }
+      ],
+      "note": "No field guide?"
+    }
+  ],
+  "world": "dragonspine",
+  "gym": "NYC",
+  "mins": 49,
+  "startedAt": 1795814909642
+}
