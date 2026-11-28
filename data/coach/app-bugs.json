@@ -15,5 +15,13 @@
     "where": "js/engine.js coachPhaseMatches / coachPhaseFor; scripts/validate-coach.mjs block.phase check; settings.phaseOverride",
     "consequence": "From 25 November the daily review stopped reaching his card: the 25 November lighter-week numbers were set aside (he trained the app's build card), and while the lock stays the same holds for assessment (2 to 8 December) and all of prep (from 9 December). Tonight the app's own card asks a 5 lb crossover jump (12.5 to 17.5) and 10 lb neck flexion on a never-done lift.",
     "status": "open"
+  },
+  {
+    "id": "how-to-sheet-misses-program-lifts",
+    "found": "2026-11-28",
+    "what": "The guide sheet (tap the lift name on the card) reads store.plan.exercises, the original lift list from plan.json, instead of the live plan that merges program.json exercises. Every lift the trainer added through program.exercises shows \"No field guide for this one.\" even though its howto is written: plate-neck-flexion, plate-neck-extension, db-overhead-triceps-extension, ab-crunch-machine.",
+    "where": "js/views/session.js howtoSheet (const meta = store.plan?.exercises[exId]); the same raw read sits at session.js line 655 for the bodyweight check",
+    "consequence": "On 27 November he did neck flexion for the first time with no instructions on the card and wrote \"No field guide?\". Any lift the trainer adds from outside the catalogue reaches him with no form guide.",
+    "status": "open"
   }
 ]

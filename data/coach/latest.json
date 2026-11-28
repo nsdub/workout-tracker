@@ -1,28 +1,32 @@
 {
-  "date": "2026-11-27",
-  "reviewed_through": "2026-11-25",
-  "generated_at": "2026-11-27T15:41:08.812Z",
+  "date": "2026-11-28",
+  "reviewed_through": "2026-11-27",
+  "generated_at": "2026-11-28T14:15:18.190Z",
   "produced_by": "scheduled-task",
   "reviewer": "daily-training-brief (autonomous 6 AM run)",
-  "session_expected": "PushA",
-  "program_version": 18,
-  "brief": "The fact that changes tonight: Your log stamps every night since 28 October as Meso 3 (week 5 on 28 October, week 9 on 25 November), while the calendar has been Meso 3b since 28 October and the lighter week since 25 November. The app stamps Meso 3 on those dates only when the phase is locked by hand in its phase menu, so your phone is locked to Meso 3. Under that lock the app sets aside any review written for a different kind of phase, and the calendar makes this week's reviews lighter-week reviews, so this review's numbers do not reach your card; the app's own build numbers run instead, at full sets. The same will happen to every review from here on while the lock stays, because 2 to 8 December is assessment and prep starts 9 December, and neither is a build phase; the app's card tells you this too and says that setting the phase back to Automatic lets the review through. The lock is yours and I cannot change it from here. It also corrects what I wrote yesterday: Legs B on 25 November was heavy because the app gave you its build card, not because you skipped a lighter one, and my sentences saying the app holds every card to two sets this week are not true on your phone. What your phone shows tonight for Push A, from the app's own rules (I did not set these): Smith incline 165 for 8, then 180 for 8, 8, 8; chest press 165 for 10, three sets; low-to-high crossover 17.5 for 12, three sets; lateral raise 17.5 for 15, four sets; chest dip bodyweight 12, three sets; neck flexion 10 lb for 15, two sets. Two of those are bigger jumps than I would give: the crossover goes from 12.5 (your best, 15 reps on all three on 15 November) straight to 17.5, and neck flexion has never been done and starts at 10. This review's numbers, which show only with the phase on Automatic: two sets each of Smith incline 180 for 7, chest press 165 for 10, crossover 12.5 for 15, lateral raise 17.5 for 13, chest dip bodyweight 12, and one set of neck flexion at 5 lb for 15. Every one of those is a weight and rep count you have already done at this gym except neck flexion, which is new and where the 5 lb is my choice, not a measured number. Those asks changed from yesterday's in one way: no rep or weight records in a week the calendar calls lighter (yesterday asked 13.75 on the crossover, 14 on laterals and 13 on dips). Nothing new has been logged since 25 November; if you trained on 26 November and the log is late, tomorrow's review reads it. No program change today: version 18 (26 November) stands, with the single-leg dumbbell calf raise after the calf press on Legs B. Side delts, and whether triceps get isolation work on Push A, are decided on 2 December. Dates: lighter week ends 1 December, assessment 2 to 8 December, prep from 9 December, show 1 March, 94 days away. What I still need: a morning bodyweight (nothing logged since 23 August, 207 lb, 96 days; the Bodyweight button on the workout screen), and your division.",
+  "session_expected": "PullA",
+  "program_version": 19,
+  "brief": "Today is 28 November and tonight is Pull A. Last night's Push A was the build card again, because your phone's phase is still locked to Meso 3. Smith incline went to 185 for 8, 8, a new best at this gym; laterals 17.5 for 15 on every set you logged; and your first neck flexion was 10 lb for 12, 12. Three things did not hold: the crossover at 17.5 (10 reps, then 15.5 for 12, 12), the chest press at 172.5 (8 on the first set, under Push A's 10 to 12), and the fourth lateral set, missed for the second time. Your note asked where the neck flexion field guide is. The card should have had one; the app's guide sheet only reads the original lift list. I filed that as an app bug, and the guide is in my answer below your notes. One program change today, version 19. On both push nights with four lateral sets you did three, so each push day now asks three, and three sets of cable lateral raise go on the end of Pull A, the 10 lb you did there on 10 November. Side delts are what make the shoulders look wide on stage, and they have been getting 7 sets a week against a floor of 10; this makes it 9 direct, and 3 more than you have actually been doing. It is a third lateral day, which on 12 November you said felt like every day; it is three days of six, and side delts recover fast enough for it. What your phone shows tonight under the lock, from the app's own rules (I did not set these): deadlift 215, 235, 245 and 250, all for 6; wide pulldown 112.5, 127.5 and 135, all for 10; seated row 112.5 for 12, four sets; dumbbell curl 35 for 10, three sets; hammer curl 42.5 for 12, three sets; face pulls 32.5 for 15, two sets; cable lateral raise 10 for 15, three sets. Several of those are a rep or two past your best at this gym: deadlift 245 and 250 for 6 (you did 5), pulldown 135 for 10 (you did 8), row 12s at 112.5 (you did 10s), curl 35 for 10 (you did 8s). This review's numbers, which reach your card only with the phase on Automatic, follow the calendar's lighter week, 20% off with about 60% of the sets: deadlift 190 then 200 for 5; wide pulldown 97.5 then 105 for 8; row 90 for 10, two sets; curl 25 for 8, two sets; hammer curl 30 for 10, two sets; face pulls 25 for 12, one set; cable lateral raise 5 for 12, two sets. That is a change from yesterday's numbers, which kept your full weights. This is the last lighter week before the cut, and assessment from 2 December should measure what you can do, not nine weeks of fatigue. One question: is the Meso 3 lock deliberate? If it is, say so in a note and I will write the reviews knowing the build card is what you train. Dates: lighter week ends 1 December, assessment 2 to 8 December, prep from 9 December, show 1 March, 93 days away. Still needed: a morning bodyweight (nothing since 23 August, 207 lb; the Bodyweight button on the workout screen) and your division.",
   "flags": [
     {
       "kind": "schedule",
-      "note": "Your phone's phase is locked to Meso 3 (every log since 28 October is stamped Meso 3), so this lighter-week review is set aside on your card and the app's own build numbers run; from 2 December assessment and prep reviews will be set aside the same way while the lock stays."
-    },
-    {
-      "kind": "phase",
-      "note": "This review's Push A numbers changed from yesterday's: crossover 12.5 for 15 instead of 13.75 for 12, laterals 17.5 for 13 instead of 14, dips 12 instead of 13, so nothing on it asks for a record in a lighter week. They show only with the phase on Automatic."
+      "note": "Your phone's phase is still locked to Meso 3 (27 November is stamped Meso 3 week 9), so this lighter-week review is set aside on your card and the app's own build numbers run; from 2 December the assessment and prep reviews are set aside the same way while the lock stays."
     },
     {
       "kind": "volume",
-      "note": "With the lock, the app's own card asks neck flexion at 10 lb for a lift never done and the crossover at 17.5 after a best of 12.5; this review's numbers are 5 lb and 12.5."
+      "note": "Tonight the app's own card asks a rep or two past your best at this gym on four lifts: deadlift 245 and 250 for 6, wide pulldown 135 for 10, row 112.5 for 12 on four sets, curl 35 for 10 on three; this review asks the lighter week's numbers."
     },
     {
       "kind": "phase",
-      "note": "No bodyweight logged since 23 August (207 lb), 96 days ago; prep starts 9 December and needs a starting number."
+      "note": "This review's loads changed from yesterday's: they follow the calendar's lighter-week rule (20% off), because this is the last lighter week before the cut and assessment should measure you, not nine weeks of fatigue."
+    },
+    {
+      "kind": "volume",
+      "note": "Program version 19: lateral raises go back to three sets on each push day (what you did on 23 and 27 November) and three sets of cable lateral raise go on the end of Pull A; Pull A goes from 19 sets to 22."
+    },
+    {
+      "kind": "phase",
+      "note": "No bodyweight logged since 23 August (207 lb), 97 days ago; prep starts 9 December and needs a starting number."
     }
   ],
   "review": {
@@ -30,52 +34,54 @@
       "phase": "deload4",
       "week": 1,
       "of": 1,
-      "days_to_show": 94,
+      "days_to_show": 93,
       "verdict": "hold",
-      "why": "Today, 27 November, nothing new has been logged since the 25 November Legs B, so no lift has new evidence. The new fact is about delivery, found by today's reviewer and checked against the log: Your log stamps every night since 28 October as Meso 3 (week 5 on 28 October, week 9 on 25 November), while the calendar has been Meso 3b since 28 October and the lighter week since 25 November. The app stamps Meso 3 on those dates only when the phase is locked by hand in its phase menu, so your phone is locked to Meso 3. Under that lock the app sets aside any review written for a different kind of phase, and the calendar makes this week's reviews lighter-week reviews, so this review's numbers do not reach your card; the app's own build numbers run instead, at full sets. The 26 November review missed this. It read 25 November (RDL 185 for 10 on all three, leg press 200 for 12, every lift at or above 14 November) as you going heavy against a lighter card; the card you saw was the app's build card. What 25 November still shows is that after no training from 18 to 22 November the work went up, so recovery is not the problem; it does not show that a lighter card was refused. The calendar's lighter week (25 November to 1 December) is not mine to edit, and the lock is not mine to change. This review is written for the calendar, as the gate requires, so it applies only with the phase on Automatic; its numbers are proven weights and reps, two sets each (the app's lighter-week set budget), with no rep or weight record asked (the phase note says nothing under 4 reps in reserve), which is the one change from yesterday's numbers and is named in the flags. No program change today: version 18's changes (second calf lift, calf lifts ahead of the abs) have not been trained yet, and the open programming questions (side delts; triceps isolation on Push A) are dated 2 December, the first review after the lighter week and after the 14-day guard on the 14 November removal ends on 28 November. The lock is filed as an app bug (packet-set-aside-under-lock): from 2 December assessment and from 9 December prep, every daily review is set aside on his card while it stays. Show 94 days away. Loads to run into assessment: smith incline 180, chest press 165, row 60 for 10, close pulldown 135, shrug 80 for 18, lateral raise 17.5, RDL 185 for 10, leg press 200 for 12, leg extension and leg curl 157.5 for 12, calf press 300, shoulder press 50.",
+      "why": "Today is 28 November. New since yesterday: Push A on 27 November, stamped Meso 3 week 9 like every night since 28 October, so your phone's phase is still locked to Meso 3 and you trained the app's build card, not the calendar's lighter one. Smith incline 185 for 8, 8 (a new best here), laterals 17.5 for 15 on every set logged, dips 11, 12, 12 and the first neck flexion, 10 lb for 12, 12. Three things did not hold: the crossover at 17.5 (10 reps, then 15.5 for 12), the chest press at 172.5 (8 on the first set, under Push A's 10 to 12) and the fourth lateral set (three of four, as on 23 November). That is two nights inside the lighter week (25 November to 1 December) trained at full build sets, 25 and 27 November. This is the last lighter week before an eleven-and-a-half-week cut, and assessment (2 to 8 December) reads your best reps at current weights; if you arrive at it after nine straight build weeks, it measures fatigue, not what you can do. So this review's loads follow the calendar's own rule (20% off, about 60% of the sets), the numbers the app itself gives with the phase on Automatic. That corrects the 26 and 27 November packets, which kept full proven weights after the 27 November review had withdrawn the reason the 26th gave for doing so. One program change, version 19: side delts, dated forward four times, are decided now (see side delts). The triceps question is dated 2 December. Show 93 days away.",
       "evidence": [
-        "2026-11-25:barbell-rdl",
-        "2026-11-25:leg-press-low",
-        "2026-10-28:smith-incline-press",
-        "2026-11-24:db-shrug"
+        "2026-11-27:smith-incline-press",
+        "2026-11-27:db-lateral-raise",
+        "2026-11-27:cable-crossover-low-high",
+        "2026-11-27:machine-chest-press",
+        "2026-11-25:barbell-rdl"
       ]
     },
     "muscles": {
       "chest": {
         "planned_weekly_sets": 18,
         "direct_weekly_sets": 18,
-        "done_4wk_avg": 10.3,
+        "done_4wk_avg": 13.5,
         "verdict": "hold",
-        "why": "Eighteen sets a week, inside 12 to 20; seven are aimed at the upper chest (smith incline 4, low-to-high crossover 3). Push B on 23 November: chest press 165 for 10, 10, 10, the top of Push B's 8 to 10 on every set, up from 165 for 9 on 12 November, and high-to-low crossover 30.5 for 15, 15. Push A lifts repeat from 15 November: chest press 157.5 for 12, 12, 12, smith incline 180 for 6, 7, 8, low-to-high crossover 12.5 for 15 on all three. All going up at this gym. Sets hold; the weights move. Counted with half credit for helper muscles: 18 planned a week, of which 18 are direct sets; 10.3 a week done on average over the last four weeks.",
+        "why": "Eighteen sets a week, inside 12 to 20; seven are aimed at the upper chest (smith incline 4, low-to-high crossover 3). Push A on 27 November: smith incline 185 for 8, 8 after 165 and 180 for 8 (a new best at this gym; 15 November was 180 for 6, 7, 8), chest press 165 for 10 then 172.5 for 8 and 10 (the 8 is under Push A's 10 to 12), low-to-high crossover 17.5 for 10 then 15.5 for 12, 12, dips 11, 12, 12. Push B on 23 November: chest press 165 for 10, 10, 10. The smith incline and dips held or rose; the chest press and the crossover each went up a weight and fell under their range on one or more sets, so both hold their new weight until the reps come back. Sets hold; the weights move. Counted with half credit for helper muscles: 18 planned a week, of which 18 are direct sets; 13.5 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-23:machine-chest-press",
-          "2026-11-23:cable-crossover-high-low",
-          "2026-11-15:smith-incline-press",
-          "2026-11-15:cable-crossover-low-high"
+          "2026-11-27:smith-incline-press",
+          "2026-11-27:machine-chest-press",
+          "2026-11-27:cable-crossover-low-high",
+          "2026-11-23:machine-chest-press"
         ]
       },
       "front-delts": {
         "planned_weekly_sets": 15,
         "direct_weekly_sets": 8,
-        "done_4wk_avg": 9.1,
+        "done_4wk_avg": 11.3,
         "verdict": "hold",
-        "why": "Fifteen counted, inside 6 to 16. Eight are the two presses that lead each push day (smith incline 4, shoulder press 4); seven are half credit from the chest press, crossovers and dips. No set is in the week only for front delts, so the only way to lower this is to cut chest or shoulder pressing, and neither should be cut. Shoulder press 50 for 10 on all four sets on 23 November, the first time the top of the range was hit on every set; smith incline 180 for 6, 7, 8 on 15 November. Hold. Counted with half credit for helper muscles: 15 planned a week, of which 8 are direct sets; 9.1 a week done on average over the last four weeks.",
+        "why": "Fifteen counted, inside 6 to 16. Eight are the two presses that lead each push day (smith incline 4, shoulder press 4); seven are half credit from the chest press, crossovers and dips. No set is in the week only for front delts, so the only way to lower this is to cut chest or shoulder pressing, and neither should be cut. Smith incline 185 for 8, 8 on 27 November (a new best here); shoulder press 50 for 10 on all four sets on 23 November. Hold. Counted with half credit for helper muscles: 15 planned a week, of which 8 are direct sets; 11.3 a week done on average over the last four weeks.",
         "evidence": [
-          "2026-11-23:db-shoulder-press",
-          "2026-11-15:smith-incline-press"
+          "2026-11-27:smith-incline-press",
+          "2026-11-23:db-shoulder-press"
         ]
       },
       "side-delts": {
-        "planned_weekly_sets": 10,
-        "direct_weekly_sets": 8,
-        "done_4wk_avg": 6.3,
+        "planned_weekly_sets": 11,
+        "direct_weekly_sets": 9,
+        "done_4wk_avg": 7,
         "verdict": "raise",
-        "why": "Raised on 18 November (version 14). Side delts decide how wide the shoulders look on stage; they had the smallest share of any scored muscle (6 direct sets, 8 counted, against 15.5 for rear delts), so lateral raises went to four sets on each push day: 8 direct, 10 counted with half credit from the shoulder press, the bottom of the 10 to 20 range. First four-set night, 23 November on Push B: 17.5 for 13, 13, 13 and the fourth set was not done, and you asked why four sets for a small muscle. The honest count: the 6.3 a week done is an average over weeks that include rest days and a partial week (the week of 17 to 22 November had no push night) and mostly predate the four-set cards, so it does not prove the fourth set is the problem; there has been exactly one four-set night and three of four sets were done. Direct sets are now 8 against the rear delts' 7; on the counted number it is 10 against 12.5. 15 November on Push A was 17.5 for 12, 12, 12 (three sets, before the fourth existed). The weight is right (17.5, up from 15). The decision between a third lateral day and a second side-delt lift stays with the review of 2 December: the calendar's lighter week (25 November to 1 December) is a poor week to add a day, and adding a day now would walk back the 14 November removal of the Pull A cable lateral raise (version 12) inside the 14-day guard. Honest limit on the date: this review's cards are two sets this week, and with your phase locked to Meso 3 the app's own card asks four sets of 17.5 for 15; whatever Push A logs this week is read on 2 December, so this week's Push A may or may not show whether a fourth lateral set at 17.5 works. What 2 December adds is calendar, not new evidence: it is the first review after the lighter week ends (1 December is its last day), and the decision (a third lateral day or a second side-delt lift) is made then on the 23 November night and whatever Push A shows. Until then side delts stay at 8 direct, 10 counted, the floor of their range. Counted with half credit for helper muscles: 10 planned a week, of which 8 are direct sets; 6.3 a week done on average over the last four weeks.",
+        "why": "Raised today (version 19). The history, stated plainly: the Pull A cable raise came off on 14 November (side delts to 6 direct sets a week), and on 18 November a fourth dumbbell set went on each push day, which put back the same 2 sets, so 8 direct before and after; nothing was ever added on top. Since then the side-delt decision was dated forward four times. Two four-set nights have now each logged three sets, 23 and 27 November, with the weight right (17.5 for 13s, then 15s), and the four-week average done is 7 a week against a floor of 10, under rear delts' 12.5 counted. So today: both push days go back to three lateral sets, what you actually do, and three sets of cable lateral raise go on the end of Pull A. That is 9 direct and 11 counted, inside 10 to 20, and 3 more sets than you have actually been doing. It is a third day, which on 12 November you said felt like every day; it is three days of six, and side delts recover fast enough for that. Counted with half credit for helper muscles: 11 planned a week, of which 9 are direct sets; 7 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-23:db-lateral-raise",
+          "2026-11-27:db-lateral-raise",
           "2026-11-23:note",
-          "2026-11-15:db-lateral-raise",
-          "2026-11-12:note"
+          "2026-11-12:note",
+          "2026-11-10:cable-lateral-raise"
         ]
       },
       "rear-delts": {
@@ -83,7 +89,7 @@
         "direct_weekly_sets": 7,
         "done_4wk_avg": 10.9,
         "verdict": "hold",
-        "why": "Cut on 18 November (version 14), now held. 7 direct sets (reverse pec deck 3 on Push B, face pulls 2 on each pull day) and 12.5 counted, inside 6 to 14. Reverse pec deck 97.5 for 13, 13, 13 on 23 November, up from 12, 12, 12; weight holds, reps climb to 15 on all three, which earns the next weight. Face pulls 32.5 for 15, 15 on 24 November. Hold. Counted with half credit for helper muscles: 12.5 planned a week, of which 7 are direct sets; 10.9 a week done on average over the last four weeks.",
+        "why": "Cut on 18 November (version 14), now held. Side delts now plan 11 counted against these 12.5. 7 direct sets (reverse pec deck 3 on Push B, face pulls 2 on each pull day) and 12.5 counted, inside 6 to 14. Reverse pec deck 97.5 for 13, 13, 13 on 23 November, up from 12, 12, 12; weight holds, reps climb to 15 on all three, which earns the next weight. Face pulls 32.5 for 15, 15 on 24 November. Hold. Counted with half credit for helper muscles: 12.5 planned a week, of which 7 are direct sets; 10.9 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-23:reverse-pec-deck",
           "2026-11-15:reverse-pec-deck",
@@ -156,13 +162,14 @@
       "triceps": {
         "planned_weekly_sets": 16.5,
         "direct_weekly_sets": 8,
-        "done_4wk_avg": 10.8,
+        "done_4wk_avg": 12.4,
         "verdict": "watch",
-        "why": "Sixteen and a half counted, inside 10 to 20: eight direct (dips 3 on Push A, rope pushdown 3 and overhead extension 2 on Push B) and eight and a half from half credit on the presses and the straight-arm pulldown. Push B on 23 November: rope pushdown 50.5 for 12, 12, 11 (one rep short on the last set, so it holds), overhead dumbbell extension 60 for 10, 12 (the card asked 12, 12). Dips are Push A's only direct triceps work, which came about by two earlier swaps rather than by design; they stay because with the pressing the triceps are inside range. Hold. Counted with half credit for helper muscles: 16.5 planned a week, of which 8 are direct sets; 10.8 a week done on average over the last four weeks. Honest count: dips are tagged as direct work for both chest and triceps, so of the 8 direct sets only 5 are triceps isolation (rope pushdown 3 and overhead extension 2), all on Push B, and you asked on 15 November why Push A had no direct triceps work. Arms are scored on stage. Whether Push A gets a triceps isolation lift is decided with side delts on 2 December, the first review after the lighter week.",
+        "why": "Sixteen and a half counted, inside 10 to 20: eight direct (dips 3 on Push A, rope pushdown 3 and overhead extension 2 on Push B) and eight and a half from half credit on the presses and the straight-arm pulldown. Dips on 27 November: bodyweight 11, 12, 12, inside 12 to 15 except the first set. Push B on 23 November: rope pushdown 50.5 for 12, 12, 11, overhead extension 60 for 10, 12. Honest count: dips are tagged as direct work for both chest and triceps, so only 5 of the 8 direct sets are triceps isolation, all on Push B, and you asked on 15 November why Push A had none. Arms are scored on stage. Whether Push A gets a triceps isolation lift is decided with side delts on 2 December. Counted with half credit for helper muscles: 16.5 planned a week, of which 8 are direct sets; 12.4 a week done on average over the last four weeks.",
         "evidence": [
+          "2026-11-27:chest-dip",
           "2026-11-23:rope-pushdown",
           "2026-11-23:db-overhead-triceps-extension",
-          "2026-11-15:chest-dip"
+          "2026-11-15:note"
         ]
       },
       "forearms": {
@@ -182,11 +189,12 @@
         "direct_weekly_sets": 15,
         "done_4wk_avg": 9.8,
         "verdict": "hold",
-        "why": "Raised on 18 November (version 14) from 13 sets a week to 15, inside 12 to 20: leg press on Legs A to four sets and the Legs A leg extension to three. Legs B on 25 November: leg extension 157.5 for 12, 12, 12 (the top of 10 to 12, after 10, 10, 10 on 14 November) and leg press 200 for 12, 12, 12 (after 11, 11, 11). Legs A on 17 November was leg extension 157.5 for 12, 12 and leg press 220 for 8 on the first set. Both leg days get their sets done and the weights climb, so the 15 holds. The four-week average done is lower than the plan because of rest weeks and the gap of 18 to 22 November, not because sets are being skipped. Counted with half credit for helper muscles: 15 planned a week, of which 15 are direct sets; 9.8 a week done on average over the last four weeks.",
+        "why": "Raised on 18 November (version 14) from 13 sets a week to 15, inside 12 to 20: leg press on Legs A to four sets and the Legs A leg extension to three. Legs B on 25 November: leg extension 157.5 for 12, 12, 12 (the top of 10 to 12, after 10, 10, 10 on 14 November) and leg press 200 for 12, 12, 12 (after 11, 11, 11). Legs A on 17 November was leg extension 157.5 for 12, 12 and leg press 220 for 8 on the first set. Both leg days get their sets done and the weights climb, so the 15 holds. The honest gap: 9.8 a week actually done against a floor of 12. Part of it is pace, not skipping: the plan counts one six-day rotation as a week, and you have been finishing a rotation every 6 to 12 days (Pull A on 2, 10 and 16 November, the next tonight), so a planned 15 becomes fewer in a calendar week. Part is skipping: Legs B on 7 November dropped the leg extension. The sets stay at 15 a rotation; if the rotation keeps running long through prep, quads are the first muscle to get sets added. Counted with half credit for helper muscles: 15 planned a week, of which 15 are direct sets; 9.8 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-25:leg-extension",
           "2026-11-25:leg-press-low",
-          "2026-11-17:leg-press-low"
+          "2026-11-17:leg-press-low",
+          "2026-11-07:leg-press-low"
         ]
       },
       "hamstrings": {
@@ -239,7 +247,7 @@
         "direct_weekly_sets": 8,
         "done_4wk_avg": 6,
         "verdict": "hold",
-        "why": "Raised on 26 November (version 18), now held until the new lift is trained. Eleven counted a week now and 8 direct, inside 8 to 16: the calf press on the leg press, 3 sets on each leg day, plus the new single-leg dumbbell calf raise, 2 sets right after the calf press on Legs B (one set is both legs), and half credit from the leg curl. Before 26 November it was 9 counted and 6 direct, the bottom of the range, for a muscle the stage scores. Calf press 25 November: 300 for 15, 15, 12, after 300 for 13 on all three on 17 November and 12 on 14 November: the lift climbs and every set gets done, so the weight is right and the missing piece was volume and a second angle. I held calves in the 25 November packet for an answer I did not need (the gym file already lists dumbbells and step platforms) and called three sets a day a limit; your only calf note, 30 July, was a question, so there is no limit and the hold is withdrawn. The new lift starts at two sets, counted as both legs per set, because Legs B ran 52 minutes and your cards lose their late slots when nights run long; both calf lifts now sit ahead of the ab work. Counted with half credit for helper muscles: 11 planned a week, of which 8 are direct sets; 6 a week done on average over the last four weeks.",
+        "why": "Raised on 26 November (version 18), now held until the new lift is trained. Eleven counted a week now and 8 direct, inside 8 to 16: the calf press on the leg press, 3 sets on each leg day, plus the new single-leg dumbbell calf raise, 2 sets right after the calf press on Legs B (one set is both legs), and half credit from the leg curl. Before 26 November it was 9 counted and 6 direct, the bottom of the range, for a muscle the stage scores. Calf press 25 November: 300 for 15, 15, 12, after 300 for 13 on all three on 17 November and 12 on 14 November: the lift climbs and every set gets done, so the weight is right and the missing piece was volume and a second angle. I held calves in the 25 November packet for an answer I did not need (the gym file already lists dumbbells and step platforms) and called three sets a day a limit; your only calf note, 30 July, was a question, so there is no limit and the hold is withdrawn. The new lift starts at two sets, counted as both legs per set, because Legs B ran 52 minutes and your cards lose their late slots when nights run long; both calf lifts now sit ahead of the ab work. Done volume is 6 a week against a floor of 8, which is why the second calf lift went in on 26 November; it has not been trained yet, so the next Legs B is its first test. Counted with half credit for helper muscles: 11 planned a week, of which 8 are direct sets; 6 a week done on average over the last four weeks.",
         "evidence": [
           "2026-11-25:standing-calf-raise",
           "2026-11-17:standing-calf-raise",
@@ -261,10 +269,11 @@
       "neck": {
         "planned_weekly_sets": 4,
         "direct_weekly_sets": 4,
-        "done_4wk_avg": 0.5,
+        "done_4wk_avg": 1,
         "verdict": "watch",
-        "why": "Four sets a week: lying plate neck flexion, 2 sets last on Push A, and lying plate neck extension, 2 sets on Pull B. You have no harness and no neck machine, so both are plate-and-bench lifts. Extension was first logged on 24 November: 10 lb for 15, 15, no note after, so I read it as no pain. Flexion has never been logged; tonight's Push A is its first night, at 5 lb for 15, which is my starting choice and not a measured number (flexors are normally weaker than extensors). Each moves up only when both sets reach 20 reps with no neck soreness the next day. Hold. Counted with half credit for helper muscles: 4 planned a week, of which 4 are direct sets; 0.5 a week done on average over the last four weeks.",
+        "why": "Four sets a week: lying plate neck flexion, 2 sets last on Push A, and lying plate neck extension, 2 sets on Pull B; you have no harness and no neck machine, so both are plate-and-bench lifts. Both are now logged once: extension 10 lb for 15, 15 on 24 November, flexion 10 lb for 12, 12 on 27 November (the app's card under your phase lock asked 10 for 15; this review had asked 5 for 15). Twelve is under the 15 to 20 the slot is built for, which says 10 lb is heavy for flexion right now, as expected since the front of the neck is usually weaker than the back. No pain note on either. Hold the sets; flexion stays at 10 until both sets reach 15. Counted with half credit for helper muscles: 4 planned a week, of which 4 are direct sets; 1 a week done on average over the last four weeks.",
         "evidence": [
+          "2026-11-27:plate-neck-flexion",
           "2026-11-24:plate-neck-extension"
         ]
       }
@@ -273,38 +282,37 @@
       "smith-incline-press": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "15 November: 165 for 6, then 180 for 6, 7, 8, up from 175 for 8, 8, 8 on 9 November. Tonight: 180 for 7, two sets on this review's card this week (it shows only with the phase on Automatic; with the lock the app asks 165 for 8 then 180 for 8, 8, 8), no lighter first set. 180 is proven (three sets of it on 15 November) and 8 on the last set means 7 on every set is within reach; 8 on every set earns 185. It is 12 days since the last Push A (the gap of 18 to 22 November), and the weight is unchanged.",
+        "why": "27 November: 165 for 8, 180 for 8, then 185 for 8, 8, a new best at this gym (15 November 180 for 6, 7, 8; 9 November 175 for 8, 8, 8). The app's card under your Meso 3 lock asked 180 for 8 on the last three sets; you went 5 lb over it on two. 185 for 8 on two sets is proven. In assessment (2 to 8 December) this lift is read at 185 for its best reps; 8 on every working set earns 190.",
         "evidence": [
-          "2026-11-15:smith-incline-press",
-          "2026-11-09:smith-incline-press"
+          "2026-11-27:smith-incline-press",
+          "2026-11-15:smith-incline-press"
         ]
       },
       "machine-chest-press": {
         "trend": "progressing",
-        "verdict": "progress",
-        "why": "Tonight on Push A: 165 for 10, two sets on this review's card this week (with the lock, the app's own card is also 165 for 10, three sets). 165 is proven: 165 for 10, 10, 10 on Push B on 23 November, after 165 for 9 on 12 November. Push A on 15 November was 157.5 for 12, 12, 12, the top of its 10 to 12, so Push A steps to 165 at the bottom of its range. The two days show two different numbers by design (your 23 July decision): Push A is the 10 to 12 day, 165 for 10 tonight; Push B is the 8 to 10 day, and next Push B asks 172.5 for 8 (the stack steps 15 lb with a 7.5 lb micro).",
+        "verdict": "hold",
+        "why": "Push A on 27 November: 165 for 10, then 172.5 for 8 and 10. Push A is the 10 to 12 day, so the 8 is under its range and the 10 is at its floor. Push B on 23 November: 165 for 10, 10, 10 (the top of its 8 to 10). The two days show two different numbers by design (your 23 July decision): Push A, the 10 to 12 day, holds 172.5 until all three sets reach 10; Push B, the 8 to 10 day, asks 172.5 for 8 next. Same machine, same weight next week, different rep targets. With the lock on, the app's next Push A card asks 172.5 for 12 on two sets, four reps past your first set there.",
         "evidence": [
-          "2026-11-23:machine-chest-press",
-          "2026-11-15:machine-chest-press",
-          "2026-11-12:machine-chest-press"
+          "2026-11-27:machine-chest-press",
+          "2026-11-23:machine-chest-press"
         ]
       },
       "cable-crossover-low-high": {
-        "trend": "progressing",
-        "verdict": "progress",
-        "why": "15 November: 12.5 for 15, 15, 15, the top of 12 to 15 on every set, after 12.5 for 14, 14, 14 on 9 November. That earns the next step, and the next step is one 1.25 lb add-on weight per handle, 13.75 (your gym file: pin settings every 5 lb plus two 1.25 lb add-ons). This review asks 12.5 for 15, two sets, because the calendar calls this a lighter week; 13.75 for 12 comes at the first normal week. With the phase locked to Meso 3 the app's own card asks 17.5 for 12, three sets, which is a 5 lb jump from your best; I did not set that number.",
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "27 November: 17.5 for 10, then 15.5 for 12, 12. The app's card under your lock asked 17.5 for 12; the first set fell 2 short and you dropped the weight. 15 November was 12.5 for 15 on all three. So 15.5 for 12 is proven and 17.5 is not. My next Push A review will ask 15.5, aiming at 15 on all three before 17.5 comes back; with the lock on, the app's own next card asks 17.5 for 15, the weight that gave 10 reps. 15.5 is the number you logged; I am using it as the stack's own reading at this gym.",
         "evidence": [
-          "2026-11-15:cable-crossover-low-high",
-          "2026-11-09:cable-crossover-low-high"
+          "2026-11-27:cable-crossover-low-high",
+          "2026-11-15:cable-crossover-low-high"
         ]
       },
       "db-lateral-raise": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "23 November on Push B: 17.5 for 13, 13, 13, three sets (the fourth was not done), and 15 November on Push A: 17.5 for 12, 12, 12. This review asks 17.5 for 13, two sets, the reps you have already done, because the calendar calls this a lighter week. With the phase locked to Meso 3 the app's own card asks 17.5 for 15 on four sets. 17.5 is proven and has held at 12 and 13 on every set; 15 on all sets earns 20 (the rack steps 2.5 to 20). Whether four sets is right, and whether side delts get more, is decided on 2 December.",
+        "why": "27 November on Push A: 17.5 for 15, 15, 15, the top of 12 to 15, three of the four sets asked (the second and third were entered under a second apart, so one was typed after the fact). 23 November on Push B: 17.5 for 13, 13, 13, three of four. From today each push day asks three sets, what you do. 15 on every set earns 20; with your phase locked to Meso 3, the app's next Push A card asks 22.5 for 12, a 5 lb jump I would not give, and I did not set it.",
         "evidence": [
-          "2026-11-23:db-lateral-raise",
-          "2026-11-15:db-lateral-raise"
+          "2026-11-27:db-lateral-raise",
+          "2026-11-23:db-lateral-raise"
         ]
       },
       "reverse-pec-deck": {
@@ -317,72 +325,66 @@
         ]
       },
       "chest-dip": {
-        "trend": "progressing",
-        "verdict": "progress",
-        "why": "Bodyweight 12, 12, 12 on 15 November after 10, 11, 11 on 9 November. The range moved to 12 to 15 on 16 November (version 13). This review asks 12, two sets, the reps you have done, because the calendar calls this a lighter week; with the lock the app's own card asks 12 on three sets. 15 on all three means it is time to add weight.",
+        "trend": "holding",
+        "verdict": "hold",
+        "why": "27 November: bodyweight 11, 12, 12; 15 November 12, 12, 12; 9 November 10, 11, 11. The range went to 12 to 15 on 16 November and 12 is where the reps sit. Hold; 15 on all three is the goal before anything changes.",
         "evidence": [
-          "2026-11-15:chest-dip",
-          "2026-11-09:chest-dip"
+          "2026-11-27:chest-dip",
+          "2026-11-15:chest-dip"
         ]
       },
       "deadlift": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "Pull A on 16 November: 215, 235, 245, 250 for 5 each, the weights the 16 November review gave, 10 lb up on every set from 205, 225, 235, 240 for 6 on 10 November. Logged live, three to five minutes apart. The deadlift keeps its climbing sets; they are how the lift is done. Next Pull A: the same four weights for 6 each; four 6s earn another 10 lb.",
+        "why": "16 November: 215, 235, 245, then 250 for 5, the best at this gym (10 November 240 for 6; 2 November 230). Tonight follows the calendar's lighter week (20% off the load, about 60% of the sets, at least 4 reps in reserve): 190 for 5 then 200 for 5, the app's own lighter-week numbers. With your phase locked to Meso 3 the app's card asks 215, 235, 245 and 250, all for 6: a rep past your best on the 245 and 250 sets.",
         "evidence": [
           "2026-11-16:deadlift",
-          "2026-11-10:deadlift",
-          "2026-11-02:deadlift"
+          "2026-11-10:deadlift"
         ]
       },
       "lat-pulldown-wide": {
         "trend": "progressing",
         "verdict": "progress",
-        "why": "16 November: 112.5 for 8, 127.5 for 8, 135 for 8. The top set is up from 127.5 for 11 on 10 November and 120 for 8 on 2 November. The two lighter sets were the app's own card: the 16 November review was a rest-day review with no numbers on the card, so the 135 on every set it asked for never reached you. Next Pull A: 135 for 8 on all three; three 8s at 135, then reps up to 10 before the next weight.",
+        "why": "16 November: 112.5, 127.5, then 135 for 8 (10 November 127.5 for 11 at the top). Tonight, lighter week: 97.5 then 105 for 8. The app's card under your lock asks 112.5, 127.5, 135, all for 10, 2 reps past your best on the 135 set. 135 for 10 on the top set earns 142.5.",
         "evidence": [
           "2026-11-16:lat-pulldown-wide",
-          "2026-11-10:lat-pulldown-wide",
-          "2026-11-02:lat-pulldown-wide"
+          "2026-11-10:lat-pulldown-wide"
         ]
       },
       "seated-cable-row-wide": {
         "trend": "progressing",
-        "verdict": "progress",
-        "why": "16 November: 112.5 for 10 on all four sets, the step up earned by 105 for 12 on all four on 10 November (105 for 10 on 2 November). It has gone up at every visit at this gym. Four sets stay: see upper back for why. Next Pull A: 112.5 for 11 on all four; four 12s earn the next weight.",
+        "verdict": "hold",
+        "why": "16 November: 112.5 for 10 on all four, after 105 for 12 on all four on 10 November, so the weight went up and the reps reset to the floor of 10 to 12. Tonight, lighter week: 90 for 10, two sets. The app's card under your lock asks 112.5 for 12 on all four, 2 reps past what you did at that weight. 12 on every set earns the next step.",
         "evidence": [
           "2026-11-16:seated-cable-row-wide",
-          "2026-11-10:seated-cable-row-wide",
-          "2026-11-02:seated-cable-row-wide"
+          "2026-11-10:seated-cable-row-wide"
         ]
       },
       "db-curl": {
         "trend": "progressing",
-        "verdict": "progress",
-        "why": "16 November: 35 for 8, 8, 8, the step up earned by 30 for 10, 10, 10 on 10 November (30 for 9 on all three on 2 November). Next Pull A: 35 for 9 on all three; three 10s earn 40.",
+        "verdict": "hold",
+        "why": "16 November: 35 for 8, 8, 8, up from 30 for 10, 10, 10 on 10 November. Tonight, lighter week: 25 for 8, two sets. The app's card under your lock asks 35 for 10 on all three, 2 reps past what you did. 10 on every set earns 40.",
         "evidence": [
           "2026-11-16:db-curl",
-          "2026-11-10:db-curl",
-          "2026-11-02:db-curl"
+          "2026-11-10:db-curl"
         ]
       },
       "cable-hammer-curl": {
         "trend": "progressing",
         "verdict": "hold",
-        "why": "16 November: 42.5 for 11, 12, 12 on all three sets, the best yet at this weight, after 39 for 12 then 42.5 for 11, 11 on 10 November and 42.5 for 11, 10 on 2 November. The first set was a rep short of 12 and the other two reached it, so the weight holds until all three do. Next Pull A: 42.5 for 12 on all three; that earns the next weight.",
+        "why": "16 November: 42.5 for 11, 12, 12 (10 November 42.5 for 11, 11 after 39 for 12). Tonight, lighter week: 30 for 10, two sets. The app's card under your lock asks 42.5 for 12 on all three. 12 on every set earns the next step.",
         "evidence": [
           "2026-11-16:cable-hammer-curl",
-          "2026-11-10:cable-hammer-curl",
-          "2026-11-02:cable-hammer-curl"
+          "2026-11-10:cable-hammer-curl"
         ]
       },
       "face-pulls": {
         "trend": "holding",
         "verdict": "hold",
-        "why": "16 November on Pull A: 32.5 for 12, 12, the last lift of an eighth straight training day. Pull B on 24 November: 32.5 for 15, 15, the card, same as 13 November. On 10 November Pull A ran 27 and 27.5 for 15. The weight holds at 32.5 until Pull A also reaches 15 on both sets. Next Pull A and Pull B: 32.5 for 15, 15.",
+        "why": "On Pull A the top set has been 32.5 for 12 twice, 2 November and 16 November, so the app's stalled label on Pull A is fair. Pull B is ahead: 32.5 for 15, 15 on 24 November. So the weight is right and Pull A has not yet matched Pull B's reps, on the last lift of a long night. Tonight, lighter week: 25 for 12, one set. Next normal Pull A: 32.5 for 15, 15, what you did on Pull B; if Pull A again stops at 12, the slot moves ahead of the curls.",
         "evidence": [
+          "2026-11-02:face-pulls",
           "2026-11-16:face-pulls",
-          "2026-11-13:face-pulls",
-          "2026-11-10:face-pulls",
           "2026-11-24:face-pulls"
         ]
       },
@@ -573,11 +575,12 @@
         ]
       },
       "plate-neck-flexion": {
-        "trend": "unlogged",
+        "trend": "new",
         "verdict": "watch",
-        "why": "Added 19 November (version 15), last on Push A, two sets of 15 to 20, never logged: tonight is the first night, one set on this review's card this week (with the phase locked to Meso 3 the app's own card asks 10 lb for 15, two sets; I did not set that number). Lie on your back on a flat bench with your head off the end, a towel on your forehead and a 5 lb plate held on it. 5 lb for 15 is my starting choice: flexion has no history here, neck flexors are normally weaker than extensors, and extension at 10 lb for 15, 15 on 24 November was done with no note. It moves up only after both sets reach 20 with no neck pain the next day. Any sharp pain, or pain that lasts into the next day: write a note and it holds.",
+        "why": "First logged 27 November: 10 lb for 12, 12, under the slot's 15 to 20. The 10 came from the app's own card under your phase lock; this review had asked 5. No pain note. The weight holds at 10 while the reps build from 12 toward 20; it goes up only after both sets reach 20 with no neck soreness the next day. With the lock on, the app's next card asks 10 for 20, 20, eight more reps than you did; 15 is a sensible next step. Your note that night asked where the field guide is: the guide exists in the program file, and the app's guide sheet does not read it (filed as an app bug, how-to-sheet-misses-program-lifts). The steps are in my answer to your note.",
         "evidence": [
-          "2026-11-24:plate-neck-extension"
+          "2026-11-27:plate-neck-flexion",
+          "2026-11-27:note"
         ]
       },
       "plate-neck-extension": {
@@ -595,120 +598,217 @@
         "evidence": [
           "2026-11-25:standing-calf-raise"
         ]
+      },
+      "cable-lateral-raise": {
+        "trend": "new",
+        "verdict": "progress",
+        "why": "Back on the end of Pull A today, three sets of 12 to 15 (version 19). Last done here on 10 November: 10 lb for 12, then 15. Tonight is in the calendar's lighter week, so this review asks 5 lb for 12, two sets, the app's own lighter-week number; with the lock the app asks 10 for 15, three sets. Next normal Pull A: 10 for 15, three sets.",
+        "evidence": [
+          "2026-11-10:cable-lateral-raise"
+        ]
       }
     },
     "prep": {
       "weeks_out": 13,
       "bodyweight_last": "2026-08-23",
-      "plan": "Twelve days come before prep (from 27 November). The build block ended on 24 November. The calendar calls 25 November to 1 December a lighter week; this review's cards are two sets of proven weights, but your phone's phase is locked to Meso 3, so the app runs its own build numbers instead (see the block). While that lock stays, assessment and prep reviews are set aside the same way, so this plan reaches your card only with the phase on Automatic. The week of 2 December is assessment: each main lift is run at its current weight for its best reps, and the starting bodyweight is set. Prep starts on 9 December and runs just under 12 weeks. Weeks 1 to 4 (9 December to 5 January): the same lifts and weights as now, with the sets as they stand after the side-delt decision (2 December review) and the second calf lift added on 26 November; in prep, holding reps at the same weight while bodyweight comes down is the win. Weeks 5 to 8 (6 January to 2 February): the weights stay, and if recovery slips, sets come off what the stage scores least (rear delts, forearms, traps, the hip machines) before anything comes off side delts, back, chest, arms, quads or calves. Weeks 9 to 11 (3 to 23 February): the same, no new lifts, no set taken to a grinding rep. The final week (24 February to 1 March, show day): about half the sets, with the last hard leg session early in the week. Fat loss is paced at about half a percent to one percent of bodyweight a week, which at your last logged 207 lb is about 1 to 2 lb a week. It is checked by the weekly average of morning weigh-ins: less than half a percent for two weeks running means food or daily walking has to change; more than one percent with reps dropping means it is too fast. From 9 December to the show is just under 12 weeks, so at that pace the most that can come off is roughly 12 to 23 lb from 207. Whether that is enough is not something I can tell: the last weigh-in in the log is 23 August, and there are no photos and no division. If more than that has to come off, the only slack is the 12 days before 9 December, which is why the weigh-in matters now and not in December. The prep phase in the calendar is a placeholder that detailed programming replaces at assessment, so this plan is a default, not a decision. What it protects, in order, once real data arrives: side delts, upper chest (Push A), back, arms, quads, calves; the deadlift and RDL are climbing 5 to 10 lb a visit now (deadlift 250 for 5 on 16 November) and in a deficit they hold their weight rather than climb. If no bodyweight arrives by 2 December, I will start prep on 9 December from 207 lb (23 August) and say so. Assessment (2 to 8 December) reads each main lift at its current weight for its best reps; if two of them come in under their reps of 15 to 25 November, prep starts with sets coming off the least-scored muscles at once, not in week 5. In prep, a cut in sets is triggered by any week where two or more main lifts fall below their previous reps or where a session ends with its late slots skipped.",
-      "next_step": "A morning bodyweight in the log this week (the Bodyweight button on the workout screen); it is the first thing the 2 December assessment review needs, and nothing has been logged for 96 days.",
+      "plan": "Eleven days come before prep (from 28 November). The build block ended on 24 November; your phone has kept running build cards since (25 and 27 November) because its phase is locked to Meso 3. The calendar calls 25 November to 1 December a lighter week; this review's cards are two sets of proven weights, but your phone's phase is locked to Meso 3, so the app runs its own build numbers instead (see the block). While that lock stays, assessment and prep reviews are set aside the same way, so this plan reaches your card only with the phase on Automatic. The week of 2 December is assessment: each main lift is run at its current weight for its best reps, and the starting bodyweight is set. Prep starts on 9 December and runs just under 12 weeks. Weeks 1 to 4 (9 December to 5 January): the same lifts and weights as now, with the sets as they stand after the side-delt decision (2 December review) and the second calf lift added on 26 November; in prep, holding reps at the same weight while bodyweight comes down is the win. Weeks 5 to 8 (6 January to 2 February): the weights stay, and if recovery slips, sets come off what the stage scores least (rear delts, forearms, traps, the hip machines) before anything comes off side delts, back, chest, arms, quads or calves. Weeks 9 to 11 (3 to 23 February): the same, no new lifts, no set taken to a grinding rep. The final week (24 February to 1 March, show day): about half the sets, with the last hard leg session early in the week. Fat loss is paced at about half a percent to one percent of bodyweight a week, which at your last logged 207 lb is about 1 to 2 lb a week. It is checked by the weekly average of morning weigh-ins: less than half a percent for two weeks running means food or daily walking has to change; more than one percent with reps dropping means it is too fast. From 9 December to the show is just under 12 weeks, so at that pace the most that can come off is roughly 12 to 23 lb from 207. Whether that is enough is not something I can tell: the last weigh-in in the log is 23 August, and there are no photos and no division. If more than that has to come off, the only slack is the 11 days before 9 December, which is why the weigh-in matters now and not in December. The prep phase in the calendar is a placeholder that detailed programming replaces at assessment, so this plan is a default, not a decision. What it protects, in order, once real data arrives: side delts, upper chest (Push A), back, arms, quads, calves; the deadlift is climbing 5 to 10 lb a visit (250 for 5 on 16 November) and the RDL is climbing in reps at 185 (8, 9, then 10 on 7, 14 and 25 November) and in a deficit they hold their weight rather than climb. If no bodyweight arrives by 2 December, I will start prep on 9 December from 207 lb (23 August) and say so. Assessment (2 to 8 December) reads each main lift at its current weight for its best reps; if two of them come in under their reps of 15 to 25 November, prep starts with sets coming off the least-scored muscles at once, not in week 5. In prep, a cut in sets is triggered by any week where two or more main lifts fall below their previous reps or where a session ends with its late slots skipped. Three things a stage plan needs that this one does not yet have, and that wait on your answers: when posing practice starts (most competitors start about 12 weeks out, which is now), whether cardio is used for fat loss or food alone, and how the last week (water, food, the pump-up) is run, which depends on your division and whoever sets your diet. If a bodyweight arrives before 2 December and shows more to lose than the 12 to 23 lb this pace allows, the deficit should start at assessment rather than on 9 December. A week with lighter loads (20% off, two thirds of the sets) is set for prep week 6 (13 to 19 January) if two or more main lifts fall below their previous reps in the two weeks before it.",
+      "next_step": "A morning bodyweight in the log before 2 December (the Bodyweight button on the workout screen); it is the first thing the assessment review needs, and nothing has been logged for 97 days.",
       "data_missing": [
-        "Bodyweight: nothing logged since 23 August (207 lb), 96 days ago. The workout screen has a Bodyweight button.",
+        "Bodyweight: nothing logged since 23 August (207 lb), 97 days ago. The workout screen has a Bodyweight button.",
         "Your division (bodybuilding, classic physique or men's physique): it changes how much legs count against shoulders and arms.",
         "Photos or a waist measurement, to judge where you are starting from.",
         "Whether someone else sets your diet, or this review should set calories and protein.",
-        "Your current intake or maintenance estimate and daily step count, a target stage weight or class, any contest history, your travel and gym schedule to March, and any injuries."
+        "Your current intake or maintenance estimate and daily step count, a target stage weight or class, any contest history, your travel and gym schedule to March, and any injuries.",
+        "Whether locking the phase to Meso 3 is deliberate. While it stays, the assessment and prep plans here do not reach your card."
       ]
     }
   },
-  "answers": [],
-  "changes_today": [],
-  "deferred": [
+  "answers": [
     {
-      "muscle": "side-delts",
-      "verdict": "raise",
-      "until": "2026-12-02",
-      "why": "Side delts are planned at 8 direct, 10 counted (the floor of 10 to 20). The next step (a third lateral day or a second side-delt lift) is decided on 2 December, the first review after the lighter week ends (1 December is its last day) and after the 14-day guard on the 14 November removal has expired (28 November). Honest limit: this review's cards are two sets this week, while the app's own Meso 3 card (your phone's phase lock) asks four; whatever Push A and Push B log this week is read on 2 December; 2 December adds the calendar, not new evidence, and the decision is made on the 23 November night (17.5 for 13, 13, 13, fourth set missing, and your note asking why four) plus what you log. Adding a day today would walk back the 14 November removal of the Pull A cable lateral raise (version 12) inside the 14-day guard, and on 12 November you asked whether lateral raises every day made sense; that is a question, not a limit, and it is part of what 2 December weighs.",
+      "key": "2026-11-27:plate-neck-flexion",
+      "date": "2026-11-27",
+      "scope": "plate-neck-flexion",
+      "note": "No field guide?",
+      "status": "answered",
+      "answer": "You are right, the card was missing it, and the cause is the app, not you. I wrote a guide for neck flexion into the program on 19 November, but the app's guide sheet reads only the original lift list, and the four lifts added through the program (neck flexion, neck extension, overhead triceps extension, ab crunch machine) all show \"No field guide for this one.\" I cannot change the app's code; I filed it as an app bug (how-to-sheet-misses-program-lifts) so it gets fixed. Until then, the guide: lie on your back on a flat bench with your head and neck off the end, fold a towel over your forehead and hold the plate flat on it with both hands. Let your head drop back slowly until you feel a stretch in the front of your neck, without forcing it. Bring your chin up toward your chest under control, pause for a beat, and lower again, with no jerking and no bouncing at the bottom. Keep the 10 lb and build the reps: 12 last time, toward 20; the weight goes up only after both sets reach 20 with no neck soreness the next day. With your phase locked, the app's next card will ask 20, 20; 15 is a sensible next step."
+    }
+  ],
+  "changes_today": [
+    {
+      "version": 19,
+      "date": "2026-11-28",
+      "session": "PushA",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "Back to three sets of dumbbell lateral raises on Push A. The fourth set went on 18 November and on both nights it was on the card, 23 November (Push B) and 27 November (Push A), you did three: 17.5 for 13, 13, 13 and 17.5 for 15, 15, 15. On 23 November you asked why four sets for such a small muscle. So the weight is right, and a fourth set in one session is the part that does not happen. The missing work moves to Pull A instead (next change).",
       "evidence": [
         "2026-11-23:db-lateral-raise",
-        "2026-11-15:db-lateral-raise"
+        "2026-11-27:db-lateral-raise",
+        "2026-11-23:note",
+        "2026-11-12:note",
+        "2026-11-10:cable-lateral-raise"
       ]
+    },
+    {
+      "version": 19,
+      "date": "2026-11-28",
+      "session": "PushB",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "Back to three sets of dumbbell lateral raises on Push B. The fourth set went on 18 November and on both nights it was on the card, 23 November (Push B) and 27 November (Push A), you did three: 17.5 for 13, 13, 13 and 17.5 for 15, 15, 15. On 23 November you asked why four sets for such a small muscle. So the weight is right, and a fourth set in one session is the part that does not happen. The missing work moves to Pull A instead (next change).",
+      "evidence": [
+        "2026-11-23:db-lateral-raise",
+        "2026-11-27:db-lateral-raise",
+        "2026-11-23:note",
+        "2026-11-12:note",
+        "2026-11-10:cable-lateral-raise"
+      ]
+    },
+    {
+      "version": 19,
+      "date": "2026-11-28",
+      "session": "PullA",
+      "exercise": "cable-lateral-raise",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "cable-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 10,
+        "position": 7
+      },
+      "why": "Side delts decide how wide the shoulders look on stage, and they are the most under-trained scored muscle: 7 sets a week done on average over four weeks against a floor of 10, while rear delts get 12.5 counted. The push days now ask three lateral sets each, which is what you actually do, so the extra work needs a third day. The cable lateral raise goes back on the end of Pull A, three sets of 12 to 15, at the 10 lb you did for 12 and 15 there on 10 November. This walks back the 14 November removal, and the new fact since then is the two four-set nights (23 and 27 November) where the fourth set was not done. On 12 November you wrote that it seemed like every day was lateral raises; that is three days out of six now, not every day, and side delts recover fast enough for three visits a week, which is normal for a muscle a stage judges this closely. Side delts go from 8 direct sets a week to 9 on paper, and from the 6 you have actually been doing to 9. Pull A goes from 19 sets to 22.",
+      "evidence": [
+        "2026-11-23:db-lateral-raise",
+        "2026-11-27:db-lateral-raise",
+        "2026-11-23:note",
+        "2026-11-12:note",
+        "2026-11-10:cable-lateral-raise"
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "muscle": "triceps",
+      "verdict": "watch",
+      "until": "2026-12-02",
+      "why": "Whether Push A gets a triceps isolation lift (your question of 15 November). Today's change already adds three sets to Pull A and takes one each off the push days; adding a Push A triceps lift on the same day would change two things at once in the last week before assessment, so it is decided on 2 December with the first Push A that runs the three-set lateral card. Until then triceps isolation is 5 sets a week, all on Push B."
     }
   ],
   "overrides": [
     {
-      "exercise": "smith-incline-press",
-      "session": "PushA",
-      "reason": "180 for 7: you did 180 for 6, 7, 8 on 15 November; 8 on every set earns 185.",
+      "exercise": "deadlift",
+      "session": "PullA",
+      "reason": "Lighter week: 190 then 200 for 5; 200 is 20% under your 250 for 5 on 16 November.",
       "sets": [
         {
-          "weight": 180,
-          "reps": 7
+          "weight": 190,
+          "reps": 5
         },
         {
-          "weight": 180,
-          "reps": 7
+          "weight": 200,
+          "reps": 5
         }
       ]
     },
     {
-      "exercise": "machine-chest-press",
-      "session": "PushA",
-      "reason": "165 for 10: you did 165 for 10, 10, 10 on Push B on 23 November. Push A is the 10 to 12 day, so this number is lower than Push B's next one (172.5 for 8).",
+      "exercise": "lat-pulldown-wide",
+      "session": "PullA",
+      "reason": "Lighter week: 97.5 then 105 for 8, well under 16 November's 135 for 8.",
       "sets": [
         {
-          "weight": 165,
+          "weight": 97.5,
+          "reps": 8
+        },
+        {
+          "weight": 105,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "exercise": "seated-cable-row-wide",
+      "session": "PullA",
+      "reason": "Lighter week: 90 for 10, 20% under 16 November's 112.5 for 10.",
+      "sets": [
+        {
+          "weight": 90,
           "reps": 10
         },
         {
-          "weight": 165,
+          "weight": 90,
           "reps": 10
         }
       ]
     },
     {
-      "exercise": "cable-crossover-low-high",
-      "session": "PushA",
-      "reason": "12.5 for 15: you did 12.5 for 15 on all three on 15 November; the step to the next weight waits for a normal week.",
+      "exercise": "db-curl",
+      "session": "PullA",
+      "reason": "Lighter week: 25 for 8, under 16 November's 35 for 8 by the dumbbell rack's steps.",
       "sets": [
         {
-          "weight": 12.5,
-          "reps": 15
+          "weight": 25,
+          "reps": 8
         },
         {
-          "weight": 12.5,
-          "reps": 15
+          "weight": 25,
+          "reps": 8
         }
       ]
     },
     {
-      "exercise": "db-lateral-raise",
-      "session": "PushA",
-      "reason": "17.5 for 13: you did 17.5 for 13 on all three on 23 November; no rep records in a lighter week.",
+      "exercise": "cable-hammer-curl",
+      "session": "PullA",
+      "reason": "Lighter week: 30 for 10, under 16 November's 42.5 for 12.",
       "sets": [
         {
-          "weight": 17.5,
-          "reps": 13
+          "weight": 30,
+          "reps": 10
         },
         {
-          "weight": 17.5,
-          "reps": 13
+          "weight": 30,
+          "reps": 10
         }
       ]
     },
     {
-      "exercise": "chest-dip",
-      "session": "PushA",
-      "reason": "Bodyweight, 12: you did 12, 12, 12 on 15 November; no rep records in a lighter week.",
+      "exercise": "face-pulls",
+      "session": "PullA",
+      "reason": "Lighter week: 25 for 12, one set, under 16 November's 32.5 for 12.",
       "sets": [
         {
-          "weight": 0,
-          "reps": 12
-        },
-        {
-          "weight": 0,
+          "weight": 25,
           "reps": 12
         }
       ]
     },
     {
-      "exercise": "plate-neck-flexion",
-      "session": "PushA",
-      "reason": "5 lb for 15: the first time this lift is logged, so the 5 is my starting choice, not a measured number; flexors are normally weaker than extensors, so it starts under extension's 10.",
+      "exercise": "cable-lateral-raise",
+      "session": "PullA",
+      "reason": "Back on Pull A today; lighter week, so 5 for 12, two sets, under the 10 for 12 and 15 you did here on 10 November.",
       "sets": [
         {
           "weight": 5,
-          "reps": 15
+          "reps": 12
+        },
+        {
+          "weight": 5,
+          "reps": 12
         }
       ]
     }
@@ -717,97 +817,154 @@
     "reviewer_ran": true,
     "findings": [
       {
-        "finding": "The phone's phase is locked to Meso 3 (logs stamped meso3, weeks 5 to 9, from 28 October to 25 November, where the calendar says meso3b then deload4), so engine.coachPhaseMatches sets aside this deload-typed packet: tonight's card shows the app's build numbers at full sets, not the review's. The 25 November heavy night was the app's build card, and the claims that the app holds every card to two sets are false on his phone.",
-        "disposition": "open",
-        "why": "Checked: phaseForDate with no lock gives deload4 on 25 November; the only way the app stamps meso3 is a hand lock; with lock meso3 coachPhaseMatches returns false and prescribe gives the standing build numbers (computed and printed in the brief). The brief, block, flags and lift texts now say this, quote the numbers his phone shows, and withdraw yesterday's reading of 25 November. The validator requires block.phase to match the calendar, and the lock is his setting, so the delivery cannot be fixed from data/coach; filed as app bug packet-set-aside-under-lock.",
-        "consequence": "While the lock stays, every daily review (this lighter week, assessment from 2 December, prep from 9 December) is set aside on his card and the app's own build progression runs, including two jumps I would not give tonight (crossover 12.5 to 17.5, neck flexion 10 lb on a never-done lift).",
+        "finding": "Tonight's 'lighter-week' overrides kept every build-week load (deadlift 235, pulldown 127.5, row 112.5, curl 35, hammer 42.5, face pulls 32.5) and trimmed only reps, leaving 0 to 2 reps in reserve against a calendar note of -20% load and at least 4 in reserve.",
+        "disposition": "fixed",
+        "why": "Overrides now equal the app's own deload prescription (dossier appWillPrescribe): 190/200x5, 97.5/105x8, 90x10, 25x8, 30x10, 25x12, plus 5x12 on the new cable lateral raise. Brief, flags and lift verdicts say so.",
+        "evidence": [
+          "2026-11-16:deadlift",
+          "2026-11-16:db-curl",
+          "2026-11-16:seated-cable-row-wide"
+        ]
+      },
+      {
+        "finding": "The packet's stance on the deload reversed twice without new external evidence (25 Nov light, 26 Nov full weight, 27 Nov withdrew the reason but kept the loads; today's draft brought the withdrawn reason back).",
+        "disposition": "fixed",
+        "why": "The draft's 'no sign recovery needs the lighter week' sentence is gone. Loads return to the calendar's own rule (plan.json deload4), the one fixed input here, and the block names the correction of the 26 and 27 November packets. That is not a third position of mine; it is the signed plan's.",
         "evidence": [
           "2026-11-25:barbell-rdl",
-          "2026-10-28:smith-incline-press",
-          "2026-11-15:cable-crossover-low-high"
+          "2026-11-27:smith-incline-press"
         ]
       },
       {
-        "finding": "Brief and block said every weight was already lifted at this gym, but the crossover asked 13.75 (best 12.5) and neck flexion is new; yesterday's fix had named the crossover exception.",
+        "finding": "The block said 27 November was the third night trained at full build sets in the lighter week; there were two (25 and 27 November), and it argued 'the lifts went up' while omitting what failed.",
         "disposition": "fixed",
-        "why": "Crossover now asks 12.5 for 15 (proven); the brief names neck flexion as the one new number.",
+        "why": "Now 'two nights, 25 and 27 November', and the block lists the three things that did not hold (crossover, chest press first set, fourth lateral set).",
         "evidence": [
-          "2026-11-15:cable-crossover-low-high",
-          "2026-11-24:plate-neck-extension"
+          "2026-11-25:barbell-rdl",
+          "2026-11-27:cable-crossover-low-high",
+          "2026-11-27:machine-chest-press"
         ]
       },
       {
-        "finding": "Inside a calendar deload (nothing under 4 reps in reserve) the overrides asked rep records: laterals 14 (best 13), dips 13 (best 12), crossover up a notch.",
+        "finding": "This is the last deload before a 12-week cut; assessment after nine build weeks measures fatigue; the prep plan has no lighter week in weeks 1 to 11.",
         "disposition": "fixed",
-        "why": "Laterals 17.5 for 13, dips 12, crossover 12.5 for 15: every ask is a weight and rep count already done at this gym. The change is named in flags; the new fact is the reviewer's finding that 25 November was the app's build card, which removes the reason the 26 November packet gave for treating this week as normal.",
+        "why": "The block now says this and the loads follow the deload. The prep plan adds a lighter week at prep week 6 (13 to 19 January), triggered if two or more main lifts fall below their previous reps in the two weeks before it.",
+        "evidence": [
+          "2026-11-27:smith-incline-press"
+        ]
+      },
+      {
+        "finding": "Side delts were deferred and re-dated four times since 18 November with nothing added; 'raised on 18 November' was false (v14 only put back the 2 sets v12 removed); the deload was used to defer the change while being dismissed for loads.",
+        "disposition": "fixed",
+        "why": "Program v19 today: db lateral raise 4 to 3 sets on Push A and Push B (both four-set nights logged three), cable lateral raise 3x12-15 added to Pull A (10 for 12, 15 there on 10 November). Side delts 9 direct, 11 counted. The side-delt verdict states the v12/v14 history plainly. Reversal guard: the 14 November removal is walked back citing 23 and 27 November, both logged after it.",
         "evidence": [
           "2026-11-23:db-lateral-raise",
-          "2026-11-15:chest-dip",
-          "2026-11-15:cable-crossover-low-high"
+          "2026-11-27:db-lateral-raise",
+          "2026-11-10:cable-lateral-raise"
         ]
       },
       {
-        "finding": "Stale day counts copied from yesterday: 11 days since the last Push A (it is 12), and 14 days of slack before 9 December (it is 12).",
-        "disposition": "fixed",
-        "why": "Both corrected.",
-        "evidence": [
-          "2026-11-15:smith-incline-press"
-        ]
-      },
-      {
-        "finding": "Yesterday's three open findings were dropped without a disposition.",
-        "disposition": "fixed",
-        "why": "Carried forward below as open with their consequences.",
-        "evidence": [
-          "2026-11-23:db-lateral-raise"
-        ]
-      },
-      {
-        "finding": "Carried from 26 November: side delts sit at the floor (8 direct, 10 counted) until the 2 December decision.",
+        "finding": "Holds for quads (done 9.8 vs floor 12), calves (6 vs 8) and side delts (7 vs 10) rest on planned counts; the quads excuse ('rest weeks, not skipping') is false (Legs B 7 November skipped leg extension); rotations take 6 to 12 days so per-week plans overstate real weekly volume.",
         "disposition": "open",
-        "why": "Dated 2 December in deferred[]: first review after the calendar's lighter week and after the 14-day guard on the 14 November removal (ends 28 November). No new log since, so no new evidence to act on today.",
-        "consequence": "Side delts stay at the bottom of their range until 2 December, one week before prep starts.",
+        "why": "Text fixed: quads and calves verdicts now state done against floor and the 7 November skip; side delts acted on today. Calves got a second lift on 26 November not yet trained. The rotation pace is a schedule fact the program cannot set; quads are named as the first muscle to get sets if it continues through prep.",
+        "consequence": "Until the next Legs A and Legs B are logged, quads and calves keep running under their floors in real weekly terms, and the plan's weekly numbers overstate what you get whenever a rotation takes longer than six days.",
         "evidence": [
-          "2026-11-23:db-lateral-raise",
-          "2026-11-23:note"
+          "2026-11-07:leg-press-low",
+          "2026-11-25:standing-calf-raise",
+          "2026-11-25:leg-press-low"
         ]
       },
       {
-        "finding": "Volume is aimed at what was already there: front delts 15 counted and rear delts 12.5 against side delts 10; triceps isolation is 5 sets a week, all on Push B, because dips count as direct for both chest and triceps.",
-        "disposition": "open",
-        "why": "Triceps verdict moved to watch with the honest isolation count and his 15 November question; side delts and a Push A triceps isolation lift are decided together on 2 December. Front delts get their count from the presses that lead each push day, which train the upper chest the stage scores.",
-        "consequence": "Until 2 December his arms get 5 triceps isolation sets a week and side delts the minimum of their range.",
+        "finding": "The answer to his note got the neck progression wrong (weight up at 15 instead of 20) and called 10 lb 'fine' while the neck verdict called it heavy; the app's next card asks 10x20, 20, unmentioned.",
+        "disposition": "fixed",
+        "why": "Answer and lift verdict now say: keep 10, build reps from 12 toward 20, weight up only after both sets reach 20 with no soreness; the app's locked card will ask 20, 20.",
         "evidence": [
-          "2026-11-15:note",
-          "2026-11-15:chest-dip",
+          "2026-11-27:plate-neck-flexion"
+        ]
+      },
+      {
+        "finding": "Brief said the crossover 'stays at 15.5 next time', but the app's next Push A card asks 17.5 for 15; chest press 172.5 for 12 also unmentioned.",
+        "disposition": "fixed",
+        "why": "Crossover and chest press verdicts now say what the app's next card asks under the lock and that 15.5 is this review's next ask, reaching the card only with the phase on Automatic. The 'stays at 15.5' sentence is gone from the brief.",
+        "evidence": [
+          "2026-11-27:cable-crossover-low-high",
+          "2026-11-27:machine-chest-press"
+        ]
+      },
+      {
+        "finding": "The warning about tonight's locked card named only deadlift 250x6 and pulldown 135x10; row 112.5x12 and curl 35x10 are also past his best, deadlift is 6 on every ramp set, and 'records' was not qualified to this gym.",
+        "disposition": "fixed",
+        "why": "Brief and flag list all four lifts with his best at this gym beside each, and say every deadlift set is 6.",
+        "evidence": [
+          "2026-11-16:deadlift",
+          "2026-11-16:seated-cable-row-wide",
+          "2026-11-16:db-curl",
+          "2026-11-16:lat-pulldown-wide"
+        ]
+      },
+      {
+        "finding": "The brief celebrated 'chest press up to 172.5' while the first set at 172.5 was 8, under Push A's 10 to 12, and the chest verdict said every chest lift was at or above its last visit.",
+        "disposition": "fixed",
+        "why": "Brief, block and chest verdict now say the 8 fell under range and the lift holds 172.5 until the reps return.",
+        "evidence": [
+          "2026-11-27:machine-chest-press"
+        ]
+      },
+      {
+        "finding": "Prep plan said the RDL was climbing 5 to 10 lb a visit (it has been 185 since 7 November, reps only); no posing, cardio or peak-week mention; no recommendation to start the deficit at assessment if more must come off.",
+        "disposition": "fixed",
+        "why": "RDL sentence corrected to reps at 185 (8, 9, 10). Plan now names posing practice, cardio and the last week as open items that wait on division and diet answers, and says the deficit starts at assessment if a bodyweight shows more to lose than the pace allows.",
+        "evidence": [
+          "2026-11-07:barbell-rdl",
+          "2026-11-14:barbell-rdl",
+          "2026-11-25:barbell-rdl"
+        ]
+      },
+      {
+        "finding": "Face-pull verdict called the 'stalled' label wrong but left out 2 November, where Pull A's top set was 32.5x12, the same as 16 November.",
+        "disposition": "fixed",
+        "why": "Verdict now says the label is fair on Pull A (32.5 for 12 on 2 and 16 November), Pull B is ahead (15, 15 on 24 November), and the slot moves ahead of the curls if Pull A stops at 12 again. No app bug: the label is correct.",
+        "evidence": [
+          "2026-11-02:face-pulls",
+          "2026-11-16:face-pulls",
+          "2026-11-24:face-pulls"
+        ]
+      },
+      {
+        "finding": "The triceps isolation question for Push A was said to be decided on 2 December but was not in deferred[].",
+        "disposition": "fixed",
+        "why": "Now in deferred[] with until 2026-12-02 and the reason it waits one more review (today already changes the push and pull days).",
+        "evidence": [
           "2026-11-23:rope-pushdown",
-          "2026-11-23:db-shoulder-press"
+          "2026-11-27:chest-dip"
         ]
       },
       {
-        "finding": "Carried from 26 November: Legs B is 22 sets with the new calf lift; long nights lose their late slots.",
+        "finding": "Carried open: the phone's phase lock to Meso 3 sets aside every packet whose phase differs (app bug packet-set-aside-under-lock).",
         "disposition": "open",
-        "why": "Both calf lifts now sit ahead of the ab work; no Legs B has been logged since the change.",
+        "why": "Still open; the 27 November log is stamped meso3 week 9. I asked him whether the lock is deliberate.",
+        "consequence": "Tonight's card shows the app's build numbers, including deadlift 250 for 6 and row 112.5 for 12; from 2 December assessment and prep reviews are set aside the same way while the lock stays.",
+        "evidence": [
+          "2026-11-27:smith-incline-press"
+        ]
+      },
+      {
+        "finding": "Carried open: Legs B is 22 sets with the new calf lift; long nights lose their late slots.",
+        "disposition": "open",
+        "why": "No Legs B logged since the 26 November change.",
         "consequence": "If Legs B runs past about 60 minutes, the ab slots are the ones dropped; the next Legs B shows it.",
         "evidence": [
           "2026-11-25:standing-calf-raise"
         ]
       },
       {
-        "finding": "Prep plan dates did not add up: weeks 9 to 11 given as 3 to 21 February (19 days) and a final week of 8 days.",
-        "disposition": "fixed",
-        "why": "Now weeks 9 to 11 are 3 to 23 February and the final week 24 February to 1 March, show day.",
+        "finding": "Found while answering his note: the app's guide sheet reads the raw plan.json catalogue, so the four lifts added through program.json show 'No field guide for this one.'",
+        "disposition": "open",
+        "why": "Filed in app-bugs.json as how-to-sheet-misses-program-lifts; the neck flexion steps are in answers[] for him meanwhile.",
+        "consequence": "Neck flexion, neck extension, overhead triceps extension and the ab crunch machine show no form guide on the card until the app is fixed.",
         "evidence": [
-          "2026-08-23:bodyweight"
-        ]
-      },
-      {
-        "finding": "Reviewer checked: no movement twice on tonight's card, no weight under the wrong lift's name, every rep inside its slot range, answers[] empty because no note is waiting.",
-        "disposition": "refuted",
-        "why": "Nothing to fix; validate-coach confirms every override lands as written with the phase on Automatic.",
-        "evidence": [
-          "2026-11-15:machine-chest-press",
-          "2026-11-23:machine-chest-press"
+          "2026-11-27:note",
+          "2026-11-27:plate-neck-flexion"
         ]
       }
     ]

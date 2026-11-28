@@ -1,6 +1,6 @@
 {
-  "version": 18,
-  "date": "2026-11-26",
+  "version": 19,
+  "date": "2026-11-28",
   "written_by": "daily-training-brief",
   "note": "v1 is the snapshot of plan.json with every decision the athlete accepted through 2026-10-13. From here the daily review owns this file.",
   "sessions": {
@@ -33,7 +33,7 @@
         },
         {
           "id": "db-lateral-raise",
-          "sets": 4,
+          "sets": 3,
           "repMin": 12,
           "repMax": 15,
           "rest": 75,
@@ -108,6 +108,14 @@
           "repMax": 15,
           "rest": 60,
           "seed": 27.5
+        },
+        {
+          "id": "cable-lateral-raise",
+          "sets": 3,
+          "repMin": 12,
+          "repMax": 15,
+          "rest": 60,
+          "seed": 10
         }
       ]
     },
@@ -203,7 +211,7 @@
         },
         {
           "id": "db-lateral-raise",
-          "sets": 4,
+          "sets": 3,
           "repMin": 12,
           "repMax": 15,
           "rest": 75,
@@ -2815,6 +2823,73 @@
       "evidence": [
         "2026-10-30:note",
         "2026-11-25:standing-calf-raise"
+      ]
+    },
+    {
+      "version": 19,
+      "date": "2026-11-28",
+      "session": "PushA",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "Back to three sets of dumbbell lateral raises on Push A. The fourth set went on 18 November and on both nights it was on the card, 23 November (Push B) and 27 November (Push A), you did three: 17.5 for 13, 13, 13 and 17.5 for 15, 15, 15. On 23 November you asked why four sets for such a small muscle. So the weight is right, and a fourth set in one session is the part that does not happen. The missing work moves to Pull A instead (next change).",
+      "evidence": [
+        "2026-11-23:db-lateral-raise",
+        "2026-11-27:db-lateral-raise",
+        "2026-11-23:note",
+        "2026-11-12:note",
+        "2026-11-10:cable-lateral-raise"
+      ]
+    },
+    {
+      "version": 19,
+      "date": "2026-11-28",
+      "session": "PushB",
+      "exercise": "db-lateral-raise",
+      "kind": "sets",
+      "before": {
+        "sets": 4
+      },
+      "after": {
+        "sets": 3
+      },
+      "why": "Back to three sets of dumbbell lateral raises on Push B. The fourth set went on 18 November and on both nights it was on the card, 23 November (Push B) and 27 November (Push A), you did three: 17.5 for 13, 13, 13 and 17.5 for 15, 15, 15. On 23 November you asked why four sets for such a small muscle. So the weight is right, and a fourth set in one session is the part that does not happen. The missing work moves to Pull A instead (next change).",
+      "evidence": [
+        "2026-11-23:db-lateral-raise",
+        "2026-11-27:db-lateral-raise",
+        "2026-11-23:note",
+        "2026-11-12:note",
+        "2026-11-10:cable-lateral-raise"
+      ]
+    },
+    {
+      "version": 19,
+      "date": "2026-11-28",
+      "session": "PullA",
+      "exercise": "cable-lateral-raise",
+      "kind": "add",
+      "before": null,
+      "after": {
+        "id": "cable-lateral-raise",
+        "sets": 3,
+        "repMin": 12,
+        "repMax": 15,
+        "rest": 60,
+        "seed": 10,
+        "position": 7
+      },
+      "why": "Side delts decide how wide the shoulders look on stage, and they are the most under-trained scored muscle: 7 sets a week done on average over four weeks against a floor of 10, while rear delts get 12.5 counted. The push days now ask three lateral sets each, which is what you actually do, so the extra work needs a third day. The cable lateral raise goes back on the end of Pull A, three sets of 12 to 15, at the 10 lb you did for 12 and 15 there on 10 November. This walks back the 14 November removal, and the new fact since then is the two four-set nights (23 and 27 November) where the fourth set was not done. On 12 November you wrote that it seemed like every day was lateral raises; that is three days out of six now, not every day, and side delts recover fast enough for three visits a week, which is normal for a muscle a stage judges this closely. Side delts go from 8 direct sets a week to 9 on paper, and from the 6 you have actually been doing to 9. Pull A goes from 19 sets to 22.",
+      "evidence": [
+        "2026-11-23:db-lateral-raise",
+        "2026-11-27:db-lateral-raise",
+        "2026-11-23:note",
+        "2026-11-12:note",
+        "2026-11-10:cable-lateral-raise"
       ]
     }
   ]
